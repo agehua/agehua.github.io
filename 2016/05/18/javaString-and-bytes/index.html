@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://agehua.github.io/2016/05/18/javaString-and-bytes/index.html">
 <meta property="og:site_name" content="Agehua">
 <meta property="og:description" content="Java String与C/C++中byte[]">
-<meta property="og:updated_time" content="2016-10-14T10:02:36.000Z">
+<meta property="og:updated_time" content="2016-12-01T14:49:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java String与C/C++中byte[]">
 <meta name="twitter:description" content="Java String与C/C++中byte[]">
@@ -254,6 +254,7 @@
             
             <p>   做JAVA经常会碰到中文乱码问题，还有各种编码的问题，特别是String类的内容需要重新编码的问题。要解决这些问题，必须了解清楚JAVA对于字符串是怎么处理的。</p>
 <h3 id="1，“字符”是由数字来表示的"><a href="#1，“字符”是由数字来表示的" class="headerlink" title="1，“字符”是由数字来表示的"></a>1，“字符”是由数字来表示的</h3><p>   先来重新了解一下计算机是如何处理“字符”的，这个原理是大家必须记住的，特别是在用JAVA写程序的时候，万万不可模糊。我们知道，<strong>计算机把任何东西都用数字来表示，“字符”也不例外</strong>。比如我们要显示一个阿拉伯数字“3”，在我们的PC里，其实并不是仅仅用一个数字3来代表我们要写的“3”，而是以十六进制的0x33来代表，包括放在内存或者是写到文件里，其实都是写着0x33的，不信你可以编辑一个文本文件，写一个“3”，然后用ultraEdit看他的原始码。</p>
+   <a id="more"></a>
 <h3 id="2，一切“字符”都必定用数字-编码表表示。"><a href="#2，一切“字符”都必定用数字-编码表表示。" class="headerlink" title="2，一切“字符”都必定用数字+编码表表示。"></a>2，一切“字符”都必定用数字+编码表表示。</h3><p>   这时候，有一个问题：为什么一定要用0x33来代表“3”呢？而不用0x43来代表呢？或者是直接用0x03来代替？其实用什么来代表都可以，只不过大家都习惯了用ASCII编码表（是美国国家信息交换表）来确定各字符应该是用什么数字代表的。同样，为了表示中国字，我国也指定了中文的编码表，其中最广泛使用的是GB2312。比如中文的“当”字，就是用0xB5, 0xB1这两个八位的数字来表示的。所以 <strong>如果显示字符的程序不知道一列数字到底是按什么编码表编码的，他也无法去判断到底这些是什么文字</strong>。如果随便用一个不对的编码表来处理这些数字，处理出来的字符很可能完全是错的。比如在英文系统上，没有GB2312编码表，送给他一个0xB5,0xB1，他就傻傻的当作ASCII来处理（操作系统通常都有自己默认的编码表），结果显示出来就是两个奇怪的符号，因为这两个字在ASCII表里就是那两个符号。同样在繁体中文系统里，他的编码表是BIG5，显示出来也是一个奇怪的中文，不是“当”字。</p>
 <h3 id="3，UNICODE让全世界都说一种语言"><a href="#3，UNICODE让全世界都说一种语言" class="headerlink" title="3，UNICODE让全世界都说一种语言"></a>3，UNICODE让全世界都说一种语言</h3><p>   看完上面的文字，是否觉得，世界有那么多语言，每个都有自己的一套编码表，很麻烦呢？就算是中文，也有两套流行的编码表，一个是GB2312，一个是BIG5。要使用不同中文的编码的字符时，还要转来转去，的确很麻烦。不光这个，如果想要写一篇包含很多过国文字的文章，就麻烦了，必须要让处理这个文章的程序知道，哪个字是什么编码标准的。如果你想要在文章里找一个字，也必须指定你要找的是哪种编码的哪个字。否则，你要找一个0xB5,0xB1的中文“当”字，很可能把同样数字表示的日文、波兰文这些不相干的字一起给你找出来，够麻烦的吧！<br>   所以人们想，不如大家都用同一个编码标准吧，各种文字都在编码表里有一席之地，处理文字的程序只需要都按这个编码表来处理就可以了。不过要一个编码表里包含所有的文字，这张表就大了，本来英文字+数字一共只有128个以内。但加上中文后，忽然就多了数万个，所以存放一个字符需要的大小也大了很多。现在 <strong>UNICODE规定了一个字符必须由2个8位数字来表示</strong>，想想，8x8x8x8x = 65536，是多大的一个数字啊！所以全世界的文字才能都包含进去。当然拉，也有人说中国字可能都不止6万个拉，还要包括别的文字，但人家外国人觉得你们中国人常用的也没那么多，所以就这么定了，我们也没办法。需要注意的是GB2312和UNICODE虽然都是用两个8位数来代表一个中文字，但具体的规格可不一样，比如0xB5,0xB1在UNICODE里面可不是“当”字，而是另外一国的文字来的。</p>
 <h3 id="4，C是如何简洁的处理字符的"><a href="#4，C是如何简洁的处理字符的" class="headerlink" title="4，C是如何简洁的处理字符的"></a>4，C是如何简洁的处理字符的</h3><p>   我们来谈谈C的字符串。C语言诞生在JAVA之前，<strong>C语言的基本数据类型是没有字符串这个类型的，它只有char[]</strong>。也就是C把字符顺序放入一个字节数组就完了。而且C也不管放在数组里的是什么文字，也不管那些字是按什么编码标准的。而且他的char的大小也不一定是8位数字，有时候是16位也可能，<strong>这要看具体的机器和操作系统</strong>。所以写程序的人必须要知道正在处理的char[]的内容到底是按什么编码表表示的字符串，要知道如果比较两国文字是否相同，可是没任何意义的哦！</p>
@@ -272,7 +273,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/05/18/javaString-and-bytes/" data-id="ciw6b0aki000mi6fyre5vvu9j" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/05/18/javaString-and-bytes/" data-id="ciw6hcgci000let0h0mmy0hxd" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -349,11 +350,11 @@
         
 <nav id="article-nav">
     
-        <a href="/2016/05/24/JNI-Learning0/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2016/05/24/JNI-Learning/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    android JNI学习② JNI调用过程
+                    android JNI学习① 基础知识
                 
             </div>
         </a>
@@ -433,7 +434,7 @@
                             <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(http://7xuos6.com1.z0.glb.clouddn.com/H60-L12__1464257385283__212828_3594)" alt="Hexo 出错情况收集" class="thumbnail-image"></span>
     
 </a>
 
@@ -506,7 +507,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/09/22/JNI-get-publickey/" class="thumbnail">
+                            <a href="/2016/09/22/quit-whole-application/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -517,7 +518,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/technology/">technology</a></p>
-                            <p class="item-title"><a href="/2016/09/22/JNI-get-publickey/" class="title">使用JNI获取publickey实现</a></p>
+                            <p class="item-title"><a href="/2016/09/22/quit-whole-application/" class="title">Android 退出整个应用程序解决方案</a></p>
                             <p class="item-date"><time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time></p>
                         </div>
                     </li>

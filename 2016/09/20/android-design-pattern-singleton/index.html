@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Agehua">
 <meta property="og:description" content="向大神致敬本文转载自stormzhang ANDROID设计模式之单例模式 ，稍有修改
 常用单例模式什么是设计模式？其实简单的理解就是前人留下来的一些经验总结而已，然后把这些经验起了个名字叫Design Pattern，翻译过来就是设计模式的意思，通过使用设计模式可以让我们的代码复用性更高，可维护性更高，让你的代码写的更优雅。设计模式理论上有23种，但是我只会针对Android平台上常用的一些设计">
-<meta property="og:updated_time" content="2016-10-14T10:04:30.000Z">
+<meta property="og:updated_time" content="2016-12-01T14:48:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ANDROID设计模式之单例模式">
 <meta name="twitter:description" content="向大神致敬本文转载自stormzhang ANDROID设计模式之单例模式 ，稍有修改
@@ -257,6 +257,7 @@
             
             <h3 id="向大神致敬"><a href="#向大神致敬" class="headerlink" title="向大神致敬"></a>向大神致敬</h3><p>本文转载自<a href="http://stormzhang.com/designpattern/2016/03/27/android-design-pattern-singleton/" target="_blank" rel="external">stormzhang ANDROID设计模式之单例模式 </a>，<br>稍有修改</p>
 <h3 id="常用单例模式"><a href="#常用单例模式" class="headerlink" title="常用单例模式"></a>常用单例模式</h3><p>什么是设计模式？其实简单的理解就是前人留下来的一些经验总结而已，然后把这些经验起了个名字叫Design Pattern，翻译过来就是设计模式的意思，通过使用设计模式可以让我们的代码复用性更高，可维护性更高，让你的代码写的更优雅。设计模式理论上有23种，但是我只会针对Android平台上常用的一些设计模式做分享，今天就先来分享下最常用的单例模式。</p>
+<a id="more"></a>
 <h4 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">newInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>饿汉式 是最简单的实现方式，这种实现方式适合那些在初始化时就要用到单例的情况，这种方式简单粗暴，如果单例对象初始化非常快，而且占用内存非常小的时候这种方式是比较合适的，可以直接在应用启动时加载并初始化。 但是，如果单例初始化的操作耗时比较长而应用对于启动速度又有要求，或者单例的占用内存比较大，再或者单例只是在某个特定场景的情况下才会被使用，而一般情况下是不会使用时，使用饿汉式的单例模式就是不合适的，这时候就需要用到懒汉式的方式去按需延迟加载单例。</p>
 <h4 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">newInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">null</span> == instance)&#123;</div><div class="line">            instance = <span class="keyword">new</span> Singleton();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -293,7 +294,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/09/20/android-design-pattern-singleton/" data-id="ciw6b0alb001pi6fyko1ym191" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/09/20/android-design-pattern-singleton/" data-id="ciw6hcgda001pet0hp226e2zp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -370,19 +371,19 @@
         
 <nav id="article-nav">
     
-        <a href="/2016/09/20/AVG-unwanted-software/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2016/09/22/JNI-get-publickey/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    apk中含有admob广告插件
+                    使用JNI获取publickey实现
                 
             </div>
         </a>
     
     
-        <a href="/2016/09/05/ThreadLocal-HandlerThread-Lopper/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2016/09/20/AVG-unwanted-software/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">ThreadLocal、HandlerThread、Lopper区别</div>
+            <div class="article-nav-title">apk中含有admob广告插件</div>
         </a>
     
 </nav>
@@ -454,7 +455,7 @@
                             <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(http://7xuos6.com1.z0.glb.clouddn.com/H60-L12__1464257385283__212828_3594)" alt="Hexo 出错情况收集" class="thumbnail-image"></span>
     
 </a>
 
@@ -527,7 +528,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/09/22/JNI-get-publickey/" class="thumbnail">
+                            <a href="/2016/09/22/quit-whole-application/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -538,7 +539,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/technology/">technology</a></p>
-                            <p class="item-title"><a href="/2016/09/22/JNI-get-publickey/" class="title">使用JNI获取publickey实现</a></p>
+                            <p class="item-title"><a href="/2016/09/22/quit-whole-application/" class="title">Android 退出整个应用程序解决方案</a></p>
                             <p class="item-date"><time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time></p>
                         </div>
                     </li>

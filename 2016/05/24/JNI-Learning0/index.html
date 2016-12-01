@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://agehua.github.io/2016/05/24/JNI-Learning0/index.html">
 <meta property="og:site_name" content="Agehua">
 <meta property="og:description" content="android Jni调用过程">
-<meta property="og:updated_time" content="2016-10-14T11:23:13.000Z">
+<meta property="og:updated_time" content="2016-12-01T14:49:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android JNI学习② JNI调用过程">
 <meta name="twitter:description" content="android Jni调用过程">
@@ -253,6 +253,7 @@
         
             
             <h3 id="1-Android-JNI调用过程"><a href="#1-Android-JNI调用过程" class="headerlink" title="1.Android JNI调用过程"></a>1.Android JNI调用过程</h3><h4 id="1-1-由Android系统加载的JNI"><a href="#1-1-由Android系统加载的JNI" class="headerlink" title="1.1 由Android系统加载的JNI"></a>1.1 由Android系统加载的JNI</h4><p>Android系统在启动启动过程中，先<strong>启动Kernel创建init进程</strong>，紧接着由init进程fork第一个横穿Java和C/C++的进程，即Zygote进程。Zygote启动过程中会<strong>AndroidRuntime.cpp中的startVm</strong>创建虚拟机，VM创建完成后，紧接着调用startReg完成虚拟机中的JNI方法注册。</p>
+<a id="more"></a>
 <p>在AndroidRuntime.cpp中：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><div class="line"><span class="keyword">int</span> AndroidRuntime::startReg(JNIEnv* env)</div><div class="line">&#123;</div><div class="line">    <span class="comment">//设置线程创建方法为javaCreateThreadEtc</span></div><div class="line">    androidSetCreateThreadFunc((android_create_thread_fn) javaCreateThreadEtc);</div><div class="line"></div><div class="line">    env-&gt;PushLocalFrame(<span class="number">200</span>);</div><div class="line">    <span class="comment">//进程NI方法的注册</span></div><div class="line">    <span class="keyword">if</span> (register_jni_procs(gRegJNI, NELEM(gRegJNI), env) &lt; <span class="number">0</span>) &#123;</div><div class="line">        env-&gt;PopLocalFrame(<span class="literal">NULL</span>);</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    &#125;</div><div class="line">    env-&gt;PopLocalFrame(<span class="literal">NULL</span>);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><strong>register_jni_procs(gRegJNI, NELEM(gRegJNI), env)</strong>这行代码的作用就是就是循环调用gRegJNI数组成员所对应的方法。</p>
@@ -532,7 +533,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/05/24/JNI-Learning0/" data-id="ciw6b0aks000xi6fy77ketw0f" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/05/24/JNI-Learning0/" data-id="ciw6hcgcr000set0hmmcqqjm7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -609,19 +610,19 @@
         
 <nav id="article-nav">
     
-        <a href="/2016/05/24/JNI-Learning/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2016/05/28/qiniu-android-summary/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    android JNI学习① 基础知识
+                    七牛android使用总结
                 
             </div>
         </a>
     
     
-        <a href="/2016/05/18/javaString-and-bytes/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2016/05/24/JNI-Learning/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">Java String与C/C++中byte[]</div>
+            <div class="article-nav-title">android JNI学习① 基础知识</div>
         </a>
     
 </nav>
@@ -693,7 +694,7 @@
                             <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(http://7xuos6.com1.z0.glb.clouddn.com/H60-L12__1464257385283__212828_3594)" alt="Hexo 出错情况收集" class="thumbnail-image"></span>
     
 </a>
 
@@ -766,7 +767,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/09/22/JNI-get-publickey/" class="thumbnail">
+                            <a href="/2016/09/22/quit-whole-application/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -777,7 +778,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/technology/">technology</a></p>
-                            <p class="item-title"><a href="/2016/09/22/JNI-get-publickey/" class="title">使用JNI获取publickey实现</a></p>
+                            <p class="item-title"><a href="/2016/09/22/quit-whole-application/" class="title">Android 退出整个应用程序解决方案</a></p>
                             <p class="item-date"><time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time></p>
                         </div>
                     </li>

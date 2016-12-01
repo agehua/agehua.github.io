@@ -7,26 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="1.前言之前写过一篇文件是关于JNI学习和积累的文章。这篇文章主要讲在使用JNI取得Publickey过程中遇到的问题和一些总结。
 2.JNI获取Publickey实现在上篇文章中，最终采用的加密方法来自github项目。
-但该项目中在4.0.4版本的手机上，取得publickey遇到兼容性问题。
-正常的Publickey字段样式是这样的：
-OpenSSLRSAPublicKey&amp;#123;mod">
+但该项目中在4.0.4版本的手机上，取得publickey遇到兼容性问题。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用JNI获取publickey实现">
 <meta property="og:url" content="http://agehua.github.io/2016/09/22/JNI-get-publickey/index.html">
 <meta property="og:site_name" content="Agehua">
 <meta property="og:description" content="1.前言之前写过一篇文件是关于JNI学习和积累的文章。这篇文章主要讲在使用JNI取得Publickey过程中遇到的问题和一些总结。
 2.JNI获取Publickey实现在上篇文章中，最终采用的加密方法来自github项目。
-但该项目中在4.0.4版本的手机上，取得publickey遇到兼容性问题。
-正常的Publickey字段样式是这样的：
-OpenSSLRSAPublicKey&amp;#123;mod">
-<meta property="og:updated_time" content="2016-10-14T10:04:45.000Z">
+但该项目中在4.0.4版本的手机上，取得publickey遇到兼容性问题。">
+<meta property="og:updated_time" content="2016-12-01T14:48:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用JNI获取publickey实现">
 <meta name="twitter:description" content="1.前言之前写过一篇文件是关于JNI学习和积累的文章。这篇文章主要讲在使用JNI取得Publickey过程中遇到的问题和一些总结。
 2.JNI获取Publickey实现在上篇文章中，最终采用的加密方法来自github项目。
-但该项目中在4.0.4版本的手机上，取得publickey遇到兼容性问题。
-正常的Publickey字段样式是这样的：
-OpenSSLRSAPublicKey&amp;#123;mod">
+但该项目中在4.0.4版本的手机上，取得publickey遇到兼容性问题。">
     
 
     
@@ -267,6 +261,7 @@ OpenSSLRSAPublicKey&amp;#123;mod">
             <h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h3><p>之前写过一篇文件是关于<a href="http://agehua.github.io/2016/JNI-Learning">JNI学习和积累</a>的文章。<br>这篇文章主要讲在使用JNI取得Publickey过程中遇到的问题和一些总结。</p>
 <h3 id="2-JNI获取Publickey实现"><a href="#2-JNI获取Publickey实现" class="headerlink" title="2.JNI获取Publickey实现"></a>2.JNI获取Publickey实现</h3><p>在上篇文章中，最终采用的加密方法来自<a href="https://github.com/MasonLiuChn/AndroidUltimateEncrypt" target="_blank" rel="external">github项目</a>。</p>
 <p>但该项目中在4.0.4版本的手机上，取得publickey遇到兼容性问题。</p>
+<a id="more"></a>
 <p>正常的Publickey字段样式是这样的：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line">OpenSSLRSAPublicKey&#123;modulus=a0d169cedabdaac3527c2099eeac4cbd74bb9b14c2571bcf6755f49e1d8c8439a37e009b0cb1b1ae9bf164dc976ddc4ee050621c746610d995185accbe8b3c09cc4f8c7afd990db47be814f7f45ec9c489be5b0933e89ff58070c29c98199331160bdb3a19e0687d36e850ee686c565737be4f61328264a58792e198d873b023ec11cb26a73305eea631ab18ec3ce746eb253e47c145503e933ee5da892326ecbb29b5a005aacef2d30d720611f7014aa3f2e40954b9e4deeaca1823dd2f7b2230670acabda70d2f14b1adc9480cf0a48d47866a1aa745ae97d0ab906cd76e5ab76916d03ef153b35edc2ae7284a613b3a3a312c73cf0b98e0ce9a8cf6a682fa,publicExponent=<span class="number">10001</span>&#125;</div></pre></td></tr></table></figure>
 <p>但是某些低版本手机上（我遇到的是三星GT-S7568 Android版本4.0.4）的Publickey字段样式是：</p>
@@ -316,7 +311,7 @@ OpenSSLRSAPublicKey&amp;#123;mod">
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/09/22/JNI-get-publickey/" data-id="ciw6b0ald001ti6fyf81e2co3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/09/22/JNI-get-publickey/" data-id="ciw6hcgd8001met0hxv2fge4u" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -393,19 +388,19 @@ OpenSSLRSAPublicKey&amp;#123;mod">
         
 <nav id="article-nav">
     
-        <a href="/2016/09/28/Android-interview-questions/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2016/09/22/quit-whole-application/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    Android面试知识点整理
+                    Android 退出整个应用程序解决方案
                 
             </div>
         </a>
     
     
-        <a href="/2016/09/22/quit-whole-application/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2016/09/20/android-design-pattern-singleton/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">Android 退出整个应用程序解决方案</div>
+            <div class="article-nav-title">ANDROID设计模式之单例模式</div>
         </a>
     
 </nav>
@@ -477,7 +472,7 @@ OpenSSLRSAPublicKey&amp;#123;mod">
                             <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(http://7xuos6.com1.z0.glb.clouddn.com/H60-L12__1464257385283__212828_3594)" alt="Hexo 出错情况收集" class="thumbnail-image"></span>
     
 </a>
 
@@ -550,7 +545,7 @@ OpenSSLRSAPublicKey&amp;#123;mod">
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/09/22/JNI-get-publickey/" class="thumbnail">
+                            <a href="/2016/09/22/quit-whole-application/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -561,7 +556,7 @@ OpenSSLRSAPublicKey&amp;#123;mod">
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/technology/">technology</a></p>
-                            <p class="item-title"><a href="/2016/09/22/JNI-get-publickey/" class="title">使用JNI获取publickey实现</a></p>
+                            <p class="item-title"><a href="/2016/09/22/quit-whole-application/" class="title">Android 退出整个应用程序解决方案</a></p>
                             <p class="item-date"><time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time></p>
                         </div>
                     </li>

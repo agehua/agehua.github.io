@@ -25,7 +25,7 @@
 (2)Process.killProcess(Process.myPid());
 
 (3)ActivityManager activityManager = (ActivityManager) this.getSystemService(Context.ACTI">
-<meta property="og:updated_time" content="2016-10-25T07:28:25.000Z">
+<meta property="og:updated_time" content="2016-12-01T14:48:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 退出整个应用程序解决方案">
 <meta name="twitter:description" content="关于这个功能，每个公司项目都有自己的解决方案
@@ -285,6 +285,7 @@
 </li>
 </ul>
 <p>但这些貌似不是万能的，有的说在2.2版本后就失效了，那我们怎么办呢？</p>
+<a id="more"></a>
 <h3 id="1、通过广播"><a href="#1、通过广播" class="headerlink" title="1、通过广播"></a>1、通过广播</h3><p>在起初的一个项目里我用了一个比较笨的方法，我用一个类来专门管理所有的Activity。这个类里有一个List，每打开一个Activity我就把这个Activity放到这个List中，当退出时再将List中所有的Activity一个一个的关闭。</p>
 <p>在后来的项目中发现了一个更好地方法，就是通过广播来完成退出功能，具体实现过程是这样的：在每个Activity创建时（onCreate时）给Activity注册一个广播接收器，当退出时发送该广播即可。大概的代码如下：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line"></div><div class="line">       <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">       IntentFilter filter = <span class="keyword">new</span> IntentFilter();</div><div class="line">       filter.addAction(<span class="string">"finish"</span>);</div><div class="line">       registerReceiver(mFinishReceiver, filter);</div><div class="line">       ……</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">private</span> BroadcastReceiver mFinishReceiver = <span class="keyword">new</span> BroadcastReceiver() &#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span> </span>&#123;</div><div class="line">           <span class="keyword">if</span>(<span class="string">"finish"</span>.equals(intent.getAction())) &#123;</div><div class="line">              Log.e(<span class="string">"#########"</span>, <span class="string">"I am "</span> + getLocalClassName()</div><div class="line">                     + <span class="string">",now finishing myself..."</span>);</div><div class="line">              finish();</div><div class="line">       &#125;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
@@ -311,7 +312,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/09/22/quit-whole-application/" data-id="ciw6b0al4001ii6fyc6ojypbb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/09/22/quit-whole-application/" data-id="ciw6hcgdc001tet0hewuqf8qx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -388,19 +389,19 @@
         
 <nav id="article-nav">
     
-        <a href="/2016/09/22/JNI-get-publickey/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2016/09/28/Android-interview-questions/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    使用JNI获取publickey实现
+                    Android面试知识点整理
                 
             </div>
         </a>
     
     
-        <a href="/2016/09/20/AVG-unwanted-software/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2016/09/22/JNI-get-publickey/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">apk中含有admob广告插件</div>
+            <div class="article-nav-title">使用JNI获取publickey实现</div>
         </a>
     
 </nav>
@@ -472,7 +473,7 @@
                             <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(http://7xuos6.com1.z0.glb.clouddn.com/H60-L12__1464257385283__212828_3594)" alt="Hexo 出错情况收集" class="thumbnail-image"></span>
     
 </a>
 
@@ -545,7 +546,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/09/22/JNI-get-publickey/" class="thumbnail">
+                            <a href="/2016/09/22/quit-whole-application/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -556,7 +557,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/technology/">technology</a></p>
-                            <p class="item-title"><a href="/2016/09/22/JNI-get-publickey/" class="title">使用JNI获取publickey实现</a></p>
+                            <p class="item-title"><a href="/2016/09/22/quit-whole-application/" class="title">Android 退出整个应用程序解决方案</a></p>
                             <p class="item-date"><time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time></p>
                         </div>
                     </li>

@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Agehua">
 <meta property="og:description" content="一、mipmap 目录和drawable 目录有什么区别Nexus 6 有 493 ppi，它刚好在 xxhdpi和xxxhdpi之间，所以显示的时候需要对xxxhdpi的资源进行缩小，如果你用了mipmap-xxxhdpi,那么这里会对sclae有一个优化，性能更好，占用内存更少。所以现在官方推荐使用mipmap：
 二、setTranslucentStatus()方法在Android4.4之后使">
-<meta property="og:updated_time" content="2016-10-14T11:31:25.000Z">
+<meta property="og:updated_time" content="2016-12-01T14:49:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android新特性新知识点总结">
 <meta name="twitter:description" content="一、mipmap 目录和drawable 目录有什么区别Nexus 6 有 493 ppi，它刚好在 xxhdpi和xxxhdpi之间，所以显示的时候需要对xxxhdpi的资源进行缩小，如果你用了mipmap-xxxhdpi,那么这里会对sclae有一个优化，性能更好，占用内存更少。所以现在官方推荐使用mipmap：
@@ -257,6 +257,7 @@
             
             <h3 id="一、mipmap-目录和drawable-目录有什么区别"><a href="#一、mipmap-目录和drawable-目录有什么区别" class="headerlink" title="一、mipmap 目录和drawable 目录有什么区别"></a>一、mipmap 目录和drawable 目录有什么区别</h3><p>Nexus 6 有 493 ppi，它刚好在 xxhdpi和xxxhdpi之间，所以显示的时候需要对xxxhdpi的资源进行缩小，如果你用了mipmap-xxxhdpi,那么这里会对sclae有一个优化，性能更好，占用内存更少。所以现在官方推荐使用mipmap：</p>
 <h3 id="二、setTranslucentStatus-方法"><a href="#二、setTranslucentStatus-方法" class="headerlink" title="二、setTranslucentStatus()方法"></a>二、setTranslucentStatus()方法</h3><p>在Android4.4之后使用沉浸式状态栏，需要用到这个方法</p>
+<a id="more"></a>
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span></span></div><div class="line">&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">        <span class="comment">//首先检测当前的版本是否是api&gt;=19的</span></div><div class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT)</div><div class="line">        &#123;</div><div class="line">            setTranslucentStatus(<span class="keyword">true</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        SystemBarTintManager tintManager = <span class="keyword">new</span> SystemBarTintManager(<span class="keyword">this</span>);</div><div class="line">        tintManager.setStatusBarTintEnabled(<span class="keyword">true</span>);</div><div class="line">        tintManager.setStatusBarTintColor(Color.parseColor(<span class="string">"#FFC1E0"</span>));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@TargetApi</span>(<span class="number">19</span>)</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setTranslucentStatus</span><span class="params">(<span class="keyword">boolean</span> on)</span></span></div><div class="line">    &#123;</div><div class="line">        Window win = getWindow();</div><div class="line">        WindowManager.LayoutParams winParams = win.getAttributes();</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;</div><div class="line">        <span class="keyword">if</span> (on)</div><div class="line">        &#123;</div><div class="line">            winParams.flags |= bits;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            winParams.flags &amp;= ~bits;</div><div class="line">        &#125;</div><div class="line">        win.setAttributes(winParams);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>布局设置</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">              android:layout_width=&quot;match_parent&quot;</div><div class="line">              android:layout_height=&quot;match_parent&quot;</div><div class="line">              &lt;!--这两行是必须设置的--&gt;</div><div class="line">              android:fitsSystemWindows=&quot;true&quot;</div><div class="line">              android:clipToPadding=&quot;true&quot;</div><div class="line"></div><div class="line">              android:orientation=&quot;vertical&quot;</div><div class="line">              android:background=&quot;#FFD9EC&quot;</div><div class="line">        &gt;</div><div class="line"></div><div class="line">    &lt;TextView</div><div class="line">            android:text=&quot;沉浸式状态栏&quot;</div><div class="line">            android:layout_width=&quot;match_parent&quot;</div><div class="line">            android:layout_height=&quot;50dp&quot;</div><div class="line">            android:textSize=&quot;23dp&quot;</div><div class="line">            android:layout_gravity=&quot;center_horizontal&quot;</div><div class="line">            android:gravity=&quot;center&quot;</div><div class="line">            android:background=&quot;#FFD9EC&quot;</div><div class="line">            /&gt;</div><div class="line">    &lt;TextView</div><div class="line">            android:layout_width=&quot;match_parent&quot;</div><div class="line">            android:layout_height=&quot;match_parent&quot;</div><div class="line">            android:background=&quot;@android:color/darker_gray&quot;/&gt;</div><div class="line"></div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure>
@@ -302,7 +303,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/03/20/android-new-knowledge-summary/" data-id="ciw6b0ak70009i6fys57mks0c" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/03/20/android-new-knowledge-summary/" data-id="ciw6hcgc8000aet0hpx13kzp7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -379,19 +380,19 @@
         
 <nav id="article-nav">
     
-        <a href="/2016/03/20/android-books-reading-/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2016/05/12/GCM-Azure_summary/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    《android开发艺术探索》读书笔记
+                    google cloud message（GCM）和Azure实现Notification总结
                 
             </div>
         </a>
     
     
-        <a href="/2016/03/15/facebook-google+signin/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2016/03/20/android-books-reading-/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">近期总结facebook google+ Twitter sign-in fragment使用</div>
+            <div class="article-nav-title">《android开发艺术探索》读书笔记</div>
         </a>
     
 </nav>
@@ -463,7 +464,7 @@
                             <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(http://7xuos6.com1.z0.glb.clouddn.com/H60-L12__1464257385283__212828_3594)" alt="Hexo 出错情况收集" class="thumbnail-image"></span>
     
 </a>
 
@@ -536,7 +537,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/09/22/JNI-get-publickey/" class="thumbnail">
+                            <a href="/2016/09/22/quit-whole-application/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -547,7 +548,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/technology/">technology</a></p>
-                            <p class="item-title"><a href="/2016/09/22/JNI-get-publickey/" class="title">使用JNI获取publickey实现</a></p>
+                            <p class="item-title"><a href="/2016/09/22/quit-whole-application/" class="title">Android 退出整个应用程序解决方案</a></p>
                             <p class="item-date"><time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time></p>
                         </div>
                     </li>

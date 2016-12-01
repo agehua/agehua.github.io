@@ -209,6 +209,16 @@
     <article id="post-2016-11-3-hexo-mac-module-not-found" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
+            
+	
+		<a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" itemprop="url">
+            <img src="http://7xuos6.com1.z0.glb.clouddn.com/H60-L12__1464257385283__212828_3594" class="article-banner" />
+        </a>
+	
+
+
+
+        
         
             <header class="article-header">
                 
@@ -248,20 +258,10 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            
-            <h4 id="Error-Cannot-find-module-‘-build-Release-DTraceProviderBindings’"><a href="#Error-Cannot-find-module-‘-build-Release-DTraceProviderBindings’" class="headerlink" title="Error: Cannot find module ‘./build/Release/DTraceProviderBindings’"></a>Error: Cannot find module ‘./build/Release/DTraceProviderBindings’</h4><p>我在更新hexo，准备安装别的module时，不小心按到了 ctrl+c，结果发现使用hexo命令会报如下错误：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">&#123; [Error: Cannot find <span class="keyword">module</span> <span class="string">'./build/Release/DTraceProviderBindings'</span>] code: <span class="string">'MODULE_NOT_FOUND'</span> &#125;    </div><div class="line">&#123; [Error: Cannot find <span class="keyword">module</span> <span class="string">'./build/default/DTraceProviderBindings'</span>] code: <span class="string">'MODULE_NOT_FOUND'</span> &#125;</div><div class="line">&#123; [Error: Cannot find <span class="keyword">module</span> <span class="string">'./build/Debug/DTraceProviderBindings'</span>] code: <span class="string">'MODULE_NOT_FOUND'</span> &#125;</div></pre></td></tr></table></figure></p>
-<p>网上一大堆的解决办法都不好用，这里特别记录下我找到的一个解决办法，亲测可用</p>
-<p><strong>1. 重新安装Hexo，需要手动删除隐藏的hexo文件</strong></p>
-<ul>
-<li>需要删除 /usr/local/lib/node_modules/ 目录下的<strong>hexo文件夹</strong></li>
-<li>/usr/local/bin/ 下的<strong>hexo文件</strong>. 直接删掉就好了.<blockquote>
-<p>注意这两个都是隐藏文件，要想在finder中显示隐藏文件，需要在Terminal中执行：<br>defaults write com.apple.finder AppleShowAllFiles -bool true</p>
-</blockquote>
-</li>
-</ul>
-<p><strong>2. 重新执行命令：npm install -g hexo –save</strong></p>
-<p>这样就可以了  :)</p>
-
+            <p><h4 id="Error-Cannot-find-module-‘-build-Release-DTraceProviderBindings’"><a href="#Error-Cannot-find-module-‘-build-Release-DTraceProviderBindings’" class="headerlink" title="Error: Cannot find module ‘./build/Release/DTraceProviderBindings’"></a>Error: Cannot find module ‘./build/Release/DTraceProviderBindings’</h4><p>我在更新hexo，准备安装别的module时，不小心按到了 ctrl+c，结果发现使用hexo命令会报如下错误：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">&#123; [Error: Cannot find <span class="keyword">module</span> <span class="string">'./build/Release/DTraceProviderBindings'</span>] code: <span class="string">'MODULE_NOT_FOUND'</span> &#125;    </div><div class="line">&#123; [Error: Cannot find <span class="keyword">module</span> <span class="string">'./build/default/DTraceProviderBindings'</span>] code: <span class="string">'MODULE_NOT_FOUND'</span> &#125;</div><div class="line">&#123; [Error: Cannot find <span class="keyword">module</span> <span class="string">'./build/Debug/DTraceProviderBindings'</span>] code: <span class="string">'MODULE_NOT_FOUND'</span> &#125;</div></pre></td></tr></table></figure></p></p>
+            <p class="article-more-link">
+                <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/#more">Read More</a>
+            </p>
         
         </div>
         <footer class="article-footer">
@@ -271,7 +271,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/01/2016-11-3-hexo-mac-module-not-found/" data-id="ciw6b0all0027i6fy0eoxwxy8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/01/2016-11-3-hexo-mac-module-not-found/" data-id="ciw6hcgdk0026et0ha8y26oe2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -391,8 +391,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            
-            <p>上一篇<a href="">Gradle学习</a>了解了Gradle的基本结构和依赖关系，这篇文章介绍下怎么在Android上使用Gradle生成指定包名的APK</p>
+            <p><p>上一篇<a href="">Gradle学习</a>了解了Gradle的基本结构和依赖关系，这篇文章介绍下怎么在Android上使用Gradle生成指定包名的APK</p>
 <h3 id="需求场景"><a href="#需求场景" class="headerlink" title="需求场景"></a>需求场景</h3><p>在我们Android开发基本进入测试阶段后，会根据后台的不同环境，打包出对应不同环境（如SIT、UAT、PRD等）的APK安装包。</p>
 <p>每次去手动修改Java类改变后台环境太麻烦还容易忘记修改。打包成功后，还需要手动将默认的包名app-release.apk改成我们需要的包名，也是非常麻烦，有没有直接指定环境，生成指定文件名的安装包呢？</p>
 <p>方法是有的，就是利用gradle的分渠道打包特性，下面上代码分别解释。</p>
@@ -402,109 +401,10 @@
 <li>buildType（构建类型）</li>
 <li>productFlavors （不同定制的产品）</li>
 </ul>
-</blockquote>
-<h4 id="buildType（构建类型）介绍"><a href="#buildType（构建类型）介绍" class="headerlink" title="buildType（构建类型）介绍"></a>buildType（构建类型）介绍</h4><p>默认情况下，Android Plugin会自动给项目设置同时构建应用程序的debug和release版本。 两个版本之间的不同主要围绕着能否在一个安全设备上调试，以及APK如何签名。</p>
-<p>可以创建一个新的构建类型就是简单的在buildType标签下添加一个新的元素，并且可以使用initWith()或者直接使用闭包来配置它。</p>
-<p>以下是一些可能使用到的属性和默认值：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center"><em>Property name    </em></th>
-<th style="text-align:center"><em>Default values for debug    </em></th>
-<th style="text-align:center"><em>Default values for release / other</em></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">debuggable</td>
-<td style="text-align:center">true</td>
-<td style="text-align:center">false</td>
-</tr>
-<tr>
-<td style="text-align:center">jniDebugBuild</td>
-<td style="text-align:center">false</td>
-<td style="text-align:center">false</td>
-</tr>
-<tr>
-<td style="text-align:center">renderscriptDebugBuild</td>
-<td style="text-align:center">false</td>
-<td style="text-align:center">false</td>
-</tr>
-<tr>
-<td style="text-align:center">renderscriptOptimLevel</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">3</td>
-</tr>
-<tr>
-<td style="text-align:center">applicationIdSuffix</td>
-<td style="text-align:center">null</td>
-<td style="text-align:center">null</td>
-</tr>
-<tr>
-<td style="text-align:center">versionNameSuffix</td>
-<td style="text-align:center">null</td>
-<td style="text-align:center">null</td>
-</tr>
-<tr>
-<td style="text-align:center">signingConfig</td>
-<td style="text-align:center">android.signingConfigs.debug</td>
-<td style="text-align:center">null</td>
-</tr>
-<tr>
-<td style="text-align:center">zipAlign</td>
-<td style="text-align:center">false</td>
-<td style="text-align:center">true</td>
-</tr>
-<tr>
-<td style="text-align:center">runProguard</td>
-<td style="text-align:center">false</td>
-<td style="text-align:center">false</td>
-</tr>
-<tr>
-<td style="text-align:center">proguardFile</td>
-<td style="text-align:center">N/A (set only)</td>
-<td style="text-align:center">N/A (set only)</td>
-</tr>
-<tr>
-<td style="text-align:center">proguardFiles</td>
-<td style="text-align:center">N/A (set only)</td>
-<td style="text-align:center">N/A (set only)</td>
-</tr>
-</tbody>
-</table>
-<p>上面介绍摘选自<a href="https://avatarqing.gitbooks.io/gradlepluginuserguidechineseverision/content/basic_project/build_types.html" target="_blank" rel="external">Gralde plugin User Guide 中文版</a></p>
-<h4 id="Product-flavors（不同定制的产品）介绍"><a href="#Product-flavors（不同定制的产品）介绍" class="headerlink" title="Product flavors（不同定制的产品）介绍"></a>Product flavors（不同定制的产品）介绍</h4><p>一个product flavor定义了从项目中构建了一个应用的自定义版本。一个单一的项目可以同时定义多个不同的flavor来改变应用的输出。</p>
-<p>这个新的设计概念是为了解决不同的版本之间的差异非常小的情况。虽然最项目终生成了多个定制的版本，但是它们本质上都是同一个应用，那么这种做法可能是比使用库项目更好的实现方式。</p>
-<p>Product flavor需要在productFlavors这个DSL容器中声明：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">android &#123;</div><div class="line">    ....</div><div class="line"></div><div class="line">    productFlavors &#123;</div><div class="line">        flavor1 &#123;</div><div class="line">            ...</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        flavor2 &#123;</div><div class="line">            ...</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这里创建了两个flavor，名为flavor1和flavor2。</p>
-<blockquote>
-<p>注意：flavor的命名不能与已存在的Build Type或者androidTest这个sourceSet有冲突。</p>
-</blockquote>
-<h4 id="Build-Type-Product-Flavor-Build-Variant（构建类型-定制产品-构建变种版本）"><a href="#Build-Type-Product-Flavor-Build-Variant（构建类型-定制产品-构建变种版本）" class="headerlink" title="Build Type + Product Flavor = Build Variant（构建类型+定制产品=构建变种版本）"></a>Build Type + Product Flavor = Build Variant（构建类型+定制产品=构建变种版本）</h4><p>正如前面章节所提到的，每一个Build Type都会生成一个新的APK。</p>
-<p>Product Flavor同样也会做这些事情：项目的输出将会拼接所有可能的Build Type和Product Flavor（如果有Flavor定义存在的话）的组合。</p>
-<p>每一种组合（包含Build Type和Product Flavor）就是一个Build Variant（构建变种版本）。</p>
-<p>例如，在上面的Flavor声明例子中与默认的debug和release两个Build Type将会生成4个Build Variant：</p>
-<ul>
-<li>Flavor1 - debug</li>
-<li>Flavor1 - release</li>
-<li>Flavor2 - debug</li>
-<li>Flavor2 - release</li>
-</ul>
-<p>项目中如果没有定义flavor同样也会有Build Variant，只是使用的是默认的flavor和配置。default(默认)的flavor/config是没有名字的，所以生成的Build Variant列表看起来就跟Build Type列表一样。</p>
-<h3 id="具体使用"><a href="#具体使用" class="headerlink" title="具体使用"></a>具体使用</h3><p>我们的需求就要用到<strong>Build Type</strong>和<strong>Product Flavor</strong><br>我在项目中<strong>Build Type</strong>的使用，先看代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">buildTypes &#123;</div><div class="line">        release &#123;</div><div class="line">            buildConfigField <span class="string">"boolean"</span>, <span class="string">"LEO_DEBUG"</span>, <span class="string">"false"</span></div><div class="line">            <span class="function">minifyEnabled <span class="keyword">true</span></span></div><div class="line">            proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.txt'</div><div class="line">            debuggable <span class="keyword">false</span></div><div class="line">            jniDebuggable <span class="keyword">false</span></div><div class="line">        &#125;</div><div class="line">        debug &#123;</div><div class="line">            buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"2"</span></div><div class="line">            buildConfigField <span class="string">"boolean"</span>, <span class="string">"LEO_DEBUG"</span>, <span class="string">"true"</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>和<strong>Product Flavor</strong>的使用</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">productFlavors&#123;</div><div class="line">			 kaifa&#123;</div><div class="line">					 buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"1"</span></div><div class="line">			 &#125;</div><div class="line">			 ceshi &#123;</div><div class="line">					 buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"2"</span></div><div class="line">			 &#125;</div><div class="line">			 SIT &#123;</div><div class="line">					 buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"3"</span></div><div class="line">			 &#125;</div><div class="line">			 UAT &#123;</div><div class="line">					 buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"4"</span></div><div class="line">			 &#125;</div><div class="line">			 PRD &#123;</div><div class="line">					 buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"5"</span></div><div class="line">			 &#125;</div><div class="line">	 &#125;</div></pre></td></tr></table></figure>
-<p>每一个构建过的productFlavors都会在<strong>app-&gt;build-&gt;generated-&gt;source-&gt;buildConfig</strong>目录下创建自己对应的一个flavor目录，如下图：</p>
-<p><img src="/images/blogimages/2016/gradle_structure2.png" alt="Gradle build structure"></p>
-<p>而，buildConfigField会在指定的目录，<strong>flavor-&gt;release/debug-&gt;包名</strong>，下生成一个BuildConfig.java文件，我的代码在BuildConfig.java中定义了一个int类型的buildType和boolean类型的LEO_DEBUG。要使用这两个字段只需要:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">if</span> (BuildConfig.LEO_DEBUG)&#123;</div><div class="line">		<span class="comment">//用来控制本地Log日志</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (Environment ==BuildConfig.buildType)&#123;</div><div class="line">		<span class="comment">//用来控制开发环境</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="gradle中修改apk生成名字的方法"><a href="#gradle中修改apk生成名字的方法" class="headerlink" title="gradle中修改apk生成名字的方法"></a>gradle中修改apk生成名字的方法</h4><p>这个方法是定义在productFlavors同一层级的</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">android.applicationVariants.all &#123; variant -&gt;</div><div class="line">        variant.outputs.each &#123; output -&gt;</div><div class="line">            def outputFile = output.<span class="function">outputFile</span></div><div class="line">            <span class="title">if</span> <span class="params">(outputFile != <span class="keyword">null</span> &amp;&amp; outputFile.name.endsWith(<span class="string">'.apk'</span>)</span>) &#123;</div><div class="line">                <span class="comment">//这里修改apk文件名</span></div><div class="line">                def flavorname =variant.productFlavors[<span class="number">0</span>].<span class="function">name</span></div><div class="line">                <span class="title">if</span> <span class="params">(flavorname.equals(<span class="string">'kaifa'</span>)</span>)</div><div class="line">                    flavorname = <span class="string">'debug'</span></div><div class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (flavorname.equals(<span class="string">'ceshi'</span>))</div><div class="line">                    flavorname = <span class="string">'release'</span></div><div class="line"></div><div class="line">                def fileName = <span class="string">"app-$&#123;flavorname&#125;-$&#123;defaultConfig.versionName&#125;-$&#123;releaseTime() &#125;.apk"</span></div><div class="line">                output.outputFile = <span class="keyword">new</span> File(outputFile.parent, fileName)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>这个方法要定义在最外层<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function">def <span class="title">releaseTime</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Date().format(<span class="string">"MMdd"</span>, TimeZone.getTimeZone(<span class="string">"UTC"</span>))</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>最后生成的apk名字</p>
-
+</blockquote></p>
+            <p class="article-more-link">
+                <a href="/2016/10/13/gradle-learning2/#more">Read More</a>
+            </p>
         
         </div>
         <footer class="article-footer">
@@ -514,7 +414,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/10/13/gradle-learning2/" data-id="ciw6b0alf001wi6fymwjktvwv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/10/13/gradle-learning2/" data-id="ciw6hcgdi0023et0hy1gjq2ou" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -634,68 +534,13 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            
-            <p>Gradle是一种依赖管理工具，基于Groovy语言，面向Java应用为主，它抛弃了基于XML的各种繁琐配置，取而代之的是一种基于Groovy的内部领域特定（DSL）语言。它提供灵活的通用构建工具，就像ant。同时完美兼容Maven或Ivy仓库</p>
+            <p><p>Gradle是一种依赖管理工具，基于Groovy语言，面向Java应用为主，它抛弃了基于XML的各种繁琐配置，取而代之的是一种基于Groovy的内部领域特定（DSL）语言。它提供灵活的通用构建工具，就像ant。同时完美兼容Maven或Ivy仓库</p>
 <h3 id="Gradle的基本组成"><a href="#Gradle的基本组成" class="headerlink" title="Gradle的基本组成"></a>Gradle的基本组成</h3><blockquote>
 <p>项目(Project) 和 任务(tasks)，Gradle 里的任何东西都是基于这两个基础概念。</p>
-</blockquote>
-<ul>
-<li><p>项目是指我们的构建产物（比如Jar包）或实施产物（将应用程序部署到生产环境）。</p>
-</li>
-<li><p>任务是指不可分的最小工作单元，执行构建工作（比如编译项目或执行测试）。</p>
-</li>
-<li><p>每一个构建都是由一个或多个 projects 构成的，每一个 project 是由一个或多个 tasks 构成的，一个 task是指不可分的最小工作单元，执行构建工作（比如编译项目或执行测试）</p>
-</li>
-</ul>
-<p><img src="/images/blogimages/2016/gradle_structure1.png" alt="basic structure"></p>
-<p>一个工程的Build，是由多个Project组成，而一个Project又是由task组成的</p>
-<p>任何一个构建系统都是由多个构建文件组成，如Ant是由build.xml组成，Maven是由pom.xml组成，Make是由makefile组成。这些构建脚本定义了一系列的规则来指定项目编译流程。</p>
-<h4 id="Gradle构建系统的组成"><a href="#Gradle构建系统的组成" class="headerlink" title="Gradle构建系统的组成"></a>Gradle构建系统的组成</h4><p>Gradle的构建系统是由以下几个文件组成</p>
-<ul>
-<li><p>build.gradle 我们称这个文件为一个构建脚本，这个脚本定义了一个模块和编译用的tasks，它一般是放在项目的模块中，也可以放在项目的根目录用来作为编译结构全局设置，它是必须的</p>
-</li>
-<li><p>settings.gradle 它描述了哪一个模块需要参与构建。每一个多模块的构建都必须在项目结构的根目录中加入这个设置文件，它也是必须的</p>
-</li>
-<li><p>gradle.properties 用来配置构建属性，这个不是必须的</p>
-</li>
-</ul>
-<h3 id="Gradle插件"><a href="#Gradle插件" class="headerlink" title="Gradle插件"></a>Gradle插件</h3><p>Gradle的设计理念是，所有有用的特性都由Gradle插件提供，例如编写一个Java项目时，需要使用到 Java 插件， 它会将许多任务自动的加入到你项目里。Gradle本身提供了一系列的标准插件，无需多余配置只需要在你的build.gradle文件中加入 apply plugin: ‘java’</p>
-<p>这样就可以引入许多task，只需要使用相应的task命令就可以进行项目构建。例如下列一些task:</p>
-<ul>
-<li>1.gradle build：编译整个项目，它会执行代码编译、代码检测和单元测试等</li>
-<li>2.gradle assemble：编译并打包你的代码, 但是并不运行代码检测和单元测试</li>
-<li>3.gradle clean：删除 build 生成的目录和所有生成的文件</li>
-<li>4.gradle check：编译并测试你的代码。其它的插件会加入更多的检查步骤，如使用 checkstyle、pmd、findbugs</li>
-</ul>
-<p>Gradle各个task的关系图：</p>
-<p><img src="/images/blogimages/2016/gradle_task.png" alt="basic task"></p>
-<p>从上图可以看出，我们通常在执行一个build命令时其实是将一些零散的命令批量执行了，我们也可以根据自己的需求执行其中某一个命令。</p>
-<h4 id="外部依赖"><a href="#外部依赖" class="headerlink" title="外部依赖"></a>外部依赖</h4><p>通常, 一个 Java 项目将有许多外部的依赖, 既指向外部的 JAR 文件. 为了在项目里引用这些 JAR 文件, 你需要告诉 Gradle 去哪里找它们. 在 Gradle 中, JAR 文件位于一个仓库中，这里的仓库类似于 maven 的仓库。</p>
-<p>首先，指定maven的仓库地址：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">repositories &#123;</div><div class="line">	mavenCentral()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>mavenCentral() 是Gradle内置的一个maven仓库地址，加入maven仓库后，就可以直接加入maven仓库中的外部依赖，如果这个外部依赖不存在，gradle会联网去maven仓库中自动下载它，并将它缓存到本地，下次再使用时会优先从本地缓存中查找该依赖。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">	compile group: <span class="string">'commons-collections'</span>, name: <span class="string">'commons-collections'</span>, version: <span class="string">'3.2'</span></div><div class="line">	<span class="comment">// 简化写法</span></div><div class="line">	<span class="comment">// compile 'commons-collections:commons-collections:3.2'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>引用一个外部依赖需要指定使用的group, name 和 version 属性，三者缺一不可。那从哪里得知JAR包的这三个属性呢？我们可以从mvnrepository中搜索到。</p>
-<h4 id="本地依赖"><a href="#本地依赖" class="headerlink" title="本地依赖"></a>本地依赖</h4><p>Gradle也可以从本地目录中引入JAR包依赖，可以单一引入指定的某一JAR包，也可以引入某目录下所有的JAR包</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">	<span class="function">compile <span class="title">files</span><span class="params">(<span class="string">'dir/file.jar'</span>)</span></span></div><div class="line">	compile <span class="title">fileTree</span><span class="params">(dir: <span class="string">'libs'</span>, include: <span class="string">'*.jar'</span>)</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="项目依赖"><a href="#项目依赖" class="headerlink" title="项目依赖"></a>项目依赖</h4><p>往往一个完整的项目由多个子项目构成。在Gradle中，使用文件settings.gradle定义当前项目的子项目。默认情况下，每个子项目的名称对应着当前操作系统目录下的一个子目录。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">include <span class="string">'sub-project1'</span>, <span class="string">'sub-project2'</span>, <span class="string">'sub-project3'</span></div></pre></td></tr></table></figure>
-<p>如sub-project1依赖sub-project2，则在sub-project1的build.gradle中加入以下配置即可：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">dependencies &#123;</div><div class="line">	<span class="function">compile <span class="title">project</span><span class="params">(<span class="string">':sub-project2'</span>)</span></span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="依赖关系管理"><a href="#依赖关系管理" class="headerlink" title="依赖关系管理"></a>依赖关系管理</h4><p>从宏观上说，依赖关系管理分为两个方面。首先，gradle需要知道你要构建或者运行的项目，以便找到它们。我们将这些导入的文件视为项目的依赖。第二，gradle需要构建或者打包你的项目产品。我们将这些导出的文件视为项目的发布。</p>
-<p>例如在编译源码时项目需要Hibernate的某些jar包被加入到工程中，而在进行单元测试时还另需要Junit的某些jar被加入。这些被引入的jar包就是项目的依赖。Gradle允许对依赖进行相应的配置，通过不同的配置可以形成不同的依赖效果。例如：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">apply plugin: <span class="string">'java'</span></div><div class="line"></div><div class="line">repositories &#123;</div><div class="line">    mavenCentral()</div><div class="line">&#125;</div><div class="line"></div><div class="line">dependencies &#123;</div><div class="line">    compile group: <span class="string">'org.hibernate'</span>, name: <span class="string">'hibernate-core'</span>, version: <span class="string">'3.6.7.Final'</span></div><div class="line">    testCompile group: <span class="string">'junit'</span>, name: <span class="string">'junit'</span>, version: <span class="string">'4.+'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在项目编译时期，junit的jar包不会被引入，只有在单元测试时才会被引入。这样，就可以在不同的场景下加入相应的依赖关系，非常的灵活</p>
-<p>Java 插件中定义了许多标准的配置，例如如下：</p>
-<blockquote>
-<ul>
-<li>compile<br>  用来编译项目源代码的</li>
-<li>runtime<br>  在运行时被生成的类使用的依赖。 默认的, 也包含了compile时的依赖。</li>
-<li>testCompile<br>  编译测试代码的依赖。 默认的, 包含runtime时的依赖和compile时的依赖。</li>
-<li>testRuntime<br>  运行测试所需要的依赖。 默认的, 包含上面三个依赖。</li>
-</ul>
-</blockquote>
-
+</blockquote></p>
+            <p class="article-more-link">
+                <a href="/2016/10/12/gradle-learning/#more">Read More</a>
+            </p>
         
         </div>
         <footer class="article-footer">
@@ -705,7 +550,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/10/12/gradle-learning/" data-id="ciw6b0alj0023i6fyr6g9djv0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/10/12/gradle-learning/" data-id="ciw6hcgdg0020et0hci7ns64k" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -825,87 +670,14 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            
-            <p>只整理android面试中涉及到的知识点。不断补充中。。。</p>
+            <p><p>只整理android面试中涉及到的知识点。不断补充中。。。</p>
 <h4 id="1-Android事件传递机制"><a href="#1-Android事件传递机制" class="headerlink" title="1.Android事件传递机制"></a>1.Android事件传递机制</h4><p>下面内容摘选自《Android开发艺术探索》</p>
 <ul>
 <li>(1) 当一个点击事件发生之后，传递过程遵循如下顺序：<strong>Activity -&gt; Window -&gt; View</strong>。<br>如果一个view的onTouchEvent方法返回false，那么它的父容器的onTouchEvent方法将会被调用，依此类推，如果所有的元素都不处理这个事件，那么这个事件将会最终传递给Activity处理(调用Activity的onTouchEvent方法)。</li>
-<li>(2) 正常情况下，一个事件序列只能被一个view拦截并消耗，因为一旦某个元素拦截了某个事件，那么同一个事件序列内的所有事件都会直接交给它处理，并且该元素的<strong>onInterceptTouchEvent</strong>方法不会再被调用了。</li>
-<li>(3) 某个view一旦开始处理事件，如果它不消耗ACTION_DOWN事件，那么<strong>同一事件序列的其他事件都不会再交给它来处理</strong>，并且事件将重新交给它的<strong>父容器去处理</strong>(调用父容器的onTouchEvent方法)；如果它消耗ACTION_DOWN事件，但是不消耗其他类型事件，那么这个点击事件会消失，父容器的onTouchEvent方法不会被调用，<strong>当前view依然可以收到后续的事件</strong>，但是这些事件最后都会传递给Activity处理。</li>
-<li>(4) ViewGroup默认不拦截任何事件，因为它的<strong>onInterceptTouchEvent</strong>方法默认返回false。view没有onInterceptTouchEvent方法，一旦有点击事件传递给它，那么它的onTouchEvent方法就会被调用。</li>
-<li>(5) View的<strong>onTouchEvent</strong>默认都会消耗事件(返回true)，除非它是不可点击的(clickable和longClickable都为false)。view的longClickable默认是false的，clickable则不一定，Button默认是true，而TextView默认是false。</li>
-<li>(6) <strong>View的enable属性不影响onTouchEvent的默认返回值</strong>。哪怕一个view是disable状态，只要它的clickable或者longClickable有一个是true，那么它的onTouchEvent就会返回true。</li>
-<li>(7) 事件传递过程总是<strong>先传递给父元素</strong>，然后再由<strong>父元素分发给子view</strong>，通过<strong>requestDisallowInterceptTouchEvent</strong>方法可以在<strong>子元素中干预父元素的事件分发过程</strong>，但是<strong>ACTION_DOWN事件除外</strong>，即当面对ACTION_DOWN事件时，ViewGroup总是会调用自己的onInterceptTouchEvent方法来询问自己是否要拦截事件。<br>ViewGroup的dispatchTouchEvent方法中有一个标志位<strong>FLAG_DISALLOW_INTERCEPT</strong>，这个标志位就是通过<strong>子view调用requestDisallowInterceptTouchEvent方法</strong>来设置的，一旦设置为true，那么ViewGroup不会拦截该事件。</li>
-<li>(8) 以上结论均可以在书中的源码解析部分得到解释。Window的实现类为PhoneWindow，获取Activity的contentView的方法</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">((ViewGroup)getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(<span class="number">0</span>);</div></pre></td></tr></table></figure>
-<h4 id="2-OnTouchListener、onTouchEvent、OnClickListener优先级顺序"><a href="#2-OnTouchListener、onTouchEvent、OnClickListener优先级顺序" class="headerlink" title="2.OnTouchListener、onTouchEvent、OnClickListener优先级顺序"></a>2.OnTouchListener、onTouchEvent、OnClickListener优先级顺序</h4><p>如果给一个view设置了OnTouchListener，那么OnTouchListener中的onTouch方法会被回调。这时事件如何处理还要看<strong>onTouch</strong>的返回值，如果返回false，那么当前view的<strong>onTouchEvent方法</strong>会被调用；如果返回true，那么onTouchEvent方法将不会被调用。<br>在onTouchEvent方法中，如果当前view设置了OnClickListener，那么它的onClick方法会被调用，所以OnClickListener的优先级最低。</p>
-<h4 id="3-AsyncTask的方法介绍"><a href="#3-AsyncTask的方法介绍" class="headerlink" title="3.AsyncTask的方法介绍"></a>3.AsyncTask的方法介绍</h4><h4 id="4-项目中Handler怎么使用？"><a href="#4-项目中Handler怎么使用？" class="headerlink" title="4.项目中Handler怎么使用？"></a>4.项目中Handler怎么使用？</h4><h4 id="5-项目中图片的适配问题怎么解决？"><a href="#5-项目中图片的适配问题怎么解决？" class="headerlink" title="5.项目中图片的适配问题怎么解决？"></a>5.项目中图片的适配问题怎么解决？</h4><h4 id="6-Android存储敏感信息的方式有？"><a href="#6-Android存储敏感信息的方式有？" class="headerlink" title="6.Android存储敏感信息的方式有？"></a>6.Android存储敏感信息的方式有？</h4><h4 id="7-自定义广播"><a href="#7-自定义广播" class="headerlink" title="7.自定义广播"></a>7.自定义广播</h4><ul>
-<li>继承自BroadcastReceiver</li>
-<li>重写onReceive(Context,Intent)<pre><code>Intent.getAction
-</code></pre></li>
-<li>动态注册（Context.registerReceiver()），静态注册（使用IntentFilter指定action）</li>
-</ul>
-<h4 id="8-加分项"><a href="#8-加分项" class="headerlink" title="8.加分项"></a>8.加分项</h4><ul>
-<li>JNI开发</li>
-<li>性能优化</li>
-<li>优秀作品</li>
-</ul>
-<h4 id="9-Sqlite数据库更新并保留升级前的数据"><a href="#9-Sqlite数据库更新并保留升级前的数据" class="headerlink" title="9.Sqlite数据库更新并保留升级前的数据"></a>9.Sqlite数据库更新并保留升级前的数据</h4><p>我们知道在SQLiteOpenHelper的构造方法:</p>
-<pre><code>super(Context context, String name, SQLiteDatabase.CursorFactory factory, int version)
-</code></pre><p>中最后一个参数表示数据库的版本号.当新的版本号大于当前的version时会调用方法:</p>
-<pre><code>onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-</code></pre><p>所以我们的重点是在该方法中实现SQLite数据库版本升级的管理</p>
-<p>对于保留升级前的数据，有两种解决办法：</p>
-<p><strong>SQLite提供了ALTER TABLE命令</strong>，允许用户重命名或添加新的字段到已有表中，但是不能从表中删除字段。并且只能在表的末尾添加字段，比如，为Subscription添加两个字段：</p>
-<ul>
-<li>ALTER TABLE Subscription ADD COLUMN Activation BLOB;</li>
-<li>ALTER TABLE Subscription ADD COLUMN Key BLOB;</li>
-</ul>
-<p><strong>注释</strong>：Sqlite支持BLOB(二进制大对象)数据类型</p>
-<p><strong>保留数据删除原表创建新表</strong>，具体思路是：</p>
-<ul>
-<li>1：将表A重新命名：例如重新命名为：temp_A</li>
-<li>2：创建新表A</li>
-<li>3：将temp_A中的数据【也就是更新前的数据】插入到新表A</li>
-</ul>
-<p>具体操作如下：</p>
-<figure class="highlight"><table><tr><td class="code"><pre><div class="line">//重命名原来的数据表</div><div class="line">public static final String TEMP_SQL_CREATE_TABLE_SUBSCRIBE = "alter table "</div><div class="line">            + A + " rename to temp_A";</div><div class="line"></div><div class="line">//然后把备份表temp_A中的数据copy到新创建的数据库表A中，这个表A没发生结构上的变化</div><div class="line">public static final String INSERT_SUBSCRIBE = "select 'insert into A (code,name,username,tablename)</div><div class="line">                        values ("code","name","cnki","tablename")' as insertSQL from temp_A";</div><div class="line"></div><div class="line">//删除备份表</div><div class="line">public static final String DELETE_TEMP_SUBSCRIBE = "delete from temp_A ";</div><div class="line">public static final String DROP_TEMP_SUBSCRIBE = "drop table if exists temp_A";</div><div class="line"></div><div class="line">@Override</div><div class="line">public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) &#123;</div><div class="line"></div><div class="line">        for (int j = oldVersion; j &lt;= newVersion; j++) &#123;</div><div class="line">            switch (j) &#123;</div><div class="line">            case 2:</div><div class="line">　　　　　　　　　//创建临时表</div><div class="line">                db.execSQL(TEMP_SQL_CREATE_TABLE_SUBSCRIBE);</div><div class="line">　　 　　　　　　//执行OnCreate方法，这个方法中放的是表的初始化操作工作，比如创建新表之类的</div><div class="line">                onCreate(db);</div><div class="line">　　　　　　　　　//删除之前的表里面的默认数据</div><div class="line">                for (int i = 0; i &lt; arrWhereAct.length; i++) &#123;</div><div class="line">                    db.execSQL(DELETE_TEMP_SUBSCRIBE + arrWhereAct[i]);</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                //将临时表中的数据放入表A</div><div class="line">　　　　　　　　　Cursor cursor = db.rawQuery(INSERT_SUBSCRIBE, null);</div><div class="line">                if (cursor.moveToFirst()) &#123;</div><div class="line">                    do &#123;</div><div class="line">                        db.execSQL(cursor.getString(cursor</div><div class="line">                                .getColumnIndex("insertSQL")));</div><div class="line">                    &#125; while (cursor.moveToNext());</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                cursor.close();</div><div class="line">　　　　　　　　　//将临时表删除掉</div><div class="line">                db.execSQL(DROP_TEMP_SUBSCRIBE);</div><div class="line"></div><div class="line">                break;</div><div class="line"></div><div class="line">            default:</div><div class="line">                break;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>注意</strong>，为什么要在方法里写for循环，主要是考虑到跨版本升级，比如有的用户一直不升级版本，数据库版本号一直是1，而客户端最新版本其实对应的数据库版本已经是4了，那么我中途可能对数据库做了很多修改，通过这个for循环，可以迭代升级，不会发生错误。</p>
-</blockquote>
-<h4 id="10-AIDL支持的数据类型"><a href="#10-AIDL支持的数据类型" class="headerlink" title="10.AIDL支持的数据类型"></a>10.AIDL支持的数据类型</h4><p>其实AIDL这门语言非常的简单，基本上它的语法和 Java 是一样的，只是在一些细微处有些许差别——毕竟它只是被创造出来简化Android程序员工作的，太复杂不好——所以在这里我就着重的说一下它和 Java 不一样的地方。主要有下面这些点：</p>
-<p><strong>文件类型</strong>：用AIDL书写的文件的后缀是 .aidl，而不是 .java。</p>
-<p><strong>数据类型</strong>：AIDL默认支持一些数据类型，在使用这些数据类型的时候是不需要导包的，但是除了这些类型之外的数据类型，在使用之前必须导包，就算目标文件与当前正在编写的 .aidl 文件在同一个包下——在 Java 中，这种情况是不需要导包的。比如，现在我们编写了两个文件，一个叫做Book.java ，另一个叫做 BookManager.aidl，它们都在 com.lypeer.aidldemo 包下 ，现在我们需要在 .aidl 文件里使用 Book 对象，那么我们就必须在 .aidl 文件里面写上 import com.lypeer.aidldemo.Book; 哪怕 .java 文件和 .aidl 文件就在一个包下。</p>
-<p>   默认支持的数据类型包括：</p>
-<ul>
-<li>Java中的八种基本数据类型，包括 byte，short，int，long，float，double，boolean，char。</li>
-<li>String 类型。</li>
-<li>CharSequence类型。</li>
-<li>List类型：List中的所有元素必须是AIDL支持的类型之一，或者是一个其他AIDL生成的接口，或者是定义的parcelable（下文关于这个会有详解）。List可以使用泛型。</li>
-<li>Map类型：Map中的所有元素必须是AIDL支持的类型之一，或者是一个其他AIDL生成的接口，或者是定义的parcelable。Map是不支持泛型的。</li>
-</ul>
-<p><strong>定向tag</strong>：这是一个极易被忽略的点——这里的“被忽略”指的不是大家都不知道，而是很少人会正确的使用它。在我的理解里，定向tag是这样的：AIDL中的定向tag表示了在跨进程通信中数据的流向，其中<strong>in表示数据只能由客户端流向服务端</strong>，<strong>out表示数据只能由服务端流向客户端</strong>，<strong>而inout则表示数据可在服务端与客户端之间双向流通</strong>。其中，<strong>数据流向是针对在客户端中的那个传入方法的对象而言的</strong>。in为定向tag的话表现为服务端将会接收到一个那个对象的完整数据，但是客户端的那个对象不会因为服务端对传参的修改而发生变动；out的话表现为服务端将会接收到那个对象的的空对象，但是在服务端对接收到的空对象有任何修改之后客户端将会同步变动；inout为定向tag的情况下，服务端将会接收到客户端传来对象的完整信息，并且客户端将会同步服务端对该对象的任何变动。</p>
-<p>另外，Java 中的基本类型和String，CharSequence的定向tag默认且只能是in。还有，请注意，请不要滥用定向tag，而是要根据需要选取合适的——要是不管三七二十一，全都一上来就用inout，等工程大了系统的开销就会大很多——因为排列整理参数的开销是很昂贵的。</p>
-<p><strong>两种AIDL文件</strong>：在我的理解里，所有的AIDL文件大致可以分为两类。<strong>一类是用来定义parcelable对象</strong>，以供其他AIDL文件使用AIDL中非默认支持的数据类型的。<strong>一类是用来定义方法接口</strong>，以供系统使用来完成跨进程通信的。可以看到，两类文件都是在“定义”些什么，而不涉及具体的实现，这就是为什么它叫做“Android接口定义语言”。<br>注：所有的非默认支持数据类型必须通过第一类AIDL文件定义才能被使用。</p>
-<p>下面是两个例子，对于常见的AIDL文件都有所涉及：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">// Book.aidl</span></div><div class="line"><span class="comment">//第一类AIDL文件的例子</span></div><div class="line"><span class="comment">//这个文件的作用是引入了一个序列化对象 Book 供其他的AIDL文件使用</span></div><div class="line"><span class="comment">//注意：Book.aidl与Book.java的包名应当是一样的</span></div><div class="line"><span class="keyword">package</span> com.lypeer.ipcclient;</div><div class="line"></div><div class="line"><span class="comment">//注意parcelable是小写</span></div><div class="line">parcelable Book;</div><div class="line"></div><div class="line"><span class="comment">// BookManager.aidl</span></div><div class="line"><span class="comment">//第二类AIDL文件的例子</span></div><div class="line"><span class="keyword">package</span> com.lypeer.ipcclient;</div><div class="line"><span class="comment">//导入所需要使用的非默认支持数据类型的包</span></div><div class="line"><span class="keyword">import</span> com.lypeer.ipcclient.Book;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">BookManager</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//所有的返回值前都不需要加任何东西，不管是什么数据类型</span></div><div class="line">    <span class="function">List&lt;Book&gt; <span class="title">getBooks</span><span class="params">()</span></span>;</div><div class="line">    <span class="function">Book <span class="title">getBook</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getBookCount</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">//传参时除了Java基本类型以及String，CharSequence之外的类型</span></div><div class="line">    <span class="comment">//都需要在前面加上定向tag，具体加什么量需而定</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setBookPrice</span><span class="params">(in Book book , <span class="keyword">int</span> price)</span></span></div><div class="line">    <span class="keyword">void</span> <span class="title">setBookName</span><span class="params">(in Book book , String name)</span></div><div class="line">    <span class="keyword">void</span> <span class="title">addBookIn</span><span class="params">(in Book book)</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addBookOut</span><span class="params">(out Book book)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addBookInout</span><span class="params">(inout Book book)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="11-Android布局的优化方案"><a href="#11-Android布局的优化方案" class="headerlink" title="11.Android布局的优化方案"></a>11.Android布局的优化方案</h4><ul>
-<li>层级观察器(Hierarchy Viewer)：</li>
-<li>使用layoutopt工具输出</li>
-<li>重用布局文件：<include></include></li>
-<li>使用&lt; merge /&gt;标签减少布局的嵌套层次；</li>
-<li>仅在需要时才加载布局，ViewStub</li>
-</ul>
-<h4 id="12-Android性能调优"><a href="#12-Android性能调优" class="headerlink" title="12.Android性能调优"></a>12.Android性能调优</h4><ul>
-<li>UI卡顿</li>
-<li>ANR异常</li>
-<li>内存性能优化</li>
-<li>Android API使用：<pre><code>StringBuffer/String、HashMap/ArrayMap/SparseArray
-</code></pre></li>
-</ul>
-<p>性能调优参考这篇博客<a href="http://blog.csdn.net/yanbober/article/details/48394201" target="_blank" rel="external">Andoid应用开发性能优化完全分析</a></p>
-
+</ul></p>
+            <p class="article-more-link">
+                <a href="/2016/09/28/Android-interview-questions/#more">Read More</a>
+            </p>
         
         </div>
         <footer class="article-footer">
@@ -915,7 +687,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/09/28/Android-interview-questions/" data-id="ciw6b0alh0020i6fylia0yl9o" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/09/28/Android-interview-questions/" data-id="ciw6hcgdd001wet0hycp0zrh8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -993,179 +765,6 @@
 
 
 
-    <article id="post-JNI-get-publickey" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/09/22/JNI-get-publickey/">使用JNI获取publickey实现</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/09/22/JNI-get-publickey/">
-            <time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/technology/">technology</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/android-jni/">Android JNI</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h3><p>之前写过一篇文件是关于<a href="http://agehua.github.io/2016/JNI-Learning">JNI学习和积累</a>的文章。<br>这篇文章主要讲在使用JNI取得Publickey过程中遇到的问题和一些总结。</p>
-<h3 id="2-JNI获取Publickey实现"><a href="#2-JNI获取Publickey实现" class="headerlink" title="2.JNI获取Publickey实现"></a>2.JNI获取Publickey实现</h3><p>在上篇文章中，最终采用的加密方法来自<a href="https://github.com/MasonLiuChn/AndroidUltimateEncrypt" target="_blank" rel="external">github项目</a>。</p>
-<p>但该项目中在4.0.4版本的手机上，取得publickey遇到兼容性问题。</p>
-<p>正常的Publickey字段样式是这样的：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">OpenSSLRSAPublicKey&#123;modulus=a0d169cedabdaac3527c2099eeac4cbd74bb9b14c2571bcf6755f49e1d8c8439a37e009b0cb1b1ae9bf164dc976ddc4ee050621c746610d995185accbe8b3c09cc4f8c7afd990db47be814f7f45ec9c489be5b0933e89ff58070c29c98199331160bdb3a19e0687d36e850ee686c565737be4f61328264a58792e198d873b023ec11cb26a73305eea631ab18ec3ce746eb253e47c145503e933ee5da892326ecbb29b5a005aacef2d30d720611f7014aa3f2e40954b9e4deeaca1823dd2f7b2230670acabda70d2f14b1adc9480cf0a48d47866a1aa745ae97d0ab906cd76e5ab76916d03ef153b35edc2ae7284a613b3a3a312c73cf0b98e0ce9a8cf6a682fa,publicExponent=<span class="number">10001</span>&#125;</div></pre></td></tr></table></figure>
-<p>但是某些低版本手机上（我遇到的是三星GT-S7568 Android版本4.0.4）的Publickey字段样式是：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">RSA Public Key</div><div class="line">      modulus: a0d169cedabdaac3527c2099eeaca0d169cedabdaac3527c2099eeac4cbd74bb9b14c2571bcf6755f49e1d8c8439a37e009b0cb1b1ae9bf164dc976ddc4ee050621c746610d995185accbe8b3c09cc4f8c7afd990db47be814f7f45ec9c489be5b0933e89ff58070c29c98199331160bdb3a19e0687d36e850ee686c565737be4f61328264a58792e198d873b023ec11cb6a73305eea631ab18ec3ce746eb23e47c145503e933ee5da892326ecbb29b5a005aacef2d30d720611f7014aa3f2e40954b9e4deeaca1823dd2f7b2230670acabda70d2f14b1adc9410cf0a48d47866a1aa745ae97d0ab906cd76e5ab76916d03ef153b35edc2ae7284a613b3a3a313c73cf0b98e0ce9a8cf6a682aff0b98e0ce9a8cf6a682fa</div><div class="line">      <span class="keyword">public</span> exponent: <span class="number">10001</span></div></pre></td></tr></table></figure>
-<p>第一个字段modulus是一致的，第二个字段一个是“<strong>publicExponent</strong>”，另一个是“<strong>public exponent</strong>”。</p>
-<p>所以我在代码中的处理是这样的</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line">jmethodID substring_mid = env-&gt;GetMethodID(string_cls,<span class="string">"substring"</span>, <span class="string">"(II)Ljava/lang/String;"</span>);</div><div class="line">jmethodID indexOf_mid = env-&gt;GetMethodID(string_cls,<span class="string">"indexOf"</span>, <span class="string">"(Ljava/lang/String;)I"</span>);</div><div class="line"></div><div class="line">jint bb = env-&gt;CallIntMethod(publicKey_str,indexOf_mid,param2);</div><div class="line">jstring publicKey2_str =<span class="literal">NULL</span>;</div><div class="line"><span class="keyword">if</span> (bb ==<span class="number">-1</span>)&#123;</div><div class="line">	jstring param3 = env-&gt;NewStringUTF(<span class="string">"public exponent"</span>);</div><div class="line">	jint cc = env-&gt;CallIntMethod(publicKey_str,indexOf_mid,param3);</div><div class="line">	__android_log_print(ANDROID_LOG_ERROR, TAG, <span class="string">"CC value is %d"</span>, cc);</div><div class="line">	publicKey2_str= <span class="keyword">static_cast</span>&lt;jstring&gt;(env-&gt;CallObjectMethod(publicKey_str,substring_mid,aa+<span class="number">8</span>,cc<span class="number">-1</span>));</div><div class="line">&#125;<span class="keyword">else</span> &#123;</div><div class="line">	publicKey2_str = <span class="keyword">static_cast</span>&lt;jstring&gt;(env-&gt;CallObjectMethod(publicKey_str,substring_mid,aa+<span class="number">8</span>,bb<span class="number">-1</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="2-1-在JNI-native代码中打印日志"><a href="#2-1-在JNI-native代码中打印日志" class="headerlink" title="2.1 在JNI native代码中打印日志"></a>2.1 在JNI native代码中打印日志</h4><p>上面提供的JNI方法中涉及到了JNI日志打印（“__android_log_print”）</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line">__android_log_print(ANDROID_LOG_ERROR, TAG, <span class="string">"PublicKey value is %s"</span>,  jstringTostring(env,publicKey2_str));</div></pre></td></tr></table></figure>
-<ul>
-<li>该方法第一个参数以日志级别，有：ANDROID_LOG_INFO，ANDROID_LOG_DEBUG和ANDROID_LOG_ERROR</li>
-<li>第二个参数设置过滤的标签，可以在LogCat视图中过滤。</li>
-<li>后面参数是具体的日志内容</li>
-</ul>
-<p>jstringTostring是将jstring转换成char*的方法：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">char</span>* <span class="title">jstringTostring</span><span class="params">(JNIEnv* env, jstring jstr)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">char</span>* rtn = <span class="literal">NULL</span>;</div><div class="line">  jclass clsstring = env-&gt;FindClass(<span class="string">"java/lang/String"</span>);</div><div class="line">  jstring strencode = env-&gt;NewStringUTF(<span class="string">"utf-8"</span>);</div><div class="line">  jmethodID mid = env-&gt;GetMethodID(clsstring, <span class="string">"getBytes"</span>, <span class="string">"(Ljava/lang/String;)[B"</span>);</div><div class="line">  jbyteArray barr= (jbyteArray)env-&gt;CallObjectMethod(jstr, mid, strencode);</div><div class="line">  jsize alen = env-&gt;GetArrayLength(barr);</div><div class="line">  jbyte* ba = env-&gt;GetByteArrayElements(barr, JNI_FALSE);</div><div class="line">  <span class="keyword">if</span> (alen &gt; <span class="number">0</span>)</div><div class="line">  &#123;</div><div class="line">  rtn = (<span class="keyword">char</span>*)<span class="built_in">malloc</span>(alen + <span class="number">1</span>);</div><div class="line"></div><div class="line">  <span class="built_in">memcpy</span>(rtn, ba, alen);</div><div class="line">  rtn[alen] = <span class="number">0</span>;</div><div class="line">  &#125;</div><div class="line">  env-&gt;ReleaseByteArrayElements(barr, ba, <span class="number">0</span>);</div><div class="line">  <span class="keyword">return</span> rtn;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>jstring是Java提供的一个本地类型（Native Type），对应Java语言中的string类型</p>
-<p>想了解JNI其他数据类型的，请看这里<br><a href="http://blog.csdn.net/qinjuning/article/details/7599796" target="_blank" rel="external">JNI学习积累之二 —- 数据类型映射、域描述符说明</a></p>
-<p>要使用JNI日志打印还需要：</p>
-<ul>
-<li>1.导入.h文件及定义宏<br>在输出日志的.c文件中加入:</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;android/log.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> LOG_TAG   <span class="meta-string">"From JNI ===&gt;&gt;"</span></span></div></pre></td></tr></table></figure>
-<ul>
-<li>2.在Android.mk中引用日志库<br>加入下面这行代码:</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line">LOCAL_LDLIBS   := -lm -llog -ljnigraphics</div></pre></td></tr></table></figure>
-<p>具体学习可以移步这两篇文章：</p>
-<p><a href="http://www.cnblogs.com/liuling/p/2015-8-5-1.html" target="_blank" rel="external">JNI的native代码中打印日志到eclipse的logcat中</a></p>
-<p><a href="http://blog.csdn.net/llwdslal/article/details/31733035" target="_blank" rel="external">JNI中使用LOGCAT 进行Debug</a></p>
-<h4 id="2-2-完整代码"><a href="#2-2-完整代码" class="headerlink" title="2.2 完整代码"></a>2.2 完整代码</h4><p>下面是我修改后的完整代码</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line"><span class="function">jstring <span class="title">getPublicKey</span><span class="params">(JNIEnv* env, jobject thiz,jobject context)</span> </span>&#123;</div><div class="line">	jclass context_cls = env-&gt;GetObjectClass(context);</div><div class="line"></div><div class="line">	jmethodID get_package_manager_mid = env-&gt;GetMethodID(context_cls,</div><div class="line">			<span class="string">"getPackageManager"</span>, <span class="string">"()Landroid/content/pm/PackageManager;"</span>);</div><div class="line"></div><div class="line">	jmethodID get_package_name_mid = env-&gt;GetMethodID(context_cls,</div><div class="line">			<span class="string">"getPackageName"</span>, <span class="string">"()Ljava/lang/String;"</span>);</div><div class="line">	env-&gt;DeleteLocalRef(context_cls);</div><div class="line">	jobject pm_obj = env-&gt;CallObjectMethod(context, get_package_manager_mid);</div><div class="line">	jclass pm_cls = env-&gt;FindClass(<span class="string">"android/content/pm/PackageManager"</span>);</div><div class="line"></div><div class="line">	jmethodID get_package_info_mid = env-&gt;GetMethodID(pm_cls, <span class="string">"getPackageInfo"</span>,</div><div class="line">			<span class="string">"(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;"</span>);</div><div class="line">	jstring package_name = <span class="keyword">reinterpret_cast</span>&lt;jstring&gt;(env-&gt;CallObjectMethod(</div><div class="line">			context, get_package_name_mid));</div><div class="line">	jfieldID flag_fid = env-&gt;GetStaticFieldID(pm_cls, <span class="string">"GET_SIGNATURES"</span>, <span class="string">"I"</span>);</div><div class="line">	jint flag = env-&gt;GetStaticIntField(pm_cls, flag_fid);</div><div class="line">	env-&gt;DeleteLocalRef(pm_cls);</div><div class="line">	jobject pi_obj = env-&gt;CallObjectMethod(pm_obj, get_package_info_mid,</div><div class="line">			package_name, flag);</div><div class="line">	env-&gt;DeleteLocalRef(package_name);</div><div class="line"></div><div class="line">	jclass pi_cls = env-&gt;FindClass(<span class="string">"android/content/pm/PackageInfo"</span>);</div><div class="line">	jfieldID signatures_fid = env-&gt;GetFieldID(pi_cls, <span class="string">"signatures"</span>,</div><div class="line">			<span class="string">"[Landroid/content/pm/Signature;"</span>);</div><div class="line">	env-&gt;DeleteLocalRef(pi_cls);</div><div class="line">	jobject sig_obj = env-&gt;GetObjectField(pi_obj, signatures_fid);</div><div class="line">	env-&gt;DeleteLocalRef(pi_obj);</div><div class="line"></div><div class="line">	jobjectArray sigs = <span class="keyword">reinterpret_cast</span>&lt;jobjectArray&gt;(sig_obj);</div><div class="line"></div><div class="line">	jclass signature_cls = env-&gt;FindClass(<span class="string">"android/content/pm/Signature"</span>);</div><div class="line">	jmethodID to_byte_array_mid = env-&gt;GetMethodID(signature_cls, <span class="string">"toByteArray"</span>,</div><div class="line">			<span class="string">"()[B"</span>);</div><div class="line"></div><div class="line">	jbyteArray sig_bytes = <span class="keyword">reinterpret_cast</span>&lt;jbyteArray&gt;(env-&gt;CallObjectMethod(</div><div class="line">			env-&gt;GetObjectArrayElement(sigs, <span class="number">0</span>), to_byte_array_mid));</div><div class="line">	jclass certificate_factory_cls = env-&gt;FindClass(</div><div class="line">			<span class="string">"java/security/cert/CertificateFactory"</span>);</div><div class="line">	jmethodID get_certificate_instance_mid = env-&gt;GetStaticMethodID(</div><div class="line">			certificate_factory_cls, <span class="string">"getInstance"</span>,</div><div class="line">			<span class="string">"(Ljava/lang/String;)Ljava/security/cert/CertificateFactory;"</span>);</div><div class="line"></div><div class="line">	jobject certificate_factory_obj = env-&gt;CallStaticObjectMethod(</div><div class="line">			certificate_factory_cls, get_certificate_instance_mid,</div><div class="line">			env-&gt;NewStringUTF(<span class="string">"X509"</span>));</div><div class="line">	jmethodID generate_certificate_mid = env-&gt;GetMethodID(</div><div class="line">			certificate_factory_cls, <span class="string">"generateCertificate"</span>,</div><div class="line">			<span class="string">"(Ljava/io/InputStream;)Ljava/security/cert/Certificate;"</span>);</div><div class="line">	env-&gt;DeleteLocalRef(certificate_factory_cls);</div><div class="line"></div><div class="line">	jclass certificate_cls = env-&gt;FindClass(<span class="string">"java/security/cert/Certificate"</span>);</div><div class="line">	jclass byte_input_stream_cls = env-&gt;FindClass(</div><div class="line">			<span class="string">"java/io/ByteArrayInputStream"</span>);</div><div class="line">	jmethodID new_sig_bytes_is_mid = env-&gt;GetMethodID(byte_input_stream_cls,</div><div class="line">			<span class="string">"&lt;init&gt;"</span>, <span class="string">"([B)V"</span>);</div><div class="line">	jobject sig_bytes_is = env-&gt;NewObject(byte_input_stream_cls,</div><div class="line">			new_sig_bytes_is_mid, sig_bytes);</div><div class="line">	env-&gt;DeleteLocalRef(sig_bytes);</div><div class="line">	env-&gt;DeleteLocalRef(byte_input_stream_cls);</div><div class="line">	jobject cert = env-&gt;CallObjectMethod(certificate_factory_obj,</div><div class="line">			generate_certificate_mid, sig_bytes_is);</div><div class="line">	env-&gt;DeleteLocalRef(sig_bytes_is);</div><div class="line">	env-&gt;DeleteLocalRef(certificate_factory_obj);</div><div class="line">	jmethodID get_pubic_key_mid = env-&gt;GetMethodID(certificate_cls,</div><div class="line">			<span class="string">"getPublicKey"</span>, <span class="string">"()Ljava/security/PublicKey;"</span>);</div><div class="line">	env-&gt;DeleteLocalRef(certificate_cls);</div><div class="line"></div><div class="line">	jobject publicKey  = env-&gt;CallObjectMethod(cert, get_pubic_key_mid);</div><div class="line">	jclass publicKey_cls = env-&gt;GetObjectClass(publicKey);</div><div class="line">	jmethodID toString_mid = env-&gt;GetMethodID(publicKey_cls,<span class="string">"toString"</span>, <span class="string">"()Ljava/lang/String;"</span>);</div><div class="line">	jstring publicKey_str = <span class="keyword">static_cast</span>&lt;jstring&gt;(env-&gt;CallObjectMethod(publicKey,toString_mid));</div><div class="line">	env-&gt;DeleteLocalRef(cert);</div><div class="line">	env-&gt;DeleteLocalRef(publicKey_cls);</div><div class="line">	env-&gt;DeleteLocalRef(publicKey);</div><div class="line"></div><div class="line"></div><div class="line">	jclass string_cls = env-&gt;GetObjectClass(publicKey_str);</div><div class="line">	jmethodID indexOf_mid = env-&gt;GetMethodID(string_cls,<span class="string">"indexOf"</span>, <span class="string">"(Ljava/lang/String;)I"</span>);</div><div class="line">	jstring param = env-&gt;NewStringUTF(<span class="string">"modulus"</span>);</div><div class="line">	jint aa = env-&gt;CallIntMethod(publicKey_str,indexOf_mid,param);</div><div class="line">	jstring param2 = env-&gt;NewStringUTF(<span class="string">"publicExponent"</span>);</div><div class="line"></div><div class="line">	jmethodID substring_mid = env-&gt;GetMethodID(string_cls,<span class="string">"substring"</span>, <span class="string">"(II)Ljava/lang/String;"</span>);</div><div class="line"></div><div class="line">	__android_log_print(ANDROID_LOG_ERROR, TAG, <span class="string">"PublicKey String is %s"</span>, jstringTostring(env,publicKey_str));</div><div class="line"></div><div class="line">	jint bb = env-&gt;CallIntMethod(publicKey_str,indexOf_mid,param2);</div><div class="line">	jstring publicKey2_str =<span class="literal">NULL</span>;</div><div class="line">	<span class="keyword">if</span> (bb ==<span class="number">-1</span>)&#123;</div><div class="line">		jstring param3 = env-&gt;NewStringUTF(<span class="string">"public exponent"</span>);</div><div class="line">		jint cc = env-&gt;CallIntMethod(publicKey_str,indexOf_mid,param3);</div><div class="line">		__android_log_print(ANDROID_LOG_ERROR, TAG, <span class="string">"CC value is %d"</span>, cc);</div><div class="line">		publicKey2_str= <span class="keyword">static_cast</span>&lt;jstring&gt;(env-&gt;CallObjectMethod(publicKey_str,substring_mid,aa+<span class="number">8</span>,cc<span class="number">-1</span>));</div><div class="line">	&#125;<span class="keyword">else</span> &#123;</div><div class="line">		publicKey2_str = <span class="keyword">static_cast</span>&lt;jstring&gt;(env-&gt;CallObjectMethod(publicKey_str,substring_mid,aa+<span class="number">8</span>,bb<span class="number">-1</span>));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	__android_log_print(ANDROID_LOG_ERROR, TAG, <span class="string">"PublicKey value is %s"</span>,  jstringTostring(env,publicKey2_str));</div><div class="line">	<span class="keyword">return</span> publicKey2_str;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="3-附赠版本兼容的方法问题（随时更新）"><a href="#3-附赠版本兼容的方法问题（随时更新）" class="headerlink" title="3.附赠版本兼容的方法问题（随时更新）"></a>3.附赠版本兼容的方法问题（随时更新）</h3><p>低于Jellybean版本报如下错误：</p>
-<pre><code>01-20 08:53:00.141: E/AndroidRuntime(24005): java.lang.NoSuchMethodError:
-    android.view.ViewTreeObserver.removeOnGlobalLayoutListener
-</code></pre><p>正确调用方式应该是：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.JELLY_BEAN) &#123;</div><div class="line">		ViewTreeObserver.removeGlobalOnLayoutListener(<span class="keyword">this</span>);</div><div class="line">&#125;<span class="keyword">else</span></div><div class="line">		ViewTreeObserver.removeOnGlobalLayoutListener(<span class="keyword">this</span>);</div></pre></td></tr></table></figure>
-<p>还有一个setBackground方法：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">if</span>(Build.VERSION.SzDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN) &#123;</div><div class="line">		View.setBackground(<span class="keyword">new</span> ColorDrawable(Color.parseColor(<span class="string">"#CCCCCC"</span>)));</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">		View.setBackgroundColor(Color.parseColor(<span class="string">"#CCCCCC"</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2016/09/22/JNI-get-publickey/" data-id="ciw6b0ald001ti6fyf81e2co3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://agehua.github.io/2016/09/22/JNI-get-publickey/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/09/22/JNI-get-publickey/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <article id="post-quit-whole-application" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -1208,8 +807,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            
-            <p>关于这个功能，每个公司项目都有自己的解决方案</p>
+            <p><p>关于这个功能，每个公司项目都有自己的解决方案</p>
 <p>搜索了一下，网上大概有以下几种方法解决这个问题：</p>
 <ul>
 <li><p>(1)System.exit(0);</p>
@@ -1220,24 +818,10 @@
 <p>  activityManager.restartPackage(“packagename”);</p>
 </li>
 </ul>
-<p>但这些貌似不是万能的，有的说在2.2版本后就失效了，那我们怎么办呢？</p>
-<h3 id="1、通过广播"><a href="#1、通过广播" class="headerlink" title="1、通过广播"></a>1、通过广播</h3><p>在起初的一个项目里我用了一个比较笨的方法，我用一个类来专门管理所有的Activity。这个类里有一个List，每打开一个Activity我就把这个Activity放到这个List中，当退出时再将List中所有的Activity一个一个的关闭。</p>
-<p>在后来的项目中发现了一个更好地方法，就是通过广播来完成退出功能，具体实现过程是这样的：在每个Activity创建时（onCreate时）给Activity注册一个广播接收器，当退出时发送该广播即可。大概的代码如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line"></div><div class="line">       <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">       IntentFilter filter = <span class="keyword">new</span> IntentFilter();</div><div class="line">       filter.addAction(<span class="string">"finish"</span>);</div><div class="line">       registerReceiver(mFinishReceiver, filter);</div><div class="line">       ……</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">private</span> BroadcastReceiver mFinishReceiver = <span class="keyword">new</span> BroadcastReceiver() &#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span> </span>&#123;</div><div class="line">           <span class="keyword">if</span>(<span class="string">"finish"</span>.equals(intent.getAction())) &#123;</div><div class="line">              Log.e(<span class="string">"#########"</span>, <span class="string">"I am "</span> + getLocalClassName()</div><div class="line">                     + <span class="string">",now finishing myself..."</span>);</div><div class="line">              finish();</div><div class="line">       &#125;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>相信聪明的大家会把上面的代码写在一个基类里面，因为如果你的项目中Activity很多的话，写起来很麻烦，而且也不符合代码规范。</p>
-<p>在退出时执行以下代码即可关闭所有界面完全退出程序：</p>
-<p>getApplicationContext().sendBroadcast(new Intent(“finish”));</p>
-<p>转载：<a href="http://www.cnblogs.com/wader2011/archive/2011/10/10/2205161.html" target="_blank" rel="external">http://www.cnblogs.com/wader2011/archive/2011/10/10/2205161.html</a></p>
-<h3 id="2、使用退出类"><a href="#2、使用退出类" class="headerlink" title="2、使用退出类"></a>2、使用退出类</h3><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CloseActivity</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> LinkedList&lt;Activity&gt; acys = <span class="keyword">new</span> LinkedList&lt;Activity&gt;();</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Activity curActivity;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(Activity acy)</span></span></div><div class="line">    &#123;</div><div class="line">        acys.add(acy);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(Activity acy)</span> </span>&#123;</div><div class="line">        acys.remove(acy);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        Activity acy;</div><div class="line">        <span class="keyword">while</span> (acys.size() != <span class="number">0</span>)</div><div class="line">        &#123;</div><div class="line">            acy = acys.poll();</div><div class="line">            <span class="keyword">if</span> (!acy.isFinishing())</div><div class="line">            &#123;</div><div class="line">                acy.finish();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"><span class="comment">//        android.os.Process.killProcess(android.os.Process.myPid());</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="3-利用activity-stack的原理"><a href="#3-利用activity-stack的原理" class="headerlink" title="3.利用activity stack的原理"></a>3.利用activity stack的原理</h3><p>我们知道Android的窗口类提供了历史栈，我们可以通过stack的原理来巧妙的实现，<br>这里我们在D窗口打开A窗口时在Intent中直接加入标志Intent.FLAG_ACTIVITY_CLEAR_TOP，再次开启A时将会清除该进程空间的所有Activity。</p>
-<p>在D中使用下面的代码:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">Intent intent = <span class="keyword">new</span> Intent();</div><div class="line">intent.setClass(D.<span class="keyword">this</span>, A.class);</div><div class="line">intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  <span class="comment">//注意本行的FLAG设置</span></div><div class="line">startActivity(intent);</div><div class="line">finish();</div></pre></td></tr></table></figure>
-<p>关掉自己，在A中加入代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onNewIntent</span><span class="params">(Intent intent)</span> </span>&#123; <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">    <span class="keyword">super</span>.onNewIntent(intent);</div><div class="line">        <span class="comment">//退出</span></div><div class="line">    <span class="keyword">if</span> ((Intent.FLAG_ACTIVITY_CLEAR_TOP &amp; intent.getFlags()) != <span class="number">0</span>) &#123;</div><div class="line">         finish();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<pre><code>A的Manifest.xml配置成android:launchMode=&quot;singleTop&quot;
-</code></pre><p>原理总结： 一般A是程序的入口点，从D起一个A的activity，加入标识Intent.FLAG_ACTIVITY_CLEAR_TOP这个过程中会把栈中B，C，都清理掉。因为A是android:launchMode=”singleTop” 不会调用oncreate(),而是响应onNewIntent（）这时候判断Intent.FLAG_ACTIVITY_CLEAR_TOP，然后把A finish（）掉。 栈中A,B,C,D全部被清理。所以整个程序退出了。</p>
-<h3 id="4-JNI实现守护进程"><a href="#4-JNI实现守护进程" class="headerlink" title="4.JNI实现守护进程"></a>4.JNI实现守护进程</h3><p>请看这篇博客<a href="http://blog.csdn.net/yyh352091626/article/details/50542554" target="_blank" rel="external">Android 通过JNI实现守护进程</a></p>
-
+<p>但这些貌似不是万能的，有的说在2.2版本后就失效了，那我们怎么办呢？</p></p>
+            <p class="article-more-link">
+                <a href="/2016/09/22/quit-whole-application/#more">Read More</a>
+            </p>
         
         </div>
         <footer class="article-footer">
@@ -1247,7 +831,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/09/22/quit-whole-application/" data-id="ciw6b0al4001ii6fyc6ojypbb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/09/22/quit-whole-application/" data-id="ciw6hcgdc001tet0hewuqf8qx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1325,7 +909,7 @@
 
 
 
-    <article id="post-AVG-unwanted-software" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-JNI-get-publickey" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -1333,7 +917,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2016/09/20/AVG-unwanted-software/">apk中含有admob广告插件</a>
+            <a class="article-title" href="/2016/09/22/JNI-get-publickey/">使用JNI获取publickey实现</a>
         </h1>
     
 
@@ -1342,8 +926,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/09/20/AVG-unwanted-software/">
-            <time datetime="2016-09-19T16:00:00.000Z" itemprop="datePublished">2016-09-20</time>
+        <a href="/2016/09/22/JNI-get-publickey/">
+            <time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time>
         </a>
     </div>
 
@@ -1351,13 +935,13 @@
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+        <a class="article-category-link" href="/categories/technology/">technology</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/accumulation/">accumulation</a>
+        <a class="tag-link" href="/tags/android-jni/">Android JNI</a>
     </div>
 
                     </div>
@@ -1367,17 +951,12 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            
-            <h3 id="问题出现"><a href="#问题出现" class="headerlink" title="问题出现"></a>问题出现</h3><p>使用这个杀毒软件<a href="http://www.avg.com/no-en/antivirus-for-android" target="_blank" rel="external">antivirus-for-android</a>，检测我们团队的apk后，AVG提示警告unwanted software。</p>
-<p>生成的报告说是：<br>Beware of Adware! 1 Types of Adware Detected<br>Last reported adware activity:    Sep 16<br>Days with adware in last 30:    1 days</p>
-<p>见下图：</p>
-<p><img src="/images/blogimages/2016/avg_warning.PNG" alt="avg_warning"></p>
-<h3 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h3><p>使用这个广告插件检测工具<a href="https://play.google.com/store/apps/details?id=imoblife.toolbox.full&amp;hl=zh" target="_blank" rel="external">全能工具箱</a>，检测后，确实提示我们的apk含有广告“admob”</p>
-<p>但是这个apk是我们团队自己开发的，有项目源码，AndroidManifest文件中没有网络上说的Google AdMob注册，更没有com.google.ads.AdView这个布局文件</p>
-<p>代码中没有，可能在第三方库中？</p>
-<p>结果就是在排查第三方库的过程中，发现google service的jar包中有名字是ads的文件夹。如下图：<br><img src="/images/blogimages/2016/google_servcie_ads.PNG" alt="google_servcie_ads"></p>
-<p>删除后上图中的两个ads文件夹，再打包apk后，用软件检测，果然没有admob插件了。哈哈，恼人的问题解决了。</p>
-
+            <p><h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h3><p>之前写过一篇文件是关于<a href="http://agehua.github.io/2016/JNI-Learning">JNI学习和积累</a>的文章。<br>这篇文章主要讲在使用JNI取得Publickey过程中遇到的问题和一些总结。</p>
+<h3 id="2-JNI获取Publickey实现"><a href="#2-JNI获取Publickey实现" class="headerlink" title="2.JNI获取Publickey实现"></a>2.JNI获取Publickey实现</h3><p>在上篇文章中，最终采用的加密方法来自<a href="https://github.com/MasonLiuChn/AndroidUltimateEncrypt">github项目</a>。</p>
+<p>但该项目中在4.0.4版本的手机上，取得publickey遇到兼容性问题。</p></p>
+            <p class="article-more-link">
+                <a href="/2016/09/22/JNI-get-publickey/#more">Read More</a>
+            </p>
         
         </div>
         <footer class="article-footer">
@@ -1387,7 +966,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/09/20/AVG-unwanted-software/" data-id="ciw6b0ala001mi6fy9vvwepze" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/09/22/JNI-get-publickey/" data-id="ciw6hcgd8001met0hxv2fge4u" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1455,7 +1034,7 @@
 
             
     
-        <a href="http://agehua.github.io/2016/09/20/AVG-unwanted-software/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/09/20/AVG-unwanted-software/">Comments</a>
+        <a href="http://agehua.github.io/2016/09/22/JNI-get-publickey/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/09/22/JNI-get-publickey/">Comments</a>
     
 
         </footer>
@@ -1507,36 +1086,11 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            
-            <h3 id="向大神致敬"><a href="#向大神致敬" class="headerlink" title="向大神致敬"></a>向大神致敬</h3><p>本文转载自<a href="http://stormzhang.com/designpattern/2016/03/27/android-design-pattern-singleton/" target="_blank" rel="external">stormzhang ANDROID设计模式之单例模式 </a>，<br>稍有修改</p>
-<h3 id="常用单例模式"><a href="#常用单例模式" class="headerlink" title="常用单例模式"></a>常用单例模式</h3><p>什么是设计模式？其实简单的理解就是前人留下来的一些经验总结而已，然后把这些经验起了个名字叫Design Pattern，翻译过来就是设计模式的意思，通过使用设计模式可以让我们的代码复用性更高，可维护性更高，让你的代码写的更优雅。设计模式理论上有23种，但是我只会针对Android平台上常用的一些设计模式做分享，今天就先来分享下最常用的单例模式。</p>
-<h4 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">newInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>饿汉式 是最简单的实现方式，这种实现方式适合那些在初始化时就要用到单例的情况，这种方式简单粗暴，如果单例对象初始化非常快，而且占用内存非常小的时候这种方式是比较合适的，可以直接在应用启动时加载并初始化。 但是，如果单例初始化的操作耗时比较长而应用对于启动速度又有要求，或者单例的占用内存比较大，再或者单例只是在某个特定场景的情况下才会被使用，而一般情况下是不会使用时，使用饿汉式的单例模式就是不合适的，这时候就需要用到懒汉式的方式去按需延迟加载单例。</p>
-<h4 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">newInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">null</span> == instance)&#123;</div><div class="line">            instance = <span class="keyword">new</span> Singleton();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>懒汉式与饿汉式的最大区别就是将单例的初始化操作，延迟到需要的时候才进行，这样做在某些场合中有很大用处。比如某个单例用的次数不是很多，但是这个单例提供的功能又非常复杂，而且加载和初始化要消耗大量的资源，这个时候使用懒汉式就是非常不错的选择。</p>
-<h3 id="多线程下的单例模式"><a href="#多线程下的单例模式" class="headerlink" title="多线程下的单例模式"></a>多线程下的单例模式</h3><p>上面介绍了一些单例模式的基本应用方法，但是上面所说的那些使用方式都是有一个隐含的前提，那就是他们都是应用在单线程条件下，一旦换成了多线程就有出错的风险。</p>
-<p>如果在多线程的情况下，饿汉式不会出现问题，因为JVM只会加载一次单例类，但是懒汉式可能就会出现重复创建单例对象的问题。为什么会有这样的问题呢？因为懒汉式在创建单例时是 线程不安全的，多个线程可能会并发调用他的newInstance方法导致多个线程可能会创建多份相同的单例出来。</p>
-<p>那有没有办法，使懒汉式的单利模式也是线程安全的呢？答案肯定是有的，就是使用加同步锁的方式去实现。</p>
-<h4 id="懒汉式同步锁"><a href="#懒汉式同步锁" class="headerlink" title="懒汉式同步锁"></a>懒汉式同步锁</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">synchronized</span> (Singleton.class) &#123;</div><div class="line">            <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">                instance = <span class="keyword">new</span> Singleton();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这种是最常见的解决同步问题的一种方式，使用同步锁synchronized (Singleton.class)防止多线程同时进入造成instance被多次实例化。举个在Android使用这种方式的例子：</p>
-<h4 id="InputMethodManager示例"><a href="#InputMethodManager示例" class="headerlink" title="InputMethodManager示例"></a>InputMethodManager示例</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">InputMethodManager</span> </span>&#123;</div><div class="line">    <span class="comment">//内部全局唯一实例  </span></div><div class="line">    <span class="keyword">static</span> InputMethodManager sInstance;</div><div class="line"></div><div class="line">    <span class="comment">//对外api  </span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> InputMethodManager <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">synchronized</span> (InputMethodManager.class) &#123;</div><div class="line">            <span class="keyword">if</span> (sInstance == <span class="keyword">null</span>) &#123;</div><div class="line">                IBinder b = ServiceManager.getService(Context.INPUT_METHOD_SERVICE);</div><div class="line">                IInputMethodManager service = IInputMethodManager.Stub.asInterface(b);</div><div class="line">                sInstance = <span class="keyword">new</span> InputMethodManager(service, Looper.getMainLooper());</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> sInstance;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>以上是Android源码中输入法类相关的单例使用方式。</p>
-<p>但其实还有一种更好的方式如下：</p>
-<h4 id="双重校验锁"><a href="#双重校验锁" class="headerlink" title="双重校验锁"></a>双重校验锁</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Singleton instance = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// if already inited, no need to get lock everytime</span></div><div class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">synchronized</span> (Singleton.class) &#123;</div><div class="line">                <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</div><div class="line">                    instance = <span class="keyword">new</span> Singleton();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>可以看到上面在synchronized (Singleton.class)外又添加了一层if，这是为了在instance已经实例化后下次进入不必执行synchronized (Singleton.class)获取对象锁，从而提高性能。</p>
-<p>以上两种方式还是挺麻烦的，我们不禁要问，有没有更好的实现方式呢？答案是肯定的。 我们可以利用JVM的类加载机制去实现。在很多情况下JVM已经为我们提供了同步控制，比如：</p>
-<p>在static{}区块中初始化的数据<br>访问final字段时<br>等等<br>因为在JVM进行类加载的时候他会保证数据是同步的，我们可以这样实现：</p>
-<p>采用内部类，在这个内部类里面去创建对象实例。这样的话，只要应用中不使用内部类 JVM 就不会去加载这个单例类，也就不会创建单例对象，从而实现懒汉式的延迟加载和线程安全。</p>
-<p>实现代码如下：</p>
-<h4 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</div><div class="line">    <span class="comment">//内部类，在装载该内部类时才会去创建单利对象</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonHolder</span></span>&#123;</div><div class="line">        <span class="keyword">public</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">newInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> SingletonHolder.instance;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="comment">//do something</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这样实现出来的单例类就是线程安全的，而且使用起来很简洁，麻麻再也不用担心我的单例不是单例了。</p>
-<p>然而这还不是最简单的方式，Effective Java中推荐了一种更简洁方便的使用方式，就是使用枚举。</p>
-<h4 id="枚举类型单例模式"><a href="#枚举类型单例模式" class="headerlink" title="枚举类型单例模式"></a>枚举类型单例模式</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Singleton&#123;</div><div class="line">    <span class="comment">//定义一个枚举的元素，它就是Singleton的一个实例</span></div><div class="line">    instance;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="comment">// do something ...</span></div><div class="line">    &#125;    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>使用方法如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">   Singleton singleton = Singleton.instance;</div><div class="line">   singleton.doSomething();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>默认枚举实例的创建是线程安全的(创建枚举类的单例在JVM层面也是能保证线程安全的), 所以不需要担心线程安全的问题，所以理论上枚举类来实现单例模式是最简单的方式。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>一般单例模式包含了5种写法，分别是饿汉、懒汉、双重校验锁、静态内部类和枚举。相信看完之后你对单例模式有了充分的理解了，根据不同的场景选择最你最喜欢的一种单例模式吧！</p>
-
+            <p><h3 id="向大神致敬"><a href="#向大神致敬" class="headerlink" title="向大神致敬"></a>向大神致敬</h3><p>本文转载自<a href="http://stormzhang.com/designpattern/2016/03/27/android-design-pattern-singleton/">stormzhang ANDROID设计模式之单例模式 </a>，<br>稍有修改</p>
+<h3 id="常用单例模式"><a href="#常用单例模式" class="headerlink" title="常用单例模式"></a>常用单例模式</h3><p>什么是设计模式？其实简单的理解就是前人留下来的一些经验总结而已，然后把这些经验起了个名字叫Design Pattern，翻译过来就是设计模式的意思，通过使用设计模式可以让我们的代码复用性更高，可维护性更高，让你的代码写的更优雅。设计模式理论上有23种，但是我只会针对Android平台上常用的一些设计模式做分享，今天就先来分享下最常用的单例模式。</p></p>
+            <p class="article-more-link">
+                <a href="/2016/09/20/android-design-pattern-singleton/#more">Read More</a>
+            </p>
         
         </div>
         <footer class="article-footer">
@@ -1546,7 +1100,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/09/20/android-design-pattern-singleton/" data-id="ciw6b0alb001pi6fyko1ym191" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/09/20/android-design-pattern-singleton/" data-id="ciw6hcgda001pet0hp226e2zp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1624,6 +1178,141 @@
 
 
 
+    <article id="post-AVG-unwanted-software" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/09/20/AVG-unwanted-software/">apk中含有admob广告插件</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/09/20/AVG-unwanted-software/">
+            <time datetime="2016-09-19T16:00:00.000Z" itemprop="datePublished">2016-09-20</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/accumulation/">accumulation</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="问题出现"><a href="#问题出现" class="headerlink" title="问题出现"></a>问题出现</h3><p>使用这个杀毒软件<a href="http://www.avg.com/no-en/antivirus-for-android">antivirus-for-android</a>，检测我们团队的apk后，AVG提示警告unwanted software。</p>
+<p>生成的报告说是：<br>Beware of Adware! 1 Types of Adware Detected<br>Last reported adware activity:    Sep 16<br>Days with adware in last 30:    1 days</p>
+<p>见下图：</p></p>
+            <p class="article-more-link">
+                <a href="/2016/09/20/AVG-unwanted-software/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2016/09/20/AVG-unwanted-software/" data-id="ciw6hcgd6001iet0hw3wws1ht" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://agehua.github.io/2016/09/20/AVG-unwanted-software/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/09/20/AVG-unwanted-software/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
@@ -1643,7 +1332,7 @@
                             <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(http://7xuos6.com1.z0.glb.clouddn.com/H60-L12__1464257385283__212828_3594)" alt="Hexo 出错情况收集" class="thumbnail-image"></span>
     
 </a>
 
@@ -1716,7 +1405,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/09/22/JNI-get-publickey/" class="thumbnail">
+                            <a href="/2016/09/22/quit-whole-application/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -1727,7 +1416,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/technology/">technology</a></p>
-                            <p class="item-title"><a href="/2016/09/22/JNI-get-publickey/" class="title">使用JNI获取publickey实现</a></p>
+                            <p class="item-title"><a href="/2016/09/22/quit-whole-application/" class="title">Android 退出整个应用程序解决方案</a></p>
                             <p class="item-date"><time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time></p>
                         </div>
                     </li>

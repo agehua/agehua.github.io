@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://agehua.github.io/2016/07/25/android-webview-summary/index.html">
 <meta property="og:site_name" content="Agehua">
 <meta property="og:description" content="Android Webview总结，遇到问题就在这里记录 :(">
-<meta property="og:updated_time" content="2016-10-14T11:13:42.000Z">
+<meta property="og:updated_time" content="2016-12-01T14:49:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android Webview总结，不断更新中 :(">
 <meta name="twitter:description" content="Android Webview总结，遇到问题就在这里记录 :(">
@@ -258,9 +258,10 @@
 <li><p>1.可以关闭掉硬件加速</p>
 </li>
 <li><p>2.不关闭硬件加速的情况下：在关闭Acivity之前手动调用下面方法，</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">goFinish</span><span class="params">()</span></span>&#123;</div><div class="line">     isLoadWithError =<span class="keyword">false</span>;</div><div class="line">     <span class="keyword">if</span> (<span class="keyword">null</span>!=jsCallBack)</div><div class="line">         mWebView.removeJavascriptInterface(<span class="string">"XXX"</span>);</div><div class="line">     mWebView.setFocusable(<span class="keyword">true</span>);</div><div class="line">     mWebView.removeAllViews();</div><div class="line">     <span class="keyword">try</span> &#123;</div><div class="line">     	mWebView.clearHistory(); <span class="comment">//webview没有历史记录，这里会抛出异常</span></div><div class="line">     &#125;<span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">         e.printStackTrace();</div><div class="line">     &#125;</div><div class="line">     mWebView.destroy();</div><div class="line"></div><div class="line">     <span class="keyword">try</span> &#123;</div><div class="line">     	<span class="comment">//mWebView为WebView所在类的全局变量名，不可以混淆</span></div><div class="line">         Field fieldWebView = <span class="keyword">this</span>.getClass().getDeclaredField(<span class="string">"mWebView"</span>);</div><div class="line">         fieldWebView.setAccessible(<span class="keyword">true</span>);</div><div class="line">         WebView webView = (WebView) fieldWebView.get(<span class="keyword">this</span>);</div><div class="line">         webView.removeAllViews();</div><div class="line">         webView.destroy();</div><div class="line"></div><div class="line">     &#125;<span class="keyword">catch</span> (NoSuchFieldException e) &#123;</div><div class="line">         e.printStackTrace();</div><div class="line"></div><div class="line">     &#125;<span class="keyword">catch</span> (IllegalArgumentException e) &#123;</div><div class="line">         e.printStackTrace();</div><div class="line"></div><div class="line">     &#125;<span class="keyword">catch</span> (IllegalAccessException e) &#123;</div><div class="line">         e.printStackTrace();</div><div class="line"></div><div class="line">     &#125;<span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">         e.printStackTrace();</div><div class="line">     &#125;</div><div class="line">     <span class="keyword">this</span>.finish();</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
 </li>
 </ul>
+<a id="more"></a>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">goFinish</span><span class="params">()</span></span>&#123;</div><div class="line">     isLoadWithError =<span class="keyword">false</span>;</div><div class="line">     <span class="keyword">if</span> (<span class="keyword">null</span>!=jsCallBack)</div><div class="line">         mWebView.removeJavascriptInterface(<span class="string">"XXX"</span>);</div><div class="line">     mWebView.setFocusable(<span class="keyword">true</span>);</div><div class="line">     mWebView.removeAllViews();</div><div class="line">     <span class="keyword">try</span> &#123;</div><div class="line">     	mWebView.clearHistory(); <span class="comment">//webview没有历史记录，这里会抛出异常</span></div><div class="line">     &#125;<span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">         e.printStackTrace();</div><div class="line">     &#125;</div><div class="line">     mWebView.destroy();</div><div class="line"></div><div class="line">     <span class="keyword">try</span> &#123;</div><div class="line">     	<span class="comment">//mWebView为WebView所在类的全局变量名，不可以混淆</span></div><div class="line">         Field fieldWebView = <span class="keyword">this</span>.getClass().getDeclaredField(<span class="string">"mWebView"</span>);</div><div class="line">         fieldWebView.setAccessible(<span class="keyword">true</span>);</div><div class="line">         WebView webView = (WebView) fieldWebView.get(<span class="keyword">this</span>);</div><div class="line">         webView.removeAllViews();</div><div class="line">         webView.destroy();</div><div class="line"></div><div class="line">     &#125;<span class="keyword">catch</span> (NoSuchFieldException e) &#123;</div><div class="line">         e.printStackTrace();</div><div class="line"></div><div class="line">     &#125;<span class="keyword">catch</span> (IllegalArgumentException e) &#123;</div><div class="line">         e.printStackTrace();</div><div class="line"></div><div class="line">     &#125;<span class="keyword">catch</span> (IllegalAccessException e) &#123;</div><div class="line">         e.printStackTrace();</div><div class="line"></div><div class="line">     &#125;<span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">         e.printStackTrace();</div><div class="line">     &#125;</div><div class="line">     <span class="keyword">this</span>.finish();</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <blockquote>
@@ -298,7 +299,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/07/25/android-webview-summary/" data-id="ciw6b0akv0014i6fyx7kx2xbr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/07/25/android-webview-summary/" data-id="ciw6hcgcx0012et0hubpyh4qw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -459,7 +460,7 @@
                             <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(http://7xuos6.com1.z0.glb.clouddn.com/H60-L12__1464257385283__212828_3594)" alt="Hexo 出错情况收集" class="thumbnail-image"></span>
     
 </a>
 
@@ -532,7 +533,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/09/22/JNI-get-publickey/" class="thumbnail">
+                            <a href="/2016/09/22/quit-whole-application/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -543,7 +544,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/technology/">technology</a></p>
-                            <p class="item-title"><a href="/2016/09/22/JNI-get-publickey/" class="title">使用JNI获取publickey实现</a></p>
+                            <p class="item-title"><a href="/2016/09/22/quit-whole-application/" class="title">Android 退出整个应用程序解决方案</a></p>
                             <p class="item-date"><time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time></p>
                         </div>
                     </li>

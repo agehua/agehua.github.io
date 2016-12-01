@@ -28,7 +28,7 @@
 <meta property="og:image" content="http://agehua.github.io/images/blogimages/2016/androidart_broadcastreceiver1.png">
 <meta property="og:image" content="http://agehua.github.io/images/blogimages/2016/androidart_broadcastreceiver2.png">
 <meta property="og:image" content="http://agehua.github.io/images/blogimages/2016/androidart_contentprovider.png">
-<meta property="og:updated_time" content="2016-10-18T03:21:24.000Z">
+<meta property="og:updated_time" content="2016-12-01T14:50:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《android开发艺术探索》读书笔记">
 <meta name="twitter:description" content="第1章 Activity的生命周期和启动模式本节和《Android群英传》中的第8章Activity和Activity调用栈分析有关系，建议先阅读该章的总结
@@ -282,6 +282,9 @@
 </li>
 <li><p>(2)当用户打开新的Activity或者切换到桌面的时候，回调如下：onPause -&gt; onStop，但是如果新Activity采用了透明主题，那么onStop方法不会被回调。当用户再次回到原来的Activity时，回调如下：onRestart -&gt; onStart -&gt; onResume。</p>
 </li>
+</ul>
+<a id="more"></a>
+<ul>
 <li><p>(3)onStart和onStop对应，它们是从Activity是否可见这个角度来回调的；onPause和onResume方法对应，它们是从Activity是否位于前台这个角度来回调的。</p>
 </li>
 <li><p>(4)从Activity A进入到Activity B，回调顺序是onPause(A) -&gt; onCreate(B) -&gt; onStart(B) -&gt; onResume(B) -&gt; onStop(A)，所以不能在onPause方法中做重量级的操作。</p>
@@ -510,7 +513,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/03/20/android-books-reading-/" data-id="ciw6b0akd000ei6fyl4bcvi0b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/03/20/android-books-reading-/" data-id="ciw6hcgc60009et0h8yl7xsxn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -587,19 +590,19 @@
         
 <nav id="article-nav">
     
-        <a href="/2016/05/12/GCM-Azure_summary/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2016/03/20/android-new-knowledge-summary/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    google cloud message（GCM）和Azure实现Notification总结
+                    android新特性新知识点总结
                 
             </div>
         </a>
     
     
-        <a href="/2016/03/20/android-new-knowledge-summary/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2016/03/15/facebook-google+signin/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">android新特性新知识点总结</div>
+            <div class="article-nav-title">近期总结facebook google+ Twitter sign-in fragment使用</div>
         </a>
     
 </nav>
@@ -671,7 +674,7 @@
                             <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(http://7xuos6.com1.z0.glb.clouddn.com/H60-L12__1464257385283__212828_3594)" alt="Hexo 出错情况收集" class="thumbnail-image"></span>
     
 </a>
 
@@ -744,7 +747,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/09/22/JNI-get-publickey/" class="thumbnail">
+                            <a href="/2016/09/22/quit-whole-application/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -755,7 +758,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/technology/">technology</a></p>
-                            <p class="item-title"><a href="/2016/09/22/JNI-get-publickey/" class="title">使用JNI获取publickey实现</a></p>
+                            <p class="item-title"><a href="/2016/09/22/quit-whole-application/" class="title">Android 退出整个应用程序解决方案</a></p>
                             <p class="item-date"><time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time></p>
                         </div>
                     </li>

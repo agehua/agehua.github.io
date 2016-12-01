@@ -8,8 +8,7 @@
     <meta name="description" content="本文基于酷勤网关于java多线程和并发面试题的文章，进行了少量的整理和补充。原文在这。
 
 以下是正文：
-多线程和并发问题是Java技术面试中面试官比较喜欢问的问题之一。在这里，从面试的角度列出了大部分重要的问题，但是你仍然应该牢固的掌握Java多线程基础知识来对应日后碰到的问题。
-Java多线程面试问题1. 什么是进程和线程？进程是具有一定独立功能的程序关于某个数据集合上的一次运行活动，进程是系统">
+多线程和并发问题是Java技术面试中面试官比较喜欢问的问题之一。在这里，从面试的角度列出了大部分重要的问题，但是你仍然应该牢固的掌握Java多线程基础知识来对应日后碰到的问题。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java多线程和并发面试问答">
 <meta property="og:url" content="http://agehua.github.io/2015/03/16/java-multithreading-concurrent/index.html">
@@ -17,16 +16,14 @@ Java多线程面试问题1. 什么是进程和线程？进程是具有一定独�
 <meta property="og:description" content="本文基于酷勤网关于java多线程和并发面试题的文章，进行了少量的整理和补充。原文在这。
 
 以下是正文：
-多线程和并发问题是Java技术面试中面试官比较喜欢问的问题之一。在这里，从面试的角度列出了大部分重要的问题，但是你仍然应该牢固的掌握Java多线程基础知识来对应日后碰到的问题。
-Java多线程面试问题1. 什么是进程和线程？进程是具有一定独立功能的程序关于某个数据集合上的一次运行活动，进程是系统">
-<meta property="og:updated_time" content="2016-10-14T10:00:32.000Z">
+多线程和并发问题是Java技术面试中面试官比较喜欢问的问题之一。在这里，从面试的角度列出了大部分重要的问题，但是你仍然应该牢固的掌握Java多线程基础知识来对应日后碰到的问题。">
+<meta property="og:updated_time" content="2016-12-01T14:50:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java多线程和并发面试问答">
 <meta name="twitter:description" content="本文基于酷勤网关于java多线程和并发面试题的文章，进行了少量的整理和补充。原文在这。
 
 以下是正文：
-多线程和并发问题是Java技术面试中面试官比较喜欢问的问题之一。在这里，从面试的角度列出了大部分重要的问题，但是你仍然应该牢固的掌握Java多线程基础知识来对应日后碰到的问题。
-Java多线程面试问题1. 什么是进程和线程？进程是具有一定独立功能的程序关于某个数据集合上的一次运行活动，进程是系统">
+多线程和并发问题是Java技术面试中面试官比较喜欢问的问题之一。在这里，从面试的角度列出了大部分重要的问题，但是你仍然应该牢固的掌握Java多线程基础知识来对应日后碰到的问题。">
     
 
     
@@ -268,6 +265,7 @@ Java多线程面试问题1. 什么是进程和线程？进程是具有一定独�
 <hr>
 <p>以下是正文：</p>
 <p>多线程和并发问题是Java技术面试中面试官比较喜欢问的问题之一。在这里，从面试的角度列出了大部分重要的问题，但是你仍然应该牢固的掌握Java多线程基础知识来对应日后碰到的问题。</p>
+<a id="more"></a>
 <h1 id="Java多线程面试问题"><a href="#Java多线程面试问题" class="headerlink" title="Java多线程面试问题"></a>Java多线程面试问题</h1><h3 id="1-什么是进程和线程？"><a href="#1-什么是进程和线程？" class="headerlink" title="1. 什么是进程和线程？"></a>1. 什么是进程和线程？</h3><p>进程是具有一定独立功能的程序关于某个数据集合上的一次运行活动，进程是系统进行资源分配和调度的一个独立单位。线程是进程的一个实体，是CPU调度和分派的基本单位，它是比进程更小的能独立运行的基本单位。</p>
 <p>线程自己基本上不拥有系统资源,只拥有一点在运行中必不可少的资源（如程序计数器，一组寄存器和栈），但是它可与同属一个进程的其他的线程共享进程所拥有的全部资源。一个线程可以创建和撤销另一个线程；同一个进程中的多个线程之间可以并发执行。相对进程而言，线程是一个更加接近于执行体的概念，它可以与同进程中的其他线程共享数据，但拥有自己的栈空间，拥有独立的执行序列。在串行程序基础上引入线程和进程是为了提高程序的并发度，从而提高程序运行效率和响应时间。</p>
 <h3 id="2-进程和线程之间有什么不同？"><a href="#2-进程和线程之间有什么不同？" class="headerlink" title="2. 进程和线程之间有什么不同？"></a>2. 进程和线程之间有什么不同？</h3><p>一个进程是一个独立(self contained)的运行环境，它可以被看作一个程序或者一个应用。而线程是在进程中执行的一个任务。</p>
@@ -371,7 +369,7 @@ Java多线程面试问题1. 什么是进程和线程？进程是具有一定独�
 
 </div>
 
-    <a data-url="http://agehua.github.io/2015/03/16/java-multithreading-concurrent/" data-id="ciw6b0ajt0002i6fybgb7juu3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2015/03/16/java-multithreading-concurrent/" data-id="ciw6hcgbt0002et0h7gfmace3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -532,7 +530,7 @@ Java多线程面试问题1. 什么是进程和线程？进程是具有一定独�
                             <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(http://7xuos6.com1.z0.glb.clouddn.com/H60-L12__1464257385283__212828_3594)" alt="Hexo 出错情况收集" class="thumbnail-image"></span>
     
 </a>
 
@@ -605,7 +603,7 @@ Java多线程面试问题1. 什么是进程和线程？进程是具有一定独�
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/09/22/JNI-get-publickey/" class="thumbnail">
+                            <a href="/2016/09/22/quit-whole-application/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -616,7 +614,7 @@ Java多线程面试问题1. 什么是进程和线程？进程是具有一定独�
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/technology/">technology</a></p>
-                            <p class="item-title"><a href="/2016/09/22/JNI-get-publickey/" class="title">使用JNI获取publickey实现</a></p>
+                            <p class="item-title"><a href="/2016/09/22/quit-whole-application/" class="title">Android 退出整个应用程序解决方案</a></p>
                             <p class="item-date"><time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time></p>
                         </div>
                     </li>

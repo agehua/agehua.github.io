@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://agehua.github.io/2016/03/01/android-googlemap-summary/index.html">
 <meta property="og:site_name" content="Agehua">
 <meta property="og:description" content="google map2.0使用总结">
-<meta property="og:updated_time" content="2016-10-14T10:01:09.000Z">
+<meta property="og:updated_time" content="2016-12-01T14:50:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android Google map使用总结">
 <meta name="twitter:description" content="google map2.0使用总结">
@@ -256,6 +256,7 @@
 <p>要注意的是map2.0要使用com.google.android.gms包名下的类</p>
 <p>Google Maps Android API 使用OpenGL ES第2版来渲染地图。如果未安装OpenGL ES第2版，地图将不会出现。可以在 AndroidManifest.xml 中添加以下<uses-feature>元素作为<manifest>元素的子元素来过滤不能支持的手机：</manifest></uses-feature></p>
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line">&lt;uses-feature</div><div class="line">        android:glEsVersion=<span class="string">"0x00020000"</span></div><div class="line">        android:required=<span class="string">"true"</span>/&gt;</div></pre></td></tr></table></figure>
+<a id="more"></a>
 <h3 id="2-在编码中遇到的问题"><a href="#2-在编码中遇到的问题" class="headerlink" title="2.在编码中遇到的问题"></a>2.在编码中遇到的问题</h3><p>1.可以实现OnCameraChangeListener接口，来实现对相机状态的监听，比如我就记录下了地图缩放的大小</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCameraChange</span><span class="params">(CameraPosition arg0)</span> </span>&#123;</div><div class="line">	<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">	zoom = arg0.zoom;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>2.向将处理地图的 Activity 添加 Fragment 对象。 最简单的实现方式是，向Activity 的布局文件添加 <fragment> 元素。</fragment></p>
@@ -279,7 +280,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/03/01/android-googlemap-summary/" data-id="ciw6b0ak8000ai6fy4sjftijr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/03/01/android-googlemap-summary/" data-id="ciw6hcgbx0004et0h1cj864j9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -440,7 +441,7 @@
                             <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(http://7xuos6.com1.z0.glb.clouddn.com/H60-L12__1464257385283__212828_3594)" alt="Hexo 出错情况收集" class="thumbnail-image"></span>
     
 </a>
 
@@ -513,7 +514,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/09/22/JNI-get-publickey/" class="thumbnail">
+                            <a href="/2016/09/22/quit-whole-application/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -524,7 +525,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/technology/">technology</a></p>
-                            <p class="item-title"><a href="/2016/09/22/JNI-get-publickey/" class="title">使用JNI获取publickey实现</a></p>
+                            <p class="item-title"><a href="/2016/09/22/quit-whole-application/" class="title">Android 退出整个应用程序解决方案</a></p>
                             <p class="item-date"><time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time></p>
                         </div>
                     </li>

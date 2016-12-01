@@ -17,7 +17,7 @@
 1.Android事件传递机制下面内容摘选自《Android开发艺术探索》
 
 (1) 当一个点击事件发生之后，传递过程遵循如下顺序：Activity -&amp;gt; Window -&amp;gt; View。如果一个view的onTouchEvent方法返回false，那么它的父容器的onTouchEvent方法将会被调用，依此类推，如果所有的元素">
-<meta property="og:updated_time" content="2016-11-30T12:40:05.000Z">
+<meta property="og:updated_time" content="2016-12-01T14:48:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android面试知识点整理">
 <meta name="twitter:description" content="只整理android面试中涉及到的知识点。不断补充中。。。
@@ -265,6 +265,9 @@
 <h4 id="1-Android事件传递机制"><a href="#1-Android事件传递机制" class="headerlink" title="1.Android事件传递机制"></a>1.Android事件传递机制</h4><p>下面内容摘选自《Android开发艺术探索》</p>
 <ul>
 <li>(1) 当一个点击事件发生之后，传递过程遵循如下顺序：<strong>Activity -&gt; Window -&gt; View</strong>。<br>如果一个view的onTouchEvent方法返回false，那么它的父容器的onTouchEvent方法将会被调用，依此类推，如果所有的元素都不处理这个事件，那么这个事件将会最终传递给Activity处理(调用Activity的onTouchEvent方法)。</li>
+</ul>
+<a id="more"></a>
+<ul>
 <li>(2) 正常情况下，一个事件序列只能被一个view拦截并消耗，因为一旦某个元素拦截了某个事件，那么同一个事件序列内的所有事件都会直接交给它处理，并且该元素的<strong>onInterceptTouchEvent</strong>方法不会再被调用了。</li>
 <li>(3) 某个view一旦开始处理事件，如果它不消耗ACTION_DOWN事件，那么<strong>同一事件序列的其他事件都不会再交给它来处理</strong>，并且事件将重新交给它的<strong>父容器去处理</strong>(调用父容器的onTouchEvent方法)；如果它消耗ACTION_DOWN事件，但是不消耗其他类型事件，那么这个点击事件会消失，父容器的onTouchEvent方法不会被调用，<strong>当前view依然可以收到后续的事件</strong>，但是这些事件最后都会传递给Activity处理。</li>
 <li>(4) ViewGroup默认不拦截任何事件，因为它的<strong>onInterceptTouchEvent</strong>方法默认返回false。view没有onInterceptTouchEvent方法，一旦有点击事件传递给它，那么它的onTouchEvent方法就会被调用。</li>
@@ -350,7 +353,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/09/28/Android-interview-questions/" data-id="ciw6b0alh0020i6fylia0yl9o" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/09/28/Android-interview-questions/" data-id="ciw6hcgdd001wet0hycp0zrh8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -437,9 +440,9 @@
         </a>
     
     
-        <a href="/2016/09/22/JNI-get-publickey/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2016/09/22/quit-whole-application/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">使用JNI获取publickey实现</div>
+            <div class="article-nav-title">Android 退出整个应用程序解决方案</div>
         </a>
     
 </nav>
@@ -511,7 +514,7 @@
                             <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(http://7xuos6.com1.z0.glb.clouddn.com/H60-L12__1464257385283__212828_3594)" alt="Hexo 出错情况收集" class="thumbnail-image"></span>
     
 </a>
 
@@ -584,7 +587,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/09/22/JNI-get-publickey/" class="thumbnail">
+                            <a href="/2016/09/22/quit-whole-application/" class="thumbnail">
     
     
         <span class="thumbnail-image thumbnail-none"></span>
@@ -595,7 +598,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/technology/">technology</a></p>
-                            <p class="item-title"><a href="/2016/09/22/JNI-get-publickey/" class="title">使用JNI获取publickey实现</a></p>
+                            <p class="item-title"><a href="/2016/09/22/quit-whole-application/" class="title">Android 退出整个应用程序解决方案</a></p>
                             <p class="item-date"><time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time></p>
                         </div>
                     </li>
