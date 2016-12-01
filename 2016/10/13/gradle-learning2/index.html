@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>gradle 学习2——生成指定文件名的apk | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="上一篇Gradle学习了解了Gradle的基本结构和依赖关系，这篇文章介绍下怎么在Android上使用Gradle生成指定包名的APK
+需求场景在我们Android开发基本进入测试阶段后，会根据后台的不同环境，打包出对应不同环境（如SIT、UAT、PRD等）的APK安装包。
+每次去手动修改Java类改变后台环境太麻烦还容易忘记修改。打包成功后，还需要手动将默认的包名app-release.apk改">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gradle 学习2——生成指定文件名的apk">
+<meta property="og:url" content="http://agehua.github.io/2016/10/13/gradle-learning2/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="上一篇Gradle学习了解了Gradle的基本结构和依赖关系，这篇文章介绍下怎么在Android上使用Gradle生成指定包名的APK
+需求场景在我们Android开发基本进入测试阶段后，会根据后台的不同环境，打包出对应不同环境（如SIT、UAT、PRD等）的APK安装包。
+每次去手动修改Java类改变后台环境太麻烦还容易忘记修改。打包成功后，还需要手动将默认的包名app-release.apk改">
+<meta property="og:image" content="http://agehua.github.io/images/blogimages/2016/gradle_structure2.png">
+<meta property="og:updated_time" content="2016-11-30T12:32:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="gradle 学习2——生成指定文件名的apk">
+<meta name="twitter:description" content="上一篇Gradle学习了解了Gradle的基本结构和依赖关系，这篇文章介绍下怎么在Android上使用Gradle生成指定包名的APK
+需求场景在我们Android开发基本进入测试阶段后，会根据后台的不同环境，打包出对应不同环境（如SIT、UAT、PRD等）的APK安装包。
+每次去手动修改Java类改变后台环境太麻烦还容易忘记修改。打包成功后，还需要手动将默认的包名app-release.apk改">
+<meta name="twitter:image" content="http://agehua.github.io/images/blogimages/2016/gradle_structure2.png">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.png" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.png" />
+            <h2 id="name">Agehua</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                25
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                7
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-gradle-learning2" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            gradle 学习2——生成指定文件名的apk
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/10/13/gradle-learning2/">
+            <time datetime="2016-10-12T16:00:00.000Z" itemprop="datePublished">2016-10-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/gradle/">gradle</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>上一篇<a href="">Gradle学习</a>了解了Gradle的基本结构和依赖关系，这篇文章介绍下怎么在Android上使用Gradle生成指定包名的APK</p>
+<h3 id="需求场景"><a href="#需求场景" class="headerlink" title="需求场景"></a>需求场景</h3><p>在我们Android开发基本进入测试阶段后，会根据后台的不同环境，打包出对应不同环境（如SIT、UAT、PRD等）的APK安装包。</p>
+<p>每次去手动修改Java类改变后台环境太麻烦还容易忘记修改。打包成功后，还需要手动将默认的包名app-release.apk改成我们需要的包名，也是非常麻烦，有没有直接指定环境，生成指定文件名的安装包呢？</p>
+<p>方法是有的，就是利用gradle的分渠道打包特性，下面上代码分别解释。</p>
+<blockquote>
+<p>主要在这两个个地方修改：</p>
+<ul>
+<li>buildType（构建类型）</li>
+<li>productFlavors （不同定制的产品）</li>
+</ul>
+</blockquote>
+<h4 id="buildType（构建类型）介绍"><a href="#buildType（构建类型）介绍" class="headerlink" title="buildType（构建类型）介绍"></a>buildType（构建类型）介绍</h4><p>默认情况下，Android Plugin会自动给项目设置同时构建应用程序的debug和release版本。 两个版本之间的不同主要围绕着能否在一个安全设备上调试，以及APK如何签名。</p>
+<p>可以创建一个新的构建类型就是简单的在buildType标签下添加一个新的元素，并且可以使用initWith()或者直接使用闭包来配置它。</p>
+<p>以下是一些可能使用到的属性和默认值：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><em>Property name    </em></th>
+<th style="text-align:center"><em>Default values for debug    </em></th>
+<th style="text-align:center"><em>Default values for release / other</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">debuggable</td>
+<td style="text-align:center">true</td>
+<td style="text-align:center">false</td>
+</tr>
+<tr>
+<td style="text-align:center">jniDebugBuild</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
+</tr>
+<tr>
+<td style="text-align:center">renderscriptDebugBuild</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
+</tr>
+<tr>
+<td style="text-align:center">renderscriptOptimLevel</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">applicationIdSuffix</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+<tr>
+<td style="text-align:center">versionNameSuffix</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+<tr>
+<td style="text-align:center">signingConfig</td>
+<td style="text-align:center">android.signingConfigs.debug</td>
+<td style="text-align:center">null</td>
+</tr>
+<tr>
+<td style="text-align:center">zipAlign</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">true</td>
+</tr>
+<tr>
+<td style="text-align:center">runProguard</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
+</tr>
+<tr>
+<td style="text-align:center">proguardFile</td>
+<td style="text-align:center">N/A (set only)</td>
+<td style="text-align:center">N/A (set only)</td>
+</tr>
+<tr>
+<td style="text-align:center">proguardFiles</td>
+<td style="text-align:center">N/A (set only)</td>
+<td style="text-align:center">N/A (set only)</td>
+</tr>
+</tbody>
+</table>
+<p>上面介绍摘选自<a href="https://avatarqing.gitbooks.io/gradlepluginuserguidechineseverision/content/basic_project/build_types.html" target="_blank" rel="external">Gralde plugin User Guide 中文版</a></p>
+<h4 id="Product-flavors（不同定制的产品）介绍"><a href="#Product-flavors（不同定制的产品）介绍" class="headerlink" title="Product flavors（不同定制的产品）介绍"></a>Product flavors（不同定制的产品）介绍</h4><p>一个product flavor定义了从项目中构建了一个应用的自定义版本。一个单一的项目可以同时定义多个不同的flavor来改变应用的输出。</p>
+<p>这个新的设计概念是为了解决不同的版本之间的差异非常小的情况。虽然最项目终生成了多个定制的版本，但是它们本质上都是同一个应用，那么这种做法可能是比使用库项目更好的实现方式。</p>
+<p>Product flavor需要在productFlavors这个DSL容器中声明：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">android &#123;</div><div class="line">    ....</div><div class="line"></div><div class="line">    productFlavors &#123;</div><div class="line">        flavor1 &#123;</div><div class="line">            ...</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        flavor2 &#123;</div><div class="line">            ...</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里创建了两个flavor，名为flavor1和flavor2。</p>
+<blockquote>
+<p>注意：flavor的命名不能与已存在的Build Type或者androidTest这个sourceSet有冲突。</p>
+</blockquote>
+<h4 id="Build-Type-Product-Flavor-Build-Variant（构建类型-定制产品-构建变种版本）"><a href="#Build-Type-Product-Flavor-Build-Variant（构建类型-定制产品-构建变种版本）" class="headerlink" title="Build Type + Product Flavor = Build Variant（构建类型+定制产品=构建变种版本）"></a>Build Type + Product Flavor = Build Variant（构建类型+定制产品=构建变种版本）</h4><p>正如前面章节所提到的，每一个Build Type都会生成一个新的APK。</p>
+<p>Product Flavor同样也会做这些事情：项目的输出将会拼接所有可能的Build Type和Product Flavor（如果有Flavor定义存在的话）的组合。</p>
+<p>每一种组合（包含Build Type和Product Flavor）就是一个Build Variant（构建变种版本）。</p>
+<p>例如，在上面的Flavor声明例子中与默认的debug和release两个Build Type将会生成4个Build Variant：</p>
+<ul>
+<li>Flavor1 - debug</li>
+<li>Flavor1 - release</li>
+<li>Flavor2 - debug</li>
+<li>Flavor2 - release</li>
+</ul>
+<p>项目中如果没有定义flavor同样也会有Build Variant，只是使用的是默认的flavor和配置。default(默认)的flavor/config是没有名字的，所以生成的Build Variant列表看起来就跟Build Type列表一样。</p>
+<h3 id="具体使用"><a href="#具体使用" class="headerlink" title="具体使用"></a>具体使用</h3><p>我们的需求就要用到<strong>Build Type</strong>和<strong>Product Flavor</strong><br>我在项目中<strong>Build Type</strong>的使用，先看代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">buildTypes &#123;</div><div class="line">        release &#123;</div><div class="line">            buildConfigField <span class="string">"boolean"</span>, <span class="string">"LEO_DEBUG"</span>, <span class="string">"false"</span></div><div class="line">            <span class="function">minifyEnabled <span class="keyword">true</span></span></div><div class="line">            proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.txt'</div><div class="line">            debuggable <span class="keyword">false</span></div><div class="line">            jniDebuggable <span class="keyword">false</span></div><div class="line">        &#125;</div><div class="line">        debug &#123;</div><div class="line">            buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"2"</span></div><div class="line">            buildConfigField <span class="string">"boolean"</span>, <span class="string">"LEO_DEBUG"</span>, <span class="string">"true"</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>和<strong>Product Flavor</strong>的使用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">productFlavors&#123;</div><div class="line">			 kaifa&#123;</div><div class="line">					 buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"1"</span></div><div class="line">			 &#125;</div><div class="line">			 ceshi &#123;</div><div class="line">					 buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"2"</span></div><div class="line">			 &#125;</div><div class="line">			 SIT &#123;</div><div class="line">					 buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"3"</span></div><div class="line">			 &#125;</div><div class="line">			 UAT &#123;</div><div class="line">					 buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"4"</span></div><div class="line">			 &#125;</div><div class="line">			 PRD &#123;</div><div class="line">					 buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"5"</span></div><div class="line">			 &#125;</div><div class="line">	 &#125;</div></pre></td></tr></table></figure>
+<p>每一个构建过的productFlavors都会在<strong>app-&gt;build-&gt;generated-&gt;source-&gt;buildConfig</strong>目录下创建自己对应的一个flavor目录，如下图：</p>
+<p><img src="/images/blogimages/2016/gradle_structure2.png" alt="Gradle build structure"></p>
+<p>而，buildConfigField会在指定的目录，<strong>flavor-&gt;release/debug-&gt;包名</strong>，下生成一个BuildConfig.java文件，我的代码在BuildConfig.java中定义了一个int类型的buildType和boolean类型的LEO_DEBUG。要使用这两个字段只需要:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">if</span> (BuildConfig.LEO_DEBUG)&#123;</div><div class="line">		<span class="comment">//用来控制本地Log日志</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (Environment ==BuildConfig.buildType)&#123;</div><div class="line">		<span class="comment">//用来控制开发环境</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="gradle中修改apk生成名字的方法"><a href="#gradle中修改apk生成名字的方法" class="headerlink" title="gradle中修改apk生成名字的方法"></a>gradle中修改apk生成名字的方法</h4><p>这个方法是定义在productFlavors同一层级的</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">android.applicationVariants.all &#123; variant -&gt;</div><div class="line">        variant.outputs.each &#123; output -&gt;</div><div class="line">            def outputFile = output.<span class="function">outputFile</span></div><div class="line">            <span class="title">if</span> <span class="params">(outputFile != <span class="keyword">null</span> &amp;&amp; outputFile.name.endsWith(<span class="string">'.apk'</span>)</span>) &#123;</div><div class="line">                <span class="comment">//这里修改apk文件名</span></div><div class="line">                def flavorname =variant.productFlavors[<span class="number">0</span>].<span class="function">name</span></div><div class="line">                <span class="title">if</span> <span class="params">(flavorname.equals(<span class="string">'kaifa'</span>)</span>)</div><div class="line">                    flavorname = <span class="string">'debug'</span></div><div class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (flavorname.equals(<span class="string">'ceshi'</span>))</div><div class="line">                    flavorname = <span class="string">'release'</span></div><div class="line"></div><div class="line">                def fileName = <span class="string">"app-$&#123;flavorname&#125;-$&#123;defaultConfig.versionName&#125;-$&#123;releaseTime() &#125;.apk"</span></div><div class="line">                output.outputFile = <span class="keyword">new</span> File(outputFile.parent, fileName)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这个方法要定义在最外层<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function">def <span class="title">releaseTime</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Date().format(<span class="string">"MMdd"</span>, TimeZone.getTimeZone(<span class="string">"UTC"</span>))</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最后生成的apk名字</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2016/10/13/gradle-learning2/" data-id="ciw6b0alf001wi6fymwjktvwv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://agehua.github.io/2016/10/13/gradle-learning2/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/10/13/gradle-learning2/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Hexo 出错情况收集
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/10/12/gradle-learning/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">gradle 学习</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/10/13/gradle-learning2/" data-title="gradle 学习2——生成指定文件名的apk" data-url="http://agehua.github.io/2016/10/13/gradle-learning2/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="title">Hexo 出错情况收集</a></p>
+                            <p class="item-date"><time datetime="2016-12-01T01:30:27.000Z" itemprop="datePublished">2016-12-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/10/13/gradle-learning2/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/10/13/gradle-learning2/" class="title">gradle 学习2——生成指定文件名的apk</a></p>
+                            <p class="item-date"><time datetime="2016-10-12T16:00:00.000Z" itemprop="datePublished">2016-10-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/10/12/gradle-learning/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/10/12/gradle-learning/" class="title">gradle 学习</a></p>
+                            <p class="item-date"><time datetime="2016-10-11T16:00:00.000Z" itemprop="datePublished">2016-10-12</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/09/28/Android-interview-questions/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/09/28/Android-interview-questions/" class="title">Android面试知识点整理</a></p>
+                            <p class="item-date"><time datetime="2016-09-27T16:00:00.000Z" itemprop="datePublished">2016-09-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/09/22/JNI-get-publickey/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/technology/">technology</a></p>
+                            <p class="item-title"><a href="/2016/09/22/JNI-get-publickey/" class="title">使用JNI获取publickey实现</a></p>
+                            <p class="item-date"><time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/android-jni/" style="font-size: 16.67px;">Android JNI</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 16.67px;">gradle</a> <a href="/tags/read/" style="font-size: 13.33px;">read</a> <a href="/tags/technology/" style="font-size: 16.67px;">technology</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.bigademo.com">ghost老司机的博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.5come.cn">我的ghost博客</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 Jixin Li<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'agehua'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

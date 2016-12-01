@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Java String与C/C++中byte[] | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Java String与C/C++中byte[]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java String与C/C++中byte[]">
+<meta property="og:url" content="http://agehua.github.io/2016/05/18/javaString-and-bytes/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="Java String与C/C++中byte[]">
+<meta property="og:updated_time" content="2016-10-14T10:02:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java String与C/C++中byte[]">
+<meta name="twitter:description" content="Java String与C/C++中byte[]">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.png" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.png" />
+            <h2 id="name">Agehua</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                25
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                7
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-javaString-and-bytes" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Java String与C/C++中byte[]
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/05/18/javaString-and-bytes/">
+            <time datetime="2016-05-17T16:00:00.000Z" itemprop="datePublished">2016-05-18</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/accumulation/">accumulation</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>   做JAVA经常会碰到中文乱码问题，还有各种编码的问题，特别是String类的内容需要重新编码的问题。要解决这些问题，必须了解清楚JAVA对于字符串是怎么处理的。</p>
+<h3 id="1，“字符”是由数字来表示的"><a href="#1，“字符”是由数字来表示的" class="headerlink" title="1，“字符”是由数字来表示的"></a>1，“字符”是由数字来表示的</h3><p>   先来重新了解一下计算机是如何处理“字符”的，这个原理是大家必须记住的，特别是在用JAVA写程序的时候，万万不可模糊。我们知道，<strong>计算机把任何东西都用数字来表示，“字符”也不例外</strong>。比如我们要显示一个阿拉伯数字“3”，在我们的PC里，其实并不是仅仅用一个数字3来代表我们要写的“3”，而是以十六进制的0x33来代表，包括放在内存或者是写到文件里，其实都是写着0x33的，不信你可以编辑一个文本文件，写一个“3”，然后用ultraEdit看他的原始码。</p>
+<h3 id="2，一切“字符”都必定用数字-编码表表示。"><a href="#2，一切“字符”都必定用数字-编码表表示。" class="headerlink" title="2，一切“字符”都必定用数字+编码表表示。"></a>2，一切“字符”都必定用数字+编码表表示。</h3><p>   这时候，有一个问题：为什么一定要用0x33来代表“3”呢？而不用0x43来代表呢？或者是直接用0x03来代替？其实用什么来代表都可以，只不过大家都习惯了用ASCII编码表（是美国国家信息交换表）来确定各字符应该是用什么数字代表的。同样，为了表示中国字，我国也指定了中文的编码表，其中最广泛使用的是GB2312。比如中文的“当”字，就是用0xB5, 0xB1这两个八位的数字来表示的。所以 <strong>如果显示字符的程序不知道一列数字到底是按什么编码表编码的，他也无法去判断到底这些是什么文字</strong>。如果随便用一个不对的编码表来处理这些数字，处理出来的字符很可能完全是错的。比如在英文系统上，没有GB2312编码表，送给他一个0xB5,0xB1，他就傻傻的当作ASCII来处理（操作系统通常都有自己默认的编码表），结果显示出来就是两个奇怪的符号，因为这两个字在ASCII表里就是那两个符号。同样在繁体中文系统里，他的编码表是BIG5，显示出来也是一个奇怪的中文，不是“当”字。</p>
+<h3 id="3，UNICODE让全世界都说一种语言"><a href="#3，UNICODE让全世界都说一种语言" class="headerlink" title="3，UNICODE让全世界都说一种语言"></a>3，UNICODE让全世界都说一种语言</h3><p>   看完上面的文字，是否觉得，世界有那么多语言，每个都有自己的一套编码表，很麻烦呢？就算是中文，也有两套流行的编码表，一个是GB2312，一个是BIG5。要使用不同中文的编码的字符时，还要转来转去，的确很麻烦。不光这个，如果想要写一篇包含很多过国文字的文章，就麻烦了，必须要让处理这个文章的程序知道，哪个字是什么编码标准的。如果你想要在文章里找一个字，也必须指定你要找的是哪种编码的哪个字。否则，你要找一个0xB5,0xB1的中文“当”字，很可能把同样数字表示的日文、波兰文这些不相干的字一起给你找出来，够麻烦的吧！<br>   所以人们想，不如大家都用同一个编码标准吧，各种文字都在编码表里有一席之地，处理文字的程序只需要都按这个编码表来处理就可以了。不过要一个编码表里包含所有的文字，这张表就大了，本来英文字+数字一共只有128个以内。但加上中文后，忽然就多了数万个，所以存放一个字符需要的大小也大了很多。现在 <strong>UNICODE规定了一个字符必须由2个8位数字来表示</strong>，想想，8x8x8x8x = 65536，是多大的一个数字啊！所以全世界的文字才能都包含进去。当然拉，也有人说中国字可能都不止6万个拉，还要包括别的文字，但人家外国人觉得你们中国人常用的也没那么多，所以就这么定了，我们也没办法。需要注意的是GB2312和UNICODE虽然都是用两个8位数来代表一个中文字，但具体的规格可不一样，比如0xB5,0xB1在UNICODE里面可不是“当”字，而是另外一国的文字来的。</p>
+<h3 id="4，C是如何简洁的处理字符的"><a href="#4，C是如何简洁的处理字符的" class="headerlink" title="4，C是如何简洁的处理字符的"></a>4，C是如何简洁的处理字符的</h3><p>   我们来谈谈C的字符串。C语言诞生在JAVA之前，<strong>C语言的基本数据类型是没有字符串这个类型的，它只有char[]</strong>。也就是C把字符顺序放入一个字节数组就完了。而且C也不管放在数组里的是什么文字，也不管那些字是按什么编码标准的。而且他的char的大小也不一定是8位数字，有时候是16位也可能，<strong>这要看具体的机器和操作系统</strong>。所以写程序的人必须要知道正在处理的char[]的内容到底是按什么编码表表示的字符串，要知道如果比较两国文字是否相同，可是没任何意义的哦！</p>
+<h3 id="5，JAVA是是如何处理字符的。"><a href="#5，JAVA是是如何处理字符的。" class="headerlink" title="5，JAVA是是如何处理字符的。"></a>5，JAVA是是如何处理字符的。</h3><p>   世界总会进步的，JAVA就是一个例子。JAVA终于有了String类了，它是解决字符问题的最好工具。在JAVA里，一个基本的要点是：<strong>String类对象是不需要指定编码表的！</strong> 为什么它会自己知道一堆数字各代表什么字符呢？就是因为 <strong>String里的字符信息是用UNICODE编码存放的</strong>。而JAVA为了表示字符（注意是单个字符），也有char这个数据类型，而且他的大小是固定2个8位16进制数字长度，也就是0~65535罗。为的就是对应UNICODE里面的一个字符。大家如果想取一个String里的按UNICODE数字，可以用getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin) 方法取得一个char[]，这个char[]里就是表示String字符的，按UNICODE编码表编码的数字。</p>
+<p>   可惜现在绝大多数的系统和程序都不是按UNICODE来处理字符，而JAVA程序总是要和别的程序和系统交换数据的，所以在接收一个字符，或者是发送一个字符的时候，就必须要留意当前系统和UNICODE的关系了。比如你从网络或者文件接受到一数字：0xB5,0xB1，JAVA程序并不知道这两个字到底是中文呢？还是日文，或者英文。你如果不指明这个两个数字的编码表，JAVA就会按当前系统默认的编码表来处理。如果这两个数字是从中文WIN98发出去的，JAVA程序又是在英文LINUX上运行的，那就出现了所谓的乱码问题了。也就是JAVA按英文的编码表ASCII来处理这两个数字，当通过new String({0xB5,0xB1})得到的String的时候，这个String代表的已经不是中文的“当”字，而是两个英文的奇怪字符了。不过如果你知道这两个数字一定是中文的话，就可以指定用new String({0xB5,0xB1},”GB2312”)来处理，这时候新建立的String才真的是一个“当”字。当然拉，如果你要把一个“当”字的JAVA的String显示在中文WIN98上，必须把这个字输出成两个8位数字：0xB5,0xB1，不管是写成文件还是输出到浏览器上，都必须是0xB5,0xB1。如何把“当”字用GB2312输出？<strong>String.getBytes(“GB2312”)</strong> 就可以拉！所以有一点要记住：<strong>和外界交换任何信息都是以byte[]来进行的！</strong>。你可以留意一下JAVA大多数的I/O类，都有以byte[]作为参数和返回值的方法。不过，也有很多写的比较糊涂的程序，没有提供byte[]交换信息的方法，害的不同文字平台的程序员很头疼。Servlet的HttpRequest.getParameter()就是这样。好在有的JSP/SERVLET容易还提供先指定编码表的方法，才能比较简单的解决这个问题。</p>
+<h3 id="6，网上关于JAVA中文问题的一些错误处理方法。"><a href="#6，网上关于JAVA中文问题的一些错误处理方法。" class="headerlink" title="6，网上关于JAVA中文问题的一些错误处理方法。"></a>6，网上关于JAVA中文问题的一些错误处理方法。</h3><p>   一个是最常见的，不管什么内容，都用new String(…,”ISO-8859-1”)来建立字符串，然后使用的时候按默认的编码格式（通常在服务器上都是英文系统）输出字符串。这样其实你使用的String并不是按UNICODE来代表真正的字符，而是强行把BYTE数组复制到String的char[]里，一旦你的运行环境改变，你就被迫要修改一大堆的代码。而且也无法在同一个字符串里处理几种不同编码的文字。</p>
+<p>   另一个是把一种编码格式的字符串，比如是GB2312，转换成另一种格式的字符串，比如UTF-8，然后不指明是UTF-8编码，而直接用new String(…)来建立String，这样放在String里面的字符也是无法确定的，它在不同的系统上代表不同的字符。如果要求别人用“UTF-8格式”的String来交换信息的时候，其实已经破坏了JAVA为了兼容各种语言所做的规定。这种错误的本质思想是还按写C语言的方式，把字符串纯粹当作可以自己自由编码的存储器使用，而忽略了JAVA字符串只有一种编码格式。如果真的想自由编码，用byte[]或者char[]就完全了解决问题的了。</p>
+<h3 id="7，其他资料"><a href="#7，其他资料" class="headerlink" title="7，其他资料"></a>7，其他资料</h3><p><a href="http://www.regexlab.com/zh/encoding.htm" target="_blank" rel="external">字符，字节和编码</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2016/05/18/javaString-and-bytes/" data-id="ciw6b0aki000mi6fyre5vvu9j" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://agehua.github.io/2016/05/18/javaString-and-bytes/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/05/18/javaString-and-bytes/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/05/24/JNI-Learning0/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    android JNI学习② JNI调用过程
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/05/12/GCM-Azure_summary/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">google cloud message（GCM）和Azure实现Notification总结</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/05/18/javaString-and-bytes/" data-title="Java String与C/C++中byte[]" data-url="http://agehua.github.io/2016/05/18/javaString-and-bytes/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="title">Hexo 出错情况收集</a></p>
+                            <p class="item-date"><time datetime="2016-12-01T01:30:27.000Z" itemprop="datePublished">2016-12-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/10/13/gradle-learning2/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/10/13/gradle-learning2/" class="title">gradle 学习2——生成指定文件名的apk</a></p>
+                            <p class="item-date"><time datetime="2016-10-12T16:00:00.000Z" itemprop="datePublished">2016-10-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/10/12/gradle-learning/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/10/12/gradle-learning/" class="title">gradle 学习</a></p>
+                            <p class="item-date"><time datetime="2016-10-11T16:00:00.000Z" itemprop="datePublished">2016-10-12</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/09/28/Android-interview-questions/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/09/28/Android-interview-questions/" class="title">Android面试知识点整理</a></p>
+                            <p class="item-date"><time datetime="2016-09-27T16:00:00.000Z" itemprop="datePublished">2016-09-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/09/22/JNI-get-publickey/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/technology/">technology</a></p>
+                            <p class="item-title"><a href="/2016/09/22/JNI-get-publickey/" class="title">使用JNI获取publickey实现</a></p>
+                            <p class="item-date"><time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/android-jni/" style="font-size: 16.67px;">Android JNI</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 16.67px;">gradle</a> <a href="/tags/read/" style="font-size: 13.33px;">read</a> <a href="/tags/technology/" style="font-size: 16.67px;">technology</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.bigademo.com">ghost老司机的博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.5come.cn">我的ghost博客</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 Jixin Li<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'agehua'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
