@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="马浩珍在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Haojen" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        在Jenkins配置github的pull request builder｜Haojen&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2016/05/27/2016-05-27-Jenkins-pull-request-builder/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Haojen
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>在Jenkins配置github的pull request builder</h1>
+                    
+                    <span class="meta">
+                         作者 Haojen Ma
+                        <span>
+                          日期 2016-05-27
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            在Jenkins配置github的pull request builder
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>最近做的一个项目中使用了github的enterprise版本，然后之前的一位同事搭建了在github上提交pull request可以出发jenkins builder。</p>
+<p>学习了这一过程，记录一下blog。</p>
+<a id="more"></a>
+<hr>
+<h2 id="准备实验项目和jenkins"><a href="#准备实验项目和jenkins" class="headerlink" title="准备实验项目和jenkins"></a>准备实验项目和jenkins</h2><p>代码使用openstack的<a href="https://github.com/openstack/python-cinderclient" target="_blank" rel="external">python-cinderclient</a>为例：</p>
+<p>下载代码，运行这个项目的单元测试命令<code>tox</code>，保证单元测试能够正常通过，这是一个python的项目，运行了py34<br>和py27，pep8的检查，运行结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">......</div><div class="line">_________________ summary _________________</div><div class="line">  py34: commands succeeded</div><div class="line">  py27: commands succeeded</div><div class="line">  pep8: commands succeeded</div><div class="line">  congratulations :)</div></pre></td></tr></table></figure>
+<p>然后准备jenkins，这里的build任务是在slave节点上运行的，slave安装的是centos7。</p>
+<p>在jenkins中安装以下插件：</p>
+<ul>
+<li>SCM:<ul>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin" target="_blank" rel="external">Git Plugin</a></li>
+</ul>
+</li>
+<li>Wrappers:<ul>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Build-timeout+Plugin" target="_blank" rel="external">Build Timeout Plugin</a></li>
+</ul>
+</li>
+<li>Triggers:<ul>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Plugin" target="_blank" rel="external">GitHub Plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin" target="_blank" rel="external">GitHub Pull Request Builder Plugin</a></li>
+</ul>
+</li>
+<li>Publishers:<ul>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Mattermost+Plugin" target="_blank" rel="external">Mattermost Plugin</a></li>
+</ul>
+</li>
+</ul>
+<p>然后在slave节点上安装python的运行环境</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line"><span class="comment"># EPEL</span></div><div class="line">yum -y install epel-release</div><div class="line"><span class="comment"># Development packages</span></div><div class="line">yum -y groupinstall <span class="string">"Development tools"</span></div><div class="line">yum -y install openssl-devel readline-devel bzip2-devel sqlite-devel zlib-devel ncurses-devel db4-devel expat-devel</div><div class="line">yum -y install python-devel mysql-devel libxslt-devel libffi-devel</div><div class="line">yum -y install libmemcached-devel</div><div class="line">yum -y install libevent-devel</div><div class="line">yum -y python-virtualenv</div><div class="line"><span class="comment"># Python 34</span></div><div class="line">yum -y install python34 python34-devel</div></pre></td></tr></table></figure>
+<p>在slave节点上，切换到jenkins的账号</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># Enter bash using jenkins users</div><div class="line">su -s /bin/bash jenkins</div></pre></td></tr></table></figure>
+<p>然后需要将github的站点添加到slave node的knowhost里面，通过运行<code>ssh git@github.com</code>可以添加。</p>
+<hr>
+<h2 id="在jenkins上配置pull-request-builder"><a href="#在jenkins上配置pull-request-builder" class="headerlink" title="在jenkins上配置pull request builder"></a>在jenkins上配置pull request builder</h2><p>在jenkins中创建一个freestyle project, 命名为python-cinderclient-pr-builder。</p>
+<p>注：我这个项目是创建在github的enterprise中的，可以等同于github。主要原因是我的jenkins没有外网ip，github无法访问，就不能设置webhook，无法实现根据pull request自动trigger build。</p>
+<ol>
+<li><p>填入project url</p>
+<img src="/images/blogimages/2016/jenkins_pull_request_builder/github_option.png" class="center">
+</li>
+<li><p>配置pull request build</p>
+<ul>
+<li><p>安装了<a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin" target="_blank" rel="external">GitHub Pull Request Builder Plugin</a>之后</p>
+</li>
+<li><p>Go to <code>Manage Jenkins -&gt; Configure System -&gt; GitHub pull requests builder</code> section</p>
+<p>如图下图配置</p>
+<img src="/images/blogimages/2016/jenkins_pull_request_builder/ghprb_config.png" class="center">
+<p>需要注意：GitHub API URI是”<a href="https://api.github.com" target="_blank" rel="external">https://api.github.com</a>“. 而GitHub Enterprise API URL使用路径”/api/v3”。</p>
+</li>
+</ul>
+</li>
+<li><p>添加Personal access tokens</p>
+<p>进入github的个人的profile页面，然后添加Personal access tokens的页面中，generate new token，如下图选择，重点是要选admin：repo_hook</p>
+<img src="/images/blogimages/2016/jenkins_pull_request_builder/personal_token.png" class="center">
+</li>
+<li><p>添加credential的配置<br>生成token以后，在jenkins的<code>creadentials</code>里面添加一个新的证书，如图，password项就填刚才在github上生成的token</p>
+<img src="/images/blogimages/2016/jenkins_pull_request_builder/add_credential.png" class="center">
+</li>
+</ol>
+<hr>
+<h2 id="添加一个jenkins-job"><a href="#添加一个jenkins-job" class="headerlink" title="添加一个jenkins job"></a>添加一个jenkins job</h2><p>参考以下步骤，这个步骤来自于<a href="https://github.com/janinko/ghprb#creating-a-job" target="_blank" rel="external">ghprb插件的README</a></p>
+<ul>
+<li>Create a new job.  </li>
+<li>Add the project’s GitHub URL to the <code>GitHub project</code> field (the one you can enter into browser. eg: <code>https://github.com/janinko/ghprb</code>)  </li>
+<li>Select Git SCM.  </li>
+<li>Add your GitHub <code>Repository URL</code>.  </li>
+<li>Under Advanced, set <code>Name</code> to <code>origin</code> and:<ul>
+<li>If you <strong>just</strong> want to build PRs, set <code>refspec</code> to <code>+refs/pull/*:refs/remotes/origin/pr/*</code></li>
+<li>If you want to build PRs <strong>and</strong> branches, set <code>refspec</code> to <code>+refs/heads/*:refs/remotes/origin/* +refs/pull/*:refs/remotes/origin/pr/*</code> (see note below about <a href="#parameterized-builds">parameterized builds</a>)</li>
+</ul>
+</li>
+<li>In <code>Branch Specifier</code>, enter <code>${sha1}</code> instead of the default <code>*/master</code>.</li>
+<li>If you want to use the actual commit in the pull request, use <code>${ghprbActualCommit}</code> instead of <code>${sha1}</code></li>
+<li>Under <code>Build Triggers</code>, check <code>GitHub pull requests builder</code>.<ul>
+<li>Add admins for this specific job.  </li>
+<li>If you want to use GitHub hooks for automatic testing, read the help for <code>Use github hooks for build triggering</code> in job configuration. Then you can check the checkbox.</li>
+<li>In Advanced, you can modify:  <ul>
+<li>The crontab line for this specific job. This schedules polling to GitHub for new changes in Pull Requests.  </li>
+<li>The whitelisted users for this specific job.  </li>
+<li>The organisation names whose members are considered whitelisted for this specific job.  </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Save to preserve your changes.  </li>
+</ul>
+<p>更具体的内容可以参考：</p>
+<ul>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin" target="_blank" rel="external">ghprb wiki</a></li>
+<li><a href="https://github.com/janinko/ghprb" target="_blank" rel="external">github ghprb</a></li>
+</ul>
+<p>完成以上的操作，这个插件就会在github项目的hooks和services里面自动添加一个webhook，如图：</p>
+<img src="/images/blogimages/2016/jenkins_pull_request_builder/webhook.png" class="center">
+<hr>
+<h2 id="添加build-status-description"><a href="#添加build-status-description" class="headerlink" title="添加build status description"></a>添加build status description</h2><p>添加一个在<code>post build action</code>中选择<code>set build status on Github commit</code></p>
+<img src="/images/blogimages/2016/jenkins_pull_request_builder/set_build_status.png" class="center">
+<p>然后在每一个build就会有一个status</p>
+<img src="/images/blogimages/2016/jenkins_pull_request_builder/build_status.png" class="center">
+<hr>
+<h2 id="Mattermost"><a href="#Mattermost" class="headerlink" title="Mattermost"></a>Mattermost</h2><p>安装这个插件:<a href="https://wiki.jenkins-ci.org/display/JENKINS/Mattermost+Plugin" target="_blank" rel="external">mattermost Plugin wiki</a></p>
+<p>然后在<code>matter most -&gt; Integrations -&gt; incoming webhooks</code>, 里面配置一个incoming webhooks, 如图</p>
+<img src="/images/blogimages/2016/jenkins_pull_request_builder/mattermost_incoming_webhooks.png" class="center">
+<p>配置完成以后，就会生成一个webhooks如图：</p>
+<img src="/images/blogimages/2016/jenkins_pull_request_builder/generated_mattermost_webhook.png" class="center">
+<p>之后在jenkins的job的post-build action里面配置mattermost插件如图：</p>
+<img src="/images/blogimages/2016/jenkins_pull_request_builder/jenkins_mattermost_config.png" class="center">
+<p>之后，如果这个job又build成功的消息的话，就会在mattermost里面产生一个消息如图：</p>
+<img src="/images/blogimages/2016/jenkins_pull_request_builder/mattermost_message.png" class="center">
+<p>参考：</p>
+<p><a href="https://github.com/jenkinsci/mattermost-plugin" target="_blank" rel="external">mattermost-plogin on github</a></p>
+<p><a href="http://docs.mattermost.com/developer/webhooks-incoming.html" target="_blank" rel="external">webhooks-incoming</a></p>
+<hr>
+<h2 id="一些有用的jenkins插件"><a href="#一些有用的jenkins插件" class="headerlink" title="一些有用的jenkins插件"></a>一些有用的jenkins插件</h2><ul>
+<li>SCM:<ul>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin" target="_blank" rel="external">Git Plugin</a></li>
+</ul>
+</li>
+<li>Wrappers:<ul>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/AnsiColor+Plugin" target="_blank" rel="external">Ansi Color Plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Build-timeout+Plugin" target="_blank" rel="external">Build Timeout Plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Timestamper" target="_blank" rel="external">Timestamper Plugin</a></li>
+</ul>
+</li>
+<li>Triggers:<ul>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Plugin" target="_blank" rel="external">GitHub Plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin" target="_blank" rel="external">GitHub Pull Request Builder Plugin</a></li>
+</ul>
+</li>
+<li>Publishers:<ul>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin" target="_blank" rel="external">Cobertura Plugin</a></li>
+<li><a href="https://wiki.jenkins-ci.org/display/JENKINS/Mattermost+Plugin" target="_blank" rel="external">Mattermost Plugin</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins+on+Red+Hat+distributions" target="_blank" rel="external">install jenkins on centos</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/05/30/2016-05-30-jenkins-job-builder/" data-toggle="tooltip" data-placement="top"
+                           title="Jenkins job builder">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/05/10/2016-05-10-keystone-multi-domain-and-ldap/" data-toggle="tooltip" data-placement="top"
+                           title="keystone设置多个domain和使用ldap作为identity">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备实验项目和jenkins"><span class="toc-text">准备实验项目和jenkins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在jenkins上配置pull-request-builder"><span class="toc-text">在jenkins上配置pull request builder</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加一个jenkins-job"><span class="toc-text">添加一个jenkins job</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加build-status-description"><span class="toc-text">添加build status description</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mattermost"><span class="toc-text">Mattermost</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一些有用的jenkins插件"><span class="toc-text">一些有用的jenkins插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-text">Reference</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Haojen 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="null">
+</body>
+
+</html>

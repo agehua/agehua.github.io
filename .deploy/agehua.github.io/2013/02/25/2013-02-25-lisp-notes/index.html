@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="马浩珍在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Haojen" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        lisp笔记｜Haojen&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2013/02/25/2013-02-25-lisp-notes/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Haojen
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>lisp笔记</h1>
+                    
+                    <span class="meta">
+                         作者 Haojen Ma
+                        <span>
+                          日期 2013-02-25
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            lisp笔记
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>下面是在看《<a href="http://acl.readthedocs.org/en/latest/index.html" target="_blank" rel="external">ANSI common lisp</a>》这本书和做习题的时候的一些笔记。</p>
+<h2 id="lisp"><a href="#lisp" class="headerlink" title="lisp"></a>lisp</h2><p>约翰麦卡锡和他的学生于 1958 年展开 Lisp 的初次实现工作。 Lisp 是继 FORTRAN 之后，仍在使用的最古老的程序语言。 更值得注意的是，它仍走在程序语言技术的最前面。懂 Lisp 的程序员会告诉你，有某种东西使 Lisp 与众不同。</p>
+<p>Lisp 与众不同的部分原因是，它被设计成能够自己进化。你能用 Lisp 定义新的 Lisp 操作符。当新的抽象概念风行时（如面向对象程序设计），我们总是发现这些新概念在 Lisp 是最容易来实现的。Lisp 就像生物的 DNA 一样，这样的语言永远不会过时。</p>
+<p>Lisp能够自己进化的特点，注定了它有很多方言存在(真的是方言，<a href="http://en.wikipedia.org/wiki/Lisp_%28programming_language%29" target="_blank" rel="external">英语里面用的是dialects</a>)。<br>其中common lisp就是其中的一种方言。</p>
+<p>下面几篇关于lisp的文章值得一读：</p>
+<ul>
+<li>《<a href="http://www.ruanyifeng.com/blog/2010/10/why_lisp_is_superior.html" target="_blank" rel="external">为什么Lisp语言如此先进</a>》比较系统地介绍了lisp的特点，可以一读。        </li>
+<li><a href="http://tianchunbinghe.blog.163.com/blog/static/7001200692314249376/" target="_blank" rel="external">用sbcl,asdf和cl-launch编写可分发的lisp程序</a></li>
+</ul>
+<a id="more"></a>
+<h3 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h3><p>使用<code>&amp;optional</code>设置函数默认参数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">(defun ha (&amp;optional (x 1))</div><div class="line">    (list x))</div></pre></td></tr></table></figure>
+<h3 id="amp-rest"><a href="#amp-rest" class="headerlink" title="&amp;rest"></a>&amp;rest</h3><p>函数的参数<code>&amp;rest</code>关键字，返回的是一个列表，里面的元素为空，用null测试，返回nil</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">[3]&gt; (defun bb1 (&amp;rest args) (null args))</div><div class="line">BB1</div><div class="line">[4]&gt; (bb1 nil)</div><div class="line">NIL</div></pre></td></tr></table></figure>
+<h3 id="append-and-push"><a href="#append-and-push" class="headerlink" title="append and push"></a>append and push</h3><p><code>append</code> 会返回一个新的list，所以如果要往一个已有list中加元素，使用<code>push</code></p>
+<p><code>push</code>的第二参数必须是变量</p>
+<h3 id="let"><a href="#let" class="headerlink" title="let"></a>let</h3><p>在let语句中，如果有多个赋值语句，后面的赋值语句不能应用前面赋值语句中的变量，例如下面就是有问题的</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">(defun quarter-turn (arr)</div><div class="line">    (let ((dim1 (array-dimensions arr))</div><div class="line">          (barr (make-array dim1))) </div><div class="line">        (do ((i 0 (+ i 1)))</div><div class="line">            ((= i (car dim)))</div><div class="line">            (do ((j 0 (+ j 1)))</div><div class="line">                ((= j (car dim)))</div><div class="line">                (setf (aref barr i j) (aref arr j i))))</div><div class="line">        barr))</div></pre></td></tr></table></figure>
+<p>当中的<code>(barr (make-array dim1))</code>会报错。</p>
+<p>如果希望有上面的功能，就要使用<code>let*</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">&gt; (<span class="built_in">let</span>* ((x 1)</div><div class="line">         (y (+ x 1)))</div><div class="line">    (+ x y))</div><div class="line">3</div></pre></td></tr></table></figure>
+<h3 id="prog系列"><a href="#prog系列" class="headerlink" title="prog系列"></a>prog系列</h3><p><code>prog</code>系列有<code>prog prog* prog1 prog2 progn</code>。他们都处理一个代码块。<code>progn</code>为“Built-in Method Combination Types”，其余的为宏。</p>
+<p><code>prog1 prog2 progn</code>的区别是使用不同的语句的返回值作为代码块的返回值，分别对应第一条语句的返回值，第二条语句的返回值和最后一条语句的返回值。</p>
+<p><code>prog prog*</code> 与上面三个是不一样的，带有初始化语句，且使用return语句的返回值。<code>prog*</code>中，初始化语句按照顺序初始化，所有一个语句可以使用前面一个语句中的变量，而<code>prog</code>则不能这样。如果没有return语句，程序返回nil。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2013/08/18/2013-08-18-tree/" data-toggle="tooltip" data-placement="top"
+                           title="数据结构--树">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2013/01/31/2013-01-31-svm-pegasos/" data-toggle="tooltip" data-placement="top"
+                           title="Pegasos算法">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#lisp"><span class="toc-text">lisp</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#默认参数"><span class="toc-text">默认参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#amp-rest"><span class="toc-text">&rest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#append-and-push"><span class="toc-text">append and push</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#let"><span class="toc-text">let</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prog系列"><span class="toc-text">prog系列</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Haojen 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="null">
+</body>
+
+</html>

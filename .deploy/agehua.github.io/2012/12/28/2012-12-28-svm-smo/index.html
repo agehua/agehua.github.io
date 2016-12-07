@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="马浩珍在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Haojen" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        SMO序列最小最优化算法｜Haojen&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2012/12/28/2012-12-28-svm-smo/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Haojen
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>SMO序列最小最优化算法</h1>
+                    
+                    <span class="meta">
+                         作者 Haojen Ma
+                        <span>
+                          日期 2012-12-28
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            SMO序列最小最优化算法
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>上一篇blog讲到了<a href="/blog/2012/12/26/svm/">svm的原理</a>，最后将需要解决问题抽象成了数学公式，但如何利用计算机，解出这些数学公式的答案。换句话说，就是怎么通过计算机算出我们的svm模型的参数呢？方法就是序列最小最优化(sequential minimal optimization, SMO)算法。</p>
+<p>首先回顾一下SVM模型的数学表达，即svm的对偶问题:</p>
+<p>$$<br>\begin{array}{l}<br>\mathop {\min }\limits<em>a \qquad \frac{1}{2}\sum\limits</em>{i = 1}^N {\sum\limits_{j = 1}^N { {a_i}{a_j}{y_i}{y_j}K({x_i},{x<em>j}) - \sum\limits</em>{i = 1}^N { {a<em>i}} } } \<br>{\rm{s.t.}}\qquad\sum\limits</em>{i = 1}^N { {a_i}{y_i} = 0} \<br>\qquad\qquad 0 \le {a_i} \le C, \qquad i = 1,2,\cdot\cdot\cdot,N<br>\end{array}<br>$$</p>
+<p>选择一个 $ {a^*} $ 的正分量 $ 0 \lt {a_j^*} \lt C $ , 计算（或者通过所有解求平均值）：</p>
+<p>$$<br>{b^<em>} = {y<em>j} - \sum\limits</em>{i = 1}^N {a_i^</em>{y_i}K({x_i} \cdot {x_j})}<br>$$</p>
+<p>决策函数为</p>
+<p>$$<br>f(x) = sign(\sum\limits_{i=1}^N {a_i^<em>{y_i}K({x_i}, {x_j})} + {b^</em>})<br>$$</p>
+<p>svm的学习，就是通过训练数据计算出${a^<em>}$和${b^</em>}$，然后通过决策函数判定${x_j}$的分类。其中${a^*}$是一个向量，长度与训练数据的样本数相同，如果训练数据很大，那么这个向量会很长，不过绝大部分的分量值都是0，只有支持向量的对应的分量值大于0 。</p>
+<p>SMO是一种启发式算法，其基本思想是：如果所有变量的解都满足了此最优化问题的KKT条件，那么这个最优化问题的解就得到了。否则，选择两个变量，固定其它变量，针对这两个变量构建一个二次规划问题，然后关于这个二次规划的问题的解就更接近原始的二次归还问题的解，因为这个解使得需要优化的问题的函数值更小。</p>
+<p>翻译一下：对于svm我们要求解${a^*}$，如果 ${a^*}$ 的所有分量满足svm对偶问题的KKT条件，那么这个问题的解就求出来了，我们svm模型学习也就完成了。如果没有满足KKT，那么我们就在 ${a^*}$ 中找两个分量 ${a_i}$ 和 ${a_j}$，其中 ${a_i}$ 是违反KKT条件最严重的分量，通过计算，使得 ${a_i}$ 和 ${a_j}$ 满足KKT条件，直到${a^*}$ 的所有分量都满足KKT条件。而且这个计算过程是收敛的，因为每次计算出来的新的两个分量，使得对偶问题中要优化的目标函数（就是min对应的那个函数）值更小。至于为什么是收敛的，是因为，每次求解的那两个分量，是要优化问题在这两个分量上的极小值，所以每一次优化，都会使目标函数比上一次的优化结果的值变小。</p>
+<a id="more"></a>
+<p>我们来看看KKT条件。</p>
+<h2 id="KKT"><a href="#KKT" class="headerlink" title="KKT"></a>KKT</h2><p>上面的问题，是通过svm的原始问题，构造拉格朗日函数，并通过对偶换算得出的对偶问题。与对偶问题等价的是对偶问题的KKT条件，参考<a href="http://book.douban.com/subject/10590856/" target="_blank" rel="external">《统计学习方法》</a>的附录C的定理C.3。换句话说，就是只要找到对应的${a^*}$满足了下列KKT条件，那么原始问题和对偶问题就解决了。</p>
+<p>SVM的对偶问题对应的KKT条件为：</p>
+<p>$$<br>\begin{array}{l}<br>\quad {a_i} = 0 \quad \Leftrightarrow \quad {y_i}g({x_i}) \ge 1\<br>0 &lt; {a_i} &lt; C \quad \Leftrightarrow \quad {y_i}g({x_i}) = 1\<br>\quad {a_i} = C \quad \Leftrightarrow \quad {y_i}g({x_i}) \le 1<br>\end{array}<br>$$</p>
+<p>其中:</p>
+<p>$$<br>g(x) = \sum\limits_{i = 1}^N { {a_i}{y_i}K({x_i},{x_j}) + b}<br>$$</p>
+<p>因为计算机在计算的时候是有精度范围的，所以我们引入一个计算精度值$\varepsilon$，</p>
+<p>$$<br>\left{ \begin{array}{l}<br>{a_i} = 0 \Leftrightarrow {y_i}g({x_i}) \ge 1 - \varepsilon \<br>0 &lt; {a_i} &lt; C \Leftrightarrow 1 - \varepsilon  \le {y_i}g({x_i}) \le 1 + \varepsilon \<br>{a_i} = C \Leftrightarrow {y_i}g({x_i}) \le 1 + \varepsilon<br>\end{array} \right} \Rightarrow \left{ \begin{array}{l}<br>{a_i} &lt; C \Leftrightarrow 1 - \varepsilon  \le {y_i}g({x_i})\<br>0 &lt; {a_i} \Leftrightarrow {y_i}g({x_i}) \le 1 + \varepsilon<br>\end{array} \right}<br>$$</p>
+<p>同时由于${y_i} =  \pm 1$，所以${y_i}*{y_i}=1$，上面的公式可以换算为</p>
+<p>$$<br>\begin{array}{l}<br>{a_i} &lt; C \Leftrightarrow  - \varepsilon  \le {y_i}(g({x_i}) - {y_i})\<br>        0 &lt; {a_i} \Leftrightarrow {y_i}(g({x_i}) - {y_i}) \le  + \varepsilon<br>        \end{array}<br>$$</p>
+<p>定义:</p>
+<p>$$<br>{E_i} = g({x_i}) - {y_i}<br>$$</p>
+<p>其中，$g({x})$其实就是决策函数，所以${E_i}$可以认为是对输入的${x_i}$的预测值与真实输出${y_i}$之差。</p>
+<p>上面的公式就可以换算为，即KKT条件可以表示为：</p>
+<p>$$<br>\begin{array}{l}<br>{a_i} &lt; C \Leftrightarrow  - \varepsilon  \le {y_i}{E_i}\<br>        0 &lt; {a_i} \Leftrightarrow {y_i}{E_i} \le  + \varepsilon<br>        \end{array}<br>$$</p>
+<p>那么相应的违规KKT条件的分量应该满足下列不等式：</p>
+<p>$$<br>{\rm{Against\ KKT:}}<br>$$</p>
+<p>$$<br>\begin{array}{l}<br>{a_i} &lt; C \quad \Leftrightarrow \quad  - \varepsilon  &gt; {y_i}{E_i}\<br>0 &lt; {a_i} \quad \Leftrightarrow \quad {y_i}{E_i} &gt;  + \varepsilon<br>\end{array}<br>$$</p>
+<p>其实上面的推导过程不必关心，只需要应用违犯KKT条件的公式就可以了。</p>
+<h2 id="SMO算法描述"><a href="#SMO算法描述" class="headerlink" title="SMO算法描述"></a>SMO算法描述</h2><p style="text-indent:0"><em style="color:blue"> 输入：</em>训练数据集 $ T=\{({x_1},{y_1}),({x_2},{y_2}), \cdot \cdot \cdot ,({x_N},{y_N})\} $ </p> 
+
+<p>其中$ {x_i} \in \chi  \in {\mathbb{R}^n}$，${y_i} \in \{-1,+1\}$，$i=1,2,\cdot\cdot\cdot,N$，精度$\varepsilon$。</p>
+<p style="text-indent:0"><em style="color:blue">输出：</em>近似解$\hat a$</p>
+
+<p style="text-indent:0"><em style="color:blue">算法描述：</em></p>
+
+<p>(1) 取初始值${a^{(0)}}=0$，令$K=0$</p>
+<p>(2) 选取优化变量 ${a_1^{(k)}}$ , ${a_2^{(k)}}$ , 针对优化问题，求得最优解 ${a_1^{(k+1)}}$ , ${a_2^{(k+1)}}$ 更新 ${a^{(k)}}$ 为 ${a^{(k+1)}}$ 。</p>
+<p>(3) 在精度条件范围内是否满足停机条件，即是否有变量违反KKT条件，如果违反了，则令$k=k+1$，跳转(2)，否则(4)。</p>
+<p>(4) 求得近似解$\hat a = a^{(k+1)}$</p>
+<p>上面算法的(1)、(3)、(4)步都不难理解，其中第(3)步中，是否违反KKT条件，对于$a^{(k)}$的每个分量按照上一节的违反KKT条件的公式进行验算即可。难于理解的是第(2)步，下面就重点解释优化变量选取和如何更新选取变量。</p>
+<h3 id="变量选取"><a href="#变量选取" class="headerlink" title="变量选取"></a>变量选取</h3><p>变量选取分为两步，第一步是选取违反KKT条件最严重的${a_i}$，第二步是根据已经选取的第一个变量，选择优化程度最大的第二个变量。</p>
+<p>违反KKT条件最严重的变量可以按照这样的规则选取，首先看$0 \lt {a_i} \lt C$的那些分量中，是否有违反KKT条件的，如果有，则选取${y_i}g({x_i})$最小的那个做为${a_1}$。如果没有则遍历所有的样本点，在违反KKT条件的分量中选取${y_i}g({x_i})$最小的做为${a_1}$。</p>
+<p>当选择了${a_1}$后，如果${a_1}$对应的$E_1$为正，选择$E_i$最小的那个分量最为${a_2}$，如果$E_1$为负，选择$E_i$最大的那个分量最为${a_2}$，这是因为${a_2^{new}}$依赖于$\left| {E_1 - E_2} \right|$（后面的公式会讲到）。<br>如果选择的${a_2}$，不能满足下降的最小步长，那么就遍历所有的支持向量点做为${a_2}$进行试用，如果仍然都不能满足下降的最小步长，那么就遍历所有的样本点做为${a_2}$试用。如果还算是不能满足下降的最小步长，那么就重新选择${a_1}$。</p>
+<h3 id="计算选取变量的新值"><a href="#计算选取变量的新值" class="headerlink" title="计算选取变量的新值"></a>计算选取变量的新值</h3><p>首先计算出来的新值必须满足约束条件$\sum\limits_{i = 1}^N { {a_i}{y_i} = 0}$ ，那么求出来的${a_2^{new}}$需要满足下列条件（具体推导见《统计学习方法》的7.4.1）:</p>
+<p>$$<br>\begin{array}{l}<br>L \le a_2^{new} \le H\<br>L = \max (0,a_2^{old} - a_1^{old}),H = \min (C,C + a_2^{old} - a_1^{old}), \qquad {y_1} \ne {y_2}\<br>L = \max (0,a_2^{old} + a_1^{old} - C),H = \min (C,a_2^{old} + a_1^{old}), \qquad {y_1} = {y_2}<br>\end{array}<br>$$</p>
+<p>未经过裁剪的${a_2}$的解为：</p>
+<p>$$<br>\begin{array}{l}<br>{a_2^{new,unc}} = {a_2^{old}} + \frac{ {y_2}({E_1}-{E<em>2)}}{\eta} \<br>\eta = K</em>{11} + K<em>{22} - 2{K</em>{12}}<br>\end{array}<br>$$</p>
+<p>裁剪后的解为</p>
+<p>$$<br>a_2^{new} = \left{ \begin{array}{l}<br>H,a_2^{new,unc} &gt; H\<br>        a_2^{new,unc},L \le a_2^{new,unc} \le H\<br>        L,a_2^{new,unc} &lt; L<br>        \end{array} \right.<br>$$</p>
+<p>第一个变量的解为</p>
+<p>$$<br>a_1^{new} = a_1^{old} + {y_1}{y_2}(a_2^{old} - a_2^{new})<br>$$</p>
+<p>还需要更新$b$:</p>
+<p>$$<br>\begin{array}{l}<br>b_1^{new} =  - {E_1} - {y<em>1}{K</em>{11}}(a_1^{new} - a_1^{old}) - {y<em>2}{K</em>{21}}(a_2^{new} - a_2^{old}) + {b^{old}}\<br>        b_2^{new} =  - {E_2} - {y<em>1}{K</em>{12}}(a_1^{new} - a_1^{old}) - {y<em>2}{K</em>{22}}(a_2^{new} - a_2^{old}) + {b^{old}}<br>        \end{array}<br>$$</p>
+<p>在更新$b$时，如果有$0 \lt a_1^{new} \lt C$, 则$b^{new}=b_1^{new}$，如果有$0 \lt a_2^{new} \lt C$, 则 $b^{new}=b_2^{new}$， 否则$b^{new}=\frac{b_1^{new} + b_2^{new}}{2}$。</p>
+<p>由于缓存了${E_i}$,所以需要计算新的${E_i}$:</p>
+<p>$$<br>E<em>i^{new} = \sum\limits</em>{j=1}^N { {y_j}{a_j}K({x_i},{x_j})} + b^{new} - y_i<br>$$</p>
+<h2 id="SMO的一个实现例子"><a href="#SMO的一个实现例子" class="headerlink" title="SMO的一个实现例子"></a>SMO的一个实现例子</h2><p>我实现了一个简单的基于SMO的线性svm，是一个python脚本。实现的过程中，变量的选取并未严格按照算法讲的方法选取，选择了一个简单的选取方法。<br>一次迭代中，遍历所有的${a_i}$，如果${a_i}$违反了KKT条件，那么就将它做为第一个变量，然后再遍历所有的${a_i}$，依次做为第二个变量，如果第二个变量有足够的下降，那么就更新两个变量。如果没有，就不更新。</p>
+<p>实现的python脚本如下：</p>
+ 
+<p>脚本使用的训练数据可以下载<a href="https://github.com/liuhongjiang/blog_projects/tree/master/svm" target="_blank" rel="external">SMO实现的代码</a>的svm.train文件，或者使用<a href="https://github.com/liuhongjiang/blog_projects/blob/master/svm/blog_linear.py" target="_blank" rel="external">blog_linear.py</a>，通过改变变量<code>separable</code>可以生成能够完全划分开的样本和不能划分开的样本。</p>
+<p>这个smo.py脚本是一个线性的svm，替换掉脚本中<code>kernel</code>函数，就可以成为一个非线性的svm。<br>下面这两张图片是用训练数据训练的结果。这一张是样本能完全分离开的:</p>
+<img src="/images/blogimages/2012/svm/svm_sep_ok.png" class="center">
+<p>这一张是样本不能完全分离开的：</p>
+<img src="/images/blogimages/2012/svm/svm_not_sep.png" class="center">
+<p>以上就是如何实现SMO的全部内容。之前的一个同事实现了一个简单的识别手写数字ocr，下一章，我们也来用svm实现一个简单的识别数字的ocr吧。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2012/12/29/2012-12-29-svm-ocr/" data-toggle="tooltip" data-placement="top"
+                           title="基于SVM的手写数字识别">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2012/12/26/2012-12-26-svm/" data-toggle="tooltip" data-placement="top"
+                           title="SVM支持向量机">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#KKT"><span class="toc-text">KKT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SMO算法描述"><span class="toc-text">SMO算法描述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#变量选取"><span class="toc-text">变量选取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#计算选取变量的新值"><span class="toc-text">计算选取变量的新值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SMO的一个实现例子"><span class="toc-text">SMO的一个实现例子</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Haojen 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="null">
+</body>
+
+</html>

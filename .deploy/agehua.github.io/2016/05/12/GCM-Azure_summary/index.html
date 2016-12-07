@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="李纪新在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <link rel="alternate" type="application/atom+xml" title="Agehua" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        google cloud message（GCM）和Azure实现Notification总结｜Agehua&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2016/05/12/GCM-Azure_summary/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//cdn.maxjia.com/image/p_01.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Agehua
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+							
+								
+							
+						
+                    
+                        
+                    
+					
+					
+						<li>
+							<a href="/about">About</a>
+						</li>
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>google cloud message（GCM）和Azure实现Notification总结</h1>
+                    
+                    <span class="meta">
+                         作者 Jixin Li
+                        <span>
+                          日期 2016-05-12
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#accumulation"
+                           title="accumulation">accumulation</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            google cloud message（GCM）和Azure实现Notification总结
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h3 id="1-相关资料"><a href="#1-相关资料" class="headerlink" title="1.相关资料"></a>1.相关资料</h3><p>我也是一知半解，基本上就是根据官方教程来实现，但microsoft的azure文档我找了好久，英文不好，汗。。。</p>
+<p>gcm start: <a href="https://developers.google.com/cloud-messaging/android/start" target="_blank" rel="external">https://developers.google.com/cloud-messaging/android/start</a></p>
+<p>azure start: <a href="https://azure.microsoft.com/zh-cn/documentation/articles/notification-hubs-android-get-started/" target="_blank" rel="external">https://azure.microsoft.com/zh-cn/documentation/articles/notification-hubs-android-get-started/</a></p>
+<p>gcm official demo: <a href="https://github.com/google/gcm" target="_blank" rel="external">https://github.com/google/gcm</a></p>
+<p>gcm personal demo: <a href="https://github.com/iammert/FastGCM" target="_blank" rel="external">https://github.com/iammert/FastGCM</a></p>
+<h3 id="2-遇到的问题"><a href="#2-遇到的问题" class="headerlink" title="2.遇到的问题"></a>2.遇到的问题</h3><ul>
+<li>1.手机运行官方demo时，发送消息，消息收不到必须切换一下网络才可以</li>
+</ul>
+<p>stackoverflow上有人问过这个问题：<a href="http://stackoverflow.com/questions/13835676/google-cloud-messaging-messages-sometimes-not-received-until-network-state-cha" target="_blank" rel="external">http://stackoverflow.com/questions/13835676/google-cloud-messaging-messages-sometimes-not-received-until-network-state-cha</a></p>
+<h3 id="3-onActivityResult-和onResume-调用顺序"><a href="#3-onActivityResult-和onResume-调用顺序" class="headerlink" title="3.onActivityResult()和onResume()调用顺序"></a>3.onActivityResult()和onResume()调用顺序</h3><p>API中这样描述：当你一个Activity是以请求码开始，结束时返回给前页面结果码，页面根据结果码进行相应的信息处理。我们会在返回的页面先接受结果码，然后才调用onResume()。</p>
+<p>通常我们还会遇到这样一个问题：<br>在处理返回页面的数据问题<br>1.需要从服务器上刷新数据时我们会在onResume()方法里处理<br>2.而刷新从结束界面返回的数据我们会在onAcitviyResult()方法里面处理</p>
+<p>为了避免二者在同一块控件上对数据处理，我们只需加个标识符，在两个方法里进行判断，要用哪个方法进行刷新</p>
+<h3 id="4-Android4-4以上系统根据Uri正确获取文件路径的方法"><a href="#4-Android4-4以上系统根据Uri正确获取文件路径的方法" class="headerlink" title="4.Android4.4以上系统根据Uri正确获取文件路径的方法"></a>4.Android4.4以上系统根据Uri正确获取文件路径的方法</h3><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getPhotoPathFromContentUri</span><span class="params">(Context context, Uri uri)</span> </span>&#123;</div><div class="line">    String photoPath = <span class="string">""</span>;</div><div class="line">    <span class="keyword">if</span>(context == <span class="keyword">null</span> || uri == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">return</span> photoPath;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT &amp;&amp; DocumentsContract.isDocumentUri(context, uri)) &#123;</div><div class="line">        String docId = DocumentsContract.getDocumentId(uri);</div><div class="line">        <span class="keyword">if</span>(isExternalStorageDocument(uri)) &#123;</div><div class="line">            String [] split = docId.split(<span class="string">":"</span>);</div><div class="line">            <span class="keyword">if</span>(split.length &gt;= <span class="number">2</span>) &#123;</div><div class="line">                String type = split[<span class="number">0</span>];</div><div class="line">                <span class="keyword">if</span>(<span class="string">"primary"</span>.equalsIgnoreCase(type)) &#123;</div><div class="line">                    photoPath = Environment.getExternalStorageDirectory() + <span class="string">"/"</span> + split[<span class="number">1</span>];</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(isDownloadsDocument(uri)) &#123;</div><div class="line">            Uri contentUri = ContentUris.withAppendedId(Uri.parse(<span class="string">"content://downloads/public_downloads"</span>), Long.valueOf(docId));</div><div class="line">            photoPath = getDataColumn(context, contentUri, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(isMediaDocument(uri)) &#123;</div><div class="line">            String[] split = docId.split(<span class="string">":"</span>);</div><div class="line">            <span class="keyword">if</span>(split.length &gt;= <span class="number">2</span>) &#123;</div><div class="line">                String type = split[<span class="number">0</span>];</div><div class="line">                Uri contentUris = <span class="keyword">null</span>;</div><div class="line">                <span class="keyword">if</span>(<span class="string">"image"</span>.equals(type)) &#123;</div><div class="line">                    contentUris = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">"video"</span>.equals(type)) &#123;</div><div class="line">                    contentUris = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">"audio"</span>.equals(type)) &#123;</div><div class="line">                    contentUris = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;</div><div class="line">                &#125;</div><div class="line">                String selection = MediaStore.Images.Media._ID + <span class="string">"=?"</span>;</div><div class="line">                String[] selectionArgs = <span class="keyword">new</span> String[] &#123; split[<span class="number">1</span>] &#125;;</div><div class="line">                photoPath = getDataColumn(context, contentUris, selection, selectionArgs);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">"file"</span>.equalsIgnoreCase(uri.getScheme())) &#123;</div><div class="line">        photoPath = uri.getPath();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">        photoPath = getDataColumn(context, uri, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> photoPath;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isExternalStorageDocument</span><span class="params">(Uri uri)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"com.android.externalstorage.documents"</span>.equals(uri.getAuthority());</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isDownloadsDocument</span><span class="params">(Uri uri)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"com.android.providers.downloads.documents"</span>.equals(uri.getAuthority());</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isMediaDocument</span><span class="params">(Uri uri)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"com.android.providers.media.documents"</span>.equals(uri.getAuthority());</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getDataColumn</span><span class="params">(Context context, Uri uri, String selection, String[] selectionArgs)</span> </span>&#123;</div><div class="line">    Cursor cursor = <span class="keyword">null</span>;</div><div class="line">    String column = MediaStore.Images.Media.DATA;</div><div class="line">    String[] projection = &#123; column &#125;;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, <span class="keyword">null</span>);</div><div class="line">        <span class="keyword">if</span> (cursor != <span class="keyword">null</span> &amp;&amp; cursor.moveToFirst()) &#123;</div><div class="line">            <span class="keyword">int</span> index = cursor.getColumnIndexOrThrow(column);</div><div class="line">            <span class="keyword">return</span> cursor.getString(index);</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">        <span class="keyword">if</span> (cursor != <span class="keyword">null</span> &amp;&amp; !cursor.isClosed())</div><div class="line">                cursor.close();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+                <hr>
+                本文总阅读量 <span id="busuanzi_value_page_pv"></span> 次
+                <hr>
+                
+                <!-- 多说 Share start -->
+                <div class="ds-share"
+                     style="text-align: right"
+                     data-thread-key="2016/05/12/GCM-Azure_summary/"
+                     data-title="google cloud message（GCM）和Azure实现Notification总结"
+                     data-url="http://agehua.github.io/2016/05/12/GCM-Azure_summary/"
+                     data-images=""
+                     data-content="1.相关资料我也是一知半解，基本上就是根据官方教程来实现，但microsoft的azure文档... | Agehua&#39;s blog ">
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-16">
+                            <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                            <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                            <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                            <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                        </ul>
+                        <div class="ds-share-icons-more">
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/05/18/javaString-and-bytes/" data-toggle="tooltip" data-placement="top"
+                           title="Java String与C/C++中byte[]">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/03/20/android-new-knowledge-summary/" data-toggle="tooltip" data-placement="top"
+                           title="android新特性新知识点总结">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                         data-thread-key="2016/05/12/GCM-Azure_summary/"
+                         data-title="google cloud message（GCM）和Azure实现Notification总结"
+                         data-url="http://agehua.github.io/2016/05/12/GCM-Azure_summary/">
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-相关资料"><span class="toc-text">1.相关资料</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-遇到的问题"><span class="toc-text">2.遇到的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-onActivityResult-和onResume-调用顺序"><span class="toc-text">3.onActivityResult()和onResume()调用顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Android4-4以上系统根据Uri正确获取文件路径的方法"><span class="toc-text">4.Android4.4以上系统根据Uri正确获取文件路径的方法</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#accumulation"
+                           title="accumulation">accumulation</a>
+                        
+                    </div>
+                </section>
+                
+
+                
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://www.bigademo.com">ghost老司机的博客</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+    
+</article>
+
+<a href="https://github.com/agehua"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'agehua';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user};
+    (function () {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/名逍遥">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/jixinli">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/Will Tihdhs">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Agehua 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    <!-- Theme by <a href="https://haojen.github.io/">Haojen Ma</a> -->
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//avatars2.githubusercontent.com/u/4710673?v=3&amp;s=400">
+</body>
+
+
+
+</html>

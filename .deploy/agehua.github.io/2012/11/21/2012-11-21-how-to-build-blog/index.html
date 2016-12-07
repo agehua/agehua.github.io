@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="马浩珍在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Haojen" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        使用Octopress搭建博客｜Haojen&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2012/11/21/2012-11-21-how-to-build-blog/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Haojen
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>使用Octopress搭建博客</h1>
+                    
+                    <span class="meta">
+                         作者 Haojen Ma
+                        <span>
+                          日期 2012-11-21
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            使用Octopress搭建博客
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="如何搭建blog"><a href="#如何搭建blog" class="headerlink" title="如何搭建blog"></a>如何搭建blog</h2><ul>
+<li>这个blog是使用<a href="http://octopress.org/" target="_blank" rel="external">Octopress</a>搭建的，它是一种基于<a href="https://github.com/mreid/jekyll/" target="_blank" rel="external">Jekyll</a>的博客框架。</li>
+<li>存放在<a href="https://github.com/" target="_blank" rel="external">github</a>上。</li>
+<li>markdown解析器用的<a href="http://kramdown.rubyforge.org/" target="_blank" rel="external">kramdown</a></li>
+<li>数学公式解析器用的<a href="http://www.mathjax.org/" target="_blank" rel="external">MathJax</a></li>
+</ul>
+<a id="more"></a>
+<p>相关信息如下：</p>
+<ul>
+<li><a href="https://github.com/" target="_blank" rel="external">github</a></li>
+<li><a href="http://pages.github.com/" target="_blank" rel="external">github pages</a></li>
+<li><a href="http://octopress.org/" target="_blank" rel="external">Octopress</a></li>
+<li><a href="http://octopress.org/docs/" target="_blank" rel="external">Octopress手册</a></li>
+</ul>
+<h2 id="值得借鉴的站点"><a href="#值得借鉴的站点" class="headerlink" title="值得借鉴的站点"></a>值得借鉴的站点</h2><p>下面是一个很不错的小站，都是结语jekyll和github搭建的，如果决定喜欢，可以从github拷贝下来，然后自己搭建一个。这些小站中还有很多关于如何使用github，搭建blog的文章，可以看看。</p>
+<ul>
+<li><a href="http://luikore.github.com/2011/09/good-things-learned-from-octopress/" target="_blank" rel="external">这个小站很不错</a></li>
+<li><a href="http://yanping.me/" target="_blank" rel="external">yanping.me</a></li>
+<li><a href="http://www.yangzhiping.com/" target="_blank" rel="external">http://www.yangzhiping.com/</a></li>
+<li><a href="http://colors4.us/" target="_blank" rel="external">http://colors4.us/</a></li>
+<li><a href="http://mark.reid.name/" target="_blank" rel="external">http://mark.reid.name/</a></li>
+<li><a href="http://www.worldhello.net" target="_blank" rel="external">http://www.worldhello.net</a></li>
+<li><a href="http://jakevdp.github.com/" target="_blank" rel="external">http://jakevdp.github.com/</a></li>
+<li><a href="http://threeofakind.ca/blog/2012/06/russells-6-8-months/" target="_blank" rel="external">head的照片</a> </li>
+<li><a href="http://blog.satrex.jp/" target="_blank" rel="external">head的渐变色</a></li>
+<li><a href="http://mrzhang.me/" target="_blank" rel="external">一个前端大牛的博客：wǒ_is神仙</a></li>
+<li><a href="http://www.dongwm.com/" target="_blank" rel="external">3d云标签，豆瓣阅读的侧边栏</a></li>
+</ul>
+<p>其它的收集</p>
+<ul>
+<li><a href="http://justineo.github.com/slideshows/font/#/" target="_blank" rel="external">这个slideshows太亮了</a></li>
+<li><a href="http://mrzhang.me/blog/using-shjs-for-jekyll.html" target="_blank" rel="external">另外一种博客语法高亮:Using SHJS for Jekyll</a></li>
+</ul>
+<h2 id="在blog中显示公式"><a href="#在blog中显示公式" class="headerlink" title="在blog中显示公式"></a>在blog中显示公式</h2><p>数学公式解析器用的<a href="http://www.mathjax.org/" target="_blank" rel="external">MathJax</a>, 这是一个JS脚本，渲染Latex格式的数学公式。请参考以下几篇文章。</p>
+<ul>
+<li><a href="http://yanping.me/cn/blog/2012/03/10/octopress-with-latex/" target="_blank" rel="external">在Octopress中使用LaTeX</a></li>
+<li><a href="http://steshaw.org/blog/2012/02/09/hello-mathjax/" target="_blank" rel="external">Hello MathJax</a></li>
+<li><a href="http://jakevdp.github.com/blog/2012/09/05/quantum-python/" target="_blank" rel="external">blog写公式的例子</a></li>
+</ul>
+<h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><p>标签云主要使用<a href="https://github.com/tokkonopapa/octopress-tagcloud" target="_blank" rel="external">标签云的插件</a>。</p>
+<p>在<code>_config.yml</code>的sidebar中加入<code>tag_cloud.html</code>，就标签出现在侧边栏中。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">default_asides: [custom/asides/about.html, asides/recent_posts.html, custom/asides/tag_cloud.html, asides/github.html, asides/twitter.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]</div><div class="line"></div><div class="line">blog_index_asides: [custom/asides/about.html, asides/recent_posts.html, custom/asides/tag_cloud.html, asides/github.html, asides/twitter.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]</div><div class="line"></div><div class="line">post_asides: [custom/asides/about.html, asides/recent_posts.html, custom/asides/tag_cloud.html, asides/github.html, asides/twitter.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]</div></pre></td></tr></table></figure>
+<h2 id="拷贝本站"><a href="#拷贝本站" class="headerlink" title="拷贝本站"></a>拷贝本站</h2><p>或者你也可以拷贝这个项目到你的github的pages的项目中，然后删除source/_post下面的所有文章。修改部分配置即可。</p>
+<ul>
+<li><a href="https://github.com/liuhongjiang/liuhongjiang.github.com" target="_blank" rel="external">本站的源代码</a></li>
+</ul>
+<p><strong style="color:red">注意：</strong>clone的是source分支，不是master。</p>
+<p>需要修改的地方：</p>
+<ul>
+<li>_config.yml文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">url: http://liuhongjiang.github.com</div><div class="line">title: 刘洪江的流水帐</div><div class="line">subtitle: 拾起点点滴滴, 聚沙成石.</div><div class="line">author: 刘洪江</div><div class="line">simple_search: http://google.com/search</div><div class="line">description: 他是一个程序员，已婚，有个儿子，字“左烦子”，号“李真棒”.</div></pre></td></tr></table></figure>
+<ul>
+<li><p>自我介绍</p>
+<ul>
+<li>source/about/index.markdown </li>
+<li>source/_includes/custom/asides/about.html</li>
+</ul>
+</li>
+</ul>
+<h2 id="预览"><a href="#预览" class="headerlink" title="预览"></a>预览</h2><p>写了新文章以后可以进行预览，最简单的命令就是</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">rake preview</div></pre></td></tr></table></figure>
+<p>如果是在github的个人主页上的博客，那么使用<code>http://localhost:4000</code>既可以访问了，如果是项目主页那么就要用<code>http://localhost:4000/{project-name}/</code>访问。</p>
+<p>还有一个预览方式，就是通过<code>jekyll</code>命令</p>
+<p>对于个人主页，是使用下面命令，访问的网址<code>http://localhost:4000</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">jekyll --server</div></pre></td></tr></table></figure>
+<p>对于项目主页，使用以下命令，访问的网址是<code>http://localhost:4000/{project-name}/</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">jekyll --server --base-url /&#123;project-name&#125;/</div></pre></td></tr></table></figure>
+<h2 id="博客样式"><a href="#博客样式" class="headerlink" title="博客样式"></a>博客样式</h2><p>另外关于本博客的一些样式可以参考<a href="/blog/2012/11/24/blog-styles/">博客的样式</a></p>
+<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><p>在本站的搭建过程中，参考了<a href="http://yanping.me/cn/" target="_blank" rel="external">http://yanping.me/cn/</a>。我阅读了他关于如何搭建的文章，也借鉴了他的很多样式。在此表示感谢。</p>
+<h2 id="好文章"><a href="#好文章" class="headerlink" title="好文章"></a>好文章</h2><p><a href="http://www.yangzhiping.com/tech/github.html" target="_blank" rel="external">如何高效利用GitHub</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2012/11/21/2012-11-21-math/" data-toggle="tooltip" data-placement="top"
+                           title="显示公式">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2012/11/13/2012-11-13-first-blog/" data-toggle="tooltip" data-placement="top"
+                           title="第一篇">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何搭建blog"><span class="toc-text">如何搭建blog</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#值得借鉴的站点"><span class="toc-text">值得借鉴的站点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在blog中显示公式"><span class="toc-text">在blog中显示公式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标签"><span class="toc-text">标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拷贝本站"><span class="toc-text">拷贝本站</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#预览"><span class="toc-text">预览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#博客样式"><span class="toc-text">博客样式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#感谢"><span class="toc-text">感谢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#好文章"><span class="toc-text">好文章</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Haojen 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="null">
+</body>
+
+</html>

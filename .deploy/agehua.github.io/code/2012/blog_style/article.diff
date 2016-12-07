@@ -1,0 +1,43 @@
+diff --git a/source/_includes/article.html b/source/_includes/article.html
+index 4a477e0..f377d2c 100644
+--- a/source/_includes/article.html
++++ b/source/_includes/article.html
+@@ -32,7 +32,19 @@
+   </header>
+ {% endunless %}
+ {% if index %}
+-  <div class="entry-content">{{ content | excerpt }}</div>
++    <div class="entry-content">
++        {% if post.abstract %}
++        <div class="abstract">
++            <table>
++                <tr>
++                    <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
++                    <td>{{ post.abstract }}</td>
++                </tr>
++            </table>
++        </div>
++        {% endif %}
++        {{ content | excerpt }}
++    </div>
+   {% capture excerpted %}{{ content | has_excerpt }}{% endcapture %}
+   {% if excerpted == 'true' %}
+     <footer>
+@@ -40,5 +52,16 @@
+     </footer>
+   {% endif %}
+ {% else %}
+-<div class="entry-content">{{ content }}</div>
++<div class="entry-content">
++    {% if page.abstract %}
++    <div class="abstract">
++        <table>
++            <tr>
++                <td style="font-size:18px;font-weight:bold;width:60px">摘要：</td>
++                <td>{{ page.abstract }}</td>
++            </tr>
++        </table>
++    </div>
++    {% endif %}
++    {{ content }}</div>
+ {% endif %}

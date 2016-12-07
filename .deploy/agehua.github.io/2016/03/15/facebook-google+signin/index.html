@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="李纪新在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <link rel="alternate" type="application/atom+xml" title="Agehua" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        近期总结facebook google+ Twitter sign-in fragment使用｜Agehua&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2016/03/15/facebook-google+signin/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//cdn.maxjia.com/image/p_01.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Agehua
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+							
+								
+							
+						
+                    
+                        
+                    
+					
+					
+						<li>
+							<a href="/about">About</a>
+						</li>
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>近期总结facebook google+ Twitter sign-in fragment使用</h1>
+                    
+                    <span class="meta">
+                         作者 Jixin Li
+                        <span>
+                          日期 2016-03-15
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#accumulation"
+                           title="accumulation">accumulation</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            近期总结facebook google+ Twitter sign-in fragment使用
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h3 id="1-相关资料"><a href="#1-相关资料" class="headerlink" title="1.相关资料"></a>1.相关资料</h3><p>blog: <a href="http://www.cnblogs.com/lngg057/p/5020192.html" target="_blank" rel="external">关于Google+以及Facebook第三方登录实现的一点总结</a></p>
+<p>g+官方教程: <a href="https://developers.google.com/identity/sign-in/android/start" target="_blank" rel="external">G+ start</a></p>
+<p>facebook官方教程: <a href="https://developers.facebook.com/docs/android/getting-started" target="_blank" rel="external">Facebook start</a></p>
+<p>iCCP: <a href="http://www.bigademo.com/iccp-not-recognizing-known-srgb-profile/" target="_blank" rel="external">Not recognizing known sRGB profile</a></p>
+<ul>
+<li><p>今天做分享的时候遇到了这个问题：</p>
+<p>  [2016-04-01 11:24:04 - Dex Loader] Unable to execute dex: method ID not in [0, 0xffff]: 65536<br>  [2016-04-01 11:24:04 - VIVAT_SHARESDK] Conversion to Dalvik format failed: Unable to execute dex: method ID not in [0, 0xffff]: 65536</p>
+</li>
+</ul>
+<p><a href="http://www.cnblogs.com/yaozhongxiao/p/3521428.html" target="_blank" rel="external">大项目中遇到的问题看这个博客</a></p>
+<ul>
+<li>iCCP: Not recognizing known sRGB profile 删除png图片内嵌的iCCP profile sRGB报错</li>
+</ul>
+<p>今天有碰见一个坑，改其他代码，然后在编译的时候就出现这个问题，对就是这个问题。网上查了资料，也就这个资料最全面，大家可以去看见<a href="http://my.oschina.net/1pei/blog/479162?fromerr=ARrUPlGS" target="_blank" rel="external">http://my.oschina.net/1pei/blog/479162?fromerr=ARrUPlGS</a></p>
+<p>处理这个问题我使用了一种方法，记录下来以便以后使用</p>
+<p>步骤1:下载Image Magick <a href="http://www.imagemagick.com.cn/download.html.如果是windows的，请下载含dll的" target="_blank" rel="external">http://www.imagemagick.com.cn/download.html.如果是windows的，请下载含dll的</a></p>
+<p>步骤2： 在要处理的文件夹使用如下命令 ，一定要在要处理的文件夹使用</p>
+<figure class="highlight"><table><tr><td class="code"><pre><div class="line">//WINDOWS使用</div><div class="line">set fn=E:\Program Files\ImageMagick-6.9.0-Q16\convert.exe  </div><div class="line">for /f "tokens=*" %i in ('dir/s/b *.png') do "%fn%" "%i" -strip "%i"</div><div class="line">（因为是window的，所以把%%i改为%i）</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="code"><pre><div class="line">//LINUX使用</div><div class="line"> set fn=E:\Program Files\ImageMagick-6.9.0-Q16\convert.exe  </div><div class="line">for /f "tokens=*" %%i in ('dir/s/b *.png') do "%fn%" "%%i" -strip "%%i"</div></pre></td></tr></table></figure>
+<h3 id="2-遇到问题"><a href="#2-遇到问题" class="headerlink" title="2.遇到问题"></a>2.遇到问题</h3><ul>
+<li><p>1.“This client application’s callback url has been locked”.</p>
+<p>  使用Twitter signin时遇到了这个问题，这个错误信息是在logcat中找到的，原因是在<a href="https://apps.twitter.com" target="_blank" rel="external">Twitter</a>的Settings里勾选了“Enable Callback Locking (It is recommended to enable callback locking to ensure apps cannot overwrite the callback url)”选项，这个选项表示不允许app本地更改callback url。也可看这个<a href="https://twittercommunity.com/t/callback-url-is-locked/59481" target="_blank" rel="external">页面</a></p>
+</li>
+</ul>
+<h3 id="3-add-vs-replace"><a href="#3-add-vs-replace" class="headerlink" title="3.add() vs. replace()"></a>3.add() vs. replace()</h3><ul>
+<li><p>只有在Fragment数量大于等于2的时候，调用add()还是replace()的区别才能体现出来。</p>
+<p>  当通过add()连续两次添加Fragment的时候，每个Fragment生命周期中的onAttach()-onResume()都会被各调用一次，而且两个Fragment的View会被同时attach到containerView。</p>
+<p>  同样，退出Activty时，每个Fragment生命周期中的onPause()-onDetach()也会被各调用一次。</p>
+<p>  但当使用replace()来添加Fragment的时候，第二次添加会导致第一个Fragment被销毁，即执行第二个Fragment的onAttach()方法之前会先执行第一个Fragment的onPause()-onDetach()方法，同时containerView会detach第一个Fragment的View。</p>
+</li>
+<li><p>调用show() &amp; hide()方法时.</p>
+<p>  Fragment的生命周期方法并不会被执行，仅仅是Fragment的View被显示或者​隐藏。而且，尽管Fragment的View被隐藏，但它在父布局中并未被detach，仍然是作为containerView的childView存在着。相比较下，attach() &amp; detach()做的就更彻底一些。一旦一个Fragment被detach()，它的onPause()-onDestroyView()周期都会被执行。</p>
+<p>  同时Fragment的View也会被detach。在重新调用attach()后，onCreateView()-onResume()周期也会被再次执行。</p>
+</li>
+<li><p>remove()</p>
+<p>  其实看完上面的分析，remove()方法基本也就明白了。相对应add()方法执行onAttach()-onResume()的生命周期，remove()就是完成剩下的onPause()-onDetach()周期。</p>
+</li>
+</ul>
+<h3 id="4-FragmentTransaction-add-和-replace-区别"><a href="#4-FragmentTransaction-add-和-replace-区别" class="headerlink" title="4.FragmentTransaction add 和 replace 区别"></a>4.FragmentTransaction add 和 replace 区别</h3><p>使用 FragmentTransaction 的时候，它提供了这样两个方法，一个 add ， 一个 replace .add 和 replace 影响的只是界面，而控制回退的，是事务。</p>
+<ul>
+<li><p>add 是把一个fragment添加到一个容器 container 里。</p>
+<p>  Add a fragment to the activity state. This fragment may optionally also have its view (if Fragment.onCreateView returns non-null) into a container view of the activity.</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> FragmentTransaction <span class="title">add</span> <span class="params">(<span class="keyword">int</span> containerViewId, Fragment fragment, String tag)</span></span></div></pre></td></tr></table></figure>
+<ul>
+<li><p>replace 是先remove掉相同id的所有fragment，然后在add当前的这个fragment。</p>
+<p>  Replace an existing fragment that was added to a container. This is essentially the same as calling remove(Fragment) for all currently added fragments that were added with the same containerViewId and then add(int, Fragment, String) with the same arguments given here.</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> FragmentTransaction <span class="title">replace</span> <span class="params">(<span class="keyword">int</span> containerViewId, Fragment fragment, String tag)</span></span></div></pre></td></tr></table></figure>
+<p>在大部分情况下，这两个的表现基本相同。因为，一般，咱们会使用一个FrameLayout来当容器，而每个Fragment被add 或者 replace 到这个FrameLayout的时候，都是显示在最上层的。所以你看到的界面都是一样的。但是，使用add的情况下，这个FrameLayout其实有2层，多层肯定要比一层的来得浪费，所以还是推荐使用replace。当然有时候还是需要使用add的。比如要实现轮播图的效果，每个轮播图都是一个独立的Fragment，而他的容器FrameLayout需要add多个Fragment，这样他就可以根据提供的逻辑进行轮播了。</p>
+<p>而至于返回键的时候，这个跟事务有关，跟使用add还是replace没有任何关系。</p>
+<h3 id="5-要想fragment完整地执行生命周期"><a href="#5-要想fragment完整地执行生命周期" class="headerlink" title="5.要想fragment完整地执行生命周期"></a>5.要想fragment完整地执行生命周期</h3><p>fragment跳转是要使用replace()方法，并一定要指定tag，否则有些方法不会执行（比如onResume），例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">getFragmentManager()</div><div class="line"> 	.beginTransaction()</div><div class="line">    .replace(R.id.base_container,</div><div class="line">    	 inputVerifyCodeFragment,<span class="string">"tag_code"</span>)</div><div class="line">    .addToBackStack(<span class="keyword">null</span>).commit();</div></pre></td></tr></table></figure>
+<h3 id="6-fragment事件穿透"><a href="#6-fragment事件穿透" class="headerlink" title="6.fragment事件穿透"></a>6.fragment事件穿透</h3><p>如果发现fragment2的点击事件可以被fragment栈下一层的fragment1获取到，可以在fragment2布局的根部加上：android:clickable=”true”。问题解决</p>
+
+                <hr>
+                本文总阅读量 <span id="busuanzi_value_page_pv"></span> 次
+                <hr>
+                
+                <!-- 多说 Share start -->
+                <div class="ds-share"
+                     style="text-align: right"
+                     data-thread-key="2016/03/15/facebook-google+signin/"
+                     data-title="近期总结facebook google+ Twitter sign-in fragment使用"
+                     data-url="http://agehua.github.io/2016/03/15/facebook-google+signin/"
+                     data-images=""
+                     data-content="1.相关资料blog: 关于Google+以及Facebook第三方登录实现的一点总结
+g+官... | Agehua&#39;s blog ">
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-16">
+                            <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                            <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                            <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                            <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                        </ul>
+                        <div class="ds-share-icons-more">
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/03/20/android-books-reading-/" data-toggle="tooltip" data-placement="top"
+                           title="《android开发艺术探索》读书笔记">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/03/01/android-googlemap-summary/" data-toggle="tooltip" data-placement="top"
+                           title="android Google map使用总结">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                         data-thread-key="2016/03/15/facebook-google+signin/"
+                         data-title="近期总结facebook google+ Twitter sign-in fragment使用"
+                         data-url="http://agehua.github.io/2016/03/15/facebook-google+signin/">
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-相关资料"><span class="toc-text">1.相关资料</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-遇到问题"><span class="toc-text">2.遇到问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-add-vs-replace"><span class="toc-text">3.add() vs. replace()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-FragmentTransaction-add-和-replace-区别"><span class="toc-text">4.FragmentTransaction add 和 replace 区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-要想fragment完整地执行生命周期"><span class="toc-text">5.要想fragment完整地执行生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-fragment事件穿透"><span class="toc-text">6.fragment事件穿透</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#accumulation"
+                           title="accumulation">accumulation</a>
+                        
+                    </div>
+                </section>
+                
+
+                
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://www.bigademo.com">ghost老司机的博客</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+    
+</article>
+
+<a href="https://github.com/agehua"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'agehua';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user};
+    (function () {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/名逍遥">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/jixinli">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/Will Tihdhs">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Agehua 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    <!-- Theme by <a href="https://haojen.github.io/">Haojen Ma</a> -->
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//avatars2.githubusercontent.com/u/4710673?v=3&amp;s=400">
+</body>
+
+
+
+</html>

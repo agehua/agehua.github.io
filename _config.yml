@@ -1,0 +1,158 @@
+# Hexo Configuration
+## Docs: https://hexo.io/docs/configuration.html
+## Source: https://github.com/hexojs/hexo/
+
+# Site
+title: Agehua # your blog title name
+subtitle:
+author: Jixin Li # 作者
+language: en
+timezone:
+email: lijixin88@gmail.com
+
+# URL
+## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
+url: http://agehua.github.io
+root: /
+permalink: :year/:month/:day/:title/
+permalink_defaults:
+
+# SNS settings
+# RSS:
+# weibo_username: jixinli
+# zhihu_username: agehua
+# github_username: agehua
+# twitter_username: 名逍遥
+# facebook_username: Will Tihdhs
+# linkedin_username:
+
+# Build settings
+anchorjs: false                        # if you want to customize anchor. check out line:181 of `post.html`
+
+
+# Disqus settings
+disqus_username:
+
+# Duoshuo settings
+duoshuo_username: agehua # 你的多说帐号
+# Share component is depend on Comment so we can NOT use share only.
+duoshuo_share: true                     # set to false if you want to use Comment without Sharing
+
+
+# Analytics settings
+# Baidu Analytics
+ba_track_id:
+# Google Analytics
+ga_track_id:             # Format: UA-xxxxxx-xx
+ga_domain:
+
+
+# Featured Tags
+featured-tags: true                     # whether or not using Feature-Tags
+featured-condition-size: 1              # A tag will be featured if the size of it is more than this condition value
+
+
+# Directory
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: :lang
+skip_render:
+
+# Writing
+new_post_name: :year-:month-:day-:title.md # File name of new posts
+default_layout: post
+titlecase: false # Transform title into titlecase
+external_link: true # Open external links in new tab
+filename_case: 1 #生成的网址全部为小写
+render_drafts: false
+post_asset_folder: true
+relative_link: false
+future: true
+highlight:
+  enable: true
+  line_number: false
+  auto_detect: false
+  tab_replace:
+
+# Category & Tag
+default_category: uncategorized
+category_map:
+tag_map:
+
+# Date / Time format
+## Hexo uses Moment.js to parse and display date
+## You can customize the date format as defined in
+## http://momentjs.com/docs/#/displaying/format/
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+
+# Pagination
+## Set per_page to 0 to disable pagination
+per_page: 8
+pagination_dir: page
+
+# Extensions
+## Plugins: https://hexo.io/plugins/
+# Extensions
+Plugins:
+- hexo-generator-feed
+- hexo-generator-sitemap
+#Feed Atom rss订阅
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+#sitemap  网站地图，方便浏览器检索
+sitemap:
+  path: sitemap.xml
+
+markdown:
+  plugins:
+    - markdown-it-abbr
+    - markdown-it-footnote
+    - markdown-it-ins
+    - markdown-it-sub
+    - markdown-it-sup
+    - markdown-it-emoji
+
+## Themes: https://hexo.io/themes/
+theme: icarus
+
+# Deployment
+## Docs: https://hexo.io/docs/deployment.html
+deploy:
+  type: git
+  repo: git@github.com:agehua/agehua.github.io.git
+  branch: master
+
+# archive page title
+archive:
+    title: archives
+    description: 可以根据归档日期检索所有文件
+
+# 报错：
+# 'MODULE_NOT_FOUND' }
+# ERROR Plugin load failed: hexo-generator-json-content
+# # HEXO站内搜索配置
+# jsonContent:
+#   meta: false
+#   pages: false
+#   posts:
+#     title: true #文章标题
+#     date: true #发表日期
+#     path: true #路径
+#     text: true #文本字段
+#     raw: false
+#     content: false
+#     slug: false
+#     updated: false
+#     comments: false
+#     link: false
+#     permalink: false
+#     excerpt: false
+#     categories: false
+#     tags: true #标签

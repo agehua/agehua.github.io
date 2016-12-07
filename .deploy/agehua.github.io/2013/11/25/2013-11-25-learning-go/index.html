@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="马浩珍在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Haojen" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        go语言学习｜Haojen&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2013/11/25/2013-11-25-learning-go/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Haojen
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>go语言学习</h1>
+                    
+                    <span class="meta">
+                         作者 Haojen Ma
+                        <span>
+                          日期 2013-11-25
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            go语言学习
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="一点体会"><a href="#一点体会" class="headerlink" title="一点体会"></a>一点体会</h2><p>下面这篇博文是在看<a href="http://book.douban.com/subject/11577300/" target="_blank" rel="external">《go语言编程》</a>书的笔记。<br>在看书的过程中，其实也没有对go语言进行深入的学习。仅仅是停留在对语法的简单了解。</p>
+<p>总的来说，go语言没有它多的新东西，仅仅是将各个语言比较有特色的内容，集中到以一个语言中，而且还是基于C语言的，因为go语言的作者就是C语言的作者。哪些比较有特色的呢，例如闭包，接口，垃圾回收，还有必然语言级别支持协程。这种炒大杂烩的方式，个人感觉不可能会成功。只不过go语言已一个比较强大的干爹google，所有才多多少少掀起了几个波浪。</p>
+<p>很有意思的一件事情是，虽然这个语言生在美国，生在google，但是目前go语言的社区最活跃的，还是我们中国的屌丝程序员。我认为这是一件极好的事情，说明了我们中国在IT方面对新事物的开明态度和勇于追逐，虽然成功可能不在go语言，但是有这种态度，终会有所作为。</p>
+<h2 id="go语言简介"><a href="#go语言简介" class="headerlink" title="go语言简介"></a>go语言简介</h2><p>go语言是google推出的一个可以提高并发编程的语言，它着不同一般的背景。</p>
+<ul>
+<li>回溯至1969 年, 肯·汤普逊（Ken Thompson）和丹尼斯·里奇（Dennis Ritchie ）在贝尔实验室的计算科学研究中心里开发出了Unix ，还因为开发Unix而衍生——C语言。</li>
+<li>80年代，开始Plan 9 的操作系统研究项目，解决Unix 中的一些问题, 又演变出了Inferno 的项目分支，以及一个名为Limbo 的编程语言</li>
+<li>Limbo是用于开发运行在小型计算机上的分布式应用的编程语言，它支持模块化编程，编译期和运行时的强类型检查，进程内基于具有类型的通信通道，原子性垃圾收集和简单的抽象数据类型。它被设计为：即便是在没有硬件内存保护的小型设备上，也能安全运行。</li>
+<li>Limbo 语言被认为是Go语言的前身，不仅仅因为是同一批人设计的语言，而是Go语言确实从Limbo 语言中继承了众多优秀的特性。</li>
+<li>贝尔实验室后来经历了多次的动荡，包括肯·汤普逊在内的Plan 9 项目原班人马加入了Google 。在Google ，他们创造了Go语言。</li>
+<li>2007 年9月，Go语言还是这帮大牛的20% 自由时间的实验项目</li>
+<li>2008 年5月，Google 发现了Go语言的巨大潜力，从而开始全力支持这个项目</li>
+<li>2009年11 月，发布第一个版本在</li>
+<li>2012年3月28 日，发布第一个正式版本</li>
+</ul>
+<h2 id="go语言特性"><a href="#go语言特性" class="headerlink" title="go语言特性"></a>go语言特性</h2><ul>
+<li>自动垃圾回收 </li>
+<li>更丰富的内置类型 </li>
+<li>函数多返回值 </li>
+<li>错误处理 </li>
+<li>匿名函数和闭包 </li>
+<li>类型和接口 </li>
+<li>并发编程 </li>
+<li>反射 </li>
+<li>语言交互性 (Cgo, C语言库)</li>
+</ul>
+<a id="more"></a>
+<h2 id="go的工具"><a href="#go的工具" class="headerlink" title="go的工具"></a>go的工具</h2><ul>
+<li>编辑器<ul>
+<li>文本编辑工具gedit（Linux）/Notepad++ （Windows）/Fraise （Mac OS X）</li>
+<li>安装了GoClipse 插件的Eclipse ，集成性做得很好； </li>
+<li>Vim/Emacs，万能开发工具； </li>
+<li>LiteIDE，一款专为Go语言开发的集成开发环境。</li>
+</ul>
+</li>
+<li>工程管理<ul>
+<li>Go命令行工具</li>
+</ul>
+</li>
+<li>调试<ul>
+<li>FMT 输出日志/gdb</li>
+</ul>
+</li>
+</ul>
+<h1 id="语言"><a href="#语言" class="headerlink" title="语言"></a>语言</h1><h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">var  v1 int  </div><div class="line">var  v2 string  </div><div class="line">var  v3 [10] int     //  数组 </div><div class="line">var  v4 [] int      //  数组切片 </div><div class="line">var v5 struct &#123; </div><div class="line">    f  int  </div><div class="line">&#125; </div><div class="line">var  v6 *int       //  指针 </div><div class="line">var  v7 map [ string ] int  // map ，key 为string 类型，value 为int 类型 </div><div class="line">var  v8 func(a  int ) int </div><div class="line"></div><div class="line">var v1  int  = 10</div><div class="line">var v2 = 10  //  编译器自动推导出v2 的类型 </div><div class="line">v3 := 10  // 编译器自动推导出v3 的类型</div></pre></td></tr></table></figure>
+<p>Go语言也引入了另一个C和C++ 中没有的符号（冒号和等号的组合:=），用于明确表达同时进行变量声明和初始化的工作。</p>
+<p>go支持直接交换值</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">var  v10 int  </div><div class="line">v10 = 123 </div><div class="line">i, j = j, i     //交换值</div></pre></td></tr></table></figure>
+<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">-12                 // 无类型常量</div><div class="line">3.14159265358979323846 //  浮点类型的常量 </div><div class="line">3.2+12i      // 复数类型的常量 </div><div class="line">true      //  布尔类型的常量 </div><div class="line">&quot;foo&quot;     //  字符串常量</div></pre></td></tr></table></figure>
+<p>go语言的数字类型有：<br><code>int</code>、<code>uint</code>、<code>int32</code>、<code>int64</code>、<code>float32</code>、<code>float64</code>、<code>complex64</code>、<code>complex128</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">const Pi float64 = 3.14159265358979323846  </div><div class="line">const zero = 0.0             // 无类型浮点常量 </div><div class="line">const  (  </div><div class="line">    size int64 = 1024 </div><div class="line">    eof = -1                //  无类型整型常量 </div><div class="line">)  </div><div class="line">const u, v  float32 = 0, 3    // u = 0.0, v = 3.0，常量的多重赋值 </div><div class="line">const a, b, c = 3, 4, &quot;foo&quot;   // a = 3, b = 4, c = &quot;foo&quot;,  无类型整型和字符串常量</div></pre></td></tr></table></figure>
+<h2 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h2><ul>
+<li>布尔类型：bool </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">var v1 bool </div><div class="line">v1 = true</div></pre></td></tr></table></figure>
+<ul>
+<li>整型：int8、byte、int16 、int 、uint、uintptr等。 </li>
+</ul>
+<p>go语言支持位运算</p>
+<p>且有一个特殊类型：uintptr:<br>uintptr is an integer type that is large enough to hold the bit pattern of any pointer.</p>
+<ul>
+<li>浮点类型：float32、float64。</li>
+<li>复数类型：complex64、complex128。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">var value1 complex64       //  由2 个float32构成的复数类型 </div><div class="line">value1 = 3.2 + 12i </div><div class="line">value2 := 3.2 + 12i        // value2 是complex128类型 </div><div class="line">value3 := complex(3.2, 12)  // value3结果同 value2</div></pre></td></tr></table></figure>
+<p>对于一个复数z = complex(x, y) ，就可以通过Go语言内置函数real(z)获得该复数的实部，也就是x，通过imag(z)获得该复数的虚部，也就是y</p>
+<ul>
+<li>字符串：string。<br>  Go编译器支持UTF-8 的源代码文件格式</li>
+<li>字符类型：rune。 </li>
+<li>错误类型：error 。 </li>
+</ul>
+<p>此外，Go语言也支持以下这些复合类型： </p>
+<ul>
+<li>指针（pointer ） </li>
+<li>数组（array） </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">[32]byte       //  长度为32 的数组，每个元素为一个字节 </div><div class="line">[2*N]  struct  &#123; x, y  int32 &#125; //  复杂类型数组 </div><div class="line">[1000]*float64    //  指针数组 </div><div class="line">[3][5] int      //  二维数组 </div><div class="line">[2][2][2]float64    //  等同于[2]([2]([2]float64))</div></pre></td></tr></table></figure>
+<ul>
+<li>切片（slice ） <code>myArray[:5]</code></li>
+<li>字典（map） </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">var  myMap map [ string ] PersonInfo</div><div class="line">// myMap是声明的map 变量名，string是键的类型，PersonInfo则是其中所存放的值类型。</div><div class="line">myMap =  make( map [ string ] PersonInfo)</div><div class="line">myMap =  map [ string ] PersonInfo&#123; </div><div class="line">	&quot;1234&quot;: PersonInfo&#123;&quot;1&quot;, &quot;Jack&quot;, &quot;Room 101,...&quot;&#125;, </div><div class="line">&#125;</div><div class="line">myMap[&quot;1234&quot;] = PersonInfo&#123;&quot;1&quot;, &quot;Jack&quot;, &quot;Room 101,...&quot;&#125;</div><div class="line">delete(myMap, &quot;1234&quot;)</div><div class="line">value, ok := myMap[&quot;1234&quot;]  </div><div class="line">if ok &#123; // 找到了 </div><div class="line">	// 处理找到的value  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>通道（chan ）<br>channel是Go语言在语言级别提供的goroutine 间的通信方式。我们可以使用channel在两个或多个goroutine 之间传递消息。channel是进程内的通信方式，因此通过channel传递对象的过程和调用函数时的参数传递行为比较一致，比如也可以传递指针等。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">var  ch chan int</div><div class="line">ch :=  make( chan int )</div><div class="line">ch &lt;- value</div><div class="line">向channel写入数据通常会导致程序阻塞，直到有其他goroutine 从这个channel中读取数据。从channel中读取数据的语法是</div><div class="line">value := &lt;-ch</div></pre></td></tr></table></figure>
+<ul>
+<li>结构体（struct） </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">type Rect  struct  &#123; </div><div class="line">    x, y float64 </div><div class="line">    width, height  float64 </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>接口（interface ）</li>
+<li>流程控制</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">if a &lt; 5 &#123; </div><div class="line">    return 0 </div><div class="line">&#125; else &#123; </div><div class="line">    return 1 </div><div class="line">&#125;</div><div class="line"></div><div class="line">switch  i &#123; </div><div class="line">    case 0: </div><div class="line">        fmt.Printf(&quot;0&quot;) </div><div class="line">    case 1: </div><div class="line">        fmt.Printf(&quot;1&quot;) </div><div class="line">    case 2: </div><div class="line">         fallthrough </div><div class="line">    case 3: </div><div class="line">        fmt.Printf(&quot;3&quot;) </div><div class="line">    case 4, 5, 6: </div><div class="line">        fmt.Printf(&quot;4, 5, 6&quot;) </div><div class="line">    default: </div><div class="line">        fmt.Printf(&quot;Default&quot;) </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意上面的switch语句里面没有break语句</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">sum := 0 </div><div class="line">for  i := 0; i &lt; 10; i++ &#123; </div><div class="line">    sum += i </div><div class="line">&#125;  </div><div class="line"></div><div class="line">a := []int &#123;1, 2, 3, 4, 5, 6&#125; </div><div class="line">for  i, j := 0, len(a) – 1; i &lt; j; i, j = i + 1, j – 1 &#123; </div><div class="line">    a[i], a[j] = a[j], a[i] </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>且go语言包含goto语句</p>
+<ul>
+<li>函数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">package mymath </div><div class="line">import &quot;errors&quot; </div><div class="line"> </div><div class="line">func Add(a int , b int ) (ret int , err error) &#123; </div><div class="line">    if a &lt; 0 || b &lt; 0 &#123; //  假设这个函数只支持两个非负数字的加法 </div><div class="line">        err= errors.New(&quot;Should be non-negative numbers!&quot;) </div><div class="line">        return </div><div class="line">    &#125; </div><div class="line"> </div><div class="line">    return  a + b,  nil  //  支持多重返回值 </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>不定参数类型</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func myfunc(args ... int ) &#123; </div><div class="line">    for  _, arg :=  range args &#123; </div><div class="line">		fmt.Println(arg) </div><div class="line">    &#125;  </div><div class="line">&#125;</div><div class="line"></div><div class="line">n, _ := f.Read(buf)</div></pre></td></tr></table></figure>
+<ul>
+<li>闭包</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">package main   </div><div class="line"> </div><div class="line">import  ( </div><div class="line">	&quot;fmt&quot; </div><div class="line">)   </div><div class="line"> </div><div class="line">func main() &#123; </div><div class="line">    var  j  int  = 5 </div><div class="line"> </div><div class="line">    a := func()( func()) &#123; </div><div class="line">         var  i  int  = 10 </div><div class="line">         return func () &#123; </div><div class="line">            fmt.Printf(&quot;i, j: %d, %d\n&quot;, i, j) </div><div class="line">        &#125; </div><div class="line">    &#125;() </div><div class="line"> </div><div class="line">    a() </div><div class="line"> </div><div class="line">    j *= 2 </div><div class="line"> </div><div class="line">    a() </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>defer<br>  解决释放资源的问题, 可以通过defer字段实现资源的自动释放 </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func CopyFile(dst, src string ) (w int64, err error) &#123; </div><div class="line">    srcFile, err := os.Open(src) </div><div class="line">    if err !=  nil  &#123; </div><div class="line">         return </div><div class="line">    &#125; </div><div class="line"> </div><div class="line">    defer srcFile.Close() </div><div class="line"> </div><div class="line">    dstFile, err := os.Create(dstName) </div><div class="line">    if err !=  nil  &#123; </div><div class="line">         return </div><div class="line">    &#125; </div><div class="line"> </div><div class="line">    defer dstFile.Close() </div><div class="line"> </div><div class="line">    return  io.Copy(dstFile, srcFile)  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>panic()和recover()</li>
+</ul>
+<p>panic()函数时，正常的函数执行流程将立即终止，但函数中之前使用defer 关键字延迟执行的语句将正常展开执行，之后该函数将返回到调用函数，并导致逐层向上执行panic流程，直至所属的goroutine 中所有正在执行的函数被终止。</p>
+<p>recover()函数用于终止错误处理流程。</p>
+<h2 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h2><p>对于面向对象编程的支持Go 语言设计得非常简洁而优雅。简洁之处在于，Go语言并没有沿袭传统面向对象编程中的诸多概念，比如继承、虚函数、构造函数和析构函数、隐藏的this指针等。优雅之处在于，Go语言对面向对象编程的支持是语言类型系统中的天然组成部分。整个类型系统通过接口串联，浑然一体。我们在本章中将一一解释这些特性。<br>类型<br>在Go语言中，你可以给任意类型（包括内置类型，但不包括指针类型）添加相应的方法，例如： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">type Integer int  </div><div class="line"> </div><div class="line">func (a Integer) Less(b Integer) bool &#123; </div><div class="line">	return  a &lt; b </div><div class="line">&#125;</div><div class="line"></div><div class="line">var  a Integer = 1 </div><div class="line">if a.Less(2) &#123; </div><div class="line">	fmt.Println(a, &quot;Less 2&quot;) </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在你需要修改对象的时候，才必须用指针。它不是Go语言的约束，而是一种自然约束。<br>举个例子： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func (a *Integer) Add(b Integer) &#123; </div><div class="line">    *a += b </div><div class="line">&#125;</div><div class="line">a.Add(2)</div></pre></td></tr></table></figure>
+<ul>
+<li>值语义和引用语义</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">var  a = [3] int &#123;1, 2, 3&#125; </div><div class="line">var  b = a </div><div class="line">b[1]++ </div><div class="line">fmt.Println(a, b)</div></pre></td></tr></table></figure>
+<p>Go语言中的大多数类型都基于值语义</p>
+<p><code>基本类型</code>：如byte、int 、bool、float32、float64和string等；  </p>
+<p><code>复合类型</code>：如数组（array）、结构体（struct）和指针（pointer ）等。</p>
+<p>Go语言中有4个类型比较特别，看起来像引用类型</p>
+<p><code>数组切片</code>：指向数组（array）的一个区间。 </p>
+<p><code>map</code>：极其常见的数据结构，提供键值查询能力。 </p>
+<p><code>channel</code>：执行体（goroutine ）间的通信设施。 </p>
+<p><code>接口（interface ）</code>：对一组满足某个契约的类型的抽象。</p>
+<ul>
+<li>结构体 </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">type Rect  struct  &#123; </div><div class="line">    x, y float64 </div><div class="line">    width, height  float64 </div><div class="line">&#125;</div><div class="line">// 初始化</div><div class="line">rect1 := new (Rect) </div><div class="line">rect2 := &amp;Rect&#123;&#125; </div><div class="line">rect3 := &amp;Rect&#123;0, 0, 100, 200&#125; </div><div class="line">rect4 := &amp;Rect&#123;width: 100, height: 200&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>匿名组合：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">type Base  struct  &#123; </div><div class="line">    Name string </div><div class="line">&#125; </div><div class="line"> </div><div class="line">func (base *Base) baseFoo() &#123; ... &#125; </div><div class="line">func (base *Base) baseBar() &#123; ... &#125;</div><div class="line"></div><div class="line">type Foo struct  &#123; </div><div class="line">    Base </div><div class="line">    ... </div><div class="line">&#125;</div><div class="line"></div><div class="line">func (foo *Foo) Bar() &#123; </div><div class="line">    foo.Base.baseBar() </div><div class="line">    ... </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>要使某个符号对其他包（package）可见（即可以访问），需要将该符号定义为以大写字母开头</p>
+<ul>
+<li>接口</li>
+</ul>
+<p>非侵入式接口:<br>将对象实例赋值给接口；将一个接口赋值给另一个接口。</p>
+<p>我们定义一个Integer类型的对象实例，怎么将其赋值给LessAdder</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">type Integer int  </div><div class="line"> </div><div class="line">func (a Integer) Less(b Integer) bool &#123; </div><div class="line">    return  a &lt; b </div><div class="line">&#125; </div><div class="line"> </div><div class="line">func (a *Integer) Add(b Integer) &#123; </div><div class="line">    *a += b </div><div class="line">&#125;</div><div class="line"></div><div class="line">type LessAdder  interface &#123; </div><div class="line">    Less(b Integer) bool </div><div class="line">    Add(b Integer) </div><div class="line">&#125;</div><div class="line">var  a Integer = 1 </div><div class="line">var  b LessAdder = &amp;a</div></pre></td></tr></table></figure>
+<p>下面的例子，定义了两个不同的包：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">package one </div><div class="line"> </div><div class="line">type ReadWriter interface &#123; </div><div class="line">    Read(buf []byte) (n int , err error) </div><div class="line">    Write(buf [] byte) (n int , err error) </div><div class="line">&#125;</div><div class="line"></div><div class="line">package two </div><div class="line"> </div><div class="line">type IStream interface &#123; </div><div class="line">    Write(buf [] byte) (n int , err error) </div><div class="line">    Read(buf []byte) (n int , err error) </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>任何实现了one.ReadWriter接口的类，均实现了two.IStream ； </p>
+<ol>
+<li>任何one.ReadWriter接口对象可赋值给two.IStream ，反之亦然； </li>
+<li>在任何地方使用one.ReadWriter接口与使用two.IStream 并无差异。 </li>
+</ol>
+<p>以下这些代码可编译通过： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">var  file1 two.IStream =  new (File) </div><div class="line">var  file2 one.ReadWriter = file1 </div><div class="line">var  file3 two.IStream = file2</div></pre></td></tr></table></figure>
+<p>接口查询：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">if file5, ok := file1.(two.IStream); ok &#123; </div><div class="line">    ... </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>Any 类型</li>
+</ul>
+<p>由于Go语言中任何对象实例都满足空接口interface{}，所以 interface{} 看起来像是可<br>以指向任何对象的Any 类型，如下： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">var  v1 interface&#123;&#125; = 1       //  将int 类型赋值给interface&#123;&#125; </div><div class="line">var  v2 interface&#123;&#125; = &quot;abc&quot;   //  将string类型赋值给interface&#123;&#125; </div><div class="line">var  v3 interface&#123;&#125; = &amp;v2     //  将*interface&#123;&#125;类型赋值给interface&#123;&#125; </div><div class="line">var  v4 interface&#123;&#125; = struct &#123; X int  &#125;&#123;1&#125; </div><div class="line">var  v5 interface&#123;&#125; = &amp; struct &#123; X int  &#125;&#123;1&#125;</div></pre></td></tr></table></figure>
+<p>fmt包中的Print定义，可以看出any类型的优势。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">func Print(a ...interface&#123;&#125;) (n int, err error)</div><div class="line">func Printf(fmt string , args ...interface&#123;&#125;) </div><div class="line">func Println(args ...interface&#123;&#125;)</div></pre></td></tr></table></figure>
+<h2 id="并发编程"><a href="#并发编程" class="headerlink" title="并发编程"></a>并发编程</h2><p>并发编程的模型一般有：</p>
+<ul>
+<li>多进程</li>
+<li>多线程</li>
+<li>基于回调的非阻塞/ 异步IO</li>
+<li>协程</li>
+</ul>
+<p><a href="http://zh.wikipedia.org/wiki/%E5%8D%8F%E7%A8%8B" target="_blank" rel="external">协程</a><a href="http://en.wikipedia.org/wiki/Coroutine" target="_blank" rel="external">(coroutine)</a>本质上是一种用户态线程，不需要操作系统来进行抢占式调度，且在真正的实现中寄存于线程中，因此，系统开销极小，可以有效提高线程的任务并发性，而避免多线程的缺点。使用协程的优点是编程简单，结构清晰；缺点是需要语言的支持，如果不支持，则需要用户在程序中自行实现调度器。目前，原生支持协程的语言还很少。</p>
+<p>子例程(线程)的起始处是惟一的入口点，一旦退出即完成了子程序的执行，子程序的一个实例只会返回一次。<br>协程可以通过yield来调用其它协程。通过yield方式转移执行权的协程之间不是调用者与被调用者的关系，而是彼此对称、平等的。<br>协程的起始处是第一个入口点，在协程里，返回点之后是接下来的入口点。</p>
+<p>以下是协程的一段伪代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">生产者协程</div><div class="line">   loop</div><div class="line">       while q is not full</div><div class="line">           create some new items</div><div class="line">           add the items to q</div><div class="line">       yield to consume</div><div class="line">消费者协程</div><div class="line">   loop</div><div class="line">       while q is not empty</div><div class="line">           remove some items from q</div><div class="line">           use the items</div><div class="line">       yield to produce</div></pre></td></tr></table></figure>
+<p>一个python的例子：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">h</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'Wen Chuan'</span>,</div><div class="line">    m = <span class="keyword">yield</span> <span class="number">5</span>  <span class="comment"># Fighting!</span></div><div class="line">    <span class="keyword">print</span> m</div><div class="line">    d = <span class="keyword">yield</span> <span class="number">12</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'We are together!'</span></div><div class="line"></div><div class="line">c = h()</div><div class="line">m = c.next()  <span class="comment">#m 获取了yield 5 的参数值 5</span></div><div class="line">d = c.send(<span class="string">'Fighting!'</span>)  <span class="comment">#d 获取了yield 12 的参数值12</span></div><div class="line"><span class="keyword">print</span> <span class="string">'We will never forget the date'</span>, m, <span class="string">'.'</span>, d</div></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Wen Chuan Fighting!</div><div class="line">We will never forget the date 5 . 12</div></pre></td></tr></table></figure>
+<p>Go 语言在语言级别支持轻量级线程，叫goroutine 。<br>一个函数调用前加上go关键字，这次调用就会在一个新的goroutine 中并发执行。当被调用的函数返回时，这个goroutine 也自动结束了。需要注意的是，如果这个函数有返回值，那么这个返回值会被丢弃。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">package main </div><div class="line"> </div><div class="line">import  &quot;fmt&quot; </div><div class="line"> </div><div class="line">func Add(x, y int ) &#123; </div><div class="line">    z := x + y </div><div class="line">    fmt.Println(z)  </div><div class="line">&#125;   </div><div class="line"> </div><div class="line">func main() &#123; </div><div class="line">	for i := 0; i &lt; 10; i++ &#123; </div><div class="line"> 		go Add(i, i) </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码源文件</p>
+
+
+<ul>
+<li>channel</li>
+</ul>
+<p>channel是Go语言在语言级别提供的goroutine 间的通信方式。我们可以使用channel在两个或多个goroutine 之间传递消息。channel是进程内的通信方式，因此通过channel传递对象的过程和调用函数时的参数传递行为比较一致，比如也可以传递指针等。</p>
+<p>channel是类型相关的。也就是说，一个channel只能传递一种类型的值，这个类型需要在声明channel时指定。如果对Unix 管道有所了解的话，就不难理解channel，可以将其认为是一种类型安全的管道。</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">var  chanName chan ElementType</div><div class="line">var  ch chan int</div><div class="line">var  m  map [ string ] chan bool</div><div class="line">ch :=  make( chan int )</div></pre></td></tr></table></figure>
+<p>在channel的用法中，最常见的包括写入和读出。将一个数据写入（发送）至channel的语法很直观，如下：</p>
+<pre><code>ch &lt;- value 
+</code></pre><p>向channel写入数据通常会导致程序阻塞，直到有其他goroutine 从这个channel中读取数据。从channel中读取数据的语法是 </p>
+<pre><code>value := &lt;-ch  
+</code></pre><p>如果channel之前没有写入数据，那么从channel中读取数据也会导致程序阻塞，直到channel中被写入数据为止。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Select</div><div class="line">select  &#123; </div><div class="line">	case &lt;-chan1: </div><div class="line">	// 如果chan1成功读到数据，则进行该case处理语句 </div><div class="line"> 	case chan2 &lt;- 1: </div><div class="line">	// 如果成功向chan2 写入数据，则进行该case处理语句 </div><div class="line"> 	default: </div><div class="line">	// 如果上面都没有成功，则进入default处理流程 </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>缓冲机制</li>
+</ul>
+<p>给channel带上缓冲，从而达到消息队列的效果。 要创建一个带缓冲的channel，其实也非常容易： </p>
+<pre><code>c := make( chan int , 1024)
+</code></pre><p>从带缓冲的channel中读取数据可以使用与常规非缓冲channel完全一致的方法，但我们也可以使用range关键来实现更为简便的循环读取：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">for  i :=  range c &#123; </div><div class="line">    fmt.Println(&quot;Received:&quot;, i) </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>需要注意的是，在Go语言中channel本身也是一个原生类型，与map之类的类型地位一样，因此channel本身在定义后也可以通过channel来传递。</p>
+<ul>
+<li>超时机制</li>
+</ul>
+<p>Go语言没有提供直接的超时处理机制，但我们可以利用select机制。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">//  首先，我们实现并执行一个匿名的超时等待函数 </div><div class="line">timeout :=  make( chan bool, 1) </div><div class="line">go func() &#123; </div><div class="line">    time.Sleep(1e9) //  等待1秒钟 </div><div class="line">    timeout &lt;- true </div><div class="line">&#125;() </div><div class="line"> </div><div class="line">//  然后我们把timeout这个channel利用起来 </div><div class="line">select  &#123; </div><div class="line">	case &lt;-ch: </div><div class="line">	// 从ch中读取到数据 </div><div class="line">	case &lt;-timeout: </div><div class="line">	// 一直没有从ch中读取到数据，但从timeout中读取到了数据 </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>单向channel</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">var  ch1 chan int  // ch1 是一个正常的channel，不是单向的 </div><div class="line">var  ch2 chan&lt;-  float64// ch2 是单向channel，只用于写float64数据 </div><div class="line">var  ch3 &lt;-chan int  // ch3 是单向channel，只用于读取int 数据</div></pre></td></tr></table></figure>
+<p>只有在介绍了单向channel的概念后，读者才会明白类型转换对于channel的意义：就是在单向channel和双向channel之间进行转换。示例如下： </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">ch4 := make( chan int ) </div><div class="line">ch5 := &lt;-chan int (ch4) // ch5就是一个单向的读取channel </div><div class="line">ch6 := chan&lt;-  int (ch4) // ch6  是一个单向的写入channel</div></pre></td></tr></table></figure>
+<p>关闭channel</p>
+<pre><code>close(ch)
+</code></pre><p>关闭后：</p>
+<pre><code>x, ok := &lt;-ch 
+</code></pre><p>这个用法与map 中的按键获取value的过程比较类似，只需要看第二个bool返回值即可，如果返回值是false 则表示ch已经被关闭。</p>
+<p>多核并行化，让出时间片</p>
+
+<ul>
+<li>同步</li>
+</ul>
+<p>Go语言包中的sync包提供了两种锁类型：sync.Mutex和sync.RWMutex。<br>RWMutex相对友好些，是经典的单写多读模型</p>
+<p>Go语言提供了一个Once类型来保证全局的唯一性操作，</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">var a string  </div><div class="line">var once sync.Once   </div><div class="line"> </div><div class="line">func setup() &#123; </div><div class="line"> 	a = &quot;hello, world&quot; </div><div class="line">&#125;   </div><div class="line"> </div><div class="line">func doprint() &#123; </div><div class="line">	once.Do(setup) </div><div class="line">	print(a)  </div><div class="line">&#125;   </div><div class="line"> </div><div class="line">func twoprint() &#123; </div><div class="line">	go doprint() </div><div class="line">	go doprint()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>goroutine 和channel 是支撑起Go语言的并发模型的基石，让Go语言在如今集群化与多核化的时代成为一道极为亮丽的风景</p>
+<p>最后，看书的过程中，写的关于一些简单的go语言的例子，在<a href="https://github.com/liuhongjiang/tech/tree/source/source/code/2013/go" target="_blank" rel="external">这里</a>.</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2014/05/16/2014-05-16-rules/" data-toggle="tooltip" data-placement="top"
+                           title="规则">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2013/08/18/2013-08-18-tree/" data-toggle="tooltip" data-placement="top"
+                           title="数据结构--树">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一点体会"><span class="toc-text">一点体会</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#go语言简介"><span class="toc-text">go语言简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#go语言特性"><span class="toc-text">go语言特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#go的工具"><span class="toc-text">go的工具</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#语言"><span class="toc-text">语言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#变量"><span class="toc-text">变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常量"><span class="toc-text">常量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类型"><span class="toc-text">类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面向对象"><span class="toc-text">面向对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#并发编程"><span class="toc-text">并发编程</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Haojen 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="null">
+</body>
+
+</html>

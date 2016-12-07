@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="马浩珍在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Haojen" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        基于SVM的手写数字识别｜Haojen&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2012/12/29/2012-12-29-svm-ocr/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Haojen
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>基于SVM的手写数字识别</h1>
+                    
+                    <span class="meta">
+                         作者 Haojen Ma
+                        <span>
+                          日期 2012-12-29
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            基于SVM的手写数字识别
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>前面两篇blog介绍了<a href="/2012/12/26/svm/">支持向量机SVM</a>和<a href="/2012/12/28/svm-smo/">SMO算法</a>，这一篇就讲讲SVM的一个简单实际应用：使用svm实现一个简单的数字手写识别软件。首先要解决如何使用svm进行多类分类。</p>
+<h2 id="svm与多类分类-1"><a href="#svm与多类分类-1" class="headerlink" title="svm与多类分类^1"></a>svm与多类分类<a href="主要参考了：[SVM入门（十）将SVM用于多类分类](http://www.blogjava.net/zhenandaci/archive/2009/03/26/262113.html)。">^1</a></h2><p>svm是一个二类的分类器，即它只回答属于正类还是负类的问题。而现实中要解决的问题，往往是多类的问题，比如文本分类，比如数字识别。如何由两类分类器得到多类分类器, 一般有三种方法：</p>
+<h3 id="一对多（一对其余）"><a href="#一对多（一对其余）" class="headerlink" title="一对多（一对其余）"></a>一对多（一对其余）</h3><p>比如我们有5个类别，第一次就把类别1的样本定为正样本，其余2，3，4，5的样本合起来定为负样本，这样得到一个两类分类器。<br>通过类似的方法构造类别2、3、4、5的分类器，对于测试数据，每一个分类器都过一次，在那个分类器中，被判定为正，那么就认识它属于那个分类。<br>但有两个问题还没有解决：一是被多个分类器判定为正，二是被所有分类器判定为负。第一种情况，可以简单地选择第一个被判定为正的分类，对二种情况，可以视为分类失败了。另外一个问题是，“其余”的那一类样本数总是要数倍于正类（因为它是除正类以外其他类别的样本之和嘛），这就人为的造成了的<a href="http://www.blogjava.net/zhenandaci/archive/2009/03/17/260315.html" target="_blank" rel="external">“数据集偏斜”</a>问题。</p>
+<a id="more"></a>
+<h3 id="一对一"><a href="#一对一" class="headerlink" title="一对一"></a>一对一</h3><p>这种方法需要构造n*(n-1)/2个分类器。简单地可以理解为所有分类1v1进行pk,具体做法，还是每次选一个类的样本作正类样本，而负类样本则变成只选一个类，(例如构造一个1 pk 2的分类器，它的正样本为1的分类，负样本为2的分类）这就避免了偏斜。<br>因此过程就是算出这样一些分类器，第一个只回答“是第1类还是第2类”，第二个只回答“是第1类还是第3类”，第三个只回答“是第1类还是第4类”，如此下去，所以一共有5*(5-1)/2=10个分类器。</p>
+<p>虽然分类器的数目多了，但是在训练阶段（也就是算出这些分类器的分类平面时）所用的总时间却比“一类对其余”方法少很多，在真正用来分类的时候，把一个测试数据扔给所有分类器，第一个分类器会投票说它是“1”或者“2”，第二个会说它是“1”或者“3”，让每一个都投上自己的一票，最后统计票数，如果类别“1”得票最多，就判这篇文章属于第1类。但这有个问题，分类器的数量是类别数量的平方,例如，类别数如果是1000，要调用的分类器数目会上升至约500,000个（类别数的平方量级）。</p>
+<h3 id="DAG-SVM"><a href="#DAG-SVM" class="headerlink" title="DAG SVM"></a>DAG SVM</h3><p>这种方法是构造一个DAG SVM，（有向无环的svm)。<br>还是像一对一方法那样来训练，只是在对一篇文章进行分类之前，先按照下面图的样子来组织分类器这样在分类时,我们就可以先问分类器“1对5”（意思是它能够回答“是第1类还是第5类”），如果它回答5，我们就往左走，再问“2对5”这个分类器，如果它还说是“5”，我们就继续往左走，这样一直问下去，就可以得到分类结果。</p>
+<img src="/images/blogimages/2012/svm-ocr/dag-svm.jpg" class="center">
+<p>好处在哪？我们其实只调用了4个分类器（如果类别数是k，则只调用k-1个），分类速度飞快，且没有分类重叠和不可分类现象！缺点在哪？假如最一开始的分类器回答错误（明明是类别1的文章，它说成了5），那么后面的分类器是无论如何也无法纠正它的错误的（因为后面的分类器压根没有出现“1”这个类别标签），其实对下面每一层的分类器都存在这种错误向下累积的现象。<br>不过不要被DAG方法的错误累积吓倒，错误累积在一对其余和一对一方法中也都存在，DAG方法好于它们的地方就在于，累积的上限，不管是大是小，总是有定论的，有理论证明。而一对其余和一对一方法中，尽管每一个两类分类器的泛化误差限是知道的，但是合起来做多类分类的时候，误差上界是多少，没人知道，这意味着准确率低到0也是有可能的，这多让人郁闷。</p>
+<p>而且现在DAG方法根节点的选取（也就是如何选第一个参与分类的分类器），也有一些方法可以改善整体效果，我们总希望根节点少犯错误为好，因此参与第一次分类的两个类别，最好是差别特别特别大，大到以至于不太可能把他们分错；或者我们就总取在两类分类中正确率最高的那个分类器作根节点，或者我们让两类分类器在分类的时候，不光输出类别的标签，还输出一个类似“置信度”的东东，当它对自己的结果不太自信的时候，我们就不光按照它的输出走，把它旁边的那条路也走一走，等等。 </p>
+<h2 id="高斯核函数"><a href="#高斯核函数" class="headerlink" title="高斯核函数"></a>高斯核函数</h2><p>这个手写识别svm的核函数采用了高斯核函数。高斯核函数的公式如下</p>
+<p>$$<br>K({x_i},{x_j})=e^{- \frac { {\left | {x_i - x_j} \right | }^2}{2\delta ^2}}<br>$$</p>
+<p>其中的径向基函数的宽度$\delta$对分类器的性能比较敏感，对取不同的$\delta$时，高斯核支持向量机的性能进行分析，若$\delta \to 0 $ ，则所有的训练样本点都是支持向量，且它们全部能被正确的分类，但容易出现“过学习”的现象，推广能力较差，对测试样本的错误识别率较高；若$\delta \to \infty$ ，高斯核支持向量机对所有样本一视同仁，推广能力或对测试样本的正确判别能力为零，即它把所有样本点判为同一类。<br>实际上，当$\delta$取比训练样本点之间的平均距离小得多时，就能达到$\delta \to 0 $的效果；当$\delta$取比训练样本点之间的平均距离大得多时，就能达到$\delta \to \infty$的效果。<br>在确定高斯径向基函数的宽度$\delta$时，最基本的方法是对$\delta$取不同的值，然后分别采用支持向量机方法进行训练，选择最小分类错误率的一组$\delta$参数。比较典型的方法有梯度下降法与交叉验证法。<a href="张翔，肖小玲，徐光祐，一种确定高斯核模型参数的新方法，计算机工程，第33卷，第12期，2007年6月。">^2</a></p>
+<h2 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h2><p>我实现的这个数学手写识别的数据是<a href="http://www.manning.com/pharrington/" target="_blank" rel="external">“Machine Learning in Action”</a>的第二章的数据，可以下载这本的<a href="http://www.manning.com/pharrington/MLiA_SourceCode.zip" target="_blank" rel="external">source code</a>获得。解压后的路径为machinelearninginaction/Ch02/digits.zip。</p>
+<p>将digits.zip解压后就可以得到训练数据和测试数据。这些都是原始数据经过处理后的数据，是一个各个文件，一个文件是一个手写数据，文件名像这样”0_52.txt”，签名的0表示这个手写数据对应的数字，后面的数字52，是0这一类手写数据的文件编号。书写数据如下图所示，是一个32*32的黑白位图。</p>
+<img src="/images/blogimages/2012/svm-ocr/data-sample.jpg" class="center">
+<p>在处理手写数据时，例子中是将它们存放到一个32*32的矩阵中，也可以存放到一个有1024的一维数组。计算高斯核函数的${\left \| {x_i} - {x_j} \right \|} ^2 $如下，以一维数组为例：</p>
+<p>$$<br>\begin{array}{l}<br>{\left | {x_i} - {x<em>j} \right |}^2 = \sum\limits</em>{k=0}^{1023}{ {(x_i^k - x_j^k)}^2} \<br>x_i=(x_i^0,x_i^1,\cdot \cdot \cdot,x_i^{1023})<br>\end{array}<br>$$</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>我实现了一个简单的基于svm的数字手写识别的python脚本，多类分类的模型采用的是一对多（一对其余）的方式，所以一共构造了10个分类器，分别对应0到9。算法采用的是前一篇blog讲的<a href="/blog/2012/12/28/svm-smo/">SMO</a>，算法的实现也基本是一样的。下面是具体的代码，可以下载<a href="https://github.com/liuhongjiang/blog_projects/tree/master/svm_ocr" target="_blank" rel="external">github上的代码和数据</a>。</p>
+
+<p>训练数据一共是1934个，测试数据是946，一共是识别出来了914个，其中有911个识别正确。运行结果的截图如下：</p>
+<img src="/images/blogimages/2012/svm-ocr/ocr_test_output.jpg" class="center">
+<p>在实现的过程中，第一个版本效率很低，主要是做了两个地方的改进，一是，缓存了核函数的运算结果，二是，计算预测值的与真实值之差$E_i$，改用增量变化的方式，即每次只计算出$new\_a_i$, $new\_a_j$对$E_i$的改变量。<br>同样一开始，还有识别率低的问题，主要通过配置精度，惩罚系数，$a_i$改变最小步长，这三个参数来提高识别率。但还是对高斯核函数的径向基函数的宽度$\delta$的调整最有效果，针对本例最优情况是当$\delta=10$左右。</p>
+<h2 id="不足"><a href="#不足" class="headerlink" title="不足"></a>不足</h2><p>本文实现的例子，还有很多不足之处:</p>
+<ol>
+<li>样本数据的偏移，训练时，正负样本的数量应该是相当的。本文中的例子，负样本是正样本的9倍。</li>
+<li>高斯径向基函数的宽度，没有经过训练</li>
+<li>选择第二个变量时，本文使用的是遍历方式，也可以改成寻找改变量最大的第二个参数，具体<a href="http://book.douban.com/subject/10590856/" target="_blank" rel="external">《统计学习方法》</a>的P129</li>
+<li>核函数计算时，效率比较低，主要影响测试分类时的速度，如果能用到位运算，应该效率会高很多。</li>
+</ol>
+<p>其实上面的情况都还可以慢慢改进，最大的坑还是训练的时间太长了，我在虚拟机上装的ubuntu server运行的脚本，训练数据接近2000个，测试数据1000个，总共可能花了4个小时左右，时间太长。我之前的同事实现的ocr是居于online learing的，那么我们下一篇blog也来实现一个online learning的数字手写ocr，与今天这个对比一下。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2013/01/11/2013-01-11-es/" data-toggle="tooltip" data-placement="top"
+                           title="elasticsearch之基本操作">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2012/12/28/2012-12-28-svm-smo/" data-toggle="tooltip" data-placement="top"
+                           title="SMO序列最小最优化算法">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#svm与多类分类-1"><span class="toc-text">svm与多类分类^1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一对多（一对其余）"><span class="toc-text">一对多（一对其余）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一对一"><span class="toc-text">一对一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DAG-SVM"><span class="toc-text">DAG SVM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#高斯核函数"><span class="toc-text">高斯核函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据"><span class="toc-text">数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现"><span class="toc-text">实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不足"><span class="toc-text">不足</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Haojen 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="null">
+</body>
+
+</html>

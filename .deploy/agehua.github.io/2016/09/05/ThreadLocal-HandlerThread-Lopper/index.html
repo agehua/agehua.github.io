@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="李纪新在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <link rel="alternate" type="application/atom+xml" title="Agehua" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        ThreadLocal、HandlerThread、Lopper区别｜Agehua&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2016/09/05/ThreadLocal-HandlerThread-Lopper/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//cdn.maxjia.com/image/p_01.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Agehua
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+							
+								
+							
+						
+                    
+                        
+                    
+					
+					
+						<li>
+							<a href="/about">About</a>
+						</li>
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>ThreadLocal、HandlerThread、Lopper区别</h1>
+                    
+                    <span class="meta">
+                         作者 Jixin Li
+                        <span>
+                          日期 2016-09-05
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#accumulation"
+                           title="accumulation">accumulation</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            ThreadLocal、HandlerThread、Lopper区别
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h3><pre><code>Android中非UI线程（WorkThread）不能操作UI线程（MainThread）
+</code></pre><p>handler 发送Message 给MessageQueue，Looper 来轮询消息，如果有Message，然后再发送给Handler，Handler 拿到消息就可以所在的线程执行了。</p>
+<h3 id="2-ThreadLocal"><a href="#2-ThreadLocal" class="headerlink" title="2.ThreadLocal"></a>2.ThreadLocal<t></t></h3><p>Thread这个类有一个变量：ThreadLocal.ThreadLocalMap threadLocals ，这是一个map的数据结构，里面的元素的key就是ThreadLocal，value就是我们自定义的一些目标类。我们可以在自己的多线程类中定义好几个ThreadLocal，然后每一个ThreadLocal  put一个特定的目标类，然后以后可以用ThreadLocal get到目标类（用自己作为Thread里map的key），因为每个Thread有自己独自的map，所以这样可以实现每个线程有自己的LocalThread，并且一个Thread里可以有多个LocalThread。</p>
+<p>简单理解就是每个线程维护一个map，然后可以用一定的关键字取出这个map里的目标类（比如一个bean），这个“一定的关键字”说的就是这个ThreadLocal 。</p>
+<p>ThreadLocal隔离了各个线程，让各线程之间没有什么共享的问题。</p>
+<p>参考：<a href="http://www.jianshu.com/p/08cb3665972f" target="_blank" rel="external">Android 中 Handler，Looper，HandlerThread 的使用</a></p>
+<h3 id="3-Looper"><a href="#3-Looper" class="headerlink" title="3.Looper"></a>3.Looper</h3><p>Looper是Android handler机制的重要组成部分，Looper这个名字起的很形象，翻译过来是：打环的人，就是维护一个循环的人。<br>Looper里有一个静态变量：private static final ThreadLocal sThreadLocal = new ThreadLocal();<br>这是典型的Android里用到ThreadLocal的一个情况，调用Looper.prepare的时候，唯一做的事情就是把sThreadLocal作为key，把一个new出来的looper对象作为value put到相应线程的map里。然后以后用到Looper.loop的时候，就从这个sThreadLocal里取出这个Looper，然后死循环（阻塞循环）MessageQueue，取出Message并执行message指向的Handler。</p>
+<h3 id="4-Handler"><a href="#4-Handler" class="headerlink" title="4.Handler"></a>4.Handler</h3><p>SDK中关于Handler的说明如下：</p>
+<pre><code>A Handler allows you to sendand process Messageand Runnable objects associated
+with a thread&apos;s MessageQueue.Each Handler instance is associated with a single
+thread and that thread&apos;smessage queue. When you create a new Handler, it is bound
+to the thread /message queue of the thread that is creating it -- from that point
+on, it willdeliver messages and runnables to that message queue and execute them
+as theycome out of the message queue.
+</code></pre><h4 id="4-1-Handler的作用"><a href="#4-1-Handler的作用" class="headerlink" title="4.1 Handler的作用"></a>4.1 Handler的作用</h4><pre><code>There are two main uses for aHandler: (1) to schedule messages and runnables to be
+executed as some point inthe future; and (2) to enqueue an action to be performed
+on a different thread than your own.
+</code></pre><p>在线程中实例化Handler需要保证线程当中包含Looper(注意：UI-Thread默认包含Looper)。</p>
+<h4 id="4-2-不是所有的Handler都能更新UI"><a href="#4-2-不是所有的Handler都能更新UI" class="headerlink" title="4.2 不是所有的Handler都能更新UI"></a>4.2 不是所有的Handler都能更新UI</h4><p>Handler处理消息总是在创建Handler的线程里运行。而我们的消息处理中，不乏更新UI的操作，不正确的线程直接更新UI将引发异常。因此，需要时刻关心Handler在哪个线程里创建的。如何更新UI才能不出异常呢？SDK告诉我们，有以下4种方式可以从其它线程访问UI线程(也即线程间通信)：</p>
+<pre><code>- Activity.runOnUiThread(Runnable)
+- View.post(Runnable)
+- View.postDelayed(Runnable, long)
+- 在UI线程中创建的Handler
+</code></pre><p>几点小结</p>
+<pre><code>- Handler的处理过程运行在创建Handler的线程里
+- 一个Looper对应一个MessageQueue，一个线程对应一个Looper，一个Looper可以对应多个Handler
+- 不确定当前线程时，更新UI时尽量调用View.post方法
+- handler应该由处理消息的线程创建。
+- handler与创建它的线程相关联，而且也只与创建它的线程相关联。handler运行在创建它的线程中，所以，如果在handler中进行耗时的操作，会阻塞创建它的线程。
+- Android的线程分为有消息循环的线程和没有消息循环的线程，有消息循环的线程一般都会有一个Looper。主线程（UI线程）就是一个消息循环的线程。
+- Looper.myLooper();      //获得当前的Looper
+    Looper.getMainLooper() //获得UI线程的Lopper
+- Handle的初始化函数（构造函数），如果没有参数，那么他就默认使用的是当前的Looper，如果有Looper参数，就是用对应的线程的Looper。
+- 如果一个线程中调用Looper.prepare()，那么系统就会自动的为该线程建立一个消息队列，然后调用Looper.loop();之后就进入了消息循环，这个之后就可以发消息、取消息、和处理消息。
+</code></pre><h3 id="5-消息的发送与处理"><a href="#5-消息的发送与处理" class="headerlink" title="5.消息的发送与处理"></a>5.消息的发送与处理</h3><p>我们简单地看一下消息的循环过程：</p>
+<h4 id="5-1-消息的生成"><a href="#5-1-消息的生成" class="headerlink" title="5.1 消息的生成"></a>5.1 消息的生成</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">Message msg =mHandler.obtainMessage();</div><div class="line">msg.what = what;</div><div class="line">msg.sendToTarget();</div></pre></td></tr></table></figure>
+<h4 id="5-2-消息的发送"><a href="#5-2-消息的发送" class="headerlink" title="5.2 消息的发送"></a>5.2 消息的发送</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">MessageQueue queue= mQueue;</div><div class="line">  <span class="keyword">if</span> (queue != <span class="keyword">null</span>)&#123;</div><div class="line">  msg.target =<span class="keyword">this</span>;</div><div class="line">  sent =queue.enqueueMessage(msg, uptimeMillis);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在Handler.java的sendMessageAtTime(Messagemsg, long uptimeMillis)方法中，我们看到，它找到它所引用的MessageQueue，然后将Message的target设定成自己（目的是为了在处理消息环节，Message能找到正确的Handler），再将这个Message纳入到消息队列中。</p>
+<h4 id="5-3-消息的抽取"><a href="#5-3-消息的抽取" class="headerlink" title="5.3 消息的抽取"></a>5.3 消息的抽取</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">Looper me =myLooper();</div><div class="line">MessageQueue queue= me.mQueue;</div><div class="line"><span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</div><div class="line">  Message msg =queue.next(); <span class="comment">// might block</span></div><div class="line">  <span class="keyword">if</span> (msg !=<span class="keyword">null</span>) &#123;</div><div class="line">    <span class="keyword">if</span>(msg.target == <span class="keyword">null</span>) &#123;</div><div class="line">      <span class="comment">// Notarget is a magic identifier for the quit message.</span></div><div class="line">      <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    msg.target.dispatchMessage(msg);</div><div class="line">    msg.recycle();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在Looper.java的loop()函数里，我们看到，这里有一个死循环，不断地从MessageQueue中获取下一个（next方法）Message，然后通过Message中携带的target信息，交由正确的Handler处理（dispatchMessage方法）。</p>
+<h4 id="5-4-消息的处理"><a href="#5-4-消息的处理" class="headerlink" title="5.4 消息的处理"></a>5.4 消息的处理</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">if</span> (msg.callback!= <span class="keyword">null</span>) &#123;</div><div class="line">  handleCallback(msg);</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  <span class="keyword">if</span> (mCallback!= <span class="keyword">null</span>) &#123;</div><div class="line">    <span class="keyword">if</span>(mCallback.handleMessage(msg)) &#123;</div><div class="line">      <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"> handleMessage(msg);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在Handler.java的dispatchMessage(Messagemsg)方法里，其中的一个分支就是调用handleMessage方法来处理这条Message，而这也正是我们在职责处描述使用Handler时需要实现handleMessage(Messagemsg)的原因。<br>至于dispatchMessage方法中的另外一个分支，我将会在后面的内容中说明。<br>至此，我们看到，一个Message经由Handler的发送，MessageQueue的入队，Looper的抽取，又再一次地回到Handler的怀抱。而绕的这一圈，也正好帮助我们将同步操作变成了异步操作。</p>
+<p>参考上面的消息的发送与处理，这里再解释一下View.post(Runnable)方法。</p>
+<pre><code>在post(Runnableaction)方法里，View获得当前线程（即UI线程）的Handler，然后将action对
+象post到Handler里。在Handler里，它将传递过来的action对象包装成一个Message（Message
+的callback为action），然后将其投入UI线程的消息循环中。在 Handler再次处理该Message时，有
+一条分支就是为它所设，直接调用mCallback.handleMessage的方法，返回到runnable的run方法。
+而此时，已经路由到UI线程里，因此，我们可以毫无顾虑的来更新UI。
+</code></pre><h3 id="5-HandlerThread"><a href="#5-HandlerThread" class="headerlink" title="5.HandlerThread"></a>5.HandlerThread</h3><p>HandlerThread就是在普通的Thread基础上加上了Looper的支持，让用户不必自己去创建Looper了，同时方便了Handler的使用。</p>
+<p>创建HandlerThread时需要把它启动了，即调用start()方法。然后创建Handler时将HandlerThread中的looper对象传入。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">HandlerThread thread = <span class="keyword">new</span> HandlerThread(<span class="string">"MyHandlerThread"</span>);</div><div class="line">thread.start();</div><div class="line">mHandler = <span class="keyword">new</span> Handler(thread.getLooper());</div><div class="line">mHandler.post(<span class="keyword">new</span> Runnable()&#123;...&#125;);</div></pre></td></tr></table></figure>
+<p>那么这个Handler对象就是与HandlerThread这个线程绑定了（这时就不再是与UI线程绑定了，这样在Handler中处理耗时操作将不会阻塞UI）。</p>
+<p>如果想让HandlerThread退出，则需要调用handlerThread.quit()。</p>
+<p>具体可以看下面代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandlerThreadActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"HandlerThreadActivity"</span>;</div><div class="line">    <span class="keyword">private</span> HandlerThreadmHandlerThread;</div><div class="line">    <span class="keyword">private</span> MyHandler mMyHandler;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">       <span class="comment">// TODO Auto-generatedmethod stub</span></div><div class="line">       <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">       TextView text = <span class="keyword">new</span> TextView(<span class="keyword">this</span>);</div><div class="line">       text.setText(<span class="string">"HandlerThreadActivity"</span>);</div><div class="line">       setContentView(text);</div><div class="line"></div><div class="line">       Log.d(TAG, <span class="string">"The mainthread id = "</span> + Thread.currentThread().getId());</div><div class="line"></div><div class="line">       <span class="comment">//生成一个HandlerThread对象，实现了使用Looper来处理消息队列的功能，</span></div><div class="line">       <span class="comment">//这个类由Android应用程序框架提供</span></div><div class="line">       mHandlerThread = <span class="keyword">new</span> HandlerThread(<span class="string">"handler_thread"</span>);</div><div class="line"></div><div class="line">       <span class="comment">//在使用HandlerThread的getLooper()方法之前，必须先调用该类的start();</span></div><div class="line">       mHandlerThread.start();</div><div class="line">       <span class="comment">//即这个Handler是运行在mHandlerThread这个线程中</span></div><div class="line">       mMyHandler = <span class="keyword">new</span> MyHandler(mHandlerThread.getLooper());</div><div class="line"></div><div class="line">       mMyHandler.sendEmptyMessage(<span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">MyHandler</span> <span class="keyword">extends</span> <span class="title">Handler</span> </span>&#123;</div><div class="line"></div><div class="line">       <span class="function"><span class="keyword">public</span> <span class="title">MyHandler</span><span class="params">(Looper looper)</span> </span>&#123;</div><div class="line">           <span class="keyword">super</span>(looper);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="meta">@Override</span></div><div class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</div><div class="line">           Log.d(TAG, <span class="string">"MyHandler--&gt;handleMessage--&gt;threadid = "</span> + Thread.currentThread().getId());</div><div class="line">           <span class="keyword">super</span>.handleMessage(msg);</div><div class="line">       &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+                <hr>
+                本文总阅读量 <span id="busuanzi_value_page_pv"></span> 次
+                <hr>
+                
+                <!-- 多说 Share start -->
+                <div class="ds-share"
+                     style="text-align: right"
+                     data-thread-key="2016/09/05/ThreadLocal-HandlerThread-Lopper/"
+                     data-title="ThreadLocal、HandlerThread、Lopper区别"
+                     data-url="http://agehua.github.io/2016/09/05/ThreadLocal-HandlerThread-Lopper/"
+                     data-images=""
+                     data-content="1.前言Android中非UI线程（WorkThread）不能操作UI线程（MainThrea... | Agehua&#39;s blog ">
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-16">
+                            <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                            <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                            <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                            <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                        </ul>
+                        <div class="ds-share-icons-more">
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/09/20/AVG-unwanted-software/" data-toggle="tooltip" data-placement="top"
+                           title="apk中含有admob广告插件">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/08/16/RxAndroid-Learning/" data-toggle="tooltip" data-placement="top"
+                           title="RxJava 学习">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                         data-thread-key="2016/09/05/ThreadLocal-HandlerThread-Lopper/"
+                         data-title="ThreadLocal、HandlerThread、Lopper区别"
+                         data-url="http://agehua.github.io/2016/09/05/ThreadLocal-HandlerThread-Lopper/">
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-前言"><span class="toc-text">1.前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ThreadLocal"><span class="toc-text">2.ThreadLocal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Looper"><span class="toc-text">3.Looper</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Handler"><span class="toc-text">4.Handler</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-Handler的作用"><span class="toc-text">4.1 Handler的作用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-不是所有的Handler都能更新UI"><span class="toc-text">4.2 不是所有的Handler都能更新UI</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-消息的发送与处理"><span class="toc-text">5.消息的发送与处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-消息的生成"><span class="toc-text">5.1 消息的生成</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-消息的发送"><span class="toc-text">5.2 消息的发送</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-3-消息的抽取"><span class="toc-text">5.3 消息的抽取</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-4-消息的处理"><span class="toc-text">5.4 消息的处理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-HandlerThread"><span class="toc-text">5.HandlerThread</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#accumulation"
+                           title="accumulation">accumulation</a>
+                        
+                    </div>
+                </section>
+                
+
+                
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://www.bigademo.com">ghost老司机的博客</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+    
+</article>
+
+<a href="https://github.com/agehua"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'agehua';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user};
+    (function () {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/名逍遥">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/jixinli">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/Will Tihdhs">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Agehua 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    <!-- Theme by <a href="https://haojen.github.io/">Haojen Ma</a> -->
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//avatars2.githubusercontent.com/u/4710673?v=3&amp;s=400">
+</body>
+
+
+
+</html>

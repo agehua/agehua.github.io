@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="马浩珍在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Haojen" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        显示公式｜Haojen&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2012/11/21/2012-11-21-math/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Haojen
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>显示公式</h1>
+                    
+                    <span class="meta">
+                         作者 Haojen Ma
+                        <span>
+                          日期 2012-11-21
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            显示公式
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>在网页或blog中引用数学公式是一件痛苦的事情。经过几番在网上的查找，算是勉强找到了一个借鉴方法。借用强大的<code>MathJax + Latex</code>就可以解决这个问题。废话少说，先来一个例子  </p>
+<p>$$<br>\begin{aligned}<br>  &amp; \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie<em>i, \sum</em>{j=1}^n y_je<em>j \right)<br>  = \sum</em>{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \<br>  &amp; (x_1, \ldots, x_n) \left( \begin{array}{ccc}<br>      \phi(e_1, e_1) &amp; \cdots &amp; \phi(e_1, e_n) \<br>      \vdots &amp; \ddots &amp; \vdots \<br>      \phi(e_n, e_1) &amp; \cdots &amp; \phi(e_n, e_n)<br>    \end{array} \right)<br>  \left( \begin{array}{c}<br>      y_1 \<br>      \vdots \<br>      y_n<br>    \end{array} \right)<br>\end{aligned}<br>$$</p>
+<a id="more"></a>
+<h2 id="更多例子"><a href="#更多例子" class="headerlink" title="更多例子"></a>更多例子</h2><p>下面是在段中插入公式：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">段内插入LaTeX代码是这样的：$\exp(-\frac&#123;x^2&#125;&#123;2&#125;)$，试试看看吧</div></pre></td></tr></table></figure>
+<div markdown="1" class="showbox"><br>段内插入LaTeX代码是这样的：$\exp(-\frac{x^2}{2})$，试试看看吧<br></div>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">在段中插入公式$$J_\alpha(x) = \sum\limits_&#123;m=0&#125;^\infty \frac&#123;(-1)^m&#125;&#123;m! \, \Gamma(m + \alpha + 1)&#125;&#123;\left(&#123;\frac&#123;x&#125;&#123;2&#125;&#125;\right)&#125;^&#123;2 m + \alpha&#125;$$,效果如何</div></pre></td></tr></table></figure>
+<div markdown="1" class="showbox"><br>在段中插入公式$$J<em>\alpha(x) = \sum\limits</em>{m=0}^\infty \frac{(-1)^m}{m! \, \Gamma(m + \alpha + 1)}{\left({\frac{x}{2}}\right)}^{2 m + \alpha}$$,效果如何<br></div>
+
+<h2 id="更多更多例子"><a href="#更多更多例子" class="headerlink" title="更多更多例子"></a>更多更多例子</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$$</div><div class="line">\begin&#123;align*&#125;</div><div class="line">  &amp; J_\alpha(x) = \sum\limits_&#123;m=0&#125;^\infty \frac&#123;(-1)^m&#125;&#123;m! \, \Gamma(m + \alpha + 1)&#125;&#123;\left(&#123;\frac&#123;x&#125;&#123;2&#125;&#125;\right)&#125;^&#123;2 m + \alpha&#125;</div><div class="line">\end&#123;align*&#125;</div><div class="line">$$</div></pre></td></tr></table></figure>
+<p>公式显示如下： <em style="color:red"> 注意：\$\$前一定要有空行</em></p>
+<p>$$<br>\begin{align<em>}<br>  &amp; J<em>\alpha(x) = \sum\limits</em>{m=0}^\infty \frac{(-1)^m}{m! \, \Gamma(m + \alpha + 1)}{\left({\frac{x}{2}}\right)}^{2 m + \alpha}<br>\end{align</em>}<br>$$</p>
+<p>或者在一行里：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$$ J_\alpha(x) = \sum\limits_&#123;m=0&#125;^\infty \frac&#123;(-1)^m&#125;&#123;m! \, \Gamma(m + \alpha + 1)&#125;&#123;\left(&#123;\frac&#123;x&#125;&#123;2&#125;&#125;\right)&#125;^&#123;2 m + \alpha&#125; $$</div></pre></td></tr></table></figure>
+<p>公式显示如下：</p>
+<p>$$ J<em>\alpha(x) = \sum\limits</em>{m=0}^\infty \frac{(-1)^m}{m! \, \Gamma(m + \alpha + 1)}{\left({\frac{x}{2}}\right)}^{2 m + \alpha} $$</p>
+<h2 id="本文开头的例子"><a href="#本文开头的例子" class="headerlink" title="本文开头的例子"></a>本文开头的例子</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$$</div><div class="line">\begin&#123;aligned&#125;</div><div class="line">  &amp; \phi(x,y) = \phi \left(\sum_&#123;i=1&#125;^n x_ie_i, \sum_&#123;j=1&#125;^n y_je_j \right)</div><div class="line">  = \sum_&#123;i=1&#125;^n \sum_&#123;j=1&#125;^n x_i y_j \phi(e_i, e_j) = \\</div><div class="line">  &amp; (x_1, \ldots, x_n) \left( \begin&#123;array&#125;&#123;ccc&#125;</div><div class="line">      \phi(e_1, e_1) &amp; \cdots &amp; \phi(e_1, e_n) \\</div><div class="line">      \vdots &amp; \ddots &amp; \vdots \\</div><div class="line">      \phi(e_n, e_1) &amp; \cdots &amp; \phi(e_n, e_n)</div><div class="line">    \end&#123;array&#125; \right)</div><div class="line">  \left( \begin&#123;array&#125;&#123;c&#125;</div><div class="line">      y_1 \\</div><div class="line">      \vdots \\</div><div class="line">      y_n</div><div class="line">    \end&#123;array&#125; \right)</div><div class="line">\end&#123;aligned&#125;</div><div class="line">$$</div></pre></td></tr></table></figure>
+<p>显示如下：</p>
+<p>$$<br>\begin{aligned}<br>  &amp; \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie<em>i, \sum</em>{j=1}^n y_je<em>j \right)<br>  = \sum</em>{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \<br>  &amp; (x_1, \ldots, x_n) \left( \begin{array}{ccc}<br>      \phi(e_1, e_1) &amp; \cdots &amp; \phi(e_1, e_n) \<br>      \vdots &amp; \ddots &amp; \vdots \<br>      \phi(e_n, e_1) &amp; \cdots &amp; \phi(e_n, e_n)<br>    \end{array} \right)<br>  \left( \begin{array}{c}<br>      y_1 \<br>      \vdots \<br>      y_n<br>    \end{array} \right)<br>\end{aligned}<br>$$</p>
+<h2 id="错误的例子"><a href="#错误的例子" class="headerlink" title="错误的例子"></a>错误的例子</h2><p>这个本来是MathJax默认的方式，但是在kramdown中无法显示</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">\[ J_\alpha(x) = \sum\limits_&#123;m=0&#125;^\infty \frac&#123;(-1)^m&#125;&#123;m! \, \Gamma(m + \alpha + 1)&#125;&#123;\left(&#123;\frac&#123;x&#125;&#123;2&#125;&#125;\right)&#125;^&#123;2 m + \alpha&#125; \]</div></pre></td></tr></table></figure>
+<p>[ J<em>\alpha(x) = \sum\limits</em>{m=0}^\infty \frac{(-1)^m}{m! \, \Gamma(m + \alpha + 1)}{\left({\frac{x}{2}}\right)}^{2 m + \alpha} ]</p>
+<h2 id="krmadown"><a href="#krmadown" class="headerlink" title="krmadown"></a>krmadown</h2><p>本文主要用到了krmadown,使用很简单，下载安装kramdown，在后在_config.yml文件里面配置即可</p>
+<ul>
+<li><p>kramdown主页<br><a href="http://kramdown.rubyforge.org/" target="_blank" rel="external">kramdown</a>  </p>
+</li>
+<li><p>配置kramdown<br>在_config.yml文件里</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">markdown: kramdown</div></pre></td></tr></table></figure>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p>其实我主要是借鉴了下面两篇文字，具体如何配置，也可以在这两篇文字中找到。</p>
+<ul>
+<li><a href="http://yanping.me/cn/blog/2012/03/10/octopress-with-latex/" target="_blank" rel="external">如何加入公式</a>  </li>
+<li><a href="http://steshaw.org/blog/2012/02/09/hello-mathjax/" target="_blank" rel="external">解决闪烁问题</a>  </li>
+</ul>
+<h2 id="MathJax加载"><a href="#MathJax加载" class="headerlink" title="MathJax加载"></a>MathJax加载</h2><p>按照“<a href="http://yanping.me/cn/blog/2012/03/10/octopress-with-latex/" target="_blank" rel="external">如何加入公式</a>”的方法加入脚本，会产生一个问题，无论这个页面有没有数学公式，都会去加载MathJax脚本，而加载这个脚本的速度非常慢。那么如何控制，哪些页面加入这个脚本，哪些页面不需要加？    </p>
+<p>首先，我在post文档中加入了一个变量<code>math</code>,</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">---</div><div class="line">layout: post</div><div class="line">title: &quot;显示公式&quot;</div><div class="line">date: 2012-11-21 12:49</div><div class="line">comments: true</div><div class="line">math: true</div><div class="line">categories: math</div><div class="line">---</div></pre></td></tr></table></figure>
+<p>然后在<code>source/_includes/custom/head.html</code>加入脚本相关内容时，加入了<code> {% if page.math == true %}...{% endif %} </code>语句进行判断，完整的如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&#123;% raw %&#125;</div><div class="line">&#123;% if page.math == true %&#125;</div><div class="line">&lt;!--JS for show math symbols --&gt;</div><div class="line">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;</div><div class="line">  MathJax.Hub.Config(&#123;</div><div class="line">    tex2jax: &#123;</div><div class="line">      inlineMath: [ [&apos;$&apos;,&apos;$&apos;], [&quot;\\(&quot;,&quot;\\)&quot;] ],</div><div class="line">      processEscapes: true</div><div class="line">    &#125;</div><div class="line">  &#125;);</div><div class="line">&lt;/script&gt;</div><div class="line"></div><div class="line">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;</div><div class="line">    MathJax.Hub.Config(&#123;</div><div class="line">      tex2jax: &#123;</div><div class="line">        skipTags: [&apos;script&apos;, &apos;noscript&apos;, &apos;style&apos;, &apos;textarea&apos;, &apos;pre&apos;, &apos;code&apos;]</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line">&lt;/script&gt;</div><div class="line"></div><div class="line">&lt;script type=&quot;text/x-mathjax-config&quot;&gt;</div><div class="line">    MathJax.Hub.Queue(function() &#123;</div><div class="line">        var all = MathJax.Hub.getAllJax(), i;</div><div class="line">        for(i=0; i &lt; all.length; i += 1) &#123;</div><div class="line">            all[i].SourceElement().parentNode.className += &apos; has-jax&apos;;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&lt;/script&gt;</div><div class="line"></div><div class="line">&lt;script type=&quot;text/javascript&quot;</div><div class="line">  src=&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;</div><div class="line">&lt;/script&gt;</div><div class="line">&#123;% endif %&#125;</div><div class="line">&#123;% endraw %&#125;</div></pre></td></tr></table></figure>
+<p>这样，在post的markdown中文件中，如果你声明<code>math</code>为<code>true</code>,那么就会在最后生成的html文件中加上这段加载MathJax的代码；如果不声明，或在声明为空或<code>false</code>，就不会添加加载MathJax的代码。   </p>
+<p>还有一个问题，就是在博客首页生成的pinboard中，如果有公式的话，就无法正常显示了。如果需要在首页的pinboard中显示公式，在<code>source/index.html</code>文件中加入<code>math</code>的声明。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">---</div><div class="line">layout: default</div><div class="line">math: true</div><div class="line">---</div></pre></td></tr></table></figure>
+<h2 id="关于Latex"><a href="#关于Latex" class="headerlink" title="关于Latex"></a>关于Latex</h2><p>本人不会Latex，那么怎么生成Latex格式的公式呢？   </p>
+<ul>
+<li>一是可以在线生成：<a href="http://www.codecogs.com/latex/eqneditor.php" target="_blank" rel="external">Online LaTeX Equation Editor</a>   </li>
+<li>二是使用mathtype。<br>  在mathtype的<code>Preferences</code>-&gt;<code>Cut and Copy preferences...</code>选中<code>MathML to Tex</code>。编辑公式后拷贝，粘贴到记事本，就可以得到Latex格式的公式。</li>
+</ul>
+<h2 id="常用latex符号"><a href="#常用latex符号" class="headerlink" title="常用latex符号"></a>常用latex符号</h2><p>特殊字符</p>
+<p>|—<br>| 功能 | 语法| 显示 |<br>|:-:|:-:|:-:|<br>|标准函数| <code>\sin x + \ln y +\operatorname{sgn} z</code> | $\sin x + \ln y +\operatorname{sgn} z$ |<br>|其他    | <code>\nabla \partial dx</code>                      | $\nabla \partial dx$                   |<br>|集      | <code>\forall x\not\in\varnothing\subseteq A\cap B\cup \exists \{x,y\} \times C</code> | $\forall x \not\in \varnothing \subseteq A\cap B\cup \exists {x,y} \times C$ |<br>|逻辑    | <code>p\wedge \bar{q} \rightarrow p\vee \bar{q} \Rightarrow r</code> | $p\wedge \bar{q} \rightarrow p\vee \bar{q} \Rightarrow r$ |<br>|根号    | <code>\pm \sqrt{2}\approx\pm 1.4</code>              | $\pm \sqrt{2}\approx\pm 1.4$ |<br>|        | <code>\sqrt[n]{x}</code>        | $\sqrt[n]{x}$ |<br>|等号    | <code>\sim \simeq \cong \le \ge \equiv \approx \ne</code>  | $\sim \ \simeq \ \cong \ \le \ \ge \ \equiv \ \approx \ \ne$ |<br>|几何    | <code>\angle \perp \|</code> | $\angle \perp \|$ |<br>|特殊    | <code>\oplus \otimes \mp \hbar \dagger \ddagger \star \circ \cdot \bullet</code> | $\oplus \otimes \mp \ \hbar \dagger \ddagger \star \circ \cdot \bullet\$ |<br>|—<br>{: .mytable}</p>
+<p><a href="http://wiki.ubuntu.org.cn/Wikipedia:%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F" target="_blank" rel="external">letax数学公式</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2012/11/22/2012-11-22-learning-vim/" data-toggle="tooltip" data-placement="top"
+                           title="读Vim手册笔记">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2012/11/21/2012-11-21-how-to-build-blog/" data-toggle="tooltip" data-placement="top"
+                           title="使用Octopress搭建博客">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#更多例子"><span class="toc-text">更多例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更多更多例子"><span class="toc-text">更多更多例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#本文开头的例子"><span class="toc-text">本文开头的例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#错误的例子"><span class="toc-text">错误的例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#krmadown"><span class="toc-text">krmadown</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链接"><span class="toc-text">链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MathJax加载"><span class="toc-text">MathJax加载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于Latex"><span class="toc-text">关于Latex</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用latex符号"><span class="toc-text">常用latex符号</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Haojen 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="null">
+</body>
+
+</html>

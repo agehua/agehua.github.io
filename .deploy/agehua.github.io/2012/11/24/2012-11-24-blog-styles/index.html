@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="马浩珍在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Haojen" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        博客的样式｜Haojen&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2012/11/24/2012-11-24-blog-styles/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Haojen
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>博客的样式</h1>
+                    
+                    <span class="meta">
+                         作者 Haojen Ma
+                        <span>
+                          日期 2012-11-24
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            博客的样式
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>使用的markdown解析工具为kramdown。  </p>
+<a id="more"></a>
+<h2 id="引用块"><a href="#引用块" class="headerlink" title="引用块"></a>引用块</h2><p>引用块的样式借用了<a href="http://kramdown.rubyforge.org/syntax.html#link-definitions" target="_blank" rel="external">kramdown语法文档</a>中的样式。</p>
+<p>在<code>/sass/custom/_style.scss</code>中添加样式定义</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="comment">/* 引用 */</span></div><div class="line"><span class="selector-id">#content</span> <span class="selector-tag">blockquote</span><span class="selector-class">.information</span> &#123;</div><div class="line">  <span class="attribute">border-left</span>: <span class="number">12px</span> solid <span class="number">#080</span>;</div><div class="line">  <span class="attribute">background-color</span>: <span class="number">#bfb</span>;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">12px</span> <span class="number">12px</span> <span class="number">12px</span> <span class="number">0</span>;</div><div class="line">  <span class="attribute">margin-left</span>: -<span class="number">48px</span>;</div><div class="line">  <span class="attribute">padding-left</span>: <span class="number">48px</span>; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后在markdown文件中的写法如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt; This is a blockquote. </div><div class="line">&gt; 这是一个引用块。   </div><div class="line">&#123;: .information&#125;</div></pre></td></tr></table></figure>
+<p>就会显示成这个样子</p>
+<blockquote>
+<p>This is a blockquote.<br>这是一个引用块。<br>{: .information}</p>
+</blockquote>
+<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><p>参考<a href="http://kramdown.rubyforge.org/syntax.html#tables" target="_blank" rel="external">kramdown关于表格的参考手册</a>，或者是<a href="http://kramdown.rubyforge.org/quickref.html#tables" target="_blank" rel="external">kramdown关于表格的快速参考手册</a>。下面表格的样式也是在这个基础上修改的。<br>首先看一下表格样式的定义，在<code>/sass/custom/_styles.scss</code>中定义样式</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="comment">/* 表格 */</span></div><div class="line"><span class="selector-id">#content</span> <span class="selector-tag">table</span><span class="selector-class">.mytable</span> &#123;</div><div class="line">  <span class="attribute">border-collapse</span>: collapse;</div><div class="line">  <span class="attribute">margin-left</span>: auto;</div><div class="line">  <span class="attribute">margin-right</span>: auto;</div><div class="line">  <span class="comment">/*border: solid 1px black;*/</span></div><div class="line"> <span class="comment">/* width: 100%; */</span></div><div class="line">&#125;</div><div class="line"><span class="selector-id">#content</span> <span class="selector-tag">table</span><span class="selector-class">.mytable</span> <span class="selector-tag">td</span>, <span class="selector-id">#content</span> <span class="selector-tag">table</span><span class="selector-class">.mytable</span> <span class="selector-tag">th</span> &#123;</div><div class="line">    <span class="attribute">padding</span>: <span class="number">3px</span> <span class="number">5px</span>; </div><div class="line">    <span class="attribute">border</span>: solid <span class="number">1px</span> <span class="number">#070</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-id">#content</span> <span class="selector-tag">table</span><span class="selector-class">.mytable</span> <span class="selector-tag">th</span> &#123;</div><div class="line">    <span class="attribute">background-color</span>: <span class="number">#080</span>;</div><div class="line">    <span class="attribute">color</span>: white; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后可以用以下代码显示表格</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">| Header1 | Header2 | Header3 |</div><div class="line">|:--------|:-------:|--------:|</div><div class="line">| cell1   | cell2   | cell3   |</div><div class="line">| cell4   | cell5   | cell6   |</div><div class="line">|----</div><div class="line">| cell1   | cell2   | cell3   |</div><div class="line">| cell4   | cell5   | cell6   |</div><div class="line">|=====</div><div class="line">| Foot1   | Foot2   | Foot3</div><div class="line">&#123;: .mytable&#125;</div></pre></td></tr></table></figure>
+<p>显示的表格为</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Header1</th>
+<th style="text-align:center">Header2</th>
+<th style="text-align:right">Header3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">cell1</td>
+<td style="text-align:center">cell2</td>
+<td style="text-align:right">cell3</td>
+</tr>
+<tr>
+<td style="text-align:left">cell4</td>
+<td style="text-align:center">cell5</td>
+<td style="text-align:right">cell6</td>
+</tr>
+<tr>
+<td style="text-align:left">—-</td>
+</tr>
+<tr>
+<td style="text-align:left">cell1</td>
+<td style="text-align:center">cell2</td>
+<td style="text-align:right">cell3</td>
+</tr>
+<tr>
+<td style="text-align:left">cell4</td>
+<td style="text-align:center">cell5</td>
+<td style="text-align:right">cell6</td>
+</tr>
+<tr>
+<td style="text-align:left">=====</td>
+</tr>
+<tr>
+<td style="text-align:left">Foot1</td>
+<td style="text-align:center">Foot2</td>
+<td style="text-align:right">Foot3</td>
+</tr>
+</tbody>
+</table>
+<p>{: .mytable}</p>
+<p><br></p>
+<p>kramdown参考文档中的其它几个例子</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">|-----------------+------------+-----------------+----------------|</div><div class="line">| Default aligned |Left aligned| Center aligned  | Right aligned  |</div><div class="line">|-----------------|:-----------|:---------------:|---------------:|</div><div class="line">| First body part |Second cell | Third cell      | fourth cell    |</div><div class="line">| Second line     |foo         | **strong**      | baz            |</div><div class="line">| Third line      |quux        | baz             | bar            |</div><div class="line">|-----------------+------------+-----------------+----------------|</div><div class="line">| Second body     |            |                 |                |</div><div class="line">| 2 line          |            |                 |                |</div><div class="line">|=================+============+=================+================|</div><div class="line">| Footer row      |            |                 |                |</div><div class="line">|-----------------+------------+-----------------+----------------|</div><div class="line">&#123;: .mytable&#125;</div></pre></td></tr></table></figure>
+<p>注意里面的对齐方式的定义（代码的第三行），还有第7,10行中关于表格分块的定义，显示</p>
+<p>|—————–+————+—————–+—————-|<br>| Default aligned |Left aligned| Center aligned  | Right aligned  |<br>|—————–|:———–|:—————:|—————:|<br>| First body part |Second cell | Third cell      | fourth cell    |<br>| Second line     |foo         | <strong>strong</strong>      | baz            |<br>| Third line      |quux        | baz             | bar            |<br>|—————–+————+—————–+—————-|<br>| Second body     |            |                 |                |<br>| 2 line          |            |                 |                |<br>|=================+============+=================+================|<br>| Footer row      |            |                 |                |<br>|—————–+————+—————–+—————-|<br>{: .mytable}</p>
+<p>当然也有屌丝专用的丑陋，但简单的方式，与上面的表格一样</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">|---</div><div class="line">| Default aligned | Left aligned | Center aligned | Right aligned</div><div class="line">|-|:-|:-:|-:</div><div class="line">| First body part | Second cell | Third cell | fourth cell</div><div class="line">| Second line |foo | **strong** | baz</div><div class="line">| Third line |quux | baz | bar</div><div class="line">|---</div><div class="line">| Second body</div><div class="line">| 2 line</div><div class="line">|===</div><div class="line">| Footer row</div><div class="line">&#123;: .mytable&#125;</div></pre></td></tr></table></figure>
+<p>最后的显示的表格与上面是一样的。</p>
+<p>|—<br>| Default aligned | Left aligned | Center aligned | Right aligned<br>|-|:-|:-:|-:<br>| First body part | Second cell | Third cell | fourth cell<br>| Second line |foo | <strong>strong</strong> | baz<br>| Third line |quux | baz | bar<br>|—<br>| Second body<br>| 2 line<br>|===<br>| Footer row<br>{: .mytable}</p>
+<p>当然还可以有没有那么复杂的直接上最简单的表格的方式</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">| First cell|Second cell|Third cell</div><div class="line">| First | Second | Third |</div><div class="line">First | Second | | Fourth |</div><div class="line">&#123;: .mytable&#125;</div></pre></td></tr></table></figure>
+<p>显示为</p>
+<p>| First cell|Second cell|Third cell<br>| First | Second | Third |<br>First | Second | | Fourth |<br>{: .mytable}</p>
+<p><br></p>
+<h2 id="首行缩进"><a href="#首行缩进" class="headerlink" title="首行缩进"></a>首行缩进</h2><p>blog的样式中是没有缩进的，这样多少还是有点难看。加入的方法如下，在<code>/sass/custom/_styles.scss</code>中加入如下代码</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-id">#content</span> <span class="selector-class">.entry-content</span> &gt; <span class="selector-tag">p</span> &#123;</div><div class="line">	<span class="attribute">text-indent</span>: <span class="number">2em</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后就有了现在的缩进样式。需要注意，在markdown文件中，如果在一行的后面加入空格来换行的话，生成的html文件中，是用\<br \="">来换行的，不是用\<p\>换行，就没有缩进的样式了。正确的方法是在两行文字之间插入空行。</p\></p>
+<p>但后来发现一个问题，在一行里面加入的代码块也有了缩进的样式, 就像这样子<code style="text-indent:2em">这里有了缩进</code>, 我用了比较土的方法解决，还是在上面的custom/_styles.scss中加入</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-id">#content</span> <span class="selector-class">.entry-content</span> &gt; <span class="selector-tag">p</span> &gt; <span class="selector-tag">code</span> &#123;</div><div class="line">	<span class="attribute">text-indent</span>: <span class="number">0em</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这种解决办法不是很好，因为总有可能导致其它标签里面意外出现缩进，但我也不熟悉css，只有先这么办了，先解决眼前的问题。</p>
+<h2 id="添加豆瓣的侧边栏"><a href="#添加豆瓣的侧边栏" class="headerlink" title="添加豆瓣的侧边栏"></a>添加豆瓣的侧边栏</h2><p><a href="http://www.douban.com/service/badgemakerjs" target="_blank" rel="external">豆瓣收藏秀</a>可以为你的博客生成一个侧边栏，放入到你的博客中。访问这个网址<a href="">http://www.douban.com/service/badgemakerjs</a>，可以生成一段js代码，然后讲这段代码嵌入到侧边栏的html中即可。</p>
+<p>具体的做法，显示在收藏秀的页面里面选择好需要显示的内容，例如：我选择了，我想看的、书、每次随机选择、共显示9个 每行3个、图片小，下面两个选择隐藏，然后生成了这样的JS代码</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"http://www.douban.com/service/badge/63148093/?show=wishlist&amp;amp;select=random&amp;amp;n=9&amp;amp;columns=3&amp;amp;hidelogo=yes&amp;amp;hideself=yes&amp;amp;cat=book"</span> &gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p>然后创建文件<code>/source/_includes/custom/asides/douban-wishreading.html</code>, 在这个html文件中加入如下代码</p>
+
+<p>其中第5行为豆瓣收藏秀生成的JS代码，其它的样式代码为blog的样式, 用于不同的blog可能需要修改。然后需要在<code>_config.yml</code>里修改配置，在<code>default_asides</code>中加入<code>custom/asides/douban-wishreading.html</code>，就像这样</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><div class="line"><span class="attr">default_asides:</span> [asides/recent_posts.html, custom/asides/douban-reading.html, custom/asides/douban-wishreading.html, asides/github.html, asides/twitter.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]</div></pre></td></tr></table></figure>
+<p>最后展现的样子可以参考<a href="http://liuhongjiang.github.com/life/" target="_blank" rel="external">猪猫的生活</a>。</p>
+<h2 id="文章摘要"><a href="#文章摘要" class="headerlink" title="文章摘要"></a>文章摘要</h2><p>当文章比较长的时候，如果在文章的前面有一个摘要，就会方便很多。下面就就是一个添加摘要的简单方法。</p>
+<p>首先在文章的markdown文件中添加一个变量<code>abstract</code>如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">---</div><div class="line">layout: post</div><div class="line">title: &quot;博客的样式&quot;</div><div class="line">date: 2012-11-24 14:23</div><div class="line">comments: true</div><div class="line">categories: octopress</div><div class="line">abstract: &quot;本文就介绍了这个blog搭建过程中，一些样式如何设置的。包括：引用块的样式，表格的样式，首行缩进，添加豆瓣侧边栏, 文章摘要。&quot;</div><div class="line">---</div></pre></td></tr></table></figure>
+<p>然后修改<code>source/_include/article.html</code></p>
+ 
+<p>之后修改样式文件<code>sass/custom/_styles.scss</code>, 添加如下的样式</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-class">.abstract</span>, <span class="selector-class">.warning</span>&#123;</div><div class="line"><span class="attribute">border</span>:none;</div><div class="line"><span class="attribute">padding</span>:<span class="number">0.6em</span> <span class="number">1.25em</span> <span class="number">0.6em</span> <span class="number">1.25em</span>;</div><div class="line">    <span class="attribute">margin-top</span>:<span class="number">0.25em</span>;</div><div class="line">    <span class="attribute">-webkit-border-radius</span>: <span class="number">8px</span>;</div><div class="line">    <span class="attribute">-moz-border-radius</span>: <span class="number">8px</span>;</div><div class="line">    <span class="attribute">border-radius</span>: <span class="number">8px</span>;</div><div class="line">    <span class="attribute">-webkit-box-shadow</span>: <span class="number">0</span> <span class="number">4px</span> <span class="number">4px</span> <span class="built_in">rgba</span>(0, 0, 0, 0.3);</div><div class="line">    <span class="attribute">-moz-box-shadow</span>: <span class="number">0</span> <span class="number">4px</span> <span class="number">4px</span> <span class="built_in">rgba</span>(0, 0, 0, 0.3);</div><div class="line">    <span class="attribute">-box-shadow</span>: <span class="number">0</span> <span class="number">4px</span> <span class="number">4px</span> <span class="built_in">rgba</span>(0, 0, 0, 0.3);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.abstract</span>&#123;</div><div class="line">    <span class="attribute">background</span>:<span class="number">#d5e9f6</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>就可以显示和本文开始一样的摘要了。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2012/11/29/2012-11-29-virtual-function/" data-toggle="tooltip" data-placement="top"
+                           title="虚函数">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2012/11/22/2012-11-22-learning-vim/" data-toggle="tooltip" data-placement="top"
+                           title="读Vim手册笔记">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引用块"><span class="toc-text">引用块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表格"><span class="toc-text">表格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#首行缩进"><span class="toc-text">首行缩进</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加豆瓣的侧边栏"><span class="toc-text">添加豆瓣的侧边栏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文章摘要"><span class="toc-text">文章摘要</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Haojen 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="null">
+</body>
+
+</html>

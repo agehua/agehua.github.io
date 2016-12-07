@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="马浩珍在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Haojen" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        underscore template｜Haojen&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2015/09/30/2015-09-30-underscore-template/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Haojen
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>underscore template</h1>
+                    
+                    <span class="meta">
+                         作者 Haojen Ma
+                        <span>
+                          日期 2015-09-30
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            underscore template
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>对于前端模板中的<code>&lt;%= ... %&gt;</code>, <code>&lt;% ... %&gt;</code>, <code>&lt;%- ... %&gt;</code> 一直傻傻分不清楚。所以特地写了一篇这个文章，介绍一下他们的用法，方便以后查阅。<br>主要参考了<a href="http://underscorejs.org/#template" target="_blank" rel="external">underscore的tmeplate</a>.</p>
+<a id="more"></a>
+<h2 id="执行js代码-‘-lt-…-gt-’"><a href="#执行js代码-‘-lt-…-gt-’" class="headerlink" title="执行js代码 ‘&lt;% … %&gt;’"></a>执行js代码 ‘&lt;% … %&gt;’</h2><p>‘&lt;% … %&gt;’的作用是可以执行任何的javascript代码<br>看下面这个例子</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">var compiled = _.template(&quot;&lt;% print(&apos;Hello &apos; + epithet); %&gt;&quot;);</div><div class="line">compiled(&#123;epithet: &quot;stooge&quot;&#125;);</div><div class="line">=&gt; &quot;Hello stooge&quot;</div></pre></td></tr></table></figure>
+<p>可以看一个复杂的，带了控制流的，这个例子中，使用了for语句，响应的html元素是包含在两个’&lt;% … %&gt;’ tag中的<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;tr class=&quot;alarm_metric_tr&quot;&gt;</div><div class="line">  &lt;td&gt;</div><div class="line">    &lt;select id=&quot;id_metric_name&quot; name=&quot;metric_name&quot; class=&quot;metric_name&quot;&gt;</div><div class="line">      &lt;% for(index=0; index&lt;metric_choices.length; index++)&#123; %&gt;</div><div class="line">        &lt;option value=&quot;&lt;%- metric_choices[index][0] %&gt;&quot;&gt;&lt;%- metric_choices[index][1] %&gt;&lt;/option&gt;</div><div class="line">      &lt;% &#125; %&gt;</div><div class="line">    &lt;/select&gt;</div><div class="line">  &lt;/td&gt;</div><div class="line">&lt;/tr&gt;</div></pre></td></tr></table></figure></p>
+<p>当然也可以使用if…else…这种语句，可以参考后面复杂的例子</p>
+<h2 id="替换变量-lt-gt"><a href="#替换变量-lt-gt" class="headerlink" title="替换变量&lt;%= ... %&gt;"></a>替换变量<code>&lt;%= ... %&gt;</code></h2><p>这个就比较简单了，直接替换响应的变量</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">var compiled = _.template(&quot;hello: &lt;%= name %&gt;&quot;);</div><div class="line">compiled(&#123;name: &apos;moe&apos;&#125;);</div><div class="line">=&gt; &quot;hello: moe&quot;</div></pre></td></tr></table></figure>
+<h2 id="替换变量时escape-‘-lt-…-gt-’"><a href="#替换变量时escape-‘-lt-…-gt-’" class="headerlink" title="替换变量时escape ‘&lt;%- … %&gt;’"></a>替换变量时escape ‘&lt;%- … %&gt;’</h2><p>与前面的tag比较，最大的变化是这个替换以后，会escape其内容，主要是从安全方面考虑，防止在html中插入代码等</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">var template = _.template(&quot;&lt;b&gt;&lt;%- value %&gt;&lt;/b&gt;&quot;);</div><div class="line">template(&#123;value:&apos;&lt;script&gt;&apos;&#125;);</div><div class="line">=&gt; &quot;&lt;b&gt;&amp;lt;script&amp;gt;&lt;/b&gt;&quot;</div></pre></td></tr></table></figure>
+<h2 id="复杂的例子"><a href="#复杂的例子" class="headerlink" title="复杂的例子"></a>复杂的例子</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;div class=&quot;monitor_graph&quot; id=&quot;&lt;%- instance_id %&gt;&quot;&gt;</div><div class="line">  &lt;div class=&quot;graph_title&quot;&gt;</div><div class="line">    &lt;%- instance_name %&gt;</div><div class="line">    &lt;a href=&quot;javascript:;&quot; class=&quot;btn_type btn_delete delete_monitor_graph&quot;&gt;Delete&lt;span class=&quot;btn_bg&quot;&gt;&lt;/span&gt;&lt;/a&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">  &lt;div class=&quot;resources_overview&quot;&gt;</div><div class="line">      &lt;div class=&quot;overview_line_chart&quot; id=&quot;cpu&quot;&gt;</div><div class="line">        &lt;img src=&quot;/base/img/loading.gif&quot; alt=&quot;&quot; class=&quot;small_loading&quot;&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">      &lt;div class=&quot;overview_line_chart&quot; id=&quot;memory&quot;&gt;</div><div class="line">        &lt;img src=&quot;/base/img/loading.gif&quot; alt=&quot;&quot; class=&quot;small_loading&quot;&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">      &lt;div class=&quot;overview_line_chart&quot; id=&quot;disk&quot;&gt;</div><div class="line">        &lt;img src=&quot;/base/img/loading.gif&quot; alt=&quot;&quot; class=&quot;small_loading&quot;&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">      &lt;div class=&quot;overview_line_chart&quot; id=&quot;disk_traffic&quot;&gt;</div><div class="line">        &lt;img src=&quot;/base/img/loading.gif&quot; alt=&quot;&quot; class=&quot;small_loading&quot;&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">      &lt;div class=&quot;overview_line_chart&quot; id=&quot;network_traffic&quot;&gt;</div><div class="line">        &lt;img src=&quot;/base/img/loading.gif&quot; alt=&quot;&quot; class=&quot;small_loading&quot;&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<p>这是一个结合了for和if等复杂控制流的模板。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;% for (var i in table) &#123; %&gt;</div><div class="line">  &lt;% var row = table[i] %&gt;</div><div class="line">  &lt;% if (row.project_pays.length === 0) &#123; %&gt;</div><div class="line">      &lt;tr&gt;</div><div class="line">        &lt;td class=&quot;txt_cent ver_top&quot;&gt;&lt;strong&gt;&lt;%= row.month %&gt;&lt;/strong&gt;&lt;/td&gt;</div><div class="line">        &lt;td class=&quot;bd_lft2 txt_lft pd_lft&quot;&gt;&lt;strong class=&quot;ft_blue&quot;&gt;TOTAL&lt;/strong&gt;&lt;/td&gt;</div><div class="line">        &lt;td class=&quot;txt_rgt pd_rgt&quot;&gt;&lt;strong class=&quot;ft_blue&quot;&gt;&lt;%= row.total %&gt;doller&lt;/strong&gt;&lt;/td&gt;</div><div class="line">      &lt;/tr&gt;</div><div class="line">  &lt;% &#125; else &#123; %&gt;</div><div class="line">      &lt;tr&gt;</div><div class="line">        &lt;td rowspan=&quot;&lt;%= row.project_pays.length + 1 %&gt;&quot; class=&quot;txt_cent ver_top&quot;&gt;&lt;strong&gt;&lt;%= row.month %&gt;&lt;/strong&gt;&lt;/td&gt;</div><div class="line">        &lt;td class=&quot;bd_lft2 txt_lft pd_lft&quot;&gt;&lt;%= row.project_pays[0].project_name %&gt;&lt;/td&gt;</div><div class="line">        &lt;td class=&quot;txt_rgt pd_rgt&quot;&gt;&lt;%= row.project_pays[0].pay %&gt;doller&lt;/td&gt;</div><div class="line">      &lt;/tr&gt;</div><div class="line">      &lt;% for (var j in row.project_pays) &#123; %&gt;</div><div class="line">        &lt;% if (j != 0) &#123; %&gt;</div><div class="line">        &lt;tr&gt;</div><div class="line">          &lt;td class=&quot;bd_lft2 txt_lft pd_lft&quot;&gt;&lt;%= row.project_pays[j].project_name %&gt;&lt;/td&gt;</div><div class="line">          &lt;td class=&quot;txt_rgt pd_rgt&quot;&gt;&lt;%= row.project_pays[j].pay %&gt;doller&lt;/td&gt;</div><div class="line">        &lt;/tr&gt;</div><div class="line">        &lt;% &#125; %&gt;</div><div class="line">      &lt;% &#125; %&gt;</div><div class="line">      &lt;tr&gt;</div><div class="line">        &lt;td class=&quot;bd_lft2 txt_lft pd_lft&quot;&gt;&lt;strong class=&quot;ft_blue&quot;&gt;TOTAL&lt;/strong&gt;&lt;/td&gt;</div><div class="line">        &lt;td class=&quot;txt_rgt pd_rgt&quot;&gt;&lt;strong class=&quot;ft_blue&quot;&gt;&lt;%= row.total %&gt;doller&lt;/strong&gt;&lt;/td&gt;</div><div class="line">      &lt;/tr&gt;</div><div class="line">  &lt;% &#125; %&gt;</div><div class="line">&lt;% &#125; %&gt;</div></pre></td></tr></table></figure>
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2015/09/30/2015-09-30-tmux/" data-toggle="tooltip" data-placement="top"
+                           title="tmux">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2015/09/22/2015-09-22-Docker-beginning/" data-toggle="tooltip" data-placement="top"
+                           title="初识Docker">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#执行js代码-‘-lt-…-gt-’"><span class="toc-text">执行js代码 ‘<% … %>’</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#替换变量-lt-gt"><span class="toc-text">替换变量<%= ... %></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#替换变量时escape-‘-lt-…-gt-’"><span class="toc-text">替换变量时escape ‘<%- … %>’</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#复杂的例子"><span class="toc-text">复杂的例子</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Haojen 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="null">
+</body>
+
+</html>

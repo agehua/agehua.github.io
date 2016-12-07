@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="马浩珍在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Haojen" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        霸道算法和环选举算法｜Haojen&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2013/01/18/2013-01-18-simple-master-election/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Haojen
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>霸道算法和环选举算法</h1>
+                    
+                    <span class="meta">
+                         作者 Haojen Ma
+                        <span>
+                          日期 2013-01-18
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            霸道算法和环选举算法
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>现在主流的分布式集群一致性问题大多都吸收了PAXOS算法[^1]的思想。然而，如果完全按照Leslie Lamport的论文[^2]，实现复杂度比较高。因此，大多数实现都采用PAXOS的某种变形。Lamport的重要贡献，献是把分布式一致性的问题，形式化并给出了证明，给出了理论指导。[^3]</p>
+<p>关于Paxos算法，在网上看到了一个Fast Paxos算法，见淘宝核心系统团队博客, <a href="http://rdc.taobao.com/blog/cs/?p=162" target="_blank" rel="external">paxos 实现</a></p>
+<p>Paxos算法看起来还是很复杂的，没有仔细研究，倒是在网上另外找到了两个简单的master选举算法。</p>
+<h2 id="霸道算法"><a href="#霸道算法" class="headerlink" title="霸道算法"></a>霸道算法</h2><p>Garcia-Monila 在 1982 年的一篇论文中发明了所谓的霸道选举算法（Bully Algorithm）[^4]。当一个进程 P 发现协调者进程不再响应时，这个进程就召集选举。由于进程的独立性，在同一个时刻，系统中可能有多个召集选举的过程。假设 P 是召集选举的进程，每个召集选举的过程如下：</p>
+<ol>
+<li>P 向所有比自己编号大的进程发送一条 ELECTION（选举）消息。</li>
+<li>如果 P 得不到任何回复，则 P 赢得选举，P 向所有进程发送 COORDINATOR（协调者）消息，宣布自己的胜利。</li>
+<li>如果 P 得到任何一个回复，回复一定来自于比自己编号大的进程。P 的召集选举的工作结束，因为 P 此时已经不可能赢得选举。 </li>
+</ol>
+<a id="more"></a>
+<p>其他进程或正在召集选举，或可能接收到比自己编号小的进程的 ELECTION 消息。当它收到一个 ELECTION 后，它回复一个 OK 消息给发送消息的进程；如果这时它还不是召集选举的进程，它也将开始一个召集选举的过程，即执行 1 到 3 的操作。<br>拥有最大编号的进程不召集选举，它直接发送 COORDINATOR 消息宣布胜利，霸道算法的名字由此得来。</p>
+<h3 id="环选举算法"><a href="#环选举算法" class="headerlink" title="环选举算法"></a>环选举算法</h3><p>关于选举的另一个著名算法是基于进程环的机制设计的。与一般的环算法不同的是，环选举算法并不使用令牌。在这个算法中，我们假设所有进程能够在物理上或逻辑上组成一个环结构，每个进程都保留一个按进程编号逻辑排序的一个表，因此知道自己的所有后继进程。[^5]</p>
+<p>算法的过程非常简单。当一个进程 P 注意到协调者进程不再工作时，它将启动一个召集选举的过程：</p>
+<ol>
+<li>进程 P 构造一个包含自己进程编号的 ELECTION 给后继进程，如果直接后继进程没有响应，进程 P 就将消息发送给环上的下一个进程，直到找到一个正常运行的进程。</li>
+<li>接收到 ELECTION 消息的进程将自己的编号增加到 ELECTION 消息中，然后按照同样的方式将消息发送给后继进程。这样，消息在环上的传递将构造一个包含所有正常运行的进程的编号表。</li>
+<li>当 ELECTION 消息最后回到召集选举的进程时，消息中最大编号的进程即成为选举的胜利者。召集选举的进程将消息类型改为 COORDINATOR，然后将消息沿着环重新发送一次，将选举结果通知所有的进程。</li>
+<li>当 COORDINATOR 消息重新回到召集选举的进程时，算法终止。 </li>
+</ol>
+<p>同样，在环选举算法中，也可能同时存在多个召集选举的过程。当在这个时刻环结构不变时，最后的结果也是一致的，只是消息数量多一些，并无大碍。</p>
+<h2 id="选举算法的讨论"><a href="#选举算法的讨论" class="headerlink" title="选举算法的讨论"></a>选举算法的讨论</h2><p>霸道选举算法和环选举算法都依赖一系列苛刻的假设：</p>
+<ol>
+<li>假设了可靠的通道通信，更进一步的假设是系统中任何两个进程之间都可以通信。</li>
+<li>每个进程都知道其他进程的编号，也就是说算法依赖一个全局的数据。</li>
+<li>在多个并发召集选举的过程中，进程组的正常进程数量保持稳定，而且在环选举算法中，环结构也必须稳定。</li>
+<li>假设进程能够明确地判断出一个正常运行的进程和一个已经崩溃的进程。 </li>
+</ol>
+<p>有很多放宽假设条件下如何改进算法的讨论，但就算法的应用来说，召集选举的过程不应该是很频繁的，参与选举的进程数量和结构应该是相对稳定的。我们看不到频繁故障下的频繁选举的应用价值。因此，虽然算法的适用条件比较苛刻，但它们基本能够满足应用的需求。[^5]</p>
+<h2 id="一种多进程霸道算法实现"><a href="#一种多进程霸道算法实现" class="headerlink" title="一种多进程霸道算法实现"></a>一种多进程霸道算法实现</h2><p>常常有这样的场景，在同一台主机上运行着多个进程，这些进程需要选举一个master进行管理工作，但是总体场景比较简单，环境也不是很复杂，这种情况下可以使用文件锁并结合霸道算法来实现master进程的选举。</p>
+<p>文件锁可以用于进程间的同步，它支持读锁和写锁。具体算法如下：</p>
+<p>假设：</p>
+<ul>
+<li>有固定的一个路径下的文件file，用于选举和保存每个进程的通信端口。</li>
+<li>进程编号单调递增的。</li>
+<li>进程通过TCP方式通信，当然也可以采用其它方式通信，例如共享内存的方式。</li>
+</ul>
+<p>进程启动时：</p>
+<ol>
+<li>对于一个进程启动后，检查固定的文件file，如果没有该文件不存在，创建该文件file，加写锁，执行第2步；如果存在，执行第3步，</li>
+<li>并声明自己为master，为自己分配编号1，将自己的端口、编号和master身份写入文件中。如果还有其它进程存在，为其它进程分配编号，向其它进程声明自己为master，并将其它进程的端口和编号写入file。算法结束。</li>
+<li>对文件file加写锁，如果加锁成功，读取文件中的port信息，然后向文件中的所有进程询问是否有进程存活，如果有进程响应，表明这些进程正在选举，等待新的master产生，有了新master后，该进程向master注册，进程结束；如果没有进程响应，则清空文件，执行第2步。如果加锁不成功，向master注册，算法结束。</li>
+</ol>
+<p>向master注册时：</p>
+<ol>
+<li>进程A向master提交自己的端口号，master为进程A分配一个编号，master将进程A的端口号和编号写入file中，并进程A的端口通知给其它进程。</li>
+</ol>
+<p>系统中，每个进程都维持着一张当前所有进程的表，每个进程都定期向所有的进程发送心跳数据。</p>
+<p>当master无相应时：</p>
+<ol>
+<li>感知到master无响应时，发起master选举，直到产生新的master进程。</li>
+<li>新的master先创建一个file副本，然后加写锁，用副本替换file，然后所有进程的编号和端口写入到file文件中，并通知所有的进程自己为master，当然这时也可以重置所有的进程编号。</li>
+</ol>
+<p>以上是我设想的一个算法，现在仅仅是一个思路，没有经过验证，慎用。<br>关于文件锁，我也写了一个简单的<a href="https://github.com/liuhongjiang/blog_projects/tree/master/file-lock" target="_blank" rel="external">文件锁测试程序</a>。</p>
+<p>[^1]: wikipedia, <a href="http://en.wikipedia.org/wiki/Paxos_%28computer_science%29" target="_blank" rel="external">Paxos (computer science)</a><br>[^2]: Leslie Lamport, Paxos Made Simple, 1, Nov, 2001.<br>[^3]: DLite, <a href="http://blog.csdn.net/dlite/article/details/8064073" target="_blank" rel="external">一种集群Master节点选举算法</a><br>[^4]: wikipedia, <a href="http://en.wikipedia.org/wiki/Bully_algorithm" target="_blank" rel="external">Bully algorithm</a><br>[^5]: sahusoft, <a href="http://blog.csdn.net/sahusoft/article/details/7032604" target="_blank" rel="external">分布式系统进程的选举</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2013/01/19/2013-01-19-2012/" data-toggle="tooltip" data-placement="top"
+                           title="我的2012">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2013/01/16/2013-01-16-shell-prompting/" data-toggle="tooltip" data-placement="top"
+                           title="linux命令行提示符配置">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#霸道算法"><span class="toc-text">霸道算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#环选举算法"><span class="toc-text">环选举算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选举算法的讨论"><span class="toc-text">选举算法的讨论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一种多进程霸道算法实现"><span class="toc-text">一种多进程霸道算法实现</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Haojen 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="null">
+</body>
+
+</html>

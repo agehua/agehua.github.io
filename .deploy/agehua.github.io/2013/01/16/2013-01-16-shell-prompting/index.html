@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="马浩珍在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Haojen" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        linux命令行提示符配置｜Haojen&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2013/01/16/2013-01-16-shell-prompting/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Haojen
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>linux命令行提示符配置</h1>
+                    
+                    <span class="meta">
+                         作者 Haojen Ma
+                        <span>
+                          日期 2013-01-16
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            linux命令行提示符配置
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>linux下shell提示符可以任意配置的。</p>
+<p>首先看看bash的配置文件，一般在用户的HOME目录下有这样几个文件[^1]：</p>
+<ul>
+<li>.bash_history ：记录了您以前输入的命令，</li>
+<li>.bash_logout ：当您退出 shell 时，要执行的命令，</li>
+<li>.bash_profile ：当您登入 shell 时，要执行的命令，</li>
+<li>.bashrc ：每次打开新的 shell 时，要执行的命令。</li>
+</ul>
+<p>这些文件是每一位用户的设置。系统级的设置存储在’/etc/profile’、’/etc/bashrc’及目录’/etc/profile.d’下的文件中。但您得习惯用各自的配置文件：编辑不需要’root’权限，还可以使您的设置更有个性。当系统级与用户级的设置发生冲突时，将采用用户的设置。</p>
+<p>每次当您打开一个控制台(console)或 xterm 时，最先看到的就是提示符(prompt)，类似于：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">account@hostname ~ $</div></pre></td></tr></table></figure>
+<p>在默认设置下，提示符将显示您的用户名、主机名（默认是’localhost’）、当前所在目录（在Unix中，’~’表示您的home目录）。<br>按照传统，最后一个字符可以标识您是普通用户（<code>$</code>），还是’root’（<code>#</code>）。<br>您可以通过 <code>$PS1</code>, <code>$PS2</code> 变量来设置提示符，<code>$PS2</code>是当在多行内输入一个命令时，换行后，出现的提示符。命令</p>
+<a id="more"></a>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">andrew@ubuntu:~/lhj-github/tech$ <span class="built_in">echo</span> <span class="variable">$PS1</span></div><div class="line"><span class="variable">$&#123;debian_chroot:+($debian_chroot)&#125;</span>\u@\h:\w\$</div><div class="line">andrew@ubuntu:~/lhj-github/tech$ <span class="built_in">echo</span> <span class="variable">$PS2</span></div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<p>将显示当前的设定。其中可用字符的含义在 man bash 的’PROMPTING’部分有说明，PROMPTING部分的翻译</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">提示符(PROMPTING)</div><div class="line">    在 交互执行时， bash 在准备好读入一条命令时显示主提示符 PS1，在需要更多的输入来完成一条命令时显示 PS2。 Bash 允许通过插入一些反斜杠转义的特</div><div class="line">    殊字符来定制这些提示字符串，这些字符被如下解释：</div><div class="line">        \a     一个 ASCII 响铃字符 (07)</div><div class="line">        \d     日期，格式是 <span class="string">"星期 月份 日"</span> (例如，<span class="string">"Tue May 26"</span>)</div><div class="line">        \D&#123;format&#125;</div><div class="line">               format 被传递给 strftime(3)，结果被插入到提示字符串中；空的 format 将使用语言环境特定的时间格式。花括号是必需的</div><div class="line">        \e     一个 ASCII 转义字符 (033)</div><div class="line">        \h     主机名，第一个 ‘.’ 之前的部分</div><div class="line">        \H     主机名</div><div class="line">        \j     shell 当前管理的作业数量</div><div class="line">        \l     shell 的终端设备名的基本部分</div><div class="line">        \n     新行符</div><div class="line">        \r     回车</div><div class="line">        \s     shell 的名称， <span class="variable">$0</span> 的基本部分 (最后一个斜杠后面的部分)</div><div class="line">        \t     当前时间，采用 24小时制的 HH:MM:SS 格式</div><div class="line">        \T     当前时间，采用 12小时制的 HH:MM:SS 格式</div><div class="line">        \@     当前时间，采用 12小时制上午/下午 (am/pm) 格式</div><div class="line">        \A     当前时间，采用 24小时制上午/下午格式</div><div class="line">        \u     当前用户的用户名 the username of the current user</div><div class="line">        \v     bash 的版本 (例如，2.00)</div><div class="line">        \V     bash 的发行编号，版本号加补丁级别 (例如，2.00.0)</div><div class="line">        \w     当前工作目录</div><div class="line">        \W     当前工作目录的基本部分</div><div class="line">        \!     此命令的历史编号</div><div class="line">        \<span class="comment">#     此命令的命令编号</span></div><div class="line">        \$     如果有效 UID 是 0，就是 <span class="comment">#, 其他情况下是 $</span></div><div class="line">        \nnn   对应八进制数 nnn 的字符</div><div class="line">        \\     一个反斜杠</div><div class="line">        \[     一个不可打印字符序列的开始，可以用于在提示符中嵌入终端控制序列</div><div class="line">        \]     一个不可打印字符序列的结束</div><div class="line"></div><div class="line">    命令编号和历史编号通常是不同的：历史编号是命令在历史列表中的位置，可能包含从历史文件中恢复的命令 (参见下面的 HISTORY 历史章节)，而命令编 号</div><div class="line">    是 当 前 shell 会话中执行的命令序列中，命令的位置。字符串被解码之后，它将进行扩展，要经过 parameter expansion, <span class="built_in">command</span> substitution, arith‐</div><div class="line">    metic expansion 和 quote removal, 最后要经过 shell 选项 promptvars 处理 (参见下面的 shell 内建命令(SHELL BUILTIN COMMANDS) 章节中，对 命 令</div><div class="line">    <span class="built_in">shopt</span> 的描述)。</div></pre></td></tr></table></figure>
+<p>例如一个默认的<code>$PS1</code>设置如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">andrew@ubuntu:~/lhj-github/tech$ <span class="built_in">echo</span> <span class="variable">$PS1</span></div><div class="line"><span class="variable">$&#123;debian_chroot:+($debian_chroot)&#125;</span>\u@\h:\w\$</div><div class="line">``` </div><div class="line"></div><div class="line">前面这部分`<span class="variable">$&#123;debian_chroot:+($debian_chroot)&#125;</span>`是ubuntu一种特殊的运行程序的方式，可以参考[^3][^4]，和我们要讲的内容没有什么关系。后面这部分`\u@\h:\w\$`就是shell prompting的配置了，可以根据上面的内容翻译出来。我现在的这个配置，显示出来就像这个样子了：</div><div class="line"></div><div class="line">``` bash</div><div class="line">andrew@ubuntu:~/lhj-github/tech$</div></pre></td></tr></table></figure>
+<p>当然还可以配置颜色，首先来看ascii字符颜色表<a href="http://www.chinaunix.net/old_jh/6/54256.html" target="_blank" rel="external">^5</a>：</p>
+<p>|—<br>| 前景 | 背景 | 颜色 |<br>| - | - | - |<br>|30 | 40 |  黑色<br>|31 | 41 | 紅色<br>|32 | 42 | 綠色<br>|33 | 43 | 黃色<br>|34 | 44 | 藍色<br>|35 | 45 | 紫紅色<br>|36 | 46 | 青藍色<br>|37 | 47 | 白色<br>{: .mytable}</p>
+<p><br></p>
+<p>|—<br>| 代码 |  意义<br>| - | - |<br>|0 | OFF<br>|1 | 高亮显示<br>|4 | underline<br>|5 | 闪烁<br>|7 | 反白显示<br>|8 | 不可见<br>{: .mytable}</p>
+<p>然后就可以设置prompting的颜色了，最简单的方法是在HOME目录下的.bashrc文件添加以下配置（这种方法只会影响当前用户），<br>例如我现在的设置为</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line"><span class="built_in">export</span> PS1=<span class="string">"\w\e[32m\$ \e[0m"</span></div></pre></td></tr></table></figure>
+<p>前面部分<code>\e[32m</code>是设置提示符的颜色，后面的<code>\e[0m</code>是恢复后面命令行输入输出的颜色，如果不用这个的话，所有的输入输出都会受到影响。</p>
+<p>当然也可以配置一个多个属性的，只需要用分号隔开就可以了，这是一个例子:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line"><span class="built_in">export</span> PS1=<span class="string">"\w\e[32;40;4;1;7m\$ \e[0m"</span></div></pre></td></tr></table></figure>
+<p>我使用的是ubuntu server 64 12.04，shell用的是bash，在配置的过过程中，唯独只有闪烁功能好像没有起作用，如果有朋友解决了这个问题麻烦给我说一下。</p>
+<p>在学习这个的过程中，我还找到了一篇关于提示符配置的<a href="http://blog.sina.com.cn/s/blog_6d0cbb0301019egu.html" target="_blank" rel="external">不错的博文</a>，大家也可以阅读一下。</p>
+<h2 id="python-输出有颜色的字符"><a href="#python-输出有颜色的字符" class="headerlink" title="python 输出有颜色的字符"></a>python 输出有颜色的字符</h2><p>也可以使用python输出有颜色的字符，下面是例子代码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><div class="line"><span class="keyword">print</span> <span class="string">'\033[43;32m&#123;0&#125;\033[0m'</span>.format(<span class="string">"yellow background, green font"</span>)</div><div class="line"><span class="keyword">print</span> <span class="string">'\033[42;31m&#123;0&#125;\033[0m'</span>.format(<span class="string">"green background, red font"</span>)</div></pre></td></tr></table></figure>
+<p>[^1]: <a href="http://blog.chinaunix.net/uid-13342902-id-2901676.html" target="_blank" rel="external">linux shell简介(3)</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2013/01/18/2013-01-18-simple-master-election/" data-toggle="tooltip" data-placement="top"
+                           title="霸道算法和环选举算法">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2013/01/11/2013-01-11-es/" data-toggle="tooltip" data-placement="top"
+                           title="elasticsearch之基本操作">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#python-输出有颜色的字符"><span class="toc-text">python 输出有颜色的字符</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Haojen 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="null">
+</body>
+
+</html>

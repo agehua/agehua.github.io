@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="马浩珍在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Haojen" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        脚本调用github API｜Haojen&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2015/12/04/2015-12-04-calling-github-api/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//o7bkkhiex.bkt.clouddn.com/lion-blur-bg.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Haojen
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>脚本调用github API</h1>
+                    
+                    <span class="meta">
+                         作者 Haojen Ma
+                        <span>
+                          日期 2015-12-04
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            脚本调用github API
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>最近在部署项目的jenkins环境的时候，希望实现一个功能， 就是每次build完以后，对比一下build的分支是否是github上面的最新代码。</p>
+<p>所以就想在jenkins中使用脚本去github获取最新的commit信息。这个可以通过github的api实现。</p>
+<h2 id="直接访问api-directly"><a href="#直接访问api-directly" class="headerlink" title="直接访问api directly"></a>直接访问api directly</h2><p>最简单的方式是通过用户名和密码直接访问github的api：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">curl -u &quot;liuhongjiang:&#123;password&#125;&quot; https://api.github.com</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="使用personal-token"><a href="#使用personal-token" class="headerlink" title="使用personal token"></a>使用personal token</h2><p>github的修改个人设置中的<code>Personal access tokens</code>中生成一个token, 生成是可以选择权限，然后可以将这个token作为oAuth的token使用。</p>
+<p>注意，这个toke只会在生成的时候看见一次，以后就看不见了，所以需要保持好。</p>
+<p>下面是访问方式， token是<code>5c67b248e17baxxxxxxxxxxxxxxxxxxxxxxx</code>:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">curl  https://api.github.com/?access_token=5c67b248e17baxxxxxxxxxxxxxxxxxxxxxxx  </div><div class="line">curl -H &quot;Authorization:token 5c67b248e17baxxxxxxxxxxxxxxxxxxxxxxx&quot; https://api.github.com</div></pre></td></tr></table></figure>
+<h2 id="application-oauth"><a href="#application-oauth" class="headerlink" title="application oauth"></a>application oauth</h2><p>同样在github的修改个人设置中的<code>application</code>中的<code>developer application</code>的tab中，申请一个应用，这样就可以用这个应用来生成client id和client securet，然后就可以使用它们来生成token：</p>
+<p>使用程序生成，参考文档：<a href="https://developer.github.com/v3/oauth_authorizations/#oauth-authorizations-api" target="_blank" rel="external">https://developer.github.com/v3/oauth_authorizations/#oauth-authorizations-api</a></p>
+<p>下面是一个生成token的示例：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># curl -u&quot;liuhongjiang:&#123;password&#125;&quot; -X POST --data &apos;&#123;&quot;scopes&quot;:[&quot;public_repo&quot;], &quot;note&quot;:&quot;admin script&quot;, &quot;client_id&quot;: &quot;6f82bb4dxxxxxxxxxx&quot;, &quot;client_secret&quot;: &quot;4f5be7f1750785eac2exxxxxxxxxxxxxxxxxxxxxxxx&quot;&#125;&apos; https://api.github.com/authorizations     </div><div class="line">&#123;</div><div class="line">  &quot;id&quot;: 25261111,</div><div class="line">  &quot;url&quot;: &quot;https://api.github.com/authorizations/25261111&quot;,</div><div class="line">  &quot;app&quot;: &#123;</div><div class="line">    &quot;name&quot;: &quot;mybuildapp&quot;,</div><div class="line">    &quot;url&quot;: &quot;http://localhost:8888/&quot;,</div><div class="line">    &quot;client_id&quot;: &quot;6f82bb4dxxxxxxxxxx&quot;</div><div class="line">  &#125;,</div><div class="line">  &quot;token&quot;: &quot;0ce8d9d6e5cff9c6096b610a2xxxxxxxxx&quot;,</div><div class="line">  &quot;hashed_token&quot;: &quot;daf93cdfc81f432b8d18790dfc56d73ea401ae499xxxxxxxxxxxxxxxxxxxxx&quot;,</div><div class="line">  &quot;token_last_eight&quot;: &quot;ac18xxxxx&quot;,</div><div class="line">  &quot;note&quot;: &quot;admin script&quot;,</div><div class="line">  &quot;note_url&quot;: null,</div><div class="line">  &quot;created_at&quot;: &quot;2015-12-03T06:56:28Z&quot;,</div><div class="line">  &quot;updated_at&quot;: &quot;2015-12-03T06:56:28Z&quot;,</div><div class="line">  &quot;scopes&quot;: [</div><div class="line">    &quot;public_repo&quot;</div><div class="line">  ],</div><div class="line">  &quot;fingerprint&quot;: null</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>接下来就可以使用上面的<code>&quot;token&quot;: &quot;0ce8d9d6e5cff9c6096b610a2xxxxxxxxx&quot;</code>访问github api了：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">curl  https://api.github.com/?access_token=0ce8d9d6e5cff9c6096b610a2xxxxxxxxx  </div><div class="line">curl -H &quot;Authorization:token 0ce8d9d6e5cff9c6096b610a2xxxxxxxxx&quot; https://api.github.com</div></pre></td></tr></table></figure>
+<p>但发现一个问题，如果我的账号加入了一个私有项目，好像无法通过这个oauth token访问那个私有项目。上面的personal token是可以访问的。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://developer.github.com/v3/#authentication" target="_blank" rel="external">github Authentication</a><br><a href="https://developer.github.com/v3/oauth_authorizations/#create-a-new-authorization" target="_blank" rel="external">Create a new authorization</a><br><a href="https://developer.github.com/v3/oauth/#web-application-flow" target="_blank" rel="external">Web Application Flow</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2015/12/04/2015-12-04-jenkins-send-email-after-build/" data-toggle="tooltip" data-placement="top"
+                           title="配置jenkins发送邮件">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2015/11/25/2015-11-25-hadoop-tips/" data-toggle="tooltip" data-placement="top"
+                           title="hadoop常用命令">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#直接访问api-directly"><span class="toc-text">直接访问api directly</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用personal-token"><span class="toc-text">使用personal token</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#application-oauth"><span class="toc-text">application oauth</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Haojen 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="null">
+</body>
+
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="李纪新在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <link rel="alternate" type="application/atom+xml" title="Agehua" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        七牛android使用总结｜Agehua&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2016/05/28/qiniu-android-summary/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//cdn.maxjia.com/image/p_01.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Agehua
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+							
+								
+							
+						
+                    
+                        
+                    
+					
+					
+						<li>
+							<a href="/about">About</a>
+						</li>
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>七牛android使用总结</h1>
+                    
+                    <span class="meta">
+                         作者 Jixin Li
+                        <span>
+                          日期 2016-05-28
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#technology"
+                           title="technology">technology</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            七牛android使用总结
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h3 id="1-在android上实现对七牛空间操作"><a href="#1-在android上实现对七牛空间操作" class="headerlink" title="1.在android上实现对七牛空间操作"></a>1.在android上实现对七牛空间操作</h3><p>  在android上实现对七牛空间的各种操作，包括list，delete，upload，download。支持私有空间</p>
+<p>  注意：<strong>官方不建议开发者把AccessKey和SecretKey放在前端的java文件里</strong>，最好还是有一台应用服务器</p>
+<p>  如果只是想尝试一下，好吧:)  代码中都有说明，直接上代码</p>
+<h3 id="2-代码"><a href="#2-代码" class="headerlink" title="2.代码"></a>2.代码</h3><p>一共有三个类：</p>
+<ul>
+<li>工具类：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">package</span> com.qiniu.ui.utils;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.graphics.Bitmap;</div><div class="line"><span class="keyword">import</span> android.graphics.Bitmap.CompressFormat;</div><div class="line"><span class="keyword">import</span> android.os.Environment;</div><div class="line"><span class="keyword">import</span> android.util.Log;</div><div class="line"><span class="keyword">import</span> com.loopj.android.http.AsyncHttpClient;</div><div class="line"><span class="keyword">import</span> com.loopj.android.http.AsyncHttpResponseHandler;</div><div class="line"><span class="keyword">import</span> com.loopj.android.http.RequestParams;</div><div class="line"><span class="keyword">import</span> com.qiniu.android.storage.UpProgressHandler;</div><div class="line"><span class="keyword">import</span> com.qiniu.android.storage.UploadManager;</div><div class="line"><span class="keyword">import</span> com.qiniu.android.storage.UploadOptions;</div><div class="line"><span class="keyword">import</span> com.qiniu.android.utils.UrlSafeBase64;</div><div class="line"><span class="keyword">import</span> com.qiniu.api.auth.AuthException;</div><div class="line"><span class="keyword">import</span> com.qiniu.api.auth.digest.Mac;</div><div class="line"><span class="keyword">import</span> com.qiniu.api.rs.PutPolicy;</div><div class="line"><span class="keyword">import</span> com.qiniu.ui.SHA;</div><div class="line"><span class="keyword">import</span> com.qiniu.ui.contains.QiNiuConfig;</div><div class="line"><span class="keyword">import</span> org.apache.http.Header;</div><div class="line"><span class="keyword">import</span> org.json.JSONException;</div><div class="line"><span class="keyword">import</span> java.io.BufferedOutputStream;</div><div class="line"><span class="keyword">import</span> java.io.FileOutputStream;</div><div class="line"><span class="keyword">import</span> java.util.Random;</div><div class="line"><span class="keyword">import</span> <span class="keyword">static</span> com.qiniu.ui.SHA.hMacSHA1Encrypt;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@date</span> 2016年5月26日 上午11:00:43</div><div class="line"> * <span class="doctag">@author</span> lijixin</div><div class="line"> * <span class="doctag">@web</span> https://agehua.github.io</div><div class="line"> * <span class="doctag">@Description</span>: 七牛云图片操作</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QiniuUitls</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String fileName = <span class="string">"temp.jpg"</span>;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String tempJpeg = Environment.getExternalStorageDirectory().getPath() + <span class="string">"/"</span> + fileName;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> maxWidth = <span class="number">720</span>;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> maxHeight = <span class="number">1080</span>;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">QiniuUploadUitlsListener</span> </span>&#123;</div><div class="line">		<span class="function"><span class="keyword">void</span> <span class="title">onSucess</span><span class="params">(String fileUrl)</span></span>;</div><div class="line">		<span class="function"><span class="keyword">void</span> <span class="title">onError</span><span class="params">(<span class="keyword">int</span> errorCode, String msg)</span></span>;</div><div class="line">		<span class="function"><span class="keyword">void</span> <span class="title">onProgress</span><span class="params">(<span class="keyword">int</span> progress)</span></span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">QiniuRequestListener</span> </span>&#123;</div><div class="line">		<span class="function"><span class="keyword">void</span> <span class="title">onSucceed</span><span class="params">(<span class="keyword">byte</span>[] bytes)</span></span>;</div><div class="line">		<span class="function"><span class="keyword">void</span> <span class="title">onFailed</span><span class="params">(<span class="keyword">byte</span>[] bytes)</span></span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 将bitmap转换成jpeg，控制图片大小不大于720*1080，可以指定图片压缩质量</div><div class="line">	 * <span class="doctag">@param</span> bitmap</div><div class="line">	 * <span class="doctag">@param</span> filePath</div><div class="line">	 * <span class="doctag">@param</span> quality</div><div class="line">	 * <span class="doctag">@return</span></div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">saveBitmapToJpegFile</span><span class="params">(Bitmap bitmap, String filePath, <span class="keyword">int</span> quality)</span> </span>&#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			FileOutputStream fileOutStr = <span class="keyword">new</span> FileOutputStream(filePath);</div><div class="line">			BufferedOutputStream bufOutStr = <span class="keyword">new</span> BufferedOutputStream(fileOutStr);</div><div class="line">			resizeBitmap(bitmap).compress(CompressFormat.JPEG, quality, bufOutStr);</div><div class="line">			bufOutStr.flush();</div><div class="line">			bufOutStr.close();</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception exception) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 缩小图片</div><div class="line">	 *</div><div class="line">	 * <span class="doctag">@param</span> bitmap</div><div class="line">	 * <span class="doctag">@return</span></div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">resizeBitmap</span><span class="params">(Bitmap bitmap)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (bitmap != <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">int</span> width = bitmap.getWidth();</div><div class="line">			<span class="keyword">int</span> height = bitmap.getHeight();</div><div class="line">			<span class="comment">//宽度大于720</span></div><div class="line">			<span class="keyword">if</span> (width &gt; maxWidth) &#123;</div><div class="line">				<span class="comment">//按宽度等比例压缩图片</span></div><div class="line">				<span class="keyword">int</span> pWidth = maxWidth;</div><div class="line">				<span class="keyword">int</span> pHeight = maxWidth * height / width;</div><div class="line">				Bitmap result = Bitmap.createScaledBitmap(bitmap, pWidth, pHeight, <span class="keyword">false</span>);</div><div class="line">				bitmap.recycle();</div><div class="line">				<span class="keyword">return</span> result;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">if</span> (height &gt; maxHeight) &#123;</div><div class="line">				<span class="comment">//按高度等比例缩小图片</span></div><div class="line">				<span class="keyword">int</span> pHeight = maxHeight;</div><div class="line">				<span class="keyword">int</span> pWidth = maxHeight * width / height;</div><div class="line">				Bitmap result = Bitmap.createScaledBitmap(bitmap, pWidth, pHeight, <span class="keyword">false</span>);</div><div class="line">				bitmap.recycle();</div><div class="line">				<span class="keyword">return</span> result;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> bitmap;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">uploadImage</span><span class="params">(Bitmap bitmap, QiniuUploadUitlsListener listener)</span> </span>&#123;</div><div class="line">		saveBitmapToJpegFile(bitmap, tempJpeg,<span class="number">100</span>);</div><div class="line">		uploadImage(tempJpeg, listener);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 上传图片选择jpg格式，七牛图片api目前支持对jpg格式进行指定图片质量请求</div><div class="line">	 * <span class="doctag">@param</span> filePath</div><div class="line">	 * <span class="doctag">@param</span> listener</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">uploadImage</span><span class="params">(String filePath, <span class="keyword">final</span> QiniuUploadUitlsListener listener)</span> </span>&#123;</div><div class="line">		<span class="keyword">final</span> String fileUrlUUID = getFileUrlUUID();</div><div class="line">		String token = getToken();</div><div class="line">		<span class="keyword">if</span> (token == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</div><div class="line">				listener.onError(-<span class="number">1</span>, <span class="string">"token is null"</span>);</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">return</span>;</div><div class="line">		&#125;</div><div class="line">		UploadManager uploadManager = <span class="keyword">new</span> UploadManager();</div><div class="line">		uploadManager.put(filePath, fileUrlUUID, token, (key, info, response) -&gt; &#123;</div><div class="line">			System.out.println(<span class="string">"debug:info = "</span> + info + <span class="string">",response = "</span> + response);</div><div class="line">			<span class="keyword">if</span> (info != <span class="keyword">null</span> &amp;&amp; info.statusCode == <span class="number">200</span>) &#123;<span class="comment">// 上传成功</span></div><div class="line">				String fileRealUrl = getRealUrl(fileUrlUUID);</div><div class="line">				System.out.println(<span class="string">"debug:fileRealUrl = "</span> + fileRealUrl);</div><div class="line">				<span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</div><div class="line">					listener.onSucess(fileRealUrl);</div><div class="line">				&#125;</div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				<span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</div><div class="line">					listener.onError(info.statusCode, info.error);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;, <span class="keyword">new</span> UploadOptions(<span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">false</span>, <span class="keyword">new</span> UpProgressHandler() &#123;</div><div class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">progress</span><span class="params">(String key, <span class="keyword">double</span> percent)</span> </span>&#123;</div><div class="line">				<span class="keyword">if</span> (listener != <span class="keyword">null</span>) &#123;</div><div class="line">					listener.onProgress((<span class="keyword">int</span>) (percent * <span class="number">100</span>));</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;, <span class="keyword">null</span>));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 生成远程文件路径（全局唯一）</div><div class="line">	 * &lt;p&gt;格式类似：	 H60-L12__1464851303930__156750_1884&lt;/p&gt;</div><div class="line">	 * <span class="doctag">@return</span></div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getFileUrlUUID</span><span class="params">()</span> </span>&#123;</div><div class="line">		String filePath = android.os.Build.MODEL + <span class="string">"__"</span> + System.currentTimeMillis() + <span class="string">"__"</span> + (<span class="keyword">new</span> Random().nextInt(<span class="number">500000</span>))</div><div class="line">				+ <span class="string">"_"</span> + (<span class="keyword">new</span> Random().nextInt(<span class="number">10000</span>));</div><div class="line">		<span class="keyword">return</span> filePath.replace(<span class="string">"."</span>, <span class="string">"0"</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getRealUrl</span><span class="params">(String fileUrlUUID)</span> </span>&#123;</div><div class="line">		String filePath = <span class="string">"http://"</span> + QiNiuConfig.QINIU_BUCKNAME + <span class="string">".qiniudn.com/"</span> + fileUrlUUID;</div><div class="line">		<span class="keyword">return</span> filePath;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 获取token 本地生成</div><div class="line">	 *</div><div class="line">	 * <span class="doctag">@return</span></div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getToken</span><span class="params">()</span> </span>&#123;</div><div class="line">		Mac mac = <span class="keyword">new</span> Mac(QiNiuConfig.QINIU_AK, QiNiuConfig.QINIU_SK);</div><div class="line">		PutPolicy putPolicy = <span class="keyword">new</span> PutPolicy(QiNiuConfig.QINIU_BUCKNAME);</div><div class="line">		putPolicy.returnBody = <span class="string">"&#123;\"name\": $(fname),\"size\": \"$(fsize)\",\"w\": \"$(imageInfo.width)\",\"h\": \"$(imageInfo.height)\",\"key\":$(etag)&#125;"</span>;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			String uptoken = putPolicy.token(mac);</div><div class="line">			System.out.println(<span class="string">"debug:uptoken = "</span> + uptoken);</div><div class="line">			<span class="keyword">return</span> uptoken;</div><div class="line">		&#125; <span class="keyword">catch</span> (AuthException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; <span class="keyword">catch</span> (JSONException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 根据host和文件名，生成file的url下载地址，支持私有空间</div><div class="line">	 * <span class="doctag">@param</span> domain host：七牛的私有空间域名</div><div class="line">	 * <span class="doctag">@param</span> imgKey file key：空间里的文件名</div><div class="line">	 * <span class="doctag">@return</span> url下载地址</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">downloadFile</span><span class="params">(String domain,String imgKey)</span></span>&#123;</div><div class="line">		<span class="comment">//密钥配置</span></div><div class="line">		<span class="comment">//构造私有空间的需要生成的下载的链接</span></div><div class="line"><span class="comment">//		String domain ="http://example.xxx.clouddn.com/";</span></div><div class="line"><span class="comment">//		String path ="H60-L12__1464917382714__36888_5255";</span></div><div class="line">		StringBuilder sb =<span class="keyword">new</span> StringBuilder();</div><div class="line">		<span class="comment">//加上过期时间戳字段</span></div><div class="line">		String url = sb.append(domain).append(imgKey).append(<span class="string">"?e=1478365261"</span>).toString();</div><div class="line">		Log.e(<span class="string">"encodedEntryURI"</span>,url);</div><div class="line"></div><div class="line">		<span class="keyword">byte</span>[] sign =<span class="keyword">null</span>;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			sign = SHA.hMacSHA1Encrypt(url,QiNiuConfig.QINIU_SK);</div><div class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">		String encodedSign = UrlSafeBase64.encodeToString(sign);</div><div class="line">		sb.append(<span class="string">"&amp;token="</span>).append(QiNiuConfig.QINIU_AK).append(<span class="string">":"</span>).append(encodedSign);</div><div class="line">		Log.e(<span class="string">"download token"</span>,sb.toString());</div><div class="line">		<span class="keyword">return</span> sb.toString();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 列出空间中指定格式的文件</div><div class="line">	 * <span class="doctag">@param</span> bucket 空间名</div><div class="line">	 * <span class="doctag">@param</span> prefix 要指定的格式（前缀）</div><div class="line">	 * <span class="doctag">@param</span> listener</div><div class="line">	 * <span class="doctag">@return</span></div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">listFile</span><span class="params">(String bucket, String prefix,<span class="keyword">final</span> QiniuRequestListener listener)</span></span>&#123;</div><div class="line"></div><div class="line">		<span class="keyword">try</span>&#123;</div><div class="line">			StringBuilder sb = <span class="keyword">new</span> StringBuilder();</div><div class="line"></div><div class="line">			String entryUrl = sb.append(<span class="string">"bucket="</span>).append(bucket)</div><div class="line">					.append(<span class="string">"&amp;prefix="</span>).append(prefix).toString();</div><div class="line">			String host = <span class="string">"http://rsf.qbox.me"</span>;</div><div class="line">			String path = <span class="string">"/list?"</span> +entryUrl;</div><div class="line">			String url = host+path;</div><div class="line">			Log.e(<span class="string">"AAAAAAA"</span>, url);</div><div class="line">			<span class="keyword">byte</span>[] sign = SHA.hMacSHA1Encrypt(path+<span class="string">"\n"</span>, QiNiuConfig.QINIU_SK);</div><div class="line">			String encodedSign = UrlSafeBase64.encodeToString(sign);</div><div class="line">			String authorization = QiNiuConfig.QINIU_AK + <span class="string">':'</span> + encodedSign;</div><div class="line">			AsyncHttpClient client = <span class="keyword">new</span> AsyncHttpClient();</div><div class="line">			client.addHeader(<span class="string">"Content-Type"</span>,<span class="string">"application/x-www-form-urlencoded"</span>);</div><div class="line">			client.addHeader(<span class="string">"Authorization"</span>, <span class="string">"QBox "</span>+authorization);</div><div class="line">			RequestParams params = <span class="keyword">new</span> RequestParams();</div><div class="line">			client.post(url, params, <span class="keyword">new</span> AsyncHttpResponseHandler() &#123;</div><div class="line">				<span class="meta">@Override</span></div><div class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(<span class="keyword">int</span> i, Header[] headers, <span class="keyword">byte</span>[] bytes)</span> </span>&#123;</div><div class="line">					<span class="keyword">if</span> (<span class="keyword">null</span>!=listener)</div><div class="line">						listener.onSucceed(bytes);</div><div class="line">				&#125;</div><div class="line"></div><div class="line">				<span class="meta">@Override</span></div><div class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(<span class="keyword">int</span> i, Header[] headers, <span class="keyword">byte</span>[] bytes, Throwable throwable)</span> </span>&#123;</div><div class="line">					<span class="keyword">if</span> (<span class="keyword">null</span>!=listener)</div><div class="line">						listener.onFailed(bytes);</div><div class="line">				&#125;</div><div class="line">			&#125;);</div><div class="line">		&#125;<span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> ;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 删除空间中的文件</div><div class="line">	 * <span class="doctag">@param</span> bucket 删除文件的空间</div><div class="line">	 * <span class="doctag">@param</span> fileName 删除的文件</div><div class="line">	 * */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">deleteFile</span><span class="params">(String bucket,String fileName,<span class="keyword">final</span> QiniuRequestListener listener)</span></span>&#123;</div><div class="line">		<span class="keyword">try</span>&#123;</div><div class="line">			String entryUrl = bucket+<span class="string">":"</span>+fileName;</div><div class="line">			String encodedEntryURI = UrlSafeBase64.encodeToString(entryUrl.getBytes());</div><div class="line">			String host = <span class="string">"http://rs.qiniu.com"</span>;</div><div class="line">			String path = <span class="string">"/delete/"</span>+encodedEntryURI;</div><div class="line">			String url = host+path;</div><div class="line">			Log.e(<span class="string">"AAAAAAA"</span>, url);</div><div class="line">			<span class="keyword">byte</span>[] sign = hMacSHA1Encrypt(path+<span class="string">"\n"</span>, QiNiuConfig.QINIU_SK);</div><div class="line">			String encodedSign = UrlSafeBase64.encodeToString(sign);</div><div class="line">			String authorization = QiNiuConfig.QINIU_AK + <span class="string">':'</span> + encodedSign;</div><div class="line"></div><div class="line">			AsyncHttpClient client = <span class="keyword">new</span> AsyncHttpClient();</div><div class="line">			client.addHeader(<span class="string">"Content-Type"</span>,<span class="string">"application/x-www-form-urlencoded"</span>);</div><div class="line">			client.addHeader(<span class="string">"Authorization"</span>, <span class="string">"QBox "</span>+authorization);</div><div class="line">			RequestParams params = <span class="keyword">new</span> RequestParams();</div><div class="line">			client.post(url, params, <span class="keyword">new</span> AsyncHttpResponseHandler() &#123;</div><div class="line">				<span class="meta">@Override</span></div><div class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(<span class="keyword">int</span> i, Header[] headers, <span class="keyword">byte</span>[] bytes)</span> </span>&#123;</div><div class="line">					<span class="keyword">if</span> (<span class="keyword">null</span>!=listener)</div><div class="line">						listener.onSucceed(bytes);</div><div class="line">				&#125;</div><div class="line"></div><div class="line">				<span class="meta">@Override</span></div><div class="line">				<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(<span class="keyword">int</span> i, Header[] headers, <span class="keyword">byte</span>[] bytes, Throwable throwable)</span> </span>&#123;</div><div class="line">					<span class="keyword">if</span> (<span class="keyword">null</span>!=listener)</div><div class="line">						listener.onFailed(bytes);</div><div class="line">					<span class="keyword">if</span> (<span class="keyword">null</span>!=bytes) &#123;</div><div class="line">						String s = <span class="keyword">new</span> String(bytes);</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">			&#125;);</div><div class="line"></div><div class="line">		&#125;<span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>HMAC-SHA1签名加密类</li>
+</ul>
+<p>使用下面方法生成对应七牛资源管理里用到的<a href="http://developer.qiniu.com/article/developer/security/access-token.html" target="_blank" rel="external">管理凭证</a></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 对外提供HMAC-SHA1签名方法</div><div class="line"> * <span class="doctag">@author</span> agehua</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SHA</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String MAC_NAME = <span class="string">"HmacSHA1"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ENCODING = <span class="string">"UTF-8"</span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     *</div><div class="line">     * 使用 HMAC-SHA1 签名方法对对encryptText进行签名</div><div class="line">     * <span class="doctag">@param</span> encryptText 被签名的字符串</div><div class="line">     * <span class="doctag">@param</span> encryptKey 密钥</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     * <span class="doctag">@throws</span> Exception</div><div class="line">     */</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] hMacSHA1Encrypt(String encryptText, String encryptKey)</div><div class="line">            <span class="keyword">throws</span> Exception &#123;</div><div class="line">        <span class="keyword">byte</span>[] data = encryptKey.getBytes(ENCODING);</div><div class="line">        <span class="comment">// 根据给定的字节数组构造一个密钥,第二参数指定一个密钥算法的名称</span></div><div class="line">        SecretKey secretKey = <span class="keyword">new</span> SecretKeySpec(data, MAC_NAME);</div><div class="line">        <span class="comment">// 生成一个指定 Mac 算法 的 Mac 对象</span></div><div class="line">        Mac mac = Mac.getInstance(MAC_NAME);</div><div class="line">        <span class="comment">// 用给定密钥初始化 Mac 对象</span></div><div class="line">        mac.init(secretKey);</div><div class="line">        <span class="keyword">byte</span>[] text = encryptText.getBytes(ENCODING);</div><div class="line">        <span class="comment">// 完成 Mac 操作</span></div><div class="line">        <span class="keyword">return</span> mac.doFinal(text);</div><div class="line">    &#125;</div><div class="line">&#125;  </div><div class="line">~~~  </div><div class="line"></div><div class="line">- 还有一个Config文件</div><div class="line"></div><div class="line">~~~ Java</div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">QiNiuConfig</span> </span>&#123;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String token = getToken();</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String QINIU_AK = <span class="string">"Your_AccessKey"</span>;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String QINIU_SK = <span class="string">"Your_SecretKey"</span>;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String QINIU_BUCKNAME = <span class="string">"你的私有空间"</span>;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getToken</span><span class="params">()</span> </span>&#123;</div><div class="line">		Mac mac = <span class="keyword">new</span> Mac(QiNiuConfig.QINIU_AK, QiNiuConfig.QINIU_SK);</div><div class="line">		PutPolicy putPolicy = <span class="keyword">new</span> PutPolicy(QiNiuConfig.QINIU_BUCKNAME);</div><div class="line">		putPolicy.returnBody = <span class="string">"&#123;\"name\": $(fname),\"size\": \"$(fsize)\",\"w\": \"$(imageInfo.width)\",\"h\": \"$(imageInfo.height)\",\"key\":$(etag)&#125;"</span>;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			String uptoken = putPolicy.token(mac);</div><div class="line">			System.out.println(<span class="string">"debug:uptoken = "</span> + uptoken);</div><div class="line">			<span class="keyword">return</span> uptoken;</div><div class="line">		&#125; <span class="keyword">catch</span> (AuthException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; <span class="keyword">catch</span> (JSONException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> <a href="https://gist.github.com/agehua/f73bcb98af2c0c44a4c49c7c7b7e6bda" target="_blank" rel="external">点击在Gist上查看上面这些代码</a></p>
+<p>最后，如果有问题欢迎讨论，我的邮箱简介里有 :)  </p>
+
+                <hr>
+                本文总阅读量 <span id="busuanzi_value_page_pv"></span> 次
+                <hr>
+                
+                <!-- 多说 Share start -->
+                <div class="ds-share"
+                     style="text-align: right"
+                     data-thread-key="2016/05/28/qiniu-android-summary/"
+                     data-title="七牛android使用总结"
+                     data-url="http://agehua.github.io/2016/05/28/qiniu-android-summary/"
+                     data-images=""
+                     data-content="1.在android上实现对七牛空间操作  在android上实现对七牛空间的各种操作，包括l... | Agehua&#39;s blog ">
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-16">
+                            <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                            <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                            <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                            <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                        </ul>
+                        <div class="ds-share-icons-more">
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/06/08/gson-summary/" data-toggle="tooltip" data-placement="top"
+                           title="Gson解析使用总结">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/05/24/JNI-Learning/" data-toggle="tooltip" data-placement="top"
+                           title="android JNI学习① 基础知识">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                         data-thread-key="2016/05/28/qiniu-android-summary/"
+                         data-title="七牛android使用总结"
+                         data-url="http://agehua.github.io/2016/05/28/qiniu-android-summary/">
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-在android上实现对七牛空间操作"><span class="toc-text">1.在android上实现对七牛空间操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-代码"><span class="toc-text">2.代码</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#technology"
+                           title="technology">technology</a>
+                        
+                    </div>
+                </section>
+                
+
+                
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://www.bigademo.com">ghost老司机的博客</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+    
+</article>
+
+<a href="https://github.com/agehua"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'agehua';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user};
+    (function () {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/名逍遥">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/jixinli">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/Will Tihdhs">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Agehua 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    <!-- Theme by <a href="https://haojen.github.io/">Haojen Ma</a> -->
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//avatars2.githubusercontent.com/u/4710673?v=3&amp;s=400">
+</body>
+
+
+
+</html>

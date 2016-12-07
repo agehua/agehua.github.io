@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>android JNI学习② JNI调用过程 | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="android Jni调用过程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="android JNI学习② JNI调用过程">
+<meta property="og:url" content="http://agehua.github.io/2016/05/24/JNI-Learning0/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="android Jni调用过程">
+<meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg">
+<meta property="og:updated_time" content="2016-12-06T02:39:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="android JNI学习② JNI调用过程">
+<meta name="twitter:description" content="android Jni调用过程">
+<meta name="twitter:image" content="http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.png" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.png" />
+            <h2 id="name">Agehua</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                26
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                8
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+
+
+            <section id="main"><article id="post-JNI-Learning0" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<img src="http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            android JNI学习② JNI调用过程
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/05/24/JNI-Learning0/">
+            <time datetime="2016-05-23T16:00:00.000Z" itemprop="datePublished">2016-05-24</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/android-jni/">Android JNI</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+
+            
+            <h3 id="1-Android-JNI调用过程"><a href="#1-Android-JNI调用过程" class="headerlink" title="1.Android JNI调用过程"></a>1.Android JNI调用过程</h3><h4 id="1-1-由Android系统加载的JNI"><a href="#1-1-由Android系统加载的JNI" class="headerlink" title="1.1 由Android系统加载的JNI"></a>1.1 由Android系统加载的JNI</h4><p>Android系统在启动启动过程中，先<strong>启动Kernel创建init进程</strong>，紧接着由init进程fork第一个横穿Java和C/C++的进程，即Zygote进程。Zygote启动过程中会<strong>AndroidRuntime.cpp中的startVm</strong>创建虚拟机，VM创建完成后，紧接着调用startReg完成虚拟机中的JNI方法注册。</p>
+<a id="more"></a>
+<p>在AndroidRuntime.cpp中：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line"><span class="keyword">int</span> AndroidRuntime::startReg(JNIEnv* env)</div><div class="line">&#123;</div><div class="line">    <span class="comment">//设置线程创建方法为javaCreateThreadEtc</span></div><div class="line">    androidSetCreateThreadFunc((android_create_thread_fn) javaCreateThreadEtc);</div><div class="line"></div><div class="line">    env-&gt;PushLocalFrame(<span class="number">200</span>);</div><div class="line">    <span class="comment">//进程NI方法的注册</span></div><div class="line">    <span class="keyword">if</span> (register_jni_procs(gRegJNI, NELEM(gRegJNI), env) &lt; <span class="number">0</span>) &#123;</div><div class="line">        env-&gt;PopLocalFrame(<span class="literal">NULL</span>);</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    &#125;</div><div class="line">    env-&gt;PopLocalFrame(<span class="literal">NULL</span>);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>register_jni_procs(gRegJNI, NELEM(gRegJNI), env)</strong>这行代码的作用就是就是循环调用gRegJNI数组成员所对应的方法。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">register_jni_procs</span><span class="params">(<span class="keyword">const</span> RegJNIRec <span class="built_in">array</span>[], <span class="keyword">size_t</span> count, JNIEnv* env)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="built_in">array</span>[i].mProc(env) &lt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>   gRegJNI数组，有100多个成员变量，定义在AndroidRuntime.cpp：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">const</span> RegJNIRec gRegJNI[] = &#123;</div><div class="line">    REG_JNI(register_android_os_MessageQueue),</div><div class="line">    REG_JNI(register_android_os_Binder),</div><div class="line">    ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>   该数组的每个成员都代表一个类文件的jni映射，其中REG_JNI是一个宏定义，该宏的作用就是调用相应的方法。</p>
+<p>比如MessageQueue和Binder方法都是Android系统启动时就已经注册，所以在AndroidRuntime.cpp中可以找到相应的native方法，见<strong>AndroidRuntime.cpp的gRegJNI数组</strong>。这些注册方法命令格式为：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">register_[包名]_[类名]</div></pre></td></tr></table></figure>
+<h5 id="示例一：以MessageQueue-java中的nativePollOnce方法为例，"><a href="#示例一：以MessageQueue-java中的nativePollOnce方法为例，" class="headerlink" title="示例一：以MessageQueue.java中的nativePollOnce方法为例，"></a>示例一：以MessageQueue.java中的nativePollOnce方法为例，</h5><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">nativePollOnce</span><span class="params">(<span class="keyword">long</span> ptr, <span class="keyword">int</span> timeoutMillis)</span></span>;</div></pre></td></tr></table></figure>
+<p>方法名：<strong>android.os.MessageQueue.nativePollOnce()</strong>，而相对应的native层方法名只是将点号替换为下划线，可得<strong>android_os_MessageQueue_nativePollOnce()。</strong></p>
+<ul>
+<li>前面说MessageQueue.java所定义的jni注册方法名应该是<strong>register_android_os_MessageQueue</strong>，的确存在于gRegJNI数组，说明这次JNI注册过程是有开机过程完成的。该方法在AndroidRuntime.cpp申明为extern方法：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">int</span> <span class="title">register_android_os_MessageQueue</span><span class="params">(JNIEnv* env)</span></span>;</div></pre></td></tr></table></figure>
+<p>这些extern方法绝大多数位于/framework/base/core/jni/目录，大多数情况下native文件命名方式：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line">[包名]_[类名].cpp</div><div class="line">[包名]_[类名].h</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips</strong>： MessageQueue.java ==&gt; android_os_MessageQueue.cpp</p>
+</blockquote>
+<ul>
+<li>打开android_os_MessageQueue.cpp文件，搜索android_os_MessageQueue_nativePollOnce方法，这便找到了目标方法：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">android_os_MessageQueue_nativePollOnce</span><span class="params">(JNIEnv* env, jobject obj,</span></span></div><div class="line">        jlong ptr, jint timeoutMillis) &#123;</div><div class="line">    NativeMessageQueue* nativeMessageQueue = <span class="keyword">reinterpret_cast</span>&lt;NativeMessageQueue*&gt;(ptr);</div><div class="line">    nativeMessageQueue-&gt;pollOnce(env, obj, timeoutMillis);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="示例二：对于native文件命名方式，有时并非-包名-类名-cpp，比如Binder-java"><a href="#示例二：对于native文件命名方式，有时并非-包名-类名-cpp，比如Binder-java" class="headerlink" title="示例二：对于native文件命名方式，有时并非[包名]_[类名].cpp，比如Binder.java"></a>示例二：对于native文件命名方式，有时并非[包名]_[类名].cpp，比如Binder.java</h5><p>Binder.java所对应的native文件：<strong>android_util_Binder.cpp</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">getCallingPid</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure>
+<p>   根据示例一方式，找到getCallingPid ==&gt; android_os_Binder_getCallingPid()，并且在AndroidRuntime.cpp中的gRegJNI数组中找到register_android_os_Binder。</p>
+<p>按实例(一)方式则native文名应该为android_os_Binder.cpp，可是在/framework/base/core/jni/目录下<strong>找不到该文件</strong>，这是例外的情况。其实真正的文件名为<strong>android_util_Binder.cpp</strong>，这就是例外，这一点有些费劲，不明白为何google要如此打破规律的命名。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> jint <span class="title">android_os_Binder_getCallingPid</span><span class="params">(JNIEnv* env, jobject clazz)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> IPCThreadState::self()-&gt;getCallingPid();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>有人可能好奇，既然如何遇到打破常规的文件命令，怎么办？这个并不难，首先，可以尝试在/framework/base/core/jni/中搜索，对于binder.java，可以直接搜索binder关键字，其他也类似。如果这里也找不到，可以通过grep全局搜索android_os_Binder_getCallingPid这个方法在哪个文件。</p>
+<p>jni存在的常见目录：</p>
+<ul>
+<li>/framework/base/core/jni/</li>
+<li>/framework/base/services/core/jni/</li>
+<li>/framework/base/media/jni/</li>
+</ul>
+<h4 id="1-2-加载自定义的JNI方法"><a href="#1-2-加载自定义的JNI方法" class="headerlink" title="1.2 加载自定义的JNI方法"></a>1.2 加载自定义的JNI方法</h4><p>前面两种都是在Android系统启动之初，便已经注册过JNI所对应的方法。 那么如果程序自己定义的jni方法，该如何查看jni方法所在位置呢？下面以MediaPlayer.java为例，其包名为android.media：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MediaPlayer</span></span>&#123;</div><div class="line">    <span class="keyword">static</span> &#123;</div><div class="line">        System.loadLibrary(<span class="string">"media_jni"</span>);</div><div class="line">        native_init();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">native_init</span><span class="params">()</span></span>;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>通过static静态代码块中System.loadLibrary方法来加载动态库，库名为media_jni, Android平台则会自动扩展成所对应的libmedia_jni.so库</p>
+</li>
+<li><p>接下来便要查看libmedia_jni.so库定义所在文件，一般都是通过Android.mk文件定义<strong>LOCAL_MODULE:= libmedia_jni</strong>，可以采用grep或者mgrep来搜索包含libmedia_jni字段的Android.mk所在路径。</p>
+</li>
+</ul>
+<p>搜索可知，libmedia_jni.so位于/frameworks/base/media/jni/Android.mk。用前面实例(一)中的知识来查看相应的文件和方法名分别为：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line">android_media_MediaPlayer.<span class="function">cpp</span></div><div class="line"><span class="title">android_media_MediaPlayer_native_init</span><span class="params">()</span></div></pre></td></tr></table></figure>
+<ul>
+<li>再然后，你会发现果然在该Android.mk所在目录/frameworks/base/media/jni/中找到android_media_MediaPlayer.cpp文件，并在文件中存在相应的方法：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span></span></div><div class="line"><span class="title">android_media_MediaPlayer_native_init</span><span class="params">(JNIEnv *env)</span></div><div class="line">&#123;</div><div class="line">    jclass clazz;</div><div class="line">    clazz = env-&gt;FindClass(<span class="string">"android/media/MediaPlayer"</span>);</div><div class="line">    fields.context = env-&gt;GetFieldID(clazz, <span class="string">"mNativeContext"</span>, <span class="string">"J"</span>);</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>Tips</strong>：MediaPlayer.java中的native_init方法所对应的native方法位于/frameworks/base/media/jni/目录下的android_media_MediaPlayer.cpp文件中的android_media_MediaPlayer_native_init方法。</p>
+</blockquote>
+<p><strong>总结：System.loadLibrary()的作用就是调用相应库中的JNI_OnLoad()方法</strong>。</p>
+<h4 id="1-3-说说JNI-OnLoad-过程。"><a href="#1-3-说说JNI-OnLoad-过程。" class="headerlink" title="1.3 说说JNI_OnLoad()过程。"></a>1.3 说说<strong>JNI_OnLoad()</strong>过程。</h4><p>[-&gt; android_media_MediaPlayer.cpp]</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line"><span class="function">jint <span class="title">JNI_OnLoad</span><span class="params">(JavaVM* vm, <span class="keyword">void</span>* reserved)</span></span></div><div class="line">&#123;</div><div class="line">    JNIEnv* env = <span class="literal">NULL</span>;</div><div class="line">    <span class="keyword">if</span> (register_android_media_MediaPlayer(env) &lt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">goto</span> bail;</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>详细说一下<strong>register_android_media_MediaPlayer</strong></p>
+<p>[-&gt; android_media_MediaPlayer.cpp]</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">register_android_media_MediaPlayer</span><span class="params">(JNIEnv *env)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="comment">//【见3.4】</span></div><div class="line">    <span class="keyword">return</span> AndroidRuntime::registerNativeMethods(env,</div><div class="line">                <span class="string">"android/media/MediaPlayer"</span>, gMethods, NELEM(gMethods));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>虚拟机相关的变量中有两个非常重要的量JavaVM和JNIEnv:</p>
+<ul>
+<li>1.JavaVM：是指进程虚拟机环境，每个进程有且只有一个JavaVM实例</li>
+<li>2.JNIEnv：是指线程上下文环境，每个线程有且只有一个JNIEnv实例</li>
+</ul>
+<p>其中gMethods，记录java层和C/C++层方法的一一映射关系。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line"><span class="keyword">static</span> JNINativeMethod gMethods[] = &#123;</div><div class="line">    &#123;<span class="string">"prepare"</span>,      <span class="string">"()V"</span>,  (<span class="keyword">void</span> *)android_media_MediaPlayer_prepare&#125;,</div><div class="line">    &#123;<span class="string">"_start"</span>,       <span class="string">"()V"</span>,  (<span class="keyword">void</span> *)android_media_MediaPlayer_start&#125;,</div><div class="line">    &#123;<span class="string">"_stop"</span>,        <span class="string">"()V"</span>,  (<span class="keyword">void</span> *)android_media_MediaPlayer_stop&#125;,</div><div class="line">    &#123;<span class="string">"seekTo"</span>,       <span class="string">"(I)V"</span>, (<span class="keyword">void</span> *)android_media_MediaPlayer_seekTo&#125;,</div><div class="line">    &#123;<span class="string">"_release"</span>,     <span class="string">"()V"</span>,  (<span class="keyword">void</span> *)android_media_MediaPlayer_release&#125;,</div><div class="line">    &#123;<span class="string">"native_init"</span>,  <span class="string">"()V"</span>,  (<span class="keyword">void</span> *)android_media_MediaPlayer_native_init&#125;,</div><div class="line">    ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>这里涉及到结构体<strong>JNINativeMethod</strong>，其定义在jni.h文件：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</div><div class="line">    <span class="keyword">const</span> <span class="keyword">char</span>* name;  <span class="comment">//Java层native函数名</span></div><div class="line">    <span class="keyword">const</span> <span class="keyword">char</span>* signature; <span class="comment">//Java函数签名，记录参数类型和个数，以及返回值类型</span></div><div class="line">    <span class="keyword">void</span>*       fnPtr; <span class="comment">//Native层对应的函数指针</span></div><div class="line">&#125; JNINativeMethod;</div></pre></td></tr></table></figure>
+<h3 id="2-JNI资源"><a href="#2-JNI资源" class="headerlink" title="2.JNI资源"></a>2.JNI资源</h3><p>JNINativeMethod结构体中有一个字段为<strong>signature(签名)</strong>，再介绍signature格式之前需要掌握各种数据类型在Java层、Native层以及签名所采用的签名格式。</p>
+<h4 id="2-1-数据类型"><a href="#2-1-数据类型" class="headerlink" title="2.1 数据类型"></a>2.1 数据类型</h4><ul>
+<li><strong>基本数据类型</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><em>Signature格式</em></th>
+<th style="text-align:center"><em>Java</em></th>
+<th style="text-align:center"><em>Native</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">B</td>
+<td style="text-align:center">byte</td>
+<td style="text-align:center">jbyte</td>
+</tr>
+<tr>
+<td style="text-align:center">C</td>
+<td style="text-align:center">char</td>
+<td style="text-align:center">jchar</td>
+</tr>
+<tr>
+<td style="text-align:center">D</td>
+<td style="text-align:center">double</td>
+<td style="text-align:center">jdouble</td>
+</tr>
+<tr>
+<td style="text-align:center">F</td>
+<td style="text-align:center">float</td>
+<td style="text-align:center">jfloat</td>
+</tr>
+<tr>
+<td style="text-align:center">I</td>
+<td style="text-align:center">int</td>
+<td style="text-align:center">jint</td>
+</tr>
+<tr>
+<td style="text-align:center">S</td>
+<td style="text-align:center">short</td>
+<td style="text-align:center">jshort</td>
+</tr>
+<tr>
+<td style="text-align:center">J</td>
+<td style="text-align:center">long</td>
+<td style="text-align:center">jlong</td>
+</tr>
+<tr>
+<td style="text-align:center">Z</td>
+<td style="text-align:center">boolean</td>
+<td style="text-align:center">jboolean</td>
+</tr>
+<tr>
+<td style="text-align:center">V</td>
+<td style="text-align:center">void</td>
+<td style="text-align:center">void</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>数组数据类型</strong></li>
+</ul>
+<p>数组简称则是在前面添加<strong>[</strong>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><em>Signature格式</em></th>
+<th style="text-align:center"><em>Java</em></th>
+<th style="text-align:center"><em>Native</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">[B</td>
+<td style="text-align:center">byte[]</td>
+<td style="text-align:center">jbyteArray</td>
+</tr>
+<tr>
+<td style="text-align:center">[C</td>
+<td style="text-align:center">char[]</td>
+<td style="text-align:center">jcharArray</td>
+</tr>
+<tr>
+<td style="text-align:center">[D</td>
+<td style="text-align:center">double[]</td>
+<td style="text-align:center">jdoubleArray</td>
+</tr>
+<tr>
+<td style="text-align:center">[F</td>
+<td style="text-align:center">float[]</td>
+<td style="text-align:center">jfloatArray</td>
+</tr>
+<tr>
+<td style="text-align:center">[I</td>
+<td style="text-align:center">int[]</td>
+<td style="text-align:center">jintArray</td>
+</tr>
+<tr>
+<td style="text-align:center">[S</td>
+<td style="text-align:center">short[]</td>
+<td style="text-align:center">jshortArray</td>
+</tr>
+<tr>
+<td style="text-align:center">[J</td>
+<td style="text-align:center">long[]</td>
+<td style="text-align:center">jlongArray</td>
+</tr>
+<tr>
+<td style="text-align:center">[Z</td>
+<td style="text-align:center">boolean[]</td>
+<td style="text-align:center">jbooleanArray</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>复杂数据类型</strong></li>
+</ul>
+<p>对象类型简称：<strong>L+classname +</strong>;</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Signature格式</th>
+<th style="text-align:center">Java</th>
+<th style="text-align:center">Native</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Ljava/lang/String;</td>
+<td style="text-align:center">String</td>
+<td style="text-align:center">jstring</td>
+</tr>
+<tr>
+<td style="text-align:center">L+classname +;</td>
+<td style="text-align:center">所有对象</td>
+<td style="text-align:center">jobject</td>
+</tr>
+<tr>
+<td style="text-align:center">[L+classname +;</td>
+<td style="text-align:center">Object[]</td>
+<td style="text-align:center">jobjectArray</td>
+</tr>
+<tr>
+<td style="text-align:center">Ljava.lang.Class;</td>
+<td style="text-align:center">Class</td>
+<td style="text-align:center">jclass</td>
+</tr>
+<tr>
+<td style="text-align:center">Ljava.lang.Throwable;</td>
+<td style="text-align:center">Throwable</td>
+<td style="text-align:center">jthrowable</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Signature</strong></li>
+</ul>
+<p>有了前面的铺垫，那么再来通过实例说说函数签名： (输入参数…)返回值参数，这里用到的便是前面介绍的Signature格式。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Java函数</th>
+<th style="text-align:center">对应的签名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">void foo()</td>
+<td style="text-align:center">()V</td>
+</tr>
+<tr>
+<td style="text-align:center">float foo(int i)</td>
+<td style="text-align:center">(I)F</td>
+</tr>
+<tr>
+<td style="text-align:center">long foo(int[] i)</td>
+<td style="text-align:center">([I)J</td>
+</tr>
+<tr>
+<td style="text-align:center">double foo(Class c)</td>
+<td style="text-align:center">(Ljava/lang/Class;)D</td>
+</tr>
+<tr>
+<td style="text-align:center">boolean foo(int[] i,String s)</td>
+<td style="text-align:center">([ILjava/lang/String;)Z</td>
+</tr>
+<tr>
+<td style="text-align:center">String foo(int i)</td>
+<td style="text-align:center">(I)Ljava/lang/String;</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2-2-其他"><a href="#2-2-其他" class="headerlink" title="2.2 其他"></a>2.2 其他</h4><ul>
+<li><p><strong>(一)垃圾回收</strong><br>对于Java开发人员来说无需关系垃圾回收，完全由虚拟机GC来负责垃圾回收，而对于JNI开发人员，对于内存释放需要谨慎处理，需要的时候申请，使用完记得释放内容，以免发生内存泄露。在JNI提供了三种Reference类型，Local Reference(本地引用)， Global Reference（全局引用）， Weak Global Reference(全局弱引用)。其中Global Reference如果不主动释放，则一直不会释放；对于其他两个类型的引用都是释放的可能性，那是不是意味着不需要手动释放呢？答案是否定的，不管是这三种类型的那种引用，都尽可能在某个内存不再需要时，立即释放，这对系统更为安全可靠，以减少不可预知的性能与稳定性问题。</p>
+<p>另外，ART虚拟机在GC算法有所优化，为了减少内存碎片化问题，在GC之后有可能会移动对象内存的位置，对于Java层程序并没有影响，但是对于JNI程序可要小心了，对于通过指针来直接访问内存对象是，Dalvik能正确运行的程序，ART下未必能正常运行。</p>
+</li>
+<li><p><strong>(二)异常处理</strong><br>Java层出现异常，虚拟机会直接抛出异常，这是需要try..catch或者继续往外throw。但是对于JNI出现异常时，即执行到JNIEnv中某个函数异常时，并不会立即抛出异常来中断程序的执行，还可以继续执行内存之类的清理工作，直到返回到Java层时才会抛出相应的异常。</p>
+<p>另外，Dalvik虚拟机有些情况下JNI函数出错可能返回NULL，但ART虚拟机在出错时更多的是抛出异常。这样导致的问题就可能是在Dalvik版本能正常运行的程序，在ART虚拟机上由于没有正确处理异常而崩溃。</p>
+</li>
+</ul>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2016/05/24/JNI-Learning0/" data-id="ciwd8yb29000syls6qsm5c4h1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://agehua.github.io/2016/05/24/JNI-Learning0/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/05/24/JNI-Learning0/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/05/28/qiniu-android-summary/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    七牛android使用总结
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/05/24/JNI-Learning/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">android JNI学习① 基础知识</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/05/24/JNI-Learning0/" data-title="android JNI学习② JNI调用过程" data-url="http://agehua.github.io/2016/05/24/JNI-Learning0/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/12/04/2016-12-3-nodejs-learning-getting-started/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg)" alt="nodejs入门" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/read/">read</a></p>
+                            <p class="item-title"><a href="/2016/12/04/2016-12-3-nodejs-learning-getting-started/" class="title">nodejs入门</a></p>
+                            <p class="item-date"><time datetime="2016-12-04T10:52:12.000Z" itemprop="datePublished">2016-12-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Couple%20Out%20for%20a%20Stroll.jpg)" alt="Hexo 出错情况收集" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="title">Hexo 出错情况收集</a></p>
+                            <p class="item-date"><time datetime="2016-12-01T01:30:27.000Z" itemprop="datePublished">2016-12-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/10/13/gradle-learning2/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Cart%20with%20Red%20and%20White%20Ox.jpg)" alt="gradle 学习2——生成指定文件名的apk" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/10/13/gradle-learning2/" class="title">gradle 学习2——生成指定文件名的apk</a></p>
+                            <p class="item-date"><time datetime="2016-10-12T16:00:00.000Z" itemprop="datePublished">2016-10-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/10/12/gradle-learning/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Crab%20on%20Its%20Back.jpg)" alt="gradle 学习" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/10/12/gradle-learning/" class="title">gradle 学习</a></p>
+                            <p class="item-date"><time datetime="2016-10-11T16:00:00.000Z" itemprop="datePublished">2016-10-12</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/09/28/Android-interview-questions/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg)" alt="Android面试知识点整理" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/09/28/Android-interview-questions/" class="title">Android面试知识点整理</a></p>
+                            <p class="item-date"><time datetime="2016-09-27T16:00:00.000Z" itemprop="datePublished">2016-09-28</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs-javascript/">nodejs,JavaScript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/android-jni/" style="font-size: 16.67px;">Android JNI</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 16.67px;">gradle</a> <a href="/tags/nodejs-javascript/" style="font-size: 10px;">nodejs,JavaScript</a> <a href="/tags/read/" style="font-size: 13.33px;">read</a> <a href="/tags/technology/" style="font-size: 16.67px;">technology</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.bigademo.com">ghost老司机的博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.5come.cn">我的ghost博客</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 Jixin Li<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'agehua'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

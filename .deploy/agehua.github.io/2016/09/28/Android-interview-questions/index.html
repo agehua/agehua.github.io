@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="李纪新在 Github 上的个人博客">
+    <meta name="keyword" content="null">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <link rel="alternate" type="application/atom+xml" title="Agehua" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Android面试知识点整理｜Agehua&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://agehua.github.io/2016/09/28/Android-interview-questions/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//cdn.maxjia.com/image/p_01.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Agehua
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+							
+								
+							
+						
+                    
+                        
+                    
+					
+					
+						<li>
+							<a href="/about">About</a>
+						</li>
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="null/images/jni_structure.png">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('null/images/jni_structure.png?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Android面试知识点整理</h1>
+                    
+                    <span class="meta">
+                         作者 Jixin Li
+                        <span>
+                          日期 2016-09-28
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#accumulation"
+                           title="accumulation">accumulation</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Android面试知识点整理
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>只整理android面试中涉及到的知识点。不断补充中。。。</p>
+<h4 id="1-Android事件传递机制"><a href="#1-Android事件传递机制" class="headerlink" title="1.Android事件传递机制"></a>1.Android事件传递机制</h4><p>下面内容摘选自《Android开发艺术探索》</p>
+<ul>
+<li>(1) 当一个点击事件发生之后，传递过程遵循如下顺序：<strong>Activity -&gt; Window -&gt; View</strong>。<br>如果一个view的onTouchEvent方法返回false，那么它的父容器的onTouchEvent方法将会被调用，依此类推，如果所有的元素都不处理这个事件，那么这个事件将会最终传递给Activity处理(调用Activity的onTouchEvent方法)。</li>
+<li>(2) 正常情况下，一个事件序列只能被一个view拦截并消耗，因为一旦某个元素拦截了某个事件，那么同一个事件序列内的所有事件都会直接交给它处理，并且该元素的<strong>onInterceptTouchEvent</strong>方法不会再被调用了。</li>
+<li>(3) 某个view一旦开始处理事件，如果它不消耗ACTION_DOWN事件，那么<strong>同一事件序列的其他事件都不会再交给它来处理</strong>，并且事件将重新交给它的<strong>父容器去处理</strong>(调用父容器的onTouchEvent方法)；如果它消耗ACTION_DOWN事件，但是不消耗其他类型事件，那么这个点击事件会消失，父容器的onTouchEvent方法不会被调用，<strong>当前view依然可以收到后续的事件</strong>，但是这些事件最后都会传递给Activity处理。</li>
+<li>(4) ViewGroup默认不拦截任何事件，因为它的<strong>onInterceptTouchEvent</strong>方法默认返回false。view没有onInterceptTouchEvent方法，一旦有点击事件传递给它，那么它的onTouchEvent方法就会被调用。</li>
+<li>(5) View的<strong>onTouchEvent</strong>默认都会消耗事件(返回true)，除非它是不可点击的(clickable和longClickable都为false)。view的longClickable默认是false的，clickable则不一定，Button默认是true，而TextView默认是false。</li>
+<li>(6) <strong>View的enable属性不影响onTouchEvent的默认返回值</strong>。哪怕一个view是disable状态，只要它的clickable或者longClickable有一个是true，那么它的onTouchEvent就会返回true。</li>
+<li>(7) 事件传递过程总是<strong>先传递给父元素</strong>，然后再由<strong>父元素分发给子view</strong>，通过<strong>requestDisallowInterceptTouchEvent</strong>方法可以在<strong>子元素中干预父元素的事件分发过程</strong>，但是<strong>ACTION_DOWN事件除外</strong>，即当面对ACTION_DOWN事件时，ViewGroup总是会调用自己的onInterceptTouchEvent方法来询问自己是否要拦截事件。<br>ViewGroup的dispatchTouchEvent方法中有一个标志位<strong>FLAG_DISALLOW_INTERCEPT</strong>，这个标志位就是通过<strong>子view调用requestDisallowInterceptTouchEvent方法</strong>来设置的，一旦设置为true，那么ViewGroup不会拦截该事件。</li>
+<li>(8) 以上结论均可以在书中的源码解析部分得到解释。Window的实现类为PhoneWindow，获取Activity的contentView的方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">((ViewGroup)getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(<span class="number">0</span>);</div></pre></td></tr></table></figure>
+<h4 id="2-OnTouchListener、onTouchEvent、OnClickListener优先级顺序"><a href="#2-OnTouchListener、onTouchEvent、OnClickListener优先级顺序" class="headerlink" title="2.OnTouchListener、onTouchEvent、OnClickListener优先级顺序"></a>2.OnTouchListener、onTouchEvent、OnClickListener优先级顺序</h4><p>如果给一个view设置了OnTouchListener，那么OnTouchListener中的onTouch方法会被回调。这时事件如何处理还要看<strong>onTouch</strong>的返回值，如果返回false，那么当前view的<strong>onTouchEvent方法</strong>会被调用；如果返回true，那么onTouchEvent方法将不会被调用。<br>在onTouchEvent方法中，如果当前view设置了OnClickListener，那么它的onClick方法会被调用，所以OnClickListener的优先级最低。</p>
+<h4 id="3-AsyncTask的方法介绍"><a href="#3-AsyncTask的方法介绍" class="headerlink" title="3.AsyncTask的方法介绍"></a>3.AsyncTask的方法介绍</h4><h4 id="4-项目中Handler怎么使用？"><a href="#4-项目中Handler怎么使用？" class="headerlink" title="4.项目中Handler怎么使用？"></a>4.项目中Handler怎么使用？</h4><h4 id="5-项目中图片的适配问题怎么解决？"><a href="#5-项目中图片的适配问题怎么解决？" class="headerlink" title="5.项目中图片的适配问题怎么解决？"></a>5.项目中图片的适配问题怎么解决？</h4><h4 id="6-Android存储敏感信息的方式有？"><a href="#6-Android存储敏感信息的方式有？" class="headerlink" title="6.Android存储敏感信息的方式有？"></a>6.Android存储敏感信息的方式有？</h4><h4 id="7-自定义广播"><a href="#7-自定义广播" class="headerlink" title="7.自定义广播"></a>7.自定义广播</h4><ul>
+<li>继承自BroadcastReceiver</li>
+<li>重写onReceive(Context,Intent)<pre><code>Intent.getAction
+</code></pre></li>
+<li>动态注册（Context.registerReceiver()），静态注册（使用IntentFilter指定action）</li>
+</ul>
+<h4 id="8-加分项"><a href="#8-加分项" class="headerlink" title="8.加分项"></a>8.加分项</h4><ul>
+<li>JNI开发</li>
+<li>性能优化</li>
+<li>优秀作品</li>
+</ul>
+<h4 id="9-Sqlite数据库更新并保留升级前的数据"><a href="#9-Sqlite数据库更新并保留升级前的数据" class="headerlink" title="9.Sqlite数据库更新并保留升级前的数据"></a>9.Sqlite数据库更新并保留升级前的数据</h4><p>我们知道在SQLiteOpenHelper的构造方法:</p>
+<pre><code>super(Context context, String name, SQLiteDatabase.CursorFactory factory, int version)
+</code></pre><p>中最后一个参数表示数据库的版本号.当新的版本号大于当前的version时会调用方法:</p>
+<pre><code>onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+</code></pre><p>所以我们的重点是在该方法中实现SQLite数据库版本升级的管理</p>
+<p>对于保留升级前的数据，有两种解决办法：</p>
+<p><strong>SQLite提供了ALTER TABLE命令</strong>，允许用户重命名或添加新的字段到已有表中，但是不能从表中删除字段。并且只能在表的末尾添加字段，比如，为Subscription添加两个字段：</p>
+<ul>
+<li>ALTER TABLE Subscription ADD COLUMN Activation BLOB;</li>
+<li>ALTER TABLE Subscription ADD COLUMN Key BLOB;</li>
+</ul>
+<p><strong>注释</strong>：Sqlite支持BLOB(二进制大对象)数据类型</p>
+<p><strong>保留数据删除原表创建新表</strong>，具体思路是：</p>
+<ul>
+<li>1：将表A重新命名：例如重新命名为：temp_A</li>
+<li>2：创建新表A</li>
+<li>3：将temp_A中的数据【也就是更新前的数据】插入到新表A</li>
+</ul>
+<p>具体操作如下：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><div class="line">//重命名原来的数据表</div><div class="line">public static final String TEMP_SQL_CREATE_TABLE_SUBSCRIBE = "alter table "</div><div class="line">            + A + " rename to temp_A";</div><div class="line"></div><div class="line">//然后把备份表temp_A中的数据copy到新创建的数据库表A中，这个表A没发生结构上的变化</div><div class="line">public static final String INSERT_SUBSCRIBE = "select 'insert into A (code,name,username,tablename)</div><div class="line">                        values ("code","name","cnki","tablename")' as insertSQL from temp_A";</div><div class="line"></div><div class="line">//删除备份表</div><div class="line">public static final String DELETE_TEMP_SUBSCRIBE = "delete from temp_A ";</div><div class="line">public static final String DROP_TEMP_SUBSCRIBE = "drop table if exists temp_A";</div><div class="line"></div><div class="line">@Override</div><div class="line">public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) &#123;</div><div class="line"></div><div class="line">        for (int j = oldVersion; j &lt;= newVersion; j++) &#123;</div><div class="line">            switch (j) &#123;</div><div class="line">            case 2:</div><div class="line">　　　　　　　　　//创建临时表</div><div class="line">                db.execSQL(TEMP_SQL_CREATE_TABLE_SUBSCRIBE);</div><div class="line">　　 　　　　　　//执行OnCreate方法，这个方法中放的是表的初始化操作工作，比如创建新表之类的</div><div class="line">                onCreate(db);</div><div class="line">　　　　　　　　　//删除之前的表里面的默认数据</div><div class="line">                for (int i = 0; i &lt; arrWhereAct.length; i++) &#123;</div><div class="line">                    db.execSQL(DELETE_TEMP_SUBSCRIBE + arrWhereAct[i]);</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                //将临时表中的数据放入表A</div><div class="line">　　　　　　　　　Cursor cursor = db.rawQuery(INSERT_SUBSCRIBE, null);</div><div class="line">                if (cursor.moveToFirst()) &#123;</div><div class="line">                    do &#123;</div><div class="line">                        db.execSQL(cursor.getString(cursor</div><div class="line">                                .getColumnIndex("insertSQL")));</div><div class="line">                    &#125; while (cursor.moveToNext());</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                cursor.close();</div><div class="line">　　　　　　　　　//将临时表删除掉</div><div class="line">                db.execSQL(DROP_TEMP_SUBSCRIBE);</div><div class="line"></div><div class="line">                break;</div><div class="line"></div><div class="line">            default:</div><div class="line">                break;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意</strong>，为什么要在方法里写for循环，主要是考虑到跨版本升级，比如有的用户一直不升级版本，数据库版本号一直是1，而客户端最新版本其实对应的数据库版本已经是4了，那么我中途可能对数据库做了很多修改，通过这个for循环，可以迭代升级，不会发生错误。</p>
+</blockquote>
+<h4 id="10-AIDL支持的数据类型"><a href="#10-AIDL支持的数据类型" class="headerlink" title="10.AIDL支持的数据类型"></a>10.AIDL支持的数据类型</h4><p>其实AIDL这门语言非常的简单，基本上它的语法和 Java 是一样的，只是在一些细微处有些许差别——毕竟它只是被创造出来简化Android程序员工作的，太复杂不好——所以在这里我就着重的说一下它和 Java 不一样的地方。主要有下面这些点：</p>
+<p><strong>文件类型</strong>：用AIDL书写的文件的后缀是 .aidl，而不是 .java。</p>
+<p><strong>数据类型</strong>：AIDL默认支持一些数据类型，在使用这些数据类型的时候是不需要导包的，但是除了这些类型之外的数据类型，在使用之前必须导包，就算目标文件与当前正在编写的 .aidl 文件在同一个包下——在 Java 中，这种情况是不需要导包的。比如，现在我们编写了两个文件，一个叫做Book.java ，另一个叫做 BookManager.aidl，它们都在 com.lypeer.aidldemo 包下 ，现在我们需要在 .aidl 文件里使用 Book 对象，那么我们就必须在 .aidl 文件里面写上 import com.lypeer.aidldemo.Book; 哪怕 .java 文件和 .aidl 文件就在一个包下。</p>
+<p>   默认支持的数据类型包括：</p>
+<ul>
+<li>Java中的八种基本数据类型，包括 byte，short，int，long，float，double，boolean，char。</li>
+<li>String 类型。</li>
+<li>CharSequence类型。</li>
+<li>List类型：List中的所有元素必须是AIDL支持的类型之一，或者是一个其他AIDL生成的接口，或者是定义的parcelable（下文关于这个会有详解）。List可以使用泛型。</li>
+<li>Map类型：Map中的所有元素必须是AIDL支持的类型之一，或者是一个其他AIDL生成的接口，或者是定义的parcelable。Map是不支持泛型的。</li>
+</ul>
+<p><strong>定向tag</strong>：这是一个极易被忽略的点——这里的“被忽略”指的不是大家都不知道，而是很少人会正确的使用它。在我的理解里，定向tag是这样的：AIDL中的定向tag表示了在跨进程通信中数据的流向，其中<strong>in表示数据只能由客户端流向服务端</strong>，<strong>out表示数据只能由服务端流向客户端</strong>，<strong>而inout则表示数据可在服务端与客户端之间双向流通</strong>。其中，<strong>数据流向是针对在客户端中的那个传入方法的对象而言的</strong>。in为定向tag的话表现为服务端将会接收到一个那个对象的完整数据，但是客户端的那个对象不会因为服务端对传参的修改而发生变动；out的话表现为服务端将会接收到那个对象的的空对象，但是在服务端对接收到的空对象有任何修改之后客户端将会同步变动；inout为定向tag的情况下，服务端将会接收到客户端传来对象的完整信息，并且客户端将会同步服务端对该对象的任何变动。</p>
+<p>另外，Java 中的基本类型和String，CharSequence的定向tag默认且只能是in。还有，请注意，请不要滥用定向tag，而是要根据需要选取合适的——要是不管三七二十一，全都一上来就用inout，等工程大了系统的开销就会大很多——因为排列整理参数的开销是很昂贵的。</p>
+<p><strong>两种AIDL文件</strong>：在我的理解里，所有的AIDL文件大致可以分为两类。<strong>一类是用来定义parcelable对象</strong>，以供其他AIDL文件使用AIDL中非默认支持的数据类型的。<strong>一类是用来定义方法接口</strong>，以供系统使用来完成跨进程通信的。可以看到，两类文件都是在“定义”些什么，而不涉及具体的实现，这就是为什么它叫做“Android接口定义语言”。<br>注：所有的非默认支持数据类型必须通过第一类AIDL文件定义才能被使用。</p>
+<p>下面是两个例子，对于常见的AIDL文件都有所涉及：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">// Book.aidl</span></div><div class="line"><span class="comment">//第一类AIDL文件的例子</span></div><div class="line"><span class="comment">//这个文件的作用是引入了一个序列化对象 Book 供其他的AIDL文件使用</span></div><div class="line"><span class="comment">//注意：Book.aidl与Book.java的包名应当是一样的</span></div><div class="line"><span class="keyword">package</span> com.lypeer.ipcclient;</div><div class="line"></div><div class="line"><span class="comment">//注意parcelable是小写</span></div><div class="line">parcelable Book;</div><div class="line"></div><div class="line"><span class="comment">// BookManager.aidl</span></div><div class="line"><span class="comment">//第二类AIDL文件的例子</span></div><div class="line"><span class="keyword">package</span> com.lypeer.ipcclient;</div><div class="line"><span class="comment">//导入所需要使用的非默认支持数据类型的包</span></div><div class="line"><span class="keyword">import</span> com.lypeer.ipcclient.Book;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">BookManager</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//所有的返回值前都不需要加任何东西，不管是什么数据类型</span></div><div class="line">    <span class="function">List&lt;Book&gt; <span class="title">getBooks</span><span class="params">()</span></span>;</div><div class="line">    <span class="function">Book <span class="title">getBook</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getBookCount</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">//传参时除了Java基本类型以及String，CharSequence之外的类型</span></div><div class="line">    <span class="comment">//都需要在前面加上定向tag，具体加什么量需而定</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setBookPrice</span><span class="params">(in Book book , <span class="keyword">int</span> price)</span></span></div><div class="line">    <span class="keyword">void</span> <span class="title">setBookName</span><span class="params">(in Book book , String name)</span></div><div class="line">    <span class="keyword">void</span> <span class="title">addBookIn</span><span class="params">(in Book book)</span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addBookOut</span><span class="params">(out Book book)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addBookInout</span><span class="params">(inout Book book)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+                <hr>
+                本文总阅读量 <span id="busuanzi_value_page_pv"></span> 次
+                <hr>
+                
+                <!-- 多说 Share start -->
+                <div class="ds-share"
+                     style="text-align: right"
+                     data-thread-key="2016/09/28/Android-interview-questions/"
+                     data-title="Android面试知识点整理"
+                     data-url="http://agehua.github.io/2016/09/28/Android-interview-questions/"
+                     data-images="http://agehua.github.io/2016/09/28/Android-interview-questions//images/jni_structure.png"
+                     data-content="只整理android面试中涉及到的知识点。不断补充中。。。
+1.Android事件传递机制下面... | Agehua&#39;s blog ">
+                    <div class="ds-share-inline">
+                        <ul class="ds-share-icons-16">
+                            <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                            <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                            <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                            <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                        </ul>
+                        <div class="ds-share-icons-more">
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/09/22/quit-whole-application/" data-toggle="tooltip" data-placement="top"
+                           title="Android 退出整个应用程序解决方案">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                         data-thread-key="2016/09/28/Android-interview-questions/"
+                         data-title="Android面试知识点整理"
+                         data-url="http://agehua.github.io/2016/09/28/Android-interview-questions/">
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Android事件传递机制"><span class="toc-text">1.Android事件传递机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-OnTouchListener、onTouchEvent、OnClickListener优先级顺序"><span class="toc-text">2.OnTouchListener、onTouchEvent、OnClickListener优先级顺序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-AsyncTask的方法介绍"><span class="toc-text">3.AsyncTask的方法介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-项目中Handler怎么使用？"><span class="toc-text">4.项目中Handler怎么使用？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-项目中图片的适配问题怎么解决？"><span class="toc-text">5.项目中图片的适配问题怎么解决？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-Android存储敏感信息的方式有？"><span class="toc-text">6.Android存储敏感信息的方式有？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-自定义广播"><span class="toc-text">7.自定义广播</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-加分项"><span class="toc-text">8.加分项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-Sqlite数据库更新并保留升级前的数据"><span class="toc-text">9.Sqlite数据库更新并保留升级前的数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-AIDL支持的数据类型"><span class="toc-text">10.AIDL支持的数据类型</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#accumulation"
+                           title="accumulation">accumulation</a>
+                        
+                    </div>
+                </section>
+                
+
+                
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="http://www.bigademo.com">ghost老司机的博客</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+    
+</article>
+
+<a href="https://github.com/agehua"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'agehua';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user};
+    (function () {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/名逍遥">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/jixinli">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/Will Tihdhs">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/agehua">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Agehua 2016
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    <!-- Theme by <a href="https://haojen.github.io/">Haojen Ma</a> -->
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://agehua.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//avatars2.githubusercontent.com/u/4710673?v=3&amp;s=400">
+</body>
+
+
+
+</html>
