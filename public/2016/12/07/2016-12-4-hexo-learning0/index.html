@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Hexo 模板学习——EJS介绍 | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="什么是EJS？EJS是JavaScript模板库，用来从JSON数据中生成HTML字符串
+EJS的语法和功能：1、缓存功能，能够缓存已经解析好的html模版2、&amp;lt;% code %&amp;gt;用于执行其中javascript代码。&amp;lt;% alert(&apos;hello world&apos;) %&amp;gt;
+3、&amp;lt;%= code =%&amp;gt;会对code进行html转义；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo 模板学习——EJS介绍">
+<meta property="og:url" content="http://agehua.github.io/2016/12/07/2016-12-4-hexo-learning0/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="什么是EJS？EJS是JavaScript模板库，用来从JSON数据中生成HTML字符串
+EJS的语法和功能：1、缓存功能，能够缓存已经解析好的html模版2、&amp;lt;% code %&amp;gt;用于执行其中javascript代码。&amp;lt;% alert(&apos;hello world&apos;) %&amp;gt;
+3、&amp;lt;%= code =%&amp;gt;会对code进行html转义；">
+<meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Couple%20Out%20for%20a%20Stroll.jpg">
+<meta property="og:updated_time" content="2016-12-08T11:06:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo 模板学习——EJS介绍">
+<meta name="twitter:description" content="什么是EJS？EJS是JavaScript模板库，用来从JSON数据中生成HTML字符串
+EJS的语法和功能：1、缓存功能，能够缓存已经解析好的html模版2、&amp;lt;% code %&amp;gt;用于执行其中javascript代码。&amp;lt;% alert(&apos;hello world&apos;) %&amp;gt;
+3、&amp;lt;%= code =%&amp;gt;会对code进行html转义；">
+<meta name="twitter:image" content="http://obxk8w81b.bkt.clouddn.com/Couple%20Out%20for%20a%20Stroll.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.png" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.png" />
+            <h2 id="name">Agehua</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                28
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                9
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+
+
+            <section id="main"><article id="post-2016-12-4-hexo-learning0" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<img src="http://obxk8w81b.bkt.clouddn.com/Couple%20Out%20for%20a%20Stroll.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Hexo 模板学习——EJS介绍
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/12/07/2016-12-4-hexo-learning0/">
+            <time datetime="2016-12-07T07:26:52.000Z" itemprop="datePublished">2016-12-07</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/ejs/">EJS</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+
+            
+            <h3 id="什么是EJS？"><a href="#什么是EJS？" class="headerlink" title="什么是EJS？"></a>什么是EJS？</h3><p>EJS是JavaScript模板库，用来从JSON数据中生成HTML字符串</p>
+<h3 id="EJS的语法和功能："><a href="#EJS的语法和功能：" class="headerlink" title="EJS的语法和功能："></a>EJS的语法和功能：</h3><h4 id="1、缓存功能，能够缓存已经解析好的html模版"><a href="#1、缓存功能，能够缓存已经解析好的html模版" class="headerlink" title="1、缓存功能，能够缓存已经解析好的html模版"></a>1、缓存功能，能够缓存已经解析好的html模版</h4><h4 id="2、-lt-code-gt-用于执行其中javascript代码。"><a href="#2、-lt-code-gt-用于执行其中javascript代码。" class="headerlink" title="2、&lt;% code %&gt;用于执行其中javascript代码。"></a>2、&lt;% code %&gt;用于执行其中javascript代码。</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">&lt;% alert(<span class="string">'hello world'</span>) %&gt;</div></pre></td></tr></table></figure>
+<h4 id="3、-lt-code-gt-会对code进行html转义；"><a href="#3、-lt-code-gt-会对code进行html转义；" class="headerlink" title="3、&lt;%= code =%&gt;会对code进行html转义；"></a>3、&lt;%= code =%&gt;会对code进行html转义；</h4><a id="more"></a>
+<figure class="highlight"><table><tr><td class="code"><pre><div class="line">&lt;h1&gt;&lt;%=title %&gt;&lt;/h1&gt;                    注：会把title里面存的值给显示出来在h1中。</div><div class="line">&lt;p&gt;&lt;%= 'hello world' %&gt;&lt;/p&gt;             注：会把hello world显示在h1中。</div><div class="line">&lt;h1&gt;&lt;%= '&lt;b&gt;hello world&lt;/b&gt;' %&gt;&lt;/h1&gt;    注：会把hello world变粗，然后显示在h1中。</div><div class="line">~~~ javascript</div><div class="line">#### 4、&lt;%- code %&gt;将不会进行转义；，这一行代码不会执行，像是被注释了一样，然后显示原来的html。也不会影响整个页面的执行。</div><div class="line"></div><div class="line">~~~ javascript</div><div class="line">&lt;h1&gt;&lt;%-title %&gt;asd&lt;/h1&gt;          最后显示asd，及显示原网页</div><div class="line">&lt;p&gt;&lt;%# 'hello world' %&gt;asd&lt;/p&gt;   最后显示asd，及显示原网页</div></pre></td></tr></table></figure>
+<h4 id="5、支持自定义标签，比如’-lt-’可以使用’‘代替；"><a href="#5、支持自定义标签，比如’-lt-’可以使用’‘代替；" class="headerlink" title="5、支持自定义标签，比如’&lt;%’可以使用’‘代替；"></a>5、支持自定义标签，比如’&lt;%’可以使用’NaN‘代替；</h4><pre><code>ejs 里，默认的闭合标记是 &lt;%  .. %&gt;，我们也可以定义自己的标签。例如：
+</code></pre><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">app.set(<span class="string">"view options"</span>,&#123;                                                                                  </div><div class="line">   <span class="string">"open"</span>:<span class="string">"&#123;&#123;"</span>,                                                                                  </div><div class="line">   <span class="string">"close"</span>:<span class="string">"&#125;&#125;"</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="6、提供一些辅助函数，用于模版中使用"><a href="#6、提供一些辅助函数，用于模版中使用" class="headerlink" title="6、提供一些辅助函数，用于模版中使用"></a>6、提供一些辅助函数，用于模版中使用</h4><ul>
+<li>1)、first，返回数组的第一个元素；</li>
+<li>2)、last，返回数组的最后一个元素；</li>
+<li>3)、capitalize，返回首字母大写的字符串；</li>
+<li>4)、downcase，返回字符串的小写；</li>
+<li>5)、upcase，返回字符串的大写；</li>
+<li>6)、sort，排序（Object.create(obj).sort()？）；</li>
+<li>7)、sort_by:’prop’，按照指定的prop属性进行升序排序；</li>
+<li>8)、size，返回长度，即length属性，不一定非是数组才行；</li>
+<li>9)、plus:n，加上n，将转化为Number进行运算；</li>
+<li>10)、minus:n，减去n，将转化为Number进行运算；</li>
+<li>11)、times:n，乘以n，将转化为Number进行运算；</li>
+<li>12)、divided_by:n，除以n，将转化为Number进行运算；</li>
+<li>13)、join:’val’，将数组用’val’最为分隔符，进行合并成一个字符串；</li>
+<li>14)、truncate:n，截取前n个字符，超过长度时，将返回一个副本</li>
+<li>15)、truncate_words:n，取得字符串中的前n个word，word以空格进行分割；</li>
+<li>16)、replace:pattern,substitution，字符串替换，substitution不提供将删除匹配的子串；</li>
+<li>17)、prepend:val，如果操作数为数组，则进行合并；为字符串则添加val在前面；</li>
+<li>18)、append:val，如果操作数为数组，则进行合并；为字符串则添加val在后面；</li>
+<li>19)、map:’prop’，返回对象数组中属性为prop的值组成的数组；</li>
+<li>20)、reverse，翻转数组或字符串；</li>
+<li>21)、get:’prop’，取得属性为’prop’的值；</li>
+<li>22)、json，转化为json格式字符串</li>
+</ul>
+<p><strong>利用&lt;%- include filename %&gt;加载其他页面模版；</strong></p>
+<h4 id="ejs我的总结："><a href="#ejs我的总结：" class="headerlink" title="ejs我的总结："></a>ejs我的总结：</h4><p>ejs 写法：</p>
+<ul>
+<li>1.普通传入并使用变量：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">&lt;%= title %&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>2.普通for执行js代码（for中间的代码一定可以执行到）：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">&lt;% <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;headerNavbar.length; i++) &#123;%&gt;</div><div class="line">    &lt;li&gt;&lt;a href="/reg"&gt;&lt;%= headerNavbar[i].name %&gt;&lt;/a&gt;&lt;/li&gt;</div><div class="line">&lt;% &#125; %&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>3.特殊if语句的js代码（if中间的额代码不一定可以执行到）：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"> &lt;% <span class="keyword">if</span>(active==<span class="string">'index'</span>)&#123;%&gt;</div><div class="line"><span class="class"><span class="keyword">class</span></span>=<span class="string">"active"</span></div><div class="line"> &lt;% &#125;%&gt;</div></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2016/12/07/2016-12-4-hexo-learning0/" data-id="ciwgabfac00271js698bzdg34" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://agehua.github.io/2016/12/07/2016-12-4-hexo-learning0/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/12/07/2016-12-4-hexo-learning0/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/12/08/2016-12-6-hexo-learning1/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Hexo 模板学习——Hexo 结构
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/12/04/2016-12-3-nodejs-learning-getting-started/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">nodejs入门</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/12/07/2016-12-4-hexo-learning0/" data-title="Hexo 模板学习——EJS介绍" data-url="http://agehua.github.io/2016/12/07/2016-12-4-hexo-learning0/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/12/08/2016-12-6-hexo-learning1/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Couple%20Out%20for%20a%20Stroll.jpg)" alt="Hexo 模板学习——Hexo 结构" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/12/08/2016-12-6-hexo-learning1/" class="title">Hexo 模板学习——Hexo 结构</a></p>
+                            <p class="item-date"><time datetime="2016-12-08T11:21:05.000Z" itemprop="datePublished">2016-12-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/12/07/2016-12-4-hexo-learning0/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Couple%20Out%20for%20a%20Stroll.jpg)" alt="Hexo 模板学习——EJS介绍" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/12/07/2016-12-4-hexo-learning0/" class="title">Hexo 模板学习——EJS介绍</a></p>
+                            <p class="item-date"><time datetime="2016-12-07T07:26:52.000Z" itemprop="datePublished">2016-12-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/12/04/2016-12-3-nodejs-learning-getting-started/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg)" alt="nodejs入门" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/read/">read</a></p>
+                            <p class="item-title"><a href="/2016/12/04/2016-12-3-nodejs-learning-getting-started/" class="title">nodejs入门</a></p>
+                            <p class="item-date"><time datetime="2016-12-04T10:52:12.000Z" itemprop="datePublished">2016-12-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Couple%20Out%20for%20a%20Stroll.jpg)" alt="Hexo 出错情况收集" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="title">Hexo 出错情况收集</a></p>
+                            <p class="item-date"><time datetime="2016-12-01T01:30:27.000Z" itemprop="datePublished">2016-12-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/10/13/gradle-learning2/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Cart%20with%20Red%20and%20White%20Ox.jpg)" alt="gradle 学习2——生成指定文件名的apk" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/10/13/gradle-learning2/" class="title">gradle 学习2——生成指定文件名的apk</a></p>
+                            <p class="item-date"><time datetime="2016-10-12T16:00:00.000Z" itemprop="datePublished">2016-10-13</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs-javascript/">nodejs,JavaScript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/android-jni/" style="font-size: 16.67px;">Android JNI</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 13.33px;">EJS</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 16.67px;">gradle</a> <a href="/tags/nodejs-javascript/" style="font-size: 10px;">nodejs,JavaScript</a> <a href="/tags/read/" style="font-size: 13.33px;">read</a> <a href="/tags/technology/" style="font-size: 16.67px;">technology</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.bigademo.com">ghost老司机的博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.5come.cn">我的ghost博客</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 Jixin Li<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'agehua'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
