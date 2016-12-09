@@ -657,7 +657,7 @@ code {
 }
 #profile .inner .base-info #avatar {
   display: block;
-  margin: 10px auto 20px;
+  margin: 5px auto 10px;
   width: 128px;
   height: 128px;
 }

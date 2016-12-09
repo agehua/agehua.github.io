@@ -20,6 +20,8 @@ Hexo会读取根目录下的_config.yml里面的theme属性, 从而采用对应�
 
 根据文档[docs-templates](https://hexo.io/docs/templates.html)，下面表格中每个页面都有一个可用的模板，可以没有这些模板，但至少要有一个index模板。
 
+<!--more-->
+
 |Template:|Page:|	Fallback:|
 |:--------:|:-------:|:--------:|
 |index	|Home |page	|
@@ -28,6 +30,7 @@ Hexo会读取根目录下的_config.yml里面的theme属性, 从而采用对应�
 |archive	|Archives|	index|
 |category	|Category archives	|archive|
 |tag	|Tag archives|	archive|
+
 
 
 每次当我们在浏览器访问时，Hexo都会去解析sources目录下对应的模板文件。不同的URL对应不同的文件，所以才有了不同的页面。那么，我们怎么知道哪个URL对应哪个页面呢？(下面我们以EJS为例)
@@ -39,8 +42,6 @@ Hexo会读取根目录下的_config.yml里面的theme属性, 从而采用对应�
 #### 编写布局文件(layout.ejs)
 
 模板文件在layout文件夹下，文件名对应Hexo中的模板名，有index,post,page,archive,category,tag几种，对于普通的header + content + footer的页面结构，header和footer往往是可以复用的，因此我们可以使用layout.ejs进行布局，动态的内容使用body变量去动态渲染，所以我的layout.ejs大概长这样:
-
-<!--more-->
 
 ~~~ JavaScript
 <!doctype html>
