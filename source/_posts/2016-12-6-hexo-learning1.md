@@ -22,9 +22,9 @@ Hexo会读取根目录下的_config.yml里面的theme属性, 从而采用对应�
 
 <!--more-->
 
-|Template:|Page:|	Fallback:|
+|Template|Page|	Fallback|
 |:--------:|:-------:|:--------:|
-|index	|Home |page	|
+|index	|Home page | |
 |post	|Posts	|index|
 |page|	Pages |index|
 |archive	|Archives|	index|
