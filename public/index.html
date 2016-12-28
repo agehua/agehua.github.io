@@ -155,11 +155,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                28
+                29
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                10
+                11
                 <span>tags</span>
             </div>
         </div>
@@ -210,12 +210,193 @@
 
 
             <section id="main">
-    <article id="post-2016-12-6-hexo-learning1" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Android-patch-update" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             
 	
-		<a href="/2016/12/08/2016-12-6-hexo-learning1/" itemprop="url">
+		<a href="/2016/12/20/Android-patch-update/" itemprop="url">
+            <img src="http://obxk8w81b.bkt.clouddn.com/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/12/20/Android-patch-update/">Android 增量更新整理</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/12/20/Android-patch-update/">
+            <time datetime="2016-12-19T16:00:00.000Z" itemprop="datePublished">2016-12-20</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/android-patch-update/">Android Patch Update</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+
+            
+            <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>在前几年，整体移动网络环境相比现在差很多，加之流量费用又相对较高，因此每当我们发布新版本的时候，一些用户升级并不是很积极，这就造成了新版本的升级率并不高。而google为了解决了这个问题，提出了Smart App Update，即增量更新（也叫做差分升级）。</p>
+<p>增量更新与热修复完全不是一个东西。增量更新需要重新安装apk，而热修复不需要。热修复也能完成部分增量更新的功能。</p>
+<h3 id="增量更新的流程"><a href="#增量更新的流程" class="headerlink" title="增量更新的流程"></a>增量更新的流程</h3><p>增量更新的具体流程是：用户手机上安装着某个应用，下载了增量包，手机上的apk和增量包合并形成新的包，然后再次安装（注意这个过程是要重新安装的，当然部分应用市场有root权限你可能感知不到）。</p>
+<h3 id="增量更新的原理"><a href="#增量更新的原理" class="headerlink" title="增量更新的原理"></a>增量更新的原理</h3><p>增量更新的原理也很简单，就是将手机上已安装的旧版本apk与服务器端新版本apk进行二进制对比，并得到差分包（patch），用户在升级更新应用时，只需要下载差分包，然后在本地使用差分包与旧版的apk合成新版apk，然后进行安装。差分包文件的大小，那就远比APK小得多了，这样也便于用户进行应用升级。</p>
+<p>那么增量更新的流程可以细化为几个关键点：</p>
+<ul>
+<li>1.用户手机上提取当前安装应用的apk</li>
+<li>2.如何利用old.apk和new.apk生成增量文件（差分包）</li>
+<li>3.增加文件与1.中的old.apk合并，然后安装</li>
+</ul>
+<p>旧版的APK可以在<strong>/data/app/%packagename%/</strong>下找到。</p>
+<p>也可以参考下面的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ApkExtract</span> </span>&#123;</div><div class="line">    public <span class="keyword">static</span> <span class="built_in">String</span> extract(Context context) &#123;</div><div class="line">        context = context.getApplicationContext();</div><div class="line">        ApplicationInfo applicationInfo = context.getApplicationInfo();</div><div class="line">        <span class="built_in">String</span> apkPath = applicationInfo.sourceDir;</div><div class="line">        Log.d(<span class="string">"hongyang"</span>, apkPath);</div><div class="line">        <span class="keyword">return</span> apkPath;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="关于生成差分包"><a href="#关于生成差分包" class="headerlink" title="关于生成差分包"></a>关于生成差分包</h4><p>制作差分包的工具为<a href="http://www.daemonology.net/bsdiff/bsdiff-4.3.tar.gz" target="_blank" rel="external">bsdiff</a>，</p>
+<p>网址：</p>
+<p><a href="http://www.daemonology.net/bsdiff/" target="_blank" rel="external">http://www.daemonology.net/bsdiff/</a></p>
+<p>下载地址：</p>
+<p><a href="http://www.daemonology.net/bsdiff/bsdiff-4.3.tar.gz" target="_blank" rel="external">http://www.daemonology.net/bsdiff/bsdiff-4.3.tar.gz</a></p>
+<p>这是一个非常牛的二进制查分工具，bsdiff源代码在Android的源码目录下 ”\external\bsdiff“”这边也可以找到。另外还需要依赖<a href="http://www.bzip.org/downloads.html" target="_blank" rel="external">bzlib</a>来进行打包。在安全性方面，补丁和新旧版APK最好都要进行MD5验证，以免被篡改。</p>
+<p>关于这个工具可以使用别人编译好的so库，<a href="https://github.com/hongyangAndroid/BsDiff_And_Patch/tree/master/so-dist" target="_blank" rel="external">这里</a>；熟悉NDK开发的也可以自己编译，<a href="http://blog.csdn.net/lmj623565791/article/details/52761658" target="_blank" rel="external">请看这里</a>。这里就不在考虑这个工具问题了。</p>
+<ul>
+<li>生成增量文件<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">./bsdiff old.apk <span class="keyword">new</span>.apk old-to-<span class="keyword">new</span>.patch</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这样就生成了一个增量文件old-to-new.patch</p>
+<h4 id="关于合并差分包"><a href="#关于合并差分包" class="headerlink" title="关于合并差分包"></a>关于合并差分包</h4><p>生成差分包肯定是在服务端，合并差分包才是Android客户端需要做的：</p>
+<ul>
+<li>增量文件和old.apk合并成新的apk<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">./bspatch old.apk new2.apk old-to-<span class="keyword">new</span>.patch</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这样就生成一个new2.apk</p>
+<p>生成后，要查看下两个文件的md5值。如果两个文件md5值一致，那么几乎可以肯定两个文件时一模一样的。</p>
+<h3 id="增量更新存在的不足"><a href="#增量更新存在的不足" class="headerlink" title="增量更新存在的不足"></a>增量更新存在的不足</h3><ul>
+<li><p>1、增量升级是以两个应用版本之间的差异来生成补丁的，但是我们无法保证用户每次的及时升级到最新，也就是在更新前，新版和旧版只差一个版本，所以必须对你所发布的每一个版本都和最新的版本作差分，以便使所有版本的用户都可以差分升级，这样相对就比较繁琐了。解决方法也有，可以通过Shell脚本来实现批量生成。</p>
+</li>
+<li><p>2.增量升级能成功的前提是，从手机端能够获得旧版APK，并且与服务端的APK签名是一样的，所以像那些破解的APP就无法实现更新。前面也提到了，为了安全性，防止补丁合成错误，最好在补丁合成前对旧版本的apk进行sha1或者MD5校验，保证基础包的一致性，这样才能顺利的实现增量升级。</p>
+</li>
+</ul>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2016/12/20/Android-patch-update/" data-id="cix8db7pv0025mms69vlu4ese" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://agehua.github.io/2016/12/20/Android-patch-update/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/12/20/Android-patch-update/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+
+    <article id="post-hexo-learning1" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2016/12/06/hexo-learning1/" itemprop="url">
             <img src="http://obxk8w81b.bkt.clouddn.com/Boy%20Cutting%20Grass%20with%20a%20Sickle.jpg" class="article-banner" />
         </a>
 	
@@ -228,7 +409,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2016/12/08/2016-12-6-hexo-learning1/">Hexo 模板学习——Hexo 结构</a>
+            <a class="article-title" href="/2016/12/06/hexo-learning1/">Hexo 模板学习——Hexo 结构</a>
         </h1>
     
 
@@ -237,8 +418,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/12/08/2016-12-6-hexo-learning1/">
-            <time datetime="2016-12-08T11:21:05.000Z" itemprop="datePublished">2016-12-08</time>
+        <a href="/2016/12/06/hexo-learning1/">
+            <time datetime="2016-12-05T16:00:00.000Z" itemprop="datePublished">2016-12-06</time>
         </a>
     </div>
 
@@ -272,7 +453,7 @@
 </ul>
 <p>根据文档<a href="https://hexo.io/docs/templates.html">docs-templates</a>，下面表格中每个页面都有一个可用的模板，可以没有这些模板，但至少要有一个index模板。</p></p>
             <p class="article-more-link">
-                <a href="/2016/12/08/2016-12-6-hexo-learning1/#more">Read More</a>
+                <a href="/2016/12/06/hexo-learning1/#more">Read More</a>
             </p>
         
         </div>
@@ -283,7 +464,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/08/2016-12-6-hexo-learning1/" data-id="cix5ggrwb002lcus69x3zjv55" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/06/hexo-learning1/" data-id="cix8db7pr0021mms6g2vcupd8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -351,7 +532,7 @@
 
             
     
-        <a href="http://agehua.github.io/2016/12/08/2016-12-6-hexo-learning1/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/12/08/2016-12-6-hexo-learning1/">Comments</a>
+        <a href="http://agehua.github.io/2016/12/06/hexo-learning1/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/12/06/hexo-learning1/">Comments</a>
     
 
         </footer>
@@ -362,12 +543,12 @@
 
 
 
-    <article id="post-2016-12-4-hexo-learning0" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-hexo-learning0" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             
 	
-		<a href="/2016/12/07/2016-12-4-hexo-learning0/" itemprop="url">
+		<a href="/2016/12/04/hexo-learning0/" itemprop="url">
             <img src="http://obxk8w81b.bkt.clouddn.com/Bulb%20Fields.jpg" class="article-banner" />
         </a>
 	
@@ -380,7 +561,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2016/12/07/2016-12-4-hexo-learning0/">Hexo 模板学习——EJS介绍</a>
+            <a class="article-title" href="/2016/12/04/hexo-learning0/">Hexo 模板学习——EJS介绍</a>
         </h1>
     
 
@@ -389,8 +570,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/12/07/2016-12-4-hexo-learning0/">
-            <time datetime="2016-12-07T07:26:52.000Z" itemprop="datePublished">2016-12-07</time>
+        <a href="/2016/12/04/hexo-learning0/">
+            <time datetime="2016-12-03T16:00:00.000Z" itemprop="datePublished">2016-12-04</time>
         </a>
     </div>
 
@@ -418,7 +599,7 @@
 <h3 id="EJS的语法和功能："><a href="#EJS的语法和功能：" class="headerlink" title="EJS的语法和功能："></a>EJS的语法和功能：</h3><h4 id="1、缓存功能，能够缓存已经解析好的html模版"><a href="#1、缓存功能，能够缓存已经解析好的html模版" class="headerlink" title="1、缓存功能，能够缓存已经解析好的html模版"></a>1、缓存功能，能够缓存已经解析好的html模版</h4><h4 id="2、-lt-code-gt-用于执行其中javascript代码。"><a href="#2、-lt-code-gt-用于执行其中javascript代码。" class="headerlink" title="2、&lt;% code %&gt;用于执行其中javascript代码。"></a>2、&lt;% code %&gt;用于执行其中javascript代码。</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">&lt;% alert(<span class="string">'hello world'</span>) %&gt;</div></pre></td></tr></table></figure>
 <h4 id="3、-lt-code-gt-会对code进行html转义；"><a href="#3、-lt-code-gt-会对code进行html转义；" class="headerlink" title="3、&lt;%= code =%&gt;会对code进行html转义；"></a>3、&lt;%= code =%&gt;会对code进行html转义；</h4></p>
             <p class="article-more-link">
-                <a href="/2016/12/07/2016-12-4-hexo-learning0/#more">Read More</a>
+                <a href="/2016/12/04/hexo-learning0/#more">Read More</a>
             </p>
         
         </div>
@@ -429,7 +610,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/07/2016-12-4-hexo-learning0/" data-id="cix5ggrwa002hcus6oyvzfxru" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/04/hexo-learning0/" data-id="cix8db7po001ymms6axx939rh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -497,7 +678,7 @@
 
             
     
-        <a href="http://agehua.github.io/2016/12/07/2016-12-4-hexo-learning0/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/12/07/2016-12-4-hexo-learning0/">Comments</a>
+        <a href="http://agehua.github.io/2016/12/04/hexo-learning0/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/12/04/hexo-learning0/">Comments</a>
     
 
         </footer>
@@ -508,12 +689,12 @@
 
 
 
-    <article id="post-2016-12-3-nodejs-learning-getting-started" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-nodejs-learning-getting-started" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             
 	
-		<a href="/2016/12/04/2016-12-3-nodejs-learning-getting-started/" itemprop="url">
+		<a href="/2016/12/03/nodejs-learning-getting-started/" itemprop="url">
             <img src="http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg" class="article-banner" />
         </a>
 	
@@ -526,7 +707,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2016/12/04/2016-12-3-nodejs-learning-getting-started/">nodejs入门</a>
+            <a class="article-title" href="/2016/12/03/nodejs-learning-getting-started/">nodejs入门</a>
         </h1>
     
 
@@ -535,8 +716,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/12/04/2016-12-3-nodejs-learning-getting-started/">
-            <time datetime="2016-12-04T10:52:12.000Z" itemprop="datePublished">2016-12-04</time>
+        <a href="/2016/12/03/nodejs-learning-getting-started/">
+            <time datetime="2016-12-02T16:00:00.000Z" itemprop="datePublished">2016-12-03</time>
         </a>
     </div>
 
@@ -550,7 +731,7 @@
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/nodejs-javascript/">nodejs,JavaScript</a>
+        <a class="tag-link" href="/tags/nodejs/">nodejs</a>
     </div>
 
                     </div>
@@ -568,7 +749,7 @@
 <h3 id="服务端JavaScript"><a href="#服务端JavaScript" class="headerlink" title="服务端JavaScript"></a>服务端JavaScript</h3><p>JavaScript最早是运行在浏览器中，然而浏览器只是提供了一个上下文，它定义了使用JavaScript可以做什么，但并没有“说”太多关于JavaScript语言本身可以做什么。事实上，JavaScript是一门“完整”的语言： 它可以使用在不同的上下文中，其能力与其他同类语言相比有过之而无不及。</p>
 <p>Node.js事实上就是另外一种上下文，它允许在后端（脱离浏览器环境）运行JavaScript代码。</p></p>
             <p class="article-more-link">
-                <a href="/2016/12/04/2016-12-3-nodejs-learning-getting-started/#more">Read More</a>
+                <a href="/2016/12/03/nodejs-learning-getting-started/#more">Read More</a>
             </p>
         
         </div>
@@ -579,7 +760,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/04/2016-12-3-nodejs-learning-getting-started/" data-id="cix5ggrwt002xcus6owz697h1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/" data-id="cix8db7qq002xmms6b73k9gde" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -647,7 +828,7 @@
 
             
     
-        <a href="http://agehua.github.io/2016/12/04/2016-12-3-nodejs-learning-getting-started/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/12/04/2016-12-3-nodejs-learning-getting-started/">Comments</a>
+        <a href="http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/">Comments</a>
     
 
         </footer>
@@ -658,12 +839,12 @@
 
 
 
-    <article id="post-2016-11-3-hexo-mac-module-not-found" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-hexo-mac-module-not-found" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             
 	
-		<a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" itemprop="url">
+		<a href="/2016/11/03/hexo-mac-module-not-found/" itemprop="url">
             <img src="http://obxk8w81b.bkt.clouddn.com/Couple%20Out%20for%20a%20Stroll.jpg" class="article-banner" />
         </a>
 	
@@ -676,7 +857,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/">Hexo 出错情况收集</a>
+            <a class="article-title" href="/2016/11/03/hexo-mac-module-not-found/">Hexo 出错情况收集</a>
         </h1>
     
 
@@ -685,8 +866,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/">
-            <time datetime="2016-12-01T01:30:27.000Z" itemprop="datePublished">2016-12-01</time>
+        <a href="/2016/11/03/hexo-mac-module-not-found/">
+            <time datetime="2016-11-02T16:00:00.000Z" itemprop="datePublished">2016-11-03</time>
         </a>
     </div>
 
@@ -700,7 +881,7 @@
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/gradle/">gradle</a>
+        <a class="tag-link" href="/tags/hexo/">Hexo</a>
     </div>
 
                     </div>
@@ -712,7 +893,7 @@
         
             <p><h4 id="Error-Cannot-find-module-‘-build-Release-DTraceProviderBindings’"><a href="#Error-Cannot-find-module-‘-build-Release-DTraceProviderBindings’" class="headerlink" title="Error: Cannot find module ‘./build/Release/DTraceProviderBindings’"></a>Error: Cannot find module ‘./build/Release/DTraceProviderBindings’</h4><p>我在更新hexo，准备安装别的module时，不小心按到了 ctrl+c，结果发现使用hexo命令会报如下错误：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">&#123; [Error: Cannot find <span class="keyword">module</span> <span class="string">'./build/Release/DTraceProviderBindings'</span>] code: <span class="string">'MODULE_NOT_FOUND'</span> &#125;    </div><div class="line">&#123; [Error: Cannot find <span class="keyword">module</span> <span class="string">'./build/default/DTraceProviderBindings'</span>] code: <span class="string">'MODULE_NOT_FOUND'</span> &#125;</div><div class="line">&#123; [Error: Cannot find <span class="keyword">module</span> <span class="string">'./build/Debug/DTraceProviderBindings'</span>] code: <span class="string">'MODULE_NOT_FOUND'</span> &#125;</div></pre></td></tr></table></figure></p></p>
             <p class="article-more-link">
-                <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/#more">Read More</a>
+                <a href="/2016/11/03/hexo-mac-module-not-found/#more">Read More</a>
             </p>
         
         </div>
@@ -723,7 +904,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/01/2016-11-3-hexo-mac-module-not-found/" data-id="cix5ggrw30028cus6x5jp7sux" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/" data-id="cix8db7pm001vmms6ee8lwqh1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -791,7 +972,7 @@
 
             
     
-        <a href="http://agehua.github.io/2016/12/01/2016-11-3-hexo-mac-module-not-found/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/12/01/2016-11-3-hexo-mac-module-not-found/">Comments</a>
+        <a href="http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/">Comments</a>
     
 
         </footer>
@@ -877,7 +1058,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/10/13/gradle-learning2/" data-id="cix5ggrw7002bcus60v09023k" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/10/13/gradle-learning2/" data-id="cix8db7pl001rmms6fhia1p8d" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1024,7 +1205,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/10/12/gradle-learning/" data-id="cix5ggrw10024cus6hkwtcrcj" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/10/12/gradle-learning/" data-id="cix8db7q0002dmms66zow95hq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1172,7 +1353,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/09/28/Android-interview-questions/" data-id="cix5ggrw8002ecus64tokx5wp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/09/28/Android-interview-questions/" data-id="cix8db7px0027mms6dsaacxx9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1251,152 +1432,6 @@
 
 
 
-    <article id="post-JNI-get-publickey" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2016/09/22/JNI-get-publickey/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Branch%20in%20a%20Glass%20with%20a%20Book.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/09/22/JNI-get-publickey/">使用JNI获取publickey实现</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/09/22/JNI-get-publickey/">
-            <time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/technology/">technology</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/android-jni/">Android JNI</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h3><p>之前写过一篇文件是关于<a href="http://agehua.github.io/2016/JNI-Learning">JNI学习和积累</a>的文章。<br>这篇文章主要讲在使用JNI取得Publickey过程中遇到的问题和一些总结。</p>
-<h3 id="2-JNI获取Publickey实现"><a href="#2-JNI获取Publickey实现" class="headerlink" title="2.JNI获取Publickey实现"></a>2.JNI获取Publickey实现</h3><p>在上篇文章中，最终采用的加密方法来自<a href="https://github.com/MasonLiuChn/AndroidUltimateEncrypt">github项目</a>。</p>
-<p>但该项目中在4.0.4版本的手机上，取得publickey遇到兼容性问题。</p></p>
-            <p class="article-more-link">
-                <a href="/2016/09/22/JNI-get-publickey/#more">Read More</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2016/09/22/JNI-get-publickey/" data-id="cix5ggrvy0021cus6yst1zuzv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://agehua.github.io/2016/09/22/JNI-get-publickey/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/09/22/JNI-get-publickey/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
@@ -1413,7 +1448,26 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/12/08/2016-12-6-hexo-learning1/" class="thumbnail">
+                            <a href="/2016/12/20/Android-patch-update/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg)" alt="Android 增量更新整理" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/12/20/Android-patch-update/" class="title">Android 增量更新整理</a></p>
+                            <p class="item-date"><time datetime="2016-12-19T16:00:00.000Z" itemprop="datePublished">2016-12-20</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/12/06/hexo-learning1/" class="thumbnail">
     
     
         <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Boy%20Cutting%20Grass%20with%20a%20Sickle.jpg)" alt="Hexo 模板学习——Hexo 结构" class="thumbnail-image"></span>
@@ -1424,15 +1478,15 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2016/12/08/2016-12-6-hexo-learning1/" class="title">Hexo 模板学习——Hexo 结构</a></p>
-                            <p class="item-date"><time datetime="2016-12-08T11:21:05.000Z" itemprop="datePublished">2016-12-08</time></p>
+                            <p class="item-title"><a href="/2016/12/06/hexo-learning1/" class="title">Hexo 模板学习——Hexo 结构</a></p>
+                            <p class="item-date"><time datetime="2016-12-05T16:00:00.000Z" itemprop="datePublished">2016-12-06</time></p>
                         </div>
                     </li>
                 
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/12/07/2016-12-4-hexo-learning0/" class="thumbnail">
+                            <a href="/2016/12/04/hexo-learning0/" class="thumbnail">
     
     
         <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Bulb%20Fields.jpg)" alt="Hexo 模板学习——EJS介绍" class="thumbnail-image"></span>
@@ -1443,15 +1497,15 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2016/12/07/2016-12-4-hexo-learning0/" class="title">Hexo 模板学习——EJS介绍</a></p>
-                            <p class="item-date"><time datetime="2016-12-07T07:26:52.000Z" itemprop="datePublished">2016-12-07</time></p>
+                            <p class="item-title"><a href="/2016/12/04/hexo-learning0/" class="title">Hexo 模板学习——EJS介绍</a></p>
+                            <p class="item-date"><time datetime="2016-12-03T16:00:00.000Z" itemprop="datePublished">2016-12-04</time></p>
                         </div>
                     </li>
                 
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/12/04/2016-12-3-nodejs-learning-getting-started/" class="thumbnail">
+                            <a href="/2016/12/03/nodejs-learning-getting-started/" class="thumbnail">
     
     
         <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg)" alt="nodejs入门" class="thumbnail-image"></span>
@@ -1462,15 +1516,15 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/read/">read</a></p>
-                            <p class="item-title"><a href="/2016/12/04/2016-12-3-nodejs-learning-getting-started/" class="title">nodejs入门</a></p>
-                            <p class="item-date"><time datetime="2016-12-04T10:52:12.000Z" itemprop="datePublished">2016-12-04</time></p>
+                            <p class="item-title"><a href="/2016/12/03/nodejs-learning-getting-started/" class="title">nodejs入门</a></p>
+                            <p class="item-date"><time datetime="2016-12-02T16:00:00.000Z" itemprop="datePublished">2016-12-03</time></p>
                         </div>
                     </li>
                 
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="thumbnail">
+                            <a href="/2016/11/03/hexo-mac-module-not-found/" class="thumbnail">
     
     
         <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Couple%20Out%20for%20a%20Stroll.jpg)" alt="Hexo 出错情况收集" class="thumbnail-image"></span>
@@ -1481,27 +1535,8 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2016/12/01/2016-11-3-hexo-mac-module-not-found/" class="title">Hexo 出错情况收集</a></p>
-                            <p class="item-date"><time datetime="2016-12-01T01:30:27.000Z" itemprop="datePublished">2016-12-01</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/10/13/gradle-learning2/" class="thumbnail">
-    
-    
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Cart%20with%20Red%20and%20White%20Ox.jpg)" alt="gradle 学习2——生成指定文件名的apk" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2016/10/13/gradle-learning2/" class="title">gradle 学习2——生成指定文件名的apk</a></p>
-                            <p class="item-date"><time datetime="2016-10-12T16:00:00.000Z" itemprop="datePublished">2016-10-13</time></p>
+                            <p class="item-title"><a href="/2016/11/03/hexo-mac-module-not-found/" class="title">Hexo 出错情况收集</a></p>
+                            <p class="item-date"><time datetime="2016-11-02T16:00:00.000Z" itemprop="datePublished">2016-11-03</time></p>
                         </div>
                     </li>
                 
@@ -1514,7 +1549,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
         </div>
     </div>
 
@@ -1523,7 +1558,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1532,7 +1567,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs-javascript/">nodejs,JavaScript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">3</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">3</span></li></ul>
         </div>
     </div>
 
@@ -1541,7 +1576,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/android-jni/" style="font-size: 16.67px;">Android JNI</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 16.67px;">gradle</a> <a href="/tags/nodejs-javascript/" style="font-size: 10px;">nodejs,JavaScript</a> <a href="/tags/read/" style="font-size: 13.33px;">read</a> <a href="/tags/technology/" style="font-size: 16.67px;">technology</a>
+            <a href="/tags/android-jni/" style="font-size: 16.67px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 13.33px;">read</a> <a href="/tags/technology/" style="font-size: 16.67px;">technology</a>
         </div>
     </div>
 

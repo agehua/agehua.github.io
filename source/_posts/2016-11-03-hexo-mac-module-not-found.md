@@ -2,8 +2,8 @@
 layout: post
 title:  Hexo 出错情况收集
 category: accumulation
-tags: gradle
-keywords: Android,gradle
+tags: Hexo
+keywords: Hexo
 banner: http://obxk8w81b.bkt.clouddn.com/Couple%20Out%20for%20a%20Stroll.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Couple%20Out%20for%20a%20Stroll.jpg
 ---

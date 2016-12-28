@@ -2,8 +2,8 @@
 layout: post
 title:  nodejs入门
 category: read
-tags: nodejs,JavaScript
-keywords: JavaScript,nodejs
+tags: nodejs
+keywords: nodejs
 banner: http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg
 ---

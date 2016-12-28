@@ -3,7 +3,7 @@ layout: post
 title:  Hexo 模板学习——Hexo 结构
 category: accumulation
 tags: Hexo
-keywords: Hexo
+keywords: Hexo结构
 banner: http://obxk8w81b.bkt.clouddn.com/Boy%20Cutting%20Grass%20with%20a%20Sickle.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Boy%20Cutting%20Grass%20with%20a%20Sickle.jpg
 ---

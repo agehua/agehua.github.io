@@ -3,7 +3,7 @@ layout: post
 title:  Hexo 模板学习——EJS介绍
 category: accumulation
 tags: EJS
-keywords: Hexo, EJS
+keywords: EJS介绍
 banner: http://obxk8w81b.bkt.clouddn.com/Bulb%20Fields.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Bulb%20Fields.jpg
 ---
