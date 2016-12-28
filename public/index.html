@@ -262,47 +262,12 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-
-            
-            <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>在前几年，整体移动网络环境相比现在差很多，加之流量费用又相对较高，因此每当我们发布新版本的时候，一些用户升级并不是很积极，这就造成了新版本的升级率并不高。而google为了解决了这个问题，提出了Smart App Update，即增量更新（也叫做差分升级）。</p>
+            <p><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>在前几年，整体移动网络环境相比现在差很多，加之流量费用又相对较高，因此每当我们发布新版本的时候，一些用户升级并不是很积极，这就造成了新版本的升级率并不高。而google为了解决了这个问题，提出了Smart App Update，即增量更新（也叫做差分升级）。</p>
 <p>增量更新与热修复完全不是一个东西。增量更新需要重新安装apk，而热修复不需要。热修复也能完成部分增量更新的功能。</p>
-<h3 id="增量更新的流程"><a href="#增量更新的流程" class="headerlink" title="增量更新的流程"></a>增量更新的流程</h3><p>增量更新的具体流程是：用户手机上安装着某个应用，下载了增量包，手机上的apk和增量包合并形成新的包，然后再次安装（注意这个过程是要重新安装的，当然部分应用市场有root权限你可能感知不到）。</p>
-<h3 id="增量更新的原理"><a href="#增量更新的原理" class="headerlink" title="增量更新的原理"></a>增量更新的原理</h3><p>增量更新的原理也很简单，就是将手机上已安装的旧版本apk与服务器端新版本apk进行二进制对比，并得到差分包（patch），用户在升级更新应用时，只需要下载差分包，然后在本地使用差分包与旧版的apk合成新版apk，然后进行安装。差分包文件的大小，那就远比APK小得多了，这样也便于用户进行应用升级。</p>
-<p>那么增量更新的流程可以细化为几个关键点：</p>
-<ul>
-<li>1.用户手机上提取当前安装应用的apk</li>
-<li>2.如何利用old.apk和new.apk生成增量文件（差分包）</li>
-<li>3.增加文件与1.中的old.apk合并，然后安装</li>
-</ul>
-<p>旧版的APK可以在<strong>/data/app/%packagename%/</strong>下找到。</p>
-<p>也可以参考下面的代码：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ApkExtract</span> </span>&#123;</div><div class="line">    public <span class="keyword">static</span> <span class="built_in">String</span> extract(Context context) &#123;</div><div class="line">        context = context.getApplicationContext();</div><div class="line">        ApplicationInfo applicationInfo = context.getApplicationInfo();</div><div class="line">        <span class="built_in">String</span> apkPath = applicationInfo.sourceDir;</div><div class="line">        Log.d(<span class="string">"hongyang"</span>, apkPath);</div><div class="line">        <span class="keyword">return</span> apkPath;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="关于生成差分包"><a href="#关于生成差分包" class="headerlink" title="关于生成差分包"></a>关于生成差分包</h4><p>制作差分包的工具为<a href="http://www.daemonology.net/bsdiff/bsdiff-4.3.tar.gz" target="_blank" rel="external">bsdiff</a>，</p>
-<p>网址：</p>
-<p><a href="http://www.daemonology.net/bsdiff/" target="_blank" rel="external">http://www.daemonology.net/bsdiff/</a></p>
-<p>下载地址：</p>
-<p><a href="http://www.daemonology.net/bsdiff/bsdiff-4.3.tar.gz" target="_blank" rel="external">http://www.daemonology.net/bsdiff/bsdiff-4.3.tar.gz</a></p>
-<p>这是一个非常牛的二进制查分工具，bsdiff源代码在Android的源码目录下 ”\external\bsdiff“”这边也可以找到。另外还需要依赖<a href="http://www.bzip.org/downloads.html" target="_blank" rel="external">bzlib</a>来进行打包。在安全性方面，补丁和新旧版APK最好都要进行MD5验证，以免被篡改。</p>
-<p>关于这个工具可以使用别人编译好的so库，<a href="https://github.com/hongyangAndroid/BsDiff_And_Patch/tree/master/so-dist" target="_blank" rel="external">这里</a>；熟悉NDK开发的也可以自己编译，<a href="http://blog.csdn.net/lmj623565791/article/details/52761658" target="_blank" rel="external">请看这里</a>。这里就不在考虑这个工具问题了。</p>
-<ul>
-<li>生成增量文件<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">./bsdiff old.apk <span class="keyword">new</span>.apk old-to-<span class="keyword">new</span>.patch</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>这样就生成了一个增量文件old-to-new.patch</p>
-<h4 id="关于合并差分包"><a href="#关于合并差分包" class="headerlink" title="关于合并差分包"></a>关于合并差分包</h4><p>生成差分包肯定是在服务端，合并差分包才是Android客户端需要做的：</p>
-<ul>
-<li>增量文件和old.apk合并成新的apk<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">./bspatch old.apk new2.apk old-to-<span class="keyword">new</span>.patch</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>这样就生成一个new2.apk</p>
-<p>生成后，要查看下两个文件的md5值。如果两个文件md5值一致，那么几乎可以肯定两个文件时一模一样的。</p>
-<h3 id="增量更新存在的不足"><a href="#增量更新存在的不足" class="headerlink" title="增量更新存在的不足"></a>增量更新存在的不足</h3><ul>
-<li><p>1、增量升级是以两个应用版本之间的差异来生成补丁的，但是我们无法保证用户每次的及时升级到最新，也就是在更新前，新版和旧版只差一个版本，所以必须对你所发布的每一个版本都和最新的版本作差分，以便使所有版本的用户都可以差分升级，这样相对就比较繁琐了。解决方法也有，可以通过Shell脚本来实现批量生成。</p>
-</li>
-<li><p>2.增量升级能成功的前提是，从手机端能够获得旧版APK，并且与服务端的APK签名是一样的，所以像那些破解的APP就无法实现更新。前面也提到了，为了安全性，防止补丁合成错误，最好在补丁合成前对旧版本的apk进行sha1或者MD5校验，保证基础包的一致性，这样才能顺利的实现增量升级。</p>
-</li>
-</ul>
-
+<h3 id="增量更新的流程"><a href="#增量更新的流程" class="headerlink" title="增量更新的流程"></a>增量更新的流程</h3><p>增量更新的具体流程是：用户手机上安装着某个应用，下载了增量包，手机上的apk和增量包合并形成新的包，然后再次安装（注意这个过程是要重新安装的，当然部分应用市场有root权限你可能感知不到）。</p></p>
+            <p class="article-more-link">
+                <a href="/2016/12/20/Android-patch-update/#more">Read More</a>
+            </p>
         
         </div>
         <footer class="article-footer">
@@ -312,7 +277,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/20/Android-patch-update/" data-id="cix8db7pv0025mms69vlu4ese" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/20/Android-patch-update/" data-id="cix8kaj5v002hbxs674jtp4x9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -464,7 +429,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/06/hexo-learning1/" data-id="cix8db7pr0021mms6g2vcupd8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/06/hexo-learning1/" data-id="cix8kaj5s002bbxs67cl1fg4u" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -610,7 +575,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/04/hexo-learning0/" data-id="cix8db7po001ymms6axx939rh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/04/hexo-learning0/" data-id="cix8kaj5t002ebxs6e6v8eh9i" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -760,7 +725,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/" data-id="cix8db7qq002xmms6b73k9gde" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/" data-id="cix8kaj6k0032bxs6byemy14u" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -904,7 +869,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/" data-id="cix8db7pm001vmms6ee8lwqh1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/" data-id="cix8kaj5r0027bxs66mwab3r9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1058,7 +1023,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/10/13/gradle-learning2/" data-id="cix8db7pl001rmms6fhia1p8d" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/10/13/gradle-learning2/" data-id="cix8kaj5p0024bxs6bq1p2hhc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1205,7 +1170,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/10/12/gradle-learning/" data-id="cix8db7q0002dmms66zow95hq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/10/12/gradle-learning/" data-id="cix8kaj5m0021bxs6vcvynsxr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1353,7 +1318,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/09/28/Android-interview-questions/" data-id="cix8db7px0027mms6dsaacxx9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/09/28/Android-interview-questions/" data-id="cix8kaj5i001xbxs6o2vmlkf1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
