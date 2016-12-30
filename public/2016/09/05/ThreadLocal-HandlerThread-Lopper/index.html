@@ -16,7 +16,7 @@ handler 发送Message 给MessageQueue，Looper 来轮询消息，如果有Messag
 handler 发送Message 给MessageQueue，Looper 来轮询消息，如果有Message，然后再发送给Handler，Handler 拿到消息就可以所在的线程执行了。
 2.ThreadLocalThread这个类有一个变量：ThreadLocal.ThreadLocalMap">
 <meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/A%20Lane%20in%20the%20Public%20Garden%20at%20Arles.jpg">
-<meta property="og:updated_time" content="2016-12-26T10:41:15.000Z">
+<meta property="og:updated_time" content="2016-12-30T01:01:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ThreadLocal、HandlerThread、Lopper区别">
 <meta name="twitter:description" content="1.前言Android中非UI线程（WorkThread）不能操作UI线程（MainThread）
@@ -167,11 +167,11 @@ handler 发送Message 给MessageQueue，Looper 来轮询消息，如果有Messag
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                29
+                30
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                11
+                12
                 <span>tags</span>
             </div>
         </div>
@@ -275,40 +275,40 @@ handler 发送Message 给MessageQueue，Looper 来轮询消息，如果有Messag
             
             <h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h3><pre><code>Android中非UI线程（WorkThread）不能操作UI线程（MainThread）
 </code></pre><p>handler 发送Message 给MessageQueue，Looper 来轮询消息，如果有Message，然后再发送给Handler，Handler 拿到消息就可以所在的线程执行了。</p>
-<h3 id="2-ThreadLocal"><a href="#2-ThreadLocal" class="headerlink" title="2.ThreadLocal"></a>2.ThreadLocal<t></t></h3><p>Thread这个类有一个变量：ThreadLocal.ThreadLocalMap threadLocals ，这是一个map的数据结构，里面的元素的key就是ThreadLocal，value就是我们自定义的一些目标类。我们可以在自己的多线程类中定义好几个ThreadLocal，然后每一个ThreadLocal  put一个特定的目标类，然后以后可以用ThreadLocal get到目标类（用自己作为Thread里map的key），因为每个Thread有自己独自的map，所以这样可以实现每个线程有自己的LocalThread，并且一个Thread里可以有多个LocalThread。</p>
+<h3 id="2-ThreadLocal"><a href="#2-ThreadLocal" class="headerlink" title="2.ThreadLocal"></a>2.ThreadLocal<t></t></h3><p>Thread这个类有一个变量：ThreadLocal.ThreadLocalMap threadLocals ，这是一个map的数据结构，里面的元素的key就是ThreadLocal，value就是我们自定义的一些目标类。我们可以在自己的多线程类中定义好几个ThreadLocal，然后每一个ThreadLocal put一个特定的目标类，然后以后可以用ThreadLocal get到目标类（用自己作为Thread里map的key），因为每个Thread有自己独自的map，所以这样可以实现每个线程有自己的LocalThread，并且一个Thread里可以有多个LocalThread。</p>
 <a id="more"></a>
 <p>简单理解就是每个线程维护一个map，然后可以用一定的关键字取出这个map里的目标类（比如一个bean），这个“一定的关键字”说的就是这个ThreadLocal 。</p>
 <p>ThreadLocal隔离了各个线程，让各线程之间没有什么共享的问题。</p>
 <p>参考：<a href="http://www.jianshu.com/p/08cb3665972f" target="_blank" rel="external">Android 中 Handler，Looper，HandlerThread 的使用</a></p>
 <h3 id="3-Looper"><a href="#3-Looper" class="headerlink" title="3.Looper"></a>3.Looper</h3><p>Looper是Android handler机制的重要组成部分，Looper这个名字起的很形象，翻译过来是：打环的人，就是维护一个循环的人。<br>Looper里有一个静态变量：private static final ThreadLocal sThreadLocal = new ThreadLocal();<br>这是典型的Android里用到ThreadLocal的一个情况，调用Looper.prepare的时候，唯一做的事情就是把sThreadLocal作为key，把一个new出来的looper对象作为value put到相应线程的map里。然后以后用到Looper.loop的时候，就从这个sThreadLocal里取出这个Looper，然后死循环（阻塞循环）MessageQueue，取出Message并执行message指向的Handler。</p>
 <h3 id="4-Handler"><a href="#4-Handler" class="headerlink" title="4.Handler"></a>4.Handler</h3><p>SDK中关于Handler的说明如下：</p>
-<pre><code>A Handler allows you to sendand process Messageand Runnable objects associated
-with a thread&apos;s MessageQueue.Each Handler instance is associated with a single
-thread and that thread&apos;smessage queue. When you create a new Handler, it is bound
-to the thread /message queue of the thread that is creating it -- from that point
-on, it willdeliver messages and runnables to that message queue and execute them
-as theycome out of the message queue.
-</code></pre><h4 id="4-1-Handler的作用"><a href="#4-1-Handler的作用" class="headerlink" title="4.1 Handler的作用"></a>4.1 Handler的作用</h4><pre><code>There are two main uses for aHandler: (1) to schedule messages and runnables to be
-executed as some point inthe future; and (2) to enqueue an action to be performed
-on a different thread than your own.
-</code></pre><p>在线程中实例化Handler需要保证线程当中包含Looper(注意：UI-Thread默认包含Looper)。</p>
+<blockquote>
+<p>A Handler allows you to sendand process Messageand Runnable objects associated with a thread’s MessageQueue.Each Handler instance is associated with a single thread and that thread’smessage queue. When you create a new Handler, it is bound to the thread /message queue of the thread that is creating it – from that point on, it willdeliver messages and runnables to that message queue and execute them as theycome out of the message queue.</p>
+</blockquote>
+<h4 id="4-1-Handler的作用"><a href="#4-1-Handler的作用" class="headerlink" title="4.1 Handler的作用"></a>4.1 Handler的作用</h4><blockquote>
+<p>There are two main uses for aHandler: (1) to schedule messages and runnables to be executed as some point inthe future; and (2) to enqueue an action to be performed on a different thread than your own.</p>
+</blockquote>
+<p>在线程中实例化Handler需要保证线程当中包含Looper(注意：UI-Thread默认包含Looper)。</p>
 <h4 id="4-2-不是所有的Handler都能更新UI"><a href="#4-2-不是所有的Handler都能更新UI" class="headerlink" title="4.2 不是所有的Handler都能更新UI"></a>4.2 不是所有的Handler都能更新UI</h4><p>Handler处理消息总是在创建Handler的线程里运行。而我们的消息处理中，不乏更新UI的操作，不正确的线程直接更新UI将引发异常。因此，需要时刻关心Handler在哪个线程里创建的。如何更新UI才能不出异常呢？SDK告诉我们，有以下4种方式可以从其它线程访问UI线程(也即线程间通信)：</p>
-<pre><code>- Activity.runOnUiThread(Runnable)
-- View.post(Runnable)
-- View.postDelayed(Runnable, long)
-- 在UI线程中创建的Handler
-</code></pre><p>几点小结</p>
-<pre><code>- Handler的处理过程运行在创建Handler的线程里
-- 一个Looper对应一个MessageQueue，一个线程对应一个Looper，一个Looper可以对应多个Handler
-- 不确定当前线程时，更新UI时尽量调用View.post方法
-- handler应该由处理消息的线程创建。
-- handler与创建它的线程相关联，而且也只与创建它的线程相关联。handler运行在创建它的线程中，所以，如果在handler中进行耗时的操作，会阻塞创建它的线程。
-- Android的线程分为有消息循环的线程和没有消息循环的线程，有消息循环的线程一般都会有一个Looper。主线程（UI线程）就是一个消息循环的线程。
-- Looper.myLooper();      //获得当前的Looper
-    Looper.getMainLooper() //获得UI线程的Lopper
-- Handle的初始化函数（构造函数），如果没有参数，那么他就默认使用的是当前的Looper，如果有Looper参数，就是用对应的线程的Looper。
-- 如果一个线程中调用Looper.prepare()，那么系统就会自动的为该线程建立一个消息队列，然后调用Looper.loop();之后就进入了消息循环，这个之后就可以发消息、取消息、和处理消息。
-</code></pre><h3 id="5-消息的发送与处理"><a href="#5-消息的发送与处理" class="headerlink" title="5.消息的发送与处理"></a>5.消息的发送与处理</h3><p>我们简单地看一下消息的循环过程：</p>
+<ul>
+<li>Activity.runOnUiThread(Runnable)</li>
+<li>View.post(Runnable)</li>
+<li>View.postDelayed(Runnable, long)</li>
+<li>在UI线程中创建的Handler</li>
+</ul>
+<p>几点小结</p>
+<ul>
+<li>Handler的处理过程运行在创建Handler的线程里</li>
+<li>一个Looper对应一个MessageQueue，一个线程对应一个Looper，一个Looper可以对应多个Handler</li>
+<li>不确定当前线程时，更新UI时尽量调用View.post方法</li>
+<li>handler应该由处理消息的线程创建。</li>
+<li>handler与创建它的线程相关联，而且也只与创建它的线程相关联。handler运行在创建它的线程中，所以，如果在handler中进行耗时的操作，会阻塞创建它的线程。</li>
+<li>Android的线程分为有消息循环的线程和没有消息循环的线程，有消息循环的线程一般都会有一个Looper。主线程（UI线程）就是一个消息循环的线程。</li>
+<li>Looper.myLooper();      //获得当前的Looper<br>Looper.getMainLooper() //获得UI线程的Lopper</li>
+<li>Handle的初始化函数（构造函数），如果没有参数，那么他就默认使用的是当前的Looper，如果有Looper参数，就是用对应的线程的Looper。</li>
+<li>如果一个线程中调用Looper.prepare()，那么系统就会自动的为该线程建立一个消息队列，然后调用Looper.loop();之后就进入了消息循环，这个之后就可以发消息、取消息、和处理消息。</li>
+</ul>
+<h3 id="5-消息的发送与处理"><a href="#5-消息的发送与处理" class="headerlink" title="5.消息的发送与处理"></a>5.消息的发送与处理</h3><p>我们简单地看一下消息的循环过程：</p>
 <h4 id="5-1-消息的生成"><a href="#5-1-消息的生成" class="headerlink" title="5.1 消息的生成"></a>5.1 消息的生成</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">Message msg =mHandler.obtainMessage();</div><div class="line">msg.what = what;</div><div class="line">msg.sendToTarget();</div></pre></td></tr></table></figure>
 <h4 id="5-2-消息的发送"><a href="#5-2-消息的发送" class="headerlink" title="5.2 消息的发送"></a>5.2 消息的发送</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">MessageQueue queue= mQueue;</div><div class="line">  <span class="keyword">if</span> (queue != <span class="keyword">null</span>)&#123;</div><div class="line">  msg.target =<span class="keyword">this</span>;</div><div class="line">  sent =queue.enqueueMessage(msg, uptimeMillis);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>在Handler.java的sendMessageAtTime(Messagemsg, long uptimeMillis)方法中，我们看到，它找到它所引用的MessageQueue，然后将Message的target设定成自己（目的是为了在处理消息环节，Message能找到正确的Handler），再将这个Message纳入到消息队列中。</p>
@@ -317,12 +317,13 @@ on a different thread than your own.
 <h4 id="5-4-消息的处理"><a href="#5-4-消息的处理" class="headerlink" title="5.4 消息的处理"></a>5.4 消息的处理</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">if</span> (msg.callback!= <span class="keyword">null</span>) &#123;</div><div class="line">  handleCallback(msg);</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  <span class="keyword">if</span> (mCallback!= <span class="keyword">null</span>) &#123;</div><div class="line">    <span class="keyword">if</span>(mCallback.handleMessage(msg)) &#123;</div><div class="line">      <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"> handleMessage(msg);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>在Handler.java的dispatchMessage(Messagemsg)方法里，其中的一个分支就是调用handleMessage方法来处理这条Message，而这也正是我们在职责处描述使用Handler时需要实现handleMessage(Messagemsg)的原因。<br>至于dispatchMessage方法中的另外一个分支，我将会在后面的内容中说明。<br>至此，我们看到，一个Message经由Handler的发送，MessageQueue的入队，Looper的抽取，又再一次地回到Handler的怀抱。而绕的这一圈，也正好帮助我们将同步操作变成了异步操作。</p>
 <p>参考上面的消息的发送与处理，这里再解释一下View.post(Runnable)方法。</p>
-<pre><code>在post(Runnableaction)方法里，View获得当前线程（即UI线程）的Handler，然后将action对
-象post到Handler里。在Handler里，它将传递过来的action对象包装成一个Message（Message
-的callback为action），然后将其投入UI线程的消息循环中。在 Handler再次处理该Message时，有
-一条分支就是为它所设，直接调用mCallback.handleMessage的方法，返回到runnable的run方法。
-而此时，已经路由到UI线程里，因此，我们可以毫无顾虑的来更新UI。
-</code></pre><h3 id="5-HandlerThread"><a href="#5-HandlerThread" class="headerlink" title="5.HandlerThread"></a>5.HandlerThread</h3><p>HandlerThread就是在普通的Thread基础上加上了Looper的支持，让用户不必自己去创建Looper了，同时方便了Handler的使用。</p>
+<ul>
+<li>在post(Runnableaction)方法里，View获得当前线程（即UI线程）的Handler，然后将action对象post到Handler里。</li>
+<li>在Handler里，它将传递过来的action对象包装成一个Message（Message的callback为action），然后将其投入UI线程的消息循环中。</li>
+<li>在 Handler再次处理该Message时，有一条分支就是为它所设，直接调用mCallback.handleMessage的方法，返回到runnable的run方法。</li>
+<li>而此时，已经路由到UI线程里，因此，我们可以毫无顾虑的来更新UI。</li>
+</ul>
+<h3 id="5-HandlerThread"><a href="#5-HandlerThread" class="headerlink" title="5.HandlerThread"></a>5.HandlerThread</h3><p>HandlerThread就是在普通的Thread基础上加上了Looper的支持，让用户不必自己去创建Looper了，同时方便了Handler的使用。</p>
 <p>创建HandlerThread时需要把它启动了，即调用start()方法。然后创建Handler时将HandlerThread中的looper对象传入。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line">HandlerThread thread = <span class="keyword">new</span> HandlerThread(<span class="string">"MyHandlerThread"</span>);</div><div class="line">thread.start();</div><div class="line">mHandler = <span class="keyword">new</span> Handler(thread.getLooper());</div><div class="line">mHandler.post(<span class="keyword">new</span> Runnable()&#123;...&#125;);</div></pre></td></tr></table></figure>
 <p>那么这个Handler对象就是与HandlerThread这个线程绑定了（这时就不再是与UI线程绑定了，这样在Handler中处理耗时操作将不会阻塞UI）。</p>
@@ -339,7 +340,7 @@ on a different thread than your own.
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/09/05/ThreadLocal-HandlerThread-Lopper/" data-id="cix8ky90e001hgos6jh942w5q" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/09/05/ThreadLocal-HandlerThread-Lopper/" data-id="cixb4tnvk001414fy5ecrpp4z" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -416,11 +417,11 @@ on a different thread than your own.
         
 <nav id="article-nav">
     
-        <a href="/2016/09/20/AVG-unwanted-software/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/2016/09/20/android-design-pattern-singleton/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    apk中含有admob广告插件
+                    ANDROID设计模式之单例模式
                 
             </div>
         </a>
@@ -517,6 +518,25 @@ on a different thread than your own.
                     <li>
                         
                         <div class="item-thumbnail">
+                            <a href="/2016/12/11/ThreadLocal-usage/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/A%20Wind-Beaten%20Tree.jpg)" alt="ThreadLocal一个使用——SimpleDateFormat" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2016/12/11/ThreadLocal-usage/" class="title">ThreadLocal一个使用——SimpleDateFormat</a></p>
+                            <p class="item-date"><time datetime="2016-12-10T16:00:00.000Z" itemprop="datePublished">2016-12-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
                             <a href="/2016/12/06/hexo-learning1/" class="thumbnail">
     
     
@@ -571,25 +591,6 @@ on a different thread than your own.
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/11/03/hexo-mac-module-not-found/" class="thumbnail">
-    
-    
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Couple%20Out%20for%20a%20Stroll.jpg)" alt="Hexo 出错情况收集" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2016/11/03/hexo-mac-module-not-found/" class="title">Hexo 出错情况收集</a></p>
-                            <p class="item-date"><time datetime="2016-11-02T16:00:00.000Z" itemprop="datePublished">2016-11-03</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -599,7 +600,7 @@ on a different thread than your own.
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">19</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
         </div>
     </div>
 
@@ -608,7 +609,7 @@ on a different thread than your own.
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -617,7 +618,7 @@ on a different thread than your own.
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">3</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">3</span></li></ul>
         </div>
     </div>
 
@@ -626,7 +627,7 @@ on a different thread than your own.
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/android-jni/" style="font-size: 16.67px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 13.33px;">read</a> <a href="/tags/technology/" style="font-size: 16.67px;">technology</a>
+            <a href="/tags/android-jni/" style="font-size: 16.67px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/threadlocal/" style="font-size: 10px;">ThreadLocal</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 13.33px;">read</a> <a href="/tags/technology/" style="font-size: 16.67px;">technology</a>
         </div>
     </div>
 

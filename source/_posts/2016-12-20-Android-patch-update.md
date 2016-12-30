@@ -22,7 +22,6 @@ thumbnail: http://obxk8w81b.bkt.clouddn.com/Cottages%20with%20a%20Woman%20Workin
 ### 增量更新的原理
 增量更新的原理也很简单，就是将手机上已安装的旧版本apk与服务器端新版本apk进行二进制对比，并得到差分包（patch），用户在升级更新应用时，只需要下载差分包，然后在本地使用差分包与旧版的apk合成新版apk，然后进行安装。差分包文件的大小，那就远比APK小得多了，这样也便于用户进行应用升级。
 
-
 那么增量更新的流程可以细化为几个关键点：
 
 - 1.用户手机上提取当前安装应用的apk
@@ -44,6 +43,8 @@ public class ApkExtract {
     }
 }
 ~~~
+
+这部分可以参考[张鸿洋的博客](http://blog.csdn.net/lmj623565791/article/details/52761658)
 
 #### 关于生成差分包
 制作差分包的工具为[bsdiff](http://www.daemonology.net/bsdiff/bsdiff-4.3.tar.gz)，

@@ -17,7 +17,7 @@ handler 发送Message 给MessageQueue，Looper 来轮询消息，如果有Messag
 
 ### 2.ThreadLocal<T>
 
-Thread这个类有一个变量：ThreadLocal.ThreadLocalMap threadLocals ，这是一个map的数据结构，里面的元素的key就是ThreadLocal，value就是我们自定义的一些目标类。我们可以在自己的多线程类中定义好几个ThreadLocal，然后每一个ThreadLocal  put一个特定的目标类，然后以后可以用ThreadLocal get到目标类（用自己作为Thread里map的key），因为每个Thread有自己独自的map，所以这样可以实现每个线程有自己的LocalThread，并且一个Thread里可以有多个LocalThread。
+Thread这个类有一个变量：ThreadLocal.ThreadLocalMap threadLocals ，这是一个map的数据结构，里面的元素的key就是ThreadLocal，value就是我们自定义的一些目标类。我们可以在自己的多线程类中定义好几个ThreadLocal，然后每一个ThreadLocal put一个特定的目标类，然后以后可以用ThreadLocal get到目标类（用自己作为Thread里map的key），因为每个Thread有自己独自的map，所以这样可以实现每个线程有自己的LocalThread，并且一个Thread里可以有多个LocalThread。
 
 <!--more-->
 
@@ -36,18 +36,11 @@ Looper里有一个静态变量：private static final ThreadLocal sThreadLocal =
 ### 4.Handler
 SDK中关于Handler的说明如下：
 
-    A Handler allows you to sendand process Messageand Runnable objects associated
-    with a thread's MessageQueue.Each Handler instance is associated with a single
-    thread and that thread'smessage queue. When you create a new Handler, it is bound
-    to the thread /message queue of the thread that is creating it -- from that point
-    on, it willdeliver messages and runnables to that message queue and execute them
-    as theycome out of the message queue.
+> A Handler allows you to sendand process Messageand Runnable objects associated with a thread's MessageQueue.Each Handler instance is associated with a single thread and that thread'smessage queue. When you create a new Handler, it is bound to the thread /message queue of the thread that is creating it -- from that point on, it willdeliver messages and runnables to that message queue and execute them as theycome out of the message queue.
 
 #### 4.1 Handler的作用
 
-    There are two main uses for aHandler: (1) to schedule messages and runnables to be
-    executed as some point inthe future; and (2) to enqueue an action to be performed
-    on a different thread than your own.
+> There are two main uses for aHandler: (1) to schedule messages and runnables to be executed as some point inthe future; and (2) to enqueue an action to be performed on a different thread than your own.
 
 在线程中实例化Handler需要保证线程当中包含Looper(注意：UI-Thread默认包含Looper)。
 
@@ -55,22 +48,22 @@ SDK中关于Handler的说明如下：
 
 Handler处理消息总是在创建Handler的线程里运行。而我们的消息处理中，不乏更新UI的操作，不正确的线程直接更新UI将引发异常。因此，需要时刻关心Handler在哪个线程里创建的。如何更新UI才能不出异常呢？SDK告诉我们，有以下4种方式可以从其它线程访问UI线程(也即线程间通信)：
 
-    - Activity.runOnUiThread(Runnable)
-    - View.post(Runnable)
-    - View.postDelayed(Runnable, long)
-    - 在UI线程中创建的Handler
+- Activity.runOnUiThread(Runnable)
+- View.post(Runnable)
+- View.postDelayed(Runnable, long)
+- 在UI线程中创建的Handler
 
 几点小结
-    - Handler的处理过程运行在创建Handler的线程里
-    - 一个Looper对应一个MessageQueue，一个线程对应一个Looper，一个Looper可以对应多个Handler
-    - 不确定当前线程时，更新UI时尽量调用View.post方法
-    - handler应该由处理消息的线程创建。
-    - handler与创建它的线程相关联，而且也只与创建它的线程相关联。handler运行在创建它的线程中，所以，如果在handler中进行耗时的操作，会阻塞创建它的线程。
-    - Android的线程分为有消息循环的线程和没有消息循环的线程，有消息循环的线程一般都会有一个Looper。主线程（UI线程）就是一个消息循环的线程。
-    - Looper.myLooper();      //获得当前的Looper
-        Looper.getMainLooper() //获得UI线程的Lopper
-    - Handle的初始化函数（构造函数），如果没有参数，那么他就默认使用的是当前的Looper，如果有Looper参数，就是用对应的线程的Looper。
-    - 如果一个线程中调用Looper.prepare()，那么系统就会自动的为该线程建立一个消息队列，然后调用Looper.loop();之后就进入了消息循环，这个之后就可以发消息、取消息、和处理消息。
+- Handler的处理过程运行在创建Handler的线程里
+- 一个Looper对应一个MessageQueue，一个线程对应一个Looper，一个Looper可以对应多个Handler
+- 不确定当前线程时，更新UI时尽量调用View.post方法
+- handler应该由处理消息的线程创建。
+- handler与创建它的线程相关联，而且也只与创建它的线程相关联。handler运行在创建它的线程中，所以，如果在handler中进行耗时的操作，会阻塞创建它的线程。
+- Android的线程分为有消息循环的线程和没有消息循环的线程，有消息循环的线程一般都会有一个Looper。主线程（UI线程）就是一个消息循环的线程。
+- Looper.myLooper();      //获得当前的Looper
+  Looper.getMainLooper() //获得UI线程的Lopper
+- Handle的初始化函数（构造函数），如果没有参数，那么他就默认使用的是当前的Looper，如果有Looper参数，就是用对应的线程的Looper。
+- 如果一个线程中调用Looper.prepare()，那么系统就会自动的为该线程建立一个消息队列，然后调用Looper.loop();之后就进入了消息循环，这个之后就可以发消息、取消息、和处理消息。
 
 ### 5.消息的发送与处理
 
@@ -132,11 +125,10 @@ if (msg.callback!= null) {
 
 参考上面的消息的发送与处理，这里再解释一下View.post(Runnable)方法。
 
-    在post(Runnableaction)方法里，View获得当前线程（即UI线程）的Handler，然后将action对
-    象post到Handler里。在Handler里，它将传递过来的action对象包装成一个Message（Message
-    的callback为action），然后将其投入UI线程的消息循环中。在 Handler再次处理该Message时，有
-    一条分支就是为它所设，直接调用mCallback.handleMessage的方法，返回到runnable的run方法。
-    而此时，已经路由到UI线程里，因此，我们可以毫无顾虑的来更新UI。
+- 在post(Runnableaction)方法里，View获得当前线程（即UI线程）的Handler，然后将action对象post到Handler里。
+- 在Handler里，它将传递过来的action对象包装成一个Message（Message的callback为action），然后将其投入UI线程的消息循环中。
+- 在 Handler再次处理该Message时，有一条分支就是为它所设，直接调用mCallback.handleMessage的方法，返回到runnable的run方法。
+- 而此时，已经路由到UI线程里，因此，我们可以毫无顾虑的来更新UI。
 
 
 ### 5.HandlerThread
