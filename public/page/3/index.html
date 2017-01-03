@@ -284,7 +284,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/07/25/android-webview-summary/" data-id="cixgxt0dl0013bjfymbv7x454" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/07/25/android-webview-summary/" data-id="cixh93jnt000z3tfys735agfu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -432,7 +432,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/06/08/gson-summary/" data-id="cixgxt0dk000zbjfytkg24cqk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/06/08/gson-summary/" data-id="cixh93jnw00173tfy4li4epls" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -578,7 +578,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/05/28/qiniu-android-summary/" data-id="cixgxt0dg000tbjfy0v3xn25c" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/05/28/qiniu-android-summary/" data-id="cixh93jnk000o3tfyuofzdhln" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -647,6 +647,150 @@
             
     
         <a href="http://agehua.github.io/2016/05/28/qiniu-android-summary/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/05/28/qiniu-android-summary/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+
+    <article id="post-JNI-Learning0" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2016/05/24/JNI-Learning0/" itemprop="url">
+            <img src="http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/05/24/JNI-Learning0/">android JNI学习② JNI调用过程</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/05/24/JNI-Learning0/">
+            <time datetime="2016-05-23T16:00:00.000Z" itemprop="datePublished">2016-05-24</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/android-jni/">Android JNI</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="1-Android-JNI调用过程"><a href="#1-Android-JNI调用过程" class="headerlink" title="1.Android JNI调用过程"></a>1.Android JNI调用过程</h3><h4 id="1-1-由Android系统加载的JNI"><a href="#1-1-由Android系统加载的JNI" class="headerlink" title="1.1 由Android系统加载的JNI"></a>1.1 由Android系统加载的JNI</h4><p>Android系统在启动启动过程中，先<strong>启动Kernel创建init进程</strong>，紧接着由init进程fork第一个横穿Java和C/C++的进程，即Zygote进程。Zygote启动过程中会<strong>AndroidRuntime.cpp中的startVm</strong>创建虚拟机，VM创建完成后，紧接着调用startReg完成虚拟机中的JNI方法注册。</p></p>
+            <p class="article-more-link">
+                <a href="/2016/05/24/JNI-Learning0/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2016/05/24/JNI-Learning0/" data-id="cixh93jnq000u3tfya5u18979" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://agehua.github.io/2016/05/24/JNI-Learning0/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/05/24/JNI-Learning0/">Comments</a>
     
 
         </footer>
@@ -735,7 +879,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/05/24/JNI-Learning/" data-id="cixgxt0dc000objfyer4cxaxm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/05/24/JNI-Learning/" data-id="cixh93jno000s3tfyvjp42l90" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -814,150 +958,6 @@
 
 
 
-    <article id="post-JNI-Learning0" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2016/05/24/JNI-Learning0/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/05/24/JNI-Learning0/">android JNI学习② JNI调用过程</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/05/24/JNI-Learning0/">
-            <time datetime="2016-05-23T16:00:00.000Z" itemprop="datePublished">2016-05-24</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/android-jni/">Android JNI</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="1-Android-JNI调用过程"><a href="#1-Android-JNI调用过程" class="headerlink" title="1.Android JNI调用过程"></a>1.Android JNI调用过程</h3><h4 id="1-1-由Android系统加载的JNI"><a href="#1-1-由Android系统加载的JNI" class="headerlink" title="1.1 由Android系统加载的JNI"></a>1.1 由Android系统加载的JNI</h4><p>Android系统在启动启动过程中，先<strong>启动Kernel创建init进程</strong>，紧接着由init进程fork第一个横穿Java和C/C++的进程，即Zygote进程。Zygote启动过程中会<strong>AndroidRuntime.cpp中的startVm</strong>创建虚拟机，VM创建完成后，紧接着调用startReg完成虚拟机中的JNI方法注册。</p></p>
-            <p class="article-more-link">
-                <a href="/2016/05/24/JNI-Learning0/#more">Read More</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2016/05/24/JNI-Learning0/" data-id="cixgxt0db000lbjfyjkicm25g" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://agehua.github.io/2016/05/24/JNI-Learning0/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/05/24/JNI-Learning0/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-
     <article id="post-javaString-and-bytes" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -1024,7 +1024,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/05/18/javaString-and-bytes/" data-id="cixgxt0d6000hbjfyi3gegg8a" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/05/18/javaString-and-bytes/" data-id="cixh93jni000l3tfyyz6lxncc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1172,7 +1172,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/05/12/GCM-Azure_summary/" data-id="cixgxt0d0000abjfyc8io8x04" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/05/12/GCM-Azure_summary/" data-id="cixh93jnd000h3tfyihkmgruk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1317,7 +1317,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/03/20/android-new-knowledge-summary/" data-id="cixgxt0cy0009bjfy5vcskkos" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/03/20/android-new-knowledge-summary/" data-id="cixh93jn9000e3tfy1umlvqok" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding

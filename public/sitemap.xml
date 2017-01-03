@@ -58,7 +58,14 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/09/20/android-design-pattern-singleton/</loc>
+    <loc>http://agehua.github.io/2016/08/16/RxAndroid-Learning/</loc>
+    
+    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/05/28/qiniu-android-summary/</loc>
     
     <lastmod>2016-12-26T10:41:15.000Z</lastmod>
     
@@ -72,7 +79,14 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/05/28/qiniu-android-summary/</loc>
+    <loc>http://agehua.github.io/2016/05/24/JNI-Learning0/</loc>
+    
+    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/07/25/android-webview-summary/</loc>
     
     <lastmod>2016-12-26T10:41:15.000Z</lastmod>
     
@@ -93,21 +107,7 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/07/25/android-webview-summary/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/08/16/RxAndroid-Learning/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/09/20/AVG-unwanted-software/</loc>
+    <loc>http://agehua.github.io/2016/03/01/android-googlemap-summary/</loc>
     
     <lastmod>2016-12-26T10:41:15.000Z</lastmod>
     
@@ -121,6 +121,13 @@
   </url>
   
   <url>
+    <loc>http://agehua.github.io/2016/09/20/AVG-unwanted-software/</loc>
+    
+    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://agehua.github.io/2016/09/22/JNI-get-publickey/</loc>
     
     <lastmod>2016-12-26T10:41:15.000Z</lastmod>
@@ -128,14 +135,7 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/09/22/quit-whole-application/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/10/13/gradle-learning2/</loc>
+    <loc>http://agehua.github.io/2016/09/20/android-design-pattern-singleton/</loc>
     
     <lastmod>2016-12-26T10:41:15.000Z</lastmod>
     
@@ -156,6 +156,20 @@
   </url>
   
   <url>
+    <loc>http://agehua.github.io/2016/09/22/quit-whole-application/</loc>
+    
+    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/10/13/gradle-learning2/</loc>
+    
+    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://agehua.github.io/2016/03/20/android-books-reading-/</loc>
     
     <lastmod>2016-12-26T10:41:15.000Z</lastmod>
@@ -164,6 +178,13 @@
   
   <url>
     <loc>http://agehua.github.io/2015/11/06/book-list-of-2015/</loc>
+    
+    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/03/15/facebook-google+signin/</loc>
     
     <lastmod>2016-12-26T10:41:15.000Z</lastmod>
     
@@ -184,28 +205,7 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/03/01/android-googlemap-summary/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/03/15/facebook-google+signin/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://agehua.github.io/2016/05/18/javaString-and-bytes/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/05/24/JNI-Learning0/</loc>
     
     <lastmod>2016-12-26T10:41:15.000Z</lastmod>
     
