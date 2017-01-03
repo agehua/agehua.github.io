@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang=en>
 <head>
+    <meta name="google-site-verification" content="TYEtqE2Xc2ZonkJumwKut0-iq4RVbEc8o5Y8HpmZ-eo" />
     <meta charset="utf-8">
     
     <title>ThreadLocal一个使用——SimpleDateFormat | Agehua</title>
@@ -16,7 +17,7 @@ java学习记录–ThreadLocal使用案例——SimpleDateFo">
 下面是本文的参考资料：
 java学习记录–ThreadLocal使用案例——SimpleDateFo">
 <meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/A%20Wind-Beaten%20Tree.jpg">
-<meta property="og:updated_time" content="2016-12-30T01:38:46.000Z">
+<meta property="og:updated_time" content="2016-12-30T01:56:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ThreadLocal一个使用——SimpleDateFormat">
 <meta name="twitter:description" content="背景之前写过一篇文章：《ThreadLocal、HandlerThread、Lopper区别》，其中简单提及了ThreadLocal的解释。本篇文章主要结合具体应用场景——SimpleDateFormat，和大家来一起学习ThreadLocal的原理，并对ThreadLocal进行一个详细的介绍。
@@ -282,6 +283,7 @@ java学习记录–ThreadLocal使用案例——SimpleDateFo">
 <p>我们可以在自己的多线程类中定义好几个ThreadLocal，然后每一个ThreadLocal put一个特定的目标类，然后以后可以用ThreadLocal get到目标类（ThreadLocal用自己作为Thread里map的key），因为每个Thread有自己独自的map，所以这样可以实现每个线程有自己的LocalThread，并且一个Thread里可以有多个LocalThread。</p>
 <p>ThreadLocal为变量在每个线程中都创建了一个副本，所以每个线程可以访问自己内部的副本变量，不同线程之间不会互相干扰。</p>
 <p>本篇文章结合具体应用场景，来分析ThreadLocal为什么可以实现不同线程之间不会互相干扰。</p>
+<a id="more"></a>
 <h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>那么，在什么场景下比较适合使用ThreadLocal呢？</p>
 <p>stackoverflow上有人给出了还不错的回答：</p>
 <blockquote>
@@ -378,7 +380,7 @@ java学习记录–ThreadLocal使用案例——SimpleDateFo">
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/11/ThreadLocal-usage/" data-id="cixb4tnwa002d14fy8ryap3zt" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/11/ThreadLocal-usage/" data-id="cixgwvsf3002b6lfyl2j2jkke" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -701,7 +703,7 @@ java学习记录–ThreadLocal使用案例——SimpleDateFo">
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2016 Jixin Li<br>
+            &copy; 2017 Jixin Li<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

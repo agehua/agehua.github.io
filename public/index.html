@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang=en>
 <head>
+    <meta name="google-site-verification" content="TYEtqE2Xc2ZonkJumwKut0-iq4RVbEc8o5Y8HpmZ-eo" />
     <meta charset="utf-8">
     
     <title>Agehua</title>
@@ -277,7 +278,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/20/Android-patch-update/" data-id="cixb4tnwb002h14fyvafanias" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/20/Android-patch-update/" data-id="cixgwvsf4002e6lfyq4iomoo8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -408,104 +409,18 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-
-            
-            <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>之前写过一篇文章：<a href="https://agehua.github.io/2016/09/05/ThreadLocal-HandlerThread-Lopper/">《ThreadLocal、HandlerThread、Lopper区别》</a>，其中简单提及了ThreadLocal的解释。本篇文章主要结合具体应用场景——SimpleDateFormat，和大家来一起学习ThreadLocal的原理，并对ThreadLocal进行一个详细的介绍。</p>
+            <p><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>之前写过一篇文章：<a href="https://agehua.github.io/2016/09/05/ThreadLocal-HandlerThread-Lopper/">《ThreadLocal、HandlerThread、Lopper区别》</a>，其中简单提及了ThreadLocal的解释。本篇文章主要结合具体应用场景——SimpleDateFormat，和大家来一起学习ThreadLocal的原理，并对ThreadLocal进行一个详细的介绍。</p>
 <p>下面是本文的参考资料：</p>
-<p>java学习记录–ThreadLocal使用案例——SimpleDateFormat：<br><a href="http://blog.csdn.net/u012706811/article/details/53231598" target="_blank" rel="external">http://blog.csdn.net/u012706811/article/details/53231598</a></p>
-<p>SimpleDateFormat的线程安全问题与解决方案：<br><a href="http://www.cnblogs.com/zemliu/archive/2013/08/29/3290585.html" target="_blank" rel="external">http://www.cnblogs.com/zemliu/archive/2013/08/29/3290585.html</a></p>
+<p>java学习记录–ThreadLocal使用案例——SimpleDateFormat：<br><a href="http://blog.csdn.net/u012706811/article/details/53231598">http://blog.csdn.net/u012706811/article/details/53231598</a></p>
+<p>SimpleDateFormat的线程安全问题与解决方案：<br><a href="http://www.cnblogs.com/zemliu/archive/2013/08/29/3290585.html">http://www.cnblogs.com/zemliu/archive/2013/08/29/3290585.html</a></p>
 <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>Thread这个类有一个变量：ThreadLocal.ThreadLocalMap threadLocals。</p>
 <p>这是一个map的数据结构，里面的元素的key就是ThreadLocal，value就是我们自定义的一些目标类。</p>
 <p>我们可以在自己的多线程类中定义好几个ThreadLocal，然后每一个ThreadLocal put一个特定的目标类，然后以后可以用ThreadLocal get到目标类（ThreadLocal用自己作为Thread里map的key），因为每个Thread有自己独自的map，所以这样可以实现每个线程有自己的LocalThread，并且一个Thread里可以有多个LocalThread。</p>
 <p>ThreadLocal为变量在每个线程中都创建了一个副本，所以每个线程可以访问自己内部的副本变量，不同线程之间不会互相干扰。</p>
-<p>本篇文章结合具体应用场景，来分析ThreadLocal为什么可以实现不同线程之间不会互相干扰。</p>
-<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>那么，在什么场景下比较适合使用ThreadLocal呢？</p>
-<p>stackoverflow上有人给出了还不错的回答：</p>
-<blockquote>
-<p><a href="http://stackoverflow.com/questions/817856/when-and-how-should-i-use-a-threadlocal-variable" target="_blank" rel="external">When and how should I use a ThreadLocal variable?</a><br>One possible (and common) use is when you have some object that is not thread-safe, but you want to avoid synchronizing access to that object (I’m looking at you, SimpleDateFormat). Instead, give each thread its own instance of the object.</p>
-</blockquote>
-<h4 id="SimpleDateFormat为什么线程不安全"><a href="#SimpleDateFormat为什么线程不安全" class="headerlink" title="SimpleDateFormat为什么线程不安全"></a>SimpleDateFormat为什么线程不安全</h4><p>SimpleDateFormat类内部持有一个Calendar对象引用，</p>
-<p>如果你的工具类里，SimpleDateFormat是个static的，那么多个thread之间就会共享这个SimpleDateFormat，同时也会共享这个Calendar引用。</p>
-<p>查看下源码中的SimpleDateFormat.parse()方法，你会发现有如下的调用:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">protected</span> Calendar calendar;</div><div class="line"></div><div class="line"><span class="function">Date <span class="title">parse</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">  calendar.clear(); <span class="comment">// 清理calendar</span></div><div class="line"></div><div class="line">  ... <span class="comment">// 执行一些操作, 设置 calendar 的日期什么的</span></div><div class="line"></div><div class="line">  calendar.getTime(); <span class="comment">// 获取calendar的时间</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>这里calendar.clear()方法是线程不安全的，不同thread调用parse()方法，会导致结果不可预期</p>
-</blockquote>
-<p>问题重现可以看：<a href="http://www.cnblogs.com/zemliu/archive/2013/08/29/3290585.html" target="_blank" rel="external">这篇博客</a></p>
-<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>最简单的解决方案我们可以把static去掉，这样每个新的线程都会有一个自己的SimpleDateFormat实例，从而避免线程安全的问题</p>
-<p>但是，使用这种方法，在高并发的情况下会大量的new SimpleDateFormat以及销毁SimpleDateFormat，这样是非常耗费资源的</p>
-<p>下面是一个从网上找的使用ThreadLocal解决SimpleDateFormat线程不安全问题的例子：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">import</span> java.text.ParseException;</div><div class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"><span class="keyword">import</span> java.util.HashMap;</div><div class="line"><span class="keyword">import</span> java.util.Map;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DateUtil</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/** 锁对象 */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object lockObj = <span class="keyword">new</span> Object();</div><div class="line"></div><div class="line">    <span class="comment">/** 存放不同的日期模板格式的SimpleDateFormat的Map */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, ThreadLocal&lt;SimpleDateFormat&gt;&gt; sdfMap = <span class="keyword">new</span> HashMap&lt;String, ThreadLocal&lt;SimpleDateFormat&gt;&gt;();</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 返回一个ThreadLocal的SimpleDateFormat,每个线程只会new一次SimpleDateFormat</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> pattern</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> SimpleDateFormat <span class="title">getSdf</span><span class="params">(<span class="keyword">final</span> String pattern)</span> </span>&#123;</div><div class="line">        ThreadLocal&lt;SimpleDateFormat&gt; tl = sdfMap.get(pattern);</div><div class="line"></div><div class="line">        <span class="comment">// 此处的双重判断和同步是为了防止sdfMap这个单例被多次put重复的sdf</span></div><div class="line">        <span class="keyword">if</span> (tl == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">synchronized</span> (lockObj) &#123;</div><div class="line">                tl = sdfMap.get(pattern);</div><div class="line">                <span class="keyword">if</span> (tl == <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="comment">// 只有Map中还没有这个pattern的sdf才会生成新的sdf并放入map</span></div><div class="line">                    System.out.println(<span class="string">"put new sdf of pattern "</span> + pattern + <span class="string">" to map"</span>);</div><div class="line"></div><div class="line">                    <span class="comment">// 这里是关键,使用ThreadLocal&lt;SimpleDateFormat&gt;替代原来直接new SimpleDateFormat</span></div><div class="line">                    tl = <span class="keyword">new</span> ThreadLocal&lt;SimpleDateFormat&gt;() &#123;</div><div class="line"></div><div class="line">                        <span class="meta">@Override</span></div><div class="line">                        <span class="function"><span class="keyword">protected</span> SimpleDateFormat <span class="title">initialValue</span><span class="params">()</span> </span>&#123;</div><div class="line">                            System.out.println(<span class="string">"thread: "</span> + Thread.currentThread() + <span class="string">" init pattern: "</span> + pattern);</div><div class="line">                            <span class="keyword">return</span> <span class="keyword">new</span> SimpleDateFormat(pattern);</div><div class="line">                        &#125;</div><div class="line">                    &#125;;</div><div class="line">                    sdfMap.put(pattern, tl);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> tl.get();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 是用ThreadLocal&lt;SimpleDateFormat&gt;来获取SimpleDateFormat,这样每个线程只会有一个SimpleDateFormat</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> date</div><div class="line">     * <span class="doctag">@param</span> pattern</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">format</span><span class="params">(Date date, String pattern)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> getSdf(pattern).format(date);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Date <span class="title">parse</span><span class="params">(String dateStr, String pattern)</span> <span class="keyword">throws</span> ParseException </span>&#123;</div><div class="line">        <span class="keyword">return</span> getSdf(pattern).parse(dateStr);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>那为什么ThreadLocal为变量在每个线程都保存了一个副本呢？</p>
-<pre><code>下面部分内容来自博文，http://www.jianshu.com/p/33c5579ef44f (深入浅出ThreadLocal)
-</code></pre><p>先看一下Thread和ThreadLocal两个类的具体结构，如下：</p>
-<p><img src="/images/blogimages/2016/ThreadLocal.png" alt="ThreadLocal"></p>
-<p>从线程Thread的角度来看，每个线程内部都会持有一个对ThreadLocalMap实例的引用（也就是threadLocals变量），ThreadLocalMap是TThreadLocal的静态内部类。而Entry则是ThreadLocalMap的静态内部类。ThreadLocalMap实例相当于线程的局部变量空间，由Entry[] table存储着线程的私有数据。</p>
-<h4 id="Entry"><a href="#Entry" class="headerlink" title="Entry"></a>Entry</h4><p>Entry继承自WeakReference类，是存储线程私有变量的数据结构。ThreadLocal实例作为引用，意味着如果ThreadLocal实例为null，就可以从table中删除对应的Entry。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Entry</span> <span class="keyword">extends</span> <span class="title">WeakReference</span>&lt;<span class="title">ThreadLocal</span>&lt;?&gt;&gt; </span>&#123;</div><div class="line">      Object value;</div><div class="line">      Entry(ThreadLocal&lt;?&gt; k, Object v) &#123;</div><div class="line">           <span class="keyword">super</span>(k);</div><div class="line">           value = v;</div><div class="line">      &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="ThreadLocalMap"><a href="#ThreadLocalMap" class="headerlink" title="ThreadLocalMap"></a>ThreadLocalMap</h4><p>内部使用table数组存储Entry，默认大小INITIAL_CAPACITY(16)，先介绍几个参数：</p>
-<ul>
-<li><strong>size</strong>：table中元素的数量。</li>
-<li><strong>threshold</strong>：table大小的2/3，当size &gt;= threshold时，遍历table并删除key为null的元素，如果删除后size &gt;= threshold*3/4时，需要对table进行扩容。</li>
-</ul>
-<h4 id="ThreadLocal-set-实现"><a href="#ThreadLocal-set-实现" class="headerlink" title="ThreadLocal.set()实现"></a>ThreadLocal.set()实现</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * ThreadLocal.set()</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T value)</span> </span>&#123;</div><div class="line">    Thread t = Thread.currentThread();</div><div class="line">    ThreadLocalMap map = getMap(t);</div><div class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>)</div><div class="line">        map.set(<span class="keyword">this</span>, value);</div><div class="line">    <span class="keyword">else</span></div><div class="line">        createMap(t, value);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function">ThreadLocalMap <span class="title">getMap</span><span class="params">(Thread t)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> t.threadLocals;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>从上面代码中看出来：</p>
-<ul>
-<li>1.从当前线程Thread中获取ThreadLocalMap实例。</li>
-<li>2.ThreadLocal实例和value封装成Entry。</li>
-</ul>
-<h4 id="ThreadLocal-get-实现"><a href="#ThreadLocal-get-实现" class="headerlink" title="ThreadLocal.get() 实现"></a>ThreadLocal.get() 实现</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</div><div class="line">    Thread t = Thread.currentThread();</div><div class="line">    ThreadLocalMap map = getMap(t);</div><div class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</div><div class="line">        ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</div><div class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">            T result = (T)e.value;</div><div class="line">            <span class="keyword">return</span> result;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> setInitialValue();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> T <span class="title">setInitialValue</span><span class="params">()</span> </span>&#123;</div><div class="line">        T value = initialValue();</div><div class="line">        Thread t = Thread.currentThread();</div><div class="line">        ThreadLocalMap map = getMap(t);</div><div class="line">        <span class="keyword">if</span> (map != <span class="keyword">null</span>)</div><div class="line">            map.set(<span class="keyword">this</span>, value);</div><div class="line">        <span class="keyword">else</span></div><div class="line">            createMap(t, value);</div><div class="line">        <span class="keyword">return</span> value;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function">ThreadLocalMap <span class="title">getMap</span><span class="params">(Thread t)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> t.threadLocals;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>从上面代码中可以看出，</p>
-<blockquote>
-<p>ThreadLocal.get()方法，如果是不同线程ThreadLocalMap为null，最终会调用<strong>initialValue()方法</strong>，这个方法也是我们给出的解决方案中重载的方法。<br>最后得到的结果是，不同线程ThreadLocal只有一个，而SimpleDateFormat则每个线程都有一个。</p>
-</blockquote>
-<p>但当同一线程有了一个SimpleDateFormat了，会是什么情况呢？看下面代码：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">//同一线程中再次执行ThreadLocal.get()</span></div><div class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</div><div class="line">    Thread t = Thread.currentThread();<span class="comment">//得到当前子线程</span></div><div class="line">    ThreadLocalMap map = getMap(t);</div><div class="line">    <span class="comment">//同一个线程，map不为空</span></div><div class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</div><div class="line">        ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</div><div class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">            T result = (T)e.value;</div><div class="line">            <span class="keyword">return</span> result;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> setInitialValue();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function">ThreadLocalMap <span class="title">getMap</span><span class="params">(Thread t)</span> </span>&#123;</div><div class="line">    <span class="comment">//同一线程Thread，变量threadLocals经过初始化了，则不为空</span></div><div class="line">    <span class="keyword">return</span> t.threadLocals;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>ThreadLocalMap.getEntry()是如何实现的呢？先看下Entry是如何存入table数组的</p>
-<h4 id="Entry存入table数组如何实现的："><a href="#Entry存入table数组如何实现的：" class="headerlink" title="Entry存入table数组如何实现的："></a>Entry存入table数组如何实现的：</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * static class ThreadLocalMap.set()方法</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(ThreadLocal&lt;?&gt; key, Object value)</span> </span>&#123;</div><div class="line">    Entry[] tab = table;</div><div class="line">    <span class="keyword">int</span> len = tab.length;</div><div class="line">    <span class="keyword">int</span> i = key.threadLocalHashCode &amp; (len-<span class="number">1</span>);</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (Entry e = tab[i]; e != <span class="keyword">null</span>; e = tab[i = nextIndex(i, len)]) &#123;</div><div class="line">        ThreadLocal&lt;?&gt; k = e.get();</div><div class="line">        <span class="keyword">if</span> (k == key) &#123;</div><div class="line">            e.value = value;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (k == <span class="keyword">null</span>) &#123;</div><div class="line">            replaceStaleEntry(key, value, i);</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    tab[i] = <span class="keyword">new</span> Entry(key, value);</div><div class="line">    <span class="keyword">int</span> sz = ++size;</div><div class="line">    <span class="keyword">if</span> (!cleanSomeSlots(i, sz) &amp;&amp; sz &gt;= threshold)</div><div class="line">        rehash();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>1.通过ThreadLocal的nextHashCode方法生成hash值。</li>
-</ul>
-<p>threadLocalHashCode，由nextHashCode()方法得到<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 对应上面代码的key.threadLocalHashCode</div><div class="line"> * 在ThreadLocal 类中</div><div class="line"> */</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> threadLocalHashCode = nextHashCode();</div></pre></td></tr></table></figure></p>
-<ul>
-<li>2.通过 key.threadLocalHashCode &amp; (len -1) 定位到table的位置i，假设table中i位置的元素为f。</li>
-<li>3.如果f != null，假设f中的引用为k：<ul>
-<li>如果k和当前ThreadLocal实例一致，则修改value值，返回。</li>
-<li>如果k为null，说明这个f已经是stale(陈旧的)的元素。调用replaceStaleEntry方法删除table中所有陈旧的元素（即entry的引用为null）并插入新元素，返回。</li>
-<li>否则通过nextIndex方法找到下一个元素f，继续进行步骤3。</li>
-</ul>
-</li>
-<li>4.如果f == null，则把Entry加入到table的i位置中。</li>
-<li>5.通过cleanSomeSlots删除陈旧的元素，如果table中没有元素删除，需判断当前情况下是否要进行扩容。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * ThreadLocal 类中</div><div class="line"> */</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> AtomicInteger nextHashCode = <span class="keyword">new</span> AtomicInteger();</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">nextHashCode</span><span class="params">()</span> </span>&#123;    </div><div class="line"> <span class="keyword">return</span> nextHashCode.getAndAdd(HASH_INCREMENT);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>  从nextHashCode方法可以看出，ThreadLocal每实例化一次，其hash值就原子增加HASH_INCREMENT。</p>
-<h4 id="Entry从table数组中取出"><a href="#Entry从table数组中取出" class="headerlink" title="Entry从table数组中取出"></a>Entry从table数组中取出</h4><p>在回看getEntry()方法，就简单多了：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * ThreadLocalMap的getEntry()方法</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">private</span> Entry <span class="title">getEntry</span><span class="params">(ThreadLocal&lt;?&gt; key)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> i = key.threadLocalHashCode &amp; (table.length - <span class="number">1</span>);</div><div class="line">    Entry e = table[i];</div><div class="line">    <span class="keyword">if</span> (e != <span class="keyword">null</span> &amp;&amp; e.get() == key)</div><div class="line">        <span class="keyword">return</span> e;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="keyword">return</span> getEntryAfterMiss(key, i, e);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<ul>
-<li>1.通过key.threadLocalHashCode &amp; (len -1)定位到table的位置i，假设table中i位置的元素为g。</li>
-<li>2.如果g不为null，且和当前ThreadLocal实例一致，则返回这个Entry。</li>
-</ul>
-<p><strong>在看一遍ThreadLocal.get()的代码：</strong><br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">//同一线程中再次执行ThreadLocal.get()</span></div><div class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</div><div class="line">    Thread t = Thread.currentThread();<span class="comment">//得到当前子线程</span></div><div class="line">    ThreadLocalMap map = getMap(t);</div><div class="line">    <span class="comment">//同一个线程，map不为空</span></div><div class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="comment">//当前ThreadLocal实例一致，则Entry不为null</span></div><div class="line">        ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</div><div class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">            T result = (T)e.value;</div><div class="line">            <span class="keyword">return</span> result;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> setInitialValue();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>所以，同一个线程，ThreadLocalMap不为空，Entry不为null，则返回table中保存的result。不会执行到setInitialValue()。所以，而SimpleDateFormat则会每一个线程只有一个。</p>
-</blockquote>
-<p>由此，就可以得出结论了，确实可以使用ThreadLocal解决SimpleDateFormat的线程安全问题。</p>
-<pre><code>p.s. 感兴趣的可以结合ThreadLocal源码继续研究下面的内容：
-</code></pre><h4 id="获取当前的线程的threadLocals。"><a href="#获取当前的线程的threadLocals。" class="headerlink" title="获取当前的线程的threadLocals。"></a>获取当前的线程的threadLocals。</h4><ul>
-<li>如果threadLocals不为null，则通过ThreadLocalMap.getEntry方法找到对应的entry，如果其引用和当前key一致，则直接返回，否则在table剩下的元素中继续匹配。</li>
-<li>如果threadLocals为null，则通过setInitialValue方法初始化，并返回。<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> Entry <span class="title">getEntryAfterMiss</span><span class="params">(ThreadLocal&lt;?&gt; key, <span class="keyword">int</span> i, Entry e)</span> </span>&#123;</div><div class="line"> Entry[] tab = table;</div><div class="line"> <span class="keyword">int</span> len = tab.length;</div><div class="line"> <span class="keyword">while</span> (e != <span class="keyword">null</span>) &#123;</div><div class="line">     ThreadLocal&lt;?&gt; k = e.get();</div><div class="line">     <span class="keyword">if</span> (k == key)</div><div class="line">         <span class="keyword">return</span> e;</div><div class="line">     <span class="keyword">if</span> (k == <span class="keyword">null</span>)</div><div class="line">         expungeStaleEntry(i);</div><div class="line">     <span class="keyword">else</span></div><div class="line">         i = nextIndex(i, len);</div><div class="line">     e = tab[i];</div><div class="line"> &#125;</div><div class="line"> <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="table扩容"><a href="#table扩容" class="headerlink" title="table扩容"></a>table扩容</h4><p>如果table中的元素数量达到阈值threshold的3/4，会进行扩容操作，过程很简单：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 在ThreadLocalMap类中</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">resize</span><span class="params">()</span> </span>&#123;</div><div class="line">    Entry[] oldTab = table;</div><div class="line">    <span class="keyword">int</span> oldLen = oldTab.length;</div><div class="line">    <span class="keyword">int</span> newLen = oldLen * <span class="number">2</span>;</div><div class="line">    Entry[] newTab = <span class="keyword">new</span> Entry[newLen];</div><div class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; oldLen; ++j) &#123;</div><div class="line">        Entry e = oldTab[j];</div><div class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</div><div class="line">            ThreadLocal&lt;?&gt; k = e.get();</div><div class="line">            <span class="keyword">if</span> (k == <span class="keyword">null</span>) &#123;</div><div class="line">                e.value = <span class="keyword">null</span>; <span class="comment">// Help the GC</span></div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">int</span> h = k.threadLocalHashCode &amp; (newLen - <span class="number">1</span>);</div><div class="line">                <span class="keyword">while</span> (newTab[h] != <span class="keyword">null</span>)</div><div class="line">                    h = nextIndex(h, newLen);</div><div class="line">                newTab[h] = e;</div><div class="line">                count++;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    setThreshold(newLen);</div><div class="line">    size = count;</div><div class="line">    table = newTab;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>新建新的数组newTab，大小为原来的2倍。</li>
-<li><p>复制table的元素到newTab，忽略陈旧的元素，假设table中的元素e需要复制到newTab的i位置，如果i位置存在元素，则找下一个空位置进行插入。</p>
-<pre><code>文章到这里就结束了，没有更多了:）
- 文章内容部分来自互联网，部分为自己整理，最后感谢耐心看到这里的人，
-</code></pre></li>
-</ul>
-
+<p>本篇文章结合具体应用场景，来分析ThreadLocal为什么可以实现不同线程之间不会互相干扰。</p></p>
+            <p class="article-more-link">
+                <a href="/2016/12/11/ThreadLocal-usage/#more">Read More</a>
+            </p>
         
         </div>
         <footer class="article-footer">
@@ -515,7 +430,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/11/ThreadLocal-usage/" data-id="cixb4tnwa002d14fy8ryap3zt" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/11/ThreadLocal-usage/" data-id="cixgwvsf3002b6lfyl2j2jkke" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -667,7 +582,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/06/hexo-learning1/" data-id="cixb4tnwe002j14fy1baz6o4h" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/06/hexo-learning1/" data-id="cixgwvsf200276lfynzjmzhjp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -813,7 +728,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/04/hexo-learning0/" data-id="cixb4tnw9002a14fyjok3ysgw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/04/hexo-learning0/" data-id="cixgwvsfa002l6lfyzcketvji" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -963,7 +878,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/" data-id="cixb4tnx1003214fyirm79gv3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/" data-id="cixgwvsge00366lfyutk810yo" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1107,7 +1022,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/" data-id="cixb4tnw7002614fywhz3ykd0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/" data-id="cixgwvsf6002h6lfyfhrcp4fr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1261,7 +1176,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/10/13/gradle-learning2/" data-id="cixb4tnw1001w14fy3amokwt2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/10/13/gradle-learning2/" data-id="cixgwvsey00206lfyaidz4405" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1408,7 +1323,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/10/12/gradle-learning/" data-id="cixb4tnvz001t14fyhztoii3h" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/10/12/gradle-learning/" data-id="cixgwvsew001x6lfyti8srgq4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1667,7 +1582,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2016 Jixin Li<br>
+            &copy; 2017 Jixin Li<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
