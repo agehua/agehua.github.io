@@ -101,6 +101,7 @@ pagination_dir: page
 Plugins:
 - hexo-generator-feed
 - hexo-generator-sitemap
+- hexo-generator-baidu-sitemap
 #Feed Atom rss订阅
 feed:
   type: atom
