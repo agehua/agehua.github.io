@@ -1,6 +1,0 @@
-[{
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target" : { "namespace": "android_app",
-      "package_name": "com.vivat.nowgo",
-                 "sha256_cert_fingerprints": ["47:73:94:2F:BA:66:8C:57:97:FE:E2:B8:7A:B2:48:6D:BB:16:5C:E7:F9:7E:A1:A8:30:15:C1:FB:E6:F6:59:45"] }
- }]
