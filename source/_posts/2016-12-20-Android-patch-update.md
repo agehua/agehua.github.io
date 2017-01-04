@@ -6,6 +6,7 @@ tags: Android Patch Update
 keywords: Android Patch Update
 banner: http://obxk8w81b.bkt.clouddn.com/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg
+toc: true
 ---
 
 ### 背景

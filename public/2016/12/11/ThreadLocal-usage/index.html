@@ -18,7 +18,7 @@ java学习记录–ThreadLocal使用案例——SimpleDateFo">
 下面是本文的参考资料：
 java学习记录–ThreadLocal使用案例——SimpleDateFo">
 <meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/A%20Wind-Beaten%20Tree.jpg">
-<meta property="og:updated_time" content="2016-12-30T01:56:59.000Z">
+<meta property="og:updated_time" content="2017-01-03T08:49:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ThreadLocal一个使用——SimpleDateFormat">
 <meta name="twitter:description" content="背景之前写过一篇文章：《ThreadLocal、HandlerThread、Lopper区别》，其中简单提及了ThreadLocal的解释。本篇文章主要结合具体应用场景——SimpleDateFormat，和大家来一起学习ThreadLocal的原理，并对ThreadLocal进行一个详细的介绍。
@@ -274,7 +274,7 @@ java学习记录–ThreadLocal使用案例——SimpleDateFo">
         <div class="article-entry" itemprop="articleBody">
         
 
-            
+
             <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>之前写过一篇文章：<a href="https://agehua.github.io/2016/09/05/ThreadLocal-HandlerThread-Lopper/">《ThreadLocal、HandlerThread、Lopper区别》</a>，其中简单提及了ThreadLocal的解释。本篇文章主要结合具体应用场景——SimpleDateFormat，和大家来一起学习ThreadLocal的原理，并对ThreadLocal进行一个详细的介绍。</p>
 <p>下面是本文的参考资料：</p>
 <p>java学习记录–ThreadLocal使用案例——SimpleDateFormat：<br><a href="http://blog.csdn.net/u012706811/article/details/53231598" target="_blank" rel="external">http://blog.csdn.net/u012706811/article/details/53231598</a></p>
@@ -381,7 +381,7 @@ java学习记录–ThreadLocal使用案例——SimpleDateFo">
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/11/ThreadLocal-usage/" data-id="cixh93jol002c3tfy0gjiw80a" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/11/ThreadLocal-usage/" data-id="cixhb2lbi002bdcfyhouhd8i3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -476,6 +476,18 @@ java学习记录–ThreadLocal使用案例——SimpleDateFo">
 </nav>
 
 
+    
+
+    
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Catalogue</strong>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-number">2.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#应用场景"><span class="toc-number">3.</span> <span class="toc-text">应用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SimpleDateFormat为什么线程不安全"><span class="toc-number">3.1.</span> <span class="toc-text">SimpleDateFormat为什么线程不安全</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案"><span class="toc-number">3.2.</span> <span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现原理"><span class="toc-number">4.</span> <span class="toc-text">实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Entry"><span class="toc-number">4.1.</span> <span class="toc-text">Entry</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ThreadLocalMap"><span class="toc-number">4.2.</span> <span class="toc-text">ThreadLocalMap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ThreadLocal-set-实现"><span class="toc-number">4.3.</span> <span class="toc-text">ThreadLocal.set()实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ThreadLocal-get-实现"><span class="toc-number">4.4.</span> <span class="toc-text">ThreadLocal.get() 实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Entry存入table数组如何实现的："><span class="toc-number">4.5.</span> <span class="toc-text">Entry存入table数组如何实现的：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Entry从table数组中取出"><span class="toc-number">4.6.</span> <span class="toc-text">Entry从table数组中取出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取当前的线程的threadLocals。"><span class="toc-number">4.7.</span> <span class="toc-text">获取当前的线程的threadLocals。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#table扩容"><span class="toc-number">4.8.</span> <span class="toc-text">table扩容</span></a></li></ol></li></ol>
+            <!-- <div id="toc" class="toc-article">
+    <div class="toc-title">目录</div>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#背景"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#应用场景"><span class="toc-text">应用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SimpleDateFormat为什么线程不安全"><span class="toc-text">SimpleDateFormat为什么线程不安全</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案"><span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现原理"><span class="toc-text">实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Entry"><span class="toc-text">Entry</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ThreadLocalMap"><span class="toc-text">ThreadLocalMap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ThreadLocal-set-实现"><span class="toc-text">ThreadLocal.set()实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ThreadLocal-get-实现"><span class="toc-text">ThreadLocal.get() 实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Entry存入table数组如何实现的："><span class="toc-text">Entry存入table数组如何实现的：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Entry从table数组中取出"><span class="toc-text">Entry从table数组中取出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取当前的线程的threadLocals。"><span class="toc-text">获取当前的线程的threadLocals。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#table扩容"><span class="toc-text">table扩容</span></a></li></ol></li></ol>
+</div>
+ -->
+        </div>
     
 </article>
 
