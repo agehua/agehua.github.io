@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  ThreadLocal、HandlerThread、Lopper区别
+title:  ThreadLocal、HandlerThread、Looper区别
 category: accumulation
 tags: accumulation
-keywords: ThreadLocal, HandlerThread, Lopper
+keywords: ThreadLocal, HandlerThread, Looper
 banner: http://obxk8w81b.bkt.clouddn.com/A%20Lane%20in%20the%20Public%20Garden%20at%20Arles.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/A%20Lane%20in%20the%20Public%20Garden%20at%20Arles.jpg
 ---
@@ -61,7 +61,7 @@ Handler处理消息总是在创建Handler的线程里运行。而我们的消息
 - handler与创建它的线程相关联，而且也只与创建它的线程相关联。handler运行在创建它的线程中，所以，如果在handler中进行耗时的操作，会阻塞创建它的线程。
 - Android的线程分为有消息循环的线程和没有消息循环的线程，有消息循环的线程一般都会有一个Looper。主线程（UI线程）就是一个消息循环的线程。
 - Looper.myLooper();      //获得当前的Looper
-  Looper.getMainLooper() //获得UI线程的Lopper
+  Looper.getMainLooper() //获得UI线程的Looper
 - Handle的初始化函数（构造函数），如果没有参数，那么他就默认使用的是当前的Looper，如果有Looper参数，就是用对应的线程的Looper。
 - 如果一个线程中调用Looper.prepare()，那么系统就会自动的为该线程建立一个消息队列，然后调用Looper.loop();之后就进入了消息循环，这个之后就可以发消息、取消息、和处理消息。
 

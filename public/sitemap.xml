@@ -2,6 +2,216 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://agehua.github.io/2017/02/14/2017-1-13-abroad-IM-service-company/</loc>
+    
+    <lastmod>2017-02-15T02:46:27.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/09/05/ThreadLocal-HandlerThread-Looper/</loc>
+    
+    <lastmod>2017-02-15T01:37:11.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2015/03/16/java-multithreading-concurrent/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/03/01/android-googlemap-summary/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/03/15/facebook-google+signin/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/03/20/android-new-knowledge-summary/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/05/24/JNI-Learning/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/03/20/android-books-reading-/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/05/24/JNI-Learning0/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/05/12/GCM-Azure_summary/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/05/18/javaString-and-bytes/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/05/28/qiniu-android-summary/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/08/03/android-LocationListener/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/06/08/gson-summary/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/07/25/android-webview-summary/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/08/16/RxAndroid-Learning/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/09/20/AVG-unwanted-software/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/09/22/JNI-get-publickey/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/09/22/quit-whole-application/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/09/28/Android-interview-questions/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/09/20/android-design-pattern-singleton/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/10/12/gradle-learning/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/10/13/gradle-learning2/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/12/04/hexo-learning0/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/12/06/hexo-learning1/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2014/12/23/hello-world/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/sw.js</loc>
+    
+    <lastmod>2017-02-06T08:59:47.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/12/20/Android-patch-update/</loc>
+    
+    <lastmod>2017-02-04T11:08:48.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://agehua.github.io/2016/12/11/ThreadLocal-usage/</loc>
     
     <lastmod>2017-01-03T08:49:25.000Z</lastmod>
@@ -9,203 +219,7 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/12/20/Android-patch-update/</loc>
-    
-    <lastmod>2017-01-03T08:45:57.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/09/05/ThreadLocal-HandlerThread-Lopper/</loc>
-    
-    <lastmod>2016-12-30T01:01:13.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/08/03/android-LocationListener/</loc>
-    
-    <lastmod>2016-12-29T03:04:36.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/12/06/hexo-learning1/</loc>
-    
-    <lastmod>2016-12-28T03:15:10.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/</loc>
-    
-    <lastmod>2016-12-28T03:14:03.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/12/04/hexo-learning0/</loc>
-    
-    <lastmod>2016-12-28T03:08:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/</loc>
-    
-    <lastmod>2016-12-28T03:07:22.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/08/16/RxAndroid-Learning/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/05/24/JNI-Learning/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/05/28/qiniu-android-summary/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/05/24/JNI-Learning0/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/06/08/gson-summary/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/07/25/android-webview-summary/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2014/12/23/hello-world/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/03/20/android-books-reading-/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2015/03/16/java-multithreading-concurrent/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/09/20/AVG-unwanted-software/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/09/20/android-design-pattern-singleton/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/09/22/JNI-get-publickey/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/10/12/gradle-learning/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/10/13/gradle-learning2/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/09/22/quit-whole-application/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/09/28/Android-interview-questions/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://agehua.github.io/2015/11/06/book-list-of-2015/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/03/20/android-new-knowledge-summary/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/03/01/android-googlemap-summary/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/03/15/facebook-google+signin/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/05/12/GCM-Azure_summary/</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/05/18/javaString-and-bytes/</loc>
     
     <lastmod>2016-12-26T10:41:15.000Z</lastmod>
     

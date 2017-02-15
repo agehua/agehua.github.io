@@ -102,6 +102,8 @@ Plugins:
 - hexo-generator-feed
 - hexo-generator-sitemap
 - hexo-generator-baidu-sitemap
+- hexo-generator-json-content
+
 #Feed Atom rss订阅
 feed:
   type: atom
@@ -138,25 +140,9 @@ archive:
     title: archives
     description: 可以根据归档日期检索所有文件
 
-# 报错：
-# 'MODULE_NOT_FOUND' }
-# ERROR Plugin load failed: hexo-generator-json-content
-# # HEXO站内搜索配置
-# jsonContent:
-#   meta: false
-#   pages: false
-#   posts:
-#     title: true #文章标题
-#     date: true #发表日期
-#     path: true #路径
-#     text: true #文本字段
-#     raw: false
-#     content: false
-#     slug: false
-#     updated: false
-#     comments: false
-#     link: false
-#     permalink: false
-#     excerpt: false
-#     categories: false
-#     tags: true #标签
+#打赏
+donate:
+  enable: true
+  text: Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+  wechat: http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png
+  alipay: http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.jpg

@@ -810,6 +810,7 @@ code {
 .article-banner {
   width: 100%;
   height: auto;
+  max-height: 378px;
 }
 .article-header {
   padding: 20px 20px 0;
