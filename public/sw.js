@@ -17,7 +17,7 @@ const ignoreFetch = [
   /https?:\/\/ajax.cloudflare.com\//,
 ];
 
-
+//使用Service worker加速静态网站
 //////////
 // Install
 //////////

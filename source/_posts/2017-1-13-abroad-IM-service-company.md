@@ -129,7 +129,7 @@ My research on Quickblox vs SendBird vs Layer.com is:
   - SendBird: 0 (keyword: "SendBird" or "JIVER") « new to the market
   - Layer: 13 (keyword: "Layer.com" not Layer)
 
-#### 2。3 更多比较：
+#### 2.3 更多比较：
 
 https://www.quora.com/Quickblox-vs-SendBird-vs-Layer-com-Do-I-need-to-have-my-own-backend
 
