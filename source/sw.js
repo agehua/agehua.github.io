@@ -15,6 +15,13 @@ const ignoreFetch = [
   /https?:\/\/www.google-analytics.com\//,
   /https?:\/\/dn-lbstatics.qbox.me\//,
   /https?:\/\/ajax.cloudflare.com\//,
+  /https?:\/\/7xuos6.com1.z0.glb.clouddn.com\//,
+  /https?:\/\/app.qlogo.cn\//,
+  /https?:\/\/obxk8w81b.bkt.clouddn.com\//,
+  /https?:\/\/static.duoshuo.com\//,
+  /https?:\/\/tp4.sinaimg.cn\//,
+  /https?:\/\/tva1.sinaimg.cn\//,
+  /https?:\/\/ajax.cloudflare.com\//,
 ];
 
 //使用Service worker加速静态网站
