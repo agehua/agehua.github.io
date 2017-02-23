@@ -2,8 +2,8 @@
 layout: post
 title:  IM 国外公司，服务费，方案
 category: accumulation
-tags: IM Company
-keywords: instant messaging, IM Company
+tags: linux
+keywords: iterm, linux scp
 banner: http://obxk8w81b.bkt.clouddn.com/Arles%20View%20from%20the%20Wheat%20Fields.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Arles%20View%20from%20the%20Wheat%20Fields.jpg
 toc: true
