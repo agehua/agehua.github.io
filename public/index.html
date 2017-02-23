@@ -371,7 +371,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                31
+                32
                 <span>posts</span>
             </div>
             <div class="article-info-block">
@@ -446,13 +446,165 @@
 
 
             <section id="main">
+    <article id="post-2017-2-12-iterm2-to-linux" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2017/02/23/2017-2-12-iterm2-to-linux/" itemprop="url">
+            <img src="http://obxk8w81b.bkt.clouddn.com/Arles%20View%20from%20the%20Wheat%20Fields.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/02/23/2017-2-12-iterm2-to-linux/">IM 国外公司，服务费，方案</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/02/23/2017-2-12-iterm2-to-linux/">
+            <time datetime="2017-02-23T03:31:10.000Z" itemprop="datePublished">2017-02-23</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/im-company/">IM Company</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="MAC下用iTerm2连接远程主机"><a href="#MAC下用iTerm2连接远程主机" class="headerlink" title="MAC下用iTerm2连接远程主机"></a>MAC下用iTerm2连接远程主机</h3><p>iTerm2是MAC的一个终端工具。<br>简单介绍一个小功能，使用iTerm2连接远程主机：</p>
+<blockquote>
+<p>1.选择菜单profiles中的Open Profiles，然后选择Edit Profiles中创建一个新的Profile，随便命名成容易记的。<br>2.选择command，输入ssh -A -p 22 root@输入远程计算机的IP地址。<br>3.然后选择这个新的profile，New一个window就可以连接远程服务器了。</p>
+</blockquote>
+<h3 id="SCP使用说明"><a href="#SCP使用说明" class="headerlink" title="SCP使用说明"></a>SCP使用说明</h3></p>
+            <p class="article-more-link">
+                <a href="/2017/02/23/2017-2-12-iterm2-to-linux/#more">Read More</a>
+            </p>
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2017/02/23/2017-2-12-iterm2-to-linux/" data-id="cizhztarc002ojn0h92ynns0r" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://agehua.github.io/2017/02/23/2017-2-12-iterm2-to-linux/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/02/23/2017-2-12-iterm2-to-linux/">Comments</a>
+    
+
+        </footer>
+
+    </div>
+    
+</article>
+
+
+
+
     <article id="post-2017-1-13-abroad-IM-service-company" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             
 	
 		<a href="/2017/02/14/2017-1-13-abroad-IM-service-company/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg" class="article-banner" />
+            <img src="http://obxk8w81b.bkt.clouddn.com/Autumn%20Landscape%20with%20Four%20Trees.jpg" class="article-banner" />
         </a>
 	
 
@@ -498,7 +650,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><h3 id="一、海外提供IM服务的公司"><a href="#一、海外提供IM服务的公司" class="headerlink" title="一、海外提供IM服务的公司"></a>一、海外提供IM服务的公司</h3><h4 id="1-1-Snich"><a href="#1-1-Snich" class="headerlink" title="1.1 Snich"></a>1.1 Snich</h4><p>官网： <a href="https://www.sinch.com/products/instant-messaging/">https://www.sinch.com/products/instant-messaging/</a><br>收费介绍<br><img src="/images/blogimages/2017/im_company_abroad/im_snich.png" alt="Snich_pricing"></p></p>
+            <p><h3 id="一、海外提供IM服务的公司"><a href="#一、海外提供IM服务的公司" class="headerlink" title="一、海外提供IM服务的公司"></a>一、海外提供IM服务的公司</h3><h4 id="1-1-Sinch"><a href="#1-1-Sinch" class="headerlink" title="1.1 Sinch"></a>1.1 Sinch</h4><p>官网： <a href="https://www.sinch.com/products/instant-messaging/">https://www.sinch.com/products/instant-messaging/</a><br>收费介绍<br><img src="/images/blogimages/2017/im_company_abroad/im_snich.png" alt="Snich_pricing"></p></p>
             <p class="article-more-link">
                 <a href="/2017/02/14/2017-1-13-abroad-IM-service-company/#more">Read More</a>
             </p>
@@ -514,7 +666,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/02/14/2017-1-13-abroad-IM-service-company/" data-id="ciz97drgg002p610hf24fuuq4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/02/14/2017-1-13-abroad-IM-service-company/" data-id="cizhztar9002ijn0ho2q10ptd" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -664,7 +816,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/20/Android-patch-update/" data-id="ciz97drge002m610h4w2glz7s" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/20/Android-patch-update/" data-id="cizhztard002rjn0hrvvorvqn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -820,7 +972,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/11/ThreadLocal-usage/" data-id="ciz97drga002f610h1ewar9jg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/11/ThreadLocal-usage/" data-id="cizhztara002ljn0hsnuxnm64" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -976,7 +1128,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/06/hexo-learning1/" data-id="ciz97drgc002j610hvdlipate" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/06/hexo-learning1/" data-id="cizhztar6002fjn0hgeinwbta" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1126,7 +1278,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/04/hexo-learning0/" data-id="ciz97drg7002c610hlei1drmi" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/04/hexo-learning0/" data-id="cizhztar5002cjn0h6qot3vzk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1280,7 +1432,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/" data-id="ciz97drha003c610h9jky1xfx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/" data-id="cizhztasi003gjn0huqi9svw8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1428,7 +1580,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/" data-id="ciz97drg40025610h4bqib7qn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/" data-id="cizhztar30025jn0hqq9z1onu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1508,164 +1660,6 @@
 
 
 
-    <article id="post-gradle-learning2" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2016/10/13/gradle-learning2/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Cart%20with%20Red%20and%20White%20Ox.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/10/13/gradle-learning2/">gradle 学习2——生成指定文件名的apk</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/10/13/gradle-learning2/">
-            <time datetime="2016-10-12T16:00:00.000Z" itemprop="datePublished">2016-10-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/gradle/">gradle</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p>上一篇<a href="">Gradle学习</a>了解了Gradle的基本结构和依赖关系，这篇文章介绍下怎么在Android上使用Gradle生成指定包名的APK</p>
-<h3 id="需求场景"><a href="#需求场景" class="headerlink" title="需求场景"></a>需求场景</h3><p>在我们Android开发基本进入测试阶段后，会根据后台的不同环境，打包出对应不同环境（如SIT、UAT、PRD等）的APK安装包。</p>
-<p>每次去手动修改Java类改变后台环境太麻烦还容易忘记修改。打包成功后，还需要手动将默认的包名app-release.apk改成我们需要的包名，也是非常麻烦，有没有直接指定环境，生成指定文件名的安装包呢？</p>
-<p>方法是有的，就是利用gradle的分渠道打包特性，下面上代码分别解释。</p>
-<blockquote>
-<p>主要在这两个个地方修改：</p>
-<ul>
-<li>buildType（构建类型）</li>
-<li>productFlavors （不同定制的产品）</li>
-</ul>
-</blockquote></p>
-            <p class="article-more-link">
-                <a href="/2016/10/13/gradle-learning2/#more">Read More</a>
-            </p>
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2016/10/13/gradle-learning2/" data-id="ciz97drg60028610hfrmo1nxm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://agehua.github.io/2016/10/13/gradle-learning2/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/10/13/gradle-learning2/">Comments</a>
-    
-
-        </footer>
-
-    </div>
-    
-</article>
-
-
-
-
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
@@ -1689,10 +1683,29 @@ if ('serviceWorker' in navigator) {
                     <li>
                         
                         <div class="item-thumbnail">
+                            <a href="/2017/02/23/2017-2-12-iterm2-to-linux/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Arles%20View%20from%20the%20Wheat%20Fields.jpg)" alt="IM 国外公司，服务费，方案" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2017/02/23/2017-2-12-iterm2-to-linux/" class="title">IM 国外公司，服务费，方案</a></p>
+                            <p class="item-date"><time datetime="2017-02-23T03:31:10.000Z" itemprop="datePublished">2017-02-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
                             <a href="/2017/02/14/2017-1-13-abroad-IM-service-company/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg)" alt="IM 国外公司，服务费，方案" class="thumbnail-image"></span>
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Autumn%20Landscape%20with%20Four%20Trees.jpg)" alt="IM 国外公司，服务费，方案" class="thumbnail-image"></span>
     
 </a>
 
@@ -1762,25 +1775,6 @@ if ('serviceWorker' in navigator) {
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/12/04/hexo-learning0/" class="thumbnail">
-    
-    
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Bulb%20Fields.jpg)" alt="Hexo 模板学习——EJS介绍" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2016/12/04/hexo-learning0/" class="title">Hexo 模板学习——EJS介绍</a></p>
-                            <p class="item-date"><time datetime="2016-12-03T16:00:00.000Z" itemprop="datePublished">2016-12-04</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1790,7 +1784,7 @@ if ('serviceWorker' in navigator) {
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
         </div>
     </div>
 
@@ -1800,7 +1794,7 @@ if ('serviceWorker' in navigator) {
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1809,7 +1803,7 @@ if ('serviceWorker' in navigator) {
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">3</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">3</span></li></ul>
         </div>
     </div>
 
@@ -1818,7 +1812,7 @@ if ('serviceWorker' in navigator) {
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/android-jni/" style="font-size: 16.67px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/threadlocal/" style="font-size: 10px;">ThreadLocal</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 13.33px;">read</a> <a href="/tags/technology/" style="font-size: 16.67px;">technology</a>
+            <a href="/tags/android-jni/" style="font-size: 16.67px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/im-company/" style="font-size: 13.33px;">IM Company</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/threadlocal/" style="font-size: 10px;">ThreadLocal</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 13.33px;">read</a> <a href="/tags/technology/" style="font-size: 16.67px;">technology</a>
         </div>
     </div>
 

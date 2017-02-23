@@ -4,14 +4,14 @@ title:  IM 国外公司，服务费，方案
 category: accumulation
 tags: IM Company
 keywords: instant messaging, IM Company
-banner: http://obxk8w81b.bkt.clouddn.com/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg
+banner: http://obxk8w81b.bkt.clouddn.com/Autumn%20Landscape%20with%20Four%20Trees.jpg
+thumbnail: http://obxk8w81b.bkt.clouddn.com/Autumn%20Landscape%20with%20Four%20Trees.jpg
 toc: true
 ---
 
 ### 一、海外提供IM服务的公司
 
-#### 1.1 Snich
+#### 1.1 Sinch
 官网： https://www.sinch.com/products/instant-messaging/  
 收费介绍
 ![Snich_pricing](/images/blogimages/2017/im_company_abroad/im_snich.png)
@@ -46,7 +46,7 @@ https://www.applozic.com/
 ### 二、各家IM服务公司比较
 ![im_comparation](/images/blogimages/2017/im_company_abroad/im_comparation.png)
 
-图片来源：[Which Chat SDK is better for user experience? Applozic, Sendbird, Layer or Quickblox!](https://www.applozic.com/blog/applozic-vs-sendbird-vs-layer-vs-quickblox-alternatives/a)
+图片来源：[Which Chat SDK is better for user experience? Applozic, Sendbird, Layer or Quickblox!](https://www.applozic.com/blog/applozic-vs-sendbird-vs-layer-vs-quickblox-alternatives/)
 
 
 #### 2.1 QuickBlox vs Applozic

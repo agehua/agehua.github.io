@@ -371,7 +371,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                31
+                32
                 <span>posts</span>
             </div>
             <div class="article-info-block">
@@ -446,6 +446,156 @@
 
 
             <section id="main">
+    <article id="post-RxAndroid-Learning" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2016/08/16/RxAndroid-Learning/" itemprop="url">
+            <img src="http://obxk8w81b.bkt.clouddn.com/Bulb%20Fields.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/08/16/RxAndroid-Learning/">RxJava 学习</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/08/16/RxAndroid-Learning/">
+            <time datetime="2016-08-15T16:00:00.000Z" itemprop="datePublished">2016-08-16</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/technology/">technology</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/rxjava/">RxJava</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="1-向前辈致敬"><a href="#1-向前辈致敬" class="headerlink" title="1.向前辈致敬"></a>1.向前辈致敬</h3><p><a href="http://gank.io/post/560e15be2dca930e00da1083">给Android开发者的RxJava详解</a>，这篇文章讲解详细，如果耐心看完，相信肯定收获不小</p>
+<pre><code>本篇博文用作学习RxJava过程中，记录知识和心得，如有冒犯还请见谅！
+</code></pre><h3 id="2-简单介绍"><a href="#2-简单介绍" class="headerlink" title="2.简单介绍"></a>2.简单介绍</h3><p>RxJava是通过一种扩展的观察者模式来实现的。<br>RxJava有四个基本概念：Observable(可观察者，即被观察者)、 Observer (观察者)、 subscribe (订阅)、事件。Observable和Observer通过subscribe()方法实现订阅关系，从而Observable可以在需要的时候发出事件来通知Observer。</p></p>
+            <p class="article-more-link">
+                <a href="/2016/08/16/RxAndroid-Learning/#more">Read More</a>
+            </p>
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2016/08/16/RxAndroid-Learning/" data-id="cizhztaqp001gjn0hr1ni9eew" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://agehua.github.io/2016/08/16/RxAndroid-Learning/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/08/16/RxAndroid-Learning/">Comments</a>
+    
+
+        </footer>
+
+    </div>
+    
+</article>
+
+
+
+
     <article id="post-android-LocationListener" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -514,7 +664,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/08/03/android-LocationListener/" data-id="ciz97drfc0014610hmwn60uxa" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/08/03/android-LocationListener/" data-id="cizhztaqb0013jn0hsok5g7jt" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -669,7 +819,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/07/25/android-webview-summary/" data-id="ciz97drfb0011610h37t17z8p" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/07/25/android-webview-summary/" data-id="cizhztaqf0018jn0hvd43ezgs" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -821,7 +971,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/06/08/gson-summary/" data-id="ciz97drfk001c610hp3z468bc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/06/08/gson-summary/" data-id="cizhztaq5000vjn0hbc7w53jg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -971,7 +1121,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/05/28/qiniu-android-summary/" data-id="ciz97drf9000w610hqucn4qsr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/05/28/qiniu-android-summary/" data-id="cizhztaqa0010jn0hsmapqa5w" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1040,6 +1190,154 @@
             
     
         <a href="http://agehua.github.io/2016/05/28/qiniu-android-summary/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/05/28/qiniu-android-summary/">Comments</a>
+    
+
+        </footer>
+
+    </div>
+    
+</article>
+
+
+
+
+    <article id="post-JNI-Learning0" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2016/05/24/JNI-Learning0/" itemprop="url">
+            <img src="http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/05/24/JNI-Learning0/">android JNI学习② JNI调用过程</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/05/24/JNI-Learning0/">
+            <time datetime="2016-05-23T16:00:00.000Z" itemprop="datePublished">2016-05-24</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/android-jni/">Android JNI</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="1-Android-JNI调用过程"><a href="#1-Android-JNI调用过程" class="headerlink" title="1.Android JNI调用过程"></a>1.Android JNI调用过程</h3><h4 id="1-1-由Android系统加载的JNI"><a href="#1-1-由Android系统加载的JNI" class="headerlink" title="1.1 由Android系统加载的JNI"></a>1.1 由Android系统加载的JNI</h4><p>Android系统在启动启动过程中，先<strong>启动Kernel创建init进程</strong>，紧接着由init进程fork第一个横穿Java和C/C++的进程，即Zygote进程。Zygote启动过程中会<strong>AndroidRuntime.cpp中的startVm</strong>创建虚拟机，VM创建完成后，紧接着调用startReg完成虚拟机中的JNI方法注册。</p></p>
+            <p class="article-more-link">
+                <a href="/2016/05/24/JNI-Learning0/#more">Read More</a>
+            </p>
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2016/05/24/JNI-Learning0/" data-id="cizhztaq3000tjn0hi7lgdt5l" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://agehua.github.io/2016/05/24/JNI-Learning0/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/05/24/JNI-Learning0/">Comments</a>
     
 
         </footer>
@@ -1132,7 +1430,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/05/24/JNI-Learning/" data-id="ciz97drf8000t610hlfqhz1jh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/05/24/JNI-Learning/" data-id="cizhztapz000ojn0hxbxgpppv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1201,154 +1499,6 @@
             
     
         <a href="http://agehua.github.io/2016/05/24/JNI-Learning/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/05/24/JNI-Learning/">Comments</a>
-    
-
-        </footer>
-
-    </div>
-    
-</article>
-
-
-
-
-    <article id="post-JNI-Learning0" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2016/05/24/JNI-Learning0/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/05/24/JNI-Learning0/">android JNI学习② JNI调用过程</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/05/24/JNI-Learning0/">
-            <time datetime="2016-05-23T16:00:00.000Z" itemprop="datePublished">2016-05-24</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/android-jni/">Android JNI</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="1-Android-JNI调用过程"><a href="#1-Android-JNI调用过程" class="headerlink" title="1.Android JNI调用过程"></a>1.Android JNI调用过程</h3><h4 id="1-1-由Android系统加载的JNI"><a href="#1-1-由Android系统加载的JNI" class="headerlink" title="1.1 由Android系统加载的JNI"></a>1.1 由Android系统加载的JNI</h4><p>Android系统在启动启动过程中，先<strong>启动Kernel创建init进程</strong>，紧接着由init进程fork第一个横穿Java和C/C++的进程，即Zygote进程。Zygote启动过程中会<strong>AndroidRuntime.cpp中的startVm</strong>创建虚拟机，VM创建完成后，紧接着调用startReg完成虚拟机中的JNI方法注册。</p></p>
-            <p class="article-more-link">
-                <a href="/2016/05/24/JNI-Learning0/#more">Read More</a>
-            </p>
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2016/05/24/JNI-Learning0/" data-id="ciz97drf1000m610hfoo30ao8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://agehua.github.io/2016/05/24/JNI-Learning0/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/05/24/JNI-Learning0/">Comments</a>
     
 
         </footer>
@@ -1429,7 +1579,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/05/18/javaString-and-bytes/" data-id="ciz97drf4000o610h9kffiytj" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/05/18/javaString-and-bytes/" data-id="cizhztapu000ljn0htpqrz01e" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1509,158 +1659,6 @@
 
 
 
-    <article id="post-GCM-Azure_summary" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2016/05/12/GCM-Azure_summary/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Country%20Lane%20with%20Two%20Figures.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/05/12/GCM-Azure_summary/">google cloud message（GCM）和Azure实现Notification总结</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/05/12/GCM-Azure_summary/">
-            <time datetime="2016-05-11T16:00:00.000Z" itemprop="datePublished">2016-05-12</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/accumulation/">accumulation</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="1-相关资料"><a href="#1-相关资料" class="headerlink" title="1.相关资料"></a>1.相关资料</h3><p>我也是一知半解，基本上就是根据官方教程来实现，但microsoft的azure文档我找了好久，英文不好，汗。。。</p>
-<p>gcm start: <a href="https://developers.google.com/cloud-messaging/android/start">https://developers.google.com/cloud-messaging/android/start</a></p>
-<p>azure start: <a href="https://azure.microsoft.com/zh-cn/documentation/articles/notification-hubs-android-get-started/">https://azure.microsoft.com/zh-cn/documentation/articles/notification-hubs-android-get-started/</a></p>
-<p>gcm official demo: <a href="https://github.com/google/gcm">https://github.com/google/gcm</a></p>
-<p>gcm personal demo: <a href="https://github.com/iammert/FastGCM">https://github.com/iammert/FastGCM</a></p></p>
-            <p class="article-more-link">
-                <a href="/2016/05/12/GCM-Azure_summary/#more">Read More</a>
-            </p>
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2016/05/12/GCM-Azure_summary/" data-id="ciz97drer000g610htk161t4k" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://agehua.github.io/2016/05/12/GCM-Azure_summary/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/05/12/GCM-Azure_summary/">Comments</a>
-    
-
-        </footer>
-
-    </div>
-    
-</article>
-
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
@@ -1684,10 +1682,29 @@ if ('serviceWorker' in navigator) {
                     <li>
                         
                         <div class="item-thumbnail">
+                            <a href="/2017/02/23/2017-2-12-iterm2-to-linux/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Arles%20View%20from%20the%20Wheat%20Fields.jpg)" alt="IM 国外公司，服务费，方案" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2017/02/23/2017-2-12-iterm2-to-linux/" class="title">IM 国外公司，服务费，方案</a></p>
+                            <p class="item-date"><time datetime="2017-02-23T03:31:10.000Z" itemprop="datePublished">2017-02-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
                             <a href="/2017/02/14/2017-1-13-abroad-IM-service-company/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg)" alt="IM 国外公司，服务费，方案" class="thumbnail-image"></span>
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Autumn%20Landscape%20with%20Four%20Trees.jpg)" alt="IM 国外公司，服务费，方案" class="thumbnail-image"></span>
     
 </a>
 
@@ -1757,25 +1774,6 @@ if ('serviceWorker' in navigator) {
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/12/04/hexo-learning0/" class="thumbnail">
-    
-    
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Bulb%20Fields.jpg)" alt="Hexo 模板学习——EJS介绍" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2016/12/04/hexo-learning0/" class="title">Hexo 模板学习——EJS介绍</a></p>
-                            <p class="item-date"><time datetime="2016-12-03T16:00:00.000Z" itemprop="datePublished">2016-12-04</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1785,7 +1783,7 @@ if ('serviceWorker' in navigator) {
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
         </div>
     </div>
 
@@ -1795,7 +1793,7 @@ if ('serviceWorker' in navigator) {
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1804,7 +1802,7 @@ if ('serviceWorker' in navigator) {
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">3</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">3</span></li></ul>
         </div>
     </div>
 
@@ -1813,7 +1811,7 @@ if ('serviceWorker' in navigator) {
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/android-jni/" style="font-size: 16.67px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/threadlocal/" style="font-size: 10px;">ThreadLocal</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 13.33px;">read</a> <a href="/tags/technology/" style="font-size: 16.67px;">technology</a>
+            <a href="/tags/android-jni/" style="font-size: 16.67px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/im-company/" style="font-size: 13.33px;">IM Company</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/threadlocal/" style="font-size: 10px;">ThreadLocal</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 13.33px;">read</a> <a href="/tags/technology/" style="font-size: 16.67px;">technology</a>
         </div>
     </div>
 
