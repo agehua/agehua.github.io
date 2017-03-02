@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  IM 国外公司，服务费，方案
+title:  MAC下用iTerm2连接远程主机
 category: accumulation
 tags: linux
 keywords: iterm, linux scp
