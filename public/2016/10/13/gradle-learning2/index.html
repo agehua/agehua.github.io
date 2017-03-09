@@ -18,7 +18,7 @@
 需求场景在我们Android开发基本进入测试阶段后，会根据后台的不同环境，打包出对应不同环境（如SIT、UAT、PRD等）的APK安装包。
 每次去手动修改Java类改变后台环境太麻烦还容易忘记修改。打包成功后，还需要手动将默认的包名app-release.apk改">
 <meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Cart%20with%20Red%20and%20White%20Ox.jpg">
-<meta property="og:updated_time" content="2017-02-15T01:26:00.000Z">
+<meta property="og:updated_time" content="2017-03-08T07:56:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gradle 学习2——生成指定文件名的apk">
 <meta name="twitter:description" content="上一篇Gradle学习了解了Gradle的基本结构和依赖关系，这篇文章介绍下怎么在Android上使用Gradle生成指定包名的APK
@@ -383,11 +383,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                33
+                34
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                14
+                15
                 <span>tags</span>
             </div>
         </div>
@@ -612,7 +612,7 @@
 <h3 id="具体使用"><a href="#具体使用" class="headerlink" title="具体使用"></a>具体使用</h3><p>我们的需求就要用到<strong>Build Type</strong>和<strong>Product Flavor</strong><br>我在项目中<strong>Build Type</strong>的使用，先看代码：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line">buildTypes &#123;</div><div class="line">        release &#123;</div><div class="line">            buildConfigField <span class="string">"boolean"</span>, <span class="string">"LEO_DEBUG"</span>, <span class="string">"false"</span></div><div class="line">            <span class="function">minifyEnabled <span class="keyword">true</span></span></div><div class="line">            proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.txt'</div><div class="line">            debuggable <span class="keyword">false</span></div><div class="line">            jniDebuggable <span class="keyword">false</span></div><div class="line">        &#125;</div><div class="line">        debug &#123;</div><div class="line">            buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"2"</span></div><div class="line">            buildConfigField <span class="string">"boolean"</span>, <span class="string">"LEO_DEBUG"</span>, <span class="string">"true"</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <p>和<strong>Product Flavor</strong>的使用</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">productFlavors&#123;</div><div class="line">			 kaifa&#123;</div><div class="line">					 buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"1"</span></div><div class="line">			 &#125;</div><div class="line">			 ceshi &#123;</div><div class="line">					 buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"2"</span></div><div class="line">			 &#125;</div><div class="line">			 SIT &#123;</div><div class="line">					 buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"3"</span></div><div class="line">			 &#125;</div><div class="line">			 UAT &#123;</div><div class="line">					 buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"4"</span></div><div class="line">			 &#125;</div><div class="line">			 PRD &#123;</div><div class="line">					 buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"5"</span></div><div class="line">			 &#125;</div><div class="line">	 &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">productFlavors&#123;</div><div class="line">	kaifa&#123;</div><div class="line">		buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"1"</span></div><div class="line">	&#125;</div><div class="line">	ceshi &#123;</div><div class="line">		buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"2"</span></div><div class="line">	&#125;</div><div class="line">	SIT &#123;</div><div class="line">		buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"3"</span></div><div class="line">	&#125;</div><div class="line">	UAT &#123;</div><div class="line">		buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"4"</span></div><div class="line">	&#125;</div><div class="line">	PRD &#123;</div><div class="line">		buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"5"</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>每一个构建过的productFlavors都会在<strong>app-&gt;build-&gt;generated-&gt;source-&gt;buildConfig</strong>目录下创建自己对应的一个flavor目录，如下图：</p>
 <p><img src="/images/blogimages/2016/gradle_structure2.png" alt="Gradle build structure"></p>
 <p>而，buildConfigField会在指定的目录，<strong>flavor-&gt;release/debug-&gt;包名</strong>，下生成一个BuildConfig.java文件，我的代码在BuildConfig.java中定义了一个int类型的buildType和boolean类型的LEO_DEBUG。要使用这两个字段只需要:</p>
@@ -741,7 +741,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/10/13/gradle-learning2/" data-id="cizrw6qsn0026zn0hzn1di9tg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/10/13/gradle-learning2/" data-id="cj00pck7r002hf60hh50hxkro" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -901,6 +901,25 @@
                     <li>
                         
                         <div class="item-thumbnail">
+                            <a href="/2017/03/08/2017-3-09/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Auvers%20Town%20Hall%20on%2014%20July%201890.jpg)" alt="“HTTPS”安全在哪里？" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2017/03/08/2017-3-09/" class="title">“HTTPS”安全在哪里？</a></p>
+                            <p class="item-date"><time datetime="2017-03-08T02:54:26.000Z" itemprop="datePublished">2017-03-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
                             <a href="/2017/02/23/2017-2-12-iterm2-to-linux/" class="thumbnail">
     
     
@@ -974,25 +993,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/12/06/hexo-learning1/" class="thumbnail">
-    
-    
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Boy%20Cutting%20Grass%20with%20a%20Sickle.jpg)" alt="Hexo 模板学习——Hexo 结构" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2016/12/06/hexo-learning1/" class="title">Hexo 模板学习——Hexo 结构</a></p>
-                            <p class="item-date"><time datetime="2016-12-05T16:00:00.000Z" itemprop="datePublished">2016-12-06</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1002,7 +1002,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">22</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
         </div>
     </div>
 
@@ -1012,7 +1012,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1021,7 +1021,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">4</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/">HTTPS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">4</span></li></ul>
         </div>
     </div>
 
@@ -1030,7 +1030,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/android-jni/" style="font-size: 15px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/threadlocal/" style="font-size: 10px;">ThreadLocal</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 12.5px;">gradle</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 12.5px;">read</a> <a href="/tags/technology/" style="font-size: 17.5px;">technology</a>
+            <a href="/tags/android-jni/" style="font-size: 15px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/threadlocal/" style="font-size: 10px;">ThreadLocal</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 12.5px;">gradle</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 12.5px;">read</a> <a href="/tags/technology/" style="font-size: 17.5px;">technology</a>
         </div>
     </div>
 

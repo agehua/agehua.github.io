@@ -112,22 +112,22 @@ buildTypes {
 
 ~~~ Java
 productFlavors{
-			 kaifa{
-					 buildConfigField "int", "buildType", "1"
-			 }
-			 ceshi {
-					 buildConfigField "int", "buildType", "2"
-			 }
-			 SIT {
-					 buildConfigField "int", "buildType", "3"
-			 }
-			 UAT {
-					 buildConfigField "int", "buildType", "4"
-			 }
-			 PRD {
-					 buildConfigField "int", "buildType", "5"
-			 }
-	 }
+	kaifa{
+		buildConfigField "int", "buildType", "1"
+	}
+	ceshi {
+		buildConfigField "int", "buildType", "2"
+	}
+	SIT {
+		buildConfigField "int", "buildType", "3"
+	}
+	UAT {
+		buildConfigField "int", "buildType", "4"
+	}
+	PRD {
+		buildConfigField "int", "buildType", "5"
+	}
+}
 ~~~
 每一个构建过的productFlavors都会在**app->build->generated->source->buildConfig**目录下创建自己对应的一个flavor目录，如下图：
 
