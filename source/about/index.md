@@ -1,6 +1,3 @@
-title: ""
+title: "人不逍遥，名逍遥"
 layout: "about"
 ---
-
-<!--使用markdown填写自己的about信息-->
-#### 自我介绍
