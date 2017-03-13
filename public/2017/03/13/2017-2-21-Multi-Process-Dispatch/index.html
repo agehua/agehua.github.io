@@ -5,23 +5,29 @@
     <meta name="baidu-site-verification" content="8WKGBCPPKp" />
     <meta charset="utf-8">
     
-    <title>android新特性新知识点总结 | Agehua</title>
+    <title>解决Android多进程导致Application重复创建问题 | Agehua</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="一、mipmap 目录和drawable 目录有什么区别Nexus 6 有 493 ppi，它刚好在 xxhdpi和xxxhdpi之间，所以显示的时候需要对xxxhdpi的资源进行缩小，如果你用了mipmap-xxxhdpi,那么这里会对sclae有一个优化，性能更好，占用内存更少。所以现在官方推荐使用mipmap：
-二、setTranslucentStatus()方法在Android4.4之后使">
+    <meta name="description" content="本编文章是在阅读：Android架构思考(模块化、多进程)过程中，结合自己的理解，对Android开启多进程，会导致Application重复创建问题进行一个总结。
+
+
+Android开启多进程一般情况下，一个应用程序就一个进程，这个进程的名称就是应用程序包名。Android的四大组件在AndroidManifest文件中注册的时候，有个属性是android:process，这里可以指定组件的所">
 <meta property="og:type" content="article">
-<meta property="og:title" content="android新特性新知识点总结">
-<meta property="og:url" content="http://agehua.github.io/2016/03/20/android-new-knowledge-summary/index.html">
+<meta property="og:title" content="解决Android多进程导致Application重复创建问题">
+<meta property="og:url" content="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/index.html">
 <meta property="og:site_name" content="Agehua">
-<meta property="og:description" content="一、mipmap 目录和drawable 目录有什么区别Nexus 6 有 493 ppi，它刚好在 xxhdpi和xxxhdpi之间，所以显示的时候需要对xxxhdpi的资源进行缩小，如果你用了mipmap-xxxhdpi,那么这里会对sclae有一个优化，性能更好，占用内存更少。所以现在官方推荐使用mipmap：
-二、setTranslucentStatus()方法在Android4.4之后使">
-<meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg">
-<meta property="og:updated_time" content="2017-02-15T01:26:00.000Z">
+<meta property="og:description" content="本编文章是在阅读：Android架构思考(模块化、多进程)过程中，结合自己的理解，对Android开启多进程，会导致Application重复创建问题进行一个总结。
+
+
+Android开启多进程一般情况下，一个应用程序就一个进程，这个进程的名称就是应用程序包名。Android的四大组件在AndroidManifest文件中注册的时候，有个属性是android:process，这里可以指定组件的所">
+<meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg">
+<meta property="og:updated_time" content="2017-03-13T06:14:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="android新特性新知识点总结">
-<meta name="twitter:description" content="一、mipmap 目录和drawable 目录有什么区别Nexus 6 有 493 ppi，它刚好在 xxhdpi和xxxhdpi之间，所以显示的时候需要对xxxhdpi的资源进行缩小，如果你用了mipmap-xxxhdpi,那么这里会对sclae有一个优化，性能更好，占用内存更少。所以现在官方推荐使用mipmap：
-二、setTranslucentStatus()方法在Android4.4之后使">
-<meta name="twitter:image" content="http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg">
+<meta name="twitter:title" content="解决Android多进程导致Application重复创建问题">
+<meta name="twitter:description" content="本编文章是在阅读：Android架构思考(模块化、多进程)过程中，结合自己的理解，对Android开启多进程，会导致Application重复创建问题进行一个总结。
+
+
+Android开启多进程一般情况下，一个应用程序就一个进程，这个进程的名称就是应用程序包名。Android的四大组件在AndroidManifest文件中注册的时候，有个属性是android:process，这里可以指定组件的所">
+<meta name="twitter:image" content="http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg">
     
 
     
@@ -454,12 +460,12 @@
             
 
 
-            <section id="main"><article id="post-android-new-knowledge-summary" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-2017-2-21-Multi-Process-Dispatch" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             
 	
-		<img src="http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg" class="article-banner" />
+		<img src="http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg" class="article-banner" />
 	
 
 
@@ -470,7 +476,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-            android新特性新知识点总结
+            解决Android多进程导致Application重复创建问题
         </h1>
     
 
@@ -479,8 +485,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/03/20/android-new-knowledge-summary/">
-            <time datetime="2016-03-19T16:00:00.000Z" itemprop="datePublished">2016-03-20</time>
+        <a href="/2017/03/13/2017-2-21-Multi-Process-Dispatch/">
+            <time datetime="2017-03-13T02:28:26.000Z" itemprop="datePublished">2017-03-13</time>
         </a>
     </div>
 
@@ -494,7 +500,7 @@
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/accumulation/">accumulation</a>
+        <a class="tag-link" href="/tags/https/">HTTPS</a>
     </div>
 
                     </div>
@@ -505,48 +511,35 @@
         <div class="article-entry" itemprop="articleBody">
         
 
-            <h3 id="一、mipmap-目录和drawable-目录有什么区别"><a href="#一、mipmap-目录和drawable-目录有什么区别" class="headerlink" title="一、mipmap 目录和drawable 目录有什么区别"></a>一、mipmap 目录和drawable 目录有什么区别</h3><p>Nexus 6 有 493 ppi，它刚好在 xxhdpi和xxxhdpi之间，所以显示的时候需要对xxxhdpi的资源进行缩小，如果你用了mipmap-xxxhdpi,那么这里会对sclae有一个优化，性能更好，占用内存更少。所以现在官方推荐使用mipmap：</p>
-<h3 id="二、setTranslucentStatus-方法"><a href="#二、setTranslucentStatus-方法" class="headerlink" title="二、setTranslucentStatus()方法"></a>二、setTranslucentStatus()方法</h3><p>在Android4.4之后使用沉浸式状态栏，需要用到这个方法</p>
-<a id="more"></a>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span></span></div><div class="line">&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">        <span class="comment">//首先检测当前的版本是否是api&gt;=19的</span></div><div class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT)</div><div class="line">        &#123;</div><div class="line">            setTranslucentStatus(<span class="keyword">true</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        SystemBarTintManager tintManager = <span class="keyword">new</span> SystemBarTintManager(<span class="keyword">this</span>);</div><div class="line">        tintManager.setStatusBarTintEnabled(<span class="keyword">true</span>);</div><div class="line">        tintManager.setStatusBarTintColor(Color.parseColor(<span class="string">"#FFC1E0"</span>));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@TargetApi</span>(<span class="number">19</span>)</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setTranslucentStatus</span><span class="params">(<span class="keyword">boolean</span> on)</span></span></div><div class="line">    &#123;</div><div class="line">        Window win = getWindow();</div><div class="line">        WindowManager.LayoutParams winParams = win.getAttributes();</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;</div><div class="line">        <span class="keyword">if</span> (on)</div><div class="line">        &#123;</div><div class="line">            winParams.flags |= bits;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            winParams.flags &amp;= ~bits;</div><div class="line">        &#125;</div><div class="line">        win.setAttributes(winParams);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>布局设置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">              android:layout_width=&quot;match_parent&quot;</div><div class="line">              android:layout_height=&quot;match_parent&quot;</div><div class="line">              &lt;!--这两行是必须设置的--&gt;</div><div class="line">              android:fitsSystemWindows=&quot;true&quot;</div><div class="line">              android:clipToPadding=&quot;true&quot;</div><div class="line"></div><div class="line">              android:orientation=&quot;vertical&quot;</div><div class="line">              android:background=&quot;#FFD9EC&quot;</div><div class="line">        &gt;</div><div class="line"></div><div class="line">    &lt;TextView</div><div class="line">            android:text=&quot;沉浸式状态栏&quot;</div><div class="line">            android:layout_width=&quot;match_parent&quot;</div><div class="line">            android:layout_height=&quot;50dp&quot;</div><div class="line">            android:textSize=&quot;23dp&quot;</div><div class="line">            android:layout_gravity=&quot;center_horizontal&quot;</div><div class="line">            android:gravity=&quot;center&quot;</div><div class="line">            android:background=&quot;#FFD9EC&quot;</div><div class="line">            /&gt;</div><div class="line">    &lt;TextView</div><div class="line">            android:layout_width=&quot;match_parent&quot;</div><div class="line">            android:layout_height=&quot;match_parent&quot;</div><div class="line">            android:background=&quot;@android:color/darker_gray&quot;/&gt;</div><div class="line"></div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure>
-<h3 id="三、获取Bitmap图片大小的代码"><a href="#三、获取Bitmap图片大小的代码" class="headerlink" title="三、获取Bitmap图片大小的代码"></a>三、获取Bitmap图片大小的代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBitmapSize</span><span class="params">(Bitmap bitmap)</span></span>&#123;</div><div class="line">    <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT)&#123;     <span class="comment">//API 19</span></div><div class="line">        <span class="keyword">return</span> bitmap.getAllocationByteCount();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.HONEYCOMB_MR1)&#123;<span class="comment">//API 12</span></div><div class="line">        <span class="keyword">return</span> bitmap.getByteCount();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> bitmap.getRowBytes() * bitmap.getHeight();                <span class="comment">//earlier version</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="四、Activity横竖屏切换生命周期"><a href="#四、Activity横竖屏切换生命周期" class="headerlink" title="四、Activity横竖屏切换生命周期"></a>四、Activity横竖屏切换生命周期</h3><p>总结：</p>
+            <blockquote>
+<p>本编文章是在阅读：<a href="http://blog.spinytech.com/2016/12/28/android_modularization/" target="_blank" rel="external">Android架构思考(模块化、多进程)</a>过程中，结合自己的理解，对Android开启多进程，会导致Application重复创建问题进行一个总结。</p>
+</blockquote>
+<hr>
+<h3 id="Android开启多进程"><a href="#Android开启多进程" class="headerlink" title="Android开启多进程"></a>Android开启多进程</h3><p>一般情况下，一个应用程序就一个进程，这个进程的名称就是应用程序包名。Android的四大组件在AndroidManifest文件中注册的时候，有个属性是android:process，这里可以指定组件的所处的进程。</p>
+<p>一个进程情况下，Application的onCreate方法只会执行一次，但如果应用中采用多进程方式，onCreate方法会执行多次。</p>
+<h3 id="解决Application的onCreate方法多次调用"><a href="#解决Application的onCreate方法多次调用" class="headerlink" title="解决Application的onCreate方法多次调用"></a>解决Application的onCreate方法多次调用</h3><p>大概有两种方式<br><a id="more"></a></p>
+<h4 id="一、根据不同的进程名字进行不同数据的初始化。"><a href="#一、根据不同的进程名字进行不同数据的初始化。" class="headerlink" title="一、根据不同的进程名字进行不同数据的初始化。"></a>一、根据不同的进程名字进行不同数据的初始化。</h4><p>这是现在网络上通用的方法，在自定义的Application的onCreate方法中控制不同进程的初始化</p>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate();</div><div class="line">    String processName = getProcessName(<span class="keyword">this</span>, android.os.Process.myPid());</div><div class="line">    <span class="keyword">if</span> (processName != <span class="keyword">null</span>) &#123;</div><div class="line">    <span class="keyword">boolean</span> defaultProcess = processName.equals(Constants.REAL_PACKAGE_NAME);</div><div class="line">    <span class="comment">// 默认的主进程启动时初始化应用</span></div><div class="line">    <span class="keyword">if</span> (defaultProcess) &#123;</div><div class="line">	    initAppForMainProcess();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 其他进程启动时初始化对应内容</span></div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (processName.contains(<span class="string">":webbrowser"</span>)) &#123;</div><div class="line"></div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (processName.contains(<span class="string">":bgmusic"</span>)) &#123;</div><div class="line"></div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>获取当前进程名的方法如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@return</span> null may be returned if the specified process not found</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getProcessName</span><span class="params">(Context cxt, <span class="keyword">int</span> pid)</span> </span>&#123;</div><div class="line">    ActivityManager am = (ActivityManager) cxt.getSystemService(Context.ACTIVITY_SERVICE);</div><div class="line">    List&lt;RunningAppP.rocessInfo&gt; runningApps = am.getRunningAppProcesses();</div><div class="line">    <span class="keyword">if</span> (runningApps == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span> (RunningAppProcessInfo procInfo : runningApps) &#123;</div><div class="line">        <span class="keyword">if</span> (procInfo.pid == pid) &#123;</div><div class="line">            <span class="keyword">return</span> procInfo.processName;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="二、剥离出一个类，具有同Application相同的生命周期方法，每个进程拥有一个该类实例"><a href="#二、剥离出一个类，具有同Application相同的生命周期方法，每个进程拥有一个该类实例" class="headerlink" title="二、剥离出一个类，具有同Application相同的生命周期方法，每个进程拥有一个该类实例"></a>二、剥离出一个类，具有同Application相同的生命周期方法，每个进程拥有一个该类实例</h4><p>这就是文章开头提到的博客中使用的方式<a href="http://blog.spinytech.com/2016/12/28/android_modularization/" target="_blank" rel="external">Android架构思考(模块化、多进程)</a></p>
+<p>实现这种方式，一共有涉及到3个类，</p>
 <ul>
-<li><p>1、不设置Activity的android:configChanges时，切屏会重新调用各个生命周期，切横屏时会执行一次，切竖屏时会执行两次</p>
-</li>
-<li><p>2、设置Activity的android:configChanges=”orientation”时，切屏还是会重新调用各个生命周期，切横、竖屏时只会执行一次</p>
-</li>
-<li><p>3、设置Activity的android:configChanges=”orientation|keyboardHidden”时，切屏不会重新调用各个生命周期，只会执行onConfigurationChanged方法</p>
-</li>
+<li>一个是MaApplication继承了Application，是所有程序的入口，这是一个抽象类，需要子类去实现一些方法</li>
+<li>一个是BaseApplicationLogic，这也是基类，由这个类来实现每个进程单独管理Application的生命周期，每个进程实现一个该类的子类</li>
+<li>还有一个类是PriorityLogicWrapper，它是一个封装类，继承了Comparable接口，实现了对BaseApplicationLogic按照指定顺序排序（也就是可以按照优先级顺序初始化BaseApplicationLogic）</li>
 </ul>
-<p>验证：</p>
-<p>1、新建一个Activity，并把各个生命周期打印出来</p>
-<p>2、运行Activity，得到如下信息</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">onCreate--&gt;</div><div class="line">onStart--&gt;</div><div class="line">onResume--&gt;</div></pre></td></tr></table></figure>
-<p>3、按crtl+f12切换成横屏时</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">onSaveInstanceState--&gt;</div><div class="line">onPause--&gt;</div><div class="line">onStop--&gt;</div><div class="line">onDestroy--&gt;</div><div class="line">onCreate--&gt;</div><div class="line">onStart--&gt;</div><div class="line">onRestoreInstanceState--&gt;</div><div class="line">onResume--&gt;</div></pre></td></tr></table></figure>
-<p>4、再按crtl+f12切换成竖屏时，发现打印了两次相同的log</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">onSaveInstanceState--&gt;</div><div class="line">onPause--&gt;</div><div class="line">onStop--&gt;</div><div class="line">onDestroy--&gt;</div><div class="line">onCreate--&gt;</div><div class="line">onStart--&gt;</div><div class="line">onRestoreInstanceState--&gt;</div><div class="line">onResume--&gt;</div><div class="line">onSaveInstanceState--&gt;</div><div class="line">onPause--&gt;</div><div class="line">onStop--&gt;</div><div class="line">onDestroy--&gt;</div><div class="line">onCreate--&gt;</div><div class="line">onStart--&gt;</div><div class="line">onRestoreInstanceState--&gt;</div><div class="line">onResume--&gt;</div></pre></td></tr></table></figure>
-<p>5、修改AndroidManifest.xml，把该Activity添加 android:configChanges=”orientation”，执行步骤3</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">onSaveInstanceState--&gt;</div><div class="line">onPause--&gt;</div><div class="line">onStop--&gt;</div><div class="line">onDestroy--&gt;</div><div class="line">onCreate--&gt;</div><div class="line">onStart--&gt;</div><div class="line">onRestoreInstanceState--&gt;</div><div class="line">onResume--&gt;</div></pre></td></tr></table></figure>
-<p>6、再执行步骤4，发现不会再打印相同信息，但多打印了一行onConfigChanged</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">onSaveInstanceState--&gt;</div><div class="line">onPause--&gt;</div><div class="line">onStop--&gt;</div><div class="line">onDestroy--&gt;</div><div class="line">onCreate--&gt;</div><div class="line">onStart--&gt;</div><div class="line">onRestoreInstanceState--&gt;</div><div class="line">onResume--&gt;</div><div class="line">onConfigurationChanged--&gt;</div></pre></td></tr></table></figure>
-<p>7、把步骤5的android:configChanges=”orientation” 改成android:configChanges=”orientation|keyboardHidden”，执行步骤3，就只打印onConfigChanged</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">onConfigurationChanged--&gt;</div></pre></td></tr></table></figure>
-<p>8、执行步骤4</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><div class="line">onConfigurationChanged--&gt;</div><div class="line">onConfigurationChanged--&gt;</div></pre></td></tr></table></figure>
-<p>总结一下整个Activity的生命周期</p>
-<ul>
-<li>1.补充一点，当前Activity产生事件弹出Toast和AlertDialog的时候Activity的生命周期不会有改变</li>
-<li>2.Activity运行时按下HOME键(跟被完全覆盖是一样的)：onSaveInstanceState –&gt; onPause –&gt; onStop       onRestart –&gt;onStart—&gt;onResume</li>
-<li>3.Activity未被完全覆盖只是失去焦点：onPause—&gt;onResume</li>
-</ul>
+<p>首先，我们先把所有ApplicationLogic注册到MaApplication中；<br>然后，MaApplication会根据注册时的进程名信息进行筛选，选择相同进程名的ApplicationLogic，保存到本进程中；<br>其次，对这些本进程的ApplicationLogic进行实例化；<br>最后，调用ApplicationLogic的onCreate方法，实现ApplicationLogic与Application生命周期同步，同时还有onTerminate、onLowMemory、onTrimMemory、onConfigurationChanged等方法，与onCreate一致。</p>
+<p>流程图如下所示：<br><img src="/images/blogimages/2017/multi-Application-flow-chart.png" alt="多进程Application启动流程"></p>
+<p>代码实现，先看基类BaseApplicationLogic，每个进程都要实现一个该类的子类：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseApplicationLogic</span> </span>&#123;</div><div class="line">    <span class="keyword">protected</span> MaApplication mApplication;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BaseApplicationLogic</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setApplication</span><span class="params">(@NonNull MaApplication application)</span> </span>&#123;</div><div class="line">        mApplication = application;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTerminate</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLowMemory</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTrimMemory</span><span class="params">(<span class="keyword">int</span> level)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onConfigurationChanged</span><span class="params">(Configuration newConfig)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其次PriorityLogicWrapper，这是一个封装类，实现了BaseApplicationLogic的按优先级排列：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PriorityLogicWrapper</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">PriorityLogicWrapper</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> priority = <span class="number">0</span>;</div><div class="line">    <span class="keyword">public</span> Class&lt;? extends BaseApplicationLogic&gt; logicClass = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">public</span> BaseApplicationLogic instance;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PriorityLogicWrapper</span><span class="params">(<span class="keyword">int</span> priority, Class&lt;? extends BaseApplicationLogic&gt; logicClass)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.priority = priority;</div><div class="line">        <span class="keyword">this</span>.logicClass = logicClass;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(PriorityLogicWrapper o)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> o.priority - <span class="keyword">this</span>.priority;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在MaApplication中直接对PriorityLogicWrapper进行操作，无需操作BaseApplicationLogic对象<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">MaApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//mLogicList只持有当前进程的PriorityLogicWrapper对象</span></div><div class="line">    <span class="keyword">private</span> ArrayList&lt;PriorityLogicWrapper&gt; mLogicList;</div><div class="line">    <span class="comment">//mLogicClassMap持有所有进程的PriorityLogicWrapper数组对象</span></div><div class="line">    <span class="keyword">private</span> HashMap&lt;String, ArrayList&lt;PriorityLogicWrapper&gt;&gt; mLogicClassMap;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate();</div><div class="line">        sInstance = <span class="keyword">this</span>;</div><div class="line">        init();</div><div class="line">        startWideRouter();</div><div class="line">        initializeLogic();</div><div class="line">        dispatchLogic();</div><div class="line">        instantiateLogic();</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper &amp;&amp; <span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                    <span class="comment">//找到当前进程的BaseApplicationLogic实例后，执行其onCreate()方法</span></div><div class="line">                    priorityLogicWrapper.instance.onCreate();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</div><div class="line">        mLogicClassMap = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">startWideRouter</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (needMultipleProcess()) &#123;</div><div class="line">            <span class="comment">//WideRouterApplicationLogic就是BaseApplicationLogic的一个子类</span></div><div class="line">            registerApplicationLogic(WideRouterApplicationLogic.PROCESS_NAME, <span class="number">1000</span>, WideRouterApplicationLogic.class);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">boolean</span> <span class="title">needMultipleProcess</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 添加所有来自不同进程的，不同的BaseApplicationLogic对象到HashMap中</div><div class="line">     * <span class="doctag">@param</span> processName 进程名</div><div class="line">     * <span class="doctag">@param</span> priority 优先级</div><div class="line">     * <span class="doctag">@param</span> logicClass 继承BaseApplicationLogic的对象</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">registerApplicationLogic</span><span class="params">(String processName, <span class="keyword">int</span> priority, @NonNull Class&lt;? extends BaseApplicationLogic&gt; logicClass)</span> </span>&#123;</div><div class="line">        <span class="keyword">boolean</span> result = <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicClassMap) &#123;</div><div class="line">            ArrayList&lt;PriorityLogicWrapper&gt; tempList = mLogicClassMap.get(processName);</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> == tempList) &#123;</div><div class="line">                tempList = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">                mLogicClassMap.put(processName, tempList);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (tempList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : tempList) &#123;</div><div class="line">                    <span class="keyword">if</span> (logicClass.getName().equals(priorityLogicWrapper.logicClass.getName())) &#123;</div><div class="line">                        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(logicClass.getName() + <span class="string">" has registered."</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            PriorityLogicWrapper priorityLogicWrapper = <span class="keyword">new</span> PriorityLogicWrapper(priority, logicClass);</div><div class="line">            tempList.add(priorityLogicWrapper);</div><div class="line">            <span class="comment">//tempList更新，则mLogicClassMap中的value也跟着更新了</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 得到一个属于本进程的ArrayList对象，里面保存着封装类PriorityLogicWrapper</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dispatchLogic</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicClassMap) &#123;</div><div class="line">            <span class="comment">//根据进程名，得到该进程名对应的ArrayList&lt;PriorityLogicWrapper&gt;</span></div><div class="line">            mLogicList = mLogicClassMap.get(ProcessUtil.getProcessName(<span class="keyword">this</span>, ProcessUtil.getMyProcessId()));</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 取得mLogicList中的PriorityLogicWrapper对象，并按优先级顺序初始化BaseApplicationLogic对象</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">instantiateLogic</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">                Collections.sort(mLogicList); <span class="comment">//根据进程优先级，按顺序初始化</span></div><div class="line">                <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                    <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper) &#123;</div><div class="line">                        <span class="keyword">try</span> &#123;</div><div class="line">                            <span class="comment">/**</span></div><div class="line">                             * 调用Class.newInstance()，会创建这个Class的实例，但是不会执行Android中这个类相关的生命周期</div><div class="line">                             * **/</div><div class="line">                            priorityLogicWrapper.instance = priorityLogicWrapper.logicClass.newInstance();</div><div class="line">                        &#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</div><div class="line">                            e.printStackTrace();</div><div class="line">                        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</div><div class="line">                            e.printStackTrace();</div><div class="line">                        &#125;</div><div class="line">                        <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                            priorityLogicWrapper.instance.setApplication(<span class="keyword">this</span>);</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//Application生命周期的处理，下面方法都类似</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTerminate</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onTerminate();</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper &amp;&amp; <span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                    priorityLogicWrapper.instance.onTerminate();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLowMemory</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onLowMemory();</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper &amp;&amp; <span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                    priorityLogicWrapper.instance.onLowMemory();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTrimMemory</span><span class="params">(<span class="keyword">int</span> level)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onTrimMemory(level);</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper &amp;&amp; <span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                    priorityLogicWrapper.instance.onTrimMemory(level);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onConfigurationChanged</span><span class="params">(Configuration newConfig)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onConfigurationChanged(newConfig);</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper &amp;&amp; <span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                    priorityLogicWrapper.instance.onConfigurationChanged(newConfig);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <hr>
 <div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="external" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="https://i.creativecommons.org/l/by/2.5/cn/88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="external" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://agehua.github.io/">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
 
-<p>本文链接：<a href="http://agehua.github.io/2016/03/20/android-new-knowledge-summary/">http://agehua.github.io/2016/03/20/android-new-knowledge-summary/</a></p>
+<p>本文链接：<a href="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/">http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/</a></p>
 
 
             
@@ -657,13 +650,15 @@
         <footer class="article-footer">
           
 
+          
+
             <div class="share-container">
 
 
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/03/20/android-new-knowledge-summary/" data-id="cj07prhed000i9u0hw1dnm9hv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/" data-id="cj07prhhm002o9u0hazkkoh07" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -731,7 +726,7 @@
 
             
     
-        <a href="http://agehua.github.io/2016/03/20/android-new-knowledge-summary/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/03/20/android-new-knowledge-summary/">Comments</a>
+        <a href="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/">Comments</a>
     
 
         </footer>
@@ -741,19 +736,10 @@
         
 <nav id="article-nav">
     
-        <a href="/2016/05/12/GCM-Azure_summary/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Newer</strong>
-            <div class="article-nav-title">
-                
-                    google cloud message（GCM）和Azure实现Notification总结
-                
-            </div>
-        </a>
     
-    
-        <a href="/2016/03/20/android-books-reading-/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2017/03/08/2017-3-09-Https-Questions/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">《android开发艺术探索》读书笔记</div>
+            <div class="article-nav-title">“HTTPS”安全在哪里？</div>
         </a>
     
 </nav>
@@ -767,7 +753,7 @@
     <section id="comments">
     
         
-    <div class="ds-thread" data-thread-key="2016/03/20/android-new-knowledge-summary/" data-title="android新特性新知识点总结" data-url="http://agehua.github.io/2016/03/20/android-new-knowledge-summary/"></div>
+    <div class="ds-thread" data-thread-key="2017/03/13/2017-2-21-Multi-Process-Dispatch/" data-title="解决Android多进程导致Application重复创建问题" data-url="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/"></div>
     <style>
         #ds-thread #ds-reset .ds-textarea-wrapper {
             background: none;

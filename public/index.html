@@ -371,7 +371,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                34
+                35
                 <span>posts</span>
             </div>
             <div class="article-info-block">
@@ -446,13 +446,13 @@
 
 
             <section id="main">
-    <article id="post-2017-3-09" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-2017-2-21-Multi-Process-Dispatch" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             
 	
-		<a href="/2017/03/08/2017-3-09/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Auvers%20Town%20Hall%20on%2014%20July%201890.jpg" class="article-banner" />
+		<a href="/2017/03/13/2017-2-21-Multi-Process-Dispatch/" itemprop="url">
+            <img src="http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg" class="article-banner" />
         </a>
 	
 
@@ -464,7 +464,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2017/03/08/2017-3-09/">“HTTPS”安全在哪里？</a>
+            <a class="article-title" href="/2017/03/13/2017-2-21-Multi-Process-Dispatch/">解决Android多进程导致Application重复创建问题</a>
         </h1>
     
 
@@ -473,8 +473,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/03/08/2017-3-09/">
-            <time datetime="2017-03-08T02:54:26.000Z" itemprop="datePublished">2017-03-08</time>
+        <a href="/2017/03/13/2017-2-21-Multi-Process-Dispatch/">
+            <time datetime="2017-03-13T02:28:26.000Z" itemprop="datePublished">2017-03-13</time>
         </a>
     </div>
 
@@ -498,155 +498,16 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-
-            <blockquote>
-<p>文章转载自：<a href="http://bugly.qq.com/bbs/forum.php?mod=viewthread&amp;tid=1074" target="_blank" rel="external">“HTTPS”安全在哪里？ (出处: Bugly)</a></p>
+            <p><blockquote>
+<p>本编文章是在阅读：<a href="http://blog.spinytech.com/2016/12/28/android_modularization/">Android架构思考(模块化、多进程)</a>过程中，结合自己的理解，对Android开启多进程，会导致Application重复创建问题进行一个总结。</p>
 </blockquote>
 <hr>
-<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>最近基于兴趣学学习了下 HTTPS 相关的知识，在此记录下学习心得。</p>
-<p>在上网获取信息的过程中，我们接触最多的信息加密传输方式也莫过于HTTPS了。每当访问一个站点，浏览器的地址栏中出现绿色图标时，意味着该站点支持HTTPS信息传输方式。我们知道HTTPS是我们常见的HTTP协议与某个加密协议的混合体，也就是 HTTP+S。这个 S 可以是 TLS（安全传输层协议）、也可以是 SSL（安全套接层），不过我更认可另一个抽象概括的说法，HTTP+Security。不过要谈论 HTTPS 为何安全，还得从 HTTP 为何不安全说起。</p>
-<p>假设你现在正坐在教室里上课，现在你非常想和走道旁的迷人的 TA 说一些话，一般这个时候你会用“传纸条”的方式来交流。而这个方式和 TCP/IP 协议基本的工作模式十分相像：</p>
-<ul>
-<li>通过小动作引起对方注意；</li>
-<li>对方以多种可能的方式（注视、肢体语言等）回应于你；</li>
-<li>你确认对方感知到你后，将纸条传给对方；</li>
-<li>对方阅读纸条；</li>
-<li>对方给予你阅读后的反应；</li>
-</ul>
-<p>怎么样，这个流程是不是很熟悉？</p>
-<p>如果你要传递纸条的 TA 距离你很远怎么办？HTTP 协议就是指你在纸条上写明你要传给的 TA 是谁，或者 TA 的座位在哪，接着只需要途径的同学拿到纸条后根据纸条上的指示依次将纸条传过去就 OK 了。</p>
-<p>这个时候问题来了：途径的同学完全可以观看并知道你在纸条上写了什么。</p>
-<p>这就是 HTTP 传输所面临的问题之一：<strong>中间人攻击</strong>，指消息传递的过程中，处在传递路径上的攻击者可以嗅探或者窃听传输数据的内容。</p>
-<h3 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h3><p>HTTPS 针对这个问题，采用了“加密”的方式来解决。最著名原始的加密方法就是对称加密算法了，就是双方约定一个暗号，用什么字母替换什么字母之类的。现在一般采用一种叫 AES（高级加密算法）的对称算法。</p>
-<p>对称加密算法既指加密和解密需要使用的密钥 key 是一样的。</p>
-<p>AES 在数学上保证了，只要你使用的 key 足够长，破解几乎是不可能的（除非光子计算机造出来了）<br>我们先假设在没有密钥 key 的情况下，密文是无法被破解的，然后再回到这个教室。你将用 AES 加密后的内容噌噌噌地写在了纸条上，正要传出去的时候你突然想到，TA 没有 key 怎么解密内容呀，或者说，应该怎么把 key 给TA？</p>
-<p>如果把 key 也写在纸条上，那么中间人照样可以破解窃听纸条内容。也许在现实环境中你有其他办法可以把 key 通过某种安全的渠道送到 TA 的手里，但是互联网上的实现难度就比较大了，毕竟不管怎样，数据都要经过那些路由。</p>
-<p>于是聪明的人类发明了另一种加密算法——<strong>非对称加密算法</strong>。这种加密算法会生成两个密钥（key1 和 key2）。凡是 key1 加密的数据，key1 自身不能解密，需要 key2 才能解密；凡事 key2 加密的数据，key2 自身不能解密，只有 key1 才能解密。</p>
-<h2 id="目前这种算法有很多中，最常用的是RSA。其基于的数学原理是："><a href="#目前这种算法有很多中，最常用的是RSA。其基于的数学原理是：" class="headerlink" title="目前这种算法有很多中，最常用的是RSA。其基于的数学原理是："></a>目前这种算法有很多中，最常用的是RSA。其基于的数学原理是：</h2><blockquote>
-<p>两个大素数的乘积很容易算，但是用这个乘积去算出是哪两个素数相乘就很复杂了。好在以目前的技术，分解大数的素因确实比较困难，尤其是当这个大数足够大的时候（通常使用2的10次方个二进制位那么大），就算是超级计算机，解密也需要非常长的时间。<br>现在就把这种非对称加密的方法应用在我们教室传纸条的场景里。</p>
-</blockquote>
-<p>你在写纸条内容之前先用 RSA 技术生成了一对密钥 k1 和 k2。</p>
-<ul>
-<li>你把 k1 用明文传了出去，路经也许有人会截取，但是没有用，k1 加密的数据需要 k2 才可以破解，而 k2 在你自己手中。</li>
-<li>k1 传到了目的人，目的人会去准备一个接下来准备用于对称加密（AES）的传输密钥 key，然后用收到的 k1 把 key 加密，传给你。</li>
-<li>你用手上的 k2 解出 key 后，全教室只有你和你的目的人拥有这个对称加密的 key，你们俩就可以尽情聊天不怕窃听啦~</li>
-</ul>
-<h2 id="这里也许你会有问题，为什么不直接用非对称加密来加密信息，而是加密-AES-的-key-呢？"><a href="#这里也许你会有问题，为什么不直接用非对称加密来加密信息，而是加密-AES-的-key-呢？" class="headerlink" title="这里也许你会有问题，为什么不直接用非对称加密来加密信息，而是加密 AES 的 key 呢？"></a>这里也许你会有问题，为什么不直接用非对称加密来加密信息，而是加密 AES 的 key 呢？</h2><blockquote>
-<p>因为非对称加密和解密的平均消耗时间比较长，为了节省时间提高效率，我们通常只是用它来交换密钥，而非直接传输数据。<br>然而使用非对称加密真的可以防范中间人攻击吗？<br>虽然看上去很安全，但是实际上却挡不住可恶的中间人攻击。</p>
-</blockquote>
-<p>假设你是 A，你的目的地是 B，现在要途径一个恶意同学M。</p>
-<h2 id="中间人的恶意之处在于它会伪装成你的目标。"><a href="#中间人的恶意之处在于它会伪装成你的目标。" class="headerlink" title="中间人的恶意之处在于它会伪装成你的目标。"></a>中间人的恶意之处在于它会伪装成你的目标。</h2><p>当你要和 B 完成第一次密钥交换的时候，M 把纸条扣了下来，假装自己是B并伪造了一个 key，然后用你发来的 k1 加密了 key 发还给你。<br>你以为你和 B 完成了密钥交换，实际上你是和 M 完成了密钥交换。<br>同事M 和 B 完成一次密钥交换，让 B 以为和 A 你完成了密钥交换。<br>现在整体的加密流程变成了A（加密链接1）-&gt;M(明文)-&gt;B(加密链接2)的情况了，这时候 M 依然可以知道A和B传输的全部消息。</p>
-<h2 id="这个时候就是体现-HTTPS-和传纸条的区别了。"><a href="#这个时候就是体现-HTTPS-和传纸条的区别了。" class="headerlink" title="这个时候就是体现 HTTPS 和传纸条的区别了。"></a>这个时候就是体现 HTTPS 和传纸条的区别了。</h2><p>在教室里，你是和一位与你身份几乎对等的的对象来通信；而在访问网站时，对方往往是一个比较大（或者知名）的服务者，他们有充沛的资源，或许他们可以向你证明他们的合法性。<br>此时我们需要引入一个非常权威的第三方，一个专门用来认证网站合法性的组织，可以叫做 <strong>CA（Certificate Authority）</strong>。各个网站服务商可以向CA申请证书，使得他们在建立安全连接时可以带上CA的签名。而CA得安全性是由操作系统或者浏览器来认证的。</p>
-<p>你的Windows、Mac、Linux、Chrome、Safari等会在安装的时候带上一个他们认为安全的 CA 证书列表，只有和你建立安全连接的网站带有这些CA的签名，操作系统和浏览器才会认为这个链接是安全的，否则就有可能遭到中间人攻击。<br>一旦某个CA颁发的证书被用于的非法途径，那么这个CA之前颁发过的所有证书都将被视为不安全的，这让所有CA在颁发证书时都十分小心，所以CA证书在通常情况下是值得信任的。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>使 HTTP 后面增加一个S（Security）的技术，正是 <strong>对称加密 + 非对称加密 + CA认证</strong> 这三种技术的混合体。当然这个主要是 HTTPS 的基本原理，真正实际中的 HTTPS 的协议是比以上的描述更为复杂一些的，并且其中任何一步稍有闪失，整个流程都将不再安全。<br>这也是为什么 HTTPS 协议从 SSL 1.0升级到 SSL 3.0，再被 TLS 1.0 现在被 TLS 1.3取代，其背后都是一个个细节上的优化，以防有任何闪失。<br>TLS 协议相比 SSL 协议增加了传输层的安全保证。</p>
-<hr>
-<div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="external" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="https://i.creativecommons.org/l/by/2.5/cn/88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="external" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://agehua.github.io/">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
-
-<p>本文链接：<a href="http://agehua.github.io/2017/03/08/2017-3-09/">http://agehua.github.io/2017/03/08/2017-3-09/</a></p>
-
-
-            
-  <!-- css -->
-  <style type="text/css">
-      .center {
-          text-align: center;
-      }
-      .hidden {
-          display: none;
-      }
-    .donate_bar a.btn_donate{
-      display: inline-block;
-      width: 82px;
-      height: 82px;
-      background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
-      _background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
-
-      <!-- http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif
-           因为本 hexo 生成的博客所用的 theme 的 a:hover 带动画效果，
-         为了在让打赏按钮显示效果正常 而 添加了以下几行 css，
-         嵌入其它博客时不一定要它们。 -->
-      -webkit-transition: background 0s;
-      -moz-transition: background 0s;
-      -o-transition: background 0s;
-      -ms-transition: background 0s;
-      transition: background 0s;
-      <!-- /让打赏按钮的效果显示正常 而 添加的几行 css 到此结束 -->
-    }
-
-    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
-    .donate_bar .donate_txt {
-      display: block;
-      color: #9d9d9d;
-      font: 14px/2 "Microsoft Yahei";
-    }
-    .bold{ font-weight: bold; }
-  </style>
-  <!-- /css -->
-
-    <!-- Donate Module -->
-    <div id="donate_module">
-
-  <!-- btn_donate & tips -->
-  <div id="donate_board" class="donate_bar center">
-      <br>
-      ------------------------------------------------------------------------------------------------------------------------------
-      <br>
-    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
-    <span class="donate_txt">
-      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
-    </span>
-
-
-  </div>
-  <!-- /btn_donate & tips -->
-
-  <!-- donate guide -->
-
-  <div id="donate_guide" class="donate_bar center hidden">
-        <br>
-      ------------------------------------------------------------------------------------------------------------------------------
-      <br>
-
-    <a href="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
-      <img src="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="微信打赏 Colin" height="190px" width="auto"/>
-    </a>
-
-        &nbsp;&nbsp;
-
-    <a href="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.jpg" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
-      <img src="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.jpg" title="支付宝打赏 Colin" height="190px" width="auto"/>
-    </a>
-
-    <span class="donate_txt">
-      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
-    </span>
-
-  </div>
-  <!-- /donate guide -->
-
-  <!-- donate script -->
-  <script type="text/javascript">
-    document.getElementById('btn_donate').onclick = function() {
-      $('#donate_board').addClass('hidden');
-      $('#donate_guide').removeClass('hidden');
-    }
-
-    function donate_on_web(){
-      $('#donate').submit();
-        }
-
-    var original_window_onload = window.onload;
-        window.onload = function () {
-            if (original_window_onload) {
-                original_window_onload();
-            }
-            document.getElementById('donate_board_wdg').className = 'hidden';
-    }
-  </script>
-  <!-- /donate script -->
-</div>
-<!-- /Donate Module -->
-   
+<h3 id="Android开启多进程"><a href="#Android开启多进程" class="headerlink" title="Android开启多进程"></a>Android开启多进程</h3><p>一般情况下，一个应用程序就一个进程，这个进程的名称就是应用程序包名。Android的四大组件在AndroidManifest文件中注册的时候，有个属性是android:process，这里可以指定组件的所处的进程。</p>
+<p>一个进程情况下，Application的onCreate方法只会执行一次，但如果应用中采用多进程方式，onCreate方法会执行多次。</p>
+<h3 id="解决Application的onCreate方法多次调用"><a href="#解决Application的onCreate方法多次调用" class="headerlink" title="解决Application的onCreate方法多次调用"></a>解决Application的onCreate方法多次调用</h3><p>大概有两种方式<br></p>
+            <p class="article-more-link">
+                <a href="/2017/03/13/2017-2-21-Multi-Process-Dispatch/#more">Read More</a>
+            </p>
         
         </div>
 
@@ -659,7 +520,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/03/08/2017-3-09/" data-id="cj00pck84002rf60hjg90ixt9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/" data-id="cj07prhhm002o9u0hazkkoh07" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -727,7 +588,160 @@
 
             
     
-        <a href="http://agehua.github.io/2017/03/08/2017-3-09/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/03/08/2017-3-09/">Comments</a>
+        <a href="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/">Comments</a>
+    
+
+        </footer>
+
+    </div>
+    
+</article>
+
+
+
+
+    <article id="post-2017-3-09-Https-Questions" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2017/03/08/2017-3-09-Https-Questions/" itemprop="url">
+            <img src="http://obxk8w81b.bkt.clouddn.com/Auvers%20Town%20Hall%20on%2014%20July%201890.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/03/08/2017-3-09-Https-Questions/">“HTTPS”安全在哪里？</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/03/08/2017-3-09-Https-Questions/">
+            <time datetime="2017-03-08T02:54:26.000Z" itemprop="datePublished">2017-03-08</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/https/">HTTPS</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><blockquote>
+<p>文章转载自：<a href="http://bugly.qq.com/bbs/forum.php?mod=viewthread&amp;tid=1074">“HTTPS”安全在哪里？ (出处: Bugly)</a></p>
+</blockquote>
+<hr>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>最近基于兴趣学学习了下 HTTPS 相关的知识，在此记录下学习心得。</p>
+<p>在上网获取信息的过程中，我们接触最多的信息加密传输方式也莫过于HTTPS了。每当访问一个站点，浏览器的地址栏中出现绿色图标时，意味着该站点支持HTTPS信息传输方式。我们知道HTTPS是我们常见的HTTP协议与某个加密协议的混合体，也就是 HTTP+S。这个 S 可以是 TLS（安全传输层协议）、也可以是 SSL（安全套接层），不过我更认可另一个抽象概括的说法，HTTP+Security。不过要谈论 HTTPS 为何安全，还得从 HTTP 为何不安全说起。</p></p>
+            <p class="article-more-link">
+                <a href="/2017/03/08/2017-3-09-Https-Questions/#more">Read More</a>
+            </p>
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2017/03/08/2017-3-09-Https-Questions/" data-id="cj07prhho002r9u0hjujh642u" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://agehua.github.io/2017/03/08/2017-3-09-Https-Questions/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/03/08/2017-3-09-Https-Questions/">Comments</a>
     
 
         </footer>
@@ -811,7 +825,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/02/23/2017-2-12-iterm2-to-linux/" data-id="cj00pck81002pf60hwhzf7mat" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/02/23/2017-2-12-iterm2-to-linux/" data-id="cj07prhhk002l9u0hbz4hue8w" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -959,7 +973,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/02/14/2017-1-13-abroad-IM-service-company/" data-id="cj00pck8a002xf60hwjf8dd2b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/02/14/2017-1-13-abroad-IM-service-company/" data-id="cj07prhhv00309u0hxcn1mqp1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1109,7 +1123,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/20/Android-patch-update/" data-id="cj00pck8c0030f60h96rgij7b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/20/Android-patch-update/" data-id="cj07prhht002x9u0heqemm61g" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1265,7 +1279,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/11/ThreadLocal-usage/" data-id="cj00pck86002uf60hc2vvqq4l" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/11/ThreadLocal-usage/" data-id="cj07prhhr002u9u0hu97v6c9m" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1421,7 +1435,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/06/hexo-learning1/" data-id="cj00pck7y002lf60hvkgtnd96" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/06/hexo-learning1/" data-id="cj07prhhi002h9u0hr9mpoub5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1571,7 +1585,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/04/hexo-learning0/" data-id="cj00pck7t002jf60hogfwa5ak" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/04/hexo-learning0/" data-id="cj07prhhg002e9u0hwucsimpa" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1651,160 +1665,6 @@
 
 
 
-    <article id="post-nodejs-learning-getting-started" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2016/12/03/nodejs-learning-getting-started/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/12/03/nodejs-learning-getting-started/">nodejs入门</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/12/03/nodejs-learning-getting-started/">
-            <time datetime="2016-12-02T16:00:00.000Z" itemprop="datePublished">2016-12-03</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/read/">read</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/nodejs/">nodejs</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><blockquote>
-<p>本文是我自己的学习笔记，整理自<a href="http://www.nodebeginner.org/index-zh-cn.html">《Node入门》</a></p>
-</blockquote>
-<h2 id="Node入门"><a href="#Node入门" class="headerlink" title="Node入门"></a>Node入门</h2><p>作者： Manuel Kiessling<br>翻译： goddyzhao &amp; GrayZhang &amp; MondayChen</p>
-<p>本书致力于教会你如何用Node.js来开发应用，过程中会传授你所有所需的“高级”JavaScript知识。本书绝不是一本“Hello World”的教程。</p>
-<h3 id="服务端JavaScript"><a href="#服务端JavaScript" class="headerlink" title="服务端JavaScript"></a>服务端JavaScript</h3><p>JavaScript最早是运行在浏览器中，然而浏览器只是提供了一个上下文，它定义了使用JavaScript可以做什么，但并没有“说”太多关于JavaScript语言本身可以做什么。事实上，JavaScript是一门“完整”的语言： 它可以使用在不同的上下文中，其能力与其他同类语言相比有过之而无不及。</p>
-<p>Node.js事实上就是另外一种上下文，它允许在后端（脱离浏览器环境）运行JavaScript代码。</p></p>
-            <p class="article-more-link">
-                <a href="/2016/12/03/nodejs-learning-getting-started/#more">Read More</a>
-            </p>
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/" data-id="cj00pck9g003jf60h6ghav39t" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/">Comments</a>
-    
-
-        </footer>
-
-    </div>
-    
-</article>
-
-
-
-
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
@@ -1828,7 +1688,26 @@ if ('serviceWorker' in navigator) {
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/03/08/2017-3-09/" class="thumbnail">
+                            <a href="/2017/03/13/2017-2-21-Multi-Process-Dispatch/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg)" alt="解决Android多进程导致Application重复创建问题" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2017/03/13/2017-2-21-Multi-Process-Dispatch/" class="title">解决Android多进程导致Application重复创建问题</a></p>
+                            <p class="item-date"><time datetime="2017-03-13T02:28:26.000Z" itemprop="datePublished">2017-03-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/03/08/2017-3-09-Https-Questions/" class="thumbnail">
     
     
         <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Auvers%20Town%20Hall%20on%2014%20July%201890.jpg)" alt="“HTTPS”安全在哪里？" class="thumbnail-image"></span>
@@ -1839,7 +1718,7 @@ if ('serviceWorker' in navigator) {
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2017/03/08/2017-3-09/" class="title">“HTTPS”安全在哪里？</a></p>
+                            <p class="item-title"><a href="/2017/03/08/2017-3-09-Https-Questions/" class="title">“HTTPS”安全在哪里？</a></p>
                             <p class="item-date"><time datetime="2017-03-08T02:54:26.000Z" itemprop="datePublished">2017-03-08</time></p>
                         </div>
                     </li>
@@ -1901,25 +1780,6 @@ if ('serviceWorker' in navigator) {
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/12/11/ThreadLocal-usage/" class="thumbnail">
-    
-    
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/A%20Wind-Beaten%20Tree.jpg)" alt="ThreadLocal一个使用——SimpleDateFormat" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2016/12/11/ThreadLocal-usage/" class="title">ThreadLocal一个使用——SimpleDateFormat</a></p>
-                            <p class="item-date"><time datetime="2016-12-10T16:00:00.000Z" itemprop="datePublished">2016-12-11</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1929,7 +1789,7 @@ if ('serviceWorker' in navigator) {
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">23</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">24</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
         </div>
     </div>
 
@@ -1939,7 +1799,7 @@ if ('serviceWorker' in navigator) {
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1948,7 +1808,7 @@ if ('serviceWorker' in navigator) {
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/">HTTPS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">4</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/">HTTPS</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">4</span></li></ul>
         </div>
     </div>
 
@@ -1957,7 +1817,7 @@ if ('serviceWorker' in navigator) {
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/android-jni/" style="font-size: 15px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/threadlocal/" style="font-size: 10px;">ThreadLocal</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 12.5px;">gradle</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 12.5px;">read</a> <a href="/tags/technology/" style="font-size: 17.5px;">technology</a>
+            <a href="/tags/android-jni/" style="font-size: 15px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/https/" style="font-size: 12.5px;">HTTPS</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/threadlocal/" style="font-size: 10px;">ThreadLocal</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 12.5px;">gradle</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 12.5px;">read</a> <a href="/tags/technology/" style="font-size: 17.5px;">technology</a>
         </div>
     </div>
 

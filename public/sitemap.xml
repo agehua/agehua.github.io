@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://agehua.github.io/2016/10/13/gradle-learning2/</loc>
+    <loc>http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/</loc>
     
-    <lastmod>2017-03-08T07:56:18.000Z</lastmod>
+    <lastmod>2017-03-13T06:14:00.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2017/03/08/2017-3-09/</loc>
+    <loc>http://agehua.github.io/2017/03/08/2017-3-09-Https-Questions/</loc>
     
-    <lastmod>2017-03-08T03:18:15.000Z</lastmod>
+    <lastmod>2017-03-13T06:06:24.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/10/13/gradle-learning2/</loc>
+    
+    <lastmod>2017-03-08T07:56:18.000Z</lastmod>
     
   </url>
   
@@ -58,21 +65,21 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/09/22/JNI-get-publickey/</loc>
+    <loc>http://agehua.github.io/2016/09/20/android-design-pattern-singleton/</loc>
     
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/03/20/android-new-knowledge-summary/</loc>
+    <loc>http://agehua.github.io/2016/05/24/JNI-Learning/</loc>
     
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/06/08/gson-summary/</loc>
+    <loc>http://agehua.github.io/2016/05/24/JNI-Learning0/</loc>
     
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     
@@ -86,14 +93,14 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/05/18/javaString-and-bytes/</loc>
+    <loc>http://agehua.github.io/2016/06/08/gson-summary/</loc>
     
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/05/24/JNI-Learning0/</loc>
+    <loc>http://agehua.github.io/2016/07/25/android-webview-summary/</loc>
     
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     
@@ -114,13 +121,6 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/07/25/android-webview-summary/</loc>
-    
-    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://agehua.github.io/2016/09/20/AVG-unwanted-software/</loc>
     
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
@@ -128,21 +128,21 @@
   </url>
   
   <url>
+    <loc>http://agehua.github.io/2014/12/23/hello-world/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/09/22/JNI-get-publickey/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://agehua.github.io/2015/03/16/java-multithreading-concurrent/</loc>
-    
-    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/03/01/android-googlemap-summary/</loc>
-    
-    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/09/20/android-design-pattern-singleton/</loc>
     
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     
@@ -177,7 +177,7 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2014/12/23/hello-world/</loc>
+    <loc>http://agehua.github.io/2016/03/01/android-googlemap-summary/</loc>
     
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     
@@ -212,7 +212,7 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/05/24/JNI-Learning/</loc>
+    <loc>http://agehua.github.io/2016/03/20/android-new-knowledge-summary/</loc>
     
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     
@@ -227,6 +227,13 @@
   
   <url>
     <loc>http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/</loc>
+    
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/05/18/javaString-and-bytes/</loc>
     
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     
@@ -254,14 +261,14 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/categories/index.html</loc>
+    <loc>http://agehua.github.io/about/index.html</loc>
     
     <lastmod>2016-12-26T10:41:15.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://agehua.github.io/about/index.html</loc>
+    <loc>http://agehua.github.io/categories/index.html</loc>
     
     <lastmod>2016-12-26T10:41:15.000Z</lastmod>
     
