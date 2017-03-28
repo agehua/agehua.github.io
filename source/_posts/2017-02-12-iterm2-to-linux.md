@@ -13,12 +13,13 @@ toc: true
 iTerm2是MAC的一个终端工具。
 简单介绍一个小功能，使用iTerm2连接远程主机：
 
-> 1.选择菜单profiles中的Open Profiles，然后选择Edit Profiles中创建一个新的Profile，随便命名成容易记的。
-2.选择command，输入ssh -A -p 22 root@输入远程计算机的IP地址。
-3.然后选择这个新的profile，New一个window就可以连接远程服务器了。
+- 1.先打开一个iTerm2窗口，选择菜单profiles中的Open Profiles，然后选择Edit Profiles中创建一个新的Profile，随便命名成容易记的。
+- 2.选择command，输入ssh -A -p xxx root@输入远程计算机的IP地址（xxx表示端口）。
+- 3.然后选择这个新的profile，New一个window就可以连接远程服务器了。
 
-### SCP使用说明
+### SCP命令使用说明
 <!--more-->
+scp用来在网络上不同的主机之间复制文件，它使用ssh安全协议传输数据，具有和ssh一样的验证机制，从而安全的远程拷贝文件。
 
 下面是一个简单例子：
 

@@ -13,14 +13,14 @@
 Android开启多进程一般情况下，一个应用程序就一个进程，这个进程的名称就是应用程序包名。Android的四大组件在AndroidManifest文件中注册的时候，有个属性是android:process，这里可以指定组件的所">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解决Android多进程导致Application重复创建问题">
-<meta property="og:url" content="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/index.html">
+<meta property="og:url" content="http://agehua.github.io/2017/02/21/Multi-Process-Dispatch/index.html">
 <meta property="og:site_name" content="Agehua">
 <meta property="og:description" content="本编文章是在阅读：Android架构思考(模块化、多进程)过程中，结合自己的理解，对Android开启多进程，会导致Application重复创建问题进行一个总结。
 
 
 Android开启多进程一般情况下，一个应用程序就一个进程，这个进程的名称就是应用程序包名。Android的四大组件在AndroidManifest文件中注册的时候，有个属性是android:process，这里可以指定组件的所">
 <meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg">
-<meta property="og:updated_time" content="2017-03-13T06:36:24.000Z">
+<meta property="og:updated_time" content="2017-03-15T01:02:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决Android多进程导致Application重复创建问题">
 <meta name="twitter:description" content="本编文章是在阅读：Android架构思考(模块化、多进程)过程中，结合自己的理解，对Android开启多进程，会导致Application重复创建问题进行一个总结。
@@ -82,6 +82,212 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
                 
                     <a class="main-nav-link" href="/about">About</a>
                 
+
+                <a class="main-nav-link" href='javascript:(
+        /*
+         * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *      http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         */
+        function go() {
+
+
+        var songs = [
+                    "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
+                    "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
+                    "https://static.rocko.xyz/audio/Music-outside.mp3",
+                    "https://static.rocko.xyz/audio/Music-sunburst.mp3"
+        ];
+
+
+        function c() {
+            var e = document.createElement("link");
+            e.setAttribute("type", "text/css");
+            e.setAttribute("rel", "stylesheet");
+            e.setAttribute("href", f);
+            e.setAttribute("class", l);
+            document.body.appendChild(e)
+        }
+
+        function h() {
+            var e = document.getElementsByClassName(l);
+            for (var t = 0; t < e.length; t++) {
+                document.body.removeChild(e[t])
+            }
+        }
+
+        function p() {
+            var e = document.createElement("div");
+            e.setAttribute("class", a);
+            document.body.appendChild(e);
+            setTimeout(function() {
+                document.body.removeChild(e)
+            }, 100)
+        }
+
+        function d(e) {
+            return {
+                height : e.offsetHeight,
+                width : e.offsetWidth
+            }
+        }
+
+        function v(i) {
+            var s = d(i);
+            return s.height > e && s.height < n && s.width > t && s.width < r
+        }
+
+        function m(e) {
+            var t = e;
+            var n = 0;
+            while (!!t) {
+                n += t.offsetTop;
+                t = t.offsetParent
+            }
+            return n
+        }
+
+        function g() {
+            var e = document.documentElement;
+            if (!!window.innerWidth) {
+                return window.innerHeight
+            } else if (e && !isNaN(e.clientHeight)) {
+                return e.clientHeight
+            }
+            return 0
+        }
+
+        function y() {
+            if (window.pageYOffset) {
+                return window.pageYOffset
+            }
+            return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+        }
+
+        function E(e) {
+            var t = m(e);
+            return t >= w && t <= b + w
+        }
+
+        function S() {
+            var e = document.getElementById("audio_element_id");
+            if(e != null){
+                var index = parseInt(e.getAttribute("curSongIndex"));
+                if(index > songs.length - 2) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                e.setAttribute("curSongIndex", index);
+                N();
+            }
+
+            e.src = i;
+            e.play()
+        }
+
+        function x(e) {
+            e.className += " " + s + " " + o
+        }
+
+        function T(e) {
+            e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+        }
+
+        function N() {
+            var e = document.getElementsByClassName(s);
+            var t = new RegExp("\\b" + s + "\\b");
+            for (var n = 0; n < e.length; ) {
+                e[n].className = e[n].className.replace(t, "")
+            }
+        }
+
+        function initAudioEle() {
+            var e = document.getElementById("audio_element_id");
+            if(e === null){
+                e = document.createElement("audio");
+                e.setAttribute("class", l);
+                e.setAttribute("curSongIndex", 0);
+                e.id = "audio_element_id";
+                e.loop = false;
+                e.bgcolor = 0;
+                e.addEventListener("canplay", function() {
+                setTimeout(function() {
+                    x(k)
+                }, 500);
+                setTimeout(function() {
+                    N();
+                    p();
+                    for (var e = 0; e < O.length; e++) {
+                        T(O[e])
+                    }
+                }, 15500)
+            }, true);
+            e.addEventListener("ended", function() {
+                N();
+                h();
+                go();
+            }, true);
+            e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+            document.body.appendChild(e);
+            }
+        }
+
+        initAudioEle();
+        var e = 30;
+        var t = 30;
+        var n = 350;
+        var r = 350;
+
+        var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+        var i = songs[curSongIndex];
+
+        var s = "mw-harlem_shake_me";
+        var o = "im_first";
+        var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+        var a = "mw-strobe_light";
+
+        /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
+        var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+
+        var l = "mw_added_css";
+        var b = g();
+        var w = y();
+        var C = document.getElementsByTagName("*");
+        var k = null;
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                if (E(A)) {
+                    k = A;
+                    break
+                }
+            }
+        }
+        if (A === null) {
+            console.warn("Could not find a node of the right size. Please try a different page.");
+            return
+        }
+        c();
+        S();
+        var O = [];
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                O.push(A)
+            }
+        }
+        })()'>High一下</a>
             </nav>
             
                 
@@ -133,211 +339,7 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
 
 </div>
 
-            <nav id="main-nav"> <a title="把这个链接拖到你的Chrome收藏夹工具栏中" href='javascript:(
-    /*
-     * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
-     *
-     * Licensed under the Apache License, Version 2.0 (the "License");
-     * you may not use this file except in compliance with the License.
-     * You may obtain a copy of the License at
-     *
-     *      http://www.apache.org/licenses/LICENSE-2.0
-     *
-     * Unless required by applicable law or agreed to in writing, software
-     * distributed under the License is distributed on an "AS IS" BASIS,
-     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     * See the License for the specific language governing permissions and
-     * limitations under the License.
-     */
-    function go() {
 
-
-    var songs = [
-                "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
-                "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
-                "https://static.rocko.xyz/audio/Music-outside.mp3",
-                "https://static.rocko.xyz/audio/Music-sunburst.mp3"
-    ];
-
-
-    function c() {
-        var e = document.createElement("link");
-        e.setAttribute("type", "text/css");
-        e.setAttribute("rel", "stylesheet");
-        e.setAttribute("href", f);
-        e.setAttribute("class", l);
-        document.body.appendChild(e)
-    }
-
-    function h() {
-        var e = document.getElementsByClassName(l);
-        for (var t = 0; t < e.length; t++) {
-            document.body.removeChild(e[t])
-        }
-    }
-
-    function p() {
-        var e = document.createElement("div");
-        e.setAttribute("class", a);
-        document.body.appendChild(e);
-        setTimeout(function() {
-            document.body.removeChild(e)
-        }, 100)
-    }
-
-    function d(e) {
-        return {
-            height : e.offsetHeight,
-            width : e.offsetWidth
-        }
-    }
-
-    function v(i) {
-        var s = d(i);
-        return s.height > e && s.height < n && s.width > t && s.width < r
-    }
-
-    function m(e) {
-        var t = e;
-        var n = 0;
-        while (!!t) {
-            n += t.offsetTop;
-            t = t.offsetParent
-        }
-        return n
-    }
-
-    function g() {
-        var e = document.documentElement;
-        if (!!window.innerWidth) {
-            return window.innerHeight
-        } else if (e && !isNaN(e.clientHeight)) {
-            return e.clientHeight
-        }
-        return 0
-    }
-
-    function y() {
-        if (window.pageYOffset) {
-            return window.pageYOffset
-        }
-        return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
-    }
-
-    function E(e) {
-        var t = m(e);
-        return t >= w && t <= b + w
-    }
-
-    function S() {
-        var e = document.getElementById("audio_element_id");
-        if(e != null){
-            var index = parseInt(e.getAttribute("curSongIndex"));
-            if(index > songs.length - 2) {
-                index = 0;
-            } else {
-                index++;
-            }
-            e.setAttribute("curSongIndex", index);
-            N();
-        }
-
-        e.src = i;
-        e.play()
-    }
-
-    function x(e) {
-        e.className += " " + s + " " + o
-    }
-
-    function T(e) {
-        e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
-    }
-
-    function N() {
-        var e = document.getElementsByClassName(s);
-        var t = new RegExp("\\b" + s + "\\b");
-        for (var n = 0; n < e.length; ) {
-            e[n].className = e[n].className.replace(t, "")
-        }
-    }
-
-    function initAudioEle() {
-        var e = document.getElementById("audio_element_id");
-        if(e === null){
-            e = document.createElement("audio");
-            e.setAttribute("class", l);
-            e.setAttribute("curSongIndex", 0);
-            e.id = "audio_element_id";
-            e.loop = false;
-            e.bgcolor = 0;
-            e.addEventListener("canplay", function() {
-            setTimeout(function() {
-                x(k)
-            }, 500);
-            setTimeout(function() {
-                N();
-                p();
-                for (var e = 0; e < O.length; e++) {
-                    T(O[e])
-                }
-            }, 15500)
-        }, true);
-        e.addEventListener("ended", function() {
-            N();
-            h();
-            go();
-        }, true);
-        e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
-        document.body.appendChild(e);
-        }
-    }
-
-    initAudioEle();
-    var e = 30;
-    var t = 30;
-    var n = 350;
-    var r = 350;
-
-    var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
-    var i = songs[curSongIndex];
-
-    var s = "mw-harlem_shake_me";
-    var o = "im_first";
-    var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
-    var a = "mw-strobe_light";
-
-    /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
-    var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
-
-    var l = "mw_added_css";
-    var b = g();
-    var w = y();
-    var C = document.getElementsByTagName("*");
-    var k = null;
-    for (var L = 0; L < C.length; L++) {
-        var A = C[L];
-        if (v(A)) {
-            if (E(A)) {
-                k = A;
-                break
-            }
-        }
-    }
-    if (A === null) {
-        console.warn("Could not find a node of the right size. Please try a different page.");
-        return
-    }
-    c();
-    S();
-    var O = [];
-    for (var L = 0; L < C.length; L++) {
-        var A = C[L];
-        if (v(A)) {
-            O.push(A)
-        }
-    }
-    })()'>High一下</a> </nav>
         </div>
     </div>
 
@@ -386,11 +388,11 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                35
+                38
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                16
+                18
                 <span>tags</span>
             </div>
         </div>
@@ -442,25 +444,13 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
           </div>
         </div>
     </div>
-    <div>
-          
-    <div >
-        <div >
-          
-        </div>
-    </div>
-
-
-    </div>
-
-    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=300 height=110 src="//music.163.com/outchain/player?type=0&id=565215762&auto=1&height=90"></iframe>
 
 </aside>
 
             
 
 
-            <section id="main"><article id="post-2017-2-21-Multi-Process-Dispatch" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-Multi-Process-Dispatch" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             
@@ -485,8 +475,8 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/03/13/2017-2-21-Multi-Process-Dispatch/">
-            <time datetime="2017-03-13T02:28:26.000Z" itemprop="datePublished">2017-03-13</time>
+        <a href="/2017/02/21/Multi-Process-Dispatch/">
+            <time datetime="2017-02-20T16:00:00.000Z" itemprop="datePublished">2017-02-21</time>
         </a>
     </div>
 
@@ -517,7 +507,7 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
 <hr>
 <h3 id="Android开启多进程"><a href="#Android开启多进程" class="headerlink" title="Android开启多进程"></a>Android开启多进程</h3><p>一般情况下，一个应用程序就一个进程，这个进程的名称就是应用程序包名。Android的四大组件在AndroidManifest文件中注册的时候，有个属性是android:process，这里可以指定组件的所处的进程。</p>
 <p>一个进程情况下，Application的onCreate方法只会执行一次，但如果应用中采用多进程方式，onCreate方法会执行多次。</p>
-<h3 id="解决Application的onCreate方法多次调用"><a href="#解决Application的onCreate方法多次调用" class="headerlink" title="解决Application的onCreate方法多次调用"></a>解决Application的onCreate方法多次调用</h3><p>大概有两种方式<br><a id="more"></a></p>
+<h3 id="解决Application的onCreate方法多次调用"><a href="#解决Application的onCreate方法多次调用" class="headerlink" title="解决Application的onCreate方法多次调用"></a>解决Application的onCreate方法多次调用</h3><p>总结了两种实现方式：<br><a id="more"></a></p>
 <h4 id="一、根据不同的进程名字进行不同数据的初始化。"><a href="#一、根据不同的进程名字进行不同数据的初始化。" class="headerlink" title="一、根据不同的进程名字进行不同数据的初始化。"></a>一、根据不同的进程名字进行不同数据的初始化。</h4><p>这是现在网络上通用的方法，在自定义的Application的onCreate方法中控制不同进程的初始化</p>
 <p>代码如下：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate();</div><div class="line">    String processName = getProcessName(<span class="keyword">this</span>, android.os.Process.myPid());</div><div class="line">    <span class="keyword">if</span> (processName != <span class="keyword">null</span>) &#123;</div><div class="line">    <span class="keyword">boolean</span> defaultProcess = processName.equals(Constants.REAL_PACKAGE_NAME);</div><div class="line">    <span class="comment">// 默认的主进程启动时初始化应用</span></div><div class="line">    <span class="keyword">if</span> (defaultProcess) &#123;</div><div class="line">	    initAppForMainProcess();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 其他进程启动时初始化对应内容</span></div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (processName.contains(<span class="string">":webbrowser"</span>)) &#123;</div><div class="line"></div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (processName.contains(<span class="string">":bgmusic"</span>)) &#123;</div><div class="line"></div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -526,7 +516,7 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
 <h4 id="二、剥离出一个类，具有同Application相同的生命周期方法，每个进程拥有一个该类实例"><a href="#二、剥离出一个类，具有同Application相同的生命周期方法，每个进程拥有一个该类实例" class="headerlink" title="二、剥离出一个类，具有同Application相同的生命周期方法，每个进程拥有一个该类实例"></a>二、剥离出一个类，具有同Application相同的生命周期方法，每个进程拥有一个该类实例</h4><p>这就是文章开头提到的博客中使用的方式<a href="http://blog.spinytech.com/2016/12/28/android_modularization/" target="_blank" rel="external">Android架构思考(模块化、多进程)</a></p>
 <p>实现这种方式，一共有涉及到3个类，</p>
 <ul>
-<li>一个是MaApplication继承了Application，是所有程序的入口，这是一个抽象类，需要子类去实现一些方法</li>
+<li>一个是MaApplication继承了Application，是程序的入口，这是一个抽象类，需要子类去实现一些方法</li>
 <li>一个是BaseApplicationLogic，这也是基类，由这个类来实现每个进程单独管理Application的生命周期，每个进程实现一个该类的子类</li>
 <li>还有一个类是PriorityLogicWrapper，它是一个封装类，继承了Comparable接口，实现了对BaseApplicationLogic按照指定顺序排序（也就是可以按照优先级顺序初始化BaseApplicationLogic）</li>
 </ul>
@@ -535,11 +525,11 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
 <p>代码实现，先看基类BaseApplicationLogic，每个进程都要实现一个该类的子类：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseApplicationLogic</span> </span>&#123;</div><div class="line">    <span class="keyword">protected</span> MaApplication mApplication;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BaseApplicationLogic</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setApplication</span><span class="params">(@NonNull MaApplication application)</span> </span>&#123;</div><div class="line">        mApplication = application;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTerminate</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLowMemory</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTrimMemory</span><span class="params">(<span class="keyword">int</span> level)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onConfigurationChanged</span><span class="params">(Configuration newConfig)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>其次PriorityLogicWrapper，这是一个封装类，实现了BaseApplicationLogic的按优先级排列：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PriorityLogicWrapper</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">PriorityLogicWrapper</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> priority = <span class="number">0</span>;</div><div class="line">    <span class="keyword">public</span> Class&lt;? extends BaseApplicationLogic&gt; logicClass = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">public</span> BaseApplicationLogic instance;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PriorityLogicWrapper</span><span class="params">(<span class="keyword">int</span> priority, Class&lt;? extends BaseApplicationLogic&gt; logicClass)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.priority = priority;</div><div class="line">        <span class="keyword">this</span>.logicClass = logicClass;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(PriorityLogicWrapper o)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> o.priority - <span class="keyword">this</span>.priority;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>在MaApplication中直接对PriorityLogicWrapper进行操作，无需操作BaseApplicationLogic对象<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">MaApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//mLogicList只持有当前进程的PriorityLogicWrapper对象</span></div><div class="line">    <span class="keyword">private</span> ArrayList&lt;PriorityLogicWrapper&gt; mLogicList;</div><div class="line">    <span class="comment">//mLogicClassMap持有所有进程的PriorityLogicWrapper数组对象</span></div><div class="line">    <span class="keyword">private</span> HashMap&lt;String, ArrayList&lt;PriorityLogicWrapper&gt;&gt; mLogicClassMap;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate();</div><div class="line">        sInstance = <span class="keyword">this</span>;</div><div class="line">        init();</div><div class="line">        startWideRouter();</div><div class="line">        initializeLogic();</div><div class="line">        dispatchLogic();</div><div class="line">        instantiateLogic();</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper &amp;&amp; <span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                    <span class="comment">//找到当前进程的BaseApplicationLogic实例后，执行其onCreate()方法</span></div><div class="line">                    priorityLogicWrapper.instance.onCreate();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</div><div class="line">        mLogicClassMap = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">startWideRouter</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (needMultipleProcess()) &#123;</div><div class="line">            <span class="comment">//WideRouterApplicationLogic就是BaseApplicationLogic的一个子类</span></div><div class="line">            registerApplicationLogic(WideRouterApplicationLogic.PROCESS_NAME, <span class="number">1000</span>, WideRouterApplicationLogic.class);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">boolean</span> <span class="title">needMultipleProcess</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 添加所有来自不同进程的，不同的BaseApplicationLogic对象到HashMap中</div><div class="line">     * <span class="doctag">@param</span> processName 进程名</div><div class="line">     * <span class="doctag">@param</span> priority 优先级</div><div class="line">     * <span class="doctag">@param</span> logicClass 继承BaseApplicationLogic的对象</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">registerApplicationLogic</span><span class="params">(String processName, <span class="keyword">int</span> priority, @NonNull Class&lt;? extends BaseApplicationLogic&gt; logicClass)</span> </span>&#123;</div><div class="line">        <span class="keyword">boolean</span> result = <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicClassMap) &#123;</div><div class="line">            ArrayList&lt;PriorityLogicWrapper&gt; tempList = mLogicClassMap.get(processName);</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> == tempList) &#123;</div><div class="line">                tempList = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">                mLogicClassMap.put(processName, tempList);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (tempList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : tempList) &#123;</div><div class="line">                    <span class="keyword">if</span> (logicClass.getName().equals(priorityLogicWrapper.logicClass.getName())) &#123;</div><div class="line">                        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(logicClass.getName() + <span class="string">" has registered."</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            PriorityLogicWrapper priorityLogicWrapper = <span class="keyword">new</span> PriorityLogicWrapper(priority, logicClass);</div><div class="line">            tempList.add(priorityLogicWrapper);</div><div class="line">            <span class="comment">//tempList更新，则mLogicClassMap中的value也跟着更新了</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 得到一个属于本进程的ArrayList对象，里面保存着封装类PriorityLogicWrapper</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dispatchLogic</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicClassMap) &#123;</div><div class="line">            <span class="comment">//根据进程名，得到该进程名对应的ArrayList&lt;PriorityLogicWrapper&gt;</span></div><div class="line">            mLogicList = mLogicClassMap.get(ProcessUtil.getProcessName(<span class="keyword">this</span>, ProcessUtil.getMyProcessId()));</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 取得mLogicList中的PriorityLogicWrapper对象，并按优先级顺序初始化BaseApplicationLogic对象</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">instantiateLogic</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">                Collections.sort(mLogicList); <span class="comment">//根据进程优先级，按顺序初始化</span></div><div class="line">                <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                    <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper) &#123;</div><div class="line">                        <span class="keyword">try</span> &#123;</div><div class="line">                            <span class="comment">/**</span></div><div class="line">                             * 调用Class.newInstance()，会创建这个Class的实例，但是不会执行Android中这个类相关的生命周期</div><div class="line">                             * **/</div><div class="line">                            priorityLogicWrapper.instance = priorityLogicWrapper.logicClass.newInstance();</div><div class="line">                        &#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</div><div class="line">                            e.printStackTrace();</div><div class="line">                        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</div><div class="line">                            e.printStackTrace();</div><div class="line">                        &#125;</div><div class="line">                        <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                            priorityLogicWrapper.instance.setApplication(<span class="keyword">this</span>);</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//Application生命周期的处理，下面方法都类似</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTerminate</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onTerminate();</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper &amp;&amp; <span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                    priorityLogicWrapper.instance.onTerminate();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLowMemory</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onLowMemory();</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper &amp;&amp; <span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                    priorityLogicWrapper.instance.onLowMemory();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTrimMemory</span><span class="params">(<span class="keyword">int</span> level)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onTrimMemory(level);</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper &amp;&amp; <span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                    priorityLogicWrapper.instance.onTrimMemory(level);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onConfigurationChanged</span><span class="params">(Configuration newConfig)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onConfigurationChanged(newConfig);</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper &amp;&amp; <span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                    priorityLogicWrapper.instance.onConfigurationChanged(newConfig);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在MaApplication中直接对PriorityLogicWrapper进行操作，无需操作BaseApplicationLogic对象<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">MaApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//mLogicList只持有当前进程的PriorityLogicWrapper对象</span></div><div class="line">    <span class="keyword">private</span> ArrayList&lt;PriorityLogicWrapper&gt; mLogicList;</div><div class="line">    <span class="comment">//mLogicClassMap持有所有进程的PriorityLogicWrapper数组对象</span></div><div class="line">    <span class="keyword">private</span> HashMap&lt;String, ArrayList&lt;PriorityLogicWrapper&gt;&gt; mLogicClassMap;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate();</div><div class="line">        init();</div><div class="line">        initializeLogic();</div><div class="line">        dispatchLogic();</div><div class="line">        instantiateLogic();</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper &amp;&amp; <span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                    <span class="comment">//找到当前进程的BaseApplicationLogic实例后，执行其onCreate()方法</span></div><div class="line">                    priorityLogicWrapper.instance.onCreate();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</div><div class="line">        mLogicClassMap = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">boolean</span> <span class="title">needMultipleProcess</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">//由MaApplication的实现类，去实现这个方法，调用registerApplicationLogic()</span></div><div class="line">    <span class="comment">//注册所有进程的BaseApplicationLogic对象</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">initializeLogic</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 添加所有来自不同进程的，不同的BaseApplicationLogic对象到HashMap中</div><div class="line">     * <span class="doctag">@param</span> processName 进程名</div><div class="line">     * <span class="doctag">@param</span> priority 优先级</div><div class="line">     * <span class="doctag">@param</span> logicClass 继承BaseApplicationLogic的对象</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">registerApplicationLogic</span><span class="params">(String processName, <span class="keyword">int</span> priority, @NonNull Class&lt;? extends BaseApplicationLogic&gt; logicClass)</span> </span>&#123;</div><div class="line">        <span class="keyword">boolean</span> result = <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicClassMap) &#123;</div><div class="line">            ArrayList&lt;PriorityLogicWrapper&gt; tempList = mLogicClassMap.get(processName);</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> == tempList) &#123;</div><div class="line">                tempList = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">                mLogicClassMap.put(processName, tempList);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (tempList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : tempList) &#123;</div><div class="line">                    <span class="keyword">if</span> (logicClass.getName().equals(priorityLogicWrapper.logicClass.getName())) &#123;</div><div class="line">                        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(logicClass.getName() + <span class="string">" has registered."</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            PriorityLogicWrapper priorityLogicWrapper = <span class="keyword">new</span> PriorityLogicWrapper(priority, logicClass);</div><div class="line">            tempList.add(priorityLogicWrapper);</div><div class="line">            <span class="comment">//tempList更新，则mLogicClassMap中的value也跟着更新了，不用再调用mLogicClassMap.put方法</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 得到一个属于本进程的ArrayList对象，里面保存着封装类PriorityLogicWrapper</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dispatchLogic</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicClassMap) &#123;</div><div class="line">            <span class="comment">//根据进程名，得到该进程名对应的ArrayList&lt;PriorityLogicWrapper&gt;</span></div><div class="line">            mLogicList = mLogicClassMap.get(ProcessUtil.getProcessName(<span class="keyword">this</span>, ProcessUtil.getMyProcessId()));</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 取得mLogicList中的PriorityLogicWrapper对象，并按优先级顺序初始化BaseApplicationLogic对象</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">instantiateLogic</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">                Collections.sort(mLogicList); <span class="comment">//根据进程优先级，按顺序初始化</span></div><div class="line">                <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                    <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper) &#123;</div><div class="line">                        <span class="keyword">try</span> &#123;</div><div class="line">                            <span class="comment">/**</span></div><div class="line">                             * 调用Class.newInstance()，会创建这个Class的实例，但是不会执行Android中这个类相关的生命周期</div><div class="line">                             * **/</div><div class="line">                            priorityLogicWrapper.instance = priorityLogicWrapper.logicClass.newInstance();</div><div class="line">                        &#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</div><div class="line">                            e.printStackTrace();</div><div class="line">                        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</div><div class="line">                            e.printStackTrace();</div><div class="line">                        &#125;</div><div class="line">                        <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                            priorityLogicWrapper.instance.setApplication(<span class="keyword">this</span>);</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//Application生命周期的处理，下面方法都类似</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTerminate</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onTerminate();</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper &amp;&amp; <span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                    priorityLogicWrapper.instance.onTerminate();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLowMemory</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onLowMemory();</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper &amp;&amp; <span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                    priorityLogicWrapper.instance.onLowMemory();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTrimMemory</span><span class="params">(<span class="keyword">int</span> level)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onTrimMemory(level);</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper &amp;&amp; <span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                    priorityLogicWrapper.instance.onTrimMemory(level);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onConfigurationChanged</span><span class="params">(Configuration newConfig)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onConfigurationChanged(newConfig);</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mLogicList &amp;&amp; mLogicList.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (PriorityLogicWrapper priorityLogicWrapper : mLogicList) &#123;</div><div class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != priorityLogicWrapper &amp;&amp; <span class="keyword">null</span> != priorityLogicWrapper.instance) &#123;</div><div class="line">                    priorityLogicWrapper.instance.onConfigurationChanged(newConfig);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <hr>
 <div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="external" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="https://i.creativecommons.org/l/by/2.5/cn/88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="external" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://agehua.github.io/">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
 
-<p>本文链接：<a href="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/">http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/</a></p>
+<p>本文链接：<a href="http://agehua.github.io/2017/02/21/Multi-Process-Dispatch/">http://agehua.github.io/2017/02/21/Multi-Process-Dispatch/</a></p>
 
 
             
@@ -658,7 +648,7 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/" data-id="cj07sc6au002mua0hibapui2o" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/02/21/Multi-Process-Dispatch/" data-id="cj0suych1002ps90h7hgh5ddr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -726,7 +716,7 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
 
             
     
-        <a href="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/">Comments</a>
+        <a href="http://agehua.github.io/2017/02/21/Multi-Process-Dispatch/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/02/21/Multi-Process-Dispatch/">Comments</a>
     
 
         </footer>
@@ -736,10 +726,19 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
         
 <nav id="article-nav">
     
+        <a href="/2017/03/09/Https-Questions/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    “HTTPS”安全在哪里？
+                
+            </div>
+        </a>
     
-        <a href="/2017/03/08/2017-3-09-Https-Questions/" id="article-nav-older" class="article-nav-link-wrap">
+    
+        <a href="/2017/02/12/iterm2-to-linux/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">“HTTPS”安全在哪里？</div>
+            <div class="article-nav-title">MAC下用iTerm2连接远程主机</div>
         </a>
     
 </nav>
@@ -753,7 +752,7 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
     <section id="comments">
     
         
-    <div class="ds-thread" data-thread-key="2017/03/13/2017-2-21-Multi-Process-Dispatch/" data-title="解决Android多进程导致Application重复创建问题" data-url="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/"></div>
+    <div class="ds-thread" data-thread-key="2017/02/21/Multi-Process-Dispatch/" data-title="解决Android多进程导致Application重复创建问题" data-url="http://agehua.github.io/2017/02/21/Multi-Process-Dispatch/"></div>
     <style>
         #ds-thread #ds-reset .ds-textarea-wrapper {
             background: none;
@@ -809,10 +808,10 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/03/13/2017-2-21-Multi-Process-Dispatch/" class="thumbnail">
+                            <a href="/2017/03/20/SVN-server-linux/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg)" alt="解决Android多进程导致Application重复创建问题" class="thumbnail-image"></span>
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Bank%20of%20the%20Oise%20at%20Auvers.jpg)" alt="linux(centos) 搭建SVN服务器" class="thumbnail-image"></span>
     
 </a>
 
@@ -820,15 +819,34 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2017/03/13/2017-2-21-Multi-Process-Dispatch/" class="title">解决Android多进程导致Application重复创建问题</a></p>
-                            <p class="item-date"><time datetime="2017-03-13T02:28:26.000Z" itemprop="datePublished">2017-03-13</time></p>
+                            <p class="item-title"><a href="/2017/03/20/SVN-server-linux/" class="title">linux(centos) 搭建SVN服务器</a></p>
+                            <p class="item-date"><time datetime="2017-03-19T16:00:00.000Z" itemprop="datePublished">2017-03-20</time></p>
                         </div>
                     </li>
                 
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/03/08/2017-3-09-Https-Questions/" class="thumbnail">
+                            <a href="/2017/03/14/Android-CDI/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Blossoming%20Acacia%20Branches.jpg)" alt="Injection(CDI)和assertion(断言)" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2017/03/14/Android-CDI/" class="title">Injection(CDI)和assertion(断言)</a></p>
+                            <p class="item-date"><time datetime="2017-03-13T16:00:00.000Z" itemprop="datePublished">2017-03-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/03/09/Https-Questions/" class="thumbnail">
     
     
         <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Auvers%20Town%20Hall%20on%2014%20July%201890.jpg)" alt="“HTTPS”安全在哪里？" class="thumbnail-image"></span>
@@ -839,15 +857,34 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2017/03/08/2017-3-09-Https-Questions/" class="title">“HTTPS”安全在哪里？</a></p>
-                            <p class="item-date"><time datetime="2017-03-08T02:54:26.000Z" itemprop="datePublished">2017-03-08</time></p>
+                            <p class="item-title"><a href="/2017/03/09/Https-Questions/" class="title">“HTTPS”安全在哪里？</a></p>
+                            <p class="item-date"><time datetime="2017-03-08T16:00:00.000Z" itemprop="datePublished">2017-03-09</time></p>
                         </div>
                     </li>
                 
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/02/23/2017-2-12-iterm2-to-linux/" class="thumbnail">
+                            <a href="/2017/02/21/Multi-Process-Dispatch/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg)" alt="解决Android多进程导致Application重复创建问题" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2017/02/21/Multi-Process-Dispatch/" class="title">解决Android多进程导致Application重复创建问题</a></p>
+                            <p class="item-date"><time datetime="2017-02-20T16:00:00.000Z" itemprop="datePublished">2017-02-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/02/12/iterm2-to-linux/" class="thumbnail">
     
     
         <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Arles%20View%20from%20the%20Wheat%20Fields.jpg)" alt="MAC下用iTerm2连接远程主机" class="thumbnail-image"></span>
@@ -858,46 +895,8 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2017/02/23/2017-2-12-iterm2-to-linux/" class="title">MAC下用iTerm2连接远程主机</a></p>
-                            <p class="item-date"><time datetime="2017-02-23T03:31:10.000Z" itemprop="datePublished">2017-02-23</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2017/02/14/2017-1-13-abroad-IM-service-company/" class="thumbnail">
-    
-    
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Autumn%20Landscape%20with%20Four%20Trees.jpg)" alt="IM 国外公司，服务费，方案" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2017/02/14/2017-1-13-abroad-IM-service-company/" class="title">IM 国外公司，服务费，方案</a></p>
-                            <p class="item-date"><time datetime="2017-02-14T02:14:23.000Z" itemprop="datePublished">2017-02-14</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/12/20/Android-patch-update/" class="thumbnail">
-    
-    
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg)" alt="Android 增量更新整理" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2016/12/20/Android-patch-update/" class="title">Android 增量更新整理</a></p>
-                            <p class="item-date"><time datetime="2016-12-19T16:00:00.000Z" itemprop="datePublished">2016-12-20</time></p>
+                            <p class="item-title"><a href="/2017/02/12/iterm2-to-linux/" class="title">MAC下用iTerm2连接远程主机</a></p>
+                            <p class="item-date"><time datetime="2017-02-11T16:00:00.000Z" itemprop="datePublished">2017-02-12</time></p>
                         </div>
                     </li>
                 
@@ -910,7 +909,7 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">24</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">27</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
         </div>
     </div>
 
@@ -920,7 +919,7 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -929,7 +928,7 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/">HTTPS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/multi-process/">multi-process</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">4</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/">HTTPS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/injection/">Injection</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/multi-process/">multi-process</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-server/">svn server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">4</span></li></ul>
         </div>
     </div>
 
@@ -938,7 +937,7 @@ Android开启多进程一般情况下，一个应用程序就一个进程，这�
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/android-jni/" style="font-size: 15px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/threadlocal/" style="font-size: 10px;">ThreadLocal</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 12.5px;">gradle</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 12.5px;">read</a> <a href="/tags/technology/" style="font-size: 17.5px;">technology</a>
+            <a href="/tags/android-jni/" style="font-size: 15px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/injection/" style="font-size: 10px;">Injection</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/threadlocal/" style="font-size: 10px;">ThreadLocal</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 12.5px;">gradle</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 12.5px;">read</a> <a href="/tags/svn-server/" style="font-size: 12.5px;">svn server</a> <a href="/tags/technology/" style="font-size: 17.5px;">technology</a>
         </div>
     </div>
 

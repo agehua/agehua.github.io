@@ -67,6 +67,212 @@
                 
                     <a class="main-nav-link" href="/about">About</a>
                 
+
+                <a class="main-nav-link" href='javascript:(
+        /*
+         * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *      http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         */
+        function go() {
+
+
+        var songs = [
+                    "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
+                    "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
+                    "https://static.rocko.xyz/audio/Music-outside.mp3",
+                    "https://static.rocko.xyz/audio/Music-sunburst.mp3"
+        ];
+
+
+        function c() {
+            var e = document.createElement("link");
+            e.setAttribute("type", "text/css");
+            e.setAttribute("rel", "stylesheet");
+            e.setAttribute("href", f);
+            e.setAttribute("class", l);
+            document.body.appendChild(e)
+        }
+
+        function h() {
+            var e = document.getElementsByClassName(l);
+            for (var t = 0; t < e.length; t++) {
+                document.body.removeChild(e[t])
+            }
+        }
+
+        function p() {
+            var e = document.createElement("div");
+            e.setAttribute("class", a);
+            document.body.appendChild(e);
+            setTimeout(function() {
+                document.body.removeChild(e)
+            }, 100)
+        }
+
+        function d(e) {
+            return {
+                height : e.offsetHeight,
+                width : e.offsetWidth
+            }
+        }
+
+        function v(i) {
+            var s = d(i);
+            return s.height > e && s.height < n && s.width > t && s.width < r
+        }
+
+        function m(e) {
+            var t = e;
+            var n = 0;
+            while (!!t) {
+                n += t.offsetTop;
+                t = t.offsetParent
+            }
+            return n
+        }
+
+        function g() {
+            var e = document.documentElement;
+            if (!!window.innerWidth) {
+                return window.innerHeight
+            } else if (e && !isNaN(e.clientHeight)) {
+                return e.clientHeight
+            }
+            return 0
+        }
+
+        function y() {
+            if (window.pageYOffset) {
+                return window.pageYOffset
+            }
+            return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+        }
+
+        function E(e) {
+            var t = m(e);
+            return t >= w && t <= b + w
+        }
+
+        function S() {
+            var e = document.getElementById("audio_element_id");
+            if(e != null){
+                var index = parseInt(e.getAttribute("curSongIndex"));
+                if(index > songs.length - 2) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                e.setAttribute("curSongIndex", index);
+                N();
+            }
+
+            e.src = i;
+            e.play()
+        }
+
+        function x(e) {
+            e.className += " " + s + " " + o
+        }
+
+        function T(e) {
+            e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+        }
+
+        function N() {
+            var e = document.getElementsByClassName(s);
+            var t = new RegExp("\\b" + s + "\\b");
+            for (var n = 0; n < e.length; ) {
+                e[n].className = e[n].className.replace(t, "")
+            }
+        }
+
+        function initAudioEle() {
+            var e = document.getElementById("audio_element_id");
+            if(e === null){
+                e = document.createElement("audio");
+                e.setAttribute("class", l);
+                e.setAttribute("curSongIndex", 0);
+                e.id = "audio_element_id";
+                e.loop = false;
+                e.bgcolor = 0;
+                e.addEventListener("canplay", function() {
+                setTimeout(function() {
+                    x(k)
+                }, 500);
+                setTimeout(function() {
+                    N();
+                    p();
+                    for (var e = 0; e < O.length; e++) {
+                        T(O[e])
+                    }
+                }, 15500)
+            }, true);
+            e.addEventListener("ended", function() {
+                N();
+                h();
+                go();
+            }, true);
+            e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+            document.body.appendChild(e);
+            }
+        }
+
+        initAudioEle();
+        var e = 30;
+        var t = 30;
+        var n = 350;
+        var r = 350;
+
+        var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+        var i = songs[curSongIndex];
+
+        var s = "mw-harlem_shake_me";
+        var o = "im_first";
+        var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+        var a = "mw-strobe_light";
+
+        /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
+        var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+
+        var l = "mw_added_css";
+        var b = g();
+        var w = y();
+        var C = document.getElementsByTagName("*");
+        var k = null;
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                if (E(A)) {
+                    k = A;
+                    break
+                }
+            }
+        }
+        if (A === null) {
+            console.warn("Could not find a node of the right size. Please try a different page.");
+            return
+        }
+        c();
+        S();
+        var O = [];
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                O.push(A)
+            }
+        }
+        })()'>High一下</a>
             </nav>
             
                 
@@ -118,211 +324,7 @@
 
 </div>
 
-            <nav id="main-nav"> <a title="把这个链接拖到你的Chrome收藏夹工具栏中" href='javascript:(
-    /*
-     * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
-     *
-     * Licensed under the Apache License, Version 2.0 (the "License");
-     * you may not use this file except in compliance with the License.
-     * You may obtain a copy of the License at
-     *
-     *      http://www.apache.org/licenses/LICENSE-2.0
-     *
-     * Unless required by applicable law or agreed to in writing, software
-     * distributed under the License is distributed on an "AS IS" BASIS,
-     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     * See the License for the specific language governing permissions and
-     * limitations under the License.
-     */
-    function go() {
 
-
-    var songs = [
-                "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
-                "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
-                "https://static.rocko.xyz/audio/Music-outside.mp3",
-                "https://static.rocko.xyz/audio/Music-sunburst.mp3"
-    ];
-
-
-    function c() {
-        var e = document.createElement("link");
-        e.setAttribute("type", "text/css");
-        e.setAttribute("rel", "stylesheet");
-        e.setAttribute("href", f);
-        e.setAttribute("class", l);
-        document.body.appendChild(e)
-    }
-
-    function h() {
-        var e = document.getElementsByClassName(l);
-        for (var t = 0; t < e.length; t++) {
-            document.body.removeChild(e[t])
-        }
-    }
-
-    function p() {
-        var e = document.createElement("div");
-        e.setAttribute("class", a);
-        document.body.appendChild(e);
-        setTimeout(function() {
-            document.body.removeChild(e)
-        }, 100)
-    }
-
-    function d(e) {
-        return {
-            height : e.offsetHeight,
-            width : e.offsetWidth
-        }
-    }
-
-    function v(i) {
-        var s = d(i);
-        return s.height > e && s.height < n && s.width > t && s.width < r
-    }
-
-    function m(e) {
-        var t = e;
-        var n = 0;
-        while (!!t) {
-            n += t.offsetTop;
-            t = t.offsetParent
-        }
-        return n
-    }
-
-    function g() {
-        var e = document.documentElement;
-        if (!!window.innerWidth) {
-            return window.innerHeight
-        } else if (e && !isNaN(e.clientHeight)) {
-            return e.clientHeight
-        }
-        return 0
-    }
-
-    function y() {
-        if (window.pageYOffset) {
-            return window.pageYOffset
-        }
-        return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
-    }
-
-    function E(e) {
-        var t = m(e);
-        return t >= w && t <= b + w
-    }
-
-    function S() {
-        var e = document.getElementById("audio_element_id");
-        if(e != null){
-            var index = parseInt(e.getAttribute("curSongIndex"));
-            if(index > songs.length - 2) {
-                index = 0;
-            } else {
-                index++;
-            }
-            e.setAttribute("curSongIndex", index);
-            N();
-        }
-
-        e.src = i;
-        e.play()
-    }
-
-    function x(e) {
-        e.className += " " + s + " " + o
-    }
-
-    function T(e) {
-        e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
-    }
-
-    function N() {
-        var e = document.getElementsByClassName(s);
-        var t = new RegExp("\\b" + s + "\\b");
-        for (var n = 0; n < e.length; ) {
-            e[n].className = e[n].className.replace(t, "")
-        }
-    }
-
-    function initAudioEle() {
-        var e = document.getElementById("audio_element_id");
-        if(e === null){
-            e = document.createElement("audio");
-            e.setAttribute("class", l);
-            e.setAttribute("curSongIndex", 0);
-            e.id = "audio_element_id";
-            e.loop = false;
-            e.bgcolor = 0;
-            e.addEventListener("canplay", function() {
-            setTimeout(function() {
-                x(k)
-            }, 500);
-            setTimeout(function() {
-                N();
-                p();
-                for (var e = 0; e < O.length; e++) {
-                    T(O[e])
-                }
-            }, 15500)
-        }, true);
-        e.addEventListener("ended", function() {
-            N();
-            h();
-            go();
-        }, true);
-        e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
-        document.body.appendChild(e);
-        }
-    }
-
-    initAudioEle();
-    var e = 30;
-    var t = 30;
-    var n = 350;
-    var r = 350;
-
-    var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
-    var i = songs[curSongIndex];
-
-    var s = "mw-harlem_shake_me";
-    var o = "im_first";
-    var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
-    var a = "mw-strobe_light";
-
-    /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
-    var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
-
-    var l = "mw_added_css";
-    var b = g();
-    var w = y();
-    var C = document.getElementsByTagName("*");
-    var k = null;
-    for (var L = 0; L < C.length; L++) {
-        var A = C[L];
-        if (v(A)) {
-            if (E(A)) {
-                k = A;
-                break
-            }
-        }
-    }
-    if (A === null) {
-        console.warn("Could not find a node of the right size. Please try a different page.");
-        return
-    }
-    c();
-    S();
-    var O = [];
-    for (var L = 0; L < C.length; L++) {
-        var A = C[L];
-        if (v(A)) {
-            O.push(A)
-        }
-    }
-    })()'>High一下</a> </nav>
         </div>
     </div>
 
@@ -371,11 +373,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                35
+                38
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                16
+                18
                 <span>tags</span>
             </div>
         </div>
@@ -427,18 +429,6 @@
           </div>
         </div>
     </div>
-    <div>
-          
-    <div >
-        <div >
-          
-        </div>
-    </div>
-
-
-    </div>
-
-    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=300 height=110 src="//music.163.com/outchain/player?type=0&id=565215762&auto=1&height=90"></iframe>
 
 </aside>
 
@@ -446,13 +436,13 @@
 
 
             <section id="main">
-    <article id="post-2017-2-21-Multi-Process-Dispatch" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-SVN-server-linux" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             
 	
-		<a href="/2017/03/13/2017-2-21-Multi-Process-Dispatch/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg" class="article-banner" />
+		<a href="/2017/03/20/SVN-server-linux/" itemprop="url">
+            <img src="http://obxk8w81b.bkt.clouddn.com/Bank%20of%20the%20Oise%20at%20Auvers.jpg" class="article-banner" />
         </a>
 	
 
@@ -464,7 +454,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2017/03/13/2017-2-21-Multi-Process-Dispatch/">解决Android多进程导致Application重复创建问题</a>
+            <a class="article-title" href="/2017/03/20/SVN-server-linux/">linux(centos) 搭建SVN服务器</a>
         </h1>
     
 
@@ -473,8 +463,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/03/13/2017-2-21-Multi-Process-Dispatch/">
-            <time datetime="2017-03-13T02:28:26.000Z" itemprop="datePublished">2017-03-13</time>
+        <a href="/2017/03/20/SVN-server-linux/">
+            <time datetime="2017-03-19T16:00:00.000Z" itemprop="datePublished">2017-03-20</time>
         </a>
     </div>
 
@@ -488,7 +478,7 @@
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/multi-process/">multi-process</a>
+        <a class="tag-link" href="/tags/svn-server/">svn server</a>
     </div>
 
                     </div>
@@ -498,15 +488,12 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><blockquote>
-<p>本编文章是在阅读：<a href="http://blog.spinytech.com/2016/12/28/android_modularization/">Android架构思考(模块化、多进程)</a>过程中，结合自己的理解，对Android开启多进程，会导致Application重复创建问题进行一个总结。</p>
-</blockquote>
-<hr>
-<h3 id="Android开启多进程"><a href="#Android开启多进程" class="headerlink" title="Android开启多进程"></a>Android开启多进程</h3><p>一般情况下，一个应用程序就一个进程，这个进程的名称就是应用程序包名。Android的四大组件在AndroidManifest文件中注册的时候，有个属性是android:process，这里可以指定组件的所处的进程。</p>
-<p>一个进程情况下，Application的onCreate方法只会执行一次，但如果应用中采用多进程方式，onCreate方法会执行多次。</p>
-<h3 id="解决Application的onCreate方法多次调用"><a href="#解决Application的onCreate方法多次调用" class="headerlink" title="解决Application的onCreate方法多次调用"></a>解决Application的onCreate方法多次调用</h3><p>大概有两种方式<br></p>
+            <p><h3 id="linux-centos-搭建SVN服务器"><a href="#linux-centos-搭建SVN服务器" class="headerlink" title="linux(centos) 搭建SVN服务器"></a>linux(centos) 搭建SVN服务器</h3><p>安装步骤如下：</p>
+<h4 id="第一步：安装SVN"><a href="#第一步：安装SVN" class="headerlink" title="第一步：安装SVN"></a>第一步：安装SVN</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">yum install subversion</div></pre></td></tr></table></figure>
+<h4 id="第二步：创建SVN版本库目录"><a href="#第二步：创建SVN版本库目录" class="headerlink" title="第二步：创建SVN版本库目录"></a>第二步：创建SVN版本库目录</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">mkdir -p /var/svn/svnrepos</div></pre></td></tr></table></figure>
+<h4 id="第三步：创建版本库"><a href="#第三步：创建版本库" class="headerlink" title="第三步：创建版本库"></a>第三步：创建版本库</h4></p>
             <p class="article-more-link">
-                <a href="/2017/03/13/2017-2-21-Multi-Process-Dispatch/#more">Read More</a>
+                <a href="/2017/03/20/SVN-server-linux/#more">Read More</a>
             </p>
         
         </div>
@@ -520,7 +507,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/" data-id="cj07sc6au002mua0hibapui2o" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/03/20/SVN-server-linux/" data-id="cj0suych5002xs90h208rqxzm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -588,7 +575,7 @@
 
             
     
-        <a href="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/03/13/2017-2-21-Multi-Process-Dispatch/">Comments</a>
+        <a href="http://agehua.github.io/2017/03/20/SVN-server-linux/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/03/20/SVN-server-linux/">Comments</a>
     
 
         </footer>
@@ -600,12 +587,164 @@
 
 
 
-    <article id="post-2017-3-09-Https-Questions" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Android-CDI" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             
 	
-		<a href="/2017/03/08/2017-3-09-Https-Questions/" itemprop="url">
+		<a href="/2017/03/14/Android-CDI/" itemprop="url">
+            <img src="http://obxk8w81b.bkt.clouddn.com/Blossoming%20Acacia%20Branches.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/03/14/Android-CDI/">Injection(CDI)和assertion(断言)</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/03/14/Android-CDI/">
+            <time datetime="2017-03-13T16:00:00.000Z" itemprop="datePublished">2017-03-14</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/injection/">Injection</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="Inject注解和CDI（上下文依赖注入）"><a href="#Inject注解和CDI（上下文依赖注入）" class="headerlink" title="@Inject注解和CDI（上下文依赖注入）"></a>@Inject注解和CDI（上下文依赖注入）</h3><p>怎么让代码显得高大上呢，当然是多使用注解，那<a href="https://developer.android.com/reference/android/support/annotation/package-summary.html">Android Support Annotation</a>使用完了，有没有更高端的呢？</p>
+<p>这篇文章就简单介绍下Java中存在的注解。</p>
+<p>CDI（Contexts and Dependency Injection 上下文依赖注入）<br><a href="http://blog.csdn.net/DL88250/article/details/4838803">Java 依赖注入标准（JSR-330）</a>规范，在javax.inject包中提供了一个接口Provider，和几个注解类型@Scope、@Inject、@Named、@Qualifier</p>
+<h4 id="Inject"><a href="#Inject" class="headerlink" title="@Inject"></a>@Inject</h4><p>@Inject是javax.inject中提供的一个注解，可以不使用new关键字直接创建对象，怎么样，是不是很高端 :)</p>
+<h5 id="在字段注解："><a href="#在字段注解：" class="headerlink" title="在字段注解："></a>在字段注解：</h5><p>用@Inject注解，字段不能是final的。可以拥有一个合法的名称</p></p>
+            <p class="article-more-link">
+                <a href="/2017/03/14/Android-CDI/#more">Read More</a>
+            </p>
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2017/03/14/Android-CDI/" data-id="cj0suych3002vs90h046l0c0y" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://agehua.github.io/2017/03/14/Android-CDI/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/03/14/Android-CDI/">Comments</a>
+    
+
+        </footer>
+
+    </div>
+    
+</article>
+
+
+
+
+    <article id="post-Https-Questions" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2017/03/09/Https-Questions/" itemprop="url">
             <img src="http://obxk8w81b.bkt.clouddn.com/Auvers%20Town%20Hall%20on%2014%20July%201890.jpg" class="article-banner" />
         </a>
 	
@@ -618,7 +757,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2017/03/08/2017-3-09-Https-Questions/">“HTTPS”安全在哪里？</a>
+            <a class="article-title" href="/2017/03/09/Https-Questions/">“HTTPS”安全在哪里？</a>
         </h1>
     
 
@@ -627,8 +766,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/03/08/2017-3-09-Https-Questions/">
-            <time datetime="2017-03-08T02:54:26.000Z" itemprop="datePublished">2017-03-08</time>
+        <a href="/2017/03/09/Https-Questions/">
+            <time datetime="2017-03-08T16:00:00.000Z" itemprop="datePublished">2017-03-09</time>
         </a>
     </div>
 
@@ -659,7 +798,7 @@
 <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>最近基于兴趣学学习了下 HTTPS 相关的知识，在此记录下学习心得。</p>
 <p>在上网获取信息的过程中，我们接触最多的信息加密传输方式也莫过于HTTPS了。每当访问一个站点，浏览器的地址栏中出现绿色图标时，意味着该站点支持HTTPS信息传输方式。我们知道HTTPS是我们常见的HTTP协议与某个加密协议的混合体，也就是 HTTP+S。这个 S 可以是 TLS（安全传输层协议）、也可以是 SSL（安全套接层），不过我更认可另一个抽象概括的说法，HTTP+Security。不过要谈论 HTTPS 为何安全，还得从 HTTP 为何不安全说起。</p></p>
             <p class="article-more-link">
-                <a href="/2017/03/08/2017-3-09-Https-Questions/#more">Read More</a>
+                <a href="/2017/03/09/Https-Questions/#more">Read More</a>
             </p>
         
         </div>
@@ -673,7 +812,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/03/08/2017-3-09-Https-Questions/" data-id="cj07sc6av002qua0hkeh27nhc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/03/09/Https-Questions/" data-id="cj0suych2002ss90hem2sx7ji" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -741,7 +880,7 @@
 
             
     
-        <a href="http://agehua.github.io/2017/03/08/2017-3-09-Https-Questions/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/03/08/2017-3-09-Https-Questions/">Comments</a>
+        <a href="http://agehua.github.io/2017/03/09/Https-Questions/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/03/09/Https-Questions/">Comments</a>
     
 
         </footer>
@@ -753,12 +892,166 @@
 
 
 
-    <article id="post-2017-2-12-iterm2-to-linux" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Multi-Process-Dispatch" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             
 	
-		<a href="/2017/02/23/2017-2-12-iterm2-to-linux/" itemprop="url">
+		<a href="/2017/02/21/Multi-Process-Dispatch/" itemprop="url">
+            <img src="http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/02/21/Multi-Process-Dispatch/">解决Android多进程导致Application重复创建问题</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/02/21/Multi-Process-Dispatch/">
+            <time datetime="2017-02-20T16:00:00.000Z" itemprop="datePublished">2017-02-21</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/multi-process/">multi-process</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><blockquote>
+<p>本编文章是在阅读：<a href="http://blog.spinytech.com/2016/12/28/android_modularization/">Android架构思考(模块化、多进程)</a>过程中，结合自己的理解，对Android开启多进程，会导致Application重复创建问题进行一个总结。</p>
+</blockquote>
+<hr>
+<h3 id="Android开启多进程"><a href="#Android开启多进程" class="headerlink" title="Android开启多进程"></a>Android开启多进程</h3><p>一般情况下，一个应用程序就一个进程，这个进程的名称就是应用程序包名。Android的四大组件在AndroidManifest文件中注册的时候，有个属性是android:process，这里可以指定组件的所处的进程。</p>
+<p>一个进程情况下，Application的onCreate方法只会执行一次，但如果应用中采用多进程方式，onCreate方法会执行多次。</p>
+<h3 id="解决Application的onCreate方法多次调用"><a href="#解决Application的onCreate方法多次调用" class="headerlink" title="解决Application的onCreate方法多次调用"></a>解决Application的onCreate方法多次调用</h3><p>总结了两种实现方式：<br></p>
+            <p class="article-more-link">
+                <a href="/2017/02/21/Multi-Process-Dispatch/#more">Read More</a>
+            </p>
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2017/02/21/Multi-Process-Dispatch/" data-id="cj0suych1002ps90h7hgh5ddr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://agehua.github.io/2017/02/21/Multi-Process-Dispatch/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/02/21/Multi-Process-Dispatch/">Comments</a>
+    
+
+        </footer>
+
+    </div>
+    
+</article>
+
+
+
+
+    <article id="post-iterm2-to-linux" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2017/02/12/iterm2-to-linux/" itemprop="url">
             <img src="http://obxk8w81b.bkt.clouddn.com/Arles%20View%20from%20the%20Wheat%20Fields.jpg" class="article-banner" />
         </a>
 	
@@ -771,7 +1064,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2017/02/23/2017-2-12-iterm2-to-linux/">MAC下用iTerm2连接远程主机</a>
+            <a class="article-title" href="/2017/02/12/iterm2-to-linux/">MAC下用iTerm2连接远程主机</a>
         </h1>
     
 
@@ -780,8 +1073,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/02/23/2017-2-12-iterm2-to-linux/">
-            <time datetime="2017-02-23T03:31:10.000Z" itemprop="datePublished">2017-02-23</time>
+        <a href="/2017/02/12/iterm2-to-linux/">
+            <time datetime="2017-02-11T16:00:00.000Z" itemprop="datePublished">2017-02-12</time>
         </a>
     </div>
 
@@ -806,12 +1099,14 @@
         <div class="article-entry" itemprop="articleBody">
         
             <p><h3 id="MAC下用iTerm2连接远程主机"><a href="#MAC下用iTerm2连接远程主机" class="headerlink" title="MAC下用iTerm2连接远程主机"></a>MAC下用iTerm2连接远程主机</h3><p>iTerm2是MAC的一个终端工具。<br>简单介绍一个小功能，使用iTerm2连接远程主机：</p>
-<blockquote>
-<p>1.选择菜单profiles中的Open Profiles，然后选择Edit Profiles中创建一个新的Profile，随便命名成容易记的。<br>2.选择command，输入ssh -A -p 22 root@输入远程计算机的IP地址。<br>3.然后选择这个新的profile，New一个window就可以连接远程服务器了。</p>
-</blockquote>
-<h3 id="SCP使用说明"><a href="#SCP使用说明" class="headerlink" title="SCP使用说明"></a>SCP使用说明</h3></p>
+<ul>
+<li>1.先打开一个iTerm2窗口，选择菜单profiles中的Open Profiles，然后选择Edit Profiles中创建一个新的Profile，随便命名成容易记的。</li>
+<li>2.选择command，输入ssh -A -p xxx root@输入远程计算机的IP地址（xxx表示端口）。</li>
+<li>3.然后选择这个新的profile，New一个window就可以连接远程服务器了。</li>
+</ul>
+<h3 id="SCP命令使用说明"><a href="#SCP命令使用说明" class="headerlink" title="SCP命令使用说明"></a>SCP命令使用说明</h3></p>
             <p class="article-more-link">
-                <a href="/2017/02/23/2017-2-12-iterm2-to-linux/#more">Read More</a>
+                <a href="/2017/02/12/iterm2-to-linux/#more">Read More</a>
             </p>
         
         </div>
@@ -825,7 +1120,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/02/23/2017-2-12-iterm2-to-linux/" data-id="cj07sc6b1002zua0hgb64eok4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/02/12/iterm2-to-linux/" data-id="cj0suych80034s90hxwmfnwdx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -893,7 +1188,7 @@
 
             
     
-        <a href="http://agehua.github.io/2017/02/23/2017-2-12-iterm2-to-linux/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/02/23/2017-2-12-iterm2-to-linux/">Comments</a>
+        <a href="http://agehua.github.io/2017/02/12/iterm2-to-linux/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/02/12/iterm2-to-linux/">Comments</a>
     
 
         </footer>
@@ -905,12 +1200,12 @@
 
 
 
-    <article id="post-2017-1-13-abroad-IM-service-company" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-abroad-IM-service-company" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             
 	
-		<a href="/2017/02/14/2017-1-13-abroad-IM-service-company/" itemprop="url">
+		<a href="/2017/01/13/abroad-IM-service-company/" itemprop="url">
             <img src="http://obxk8w81b.bkt.clouddn.com/Autumn%20Landscape%20with%20Four%20Trees.jpg" class="article-banner" />
         </a>
 	
@@ -923,7 +1218,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2017/02/14/2017-1-13-abroad-IM-service-company/">IM 国外公司，服务费，方案</a>
+            <a class="article-title" href="/2017/01/13/abroad-IM-service-company/">IM 国外公司，服务费，方案</a>
         </h1>
     
 
@@ -932,8 +1227,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/02/14/2017-1-13-abroad-IM-service-company/">
-            <time datetime="2017-02-14T02:14:23.000Z" itemprop="datePublished">2017-02-14</time>
+        <a href="/2017/01/13/abroad-IM-service-company/">
+            <time datetime="2017-01-12T16:00:00.000Z" itemprop="datePublished">2017-01-13</time>
         </a>
     </div>
 
@@ -959,7 +1254,7 @@
         
             <p><h3 id="一、海外提供IM服务的公司"><a href="#一、海外提供IM服务的公司" class="headerlink" title="一、海外提供IM服务的公司"></a>一、海外提供IM服务的公司</h3><h4 id="1-1-Sinch"><a href="#1-1-Sinch" class="headerlink" title="1.1 Sinch"></a>1.1 Sinch</h4><p>官网： <a href="https://www.sinch.com/products/instant-messaging/">https://www.sinch.com/products/instant-messaging/</a><br>收费介绍<br><img src="/images/blogimages/2017/im_company_abroad/im_snich.png" alt="Snich_pricing"></p></p>
             <p class="article-more-link">
-                <a href="/2017/02/14/2017-1-13-abroad-IM-service-company/#more">Read More</a>
+                <a href="/2017/01/13/abroad-IM-service-company/#more">Read More</a>
             </p>
         
         </div>
@@ -973,7 +1268,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/02/14/2017-1-13-abroad-IM-service-company/" data-id="cj07sc6az002wua0h25t0xnlq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/01/13/abroad-IM-service-company/" data-id="cj0suychb0038s90h8o8sf6fs" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1041,7 +1336,7 @@
 
             
     
-        <a href="http://agehua.github.io/2017/02/14/2017-1-13-abroad-IM-service-company/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/02/14/2017-1-13-abroad-IM-service-company/">Comments</a>
+        <a href="http://agehua.github.io/2017/01/13/abroad-IM-service-company/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/01/13/abroad-IM-service-company/">Comments</a>
     
 
         </footer>
@@ -1123,7 +1418,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/20/Android-patch-update/" data-id="cj07sc6ax002tua0hc2gu6xn2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/20/Android-patch-update/" data-id="cj0suych0002ms90huj8dolpg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1279,7 +1574,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/11/ThreadLocal-usage/" data-id="cj07sc6aq002jua0hxskfklp5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/11/ThreadLocal-usage/" data-id="cj0suycgx002is90hb3s6bvvz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1359,312 +1654,6 @@
 
 
 
-    <article id="post-hexo-learning1" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2016/12/06/hexo-learning1/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Boy%20Cutting%20Grass%20with%20a%20Sickle.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/12/06/hexo-learning1/">Hexo 模板学习——Hexo 结构</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/12/06/hexo-learning1/">
-            <time datetime="2016-12-05T16:00:00.000Z" itemprop="datePublished">2016-12-06</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/hexo/">Hexo</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="起步"><a href="#起步" class="headerlink" title="起步"></a>起步</h3><p>Hexo会读取根目录下的_config.yml里面的theme属性, 从而采用对应的主题。而主题都是放在themes/目录下面的，然后你会发现他里面有个landscape的目录，这个就是默认主题啦。</p>
-<p>接着，我们查看themes/landscape/目录，以及根据文档docs-themes，我们很容易得出：一个主题其实由4部分组成。</p>
-<ul>
-<li>_config.yml: 主题的配置文件</li>
-<li>source/: 放我们的CSS文件以及图片</li>
-<li>layout/: 模板文件</li>
-<li>scripts: 放JavaScript文件，他们会自动加载</li>
-</ul>
-<p>根据文档<a href="https://hexo.io/docs/templates.html">docs-templates</a>，下面表格中每个页面都有一个可用的模板，可以没有这些模板，但至少要有一个index模板。</p></p>
-            <p class="article-more-link">
-                <a href="/2016/12/06/hexo-learning1/#more">Read More</a>
-            </p>
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2016/12/06/hexo-learning1/" data-id="cj07sc6an002fua0hg5o2t11w" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://agehua.github.io/2016/12/06/hexo-learning1/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/12/06/hexo-learning1/">Comments</a>
-    
-
-        </footer>
-
-    </div>
-    
-</article>
-
-
-
-
-    <article id="post-hexo-learning0" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2016/12/04/hexo-learning0/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Bulb%20Fields.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/12/04/hexo-learning0/">Hexo 模板学习——EJS介绍</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/12/04/hexo-learning0/">
-            <time datetime="2016-12-03T16:00:00.000Z" itemprop="datePublished">2016-12-04</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/ejs/">EJS</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="什么是EJS？"><a href="#什么是EJS？" class="headerlink" title="什么是EJS？"></a>什么是EJS？</h3><p>EJS是JavaScript模板库，用来从JSON数据中生成HTML字符串</p>
-<h3 id="EJS的语法和功能："><a href="#EJS的语法和功能：" class="headerlink" title="EJS的语法和功能："></a>EJS的语法和功能：</h3><h4 id="1、缓存功能，能够缓存已经解析好的html模版"><a href="#1、缓存功能，能够缓存已经解析好的html模版" class="headerlink" title="1、缓存功能，能够缓存已经解析好的html模版"></a>1、缓存功能，能够缓存已经解析好的html模版</h4><h4 id="2、-lt-code-gt-用于执行其中javascript代码。"><a href="#2、-lt-code-gt-用于执行其中javascript代码。" class="headerlink" title="2、&lt;% code %&gt;用于执行其中javascript代码。"></a>2、&lt;% code %&gt;用于执行其中javascript代码。</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">&lt;% alert(<span class="string">'hello world'</span>) %&gt;</div></pre></td></tr></table></figure>
-<h4 id="3、-lt-code-gt-会对code进行html转义；"><a href="#3、-lt-code-gt-会对code进行html转义；" class="headerlink" title="3、&lt;%= code =%&gt;会对code进行html转义；"></a>3、&lt;%= code =%&gt;会对code进行html转义；</h4></p>
-            <p class="article-more-link">
-                <a href="/2016/12/04/hexo-learning0/#more">Read More</a>
-            </p>
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2016/12/04/hexo-learning0/" data-id="cj07sc6al002cua0hv8y1atyu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://agehua.github.io/2016/12/04/hexo-learning0/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/12/04/hexo-learning0/">Comments</a>
-    
-
-        </footer>
-
-    </div>
-    
-</article>
-
-
-
-
     <nav id="page-nav">
         <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
@@ -1682,10 +1671,10 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/03/13/2017-2-21-Multi-Process-Dispatch/" class="thumbnail">
+                            <a href="/2017/03/20/SVN-server-linux/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg)" alt="解决Android多进程导致Application重复创建问题" class="thumbnail-image"></span>
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Bank%20of%20the%20Oise%20at%20Auvers.jpg)" alt="linux(centos) 搭建SVN服务器" class="thumbnail-image"></span>
     
 </a>
 
@@ -1693,15 +1682,34 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2017/03/13/2017-2-21-Multi-Process-Dispatch/" class="title">解决Android多进程导致Application重复创建问题</a></p>
-                            <p class="item-date"><time datetime="2017-03-13T02:28:26.000Z" itemprop="datePublished">2017-03-13</time></p>
+                            <p class="item-title"><a href="/2017/03/20/SVN-server-linux/" class="title">linux(centos) 搭建SVN服务器</a></p>
+                            <p class="item-date"><time datetime="2017-03-19T16:00:00.000Z" itemprop="datePublished">2017-03-20</time></p>
                         </div>
                     </li>
                 
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/03/08/2017-3-09-Https-Questions/" class="thumbnail">
+                            <a href="/2017/03/14/Android-CDI/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Blossoming%20Acacia%20Branches.jpg)" alt="Injection(CDI)和assertion(断言)" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2017/03/14/Android-CDI/" class="title">Injection(CDI)和assertion(断言)</a></p>
+                            <p class="item-date"><time datetime="2017-03-13T16:00:00.000Z" itemprop="datePublished">2017-03-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/03/09/Https-Questions/" class="thumbnail">
     
     
         <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Auvers%20Town%20Hall%20on%2014%20July%201890.jpg)" alt="“HTTPS”安全在哪里？" class="thumbnail-image"></span>
@@ -1712,15 +1720,34 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2017/03/08/2017-3-09-Https-Questions/" class="title">“HTTPS”安全在哪里？</a></p>
-                            <p class="item-date"><time datetime="2017-03-08T02:54:26.000Z" itemprop="datePublished">2017-03-08</time></p>
+                            <p class="item-title"><a href="/2017/03/09/Https-Questions/" class="title">“HTTPS”安全在哪里？</a></p>
+                            <p class="item-date"><time datetime="2017-03-08T16:00:00.000Z" itemprop="datePublished">2017-03-09</time></p>
                         </div>
                     </li>
                 
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/02/23/2017-2-12-iterm2-to-linux/" class="thumbnail">
+                            <a href="/2017/02/21/Multi-Process-Dispatch/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg)" alt="解决Android多进程导致Application重复创建问题" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2017/02/21/Multi-Process-Dispatch/" class="title">解决Android多进程导致Application重复创建问题</a></p>
+                            <p class="item-date"><time datetime="2017-02-20T16:00:00.000Z" itemprop="datePublished">2017-02-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/02/12/iterm2-to-linux/" class="thumbnail">
     
     
         <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Arles%20View%20from%20the%20Wheat%20Fields.jpg)" alt="MAC下用iTerm2连接远程主机" class="thumbnail-image"></span>
@@ -1731,46 +1758,8 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2017/02/23/2017-2-12-iterm2-to-linux/" class="title">MAC下用iTerm2连接远程主机</a></p>
-                            <p class="item-date"><time datetime="2017-02-23T03:31:10.000Z" itemprop="datePublished">2017-02-23</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2017/02/14/2017-1-13-abroad-IM-service-company/" class="thumbnail">
-    
-    
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Autumn%20Landscape%20with%20Four%20Trees.jpg)" alt="IM 国外公司，服务费，方案" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2017/02/14/2017-1-13-abroad-IM-service-company/" class="title">IM 国外公司，服务费，方案</a></p>
-                            <p class="item-date"><time datetime="2017-02-14T02:14:23.000Z" itemprop="datePublished">2017-02-14</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2016/12/20/Android-patch-update/" class="thumbnail">
-    
-    
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg)" alt="Android 增量更新整理" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2016/12/20/Android-patch-update/" class="title">Android 增量更新整理</a></p>
-                            <p class="item-date"><time datetime="2016-12-19T16:00:00.000Z" itemprop="datePublished">2016-12-20</time></p>
+                            <p class="item-title"><a href="/2017/02/12/iterm2-to-linux/" class="title">MAC下用iTerm2连接远程主机</a></p>
+                            <p class="item-date"><time datetime="2017-02-11T16:00:00.000Z" itemprop="datePublished">2017-02-12</time></p>
                         </div>
                     </li>
                 
@@ -1783,7 +1772,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">24</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">27</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
         </div>
     </div>
 
@@ -1793,7 +1782,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1802,7 +1791,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/">HTTPS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/multi-process/">multi-process</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">4</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/">HTTPS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/injection/">Injection</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/multi-process/">multi-process</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-server/">svn server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">4</span></li></ul>
         </div>
     </div>
 
@@ -1811,7 +1800,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/android-jni/" style="font-size: 15px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/threadlocal/" style="font-size: 10px;">ThreadLocal</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 12.5px;">gradle</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 12.5px;">read</a> <a href="/tags/technology/" style="font-size: 17.5px;">technology</a>
+            <a href="/tags/android-jni/" style="font-size: 15px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/injection/" style="font-size: 10px;">Injection</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/threadlocal/" style="font-size: 10px;">ThreadLocal</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 12.5px;">gradle</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 12.5px;">read</a> <a href="/tags/svn-server/" style="font-size: 12.5px;">svn server</a> <a href="/tags/technology/" style="font-size: 17.5px;">technology</a>
         </div>
     </div>
 

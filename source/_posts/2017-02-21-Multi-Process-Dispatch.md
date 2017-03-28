@@ -19,7 +19,7 @@ toc: true
 一个进程情况下，Application的onCreate方法只会执行一次，但如果应用中采用多进程方式，onCreate方法会执行多次。
 
 ### 解决Application的onCreate方法多次调用
-大概有两种方式
+总结了两种实现方式：
 <!--more-->
 
 #### 一、根据不同的进程名字进行不同数据的初始化。
@@ -73,7 +73,7 @@ public static String getProcessName(Context cxt, int pid) {
 这就是文章开头提到的博客中使用的方式[Android架构思考(模块化、多进程)](http://blog.spinytech.com/2016/12/28/android_modularization/)
 
 实现这种方式，一共有涉及到3个类，
-- 一个是MaApplication继承了Application，是所有程序的入口，这是一个抽象类，需要子类去实现一些方法
+- 一个是MaApplication继承了Application，是程序的入口，这是一个抽象类，需要子类去实现一些方法
 - 一个是BaseApplicationLogic，这也是基类，由这个类来实现每个进程单独管理Application的生命周期，每个进程实现一个该类的子类
 - 还有一个类是PriorityLogicWrapper，它是一个封装类，继承了Comparable接口，实现了对BaseApplicationLogic按照指定顺序排序（也就是可以按照优先级顺序初始化BaseApplicationLogic）
 
@@ -148,9 +148,7 @@ public abstract class MaApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        sInstance = this;
         init();
-        startWideRouter();
         initializeLogic();
         dispatchLogic();
         instantiateLogic();
@@ -169,14 +167,11 @@ public abstract class MaApplication extends Application {
         mLogicClassMap = new HashMap<>();
     }
 
-    protected void startWideRouter() {
-        if (needMultipleProcess()) {
-            //WideRouterApplicationLogic就是BaseApplicationLogic的一个子类
-            registerApplicationLogic(WideRouterApplicationLogic.PROCESS_NAME, 1000, WideRouterApplicationLogic.class);
-        }
-    }
-
     public abstract boolean needMultipleProcess();
+
+    //由MaApplication的实现类，去实现这个方法，调用registerApplicationLogic()
+    //注册所有进程的BaseApplicationLogic对象
+    protected abstract void initializeLogic();
 
     /**
      * 添加所有来自不同进程的，不同的BaseApplicationLogic对象到HashMap中
@@ -202,7 +197,7 @@ public abstract class MaApplication extends Application {
             }
             PriorityLogicWrapper priorityLogicWrapper = new PriorityLogicWrapper(priority, logicClass);
             tempList.add(priorityLogicWrapper);
-            //tempList更新，则mLogicClassMap中的value也跟着更新了
+            //tempList更新，则mLogicClassMap中的value也跟着更新了，不用再调用mLogicClassMap.put方法
         }
         return result;
     }
