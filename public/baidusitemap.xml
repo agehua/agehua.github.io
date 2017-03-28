@@ -225,12 +225,12 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/05/28/qiniu-android-summary/</loc>
+    <loc>http://agehua.github.io/2016/08/03/android-LocationListener/</loc>
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     <data>
         <display>
-        <title>七牛android使用总结</title>
-        <pubTime>2016-05-27T16:00:00.000Z</pubTime>
+        <title>Android手机定位服务</title>
+        <pubTime>2016-08-02T16:00:00.000Z</pubTime>
         
         <tag>technology</tag>
          
@@ -285,32 +285,12 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/08/16/RxAndroid-Learning/</loc>
+    <loc>http://agehua.github.io/2016/05/28/qiniu-android-summary/</loc>
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     <data>
         <display>
-        <title>RxJava 学习</title>
-        <pubTime>2016-08-15T16:00:00.000Z</pubTime>
-        
-        <tag>RxJava</tag>
-         
-         
-           
-             
-              <breadCrumb title="technology" url="http://agehua.github.io/categories/technology/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://agehua.github.io/2016/08/03/android-LocationListener/</loc>
-    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
-    <data>
-        <display>
-        <title>Android手机定位服务</title>
-        <pubTime>2016-08-02T16:00:00.000Z</pubTime>
+        <title>七牛android使用总结</title>
+        <pubTime>2016-05-27T16:00:00.000Z</pubTime>
         
         <tag>technology</tag>
          
@@ -345,49 +325,14 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2014/12/23/hello-world/</loc>
+    <loc>http://agehua.github.io/2016/08/16/RxAndroid-Learning/</loc>
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     <data>
         <display>
-        <title>Hello World</title>
-        <pubTime>2014-12-22T16:00:00.000Z</pubTime>
+        <title>RxJava 学习</title>
+        <pubTime>2016-08-15T16:00:00.000Z</pubTime>
         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://agehua.github.io/2016/09/22/JNI-get-publickey/</loc>
-    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
-    <data>
-        <display>
-        <title>使用JNI获取publickey实现</title>
-        <pubTime>2016-09-21T16:00:00.000Z</pubTime>
-        
-        <tag>Android JNI</tag>
-         
-         
-           
-             
-              <breadCrumb title="technology" url="http://agehua.github.io/categories/technology/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://agehua.github.io/2016/03/01/android-googlemap-summary/</loc>
-    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
-    <data>
-        <display>
-        <title>android Google map使用总结</title>
-        <pubTime>2016-02-29T16:00:00.000Z</pubTime>
-        
-        <tag>accumulation</tag>
+        <tag>RxJava</tag>
          
          
            
@@ -420,19 +365,19 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/</loc>
+    <loc>http://agehua.github.io/2016/09/22/JNI-get-publickey/</loc>
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     <data>
         <display>
-        <title>Hexo 出错情况收集</title>
-        <pubTime>2016-11-02T16:00:00.000Z</pubTime>
+        <title>使用JNI获取publickey实现</title>
+        <pubTime>2016-09-21T16:00:00.000Z</pubTime>
         
-        <tag>Hexo</tag>
+        <tag>Android JNI</tag>
          
          
            
              
-              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+              <breadCrumb title="technology" url="http://agehua.github.io/categories/technology/"/>
           
         </display>
     </data>
@@ -460,26 +405,6 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/10/12/gradle-learning/</loc>
-    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
-    <data>
-        <display>
-        <title>gradle 学习</title>
-        <pubTime>2016-10-11T16:00:00.000Z</pubTime>
-        
-        <tag>gradle</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://agehua.github.io/2016/09/28/Android-interview-questions/</loc>
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     <data>
@@ -500,6 +425,41 @@
 
     
   <url>
+    <loc>http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/</loc>
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    <data>
+        <display>
+        <title>Hexo 出错情况收集</title>
+        <pubTime>2016-11-02T16:00:00.000Z</pubTime>
+        
+        <tag>Hexo</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2014/12/23/hello-world/</loc>
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    <data>
+        <display>
+        <title>Hello World</title>
+        <pubTime>2014-12-22T16:00:00.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://agehua.github.io/2016/03/15/facebook-google+signin/</loc>
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     <data>
@@ -513,6 +473,46 @@
            
              
               <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2016/10/12/gradle-learning/</loc>
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    <data>
+        <display>
+        <title>gradle 学习</title>
+        <pubTime>2016-10-11T16:00:00.000Z</pubTime>
+        
+        <tag>gradle</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2016/03/01/android-googlemap-summary/</loc>
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    <data>
+        <display>
+        <title>android Google map使用总结</title>
+        <pubTime>2016-02-29T16:00:00.000Z</pubTime>
+        
+        <tag>accumulation</tag>
+         
+         
+           
+             
+              <breadCrumb title="technology" url="http://agehua.github.io/categories/technology/"/>
           
         </display>
     </data>
@@ -560,34 +560,14 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/03/20/android-new-knowledge-summary/</loc>
+    <loc>http://agehua.github.io/2016/12/06/hexo-learning1/</loc>
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     <data>
         <display>
-        <title>android新特性新知识点总结</title>
-        <pubTime>2016-03-19T16:00:00.000Z</pubTime>
+        <title>Hexo 模板学习——Hexo 结构</title>
+        <pubTime>2016-12-05T16:00:00.000Z</pubTime>
         
-        <tag>accumulation</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://agehua.github.io/2016/05/12/GCM-Azure_summary/</loc>
-    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
-    <data>
-        <display>
-        <title>google cloud message（GCM）和Azure实现Notification总结</title>
-        <pubTime>2016-05-11T16:00:00.000Z</pubTime>
-        
-        <tag>accumulation</tag>
+        <tag>Hexo</tag>
          
          
            
@@ -620,14 +600,34 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/05/18/javaString-and-bytes/</loc>
+    <loc>http://agehua.github.io/2016/03/20/android-new-knowledge-summary/</loc>
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     <data>
         <display>
-        <title>Java String与C/C++中byte[]</title>
-        <pubTime>2016-05-17T16:00:00.000Z</pubTime>
+        <title>android新特性新知识点总结</title>
+        <pubTime>2016-03-19T16:00:00.000Z</pubTime>
         
         <tag>accumulation</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2016/05/24/JNI-Learning0/</loc>
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
+    <data>
+        <display>
+        <title>android JNI学习② JNI调用过程</title>
+        <pubTime>2016-05-23T16:00:00.000Z</pubTime>
+        
+        <tag>Android JNI</tag>
          
          
            
@@ -660,14 +660,14 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/12/06/hexo-learning1/</loc>
+    <loc>http://agehua.github.io/2016/05/12/GCM-Azure_summary/</loc>
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     <data>
         <display>
-        <title>Hexo 模板学习——Hexo 结构</title>
-        <pubTime>2016-12-05T16:00:00.000Z</pubTime>
+        <title>google cloud message（GCM）和Azure实现Notification总结</title>
+        <pubTime>2016-05-11T16:00:00.000Z</pubTime>
         
-        <tag>Hexo</tag>
+        <tag>accumulation</tag>
          
          
            
@@ -680,14 +680,14 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/05/24/JNI-Learning0/</loc>
+    <loc>http://agehua.github.io/2016/05/18/javaString-and-bytes/</loc>
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     <data>
         <display>
-        <title>android JNI学习② JNI调用过程</title>
-        <pubTime>2016-05-23T16:00:00.000Z</pubTime>
+        <title>Java String与C/C++中byte[]</title>
+        <pubTime>2016-05-17T16:00:00.000Z</pubTime>
         
-        <tag>Android JNI</tag>
+        <tag>accumulation</tag>
          
          
            
