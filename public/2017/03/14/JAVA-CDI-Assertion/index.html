@@ -12,13 +12,13 @@
 CDI（Contexts and Dependency Injection 上下文依赖注入）Java 依赖注入标准（JSR-330）规范，在javax.inject包中提供了一个接口Pr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Injection(CDI)和assertion(断言)">
-<meta property="og:url" content="http://agehua.github.io/2017/03/14/Android-CDI/index.html">
+<meta property="og:url" content="http://agehua.github.io/2017/03/14/JAVA-CDI-Assertion/index.html">
 <meta property="og:site_name" content="Agehua">
 <meta property="og:description" content="@Inject注解和CDI（上下文依赖注入）怎么让代码显得高大上呢，当然是多使用注解，那Android Support Annotation使用完了，有没有更高端的呢？
 这篇文章就简单介绍下Java中存在的注解。
 CDI（Contexts and Dependency Injection 上下文依赖注入）Java 依赖注入标准（JSR-330）规范，在javax.inject包中提供了一个接口Pr">
 <meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Blossoming%20Acacia%20Branches.jpg">
-<meta property="og:updated_time" content="2017-03-28T01:22:29.000Z">
+<meta property="og:updated_time" content="2017-04-11T01:03:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Injection(CDI)和assertion(断言)">
 <meta name="twitter:description" content="@Inject注解和CDI（上下文依赖注入）怎么让代码显得高大上呢，当然是多使用注解，那Android Support Annotation使用完了，有没有更高端的呢？
@@ -447,7 +447,7 @@ CDI（Contexts and Dependency Injection 上下文依赖注入）Java 依赖注�
             
 
 
-            <section id="main"><article id="post-Android-CDI" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-JAVA-CDI-Assertion" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             
@@ -472,7 +472,7 @@ CDI（Contexts and Dependency Injection 上下文依赖注入）Java 依赖注�
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/03/14/Android-CDI/">
+        <a href="/2017/03/14/JAVA-CDI-Assertion/">
             <time datetime="2017-03-13T16:00:00.000Z" itemprop="datePublished">2017-03-14</time>
         </a>
     </div>
@@ -508,7 +508,7 @@ CDI（Contexts and Dependency Injection 上下文依赖注入）Java 依赖注�
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line">Injectable fields:</div><div class="line"></div><div class="line">  - are annotated with <span class="meta">@Inject</span>.</div><div class="line">  - are not <span class="keyword">final</span>.</div><div class="line">  - may have any otherwise valid name.</div><div class="line"></div><div class="line"><span class="meta">@Inject</span> FieldModifiers(opt) Type VariableDeclarators;</div></pre></td></tr></table></figure>
 <pre><code>(opt)这里表示可选
 </code></pre><h5 id="在方法上注解："><a href="#在方法上注解：" class="headerlink" title="在方法上注解："></a>在方法上注解：</h5><p>用@Inject注解，不能是抽象方法，不能声明自身参数类型。可以有返回结果。拥有一个合法的名称。可以有0个或多个参数</p>
-<p>(doc文档原文)[<a href="http://docs.oracle.com/javaee/6/api/javax/inject/Inject.html]：" target="_blank" rel="external">http://docs.oracle.com/javaee/6/api/javax/inject/Inject.html]：</a></p>
+<p><a href="http://docs.oracle.com/javaee/6/api/javax/inject/Inject.html" target="_blank" rel="external">doc文档原文</a>：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line">Injectable methods:</div><div class="line">- are annotated with <span class="meta">@Inject</span>.</div><div class="line">- are not <span class="keyword">abstract</span>.</div><div class="line">- <span class="keyword">do</span> not declare type parameters of their own.</div><div class="line">- may <span class="keyword">return</span> a result</div><div class="line">- may have any otherwise valid name.</div><div class="line">- accept zero or more dependencies as arguments.</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">@Inject</span> MethodModifiers(opt) <span class="function">ResultType <span class="title">Identifier</span><span class="params">(FormalParameterList(opt)</span>) <span class="title">Throws</span><span class="params">(opt)</span> MethodBody</span></div></pre></td></tr></table></figure>
 <pre><code>(opt)这里表示可选
 </code></pre><p>代码示例：</p>
@@ -563,7 +563,7 @@ CDI（Contexts and Dependency Injection 上下文依赖注入）Java 依赖注�
 <hr>
 <div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="external" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="https://i.creativecommons.org/l/by/2.5/cn/88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="external" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://agehua.github.io/">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
 
-<p>本文链接：<a href="http://agehua.github.io/2017/03/14/Android-CDI/">http://agehua.github.io/2017/03/14/Android-CDI/</a></p>
+<p>本文链接：<a href="http://agehua.github.io/2017/03/14/JAVA-CDI-Assertion/">http://agehua.github.io/2017/03/14/JAVA-CDI-Assertion/</a></p>
 
 
             
@@ -684,7 +684,7 @@ CDI（Contexts and Dependency Injection 上下文依赖注入）Java 依赖注�
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/03/14/Android-CDI/" data-id="cj1bulpws003a4w0h2mlyt80b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/03/14/JAVA-CDI-Assertion/" data-id="cj1cup4cf0035jo0hd338a1mw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -752,7 +752,7 @@ CDI（Contexts and Dependency Injection 上下文依赖注入）Java 依赖注�
 
             
     
-        <a href="http://agehua.github.io/2017/03/14/Android-CDI/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/03/14/Android-CDI/">Comments</a>
+        <a href="http://agehua.github.io/2017/03/14/JAVA-CDI-Assertion/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/03/14/JAVA-CDI-Assertion/">Comments</a>
     
 
         </footer>
@@ -788,7 +788,7 @@ CDI（Contexts and Dependency Injection 上下文依赖注入）Java 依赖注�
     <section id="comments">
     
         
-    <div class="ds-thread" data-thread-key="2017/03/14/Android-CDI/" data-title="Injection(CDI)和assertion(断言)" data-url="http://agehua.github.io/2017/03/14/Android-CDI/"></div>
+    <div class="ds-thread" data-thread-key="2017/03/14/JAVA-CDI-Assertion/" data-title="Injection(CDI)和assertion(断言)" data-url="http://agehua.github.io/2017/03/14/JAVA-CDI-Assertion/"></div>
     <style>
         #ds-thread #ds-reset .ds-textarea-wrapper {
             background: none;
@@ -882,7 +882,7 @@ CDI（Contexts and Dependency Injection 上下文依赖注入）Java 依赖注�
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/03/14/Android-CDI/" class="thumbnail">
+                            <a href="/2017/03/14/JAVA-CDI-Assertion/" class="thumbnail">
     
     
         <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Blossoming%20Acacia%20Branches.jpg)" alt="Injection(CDI)和assertion(断言)" class="thumbnail-image"></span>
@@ -893,7 +893,7 @@ CDI（Contexts and Dependency Injection 上下文依赖注入）Java 依赖注�
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2017/03/14/Android-CDI/" class="title">Injection(CDI)和assertion(断言)</a></p>
+                            <p class="item-title"><a href="/2017/03/14/JAVA-CDI-Assertion/" class="title">Injection(CDI)和assertion(断言)</a></p>
                             <p class="item-date"><time datetime="2017-03-13T16:00:00.000Z" itemprop="datePublished">2017-03-14</time></p>
                         </div>
                     </li>

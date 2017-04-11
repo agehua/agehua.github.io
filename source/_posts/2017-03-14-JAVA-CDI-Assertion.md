@@ -42,7 +42,7 @@ Injectable fields:
 ##### 在方法上注解：
 用@Inject注解，不能是抽象方法，不能声明自身参数类型。可以有返回结果。拥有一个合法的名称。可以有0个或多个参数
 
-(doc文档原文)[http://docs.oracle.com/javaee/6/api/javax/inject/Inject.html]：
+[doc文档原文](http://docs.oracle.com/javaee/6/api/javax/inject/Inject.html)：
 
 ~~~ Java
 Injectable methods:

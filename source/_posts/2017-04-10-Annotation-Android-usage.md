@@ -12,7 +12,7 @@ toc: true
 ## 注解在Android中的应用
 注解是Java语言的特性之一，它是在源代码中插入标签，这些标签在后面的编译或者运行过程中起到某种作用，每个注解都必须通过注解接口 @Interface 进行声明，接口的方法对应着注解的元素。
 
-在上一篇文章[Injection(CDI)和assertion(断言)](https://agehua.github.io/2017/03/14/Android-CDI/)中介绍了Java中存在的注解，这篇文章主要介绍注解在Android中的应用。
+在上一篇文章[Injection(CDI)和assertion(断言)](https://agehua.github.io/2017/03/14/Android-CDI/)中介绍了Java中的CDI（上下文依赖注入）规范，这个规范就是使用注解的方式。这篇文章主要介绍注解在Android中的应用。
 
 先看看Android上著名的View注入框架Butterknife的Bind注解的源码：
 
@@ -400,7 +400,8 @@ dependencies {
 ~~~
 
 > provided vs apt使用注解处理器的不同？
-  provided 将会导入注解处理器的classes和它的依赖到IDE的类路径下。这意味着你可以附带的引入并使用这些classes。例如，当注解处理器使用Guava，你可能错误的import其相关代码到你的Android 代码中。当运行时将导致crash。provided是间接的得到了依赖的Library，起到了避免依赖重复资源的作用。
+  provided 将会导入注解处理器的classes和它的依赖到IDE的类路径下。这意味着你可以附带的引入并使用这些classes。例如，当注解处理器使用Guava，你可能错误的import其相关代码到你的Android 代码中。当运行时将导致crash。
+  provided也可以用在重复引用的库上，避免依赖重复的资源。
   而使用apt，注解处理器的classes将不会添加到你当前的类路径下，仅仅用于注解处理过程。并且会把所有注解处理器生成的source放在IDE的类路径下，方便Android Studio引用。
 
 

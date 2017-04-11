@@ -489,7 +489,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             <p><h2 id="注解在Android中的应用"><a href="#注解在Android中的应用" class="headerlink" title="注解在Android中的应用"></a>注解在Android中的应用</h2><p>注解是Java语言的特性之一，它是在源代码中插入标签，这些标签在后面的编译或者运行过程中起到某种作用，每个注解都必须通过注解接口 @Interface 进行声明，接口的方法对应着注解的元素。</p>
-<p>在上一篇文章<a href="https://agehua.github.io/2017/03/14/Android-CDI/">Injection(CDI)和assertion(断言)</a>中介绍了Java中存在的注解，这篇文章主要介绍注解在Android中的应用。</p>
+<p>在上一篇文章<a href="https://agehua.github.io/2017/03/14/Android-CDI/">Injection(CDI)和assertion(断言)</a>中介绍了Java中的CDI（上下文依赖注入）规范，这个规范就是使用注解的方式。这篇文章主要介绍注解在Android中的应用。</p>
 <p>先看看Android上著名的View注入框架Butterknife的Bind注解的源码：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@Retention</span> (RetentionPolicy.Class)</div><div class="line"><span class="meta">@Target</span> (ElementType.FIELD)</div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Bind &#123;</div><div class="line">   <span class="comment">/** View ID to which the field will be found. **/</span></div><div class="line">   <span class="keyword">int</span>[] value();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>@interface 声明会创建一个实际的Java接口，与其他任何接口一样，注解也会编译成.class文件。@Retention 和@Target 下面会介绍到。</p>
@@ -509,7 +509,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/04/10/Annotation-Android-usage/" data-id="cj1bulpwm00324w0ho56nw4vi" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/04/10/Annotation-Android-usage/" data-id="cj1cup4ci003bjo0hek0cb2b5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -660,7 +660,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/03/20/SVN-server-linux/" data-id="cj1bulpwq00384w0hed0c42np" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/03/20/SVN-server-linux/" data-id="cj1cup4ch0038jo0h4r5wo8uz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -740,12 +740,12 @@
 
 
 
-    <article id="post-Android-CDI" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-JAVA-CDI-Assertion" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             
 	
-		<a href="/2017/03/14/Android-CDI/" itemprop="url">
+		<a href="/2017/03/14/JAVA-CDI-Assertion/" itemprop="url">
             <img src="http://obxk8w81b.bkt.clouddn.com/Blossoming%20Acacia%20Branches.jpg" class="article-banner" />
         </a>
 	
@@ -758,7 +758,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2017/03/14/Android-CDI/">Injection(CDI)和assertion(断言)</a>
+            <a class="article-title" href="/2017/03/14/JAVA-CDI-Assertion/">Injection(CDI)和assertion(断言)</a>
         </h1>
     
 
@@ -767,7 +767,7 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/03/14/Android-CDI/">
+        <a href="/2017/03/14/JAVA-CDI-Assertion/">
             <time datetime="2017-03-13T16:00:00.000Z" itemprop="datePublished">2017-03-14</time>
         </a>
     </div>
@@ -798,7 +798,7 @@
 <h4 id="Inject"><a href="#Inject" class="headerlink" title="@Inject"></a>@Inject</h4><p>@Inject是javax.inject中提供的一个注解，可以不使用new关键字直接创建对象，怎么样，是不是很高端 :)</p>
 <h5 id="在字段注解："><a href="#在字段注解：" class="headerlink" title="在字段注解："></a>在字段注解：</h5><p>用@Inject注解，字段不能是final的。可以拥有一个合法的名称</p></p>
             <p class="article-more-link">
-                <a href="/2017/03/14/Android-CDI/#more">Read More</a>
+                <a href="/2017/03/14/JAVA-CDI-Assertion/#more">Read More</a>
             </p>
         
         </div>
@@ -812,7 +812,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/03/14/Android-CDI/" data-id="cj1bulpws003a4w0h2mlyt80b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/03/14/JAVA-CDI-Assertion/" data-id="cj1cup4cf0035jo0hd338a1mw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -880,7 +880,7 @@
 
             
     
-        <a href="http://agehua.github.io/2017/03/14/Android-CDI/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/03/14/Android-CDI/">Comments</a>
+        <a href="http://agehua.github.io/2017/03/14/JAVA-CDI-Assertion/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2017/03/14/JAVA-CDI-Assertion/">Comments</a>
     
 
         </footer>
@@ -965,7 +965,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/03/09/Https-Questions/" data-id="cj1bulpwn00344w0h4be3aetw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/03/09/Https-Questions/" data-id="cj1cup4ce0032jo0hzqr8rrzx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1119,7 +1119,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/02/21/Multi-Process-Dispatch/" data-id="cj1bulpwl002z4w0heo0gthbg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/02/21/Multi-Process-Dispatch/" data-id="cj1cup4cd002zjo0h0merme1t" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1273,7 +1273,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/02/12/iterm2-to-linux/" data-id="cj1bulpwi002s4w0hcva85rvf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/02/12/iterm2-to-linux/" data-id="cj1cup4ca002wjo0h35v2i88v" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1421,7 +1421,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/01/13/abroad-IM-service-company/" data-id="cj1bulpwj002v4w0hu0lo9iv1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/01/13/abroad-IM-service-company/" data-id="cj1cup4c8002tjo0hrn3wnpu5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1571,7 +1571,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/20/Android-patch-update/" data-id="cj1bulpwf002m4w0h38dxp8wu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/20/Android-patch-update/" data-id="cj1cup4c7002rjo0hf31p7i05" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1706,7 +1706,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/03/14/Android-CDI/" class="thumbnail">
+                            <a href="/2017/03/14/JAVA-CDI-Assertion/" class="thumbnail">
     
     
         <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Blossoming%20Acacia%20Branches.jpg)" alt="Injection(CDI)和assertion(断言)" class="thumbnail-image"></span>
@@ -1717,7 +1717,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2017/03/14/Android-CDI/" class="title">Injection(CDI)和assertion(断言)</a></p>
+                            <p class="item-title"><a href="/2017/03/14/JAVA-CDI-Assertion/" class="title">Injection(CDI)和assertion(断言)</a></p>
                             <p class="item-date"><time datetime="2017-03-13T16:00:00.000Z" itemprop="datePublished">2017-03-14</time></p>
                         </div>
                     </li>

@@ -8,22 +8,19 @@
     <title>注解在Android中的应用 | Agehua</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="注解在Android中的应用注解是Java语言的特性之一，它是在源代码中插入标签，这些标签在后面的编译或者运行过程中起到某种作用，每个注解都必须通过注解接口 @Interface 进行声明，接口的方法对应着注解的元素。
-在上一篇文章Injection(CDI)和assertion(断言)中介绍了Java中存在的注解，这篇文章主要介绍注解在Android中的应用。
-先看看Android上著名的Vie">
+在上一篇文章Injection(CDI)和assertion(断言)中介绍了Java中的CDI（上下文依赖注入）规范，这个规范就是使用注解的方式。这篇文章主要介绍注解在Androi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="注解在Android中的应用">
 <meta property="og:url" content="http://agehua.github.io/2017/04/10/Annotation-Android-usage/index.html">
 <meta property="og:site_name" content="Agehua">
 <meta property="og:description" content="注解在Android中的应用注解是Java语言的特性之一，它是在源代码中插入标签，这些标签在后面的编译或者运行过程中起到某种作用，每个注解都必须通过注解接口 @Interface 进行声明，接口的方法对应着注解的元素。
-在上一篇文章Injection(CDI)和assertion(断言)中介绍了Java中存在的注解，这篇文章主要介绍注解在Android中的应用。
-先看看Android上著名的Vie">
+在上一篇文章Injection(CDI)和assertion(断言)中介绍了Java中的CDI（上下文依赖注入）规范，这个规范就是使用注解的方式。这篇文章主要介绍注解在Androi">
 <meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Basket%20of%20Potatoes.jpg">
-<meta property="og:updated_time" content="2017-04-10T08:18:57.000Z">
+<meta property="og:updated_time" content="2017-04-11T01:09:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="注解在Android中的应用">
 <meta name="twitter:description" content="注解在Android中的应用注解是Java语言的特性之一，它是在源代码中插入标签，这些标签在后面的编译或者运行过程中起到某种作用，每个注解都必须通过注解接口 @Interface 进行声明，接口的方法对应着注解的元素。
-在上一篇文章Injection(CDI)和assertion(断言)中介绍了Java中存在的注解，这篇文章主要介绍注解在Android中的应用。
-先看看Android上著名的Vie">
+在上一篇文章Injection(CDI)和assertion(断言)中介绍了Java中的CDI（上下文依赖注入）规范，这个规范就是使用注解的方式。这篇文章主要介绍注解在Androi">
 <meta name="twitter:image" content="http://obxk8w81b.bkt.clouddn.com/Basket%20of%20Potatoes.jpg">
     
 
@@ -499,7 +496,7 @@
         
 
             <h2 id="注解在Android中的应用"><a href="#注解在Android中的应用" class="headerlink" title="注解在Android中的应用"></a>注解在Android中的应用</h2><p>注解是Java语言的特性之一，它是在源代码中插入标签，这些标签在后面的编译或者运行过程中起到某种作用，每个注解都必须通过注解接口 @Interface 进行声明，接口的方法对应着注解的元素。</p>
-<p>在上一篇文章<a href="https://agehua.github.io/2017/03/14/Android-CDI/">Injection(CDI)和assertion(断言)</a>中介绍了Java中存在的注解，这篇文章主要介绍注解在Android中的应用。</p>
+<p>在上一篇文章<a href="https://agehua.github.io/2017/03/14/Android-CDI/">Injection(CDI)和assertion(断言)</a>中介绍了Java中的CDI（上下文依赖注入）规范，这个规范就是使用注解的方式。这篇文章主要介绍注解在Android中的应用。</p>
 <p>先看看Android上著名的View注入框架Butterknife的Bind注解的源码：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@Retention</span> (RetentionPolicy.Class)</div><div class="line"><span class="meta">@Target</span> (ElementType.FIELD)</div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Bind &#123;</div><div class="line">   <span class="comment">/** View ID to which the field will be found. **/</span></div><div class="line">   <span class="keyword">int</span>[] value();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>@interface 声明会创建一个实际的Java接口，与其他任何接口一样，注解也会编译成.class文件。@Retention 和@Target 下面会介绍到。</p>
@@ -686,7 +683,7 @@
 <h4 id="在Module中使用apt"><a href="#在Module中使用apt" class="headerlink" title="在Module中使用apt"></a>在Module中使用apt</h4><p>在Module中build.gradle的配置</p>
 <p>通常在使用的时候，使用apt声明注解用到的库文件。项目依赖可能分为多个部分。例如Dagger有两个组件Dagger-compiler和dagger。dagger-commpiler仅用于编译时，运行时必需使用dagger。<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">//配置到Module下的build.gradle中</span></div><div class="line">apply plugin: <span class="string">'com.android.application'</span></div><div class="line">apply plugin: <span class="string">'com.neenbedankt.android-apt'</span></div><div class="line"></div><div class="line">dependencies &#123;</div><div class="line"> apt <span class="string">'com.squareup.dagger:dagger-compiler:1.1.0'</span></div><div class="line"> compile <span class="string">'com.squareup.dagger:dagger:1.1.0'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <blockquote>
-<p>provided vs apt使用注解处理器的不同？<br>  provided 将会导入注解处理器的classes和它的依赖到IDE的类路径下。这意味着你可以附带的引入并使用这些classes。例如，当注解处理器使用Guava，你可能错误的import其相关代码到你的Android 代码中。当运行时将导致crash。provided是间接的得到了依赖的Library，起到了避免依赖重复资源的作用。<br>  而使用apt，注解处理器的classes将不会添加到你当前的类路径下，仅仅用于注解处理过程。并且会把所有注解处理器生成的source放在IDE的类路径下，方便Android Studio引用。</p>
+<p>provided vs apt使用注解处理器的不同？<br>  provided 将会导入注解处理器的classes和它的依赖到IDE的类路径下。这意味着你可以附带的引入并使用这些classes。例如，当注解处理器使用Guava，你可能错误的import其相关代码到你的Android 代码中。当运行时将导致crash。<br>  provided也可以用在重复引用的库上，避免依赖重复的资源。<br>  而使用apt，注解处理器的classes将不会添加到你当前的类路径下，仅仅用于注解处理过程。并且会把所有注解处理器生成的source放在IDE的类路径下，方便Android Studio引用。</p>
 </blockquote>
 <p>越来越多第三方库使用apt技术，如DBflow、Dagger2、ButterKnife、ActivityRouter、AptPreferences。在编译时根据Annotation生成了相关的代码，非常高大上但是也非常简单的技术，可以给开发带来了很大的便利。</p>
 <h3 id="APT处理annotation的流程"><a href="#APT处理annotation的流程" class="headerlink" title="APT处理annotation的流程"></a>APT处理annotation的流程</h3><p><strong>注解处理器（AbstractProcess）+代码处理（javaPoet）+处理器注册（AutoService）+apt</strong></p>
@@ -831,7 +828,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/04/10/Annotation-Android-usage/" data-id="cj1bulpwm00324w0ho56nw4vi" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/04/10/Annotation-Android-usage/" data-id="cj1cup4ci003bjo0hek0cb2b5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1020,7 +1017,7 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2017/03/14/Android-CDI/" class="thumbnail">
+                            <a href="/2017/03/14/JAVA-CDI-Assertion/" class="thumbnail">
     
     
         <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Blossoming%20Acacia%20Branches.jpg)" alt="Injection(CDI)和assertion(断言)" class="thumbnail-image"></span>
@@ -1031,7 +1028,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2017/03/14/Android-CDI/" class="title">Injection(CDI)和assertion(断言)</a></p>
+                            <p class="item-title"><a href="/2017/03/14/JAVA-CDI-Assertion/" class="title">Injection(CDI)和assertion(断言)</a></p>
                             <p class="item-date"><time datetime="2017-03-13T16:00:00.000Z" itemprop="datePublished">2017-03-14</time></p>
                         </div>
                     </li>
