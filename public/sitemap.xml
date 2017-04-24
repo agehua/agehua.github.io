@@ -4,7 +4,14 @@
   <url>
     <loc>http://agehua.github.io/2017/04/10/Annotation-Android-usage/</loc>
     
-    <lastmod>2017-04-11T01:09:20.000Z</lastmod>
+    <lastmod>2017-04-24T11:35:16.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/12/20/Android-patch-update/</loc>
+    
+    <lastmod>2017-04-11T06:17:40.000Z</lastmod>
     
   </url>
   
@@ -86,14 +93,7 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/09/22/quit-whole-application/</loc>
-    
-    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/06/08/gson-summary/</loc>
+    <loc>http://agehua.github.io/2016/09/22/JNI-get-publickey/</loc>
     
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     
@@ -142,14 +142,14 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/09/22/JNI-get-publickey/</loc>
+    <loc>http://agehua.github.io/2014/12/23/hello-world/</loc>
     
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2014/12/23/hello-world/</loc>
+    <loc>http://agehua.github.io/2016/09/22/quit-whole-application/</loc>
     
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     
@@ -212,14 +212,14 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/03/20/android-new-knowledge-summary/</loc>
+    <loc>http://agehua.github.io/2016/03/20/android-books-reading-/</loc>
     
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/03/20/android-books-reading-/</loc>
+    <loc>http://agehua.github.io/2016/03/20/android-new-knowledge-summary/</loc>
     
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     
@@ -254,16 +254,16 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/05/28/qiniu-android-summary/</loc>
+    <loc>http://agehua.github.io/2016/06/08/gson-summary/</loc>
     
     <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/12/20/Android-patch-update/</loc>
+    <loc>http://agehua.github.io/2016/05/28/qiniu-android-summary/</loc>
     
-    <lastmod>2017-02-04T11:08:48.000Z</lastmod>
+    <lastmod>2017-02-15T01:26:00.000Z</lastmod>
     
   </url>
   
@@ -283,13 +283,6 @@
   
   <url>
     <loc>http://agehua.github.io/categories/index.html</loc>
-    
-    <lastmod>2016-12-26T10:41:15.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/tags/index.html</loc>
     
     <lastmod>2016-12-26T10:41:15.000Z</lastmod>
     

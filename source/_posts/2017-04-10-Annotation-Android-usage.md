@@ -10,6 +10,7 @@ toc: true
 ---
 
 ## 注解在Android中的应用
+
 注解是Java语言的特性之一，它是在源代码中插入标签，这些标签在后面的编译或者运行过程中起到某种作用，每个注解都必须通过注解接口 @Interface 进行声明，接口的方法对应着注解的元素。
 
 在上一篇文章[Injection(CDI)和assertion(断言)](https://agehua.github.io/2017/03/14/Android-CDI/)中介绍了Java中的CDI（上下文依赖注入）规范，这个规范就是使用注解的方式。这篇文章主要介绍注解在Android中的应用。

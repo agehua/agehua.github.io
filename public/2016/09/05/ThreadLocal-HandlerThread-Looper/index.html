@@ -490,14 +490,13 @@ handler 发送Message 给MessageQueue，Looper 来轮询消息，如果有Messag
         <a class="tag-link" href="/tags/accumulation/">accumulation</a>
     </div>
 
-                    </div>
+                        <div style="color:#cba11f;float:right">3 min read , Words: 577</div>                    </div>
                 
             </header>
         
         
         <div class="article-entry" itemprop="articleBody">
         
-
             <h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h3><pre><code>Android中非UI线程（WorkThread）不能操作UI线程（MainThread）
 </code></pre><p>handler 发送Message 给MessageQueue，Looper 来轮询消息，如果有Message，然后再发送给Handler，Handler 拿到消息就可以所在的线程执行了。</p>
 <h3 id="2-ThreadLocal"><a href="#2-ThreadLocal" class="headerlink" title="2.ThreadLocal"></a>2.ThreadLocal<t></t></h3><p>Thread这个类有一个变量：ThreadLocal.ThreadLocalMap threadLocals ，这是一个map的数据结构，里面的元素的key就是ThreadLocal，value就是我们自定义的一些目标类。我们可以在自己的多线程类中定义好几个ThreadLocal，然后每一个ThreadLocal put一个特定的目标类，然后以后可以用ThreadLocal get到目标类（用自己作为Thread里map的key），因为每个Thread有自己独自的map，所以这样可以实现每个线程有自己的LocalThread，并且一个Thread里可以有多个LocalThread。</p>
@@ -677,7 +676,7 @@ handler 发送Message 给MessageQueue，Looper 来轮询消息，如果有Messag
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/09/05/ThreadLocal-HandlerThread-Looper/" data-id="cj1cup4bb001ijo0hfx1apxaz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/09/05/ThreadLocal-HandlerThread-Looper/" data-id="cj1w4fmxv001f3qfy967mdnpm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding

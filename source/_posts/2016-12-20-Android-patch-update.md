@@ -4,8 +4,8 @@ title:  Android 增量更新整理
 category: accumulation
 tags: Android Patch Update
 keywords: Android Patch Update
-banner: http://obxk8w81b.bkt.clouddn.com/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg
+banner: http://obxk8w81b.bkt.clouddn.com/A%20Girl%20in%20the%20Street,%20Two%20Coaches%20in%20the%20Background.jpg
+thumbnail: http://obxk8w81b.bkt.clouddn.com/A%20Girl%20in%20the%20Street,%20Two%20Coaches%20in%20the%20Background.jpg
 toc: true
 ---
 
