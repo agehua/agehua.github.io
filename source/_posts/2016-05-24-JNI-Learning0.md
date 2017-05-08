@@ -300,3 +300,17 @@ JNINativeMethod结构体中有一个字段为**signature(签名)**，再介绍si
 Java层出现异常，虚拟机会直接抛出异常，这是需要try..catch或者继续往外throw。但是对于JNI出现异常时，即执行到JNIEnv中某个函数异常时，并不会立即抛出异常来中断程序的执行，还可以继续执行内存之类的清理工作，直到返回到Java层时才会抛出相应的异常。
 
   另外，Dalvik虚拟机有些情况下JNI函数出错可能返回NULL，但ART虚拟机在出错时更多的是抛出异常。这样导致的问题就可能是在Dalvik版本能正常运行的程序，在ART虚拟机上由于没有正确处理异常而崩溃。
+
+### 3.JNI知识积累
+
+JNI学习积累之一 ---- 常用函数大全
+http://blog.csdn.net/qinjuning/article/details/7595104
+
+JNI学习积累之二 ---- 数据类型映射、域描述符说明
+http://blog.csdn.net/qinjuning/article/details/7599796
+
+JNI学习积累之三 ---- 操作JNI函数以及复杂对象传递
+http://blog.csdn.net/qinjuning/article/details/7607214
+
+JNI 实战全面解析
+http://blog.csdn.net/banketree/article/details/40535325

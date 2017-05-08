@@ -508,7 +508,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/09/28/Android-interview-questions/" data-id="cj1w4fmy7001w3qfy767x15qb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/09/28/Android-interview-questions/" data-id="cj2fw4lw4001tknfymxjkxo3z" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -577,6 +577,156 @@
             
     
         <a href="http://agehua.github.io/2016/09/28/Android-interview-questions/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/09/28/Android-interview-questions/">Comments</a>
+    
+
+        </footer>
+
+    </div>
+    
+</article>
+
+
+
+
+    <article id="post-JNI-get-publickey" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2016/09/22/JNI-get-publickey/" itemprop="url">
+            <img src="http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Branch%20in%20a%20Glass%20with%20a%20Book.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/09/22/JNI-get-publickey/">使用JNI获取publickey实现</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/09/22/JNI-get-publickey/">
+            <time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/technology/">technology</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/android-jni/">Android JNI</a>
+    </div>
+
+                        <div style="color:#cba11f;float:right">4 min read , Words: 774</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h3><p>之前写过一篇文件是关于<a href="http://agehua.github.io/2016/JNI-Learning">JNI学习和积累</a>的文章。<br>这篇文章主要讲在使用JNI取得Publickey过程中遇到的问题和一些总结。</p>
+<h3 id="2-JNI获取Publickey实现"><a href="#2-JNI获取Publickey实现" class="headerlink" title="2.JNI获取Publickey实现"></a>2.JNI获取Publickey实现</h3><p>在上篇文章中，最终采用的加密方法来自<a href="https://github.com/MasonLiuChn/AndroidUltimateEncrypt">github项目</a>。</p>
+<p>但该项目中在4.0.4版本的手机上，取得publickey遇到兼容性问题。</p></p>
+            <p class="article-more-link">
+                <a href="/2016/09/22/JNI-get-publickey/#more">Read More</a>
+            </p>
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2016/09/22/JNI-get-publickey/" data-id="cj2fw4lw7001xknfy13q52wfx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://agehua.github.io/2016/09/22/JNI-get-publickey/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/09/22/JNI-get-publickey/">Comments</a>
     
 
         </footer>
@@ -667,7 +817,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/09/22/quit-whole-application/" data-id="cj1w4fmy3001t3qfylm5s9zpl" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/09/22/quit-whole-application/" data-id="cj2fw4lw2001qknfyvmhxqq28" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -736,305 +886,6 @@
             
     
         <a href="http://agehua.github.io/2016/09/22/quit-whole-application/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/09/22/quit-whole-application/">Comments</a>
-    
-
-        </footer>
-
-    </div>
-    
-</article>
-
-
-
-
-    <article id="post-JNI-get-publickey" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2016/09/22/JNI-get-publickey/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Branch%20in%20a%20Glass%20with%20a%20Book.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/09/22/JNI-get-publickey/">使用JNI获取publickey实现</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/09/22/JNI-get-publickey/">
-            <time datetime="2016-09-21T16:00:00.000Z" itemprop="datePublished">2016-09-22</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/technology/">technology</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/android-jni/">Android JNI</a>
-    </div>
-
-                        <div style="color:#cba11f;float:right">4 min read , Words: 774</div>                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h3><p>之前写过一篇文件是关于<a href="http://agehua.github.io/2016/JNI-Learning">JNI学习和积累</a>的文章。<br>这篇文章主要讲在使用JNI取得Publickey过程中遇到的问题和一些总结。</p>
-<h3 id="2-JNI获取Publickey实现"><a href="#2-JNI获取Publickey实现" class="headerlink" title="2.JNI获取Publickey实现"></a>2.JNI获取Publickey实现</h3><p>在上篇文章中，最终采用的加密方法来自<a href="https://github.com/MasonLiuChn/AndroidUltimateEncrypt">github项目</a>。</p>
-<p>但该项目中在4.0.4版本的手机上，取得publickey遇到兼容性问题。</p></p>
-            <p class="article-more-link">
-                <a href="/2016/09/22/JNI-get-publickey/#more">Read More</a>
-            </p>
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2016/09/22/JNI-get-publickey/" data-id="cj1w4fmy0001q3qfye7lilldz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://agehua.github.io/2016/09/22/JNI-get-publickey/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/09/22/JNI-get-publickey/">Comments</a>
-    
-
-        </footer>
-
-    </div>
-    
-</article>
-
-
-
-
-    <article id="post-android-design-pattern-singleton" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2016/09/20/android-design-pattern-singleton/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Tree.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/09/20/android-design-pattern-singleton/">ANDROID设计模式之单例模式</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/09/20/android-design-pattern-singleton/">
-            <time datetime="2016-09-19T16:00:00.000Z" itemprop="datePublished">2016-09-20</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/android-design-pattern/">Android design pattern</a>
-    </div>
-
-                        <div style="color:#cba11f;float:right">3 min read , Words: 580</div>                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="向大神致敬"><a href="#向大神致敬" class="headerlink" title="向大神致敬"></a>向大神致敬</h3><p>本文转载自<a href="http://stormzhang.com/designpattern/2016/03/27/android-design-pattern-singleton/">stormzhang ANDROID设计模式之单例模式 </a>，<br>稍有修改</p>
-<h3 id="常用单例模式"><a href="#常用单例模式" class="headerlink" title="常用单例模式"></a>常用单例模式</h3><p>什么是设计模式？其实简单的理解就是前人留下来的一些经验总结而已，然后把这些经验起了个名字叫Design Pattern，翻译过来就是设计模式的意思，通过使用设计模式可以让我们的代码复用性更高，可维护性更高，让你的代码写的更优雅。设计模式理论上有23种，但是我只会针对Android平台上常用的一些设计模式做分享，今天就先来分享下最常用的单例模式。</p></p>
-            <p class="article-more-link">
-                <a href="/2016/09/20/android-design-pattern-singleton/#more">Read More</a>
-            </p>
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2016/09/20/android-design-pattern-singleton/" data-id="cj1w4fmxz001m3qfyv6irql9a" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://agehua.github.io/2016/09/20/android-design-pattern-singleton/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/09/20/android-design-pattern-singleton/">Comments</a>
     
 
         </footer>
@@ -1116,7 +967,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/09/20/AVG-unwanted-software/" data-id="cj1w4fmxx001j3qfyjljbwba1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/09/20/AVG-unwanted-software/" data-id="cj2fw4lvq0019knfy2zun04dp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1185,6 +1036,155 @@
             
     
         <a href="http://agehua.github.io/2016/09/20/AVG-unwanted-software/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/09/20/AVG-unwanted-software/">Comments</a>
+    
+
+        </footer>
+
+    </div>
+    
+</article>
+
+
+
+
+    <article id="post-android-design-pattern-singleton" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2016/09/20/android-design-pattern-singleton/" itemprop="url">
+            <img src="http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Tree.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/09/20/android-design-pattern-singleton/">ANDROID设计模式之单例模式</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/09/20/android-design-pattern-singleton/">
+            <time datetime="2016-09-19T16:00:00.000Z" itemprop="datePublished">2016-09-20</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/android-design-pattern/">Android design pattern</a>
+    </div>
+
+                        <div style="color:#cba11f;float:right">3 min read , Words: 580</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="向大神致敬"><a href="#向大神致敬" class="headerlink" title="向大神致敬"></a>向大神致敬</h3><p>本文转载自<a href="http://stormzhang.com/designpattern/2016/03/27/android-design-pattern-singleton/">stormzhang ANDROID设计模式之单例模式 </a>，<br>稍有修改</p>
+<h3 id="常用单例模式"><a href="#常用单例模式" class="headerlink" title="常用单例模式"></a>常用单例模式</h3><p>什么是设计模式？其实简单的理解就是前人留下来的一些经验总结而已，然后把这些经验起了个名字叫Design Pattern，翻译过来就是设计模式的意思，通过使用设计模式可以让我们的代码复用性更高，可维护性更高，让你的代码写的更优雅。设计模式理论上有23种，但是我只会针对Android平台上常用的一些设计模式做分享，今天就先来分享下最常用的单例模式。</p></p>
+            <p class="article-more-link">
+                <a href="/2016/09/20/android-design-pattern-singleton/#more">Read More</a>
+            </p>
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2016/09/20/android-design-pattern-singleton/" data-id="cj2fw4lvz001nknfy1yea9xoe" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://agehua.github.io/2016/09/20/android-design-pattern-singleton/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://agehua.github.io/2016/09/20/android-design-pattern-singleton/">Comments</a>
     
 
         </footer>
@@ -1266,7 +1266,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/09/05/ThreadLocal-HandlerThread-Looper/" data-id="cj1w4fmxv001f3qfy967mdnpm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/09/05/ThreadLocal-HandlerThread-Looper/" data-id="cj2fw4lvx001jknfyc0ruo8om" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1416,7 +1416,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/08/16/RxAndroid-Learning/" data-id="cj1w4fmxt001c3qfykjdsondr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/08/16/RxAndroid-Learning/" data-id="cj2fw4lvv001gknfy47oqiozn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1564,7 +1564,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/08/03/android-LocationListener/" data-id="cj1w4fmxq00183qfy0qd7vdtw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/08/03/android-LocationListener/" data-id="cj2fw4lvt001dknfyd8h75z63" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
