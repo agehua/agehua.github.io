@@ -30,13 +30,13 @@ permalink_defaults:
 anchorjs: false                        # if you want to customize anchor. check out line:181 of `post.html`
 
 
-# Disqus settings
-disqus_username:
-
-# Duoshuo settings
-duoshuo_username: agehua # 你的多说帐号
-# Share component is depend on Comment so we can NOT use share only.
-duoshuo_share: true                     # set to false if you want to use Comment without Sharing
+# # Disqus settings
+# disqus_username:
+#
+# # Duoshuo settings
+# duoshuo_username: agehua # 你的多说帐号
+# # Share component is depend on Comment so we can NOT use share only.
+# duoshuo_share: true                     # set to false if you want to use Comment without Sharing
 
 
 # Analytics settings

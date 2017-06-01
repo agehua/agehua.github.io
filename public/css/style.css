@@ -1274,25 +1274,20 @@ a.article-title:hover {
   margin: 0 auto;
 }
 .toc-article {
-  background: #f9f9f9;
-  margin: 2em 0 0 0.2em;
-  padding: 1em;
-  border-radius: 0px;
-}
-.toc-article .toc-title {
-  font-size: 120%;
-}
-.toc-article strong {
-  padding: 0.3em 1;
+  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+  background: #fff;
+  margin: 0.5m;
+  padding: 0.5em;
 }
 ol.toc {
   width: 100%;
   margin: 1em 2em 0 0;
 }
 #toc {
-  line-height: 1em;
-  font-size: 0.8em;
-  float: right;
+  line-height: 1.2em;
+  font-size: 1em;
 }
 #toc .toc {
   padding: 0;
