@@ -22,6 +22,8 @@ handler.postDelayed(runnable, 100);
 ~~~
 
 下面代码里有一个小技巧，实现每隔100ms运行一次Runnable，就像TimerTask的scheduleAtFixedRate()方法:
+
+<!--more-->
 ~~~ Java
 private Runnable runnable = new Runnable() {
    @Override
