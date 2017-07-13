@@ -137,6 +137,8 @@ service servicemanager /system/bin/servicemanager
 - 3、由于各种原因的影响，Server进程可能生死无常。如果有了Service Manager做统一的管理，那么Client只要向Service Manager做查询，就能得到Server的最新信息。
 
 ### 系统服务注册流程分析
+这部分内容也可以参考博客：[Android深入浅出之Binder机制](http://www.cnblogs.com/innost/archive/2011/01/09/1931456.html)
+
 下面来看一下一些系统服务是如何进程注册的，这里用MediaService来进行查看吧。
 
 系统中的MediaService服务的启动也是在init.rc中的
@@ -147,18 +149,21 @@ service media /system/bin/mediaserver
   group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm
   ioprio rt 4
 ~~~
-查看main_mediaserver.cpp源码的main函数：
+查看Main_mediaserver.cpp源码的main函数：
 ~~~ C++
-AudioFlinger::instantiate();
-MediaPlayService::instantiate();
-CameraService::instantiate();
-AudioPolicyService::instantiate();
-SoundTriggerHwService::instantiate();
-registerExtensions();
-ProcessState::self()->startThreadPool();
-IPCThreadState::self()->joinThreadPool();
+int main(int argc, char** argv)
+{
+  //获得一个ProcessState实例
+  sp<ProcessState> proc(ProcessState::self());
+
+  //得到一个ServiceManager对象
+  sp<IServiceManager> sm = defaultServiceManager();
+  MediaPlayerService::instantiate();//初始化MediaPlayerService服务
+  ProcessState::self()->startThreadPool();
+  IPCThreadState::self()->joinThreadPool();
+}
 ~~~
-> 这里可以看到MediaServer依赖这么多的服务，服务的注册都是在各自的初始化方法中
+> sp是google搞出来的为了方便C/C++程序员管理指针的分配和释放的一套方法，就把它当做一个普通的指针看待，sp&lt;XXX&gt;就看成是XXX*就可以了
 
 这里用MediaPlayerService来看看注册操作：
 ~~~ C++
@@ -175,7 +180,7 @@ sp<IServiceManager> defaultServiceManager() {
   if (gDefaultServiceManager != NULL) return gDefaultServiceManager;
 
   {
-    AutoMutex _l(gDefaultServiceManagerLock);
+    AutoMutex _l(gDefaultServiceManagerLock); //--->锁保护
     while (gDefaultServiceManager == NULL) {
       gDefaultServiceManager = interface_cast<IServiceManager> (
         ProcessState::self()->getContextObject(NULL));
@@ -188,7 +193,7 @@ sp<IServiceManager> defaultServiceManager() {
 ~~~
 看看ProcessState.cpp的源码：
 ~~~ C++
-sp<IBinder> ProcessState::getContextObject(const sp<IBinder>& /*caller*/) {
+sp<IBinder> ProcessState::getContextObject(const sp<IBinder>& caller) {
   return getStrongProxyForHandle(0);
 }
 ~~~
@@ -283,3 +288,10 @@ Binder基于Client-Server通信模式，传输过程只需一次拷贝，为发�
 ![](/images/blogimages/2017/binder-summary.png)
 
 这张图非常好的表达了Android中应用使用系统服务的一个流程，也是最好的最全的解释了。看懂这张图之后，那么对Android中的binder机制和远程服务调用机制就可以掌握了，可以进行后续的拦截操作了。
+
+参考文献：
+[Android系统篇之—-Binder机制和远程服务调用机制分析](http://www.wjdiankong.cn/android%E7%B3%BB%E7%BB%9F%E7%AF%87%E4%B9%8B-binder%E6%9C%BA%E5%88%B6%E5%92%8C%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/)
+
+[进击的Android注入术《五》](http://blog.csdn.net/L173864930/article/details/38468433)
+
+[Android深入浅出之Binder机制](http://www.cnblogs.com/innost/archive/2011/01/09/1931456.html)

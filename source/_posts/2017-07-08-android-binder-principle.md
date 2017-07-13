@@ -12,11 +12,11 @@ toc: true
 ### 背景分析
 最近在学习Android非侵入Hook机制，
 
-360开源RePlugin，安卓进入“全面插件化”时代：https://www.itcodemonkey.com/article/278.html
+6月30日，360开源RePlugin，安卓进入“全面插件化”时代：https://www.itcodemonkey.com/article/278.html
 
-滴滴开源Android端插件化框架VirtualAPK：https://www.itcodemonkey.com/article/277.html
+同一天，滴滴开源Android端插件化框架VirtualAPK：https://www.itcodemonkey.com/article/277.html
 
-发现竟然可以不在清单文件中注册就可以启动Activity，还有这种骚操作，哈哈。
+然后本人发现竟然可以不在清单文件中注册就可以启动Activity，还有这种操作？哈哈。后面会有单独的文章介绍这种骚操作。
 
 在搜索中发现了这篇博客，[
 Android系统篇之—-Binder机制和远程服务调用机制分析](http://www.wjdiankong.cn/android%E7%B3%BB%E7%BB%9F%E7%AF%87%E4%B9%8B-binder%E6%9C%BA%E5%88%B6%E5%92%8C%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/)。本文大部分转载自原来博客，结合自己的分析，是研究Hook机制前的知识储备。
@@ -440,8 +440,6 @@ public static IPackageManager getPackageManager() {
 
 
 参考文献：
-
-[Android系统篇之—-免root实现Hook系统服务拦截方法](http://www.wjdiankong.cn/android%E7%B3%BB%E7%BB%9F%E7%AF%87%E4%B9%8B-%E5%85%8Droot%E5%AE%9E%E7%8E%B0hook%E7%B3%BB%E7%BB%9F%E6%9C%8D%E5%8A%A1%E6%8B%A6%E6%88%AA%E6%96%B9%E6%B3%95/)
 
 [Android系统篇之—-Binder机制和远程服务调用机制分析](http://www.wjdiankong.cn/android%E7%B3%BB%E7%BB%9F%E7%AF%87%E4%B9%8B-binder%E6%9C%BA%E5%88%B6%E5%92%8C%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/)
 
