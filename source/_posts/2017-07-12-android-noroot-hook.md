@@ -4,8 +4,8 @@ title:  Android免root实现hook系统服务拦截方法
 category: accumulation
 tags: TimerTask
 keywords: handler, TimerTask
-banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Branch%20in%20a%20Glass%20with%20a%20Book.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Branch%20in%20a%20Glass%20with%20a%20Book.jpg
+banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg
+thumbnail: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg
 toc: true
 ---
 
