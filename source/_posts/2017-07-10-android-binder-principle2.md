@@ -15,7 +15,7 @@ toc: true
 本文承接上篇文章，继续介绍ServiceManager和系统服务的注册流程，最后对Binder机制进行分析。
 
 
-> 关于系统服务的注册流程本人也不是太懂，这部分大都转载自[这篇文章](http://www.wjdiankong.cn/android%E7%B3%BB%E7%BB%9F%E7%AF%87%E4%B9%8B-binder%E6%9C%BA%E5%88%B6%E5%92%8C%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/)
+> 关于系统服务的注册流程，大都转载自[这篇文章](http://www.wjdiankong.cn/android%E7%B3%BB%E7%BB%9F%E7%AF%87%E4%B9%8B-binder%E6%9C%BA%E5%88%B6%E5%92%8C%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/)
 
 ### 服务大管家ServiceManager
 > ServiceManager.java的源码可以在谷歌源码中看到，[点击这里](https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/os/ServiceManager.java)

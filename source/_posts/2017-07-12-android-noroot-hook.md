@@ -3,7 +3,7 @@ layout: post
 title:  Android免root实现hook系统服务拦截方法
 category: accumulation
 tags: HOOK
-keywords: hook, system service 
+keywords: hook, system service
 banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg
 toc: true
@@ -235,7 +235,9 @@ Proxy动态生成代理的不足之处在于：
 - Proxy 是面向接口的，所有使用 Proxy 的对象都必须定义一个接口，而且用这些对象的代码也必须是对接口编程的：Proxy 生成的对象是接口一致的而不是对象一致的：例子中 **Proxy.newProxyInstance** 生成的是实现 Account接口的对象而不是 AccountImpl 的子类。这对于软件架构设计，尤其对于既有软件系统是有一定掣肘的。
 - Proxy 毕竟是通过反射实现的，必须在效率上付出代价：有实验数据表明，调用反射比一般的函数开销至少要大10倍。而且，从程序实现上可以看出，对 proxy class 的所有方法调用都要通过使用反射的 invoke 方法。因此，对于性能关键的应用，使用 proxy class 是需要精心考虑的，以避免反射成为整个应用的瓶颈。
 
-好的，现在在回到RePlugin的IContentProviderProxy源码的invoke()方法里。invoke() 方法中调用了wrapperUri()，来看下这个方法：
+> 对比VirtualApk框架中的 IContentProviderProxy 类，和上面Account例子里的 SecurityProxyInvocationHandler 类，可以发现，IContentProviderProxy 使用了 **InvocationHandler 的动态代理机制**，而代理的具体内容就在**invoke()**回调里。
+
+好的，现在在回到VirtualApk的IContentProviderProxy源码的invoke()方法里。invoke() 方法中调用了wrapperUri()，来看下这个方法：
 ~~~ Java
 private void wrapperUri(Method method, Object[] args) {
     Uri uri = null;
@@ -294,7 +296,7 @@ private void wrapperUri(Method method, Object[] args) {
   ProviderInfo对象的解释就是：Holds information about a specific content provider
 - 3.使用StringBuilder对，将uri，pkg，plugin等参数等拼接上去，替换到args中的uri，然后继续走原本的流程。
 
-> 假设是调用了query方法，应该就可以到达占坑的provider的query方法啦。
+> 假设是调用了query方法，应该就可以到达占坑的provider的query方法了。这就是插件框架里传说中的占坑，即不用注册就可以启动插件里的组件啦
 
 #### 剪切板实例
 到此我们了解了Java中的Hook技术的核心知识点了，下面就用开始的剪切板服务来做实验，我们Hook系统的剪切板服务功能，拦截其方法，上面也说道了，既然要Hook服务，首先得找到Hook点，通过开始对Android中系统服务的调用流程分析知道，其实这些服务都是一些保存在ServiceManager中的远端IBinder对象，这其实是一个Hook点：
@@ -346,7 +348,7 @@ try {
   );
 
   //放回ServiceManager中，替换掉原有的
-  Field cacheField = serviceManager.getDeclaredFiedl("sCache");
+  Field cacheField = serviceManager.getDeclaredField("sCache");
   cacheField.setAccessible(true);
   @SuppressWarnings({"unchecked"})
   Map<String, IBinder> cache = (Map<String,IBinder>) cacheField.get(null);
@@ -355,7 +357,11 @@ try {
 
 }
 ~~~
+
+> Field.get()可以返回一个Object，字段不是静态字段的话，要传入反射类的对象。如果传null是会报 java.lang.NullPointerException。但是如果字段是静态字段的话,传入任何对象都是可以的,包括null
+
 这里是通过反射去获取ServiceManager中的缓存池Binder对象。我们先获取到缓存池，然后得到剪切板服务Binder对象，构造一个代理类，最后在设置回去即可。
+
 下面主要来看一下构造了代理类之后，如何拦截哪些方法？
 ~~~ Java
 @Override
