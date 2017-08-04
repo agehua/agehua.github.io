@@ -2,13 +2,16 @@
 layout: post
 title:  Activity启动流程分析
 category: accumulation
-tags: TimerTask
-keywords: handler, TimerTask
-banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Branch%20in%20a%20Glass%20with%20a%20Book.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Branch%20in%20a%20Glass%20with%20a%20Book.jpg
+tags: AMS
+keywords: AOSP, AMS, Binder
+banner: http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg
+thumbnail: http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg
 toc: true
 ---
 
+## Activity启动流程分析
+
+本文主要介绍Activity的启动过程和过程中主要涉及的类。如果你跟随上一篇文章，成功编译了Android源码，可以动手跟本篇文章一步一步调试分析整个启动过程。没有编译源码，也可以看看[android.googlesource](https://android.googlesource.com/platform/frameworks/base/+/master/)，这里也有源码。
 
 ### 主要对象功能介绍
 
@@ -29,9 +32,9 @@ App与AMS通过Binder进行IPC通信，AMS(SystemServer进程)与zygote通过Soc
 
 
 #### 与Activity启动有关的类
-我们下面的文章将围绕着这几个类进行介绍。可能你第一次看的时候，印象不深，不过没关系，当你跟随者我读完这篇文章的时候，我会在最后再次列出这些对象的功能，相信那时候你会对这些类更加的熟悉和深刻。
+我们下面的文章将围绕着这几个类进行介绍。可能你第一次看的时候，印象不深，不过没关系，当你跟随者我读完这篇文章的时候，相信那时候你会对这些类更加的熟悉和深刻。
 
-- **ActivityManagerServices**，简称AMS，服务端对象，负责系统中所有Activity的生命周期，查看源码，[点击这里](frameworks/base/services/java/com/android/server/am/ActivityManagerService.java)
+- **ActivityManagerServices**，简称AMS，服务端对象，负责系统中所有Activity的生命周期，查看源码，[点击这里](https://android.googlesource.com/platform/frameworks/base/services/java/com/android/server/am/ActivityManagerService.java)
 
 - **ActivityThread**，App的真正入口。当开启App之后，会调用main()开始运行，开启消息循环队列，这就是传说中的UI线程或者叫主线程。与ActivityManagerServices配合，一起完成Activity的管理工作
 
@@ -48,55 +51,57 @@ App与AMS通过Binder进行IPC通信，AMS(SystemServer进程)与zygote通过Soc
 - **TaskRecord**，AMS抽象出来的一个“任务”的概念，是记录ActivityRecord的栈，一个“Task”包含若干个ActivityRecord。AMS用TaskRecord确保Activity启动和退出的顺序。如果你清楚Activity的4种launchMode，那么对这个概念应该不陌生。
 
 #### App程序的入口
-我们一般在启动Activity的时候都是使用系统提供的方法Context.startActivity()操作的，关于这个方法的实现代码是在ContextImpl.java中：
+我们一般在启动Activity的时候都是使用系统提供的方法Activity.startActivity()操作的，本文就在此方法上分析整个过程:
+
+> 这里我的app进程是：foo.bar.multi，后面深入源码后会在系统进程system_process和app进程之间切换。
+
 ~~~ Java
 @Override
 public void startActivity(Intent intent) {
-    warnIfCallingFromSystemProcess();
-    startActivity(intent, null);
-}
-
-/** @hide */
-@Override
-public void startActivityAsUser(Intent intent, UserHandle user) {
-    startActivityAsUser(intent, null, user);
+    this.startActivity(intent, null);
 }
 
 @Override
-public void startActivity(Intent intent, Bundle options) {
-    warnIfCallingFromSystemProcess();
-
-    // Calling start activity from outside an activity without FLAG_ACTIVITY_NEW_TASK is
-    // generally not allowed, except if the caller specifies the task id the activity should
-    // be launched in.
-    if ((intent.getFlags()&Intent.FLAG_ACTIVITY_NEW_TASK) == 0
-            && options != null && ActivityOptions.fromBundle(options).getLaunchTaskId() == -1) {
-        throw new AndroidRuntimeException(
-                "Calling startActivity() from outside of an Activity "
-                + " context requires the FLAG_ACTIVITY_NEW_TASK flag."
-                + " Is this really what you want?");
+public void startActivity(Intent intent, @Nullable Bundle options) {
+    if (options != null) { //options这里为null
+        startActivityForResult(intent, -1, options);
+    } else {
+        // Note we want to go through this call for compatibility with
+        // applications that may have overridden the method.
+        startActivityForResult(intent, -1);
     }
-    mMainThread.getInstrumentation().execStartActivity(
-            getOuterContext(), mMainThread.getApplicationThread(), null,
-            (Activity) null, intent, -1, options);
+}
+
+public void startActivityForResult(@RequiresPermission Intent intent, int requestCode,
+        @Nullable Bundle options) {
+    if (mParent == null) { //这里mParent不为空
+        options = transferSpringboardActivityOptions(options);
+        Instrumentation.ActivityResult ar =
+            mInstrumentation.execStartActivity(
+                this, mMainThread.getApplicationThread(), mToken, this,
+                intent, requestCode, options);
+        if (ar != null) {
+            mMainThread.sendActivityResult(
+                mToken, mEmbeddedID, requestCode, ar.getResultCode(),
+                ar.getResultData());
+        }
+
+        // 代码省略....
+    } else {
+        // 代码省略....
+    }
 }
 ~~~
-这里用到了mMainThread变量去执行的操作，再看看这个变量，它是ActivityThread的一个实例。ActivityThread是一个应用非常关键的一个类，首先它是一个应用的主线程，其次就是他才是一个程序的入口的地方：
+上面代码可以看到，这里用到了mMainThread变量去执行的操作，再看看这个变量，它是ActivityThread的一个实例。ActivityThread是一个应用非常关键的一个类，首先它是一个应用的主线程，其次就是他才是一个程序的入口（main方法）的地方：
 
 ~~~ Java
 public static void main(String[] args) {
     //...代码省略
 }
 ~~~
-完整源码可以看这个：[android.googlesource](https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/app/ActivityThread.java)。后面介绍这个入口main方法什么时候执行。
+没有Android源码的，可以看这里：[android.googlesource](https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/app/ActivityThread.java)。后面介绍这个入口main方法什么时候执行。
 
-mMainThread.getInstrumentation()返回的是一个Instrumentation对象
-~~~ Java
-public Instrumentation getInstrumentation()
-{
-    return mInstrumentation;
-}
-~~~
+上面的mInstrumentation对象，是在Activity的attach()方法中被赋值的
 
 #### Instrumentation是什么？和ActivityThread是什么关系？
 
@@ -135,7 +140,7 @@ public ActivityResult execStartActivity(Context who, IBinder contextThread, IBin
     return null;
 }
 ~~~
-可以看到execStartActivity()方法，调用了ActivityManagerNative的startActivity()方法，看到这个ActivityManagerNative类有没有感觉和上一篇文章，[Android Binder机制分析（二）](https://agehua.github.io/2017/07/10/android-binder-principle2/)里的ServiceManagerNative有点类似。
+可以看到execStartActivity()方法，调用了ActivityManagerNative的startActivity()方法，看到这个ActivityManagerNative类有没有感觉和之前一篇文章，[Android Binder机制分析（二）](https://agehua.github.io/2017/07/10/android-binder-principle2/)里的ServiceManagerNative有点类似，这里涉及到的是系统服务间的Binder机制，不了解的同学可以看看这篇文章。
 
 稍后分析ActivityManagerNative，这里简单介绍下Instrumentation类。
 
@@ -171,7 +176,7 @@ ActivityThread你都没听说过？那你肯定听说过传说中的UI线程吧�
 #### 简介AMS和ActivityThread之间的Binder通信
 前面的两篇文章：[Android Binder机制分析（一）](https://agehua.github.io/2017/07/08/android-binder-principle/)和[Android Binder机制分析（二）](https://agehua.github.io/2017/07/10/android-binder-principle2/)。已经介绍了Android都是通过Binder机制调用远程的系统服务。这里在介绍下ActivityThread（App进程）是如何调用AMS服务的。
 
-前面我们说到，在调用ContextImpl.tartActivity()的时候，实际上调用的是：
+前面我们说到，在调用Activity.startActivity()的时候，实际上调用的是：
 **mInstrumentation.execStartActivity()**
 这个方法里面调用的是：
 ~~~ Java
@@ -179,7 +184,7 @@ ActivityManagerNative.getDefault().startActivity()
 ~~~
 > 用鼠标定位一下，上面的startActivity()方法，会发现这个方法是IActivityManager接口里的方法。注意IActivityManager继承了IInterface接口，而这个接口就是AIDL接口类必须实现的接口。
 
-再看，ActivityManagerNative.getDefault返回的就是ActivityManagerService的远程接口的本地代理，即ActivityManagerProxy。
+再看，ActivityManagerNative.getDefault()返回的就是ActivityManagerService的远程接口的本地代理，即ActivityManagerProxy。
 ~~~ Java
 public abstract class ActivityManagerNative extends Binder implements IActivityManager
 {
@@ -226,7 +231,10 @@ private static final Singleton<IActivityManager> gDefault = new Singleton<IActiv
 ~~~
 在这里可以看到了，其实gDefalut借助Singleton实现的单例模式，而在内部可以看到先从ServiceManager中获取到AMS远端服务的Binder对象，然后使用asInterface方法转化成本地化对象（其实就是ActivityManagerProxy对象，这个对象是ActivityManagerNative的内部类）。然后我们在看看上面调用了startActivity方法，其实就是调用了ActivityManagerProxy对象的这个方法。
 
-这个方法，在这里面做的事情就是IPC通信，利用Binder对象，调用transact()，把所有需要的参数封装成Parcel对象，向AMS发送数据进行通信。
+在这里面做的事情就是IPC通信，利用Binder对象，调用transact()，把所有需要的参数封装成Parcel对象，向AMS发送数据进行通信。
+
+> 这个方法中添加一个断点，注意这里startActivity()是ActivityManagerProxy类的方法，这里的进程应该还是App进程：foo.bar.multi
+
 ~~~ Java
 public int startActivity(IApplicationThread caller, String callingPackage, Intent intent,
         String resolvedType, IBinder resultTo, String resultWho, int requestCode,
@@ -246,6 +254,8 @@ public int startActivity(IApplicationThread caller, String callingPackage, Inten
     return result;
 }
 ~~~
+      注意，这里先别放开断点
+
 > Binder本质上只是一种底层通信方式，和具体服务没有关系。为了提供具体服务，Server必须提供一套接口函数以便Client通过远程访问使用各种服务。这时通常采用Proxy设计模式：将接口函数定义在一个抽象类中，Server和Client都会以该抽象类为基类实现所有接口函数，所不同的是Server端是真正的功能实现，而Client端是对这些函数远程调用请求的包装。
 
 客户端：ActivityManagerProxy =====>Binder驱动=====> ActivityManagerService：服务器
@@ -253,13 +263,15 @@ public int startActivity(IApplicationThread caller, String callingPackage, Inten
 Binder只能传递数据，并不知道是要调用ActivityManagerServices的哪个方法，所以在数据中会添加方法的唯一标识码，比如前面的startActivity()方法中的标识：START_ACTIVITY_TRANSACTION。
 
 在远端服务调用了transact()方法后，即mRemote.transact()，会转接到远端服务中间者ActivityManagerNative的onTransact方法中，找到对应的标识码：
+>  注意这里的接收者ActivityManagerNative的onTransact方法是在system_process进程中，想要继续debug调试的的话，需要在monitor中选中这个进程，然后再在下面的方法中添加断点。最后放开上面添加的断点。
+
 ~~~ Java
 @Override
 public boolean onTransact(int code, Parcel data, Parcel reply, int flags)
         throws RemoteException {
     switch (code) {
     case START_ACTIVITY_TRANSACTION:
-    {
+    {   //最好在case方法里面添加断点，避免受其他系统发送的消息影响
         data.enforceInterface(IActivityManager.descriptor);
         IBinder b = data.readStrongBinder();
         IApplicationThread app = ApplicationThreadNative.asInterface(b);
@@ -302,15 +314,6 @@ public final int startActivity(IApplicationThread caller, String callingPackage,
 这个方法直接调用了startActivityAsUser()方法
 ~~~ Java
 @Override
-public final int startActivity(IApplicationThread caller, String callingPackage,
-        Intent intent, String resolvedType, IBinder resultTo, String resultWho, int requestCode,
-        int startFlags, ProfilerInfo profilerInfo, Bundle bOptions) {
-    return startActivityAsUser(caller, callingPackage, intent, resolvedType, resultTo,
-            resultWho, requestCode, startFlags, profilerInfo, bOptions,
-            UserHandle.getCallingUserId());
-}
-
-@Override
 public final int startActivityAsUser(IApplicationThread caller, String callingPackage,
         Intent intent, String resolvedType, IBinder resultTo, String resultWho, int requestCode,
         int startFlags, ProfilerInfo profilerInfo, Bundle bOptions, int userId) {
@@ -333,148 +336,47 @@ public ActivityManagerService(Context systemContext) {
     //...省略代码
 }
 ~~~
+下面就是ActiviStarter、ActivityStack和ActivityStackSupervisor三个类之间方法调来调去了，这里为了节省篇幅就不再贴代码了，有毅力的同学可以每个方法都打上一个断点，走一遍：
 
+ActivityStarter.startActivityMayWait()-> ActivityStarter.startActivityLocked()-> ActivityStarter.startActivityUnchecked()-> ActivityStackSupervisor.resumeFocusedStackTopActivityLocked()
+
+再往后都是ActivityStackSupervisor类的方法，调用：
+
+从resumeFocusedStackTopActivityLocked()-> resumeFocusedStackTopActivityLocked()-> resumeTopActivityUncheckedLocked()
+-> resumeTopActivityInnerLocked()-> startSpecificActivityLocked()-> realStartActivityLocked()
+
+
+#### IApplicationThread接口简介
+
+重点在最后的方法里realStartActivityLocked()调用了，**app.thread.scheduleLaunchActivity()**方法
 ~~~ Java
-public class ActivityStarter {  
+final boolean realStartActivityLocked(ActivityRecord r, ProcessRecord app,
+            boolean andResume, boolean checkConfig) throws RemoteException {
 
-  final int startActivityMayWait(IApplicationThread caller, int callingUid,
-              String callingPackage, Intent intent, String resolvedType,
-              IVoiceInteractionSession voiceSession, IVoiceInteractor voiceInteractor,
-              IBinder resultTo, String resultWho, int requestCode, int startFlags,
-              ProfilerInfo profilerInfo, IActivityManager.WaitResult outResult, Configuration config,
-              Bundle bOptions, boolean ignoreTargetSecurity, int userId,
-              IActivityContainer iContainer, TaskRecord inTask) {
-          // Refuse possible leaked file descriptors
-          if (intent != null && intent.hasFileDescriptors()) {
-              throw new IllegalArgumentException("File descriptors passed in Intent");
-          }
-          mSupervisor.mActivityMetricsLogger.notifyActivityLaunching();
-          //.....
+    //...代码省略
 
-          ResolveInfo rInfo = mSupervisor.resolveIntent(intent, resolvedType, userId);
-          if (rInfo == null) {
+    final ActivityStack stack = task.stack;
+    try {
+        //...代码省略
 
-              //...代码省略，不走这里
-          }
-          // Collect information about the target of the Intent.
-          ActivityInfo aInfo = mSupervisor.resolveActivity(intent, rInfo, startFlags, profilerInfo);
-          ActivityOptions options = ActivityOptions.fromBundle(bOptions);
-          ActivityStackSupervisor.ActivityContainer container =
-                  (ActivityStackSupervisor.ActivityContainer)iContainer;
-          synchronized (mService) {
-              //.....
-              if (DEBUG_CONFIGURATION) Slog.v(TAG_CONFIGURATION,
-                      "Starting activity when config will change = " + stack.mConfigWillChange);
-              final long origId = Binder.clearCallingIdentity();
-              if (aInfo != null &&
-                      (aInfo.applicationInfo.privateFlags
-                              & ApplicationInfo.PRIVATE_FLAG_CANT_SAVE_STATE) != 0) {
-                  // This may be a heavy-weight process!  Check to see if we already
-                  // have another, different heavy-weight process running.
-                  if (aInfo.processName.equals(aInfo.applicationInfo.packageName)) {
-                      //代码省略.....
-                  }
-              }
-              final ActivityRecord[] outRecord = new ActivityRecord[1];
-              int res = startActivityLocked(caller, intent, ephemeralIntent, resolvedType,
-                      aInfo, rInfo, voiceSession, voiceInteractor,
-                      resultTo, resultWho, requestCode, callingPid,
-                      callingUid, callingPackage, realCallingPid, realCallingUid, startFlags,
-                      options, ignoreTargetSecurity, componentSpecified, outRecord, container,
-                      inTask);
+        app.forceProcessStateUpTo(mService.mTopProcessState);
+        app.thread.scheduleLaunchActivity(new Intent(r.intent), r.appToken,
+                System.identityHashCode(r), r.info, new Configuration(mService.mConfiguration),
+                new Configuration(task.mOverrideConfig), r.compat, r.launchedFromPackage,
+                task.voiceInteractor, app.repProcState, r.icicle, r.persistentState, results,
+                newIntents, !andResume, mService.isNextTransitionForward(), profilerInfo);
 
-              // .....
+        //...代码省略
+    } catch (RemoteException e) {
 
-              if (outResult != null) {
-                //这里传过来的outResult为null
-              }
-              return res;
-          }
-      }  
+    }
+
+    return true;
 }
 ~~~
-startActivityLocked()方法还是ActivityStarter类的方法，它又调用了ActivityStack.startActivityUncheckedLocked()方法。
+scheduleLaunchActivity()方法是IApplicationThread接口里面的方法，但是是由那个类实现的呢，这里就需要猜了，哈哈
 
-~~~ Java
-final int startActivityUncheckedLocked(ActivityRecord r,  
-    ActivityRecord sourceRecord, Uri[] grantedUriPermissions,  
-    int grantedMode, boolean onlyIfNeeded, boolean doResume) {  
-
-    //....
-    boolean addingToTask = false;  
-    if (((launchFlags&Intent.FLAG_ACTIVITY_NEW_TASK) != 0 &&  
-        (launchFlags&Intent.FLAG_ACTIVITY_MULTIPLE_TASK) == 0)  
-        || r.launchMode == ActivityInfo.LAUNCH_SINGLE_TASK  
-        || r.launchMode == ActivityInfo.LAUNCH_SINGLE_INSTANCE) {  
-            // If bring to front is requested, and no result is requested, and  
-            // we can find a task that was started with this same  
-            // component, then instead of launching bring that one to the front.  
-            if (r.resultTo == null) {  
-                // See if there is a task to bring to the front.  If this is  
-                // a SINGLE_INSTANCE activity, there can be one and only one  
-                // instance of it in the history, and it is always in its own  
-                // unique task, so we do a special search.  
-                ActivityRecord taskTop = r.launchMode != ActivityInfo.LAUNCH_SINGLE_INSTANCE  
-                    ? findTaskLocked(intent, r.info)  
-                    : findActivityLocked(intent, r.info);  
-                if (taskTop != null) {  
-                    ......  
-                }  
-            }  
-    }  
-
-    ......  
-
-    if (r.packageName != null) {  
-        // If the activity being launched is the same as the one currently  
-        // at the top, then we need to check if it should only be launched  
-        // once.  
-        ActivityRecord top = topRunningNonDelayedActivityLocked(notTop);  
-        if (top != null && r.resultTo == null) {  
-            if (top.realActivity.equals(r.realActivity)) {  
-                ......  
-            }  
-        }  
-    } else {  
-        ......  
-    }  
-
-    boolean newTask = false;  
-
-    // Should this be considered a new task?  
-    if (r.resultTo == null && !addingToTask  
-        && (launchFlags&Intent.FLAG_ACTIVITY_NEW_TASK) != 0) {  
-            // todo: should do better management of integers.  
-            mService.mCurTask++;  
-            if (mService.mCurTask <= 0) {  
-                mService.mCurTask = 1;  
-            }  
-            r.task = new TaskRecord(mService.mCurTask, r.info, intent,  
-                (r.info.flags&ActivityInfo.FLAG_CLEAR_TASK_ON_LAUNCH) != 0);  
-            ......  
-            newTask = true;  
-            if (mMainStack) {  
-                mService.addRecentTaskLocked(r.task);  
-            }  
-
-    } else if (sourceRecord != null) {  
-        ......  
-    } else {  
-      ......  
-    }  
-
-    //......  
-    startActivityLocked(r, newTask, doResume);  
-    return START_SUCCESS;  
-}
-~~~
-
-
-但是！这里Binder通信是单方向的，即从ActivityManagerProxy指向ActivityManagerService的，如果AMS想要通知ActivityThread做一些事情，应该咋办呢？
-还是通过Binder通信，不过是换了另外一对，换成了ApplicationThread和ApplicationThreadProxy。
-
-客户端：ApplicationThread <=====Binder驱动<===== ApplicationThreadProxy：服务器
-他们也都实现了相同的接口IApplicationThread：
+下面几个类都实现了相同的接口IApplicationThread：
 ~~~ Java
 private class ApplicationThread extends ApplicationThreadNative {}
 
@@ -486,29 +388,151 @@ public interface IApplicationThread extends IInterface {}
 ~~~
 IApplicationThread的源码在这里：[android.googlesource](https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/app/IApplicationThread.java)
 
+> IApplicationThread是实现了IInterface接口的，说明也是用的Binder远程通讯，这里的当前进程是system_process，
+本地代理类应该是ApplicationThreadProxy类，而这个类是内部类，在ApplicationThreadNative类中
 
-
-
-
-这部分内容转载自：[【凯子哥带你学Framework】Activity启动过程全解析](http://blog.csdn.net/zhaokaiqiang1992/article/details/49428287)
-
-### 结合Android Framework源码分析Activity启动流程
-在Android系统中，有两种操作会引发Activity的启动，一种用户点击应用程序图标时，Launcher会为我们启动应用程序的主Activity；另一种是，应用程序的默认Activity启动起来后，它又可以在内部通过调用startActvity接口启动新的Activity，依此类推，每一个Activity都可以在内部启动新的Activity。通过这种连锁反应，按需启动Activity，从而完成应用程序的功能。
-
-这里，我们通过一个具体的例子来说明如何启动Android应用程序的Activity。Activity的启动方式有两种，一种是显式的，一种是隐式的，隐式启动可以使得Activity之间的藕合性更加松散，因此，这里只关注隐式启动Activity的方法：
+来看ApplicationThreadProxy类的scheduleLaunchActivity()方法：
 ~~~ Java
-Intent intent = new Intent("shy.luo.activity.subactivity");  
-startActivity(intent);  
+public final void scheduleLaunchActivity(Intent intent, IBinder token, int ident,
+        ActivityInfo info, Configuration curConfig, Configuration overrideConfig,
+        CompatibilityInfo compatInfo, String referrer, IVoiceInteractor voiceInteractor,
+        int procState, Bundle state, PersistableBundle persistentState,
+        List<ResultInfo> pendingResults, List<ReferrerIntent> pendingNewIntents,
+        boolean notResumed, boolean isForward, ProfilerInfo profilerInfo) throws RemoteException {
+    Parcel data = Parcel.obtain();
+    data.writeInterfaceToken(IApplicationThread.descriptor);
 
-//在清单文件中
-<activity android:name=".SubActivity"  
-         android:label="@string/sub_activity">  
-   <intent-filter>  
-       <action android:name="shy.luo.activity.subactivity"/>  
-       <category android:name="android.intent.category.DEFAULT"/>  
-   </intent-filter>  
-</activity>  
+    //....写入数据
+
+    mRemote.transact(SCHEDULE_LAUNCH_ACTIVITY_TRANSACTION, data, null,
+            IBinder.FLAG_ONEWAY);
+    data.recycle();
+}
 ~~~
+记住这个标识，SCHEDULE_LAUNCH_ACTIVITY_TRANSACTION，在ApplicationThreadNative类的onTransact()方法里找：
+
+> 这里注意，调用完mRemote.transact()方法，回调的onTransact()方法已经不再system_process进程中了，而是到了App进程：foo.bar.multi
+
+~~~ Java
+//onTransact()方法里：
+case SCHEDULE_LAUNCH_ACTIVITY_TRANSACTION:
+    {
+        data.enforceInterface(IApplicationThread.descriptor);
+        // 取出数据
+        scheduleLaunchActivity(intent, b, ident, info, curConfig, overrideConfig, compatInfo,
+                referrer, voiceInteractor, procState, state, persistentState, ri, pi,
+                notResumed, isForward, profilerInfo);
+        return true;
+    }
+~~~
+取出各种数据，在调用scheduleLaunchActivity()方法。
+
+> 这里的cheduleLaunchActivity()在哪里实现？感觉应该在ApplicationThreadService类里。但是并没有这个类。其实应该是ApplicationThread类，不叫XXXService了，这个类实现了ApplicationThreadNative接口，同时它是ActivityThread的内部类
+
+到这里总结下IApplicationThread接口的Binder机制：
+
+客户端：ApplicationThread <=====Binder驱动<===== ApplicationThreadProxy：服务器
+对比之前的IActivityManager：
+客户端：ActivityManagerProxy =====>Binder驱动=====> ActivityManagerService：服务器
+有没有发现**Binder只能单向传递**。
+
+再来看ApplicationThread类的scheduleLaunchActivity()方法
+~~~ Java
+// we use token to identify this activity without having to send the
+// activity itself back to the activity manager. (matters more with ipc)
+@Override
+public final void scheduleLaunchActivity(Intent intent, IBinder token, int ident,
+        ActivityInfo info, Configuration curConfig, Configuration overrideConfig,
+        CompatibilityInfo compatInfo, String referrer, IVoiceInteractor voiceInteractor,
+        int procState, Bundle state, PersistableBundle persistentState,
+        List<ResultInfo> pendingResults, List<ReferrerIntent> pendingNewIntents,
+        boolean notResumed, boolean isForward, ProfilerInfo profilerInfo) {
+
+    updateProcessState(procState, false);
+    ActivityClientRecord r = new ActivityClientRecord();
+
+    r.token = token;
+    r.ident = ident;
+    r.intent = intent;
+    r.referrer = referrer;
+    r.voiceInteractor = voiceInteractor;
+    r.activityInfo = info;
+    r.compatInfo = compatInfo;
+    r.state = state;
+    r.persistentState = persistentState;
+
+    r.pendingResults = pendingResults;
+    r.pendingIntents = pendingNewIntents;
+
+    r.startsNotResumed = notResumed;
+    r.isForward = isForward;
+
+    r.profilerInfo = profilerInfo;
+
+    r.overrideConfig = overrideConfig;
+    updatePendingConfiguration(curConfig);
+
+    sendMessage(H.LAUNCH_ACTIVITY, r);
+}
+~~~
+
+
+在继续看接收消息的地方，在H类里（H类继承了Handler），
+~~~ Java
+public void handleMessage(Message msg) {
+    if (DEBUG_MESSAGES) Slog.v(TAG, ">>> handling: " + codeToString(msg.what));
+    switch (msg.what) {
+        case LAUNCH_ACTIVITY: {
+            Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, "activityStart");
+            final ActivityClientRecord r = (ActivityClientRecord) msg.obj;
+
+            r.packageInfo = getPackageInfoNoCheck(
+                  r.activityInfo.applicationInfo, r.compatInfo);
+            handleLaunchActivity(r, null, "LAUNCH_ACTIVITY");
+            Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
+        } break;
+
+    //....
+~~~
+handleLaunchActivity()->performLaunchActivity()。
+
+performLaunchActivity()通过ClassLoader导入相应的Activity类，然后把它启动起来，注意看代码里的注释。
+~~~ Java
+    Activity activity = null;
+    try {
+        //通过ClassLoader将foo.bar.multi.XXXActivity类加载进来：
+        java.lang.ClassLoader cl = r.packageInfo.getClassLoader();
+        activity = mInstrumentation.newActivity(
+                cl, component.getClassName(), r.intent);
+        StrictMode.incrementExpectedActivityCount(activity.getClass());
+        r.intent.setExtrasClassLoader(cl);
+        r.intent.prepareToEnterProcess();
+        if (r.state != null) {
+            r.state.setClassLoader(cl);
+        }
+    } catch (Exception e) {
+        if (!mInstrumentation.onException(activity, e)) {
+            throw new RuntimeException(
+                "Unable to instantiate activity " + component
+                + ": " + e.toString(), e);
+
+
+    try {
+        //创建Application对象，这是根据AndroidManifest.xml配置文件中的Application标签的信息来创建的
+        Application app = r.packageInfo.makeApplication(false, mInstrumentation);
+
+        //代码主要创建Activity的上下文信息，并通过attach方法将这些上下文信息设置到XXXActivity中去：
+        if (activity != null) {
+          activity.attach(appContext, this, getInstrumentation(), r.token,
+          r.ident, app, r.intent, r.activityInfo, title, r.parent,
+          r.embeddedID, r.lastNonConfigurationInstances, config,
+          r.referrer, r.voiceInteractor, window);
+
+        //调用activity的onCreate函数，上面提到过这个方法：
+        mInstrumentation.callActivityOnCreate(activity, r.state);
+
+~~~
+
 
 无论是通过点击应用程序图标来启动Activity，还是通过Activity内部调用startActivity接口来启动新的Activity，都要借助于应用程序框架层的ActivityManagerService服务进程。在Android应用程序框架层中，ActivityManagerService是一个非常重要的接口，它不但负责启动Activity和Service，还负责管理Activity和Service。
 
@@ -517,7 +541,7 @@ Android应用程序框架层中的ActivityManagerService启动Activity的过程�
 ![图片来自：http://blog.csdn.net/luoshengyang/article/details/6685853](images/blogimages/2017/activity-start-process.png)
 在这个图中，ActivityManagerService和ActivityStack位于同一个进程中，而ApplicationThread和ActivityThread位于另一个进程中。其中，ActivityManagerService是负责管理Activity的生命周期的，ActivityManagerService还借助ActivityStack是来把所有的Activity按照后进先出的顺序放在一个堆栈中；对于每一个应用程序来说，都有一个ActivityThread来表示应用程序的主进程，而每一个ActivityThread都包含有一个ApplicationThread实例，它是一个Binder对象，负责和其它进程进行通信。
 
-下面简要介绍一下启动的过程：
+下面简要总结一下启动的过程：
 
 - Step 1. 无论是通过Launcher来启动Activity，还是通过Activity内部调用startActivity接口来启动新的Activity，都通过Binder进程间通信进入到ActivityManagerService进程中，并且调用ActivityManagerService.startActivity接口；
 - Step 2. ActivityManagerService调用ActivityStack.startActivityMayWait来做准备要启动的Activity的相关信息；
@@ -529,13 +553,11 @@ Android应用程序框架层中的ActivityManagerService启动Activity的过程�
 
 
 ### 参考资料
+[Android源码分析-Activity的启动过程](http://blog.csdn.net/singwhatiwanna/article/details/18154335)
 
-Android源码分析-Activity的启动过程：http://blog.csdn.net/singwhatiwanna/article/details/18154335
+罗老师的，[Android应用程序的Activity启动过程简要介绍和学习计划](http://blog.csdn.net/luoshengyang/article/details/6685853)和 [Android应用程序启动过程源代码分析](http://blog.csdn.net/luoshengyang/article/details/6689748)
 
-罗老师的，Android应用程序的Activity启动过程简要介绍和学习计划：http://blog.csdn.net/luoshengyang/article/details/6685853
-      Android应用程序启动过程源代码分析：http://blog.csdn.net/luoshengyang/article/details/6689748
+[【凯子哥带你学Framework】Activity启动过程全解析](http://blog.csdn.net/zhaokaiqiang1992/article/details/49428287)
 
-【凯子哥带你学Framework】Activity启动过程全解析 http://blog.csdn.net/zhaokaiqiang1992/article/details/49428287
-
-Android系统篇之—-解读AMS远端服务调用机制以及Activity的启动流程：
-http://www.wjdiankong.cn/android%E7%B3%BB%E7%BB%9F%E7%AF%87%E4%B9%8B-%E8%A7%A3%E8%AF%BBams%E8%BF%9C%E7%AB%AF%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E6%9C%BA%E5%88%B6%E4%BB%A5%E5%8F%8Aactivity%E7%9A%84%E5%90%AF%E5%8A%A8/
+[Android系统篇之—-解读AMS远端服务调用机制以及Activity的启动流程](
+http://www.wjdiankong.cn/android%E7%B3%BB%E7%BB%9F%E7%AF%87%E4%B9%8B-%E8%A7%A3%E8%AF%BBams%E8%BF%9C%E7%AB%AF%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E6%9C%BA%E5%88%B6%E4%BB%A5%E5%8F%8Aactivity%E7%9A%84%E5%90%AF%E5%8A%A8/)

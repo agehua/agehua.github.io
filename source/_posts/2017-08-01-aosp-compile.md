@@ -126,7 +126,10 @@ mmm development/tools/idegen/
 sudo ./development/tools/idegen/idegen.sh
 ~~~
 上面代码执行完后，会在源码目录下生成IEDA工程配置文件: android.ipr,android.iml及android.iws.
-点击android.ipr，就可以打开工程
+可以发现android.ipr文件的应用图标应该改成了Android Studio样式。
+
+> 但这里不用Android Studio来打开工程，而是使用IntelliJ来查看和DebugAndroid源码，具体参考这篇文章[使用 IntelliJ 查看 Android 源码](http://www.jianshu.com/p/1d1b8d0de1ed)
+
 
 #### 单独编译Android源代码工程的模块
 在Android源码找到目录/packages/experimental，在这个目录下有Google提供基于前面提到的Android BUILD模式构建的apk工程。
@@ -141,3 +144,27 @@ mmm packages/experimental/MultiPackageApk
 make snod  
 ~~~
 重启下模拟器，刚才安装的应用就会出现了
+
+单独编译源代码工程出错：
+
+~~~ C++
+ninja: error: 'out/target/common/obj/JAVA_LIBRARIES/core-junit_intermediates/classes.dex.toc', needed by 'out/target/common/obj/APPS/MultiPackageApk_intermediates/with-local/classes.dex', missing and no known rule to make it
+make: *** [ninja_wrapper] Error 1
+~~~
+解决方案：应该选择好编译环境后（用lunch或choosecombo命令），再执行单独编译源码工作，最后别忘了执行**make snod**
+
+
+#### make failed to build some targets (4 seconds) ####
+
+#### 使用 IntelliJ Debug Android 源码
+参考这篇文章：[使用 IntelliJ Debug Android 源码](http://www.jianshu.com/p/7c2ab3d9498c)
+
+文中，有一个地方跟我的电脑上不太一样：
+#### 打开 monitor 选择 debug 进程
+我电脑上的monitor不是用命令行打开，而是有monitor.app。
+位置在：/Library/Android_sdk/tools/lib/monitor-x86_64/monitor.app
+如下图：
+
+![](/images/blogimages/2017/aosp_monitor_position.png)
+
+到这里Android源码部分的内容就整理完了，下篇文章利用Android源码分析下**Activity的启动流程**。

@@ -3,7 +3,7 @@ layout: post
 title:  Android免root实现hook系统服务拦截方法
 category: accumulation
 tags: HOOK
-keywords: hook, system service
+keywords: hook, system service, Binder
 banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg
 toc: true
