@@ -20,7 +20,7 @@
 同一天，滴滴开源Android端插件化框架VirtualAPK：https://www.itcodemonkey.com/article/277.html
 然后本人发现竟然可以不在清单文">
 <meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Tree.jpg">
-<meta property="og:updated_time" content="2017-07-13T02:19:08.000Z">
+<meta property="og:updated_time" content="2017-08-11T03:00:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android Binder机制分析（一）">
 <meta name="twitter:description" content="背景分析最近在学习Android非侵入Hook机制，
@@ -386,7 +386,7 @@
     <div class="inner profile-inner">
         <div class="base-info profile-block">
             <img id="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
-            <h2 id="name">Agehua</h2>
+            <h2 id="name">Cornor Lee</h2>
             <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
             <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
@@ -565,10 +565,10 @@
 <p>借助<strong>queryLocalInterface()</strong>方法根据服务描述符来获取对象，会把远端传递过来的Binder对象转化成一个本地对象：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> IInterface <span class="title">queryLocalInterface</span><span class="params">(String descriptor)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (mDescriptor.equals(descriptor)) &#123;</div><div class="line">        <span class="keyword">return</span> mOwner;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>而这个mOwner和mDescriptor之间的对应关系就在attachInterface方法中进行初始化的，也就是在Stub类的构造方法中<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attachInterface</span><span class="params">(IInterface owner, String descriptor)</span> </span>&#123;</div><div class="line">       mOwner = owner;</div><div class="line">       mDescriptor = descriptor;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>那么现在就清楚了，如果客户端和服务端是在一个进程中，那么其实queryLocalInterface获取的就是Stub对象，如果不在一个进程queryLocalInterface查询的对象肯定为null，因为<strong>new Demo.Stub()</strong>和<strong>Demo.Stub.asInterface(IBinder)</strong>方法分别是在<strong>远端进程</strong>和<strong>本地进程</strong>中调用的，在不同进程有不同虚拟机，肯定查不到mOwner对象的，所以这时候其实是返回的Proxy对象了。</p>
-<p>通过上面的讲解之后，发现多进程服务通信基准就是借助Binder对象，先传递Binder对象，然后在把Binder转成可以使用的原生对象即可调用了，而对于Stub类和Proxy类其实就是相当于是服务端和客户端的中间者，把一些逻辑封装起来，这种设计也会显得不是那么凌乱：<br><img src="/images/blogimages/2017/binder-principle.png" alt=""></p>
+<p>通过上面的讲解之后，发现多进程服务通信基准就是借助Binder对象，先传递Binder对象，然后在把Binder转成可以使用的原生对象即可调用了，而对于Stub类和Proxy类其实就是相当于是服务端和客户端的中间者，把一些逻辑封装起来，这种设计也会显得不是那么凌乱：<br><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/binder-principle.png" alt=""></p>
 <h3 id="分析系统服务调用流程"><a href="#分析系统服务调用流程" class="headerlink" title="分析系统服务调用流程"></a>分析系统服务调用流程</h3><p>其实系统中的一些服务使用的时候其实也是跨进程使用，比如下面来看一下著名的PackageManager，IPackageManager，PackageManagerService体系：</p>
 <p>PackageManagerService是Android系统中最常用的服务之一。它负责系统中Package的管理，应用程序的安装、卸载、信息查询等。PackageManager获取的信息即来自AndroidManifest.XML</p>
-<p><img src="/images/blogimages/2017/PackageManagerService.png" alt="PackageManagerService体系"></p>
+<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/PackageManagerService.png" alt="PackageManagerService体系"></p>
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IPackageManager</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">isPackageAvailable</span><span class="params">(String packageName, <span class="keyword">int</span> userId)</span></span>;</div><div class="line">  <span class="function">PackageInfo <span class="title">getPackageInfo</span><span class="params">(String packageName, <span class="keyword">int</span> flags, <span class="keyword">int</span> userId)</span></span>;</div><div class="line">  <span class="function"><span class="keyword">int</span> <span class="title">getPackageUid</span><span class="params">(String packageName, <span class="keyword">int</span> userId)</span></span>;</div><div class="line">  <span class="keyword">int</span>[] getPackageGids(String packageName);</div><div class="line"></div><div class="line">  String[] currentToCanonicalPackageNames(String[] names);</div><div class="line">  String[] canonicalToCurrentPackageNames(String[] names);</div><div class="line"></div><div class="line">  <span class="function">PermissionInfo <span class="title">getPermissionInfo</span><span class="params">(String name, <span class="keyword">int</span> flags)</span></span></div><div class="line"></div><div class="line">  ParceledListSlice&lt;PermissionInfo&gt; <span class="title">queryPermissionsByGroup</span><span class="params">(String group,</span></div><div class="line">            <span class="keyword">int</span> flags)</div><div class="line"></div><div class="line">  <span class="comment">//...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>上面代码在谷歌的源码中查到，详情点击<a href="https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/content/pm/IPackageManager.aidl" target="_blank" rel="external">链接</a></p>
 <p>因为我们还没有编译源码，所以看不到IPackageManager.java，这里可能需要AIDL工具单独编译才能看到了：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IPackageManager</span> <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">os</span>.<span class="title">IInterface</span> </span>&#123;</div><div class="line">    <span class="comment">//定义内部类Stub，派生自Binder，实现IPackageManager接口</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Stub</span> <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">os</span>.<span class="title">Binder</span> <span class="keyword">implements</span> <span class="title">android</span>.<span class="title">content</span>.<span class="title">pm</span>.<span class="title">IPackageManager</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> java.lang.String DESCRIPTOR = <span class="string">"android.content.pm.IPackageManager"</span>;</div><div class="line">        publicStub() &#123;</div><div class="line">             <span class="keyword">this</span>.attachInterface(<span class="keyword">this</span>,DESCRIPTOR);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">//......</span></div><div class="line"></div><div class="line">        <span class="comment">//定义Stub的内部类Proxy，实现IPackageManager接口</span></div><div class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> <span class="keyword">implements</span> <span class="title">android</span>.<span class="title">content</span>.<span class="title">pm</span>.<span class="title">IPackageManager</span></span>&#123;</div><div class="line">        <span class="comment">//通过mRemote变量和服务端交互</span></div><div class="line">        <span class="keyword">private</span> android.os.IBinder mRemote;</div><div class="line"></div><div class="line">           Proxy(android.os.IBinderremote) &#123;</div><div class="line">              mRemote = remote;</div><div class="line">           &#125;</div><div class="line">           <span class="comment">//......</span></div><div class="line">        &#125;</div><div class="line">        <span class="comment">//......</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -589,7 +589,7 @@
 <p>这里与自定义远程服务然后调用的区别就是，系统的远程服务都是由ServiceManager保存的，也就是由系统去创建和管理；而自定义的远程服务由开发者去创建、维护和销毁</p>
 </blockquote>
 <p>通过上面的PackageManager案例可以分析，我们在使用系统中的服务的时候的流程都是如此：</p>
-<p><img src="/images/blogimages/2017/binder-system-service.png" alt="系统服务远程调用详情"></p>
+<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/binder-system-service.png" alt="系统服务远程调用详情"></p>
 <p>总结一下，每个应用在使用系统服务的时候，都会走这么几步：</p>
 <ul>
 <li>1、调用getService(String serviceName)方法获取服务对象</li>
@@ -730,7 +730,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/07/08/android-binder-principle/" data-id="cj5xfaart003jz8yc9xnqxpjy" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/07/08/android-binder-principle/" data-id="cj67adx7h003jfpycj1c2y9sf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding

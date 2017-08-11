@@ -323,7 +323,7 @@ private void error(Element element, String message, Object... args) {
 ### 注册注解处理器
 为了让javac -processor能够对定义好的注解处理进行处理，我们需要将注解处理器打包到一个jar文件中，同时，需要在jar文件中增加一个名为**javax.annotation.processing.processor**的文件来指明jar文件中有哪些注解处理器，这个文件最终目录在jar文件根目录的META-INF/service目录中，jar文件解压后的目录结构如下图：
 
-![图片来自http://blog.csdn.net/lmj623565791/article/details/43452969](/images/blogimages/2017/processor_jar.png)
+![图片来自http://blog.csdn.net/lmj623565791/article/details/43452969](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/processor_jar.png)
 
 javax.annotation.processing.Processor文件的内容是注解处理器全路径名，如果存在多个注解处理器，以换行进行分隔，代码看图片
 
@@ -419,7 +419,7 @@ dependencies {
 - 4.注册处理器
 - 5.利用APT完成如下图的工作内容。
 
-![图片来自http://blog.csdn.net/xx326664162/article/details/68490059](/images/blogimages/2017/apt_processor.png)
+![图片来自http://blog.csdn.net/xx326664162/article/details/68490059](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/apt_processor.png)
 
 ### annotationProcessor介绍
 annotationProcessor是APT工具中的一种，他是google开发的内置框架，不需要引入，可以直接在build.gradle文件中使用，

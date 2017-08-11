@@ -18,7 +18,7 @@
 360之前开源了一款插件框架 Droid Plugin。与滴滴同一天，360又开源了一款插件框架 RePlugin。
 有关新闻介绍在这里：https://www.itcodemonkey.com/article/278.html">
 <meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg">
-<meta property="og:updated_time" content="2017-08-04T05:21:08.000Z">
+<meta property="og:updated_time" content="2017-08-11T03:00:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android免root实现hook系统服务拦截方法">
 <meta name="twitter:description" content="本文转载自博文：Android系统篇之—-免root实现Hook系统服务拦截方法，结合最新开源的滴滴插件化方案 VirtualApk 对hook系统服务进行分析。
@@ -383,7 +383,7 @@
     <div class="inner profile-inner">
         <div class="base-info profile-block">
             <img id="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
-            <h2 id="name">Agehua</h2>
+            <h2 id="name">Cornor Lee</h2>
             <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
             <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
@@ -528,7 +528,7 @@
 <p>看到这里的设置剪切板内容的方法，其实内部是调用了getService方法获取对象然后在调用指定方法，那么可以大概知道了这个getService方法返回的应该就是IClipboard.Stub通过asInterface方法返回的Proxy对象：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">private</span> IClipboard <span class="title">getService</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">synchronized</span> (sStaticLock) &#123;</div><div class="line">        <span class="keyword">if</span> (sService != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> sService;</div><div class="line">        &#125;</div><div class="line">        IBinder b = ServiceManager.getService(<span class="string">"clipboard"</span>);</div><div class="line">        sService = IClipboard.Stub.asInterface(b);</div><div class="line">        <span class="keyword">return</span> sService;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>吧，果然是这样，这里通过ServiceManager获取到Clipboard的远端IBinder对象，然后通过asInterface方法返回一个Proxy对象即可。</p>
 <p>到这里我们就简单的分析完了系统中的获取剪切板的服务，其实系统中的服务都是这么个逻辑，只是有的可能会在外面包装一层罢了，下面总结一下流程：</p>
-<p><img src="/images/blogimages/2017/clipboard-ipc-process.png" alt=""></p>
+<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/clipboard-ipc-process.png" alt=""></p>
 <p>现在只要记住一点：每次获取系统服务的流程都是一样的，先通过ServiceManager的getService方法获取远端服务的IBinder对象，然后在通过指定服务的Stub类的asInterface方法转化成本地可使用对象，而这个对象其实就是一个Proxy对象，在这个过程中，Stub类继承了Binder对象和实现了AIDL接口类型，Proxy对象实现了AIDL接口类型，而AIDL接口类型实现了IInterface接口类型。</p>
 <h3 id="Hook系统服务"><a href="#Hook系统服务" class="headerlink" title="Hook系统服务"></a>Hook系统服务</h3><p>上面分析完了Android中系统服务的使用流程以及原理解析，下面在来看一下android中实现Hook机制的方法和原理解析，我们知道其实在很多系统中都存在这样一个Hook技术，有的也叫作钩子，但是不管任何系统，Hook技术的核心点都是一样的，只有两点即可完成Hook技术：</p>
 <ul>
@@ -539,7 +539,7 @@
 </ul>
 </li>
 </ul>
-<p><img src="/images/blogimages/2017/service-proxy-common.png" alt=""></p>
+<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/service-proxy-common.png" alt=""></p>
 <p>下面结合VirtualApk源码，分析这个原理：</p>
 <pre><code>这里的代码与原博文里的代码有所不同，原博文是结合DroidPlugin进行分析
 </code></pre><p>在VirtualApk的源码com/didi/virtualapk/delegate/目录下，有两个Proxy结尾的类，这两个类动态代理模式相同，我们只看一个。在IContentProviderProxy.java文件中<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IContentProviderProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">//.....代码省略</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IContentProvider <span class="title">newInstance</span><span class="params">(Context context, IContentProvider iContentProvider)</span> </span>&#123;</div><div class="line">      <span class="keyword">return</span> (IContentProvider) Proxy.newProxyInstance(iContentProvider.getClass().getClassLoader(),</div><div class="line">              <span class="keyword">new</span> Class[] &#123; IContentProvider.class &#125;, <span class="keyword">new</span> IContentProviderProxy(context, iContentProvider));</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</div><div class="line">      Log.v(TAG, method.toGenericString() + <span class="string">" : "</span> + Arrays.toString(args));</div><div class="line">      wrapperUri(method, args);</div><div class="line"></div><div class="line">      <span class="keyword">try</span> &#123;</div><div class="line">          <span class="keyword">return</span> method.invoke(mBase, args);</div><div class="line">      &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</div><div class="line">          <span class="keyword">throw</span> e.getTargetException();</div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">//...代码省略</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -626,7 +626,7 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">IClipboardHookBinderHandler</span><span class="params">(IBinder base)</span> </span>&#123;</div><div class="line">  <span class="keyword">this</span>.base = base;</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    <span class="keyword">this</span>.stub =Class.forName(<span class="string">"android.content.IClipboard$Stub"</span>);</div><div class="line">    <span class="keyword">this</span>.iinterface = Class.forName(<span class="string">"android.content.IClipboard"</span>);</div><div class="line">  &#125;<span class="keyword">catch</span> (ClassNotFoundException e)&#123;</div><div class="line"></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>到这里，看来这个对象也符合了代理的条件，那么就简单了，继续使用动态代理机制产生一个代理类即可：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">IClipboardHookBinderHandler</span><span class="params">(IBinder base, Class&lt;?&gt; stubClass)</span> </span>&#123;</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    Method asInterfaceMethod = stubClass.getDeclaredMethod(<span class="string">"asInterface"</span>, IBinder.class);</div><div class="line">    <span class="keyword">this</span>.base = asInterfaceMethod.invoke(<span class="keyword">null</span>, base);</div><div class="line">  &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"hooked failed"</span>)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>这个代理类的InvocationHandler中，先需要通过反射获取到Proxy原始对象：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="string">"getPrimaryClip"</span>.equals(method.getName())) &#123;</div><div class="line">      <span class="keyword">return</span> ClipData.newPlainText(<span class="keyword">null</span>, <span class="string">"you are hooked"</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//欺骗系统，使之认为剪切板上一直有内容</span></div><div class="line">  <span class="keyword">if</span> (<span class="string">"hasPrimaryClip"</span>.equals(method.getName())) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">//千万不要忘了调用原始对象的方法</span></div><div class="line">  <span class="keyword">return</span> method.invoke(base, args);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>到这里就已经完成了hook剪切板服务的整个步骤，再看一下流程图：<br><img src="/images/blogimages/2017/hook-clipboard-process.png" alt=""></p>
+<p>到这里就已经完成了hook剪切板服务的整个步骤，再看一下流程图：<br><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/hook-clipboard-process.png" alt=""></p>
 <ul>
 <li>1、我们的目的就是拦截系统的服务功能，那么最开始的入口就是服务大管家ServiceManager对象，而在他内部也正好有一个远端服务对象的IBinder缓存池，那么这个变量就是我们操作的对象了，可以先使用反射机制去获取到他，然后在获取到指定的剪切板服务IBinder对象实例。</li>
 <li>2、下一步肯定是Hook这个剪切板服务的Binder对象，这里采用动态代理方式产生一个Binder对象代理类，符合两个规则：<ul>
@@ -769,7 +769,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/07/12/android-noroot-hook/" data-id="cj5xfaarx003nz8yc7ywk8mwr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/07/12/android-noroot-hook/" data-id="cj67adx7j003mfpyc3nvuxfe8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding

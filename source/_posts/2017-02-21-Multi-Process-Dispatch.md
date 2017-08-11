@@ -83,7 +83,7 @@ public static String getProcessName(Context cxt, int pid) {
 最后，调用ApplicationLogic的onCreate方法，实现ApplicationLogic与Application生命周期同步，同时还有onTerminate、onLowMemory、onTrimMemory、onConfigurationChanged等方法，与onCreate一致。
 
 流程图如下所示：
-![多进程Application启动流程](/images/blogimages/2017/multi-Application-flow-chart.png)
+![多进程Application启动流程](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/multi-Application-flow-chart.png)
 
 代码实现，先看基类BaseApplicationLogic，每个进程都要实现一个该类的子类：
 

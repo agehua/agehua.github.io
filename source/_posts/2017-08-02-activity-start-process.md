@@ -23,6 +23,7 @@ android是基于Linux系统的，而在linux中，所有的进程都是由init�
 - 一个单独的进程
 
 Android系统开启新进程的方式，是通过fork第一个**zygote** 进程实现的。所以说，除了第一个zygote进程，其他应用所在的进程都是zygote的子进程。
+<!--more-->
 
 **SystemServer** 也是一个进程，而且是由zygote进程fork出来的。
 为什么说SystemServer非常重要呢？因为系统里面重要的服务都是在这个进程里面开启的，比如ActivityManagerService、PackageManagerService、WindowManagerService等等。
@@ -46,9 +47,11 @@ App与AMS通过Binder进行IPC通信，AMS(SystemServer进程)与zygote通过Soc
 
 - **ActivityStack**，Activity在AMS的栈管理，用来记录已经启动的Activity的先后关系，状态信息等。通过ActivityStack决定是否需要启动新的进程。
 
-- **ActivityRecord**，ActivityStack的管理对象，每个Activity在AMS对应一个ActivityRecord，来记录Activity的状态以及其他的管理信息。其实就是服务器端的Activity对象的映像。
+- **ActivityRecord**，ActivityStack的管理对象，每个Activity在AMS对应一个ActivityRecord，来记录Activity的状态以及其他的管理信息，比如在哪进程中ProcessState，当前的状态CurentState等。其实就是服务器端的Activity对象的映像。
 
 - **TaskRecord**，AMS抽象出来的一个“任务”的概念，是记录ActivityRecord的栈，一个“Task”包含若干个ActivityRecord。AMS用TaskRecord确保Activity启动和退出的顺序。如果你清楚Activity的4种launchMode，那么对这个概念应该不陌生。
+
+- **ProcessRecord**，这个类记录的是一个进程中的信息，因为一个应用中可能会包含多个进程。
 
 #### App程序的入口
 我们一般在启动Activity的时候都是使用系统提供的方法Activity.startActivity()操作的，本文就在此方法上分析整个过程:
@@ -297,7 +300,7 @@ public boolean onTransact(int code, Parcel data, Parcel reply, int flags)
 ~~~
 这里的startActivity方法，是在IActivityManager接口中定义的，跟ActivityManagerProxy没有关系了，是由远端服务来实现的，这里我们可以猜想应该是叫做ActivityManagerService中，这个类的源代码可以在[android.googlesource](https://android.googlesource.com/platform/frameworks/base/+/master/services/core/java/com/android/server/am/ActivityManagerService.java)里找到：
 
-这个类里有三个重载的startActivity()方法，不要晕，仔细看，对应的应该是第三个方法：
+这个类里有三个重载的startActivity()方法，仔细看，对应的应该是第三个方法：
 ~~~ Java
 final int startActivity(Intent intent, ActivityStackSupervisor.ActivityContainer container)
 
@@ -436,6 +439,9 @@ case SCHEDULE_LAUNCH_ACTIVITY_TRANSACTION:
 客户端：ActivityManagerProxy =====>Binder驱动=====> ActivityManagerService：服务器
 有没有发现**Binder只能单向传递**。
 
+这两次的Binder通信如下图所示：
+![](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/ams_binder_process.png)
+
 再来看ApplicationThread类的scheduleLaunchActivity()方法
 ~~~ Java
 // we use token to identify this activity without having to send the
@@ -538,7 +544,8 @@ performLaunchActivity()通过ClassLoader导入相应的Activity类，然后把�
 
 Android应用程序框架层中的ActivityManagerService启动Activity的过程大致如下图所示：
 
-![图片来自：http://blog.csdn.net/luoshengyang/article/details/6685853](images/blogimages/2017/activity-start-process.png)
+![图片来自：http://blog.csdn.net/luoshengyang/article/details/6685853](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/activity-start-process.png)
+
 在这个图中，ActivityManagerService和ActivityStack位于同一个进程中，而ApplicationThread和ActivityThread位于另一个进程中。其中，ActivityManagerService是负责管理Activity的生命周期的，ActivityManagerService还借助ActivityStack是来把所有的Activity按照后进先出的顺序放在一个堆栈中；对于每一个应用程序来说，都有一个ActivityThread来表示应用程序的主进程，而每一个ActivityThread都包含有一个ApplicationThread实例，它是一个Binder对象，负责和其它进程进行通信。
 
 下面简要总结一下启动的过程：
@@ -550,6 +557,110 @@ Android应用程序框架层中的ActivityManagerService启动Activity的过程�
 - Step 5. 对于通过点击应用程序图标来启动Activity的情景来说，ActivityManagerService在这一步中，会调用startProcessLocked来创建一个新的进程，而对于通过在Activity内部调用startActivity来启动新的Activity来说，这一步是不需要执行的，因为新的Activity就在原来的Activity所在的进程中进行启动；
 - Step 6. ActivityManagerServic调用ApplicationThread.scheduleLaunchActivity接口，通知相应的进程执行启动Activity的操作；
 - Step 7. ApplicationThread把这个启动Activity的操作转发给ActivityThread，ActivityThread通过ClassLoader导入相应的Activity类，然后把它启动起来。
+
+
+### 补充，通过Launcher启动Activity
+Android的Launcher本身也是一个应用程序，点击应用图标，调用的方法还是Activity.startActivity()。与之前分析的不同之处是在ActivityStackSupervisor.startSpecificActivityLocked()方法中：
+~~~ Java
+void startSpecificActivityLocked(ActivityRecord r,
+        boolean andResume, boolean checkConfig) {
+    // Is this activity's application already running?
+    ProcessRecord app = mService.getProcessRecordLocked(r.processName,
+            r.info.applicationInfo.uid, true);
+
+    r.task.stack.setLaunchTime(r);
+
+    //区别在这里，Launcher启动方式，app为null，应用内启动app不为null
+    if (app != null && app.thread != null) {
+        try {
+            if ((r.info.flags&ActivityInfo.FLAG_MULTIPROCESS) == 0
+                    || !"android".equals(r.info.packageName)) {
+                // Don't add this if it is a platform component that is marked
+                // to run in multiple processes, because this is actually
+                // part of the framework so doesn't make sense to track as a
+                // separate apk in the process.
+                app.addPackage(r.info.packageName, r.info.applicationInfo.versionCode,
+                        mService.mProcessStats);
+            }
+            realStartActivityLocked(r, app, andResume, checkConfig);
+            return;
+        } catch (RemoteException e) {
+            Slog.w(TAG, "Exception when starting activity "
+                    + r.intent.getComponent().flattenToShortString(), e);
+        }
+          // If a dead object exception was thrown -- fall through to
+        // restart the application.
+    }
+    //所以要执行ActivityServiceManager的去开启一个新的进程
+    mService.startProcessLocked(r.processName, r.info.applicationInfo, true, 0,
+            "activity", r.intent.getComponent(), false, false, true);
+}
+~~~
+> 每一个应用程序都有自己的uid，uid + process的组合就可以为每一个应用程序创建一个ProcessRecord。当然，我们可以配置两个应用程序具有相同的uid和package，或者在AndroidManifest.xml 配置文件的application标签或者activity标签中显式指定相同的process属性值，这样，不同的Activity可以运行在不同的进程中。
+
+mService.startProcessLocked()方法最终会调用到下面的代码去开启新的进程
+~~~ Java
+Process.ProcessStartResult startResult = Process.start(entryPoint,
+                app.processName, uid, uid, gids, debugFlags, mountExternal,
+                app.info.targetSdkVersion, app.info.seinfo, requiredAbi, instructionSet,
+                app.info.dataDir, entryPointArgs);
+~~~
+新的进程会导入android.app.ActivityThread 类，并且执行它的main方法，这个main方法其实就是一个应用进程的入口方法。这就是为什么我们前面说每一个应用程序都有一个ActivityThread实例来对应的原因。
+
+在main方法中，调用了自身的attach方法，在attach方法中：
+~~~ Java
+private void attach(boolean system) {
+    //...
+    final IActivityManager mgr = ActivityManagerNative.getDefault();
+    try {
+        mgr.attachApplication(mAppThread);
+    } catch (RemoteException ex) {
+        throw ex.rethrowFromSystemServer();
+    }
+    //...
+}
+~~~
+
+在ActivityManagerService的attachApplication()方法中又调用了ttachApplicationLocked()方法：
+~~~ Java
+private final boolean attachApplicationLocked(IApplicationThread thread,
+        int pid) {
+    //...代码省略
+    // See if the top visible activity is waiting to run in this process...
+    if (normalMode) {
+        try {
+            if (mStackSupervisor.attachApplicationLocked(app)) {
+                didSomething = true;
+            }
+        } catch (Exception e) {
+            Slog.wtf(TAG, "Exception thrown launching activities in " + app, e);
+            badApp = true;
+        }
+    }
+    // Find any services that should be running in this process...
+    if (!badApp) {
+        try {
+            didSomething |= mServices.attachApplicationLocked(app, processName);
+        } catch (Exception e) {
+            Slog.wtf(TAG, "Exception thrown starting services in " + app, e);
+            badApp = true;
+        }
+    }
+    // Check if a next-broadcast receiver is in this process...
+    if (!badApp && isPendingBroadcastProcessLocked(pid)) {
+        try {
+            didSomething |= sendPendingBroadcastsLocked(app);
+        } catch (Exception e) {
+            // If the app died trying to launch the receiver we declare it 'bad'
+            Slog.wtf(TAG, "Exception thrown dispatching broadcasts in " + app, e);
+            badApp = true;
+        }
+    }
+    //...代码省略
+~~~
+这个方法中最终调用了ActivityStackSupervisor类的attachApplicationLocked()方法，而attachApplicationLocked()方法又调用了realStartActivityLocked()方法。
+
+后面的过程就基本与普通Activity启动模式一样了。
 
 
 ### 参考资料

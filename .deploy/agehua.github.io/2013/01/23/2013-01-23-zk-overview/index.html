@@ -182,10 +182,10 @@
 </code></pre><a id="more"></a>
 <h2 id="ZooKeeper-Overview"><a href="#ZooKeeper-Overview" class="headerlink" title="ZooKeeper Overview"></a>ZooKeeper Overview</h2><h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>zookeeper service本身就是一个分布式集群，这一点和chubby是一样的。一个典型的集群由5个节点组成，他们之间选举出一个leader。构成zookeeper service的server有个前提条件，就是这些server是相互能够感知的。所有的server都保存了一个zookeeper的数据和状态的一个镜像，而且为了获得高吞吐能力，这个镜像是存放在内存中的。这个镜像是通过事务日志和某一时刻全部数据的快照生成的。</p>
 <p>Zookeeper的客户端连接到zookeeper的server上，客户端保持一个与server之间的TCP连接，并通过这个TCP链接发送请求，获取响应，获取watch事件，和发送心跳。如果连接断掉了，那么客户端将会自动连接到另外一个server。</p>
-<img src="/images/blogimages/2013/zk-overview/zkservice.jpg" class="center"> 
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2013/zk-overview/zkservice.jpg" class="center"> 
 <p>zookeeper的操作是有顺序的，zookeeper为每一个操作添加一个数字，通过这个数字可以体现出所有ZooKeeper transactions的顺序。后续的操作，可以通过这个种顺序去实现更上层的应用，例如同步操作。</p>
 <p>zookeeper的数据模型，类似文件系统，通过定一个了Hierarchical Namespace的概念，一个name就是路径，每一个节点znode都是通过一个路径来定义的。ZooKeeper\’s Hierarchical Namespace的一个示例：</p>
-<img src="/images/blogimages/2013/zk-overview/zknamespace.jpg" class="center"> 
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2013/zk-overview/zknamespace.jpg" class="center"> 
 <h3 id="节点和临时节点"><a href="#节点和临时节点" class="headerlink" title="节点和临时节点"></a>节点和临时节点</h3><p>在zookeeper中，每个节点(znode)可以包含数据信息。就像传统的文件系统中，允许既可以是文件，又可以是目录。<br>zookeeper的设计目的就是存放同步信息：状态信息，配置，位置信息等等。所以每个节点存放的数据都是非常小的。具体实现是，可能是一个路径对应DB中的一项数据，例如chubby就是使用Berkeley DB来保存Node的信息。</p>
 <p>znode实际上包含的是一个有状态的数据，它包含了数据变更的版本号，ACL(Access Control List)变更的版本号，时间戳。每次数据变更时，version就是增加。例如，每次客户端查找收到一个node的数据，同时还会收到这个数据的版本号。</p>
 <p>znode的数据操作是原子性的，读操作将会获取znode的所有数据，写操作操作将会覆盖所有的数据。而且没有节点的都通过ACL来限制谁可以操作。</p>
@@ -210,12 +210,12 @@
 <li>sync 等待znode节点的数据，在zookeeper server中同步</li>
 </ul>
 <h3 id="Implementations"><a href="#Implementations" class="headerlink" title="Implementations"></a>Implementations</h3><p>下图展示了ZK的模块图，这个模块图是非常顶层和概要的。除了request processor不相同以外，其余的所有的ZK service中的server都有每个模块的一模一样的副本。</p>
-<img src="/images/blogimages/2013/zk-overview/zkcomponents.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2013/zk-overview/zkcomponents.jpg" class="center">
 <p>replicated database 存放了所有的数据，并且存放在内存中。所有的更新就会以日志的形式记录到磁盘中，以便可以用于灾后重建，所有的写操作，都先序列化到磁盘中，然后再写到内存中的database中。</p>
 <p>每个zk server为zk clients服务，zk客户端连接到一台zk服务器上，而且只能连接到一台，并向服务器发送请求。所有的读请求，都有zk server从本地的replica database中直接获取数据。所有写请求，或是改变服务状态的请求，zk会基于一个agreement protocol进行处理。</p>
 <p>agreement protocol的一部分，就是所有的来自客户端的写请求，就讲被转发到一个特定的zk server上（这个zk server被称为leader，其余的zk server称为followers）这时，所有的followers就会接收到来自leader的一个“提议消息”，并且同意这个消息。</p>
 <p>替换leader或同步followers的工作是有messaging layer完成的。</p>
-<h3 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h3><p>ZooKeeper的一个目标就是高性能。由雅虎研究院开发zookeeper的小组所做的测试实验证明了zk的高性能。下图是他们的实验结果：<br>ZooKeeper Throughput as the Read-Write Ratio Varies<br><img src="/images/blogimages/2013/zk-overview/zkperfRW-3.2.jpg" class="center"></p>
+<h3 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h3><p>ZooKeeper的一个目标就是高性能。由雅虎研究院开发zookeeper的小组所做的测试实验证明了zk的高性能。下图是他们的实验结果：<br>ZooKeeper Throughput as the Read-Write Ratio Varies<br><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2013/zk-overview/zkperfRW-3.2.jpg" class="center"></p>
 <p>当读请求远远高于写请求时zk的性能会更好。因为写请求需要同步所有的zk server。通常情况下当读写比例为10：1时，性能就可以达到一个比较好的效果了。</p>
 <h3 id="Reliability"><a href="#Reliability" class="headerlink" title="Reliability"></a>Reliability</h3><p>在zookeeper的介绍页面，还有关于failure的一个实验。实验表明zk在存在failure的情况下，依然可以保证比较高的吞吐能力。但更重要的是，leader选举算法可以保证系统能够很快从错误中恢复正常。在实验中观察，选举出新的leader的耗时少于200毫秒。当follower恢复正常后，zk的吞吐能力马上就上去了。</p>
 <h3 id="连接库"><a href="#连接库" class="headerlink" title="连接库"></a>连接库</h3><p>zookeeper可以通过多种方式连接，正式发布包里面包含了java和C种方式进行连接（就是客户端），C连接方式，有个库，单线程的zookeeper_st和多线程的zookeeper_mt。<br>zookeeper_st放弃了事件循环，可在事件驱动的应用程序中使用。而zookeeper_mt更加易用，与Java API类似，创建一个网络IO线程和一个事件分发线程，用来维护连接和执行回调。<br>在具体使用上，zookeeper_st仅提供了异步API与回调，用以集成至应用程序的事件循环。它只是为了支持pthread库不可用或不稳定的平台而存在，例如FreeBSD 4.x。除此以外的其他情况，应使用提供同步与异步两种API的zookeeper_mt。<a href="http://baike.baidu.com/view/3061646.htm" target="_blank" rel="external">^1</a></p>

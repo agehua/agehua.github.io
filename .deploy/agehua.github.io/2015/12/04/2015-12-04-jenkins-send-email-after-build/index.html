@@ -176,7 +176,7 @@
 <h2 id="jenkins发送邮件"><a href="#jenkins发送邮件" class="headerlink" title="jenkins发送邮件"></a>jenkins发送邮件</h2><p>首先需要安装插件： <a href="https://wiki.jenkins-ci.org/display/JENKINS/Email-ext+plugin" target="_blank" rel="external">Email-ext plugin</a></p>
 <p>然后在项目配置的<code>Post-build Actions</code>里面可以添加’Editable Email Notification’.</p>
 <p>之后可以就配置邮件的内容了。注意可以配置和修改邮件的trigger，我这里选择的是always。</p>
-<p>先上图：<br><img src="/images/blogimages/2015/jenkins_email.png" class="center"></p>
+<p>先上图：<br><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2015/jenkins_email.png" class="center"></p>
 <p>上面比较关键的地方是： 我选择了content type为html，default content和pre-send script。</p>
 <p>由于我检查github的commit信息，只能在pre-send脚本中完成，所以我的邮件内容是通过default content和pre-send script生成的内容拼接起来的。</p>
 <p>default content的内容如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&lt;/h2&gt;Jenkins gittest build &lt;/h2&gt;</div><div class="line">&lt;p&gt;build branch: $GIT_BRANCH&lt;/p&gt;</div><div class="line">&lt;p&gt;build number: $BUILD_NUMBER&lt;/p&gt;</div><div class="line">&lt;p&gt;commit number: $GIT_COMMIT&lt;/p&gt;</div><div class="line">&lt;p&gt;package download url: build package&lt;/p&gt;</div></pre></td></tr></table></figure></p>

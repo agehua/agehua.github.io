@@ -308,7 +308,7 @@ public void attachInterface(IInterface owner, String descriptor) {
 那么现在就清楚了，如果客户端和服务端是在一个进程中，那么其实queryLocalInterface获取的就是Stub对象，如果不在一个进程queryLocalInterface查询的对象肯定为null，因为**new Demo.Stub()**和**Demo.Stub.asInterface(IBinder)**方法分别是在**远端进程**和**本地进程**中调用的，在不同进程有不同虚拟机，肯定查不到mOwner对象的，所以这时候其实是返回的Proxy对象了。
 
 通过上面的讲解之后，发现多进程服务通信基准就是借助Binder对象，先传递Binder对象，然后在把Binder转成可以使用的原生对象即可调用了，而对于Stub类和Proxy类其实就是相当于是服务端和客户端的中间者，把一些逻辑封装起来，这种设计也会显得不是那么凌乱：
-![](/images/blogimages/2017/binder-principle.png)
+![](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/binder-principle.png)
 
 
 ### 分析系统服务调用流程
@@ -316,7 +316,7 @@ public void attachInterface(IInterface owner, String descriptor) {
 
 PackageManagerService是Android系统中最常用的服务之一。它负责系统中Package的管理，应用程序的安装、卸载、信息查询等。PackageManager获取的信息即来自AndroidManifest.XML
 
-![PackageManagerService体系](/images/blogimages/2017/PackageManagerService.png)
+![PackageManagerService体系](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/PackageManagerService.png)
 
 ~~~Java
 interface IPackageManager {
@@ -424,7 +424,7 @@ public static IPackageManager getPackageManager() {
 
 通过上面的PackageManager案例可以分析，我们在使用系统中的服务的时候的流程都是如此：
 
-![系统服务远程调用详情](/images/blogimages/2017/binder-system-service.png)
+![系统服务远程调用详情](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/binder-system-service.png)
 
 总结一下，每个应用在使用系统服务的时候，都会走这么几步：
 

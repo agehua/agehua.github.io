@@ -175,7 +175,7 @@
 <pre><code>docker run hello-world
 </code></pre><a id="more"></a>
 <p>如下图</p>
-<img src="/images/blogimages/2015/down-hello-world.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2015/down-hello-world.png" class="center">
 <h2 id="build-docker"><a href="#build-docker" class="headerlink" title="build docker"></a>build docker</h2><p>refer to: <a href="http://docs.docker.com/linux/step_four/" target="_blank" rel="external">http://docs.docker.com/linux/step_four/</a></p>
 <p>edit Dockerfile:</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">FROM docker/whalesay:latest</div><div class="line">RUN apt-get -y update &amp;&amp; apt-get install -y fortunes</div><div class="line">CMD /usr/games/fortune -a | cowsay</div></pre></td></tr></table></figure>
@@ -190,9 +190,9 @@
 <p>also you can remove the image by <code>docker rmi</code></p>
 <h2 id="docker-command"><a href="#docker-command" class="headerlink" title="docker command"></a>docker command</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">docker run         # 运行image</div><div class="line">docker ps -a       # list container</div><div class="line">docker rm          # 删除 container</div><div class="line">docker rmi         # 删除 image</div><div class="line">docker images      # list image</div><div class="line">docker tag         # 给image打tag</div><div class="line">docker login       # 登录到 docker hub</div><div class="line">docker push        # 上传image到docker hub</div><div class="line">docker pull        # 从docker hub上下载image</div><div class="line">docker exec -it angry_poitras /bin/bash</div><div class="line">				   # 在正在运行的container中执行命令</div><div class="line">docker save        # 将image保存为一个tar包</div><div class="line">docker load        # 从tar包，或者stdin加载image</div><div class="line">docker commit      # 将container的修改保存为另外一个image</div><div class="line">docker cp          # 在container和host之间拷贝文件和目录</div></pre></td></tr></table></figure>
 <p>例如，这是<code>docker ps</code>的例子：</p>
-<img src="/images/blogimages/2015/docker-ps.png" class="center"> 
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2015/docker-ps.png" class="center"> 
 <p>这是<code>docker rm</code>命令的例子：</p>
-<img src="/images/blogimages/2015/docker-rm.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2015/docker-rm.png" class="center">
 <h2 id="container的端口expose或者publish"><a href="#container的端口expose或者publish" class="headerlink" title="container的端口expose或者publish"></a>container的端口expose或者publish</h2><p>docker的container中容器的端口expose或者publish到宿主机上, 有一下一些方法：</p>
 <p>通过Dockerfile</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">EXPOSE 7000-8000</div></pre></td></tr></table></figure>

@@ -16,7 +16,7 @@
 <meta property="og:description" content="Android架构师积累 ——By 高焕堂“-Oriented”的涵意◎ ”-Oriented”意味着一种信仰 。◎ ”Object-oriented”相信任何软件都是由对象所构成的，而且Nothing else 。
 ”-Driven”的涵意; 例如:Model-driven、Use Case-driven– 其实”-driven”是”引导”，而不是大家常说的”驱动”。– 就向北极星引导我们，指出">
 <meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Beach%20at%20Scheveningen%20in%20Calm%20Weather.jpg">
-<meta property="og:updated_time" content="2017-07-06T06:04:14.000Z">
+<meta property="og:updated_time" content="2017-08-11T03:00:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android架构师积累">
 <meta name="twitter:description" content="Android架构师积累 ——By 高焕堂“-Oriented”的涵意◎ ”-Oriented”意味着一种信仰 。◎ ”Object-oriented”相信任何软件都是由对象所构成的，而且Nothing else 。
@@ -380,7 +380,7 @@
     <div class="inner profile-inner">
         <div class="base-info profile-block">
             <img id="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
-            <h2 id="name">Agehua</h2>
+            <h2 id="name">Cornor Lee</h2>
             <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
             <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
@@ -524,7 +524,7 @@
 <p>高焕堂老师提出简单的EIT软件造形；则让人们能理解Android多层框架体系里的复杂关系</p>
 <hr>
 <p>EIT造形是一种基本的结构(Structure)，一种概念(Concept)；我们称它为”EIT造形(Form)”。</p>
-<p><img src="/images/blogimages/2017/EIT-form.png" alt=""></p>
+<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/EIT-form.png" alt=""></p>
 <ul>
 <li>强龙做&lt;E&amp;I&gt;，将&lt;T&gt;外包给地头蛇。</li>
 <li>强龙掌控&lt;E&amp;I&gt;，外包就不会失控。</li>
@@ -548,7 +548,7 @@
 </li>
 <li>在Android的进程里，有一个虚拟机(Virtual Machine，简称VM)的对象，可执行Java代码，也引导JNI本地程序的执行，实现Java与C/C++之间的沟通。如下图:</li>
 </ul>
-<p><img src="/images/blogimages/2017/process-ipc-structure.png" alt="每一进程有:一个VM对象、主线程、MQ和Looper"></p>
+<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/process-ipc-structure.png" alt="每一进程有:一个VM对象、主线程、MQ和Looper"></p>
 <blockquote>
 <p>不同进程的地址空间是独立的</p>
 </blockquote>
@@ -559,15 +559,15 @@
 <p>Java层的IBinder 接口是定义于IBinder.java代码文档里<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">// IBinder.java</span></div><div class="line"><span class="comment">// .......</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IBinder</span> </span>&#123;</div><div class="line"><span class="comment">// ........</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">transact</span><span class="params">(<span class="keyword">int</span> code, Parcel data, Parcel reply, <span class="keyword">int</span> flags)</span></span></div><div class="line">  <span class="keyword">throws</span> RemoteException; <span class="comment">// ...........</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>IBinder接口定义了一些函数，可以让Client程序可以进行跨进程的调用(当然也能支持同进程的短程调用)。其中，最主要的一个函数就是: transact()函数</p>
 <p>在Android的框架里，由Binder基类实现IBinder接口。</p>
-<p><img src="/images/blogimages/2017/ibinder-binder.png" alt="java层的Binder基类定义"></p>
+<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/ibinder-binder.png" alt="java层的Binder基类定义"></p>
 <p>Binder基类的很重要目的是支持跨进程调 用Service，也就是让远程的Client可以跨 进程调用某个Service。Binder基类定义于Binder.java文件里:<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">// Binder.java</span></div><div class="line"><span class="comment">// .......</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Binder</span> <span class="keyword">implements</span> <span class="title">IBinder</span> </span>&#123;</div><div class="line">  <span class="comment">// ..........</span></div><div class="line">  <span class="keyword">private</span> <span class="keyword">int</span> mObject;</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Binder</span><span class="params">()</span> </span>&#123;</div><div class="line">    init();</div><div class="line">  <span class="comment">// ...........</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">//用来实现IBinder的transact()函数接口</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">transact</span><span class="params">(<span class="keyword">int</span> code, Parcel data, Parcel reply, <span class="keyword">int</span> flags)</span></span></div><div class="line">    <span class="keyword">throws</span> RemoteException &#123;</div><div class="line">    <span class="comment">// ................</span></div><div class="line">    <span class="keyword">boolean</span> r = onTransact(code, data, reply, flags); <span class="keyword">return</span> r;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">//其角色与transact()函数是相同的，只是这是用来让C/C++本地程序来调用的。</span></div><div class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">execTransact</span><span class="params">(<span class="keyword">int</span> code, <span class="keyword">int</span> dataObj, <span class="keyword">int</span> replyObj, <span class="keyword">int</span> flags)</span> </span>&#123;</div><div class="line">    Parcel data = Parcel.obtain(dataObj); Parcel reply = Parcel.obtain(replyObj);</div><div class="line">    <span class="keyword">boolean</span> res;</div><div class="line">    res = onTransact(code, data, reply, flags);</div><div class="line">    <span class="comment">// ............</span></div><div class="line">    <span class="keyword">return</span> res;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">//这是一个抽象函数，让应用子类来覆写(Override)的.</span></div><div class="line">  <span class="comment">//上述的transact()和 execTransact()两者都是调用onTransact()函数来实现反向调用(IoC, Inversion of Control)的。</span></div><div class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">onTransact</span><span class="params">(<span class="keyword">int</span> code, Parcel data, Parcel reply, <span class="keyword">int</span> flags)</span></span></div><div class="line">    <span class="keyword">throws</span> RemoteException &#123;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">//这是一个本地(Native)函数，让JNI模块来实现这个函数.</span></div><div class="line">  <span class="comment">//Binder()构造函数会调用这个init()本地函数</span></div><div class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">native</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>Binder就是EIT造形里的&lt;E&gt;</p>
-<p>这个IBinder接口是Binder(即&lt;E&gt;)提供给Client的接口，简称为&lt;CI&gt;<br><img src="/images/blogimages/2017/binder-EIT.png" alt=""></p>
-<p>onTransact()就是EIT造形里的&lt;I&gt;，是支持&lt;基类/子类&gt;之间IoC调用的接口<br><img src="/images/blogimages/2017/binder-EIT-onTransact.png" alt=""></p>
+<p>这个IBinder接口是Binder(即&lt;E&gt;)提供给Client的接口，简称为&lt;CI&gt;<br><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/binder-EIT.png" alt=""></p>
+<p>onTransact()就是EIT造形里的&lt;I&gt;，是支持&lt;基类/子类&gt;之间IoC调用的接口<br><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/binder-EIT-onTransact.png" alt=""></p>
 <p>示例：有一个Activity类别，它想跨进程去调用MediaPlayer播放引擎，以便播放MP3音乐.</p>
-<p>类结构图如下：<br><img src="/images/blogimages/2017/binder-example-media.png" alt=""></p>
+<p>类结构图如下：<br><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/binder-example-media.png" alt=""></p>
 <p>在上图里，从myActivity到IBinder接口，画上了虚线箭头，表示那是抽象概念的。实际上，myActivity并没有直接调用Java层的IBinder接口，而是绕到底层C/C++和Binder驱动而间接调用到Binder基类的execTransact()函数，转而调用myBinder的onTransact()函数。如下图:</p>
-<p><img src="/images/blogimages/2017/binder-example-media-detail.png" alt=""></p>
+<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/binder-example-media-detail.png" alt=""></p>
 <h3 id="IPC通信的三步骤"><a href="#IPC通信的三步骤" class="headerlink" title="IPC通信的三步骤"></a>IPC通信的三步骤</h3><p>还是用上面的MediaPlayer例子，其IPC通信的三个步骤是:</p>
 <ul>
 <li><strong>Step-1.</strong> Activity使用startService()函數來启动Service。</li>
@@ -699,7 +699,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/05/11/Object-Oriented/" data-id="cj5xfaarm003az8ycjrurh4cu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/05/11/Object-Oriented/" data-id="cj67adx7e003hfpyc9gir9882" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding

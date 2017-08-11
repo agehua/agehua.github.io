@@ -174,35 +174,35 @@
 <h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><p>虚，不实也。也可以理解为看到的和实际的不一样。虚函数存在的目的只有一个，那就是实现多态。关于多态，可以去参考各种教科书，上面都有详细的说明。虚函数在实现多态时，通过一种间接的运行时（而不是编译时）的机制激活（调用）的函数。下面看一个多态的简单例子。</p>
 
 <p>运行结果如下[^1]:</p>
-<img src="/images/blogimages/2012/polymorphism/polymorphism_output.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/polymorphism/polymorphism_output.jpg" class="center">
 <p>从运行结果来看，函数<code>call_func()</code>最后实际调用的<code>f()</code>要到运行时，根据传入的参数，才能确定调用的是哪个函数。</p>
 <p>那么虚函数的这种性质是如何实现的呢？答案是虚表(vtable)。具体的做法是，在对象的存储空间里面开辟一个指针，指针指向一个存放着虚函数地址的函数指针表。编译器在生成调用虚函数的指令时，按照偏移量，从虚表中取相应的函数指针进行调用。子类的虚函数会覆盖父类中对应虚函数在虚表中的位置，所以在调用的时候，就调用到了子类的函数了。也许这段话没有说太清楚，下面看一段代码或许会有帮助。</p>
  
 <p>输出结果如下：</p>
-<img src="/images/blogimages/2012/polymorphism/vfun_output.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/polymorphism/vfun_output.jpg" class="center">
 <p>上面这段代码的第20行，通过定义指针的方式<a href="程序运行在64位机器上，所以使用long进行强制转换获取指针，如果在32位服务器上，就应该用int。">^2</a>，直接访问虚表，发现它的输出与通过对象调用是一直的，而且指针的类型无关。由上面的代码也可以看出虚表在对象的内存空间中是怎么分布的。对象的起始地址，就是虚表指针。虚表的最后一项为0，代表虚表结束。上面程序的最后一项输出可以看出来。</p>
 <p>用一张图来说明情况。</p>
-<img src="/images/blogimages/2012/polymorphism/one_derived.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/polymorphism/one_derived.jpg" class="center">
 <p>在多个虚函数的情况下，子类仅仅覆盖在子类重载的虚函数，而子类新定义的虚函数，加入到虚表的最后。下面这个例子就是多个虚函数的情况。</p>
 
 <p>输出结果：</p>
-<img src="/images/blogimages/2012/polymorphism/vfun1_output.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/polymorphism/vfun1_output.jpg" class="center">
 <p>虚表的组织结构如下:</p>
-<img src="/images/blogimages/2012/polymorphism/more_derived.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/polymorphism/more_derived.jpg" class="center">
 <p>由图中可以看出，子类的<code>f()</code>覆盖了基类的<code>f()</code>，而基类的<code>f0()</code>依然存在，子类的<code>f1()</code>添加到了虚表的最后。</p>
 <p>当有多个基类时，子类会为每个基类添加一个虚表指针，指针的顺序按照类定义时的声明顺序。下面这个例子就是这样的。</p>
 
 <p>输出结果：</p>
-<img src="/images/blogimages/2012/polymorphism/vfun2_output.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/polymorphism/vfun2_output.jpg" class="center">
 <p>这是一个比较复杂的继承关系了，可以看出最后的<code>derived</code>类里面已经有3个虚表指针了，也就是说，子类会讲所有的父类的虚表继承下来，并将自己的虚函数添加到第一个虚表的最后。还有一点，就是子类的虚函数会覆盖所有基类的对应虚函数，图中的<code>derived::f()</code>就覆盖了3处。其组织结构如下：</p>
-<img src="/images/blogimages/2012/polymorphism/more_bases.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/polymorphism/more_bases.jpg" class="center">
 <p>[^1]: 系统为ubuntu 12.04 server 64bit, 编译器为gcc 4.6.3 </p>
 <h2 id="构造函数和析构函数的调用顺序"><a href="#构造函数和析构函数的调用顺序" class="headerlink" title="构造函数和析构函数的调用顺序"></a>构造函数和析构函数的调用顺序</h2><p>这个问题本来和虚函数没有关系，但是为了后面解释关于构造函数为什么不能声明为virtual，添加到这里的。</p>
 <p>构造函数的调用顺序是，先调用父类的构造函数，然后调用成员变量的构造函数，最后调用子类自身的构造函数，多个父类时，按照父类的继承时的声明顺序调用，成员变量的构造函数也按照声明顺序调用。</p>
 <p>析构函数的调用顺序与构造函数的正好相反，先调用子类自身的析构函数，然后是成员变量的析构函数，最后是父类的构造函数，多个父类时，按照父类的继承时的声明的相反顺序调用，成员变量的构造函数也按照声明的相反顺序调用。</p>
 <p>下面是一段测试调用顺序的代码</p>
 
-<p>输出结果<br><img src="/images/blogimages/2012/polymorphism/constructor_destructor_order.jpg" class="center"></p>
+<p>输出结果<br><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/polymorphism/constructor_destructor_order.jpg" class="center"></p>
 <p>从输出结果可以看出，先调用了<code>base_b</code>的构造函数，然后调用<code>base_a</code>的构造函数（但得先调用<code>base_a</code>的父类<code>father_base_a</code>），然后是成员<code>member_a</code>和<code>member_b</code>的构造函数，最后是<code>derived</code>自己的构造函数。析构的过程正好相反。</p>
 <h2 id="构造函数不能声明为虚函数"><a href="#构造函数不能声明为虚函数" class="headerlink" title="构造函数不能声明为虚函数"></a>构造函数不能声明为虚函数</h2><p>这也是面试中常被问道的一个问题。原因应该有两个  </p>
 <ol>
@@ -211,12 +211,12 @@
 <li>虚函数的主要目的是多态，运行时确定调用那个函数，对象的构造过程是确定的，使用虚函数没有意义。</li>
 </ol>
 <p>实际上，如果将构造函数声明为虚函数，编译时，gcc会报错。</p>
-<img src="/images/blogimages/2012/polymorphism/constructor_error.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/polymorphism/constructor_error.jpg" class="center">
 <h2 id="析构函数声明为虚函数"><a href="#析构函数声明为虚函数" class="headerlink" title="析构函数声明为虚函数"></a>析构函数声明为虚函数</h2><p>在基类的声明中一般都应该将析构函数声明为虚函数。首先由于析构函数没有构造函数的问题，所以是可以声明为虚函数的。其次，可能程序需要利用析构函数为虚函数的特性，才能讲资源释放完全。</p>
 <p>首先来看一个代码例子</p>
 
 <p>运行结果</p>
-<img src="/images/blogimages/2012/polymorphism/destructor_virtual.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/polymorphism/destructor_virtual.jpg" class="center">
 <p>由结果可以看出，由于<code>base1</code>的析构函数没有声明为虚函数，在<code>delete pbase1</code>时，没有调用<code>derived1</code>的析构函数，那么在<code>derived1</code>中申请的资源就无法释放。而因为<code>base</code>类中的修改函数声明为了虚函数，就没有这样的问题。</p>
 <h2 id="什么时候使用虚函数"><a href="#什么时候使用虚函数" class="headerlink" title="什么时候使用虚函数"></a>什么时候使用虚函数</h2><p>包含了虚函数的成员函数的对象，由于需要存放虚表地址，那么就比不包含虚函数的对象，多出了一块空间，32位为4个字节，64位为8个字节。如果没有用到多态，而且有大量的对象存在时，需要考虑这个开销。</p>
 <p>在需要使用多态，或在定义接口时，需要使用虚函数。特别是定义接口时，最好使用纯虚函数。</p>
@@ -224,13 +224,13 @@
 <h2 id="同名函数隐藏规则"><a href="#同名函数隐藏规则" class="headerlink" title="同名函数隐藏规则"></a>同名函数隐藏规则</h2><p>在父类和子类中如果存在同名的函数，那么一定要小心了，这时需要重载父类中所有同名的函数。首先来看一个关于同名函数的例子</p>
 
 <p>输出结果</p>
-<img src="/images/blogimages/2012/polymorphism/same_name.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/polymorphism/same_name.jpg" class="center">
 <p>注意在用不同类型的类指针调用<code>g()</code>,<code>h()</code>,<code>m()</code>三个函数时，程序实际的行为。</p>
 <p>这样会带来一个问题，就是在继承后，重载了父类的一个函数，或在定义了一个函数，那么父类中与这个函数同名的函数都会被隐藏，子类的对象无法调用这些函数。</p>
 <p>下面是一个例子</p>
 
 <p>在编译的时候会报这样的错误</p>
-<img src="/images/blogimages/2012/polymorphism/same_name1_error.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/polymorphism/same_name1_error.jpg" class="center">
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
 <li>虚函数是通过虚表实现运行时绑定。虚表存放在对象的起始位置。子类继承父类时，会将所有的虚表就继承下来，所有子类可能有多个虚表指针。如果子类重载了父类的某个虚函数，那么子类将重写<em style="color:red">所有虚表</em>中该函数的地址，子类将自己的虚函数添加到第一个虚表的最后。</li>
 <li>构造函数不能声明为虚函数，析构函数可以声明为虚函数，当类包含是虚函数的成员函数时，析构函数<em style="color:red">必须声明为虚函数</em>。</li>

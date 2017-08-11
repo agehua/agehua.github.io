@@ -18,7 +18,7 @@ java学习记录–ThreadLocal使用案例——SimpleDateFo">
 下面是本文的参考资料：
 java学习记录–ThreadLocal使用案例——SimpleDateFo">
 <meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/A%20Wind-Beaten%20Tree.jpg">
-<meta property="og:updated_time" content="2017-01-03T08:49:25.000Z">
+<meta property="og:updated_time" content="2017-08-11T03:00:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ThreadLocal一个使用——SimpleDateFormat">
 <meta name="twitter:description" content="背景之前写过一篇文章：《ThreadLocal、HandlerThread、Lopper区别》，其中简单提及了ThreadLocal的解释。本篇文章主要结合具体应用场景——SimpleDateFormat，和大家来一起学习ThreadLocal的原理，并对ThreadLocal进行一个详细的介绍。
@@ -383,7 +383,7 @@ java学习记录–ThreadLocal使用案例——SimpleDateFo">
     <div class="inner profile-inner">
         <div class="base-info profile-block">
             <img id="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
-            <h2 id="name">Agehua</h2>
+            <h2 id="name">Cornor Lee</h2>
             <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
             <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
@@ -539,7 +539,7 @@ java学习记录–ThreadLocal使用案例——SimpleDateFo">
 <h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>那为什么ThreadLocal为变量在每个线程都保存了一个副本呢？</p>
 <pre><code>下面部分内容来自博文，http://www.jianshu.com/p/33c5579ef44f (深入浅出ThreadLocal)
 </code></pre><p>先看一下Thread和ThreadLocal两个类的具体结构，如下：</p>
-<p><img src="/images/blogimages/2016/ThreadLocal.png" alt="ThreadLocal"></p>
+<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2016/ThreadLocal.png" alt="ThreadLocal"></p>
 <p>从线程Thread的角度来看，每个线程内部都会持有一个对ThreadLocalMap实例的引用（也就是threadLocals变量），ThreadLocalMap是TThreadLocal的静态内部类。而Entry则是ThreadLocalMap的静态内部类。ThreadLocalMap实例相当于线程的局部变量空间，由Entry[] table存储着线程的私有数据。</p>
 <h4 id="Entry"><a href="#Entry" class="headerlink" title="Entry"></a>Entry</h4><p>Entry继承自WeakReference类，是存储线程私有变量的数据结构。ThreadLocal实例作为引用，意味着如果ThreadLocal实例为null，就可以从table中删除对应的Entry。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Entry</span> <span class="keyword">extends</span> <span class="title">WeakReference</span>&lt;<span class="title">ThreadLocal</span>&lt;?&gt;&gt; </span>&#123;</div><div class="line">      Object value;</div><div class="line">      Entry(ThreadLocal&lt;?&gt; k, Object v) &#123;</div><div class="line">           <span class="keyword">super</span>(k);</div><div class="line">           value = v;</div><div class="line">      &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -730,7 +730,7 @@ java学习记录–ThreadLocal使用案例——SimpleDateFo">
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/11/ThreadLocal-usage/" data-id="cj5xfaar9002sz8ychlyzdtrq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/11/ThreadLocal-usage/" data-id="cj67adx6w002ofpycmv9ieh60" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding

@@ -18,7 +18,7 @@
 需求场景在我们Android开发基本进入测试阶段后，会根据后台的不同环境，打包出对应不同环境（如SIT、UAT、PRD等）的APK安装包。
 每次去手动修改Java类改变后台环境太麻烦还容易忘记修改。打包成功后，还需要手动将默认的包名app-release.apk改">
 <meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Cart%20with%20Red%20and%20White%20Ox.jpg">
-<meta property="og:updated_time" content="2017-03-08T07:56:18.000Z">
+<meta property="og:updated_time" content="2017-08-11T03:00:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gradle 学习2——生成指定文件名的apk">
 <meta name="twitter:description" content="上一篇Gradle学习了解了Gradle的基本结构和依赖关系，这篇文章介绍下怎么在Android上使用Gradle生成指定包名的APK
@@ -383,7 +383,7 @@
     <div class="inner profile-inner">
         <div class="base-info profile-block">
             <img id="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
-            <h2 id="name">Agehua</h2>
+            <h2 id="name">Cornor Lee</h2>
             <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
             <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
@@ -615,7 +615,7 @@
 <p>和<strong>Product Flavor</strong>的使用</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line">productFlavors&#123;</div><div class="line">	kaifa&#123;</div><div class="line">		buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"1"</span></div><div class="line">	&#125;</div><div class="line">	ceshi &#123;</div><div class="line">		buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"2"</span></div><div class="line">	&#125;</div><div class="line">	SIT &#123;</div><div class="line">		buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"3"</span></div><div class="line">	&#125;</div><div class="line">	UAT &#123;</div><div class="line">		buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"4"</span></div><div class="line">	&#125;</div><div class="line">	PRD &#123;</div><div class="line">		buildConfigField <span class="string">"int"</span>, <span class="string">"buildType"</span>, <span class="string">"5"</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>每一个构建过的productFlavors都会在<strong>app-&gt;build-&gt;generated-&gt;source-&gt;buildConfig</strong>目录下创建自己对应的一个flavor目录，如下图：</p>
-<p><img src="/images/blogimages/2016/gradle_structure2.png" alt="Gradle build structure"></p>
+<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2016/gradle_structure2.png" alt="Gradle build structure"></p>
 <p>而，buildConfigField会在指定的目录，<strong>flavor-&gt;release/debug-&gt;包名</strong>，下生成一个BuildConfig.java文件，我的代码在BuildConfig.java中定义了一个int类型的buildType和boolean类型的LEO_DEBUG。要使用这两个字段只需要:</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="keyword">if</span> (BuildConfig.LEO_DEBUG)&#123;</div><div class="line">		<span class="comment">//用来控制本地Log日志</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (Environment ==BuildConfig.buildType)&#123;</div><div class="line">		<span class="comment">//用来控制开发环境</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h4 id="gradle中修改apk生成名字的方法"><a href="#gradle中修改apk生成名字的方法" class="headerlink" title="gradle中修改apk生成名字的方法"></a>gradle中修改apk生成名字的方法</h4><p>这个方法是定义在productFlavors同一层级的</p>
@@ -745,7 +745,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/10/13/gradle-learning2/" data-id="cj5xfaaqp0022z8yckxxmbbej" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/10/13/gradle-learning2/" data-id="cj67adx6i0027fpyc2atax7bk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding

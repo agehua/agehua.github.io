@@ -186,9 +186,9 @@
 <p>在另外一台服务器上运行producer：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">bin/kafka-console-producer.sh --broker-list slave1.hadoop:9092 --topic test</div></pre></td></tr></table></figure></p>
 <p>这时在producer中，输入任何消息，在consumer端就可以看到。下面的图片：</p>
 <p>producer的情况：</p>
-<img src="/images/blogimages/2015/kafka_producer.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2015/kafka_producer.png" class="center">
 <p>consumer的情况：</p>
-<img src="/images/blogimages/2015/kafka_consumer.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2015/kafka_consumer.png" class="center">
 <h2 id="kafka-Utility"><a href="#kafka-Utility" class="headerlink" title="kafka Utility"></a>kafka Utility</h2><ol>
 <li>Create topic<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">bin/kafka-topics.sh --create --zookeeper $&#123;zk_host&#125;:$&#123;zk_port&#125;[$&#123;zk_chroot&#125;] --replication-factor $&#123;replication_factor&#125; --partitions $&#123;partition_count&#125; --topic $&#123;topic_name&#125;</div></pre></td></tr></table></figure>
 </li>

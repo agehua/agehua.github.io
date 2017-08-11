@@ -14,7 +14,7 @@ toc: true
 #### 1.1 Sinch
 官网： https://www.sinch.com/products/instant-messaging/  
 收费介绍
-![Snich_pricing](/images/blogimages/2017/im_company_abroad/im_snich.png)
+![Snich_pricing](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/im_company_abroad/im_snich.png)
 
 <!--more-->
 
@@ -22,29 +22,29 @@ toc: true
 
 官网：https://quickblox.com/
 收费介绍
-![quickblox](/images/blogimages/2017/im_company_abroad/im_quickblox.png)
+![quickblox](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/im_company_abroad/im_quickblox.png)
 
 #### 1.3 Layer
 https://layer.com/use-cases
 
 具体价格需要注册，
-![Layer](/images/blogimages/2017/im_company_abroad/im_layer.png)
+![Layer](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/im_company_abroad/im_layer.png)
 然后注册的邮箱里会收到一封邮件：
-![](/images/blogimages/2017/im_company_abroad/im_layer_email.png)
+![](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/im_company_abroad/im_layer_email.png)
 
 #### 1.4sendbird
 https://sendbird.com
 
 收费介绍
-![sendbird](/images/blogimages/2017/im_company_abroad/im_sendbird.png)
+![sendbird](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/im_company_abroad/im_sendbird.png)
 
 #### 1.5 applozic
 https://www.applozic.com/
 收费介绍
-![applozic](/images/blogimages/2017/im_company_abroad/im_applozic.png)
+![applozic](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/im_company_abroad/im_applozic.png)
 
 ### 二、各家IM服务公司比较
-![im_comparation](/images/blogimages/2017/im_company_abroad/im_comparation.png)
+![im_comparation](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/im_company_abroad/im_comparation.png)
 
 图片来源：[Which Chat SDK is better for user experience? Applozic, Sendbird, Layer or Quickblox!](https://www.applozic.com/blog/applozic-vs-sendbird-vs-layer-vs-quickblox-alternatives/)
 

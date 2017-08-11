@@ -94,7 +94,7 @@ public class Bird extends Shape {
 
 EIT造形是一种基本的结构(Structure)，一种概念(Concept)；我们称它为”EIT造形(Form)”。
 
-![](/images/blogimages/2017/EIT-form.png)
+![](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/EIT-form.png)
 
 
 - 强龙做&lt;E&I&gt;，将&lt;T&gt;外包给地头蛇。
@@ -159,7 +159,7 @@ IPC(Inter-Process Communication)通信， 是跨越两个不同进程(Process)�
 - 一个进程是一个独立的执行空间，不会被正在其它进程里的程序所侵犯。这种保护方法是Android的重要安全机制。于是，得先认识进程的内涵，才能进一步了解跨进 程IPC机制。
 - 在Android的进程里，有一个虚拟机(Virtual Machine，简称VM)的对象，可执行Java代码，也引导JNI本地程序的执行，实现Java与C/C++之间的沟通。如下图:
 
-![每一进程有:一个VM对象、主线程、MQ和Looper](/images/blogimages/2017/process-ipc-structure.png)
+![每一进程有:一个VM对象、主线程、MQ和Looper](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/process-ipc-structure.png)
 
 > 不同进程的地址空间是独立的
 
@@ -187,7 +187,7 @@ IBinder接口定义了一些函数，可以让Client程序可以进行跨进程�
 
 在Android的框架里，由Binder基类实现IBinder接口。
 
-![java层的Binder基类定义](/images/blogimages/2017/ibinder-binder.png)
+![java层的Binder基类定义](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/ibinder-binder.png)
 
 Binder基类的很重要目的是支持跨进程调 用Service，也就是让远程的Client可以跨 进程调用某个Service。Binder基类定义于Binder.java文件里:
 ~~~ Java
@@ -231,20 +231,20 @@ public class Binder implements IBinder {
 Binder就是EIT造形里的&lt;E&gt;
 
 这个IBinder接口是Binder(即&lt;E&gt;)提供给Client的接口，简称为&lt;CI&gt;
-![](/images/blogimages/2017/binder-EIT.png)
+![](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/binder-EIT.png)
 
 onTransact()就是EIT造形里的&lt;I&gt;，是支持<基类/子类>之间IoC调用的接口
-![](/images/blogimages/2017/binder-EIT-onTransact.png)
+![](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/binder-EIT-onTransact.png)
 
 
 示例：有一个Activity类别，它想跨进程去调用MediaPlayer播放引擎，以便播放MP3音乐.
 
 类结构图如下：
-![](/images/blogimages/2017/binder-example-media.png)
+![](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/binder-example-media.png)
 
 在上图里，从myActivity到IBinder接口，画上了虚线箭头，表示那是抽象概念的。实际上，myActivity并没有直接调用Java层的IBinder接口，而是绕到底层C/C++和Binder驱动而间接调用到Binder基类的execTransact()函数，转而调用myBinder的onTransact()函数。如下图:
 
-![](/images/blogimages/2017/binder-example-media-detail.png)
+![](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/binder-example-media-detail.png)
 
 ### IPC通信的三步骤
 还是用上面的MediaPlayer例子，其IPC通信的三个步骤是:

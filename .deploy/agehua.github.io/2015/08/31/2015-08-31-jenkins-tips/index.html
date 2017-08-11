@@ -198,13 +198,13 @@
 <p><a href="https://wiki.jenkins-ci.org/display/JENKINS/CloudBees+GitHub+Branch+Source+Plugin" target="_blank" rel="external">CloudBees GitHub Branch Source Plugin</a></p>
 <h2 id="jenkins配置使用github登录"><a href="#jenkins配置使用github登录" class="headerlink" title="jenkins配置使用github登录"></a>jenkins配置使用github登录</h2><p>安装<a href="https://wiki.jenkins-ci.org/display/JENKINS/Github+OAuth+Plugin" target="_blank" rel="external">Github OAuth Plugin</a>， 然后在manage jenkins的Configure Global Security中，可以将Access Control配置使用Github Authentication Plugin。</p>
 <p>配置图如下：</p>
-<img src="/images/blogimages/2015/jenkins-github-oauth.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2015/jenkins-github-oauth.png" class="center">
 <p>上图中的api配置路径，如果使用的是GitHub Enterprise，那么url的路径就要配置为<code>/api/v3</code>.</p>
 <p>client id和client seceret是在github中生成的。</p>
 <p>打开github，在edit profile的地方，选择applications -&gt; developer applications, 生成一个新的application。<br>很多都是自动生成的，比较重要的一个是authorization callback url，这个也需要天固定的格式：</p>
 <p>例如<code>http://myserver.com:8080/securityRealm/finishLogin</code>，其中myserver.com和端口8080对应你的jenkins的域名和端口。</p>
 <p>下图是一个例子</p>
-<img src="/images/blogimages/2015/github-applications.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2015/github-applications.png" class="center">
 <p>在上图中，还可以给你的application加一个图标，如5所示。</p>
 <h2 id="jenkins-tool配置"><a href="#jenkins-tool配置" class="headerlink" title="jenkins tool配置"></a>jenkins tool配置</h2><p>在jenkins中，使用到很多工具，例如git，maven，jdk，node。可以在manage jenkins -&gt; configure system中配置。</p>
 <p>在配置中，如果选择了install automatically，那么jenkins就会在salve node上自动安装这个工具。这样如果在jenkins中使用docker node等这种方式的话，有可能每次都会去安装。</p>

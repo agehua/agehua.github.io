@@ -256,7 +256,7 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">hdfs namenode -format</div></pre></td></tr></table></figure>
 <p>启动hadoop<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">start-all.sh</div><div class="line">or</div><div class="line">start-dfs.sh</div><div class="line">start-yarn.sh</div></pre></td></tr></table></figure></p>
 <p>查看状态：<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">hdfs dfsadmin -report</div></pre></td></tr></table></figure></p>
-<p>例子如下：<br><img src="/images/blogimages/2015/hadoop-status.png" class="center"></p>
+<p>例子如下：<br><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2015/hadoop-status.png" class="center"></p>
 <p>另外可以通过网页查看例如：<a href="http://master:50070" target="_blank" rel="external">http://master:50070</a></p>
 <p>查看hadoop的任务运行情况：<a href="http://master:8088" target="_blank" rel="external">http://master:8088</a></p>
 <h2 id="增加调试信息设置"><a href="#增加调试信息设置" class="headerlink" title="增加调试信息设置"></a>增加调试信息设置</h2><p>通过下面的设置，可以输出hadoop命令的调试信息。<br><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">$ export HADOOP_ROOT_LOGGER=DEBUG,console</div><div class="line">$ hadoop fs -text /test/data/origz/access.log.gz</div><div class="line"></div><div class="line">15/08/14 20:45:12 DEBUG util.NativeCodeLoader: Failed to load native-hadoop with error: java.lang.UnsatisfiedLinkError: /usr/hadoop-2.7.1/lib/native/libhadoop.so.1.0.0: /lib64/libc.so.6: version `GLIBC_2.14&apos; not found (required by /usr/hadoop-2.7.1/lib/native/libhadoop.so.1.0.0)</div></pre></td></tr></table></figure></p>

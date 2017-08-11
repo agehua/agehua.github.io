@@ -378,7 +378,7 @@ mRemoteBookManager.asBinder().linkToDeath(mDeathRecipient, 0);
 
 #### 2.6 选用合适的IPC方式
 
-![选择合适的IPC方式](/images/blogimages/2016/androidart_ipc.png)
+![选择合适的IPC方式](http://oui2w5whj.bkt.clouddn.com/blogimages/2016/androidart_ipc.png)
 
 
 
@@ -396,7 +396,7 @@ mRemoteBookManager.asBinder().linkToDeath(mDeathRecipient, 0);
 #### 9.2 Activity的工作过程
 
 ##### (1)Activity启动的大致流程
-![Activity启动的大致流程](/images/blogimages/2016/androidart_activity.png)
+![Activity启动的大致流程](http://oui2w5whj.bkt.clouddn.com/blogimages/2016/androidart_activity.png)
 
 (2)ApplicationThread是ActivityThread的一个内部类，它继承自ApplicationThreadNative，而ApplicationThreadNative继承自Binder并实现了IApplicationThread接口，ApplicationThreadNative的作用其实就和系统为AIDL文件生成的类是一样的。
 (3)ActivityManagerService(AMS)继承自ActivityManagerNative，而ActivityManagerNative继承自Binder并实现了IActivityManager这个Binder接口，因此AMS也是一个Binder。
@@ -408,18 +408,18 @@ mRemoteBookManager.asBinder().linkToDeath(mDeathRecipient, 0);
 ##### (1)Service有两种状态：
 启动状态和绑定状态，两种状态是可以共存的。
 **启动过程：**
-![Service1](/images/blogimages/2016/androidart_service1.png)
+![Service1](http://oui2w5whj.bkt.clouddn.com/blogimages/2016/androidart_service1.png)
 
 **绑定过程：**
-![Service2](/images/blogimages/2016/androidart_service2.png)
+![Service2](http://oui2w5whj.bkt.clouddn.com/blogimages/2016/androidart_service2.png)
 
 #### 9.4 BroadcastReceiver的工作过程
 ##### (1)BroadcastReceiver的工作过程包括广播注册过程、广播发送和接收过程。
 
 **注册过程**：静态注册的时候是由PackageManagerService来完成整个注册过程，下面是动态注册的过程
-![broadcastreceiver1](/images/blogimages/2016/androidart_broadcastreceiver1.png)
+![broadcastreceiver1](http://oui2w5whj.bkt.clouddn.com/blogimages/2016/androidart_broadcastreceiver1.png)
 **发送和接收**：
-![broadcastreceiver2](/images/blogimages/2016/androidart_broadcastreceiver2.png)
+![broadcastreceiver2](http://oui2w5whj.bkt.clouddn.com/blogimages/2016/androidart_broadcastreceiver2.png)
 ##### (2)广播的发送有几种类型：
 普通广播、有序广播和粘性广播，有序广播和粘性广播与普通广播相比具有不同的特性，但是发送和接收过程是类似的。
 ##### (3)一个应用处于停止状态分为两种情况：
@@ -437,4 +437,4 @@ mRemoteBookManager.asBinder().linkToDeath(mDeathRecipient, 0);
 ##### (3)ContentProvider的android:multiprocess属性决定它是否是单实例，默认值是false，也就是默认是单实例。当设置为true时，每个调用者的进程中都存在一个ContentProvider对象。
 
 ##### (4)当调用ContentProvider的insert、delete、update、query方法中的任何一个时，如果ContentProvider所在的进程没有启动的话，那么就会触发ContentProvider的创建，并伴随着ContentProvider所在进程的启动。下图是ContentProvider的query操作的大致过程：
-![ContentProvider](/images/blogimages/2016/androidart_contentprovider.png)
+![ContentProvider](http://oui2w5whj.bkt.clouddn.com/blogimages/2016/androidart_contentprovider.png)

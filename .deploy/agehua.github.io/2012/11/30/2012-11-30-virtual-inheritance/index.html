@@ -169,41 +169,41 @@
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
                 <p>C++里面的virtual关键字可以用虚函数声明，也可以用于虚继承。上一篇博客讲到了<a href="/blog/2012/11/29/virtual-function/">《虚函数》</a>，这篇博客就讲虚继承。</p>
 <p>首先来看为什么需要虚继承。C++里面继承关系中有个很有名的继承结构，菱形继承，如下图所示</p>
-<img src="/images/blogimages/2012/virtualinheritance/iostream.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/virtualinheritance/iostream.jpg" class="center">
 <p>普通继承，派生类包含了基类所有的非static成员。如果采用普通继承，在上图的iostream类中，实际上会存在两个ios基类。这样会带来很多问题，首先最简单的是空间浪费，iostream类中存在两个相同的ios类,然后是构造效率低，需要构造两个ios类。更严重的是调用基类中的函数时，存在二义性，当iostream调用ios的成员函数时，编译器无法知道是调用istream还是ostream中的ios。</p>
 <p>C++的解决方案就是虚拟继承(Virtual Inheritance)。虚拟继承可以说成虚继承，在本文中，这两个词是等价的。 在虚拟继承下，只有一个共享的基类子对象被继承，而无论该基类在派生层次中出现多少次。共享的基类子对象被称为虚拟基类（virtual base class）。在虚拟继承下，基类子对象的复制及由此而引起的二义性都被消除了。</p>
 <a id="more"></a>
 <p>先看看如果没有续集继承的情况下，菱形继承会出现什么情况</p>
 
 <p>没有使用虚继承，那么<code>bottom</code>类在调用<code>printself()</code>就存在二义性，所以在编译的时候会报下面这样的错误。</p>
-<img src="/images/blogimages/2012/virtualinheritance/inheritance_error.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/virtualinheritance/inheritance_error.jpg" class="center">
 <p>下面就是使用虚继承的例子</p>
 
 <p>编译和运行结果如下</p>
-<img src="/images/blogimages/2012/virtualinheritance/virtual_inheritance.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/virtualinheritance/virtual_inheritance.jpg" class="center">
 <p>上面的例子中，采用了虚继承，就没有出现二义性的问题了。虚拟继承声明时，virtual关键字可以放在继承关系的前面也可以放在后面，下面两种方式是等价的。</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><div class="line"><span class="keyword">class</span> middle1: <span class="keyword">virtual</span> <span class="keyword">public</span> top</div><div class="line"><span class="keyword">class</span> middle1: <span class="keyword">public</span> <span class="keyword">virtual</span> top</div></pre></td></tr></table></figure>
 <h2 id="虚拟基类的构造"><a href="#虚拟基类的构造" class="headerlink" title="虚拟基类的构造"></a>虚拟基类的构造</h2><p>由虚假继承引发的第一个问题是虚拟基类的构造，例如上面的例子中，构造iostream时，构造了istream和ostream两个基类，如果是虚继承关系，那么只有一个ios虚拟基类，那么谁来构造ios呢？</p>
 <p>普通继承关系，基类由派生类构造。虚继承下，虚基类的构造由<em>最终派生类</em>显示调用，即iostream负责构造ios类, 中间类的构造函数将会被抑制，无法完成虚拟基类的构造。看一个虚基类的构造例子</p>
 
 <p>运行结果如下</p>
-<img src="/images/blogimages/2012/virtualinheritance/constructor.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/virtualinheritance/constructor.jpg" class="center">
 <p>例子中，虽然bottom显示调用了middle1和middle2的构造函数，但是top的构造却不是有这两个中间类完成的,  因为top的成员name的值为“top”，实际上是由最终派生类bottom调用了top的默认构造函数<code>top()</code>。</p>
 <p>要想完成虚基类top的构造，必须由最终派生类调用对应的虚基类构造函数。</p>
 
 <p>运行结果如下</p>
-<img src="/images/blogimages/2012/virtualinheritance/constructor1.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/virtualinheritance/constructor1.jpg" class="center">
 <p>在上面的例子中，bottom和bottom1都显示调用了top的构造函数，但前者没有调用了中间类的默认构造函数，后者调用了构造虚基类的构造函数，但结果对于虚基类的构造，都是由最终派生类构造的。</p>
 <p>上面是一个中间类构造函数定义方式的好例子，当middle1和middle2做为最终派生类的时候，那么使用带参数的构造函数，做为中间类时，就声明一个为protected的默认构造函数，它仅仅完成类自身的构造和非虚拟继承的基类构造，最终派生类也不需要显示地构造中间类。</p>
 <h2 id="构造的顺序"><a href="#构造的顺序" class="headerlink" title="构造的顺序"></a>构造的顺序</h2><p>普通继承是按照声明顺序进行构造的，虚继承由于先要进行虚基类的构造，再进行中间类的构造，所以构造顺序是：按照声明顺序构造虚基类，再按照声明顺序构造中间类和普通基类。</p>
 <p>先看两个虚基类构造的例子，</p>
 
 <p>输出结果</p>
-<img src="/images/blogimages/2012/virtualinheritance/constructor_seq.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/virtualinheritance/constructor_seq.jpg" class="center">
 <p>另外一个例子</p>
 
 <p>输出结果</p>
-<img src="/images/blogimages/2012/virtualinheritance/constructor_seq1.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/virtualinheritance/constructor_seq1.jpg" class="center">
 <p>上面这个两个例子中可以看出top_b的构造顺序是不一样的。第一个例子中，做为普通基类，它放到了middle1和middle2后面构造，但在第二个例子中将它声明为了虚基类，它就放到了middle1和middle2前面构造了。</p>
 <h2 id="虚拟基类成员的可视性"><a href="#虚拟基类成员的可视性" class="headerlink" title="虚拟基类成员的可视性"></a>虚拟基类成员的可视性</h2><p>派生类从它的基类所继承而来的成员可被分为以下三类：</p>
 <ul>
@@ -214,7 +214,7 @@
 <p>下面这个例子分别都涉及到了上面三种情况</p>
 
 <p>输出结果</p>
-<img src="/images/blogimages/2012/virtualinheritance/members.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/virtualinheritance/members.jpg" class="center">
 <p>由例子可以看出，上面三点分别对应了printA, printB, printC三个函数。如果不在bottom中重载printC，那么编译是会报错。</p>
 <h2 id="虚继承的实现原理"><a href="#虚继承的实现原理" class="headerlink" title="虚继承的实现原理"></a>虚继承的实现原理</h2><p>虚继承中，是如何实现只有虚基类的，通过虚继承类的内存分布，可以一探究竟。下面所有关于虚继承内存分布的例子都是和平台相关的:</p>
 <ul>
@@ -225,7 +225,7 @@
 <p>首先看一个简单的只有一层虚继承关系的例子</p>
 
 <p>运行结果如下图</p>
-<img src="/images/blogimages/2012/virtualinheritance/memory_middle1.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/virtualinheritance/memory_middle1.jpg" class="center">
 <p>在<code>middle1</code>中有两个vtable，分布指向了各自的虚函数表，而且这两个虚函数表实际是放在一张表，只是分别指向表中不同的位置。vtable的起始地址之前的3个地址分布存放了与虚继承相关的信息。</p>
 <ul>
 <li><code>offset(-3)</code>存放的是从middle1对象到虚基类top的偏移。 本例中middle1到top的偏移存放在<code>0x401620</code>为16个字节，top到自身的偏移存放在<code>0x401650</code>为0。</li>
@@ -239,13 +239,13 @@
 <p>使用下面的这个命令可以参看符号列表</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">nm -gC memory_middle1</div></pre></td></tr></table></figure>
 <p>部分输出结果的截图</p>
-<img src="/images/blogimages/2012/virtualinheritance/nm_memory_middle1.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/virtualinheritance/nm_memory_middle1.jpg" class="center">
 <p>根据上面的程序分析可以画出middle1的内存结构图如下:</p>
-<img src="/images/blogimages/2012/virtualinheritance/memory_middle1_topo.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/virtualinheritance/memory_middle1_topo.jpg" class="center">
 <p>下面是一个菱形结构继承的例子代码，有兴趣的读者可以下载以后，按照上面的方面分析。</p>
 
 <p>这里仅仅画出内存的结构图如下</p>
-<img src="/images/blogimages/2012/virtualinheritance/memory_bottom_topo.jpg" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2012/virtualinheritance/memory_bottom_topo.jpg" class="center">
 <p>在菱形虚继承的关系下，有下面几点需要注意：</p>
 <ul>
 <li>在bottom类的内存中，middle2类是放在了top类后面，相对应的，在虚表和VTT表中，middle2都被放在了top类的后面。</li>

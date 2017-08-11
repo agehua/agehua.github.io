@@ -205,7 +205,7 @@
 <p>注：我这个项目是创建在github的enterprise中的，可以等同于github。主要原因是我的jenkins没有外网ip，github无法访问，就不能设置webhook，无法实现根据pull request自动trigger build。</p>
 <ol>
 <li><p>填入project url</p>
-<img src="/images/blogimages/2016/jenkins_pull_request_builder/github_option.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2016/jenkins_pull_request_builder/github_option.png" class="center">
 </li>
 <li><p>配置pull request build</p>
 <ul>
@@ -213,17 +213,17 @@
 </li>
 <li><p>Go to <code>Manage Jenkins -&gt; Configure System -&gt; GitHub pull requests builder</code> section</p>
 <p>如图下图配置</p>
-<img src="/images/blogimages/2016/jenkins_pull_request_builder/ghprb_config.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2016/jenkins_pull_request_builder/ghprb_config.png" class="center">
 <p>需要注意：GitHub API URI是”<a href="https://api.github.com" target="_blank" rel="external">https://api.github.com</a>“. 而GitHub Enterprise API URL使用路径”/api/v3”。</p>
 </li>
 </ul>
 </li>
 <li><p>添加Personal access tokens</p>
 <p>进入github的个人的profile页面，然后添加Personal access tokens的页面中，generate new token，如下图选择，重点是要选admin：repo_hook</p>
-<img src="/images/blogimages/2016/jenkins_pull_request_builder/personal_token.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2016/jenkins_pull_request_builder/personal_token.png" class="center">
 </li>
 <li><p>添加credential的配置<br>生成token以后，在jenkins的<code>creadentials</code>里面添加一个新的证书，如图，password项就填刚才在github上生成的token</p>
-<img src="/images/blogimages/2016/jenkins_pull_request_builder/add_credential.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2016/jenkins_pull_request_builder/add_credential.png" class="center">
 </li>
 </ol>
 <hr>
@@ -259,22 +259,22 @@
 <li><a href="https://github.com/janinko/ghprb" target="_blank" rel="external">github ghprb</a></li>
 </ul>
 <p>完成以上的操作，这个插件就会在github项目的hooks和services里面自动添加一个webhook，如图：</p>
-<img src="/images/blogimages/2016/jenkins_pull_request_builder/webhook.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2016/jenkins_pull_request_builder/webhook.png" class="center">
 <hr>
 <h2 id="添加build-status-description"><a href="#添加build-status-description" class="headerlink" title="添加build status description"></a>添加build status description</h2><p>添加一个在<code>post build action</code>中选择<code>set build status on Github commit</code></p>
-<img src="/images/blogimages/2016/jenkins_pull_request_builder/set_build_status.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2016/jenkins_pull_request_builder/set_build_status.png" class="center">
 <p>然后在每一个build就会有一个status</p>
-<img src="/images/blogimages/2016/jenkins_pull_request_builder/build_status.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2016/jenkins_pull_request_builder/build_status.png" class="center">
 <hr>
 <h2 id="Mattermost"><a href="#Mattermost" class="headerlink" title="Mattermost"></a>Mattermost</h2><p>安装这个插件:<a href="https://wiki.jenkins-ci.org/display/JENKINS/Mattermost+Plugin" target="_blank" rel="external">mattermost Plugin wiki</a></p>
 <p>然后在<code>matter most -&gt; Integrations -&gt; incoming webhooks</code>, 里面配置一个incoming webhooks, 如图</p>
-<img src="/images/blogimages/2016/jenkins_pull_request_builder/mattermost_incoming_webhooks.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2016/jenkins_pull_request_builder/mattermost_incoming_webhooks.png" class="center">
 <p>配置完成以后，就会生成一个webhooks如图：</p>
-<img src="/images/blogimages/2016/jenkins_pull_request_builder/generated_mattermost_webhook.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2016/jenkins_pull_request_builder/generated_mattermost_webhook.png" class="center">
 <p>之后在jenkins的job的post-build action里面配置mattermost插件如图：</p>
-<img src="/images/blogimages/2016/jenkins_pull_request_builder/jenkins_mattermost_config.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2016/jenkins_pull_request_builder/jenkins_mattermost_config.png" class="center">
 <p>之后，如果这个job又build成功的消息的话，就会在mattermost里面产生一个消息如图：</p>
-<img src="/images/blogimages/2016/jenkins_pull_request_builder/mattermost_message.png" class="center">
+<img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2016/jenkins_pull_request_builder/mattermost_message.png" class="center">
 <p>参考：</p>
 <p><a href="https://github.com/jenkinsci/mattermost-plugin" target="_blank" rel="external">mattermost-plogin on github</a></p>
 <p><a href="http://docs.mattermost.com/developer/webhooks-incoming.html" target="_blank" rel="external">webhooks-incoming</a></p>
