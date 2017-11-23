@@ -2,7 +2,8 @@
 layout: post
 title:  gradle 学习
 category: accumulation
-tags: gradle
+tags:
+  - gradle
 keywords: Android,gradle
 banner: http://obxk8w81b.bkt.clouddn.com/Crab%20on%20Its%20Back.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Crab%20on%20Its%20Back.jpg

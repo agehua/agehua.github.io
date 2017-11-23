@@ -2,7 +2,9 @@
 layout: post
 title:  apk中含有admob广告插件
 category: accumulation
-tags: accumulation
+tags:
+  - ANDROID
+  - remove admob
 keywords: admob, 去除广告插件
 banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Pear%20Tree.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Pear%20Tree.jpg

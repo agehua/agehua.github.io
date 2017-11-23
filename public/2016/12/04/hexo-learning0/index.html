@@ -18,7 +18,7 @@ EJS的语法和功能：1、缓存功能，能够缓存已经解析好的html模
 EJS的语法和功能：1、缓存功能，能够缓存已经解析好的html模版2、&amp;lt;% code %&amp;gt;用于执行其中javascript代码。&amp;lt;% alert(&apos;hello world&apos;) %&amp;gt;
 3、&amp;lt;%= code =%&amp;gt;会对code进行html转义；">
 <meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Bulb%20Fields.jpg">
-<meta property="og:updated_time" content="2017-02-15T01:26:00.000Z">
+<meta property="og:updated_time" content="2017-11-23T07:11:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo 模板学习——EJS介绍">
 <meta name="twitter:description" content="什么是EJS？EJS是JavaScript模板库，用来从JSON数据中生成HTML字符串
@@ -57,6 +57,17 @@ EJS的语法和功能：1、缓存功能，能够缓存已经解析好的html模
 
     <link rel="icon" sizes="192x192" href="images/icon.png">
     <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+
 </head>
 
 
@@ -379,8 +390,9 @@ EJS的语法和功能：1、缓存功能，能够缓存已经解析好的html模
             
                 
 
+
 <aside id="profile">
-    <div class="inner profile-inner">
+    <div class="inner profile-inner" id="profile-inner">
         <div class="base-info profile-block">
             <img id="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
             <h2 id="name">Cornor Lee</h2>
@@ -394,7 +406,7 @@ EJS的语法和功能：1、缓存功能，能够缓存已经解析好的html模
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                27
+                61
                 <span>tags</span>
             </div>
         </div>
@@ -446,18 +458,46 @@ EJS的语法和功能：1、缓存功能，能够缓存已经解析好的html模
             <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
           </svg>
         </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
-        
     </div>
 
-      <div >
-        
-    </div>
-
+    
 </aside>
 
+<script type="text/javascript">
+/*
+    滚动函数
+    接收三个参数,
+        1 接收一个DOM对象
+        2 给目标对象切换class
+        3 触发的高度 (可选项,如果不指定高度,会将DOM的高度作为触发高度)
+*/
+function scrollCheck(scrollTarget, toggleClass, scrollHeight){
+    document.addEventListener('scroll',function(){
+    var currentTop = window.pageYOffset;
+        currentTop > (scrollHeight||scrollTarget.clientHeight)
+        ?scrollTarget.classList.add(toggleClass)
+        :scrollTarget.classList.remove(toggleClass)
+    })
+}
+
+/*
+    博文页面
+*/
+(function(){
+    // if (isPages('data-ispost')){
+        // var navbar = document.querySelector('.navbar-custom');  0.769230769230769%
+        document.getElementById("toc-wrap").style.width= document.getElementById("profile-inner").offsetWidth+ "px";
+        var introHeader = document.querySelector('.inner.profile-inner').offsetHeight;
+        var toc = document.querySelector('.toc-wrap');
+        // var postTitle = document.querySelector('.post-title-haojen');
+        scrollCheck(toc,'toc-fixed',introHeader+40+64);
+        // scrollCheck(navbar,'is-fixed');
+        // scrollCheck(postTitle,'post-title-fixed',introHeader-60);
+    // }
+})();
+</script>
+
             
-
-
             <section id="main"><article id="post-hexo-learning0" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -498,10 +538,11 @@ EJS的语法和功能：1、缓存功能，能够缓存已经解析好的html模
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/ejs/">EJS</a>
+        <a class="tag-link" href="/tags/ejs/">EJS</a>, <a class="tag-link" href="/tags/hexo/">Hexo</a>
     </div>
 
-                        <div style="color:#cba11f;float:right">2 min read , Words: 206</div>                    </div>
+
+                        <div style="color:#cba11f;float:right">2 min read , Words: 359</div>                    </div>
                 
             </header>
         
@@ -553,6 +594,41 @@ EJS的语法和功能：1、缓存功能，能够缓存已经解析好的html模
 <li>3.特殊if语句的js代码（if中间的额代码不一定可以执行到）：</li>
 </ul>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"> &lt;% <span class="keyword">if</span>(active==<span class="string">'index'</span>)&#123;%&gt;</div><div class="line"><span class="class"><span class="keyword">class</span></span>=<span class="string">"active"</span></div><div class="line"> &lt;% &#125;%&gt;</div></pre></td></tr></table></figure>
+<h3 id="stylus介绍"><a href="#stylus介绍" class="headerlink" title="stylus介绍"></a>stylus介绍</h3><p>部分内容转载自：<a href="https://segmentfault.com/a/1190000002712872" target="_blank" rel="external">stylus入门使用方法</a></p>
+<p>stylus项目地址：<a href="http://stylus-lang.com/" target="_blank" rel="external">http://stylus-lang.com/</a></p>
+<p>Stylus 是一个CSS的预处理框架，2010年产生，来自Node.js社区，主要用来给Node项目进行CSS预处理支持，所以 Stylus 是一种新型语言，可以创建健壮的、动态的、富有表现力的CSS。比较年轻，其本质上做的事情与 SASS/LESS 等类似，应该是有很多借鉴，所以近似脚本的方式去写CSS代码。</p>
+<p>Stylus功能上更为强壮，和js联系更加紧密（EXPRESSIVE, DYNAMIC, ROBUST CSS）</p>
+<h4 id="Stylus安装"><a href="#Stylus安装" class="headerlink" title="Stylus安装"></a>Stylus安装</h4><p>使用node包管理器，全局安装<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">$ npm install stylus -g</div></pre></td></tr></table></figure></p>
+<h4 id="生成CSS"><a href="#生成CSS" class="headerlink" title="生成CSS"></a>生成CSS</h4><p>建立一个stylusExample/，再在里面建立 src 目录专门存放 stylus 文件，在里面建立 example.styl 文件。然后在 stylusExample 目录下面执行下面命令<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">$ stylus --compress src/</div></pre></td></tr></table></figure></p>
+<p>输出compiled src/example.css ，这个时候表示你生成成功了，带上–compress参数表示你生成压缩的CSS文件。<br><figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">$ stylus --css css/example.css css/out.styl CSS转换成styl</div><div class="line">$ stylus help box-shadow CSS属性的帮助</div><div class="line">$ stylus --css test.css 输出基本名一致的.styl文件</div></pre></td></tr></table></figure></p>
+<p>具体语法和应用可以参考: <a href="http://www.zhangxinxu.com/jq/stylus/" target="_blank" rel="external">Stylus中文参考文档</a></p>
+<h3 id="CSS3-column多列布局介绍"><a href="#CSS3-column多列布局介绍" class="headerlink" title="CSS3 column多列布局介绍"></a>CSS3 column多列布局介绍</h3><p>CSS3提供了个新属性columns用于多列布局。在这之前，有些大家习以为常的排版，要用CSS动态实现其实是比较困难的。如竖版报纸</p>
+<p>Columns属性最大的问题还是浏览器兼容性问题<br>摘选自：<a href="http://cdn2.jianshu.io/p/87d1862f88c6" target="_blank" rel="external">CSS3 column多列布局介绍</a></p>
+<h3 id="栅格与响应式设计"><a href="#栅格与响应式设计" class="headerlink" title="栅格与响应式设计"></a>栅格与响应式设计</h3><p>栅格样式库一般是这样做的：将页面划分为若干等宽的列（column），然后推荐你通过等宽列来创建响应式的页面区块。</p>
+<p>虽然看起来都是这样的思路，但不同的栅格样式库，在做法上却是各有各的点子。下面，本文将介绍几个比较有代表性的栅格样式库，讲述它们的简要原理和用法</p>
+<h4 id="Bootstrap中的栅格"><a href="#Bootstrap中的栅格" class="headerlink" title="Bootstrap中的栅格:"></a>Bootstrap中的栅格:</h4><p><a href="http://getbootstrap.com/" target="_blank" rel="external">Bootstrap</a>把它的栅格放在CSS这个分类下，并称它为Gird system。默认分为12列。</p>
+<p>要理解Bootstrap中的栅格，最好从掌握正确的使用方法开始。这其中有2个要点。</p>
+<ul>
+<li><p>第1个要点是容器（container），行（row）和列（column）之间的层级关系。一个正确的写法示例如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"container"</span>&gt;</div><div class="line">    &lt;div class="row"&gt;</div><div class="line">        &lt;div class="col-md-6"&gt;&lt;/div&gt;</div><div class="line">        &lt;div class="col-md-6"&gt;&lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;<span class="regexp">/div&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>第2个要点，是不同的断点类型的意义及其搭配。</p>
+<p>Bootstrap栅格的column对应的类名形如.col-xx-y。y是数字，表示该元素的宽度占据12列中的多少列。而xx只有特定的几个值可供选择，分别是xs、sm、md、lg，它们就是断点类型。</p>
+<p>在Bootstrap栅格的设计中，断点的意义是，当视口（viewport）宽度小于断点时，column将竖直堆叠（display: block的默认表现），而当视口宽度大于或等于断点时，column将水平排列（float的效果）。按照xs、sm、md、lg的顺序，断点像素值依次增大，其中xs表示极小，即认为视口宽度永远不小于xs断点，column将始终水平浮动。</p>
+</li>
+</ul>
+<h4 id="Foundation中的栅格"><a href="#Foundation中的栅格" class="headerlink" title="Foundation中的栅格"></a>Foundation中的栅格</h4><p>Foundation栅格叫做Grid，它和Bootstrap栅格的设计十分近似，只是在类名和结构上有所差异。Foundation栅格同样默认12列。</p>
+<ul>
+<li>行与列<br>类比之前Bootstrap栅格的例子，Foundation栅格的一个正确的写法示例如下：<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"row"</span>&gt;</div><div class="line">    &lt;div class="medium-6 columns"&gt;&lt;/div&gt;</div><div class="line">    &lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"medium-6 columns"</span>&gt;&lt;/div&gt;</div><div class="line">&lt;<span class="regexp">/div&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Foundation栅格的行用.row表示，而列由至少两个类名组成，一是.columns或.column（2种写法完全相同，单纯为了支持语法偏好）表明这是列元素，二是.medium-6这种用于表示断点类型和对应宽度。在默认情况下，Foundation栅格的断点类型从小到大依次是small、medium、large，其中small类似Bootstrap栅格的xs，也是指任意屏幕尺寸下都水平排列。</p>
+<p>Foundation栅格没有container，只需要row和column，因此显得比Bootstrap栅格更简单一些。其中row定义了最大宽度（可以认为承担了container的部分功能），column定义了0.9375rem的水平内边距。如果要嵌套，仍然是column内续接row，再继续接column。</p>
+<p>组合使用多个断点类型，其方法也和Bootstrap栅格相同。需要注意的是，Foundation栅格的断点值是用的em而不是px，对应的，它们转换后的像素值也有别于Bootstrap栅格。</p>
+<h4 id="Block-Grid"><a href="#Block-Grid" class="headerlink" title="Block Grid"></a>Block Grid</h4><p>作为栅格系统的补充，Foundation还提供了另外一个叫做Block Grid的栅格。不过，它并不是一个超出传统栅格的新东西，而只是一个针对特定栅格应用场景的方法糖。</p>
+<blockquote>
+<p>摘选自：<a href="http://acgtofe.com/posts/2015/07/a-story-of-grid" target="_blank" rel="external">有关css栅格系统的故事</a></p>
+</blockquote>
 <hr>
 <div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="external" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="https://i.creativecommons.org/l/by/2.5/cn/88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="external" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://agehua.github.io/">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
 
@@ -670,13 +746,15 @@ EJS的语法和功能：1、缓存功能，能够缓存已经解析好的html模
         <footer class="article-footer">
           
 
+          
+
           <div class="share-container">
 
 
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/04/hexo-learning0/" data-id="cj9qryk95002a2zfyuy6w3qta" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/04/hexo-learning0/" data-id="cjac5sygp0029w6fylt2bmnfy" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -856,7 +934,7 @@ gitment.render('comments')
                             <a href="/2017/08/17/IntervieweeQuestions/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg)" alt="Activity面试题积累" class="thumbnail-image"></span>
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg)" alt="Android面试题积累" class="thumbnail-image"></span>
     
 </a>
 
@@ -864,7 +942,7 @@ gitment.render('comments')
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2017/08/17/IntervieweeQuestions/" class="title">Activity面试题积累</a></p>
+                            <p class="item-title"><a href="/2017/08/17/IntervieweeQuestions/" class="title">Android面试题积累</a></p>
                             <p class="item-date"><time datetime="2017-08-16T16:00:00.000Z" itemprop="datePublished">2017-08-17</time></p>
                         </div>
                     </li>
@@ -916,7 +994,7 @@ gitment.render('comments')
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">38</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">40</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -935,7 +1013,7 @@ gitment.render('comments')
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/aidl/">AIDL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ams/">AMS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aosp/">AOSP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-framework/">Android Framework</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/annotation/">Annotation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hook/">HOOK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/">HTTPS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/injection/">Injection</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview-knowledge/">Interview Knowledge</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pboc/">PBOC</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/timertask/">TimerTask</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/multi-process/">multi-process</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-server/">svn server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">4</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/aes/">AES</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aidl/">AIDL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ams/">AMS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">ANDROID</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aosp/">AOSP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-framework/">Android Framework</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-system-service/">Android system service</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/annotation/">Annotation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binder/">Binder</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eit/">EIT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gcm/">GCM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hook/">HOOK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/">HTTPS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/handlerthread/">HandlerThread</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-structure/">Hexo structure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/injection/">Injection</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview-knowledge/">Interview Knowledge</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jni/">JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">Java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/locationlistener/">LocationListener</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/looper/">Looper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/object-oriented/">Object-oriented</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/open-souces/">Open souces</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pboc/">PBOC</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pboc-2-0/">PBOC 2.0</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/patch-update/">Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxandroid/">RxAndroid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/singleton/">Singleton</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/timertask/">TimerTask</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-source-code/">android source code</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/assertion/">assertion</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/azure/">azure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/byte/">byte[]</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/exitapplication/">exitApplication</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/genericity/">genericity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google-map/">google map</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gson/">gson</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/handler/">handler</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iterm/">iterm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/multi-process/">multi-process</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/multi-thread/">multi-thread</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/new-features/">new features</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/notification/">notification</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/publickey/">publickey</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qiniu/">qiniu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading/">reading</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/remove-admob/">remove admob</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scp/">scp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sdk-compile/">sdk compile</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-server/">svn server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/third-party-signin/">third-party signin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webview/">webview</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -944,7 +1022,7 @@ gitment.render('comments')
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/aidl/" style="font-size: 12.5px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/aosp/" style="font-size: 10px;">AOSP</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-jni/" style="font-size: 15px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/injection/" style="font-size: 10px;">Injection</a> <a href="/tags/interview-knowledge/" style="font-size: 10px;">Interview Knowledge</a> <a href="/tags/pboc/" style="font-size: 12.5px;">PBOC</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/threadlocal/" style="font-size: 10px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 12.5px;">gradle</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 12.5px;">read</a> <a href="/tags/svn-server/" style="font-size: 12.5px;">svn server</a> <a href="/tags/technology/" style="font-size: 17.5px;">technology</a>
+            <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/aidl/" style="font-size: 12.5px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/aosp/" style="font-size: 12.5px;">AOSP</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/binder/" style="font-size: 17.5px;">Binder</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 15px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/injection/" style="font-size: 10px;">Injection</a> <a href="/tags/interview-knowledge/" style="font-size: 15px;">Interview Knowledge</a> <a href="/tags/jni/" style="font-size: 15px;">JNI</a> <a href="/tags/java/" style="font-size: 17.5px;">Java</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 10px;">Looper</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 12.5px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 12.5px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/threadlocal/" style="font-size: 12.5px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 10px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 12.5px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 12.5px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 12.5px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
         </div>
     </div>
 

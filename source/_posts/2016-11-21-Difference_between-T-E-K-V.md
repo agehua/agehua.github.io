@@ -2,8 +2,10 @@
 layout: post
 title:  JAVA泛型通配符T，E，K，V区别，T以及Class<T>，Class<?>的区别
 category: accumulation
-tags: svn server
-keywords: linux, svn服务器
+tags:
+  - Java
+  - genericity
+keywords: Java, 泛型
 banner: http://obxk8w81b.bkt.clouddn.com/Basket%20of%20Apples.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Basket%20of%20Apples.jpg
 toc: true

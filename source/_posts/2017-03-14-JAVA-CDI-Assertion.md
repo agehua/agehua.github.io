@@ -2,7 +2,9 @@
 layout: post
 title:  Injection(CDI)和assertion(断言)
 category: accumulation
-tags: Injection
+tags:
+  - Injection
+  - assertion
 keywords: Injection, assert
 banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Acacia%20Branches.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Acacia%20Branches.jpg

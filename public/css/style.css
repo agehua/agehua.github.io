@@ -1273,70 +1273,52 @@ a.article-title:hover {
   max-width: 100%;
   margin: 0 auto;
 }
-.toc-article {
-  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
-  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.175);
-  background: #fff;
-  margin: 0.5m;
-  padding: 0.5em;
-}
-ol.toc {
-  width: 100%;
-  margin: 1em 2em 0 0;
-}
-#toc {
-  line-height: 1.2em;
-  font-size: 1em;
-}
-#toc .toc {
+.toc-col {
   padding: 0;
 }
-#toc .toc li {
-  list-style-type: none;
+.toc-title {
+  font-weight: bold;
+  color: #999;
+  text-align: center;
+  display: block;
+  margin-bottom: 10px;
 }
-#toc .toc-child {
-  padding-left: 0em;
+.toc-wrap {
+  margin-top: 20px;
+  list-style: none;
+  color: #a9a9a9;
+  overflow: auto;
+  max-height: 600px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  -webkit-box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  background: #fff;
+  line-height: 1.65em;
 }
-#toc.toc-aside {
-  display: none;
-  width: 13%;
+.toc-wrap.toc-fixed {
   position: fixed;
-  right: 2%;
-  top: 320px;
-  overflow: hidden;
-  line-height: 1.5em;
-  font-size: 1em;
-  color: color-heading;
-  opacity: 0.6;
-  -webkit-transition: opacity 1s ease-out;
-  -moz-transition: opacity 1s ease-out;
-  -ms-transition: opacity 1s ease-out;
-  transition: opacity 1s ease-out;
+  top: 0px;
+  color: #a9a9a9;
+  margin-left: 0em;
+  overflow: auto;
 }
-#toc.toc-aside strong {
-  padding: 0.3em 0;
-  color: color-font;
+.toc-wrap > ol {
+  list-style: none;
+  padding-left: 10px;
 }
-#toc.toc-aside:hover {
-  -webkit-transition: opacity 0.3s ease-out;
-  -moz-transition: opacity 0.3s ease-out;
-  -ms-transition: opacity 0.3s ease-out;
-  transition: opacity 0.3s ease-out;
-  opacity: 1;
+.toc-wrap li > ol {
+  padding-left: 20px;
+  list-style: none;
 }
-#toc.toc-aside a {
-  -webkit-transition: color 1s ease-out;
-  -moz-transition: color 1s ease-out;
-  -ms-transition: color 1s ease-out;
-  transition: color 1s ease-out;
+.toc-wrap .toc-level-2 > a {
+  color: #0085a1;
+  font-size: 0.9em;
 }
-#toc.toc-aside a:hover {
-  color: color-theme;
-  -webkit-transition: color 0.3s ease-out;
-  -moz-transition: color 0.3s ease-out;
-  -ms-transition: color 0.3s ease-out;
-  transition: color 0.3s ease-out;
+.toc-wrap li ol a {
+  color: #555;
+  font-size: 0.85em;
+  padding-left: 5px;
 }
 .lg-outer .lg-thumb-item {
   border-radius: 0 !important;

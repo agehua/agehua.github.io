@@ -2,7 +2,11 @@
 layout: post
 title: google cloud message（GCM）和Azure实现Notification总结
 category: accumulation
-tags: accumulation
+tags:
+  - ANDROID
+  - GCM
+  - azure
+  - notification
 keywords: gcm, azure, notification
 description: google cloud message（GCM）和Azure实现Notification总结
 banner: http://obxk8w81b.bkt.clouddn.com/Country%20Lane%20with%20Two%20Figures.jpg

@@ -2,7 +2,8 @@
 layout: post
 title: Gson解析使用总结
 category: accumulation
-tags: accumulation
+tags:
+  - gson 
 keywords: gson, json
 description: Gson解析使用总结
 banner: http://obxk8w81b.bkt.clouddn.com/Child%20with%20Orange.jpg

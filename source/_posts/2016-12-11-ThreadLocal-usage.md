@@ -2,7 +2,9 @@
 layout: post
 title:  ThreadLocal一个使用——SimpleDateFormat
 category: accumulation
-tags: ThreadLocal
+tags:
+  - Java
+  - ThreadLocal
 keywords: ThreadLocal
 banner: http://obxk8w81b.bkt.clouddn.com/A%20Wind-Beaten%20Tree.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/A%20Wind-Beaten%20Tree.jpg

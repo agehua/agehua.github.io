@@ -2,7 +2,10 @@
 layout: post
 title:  MAC下用iTerm2连接远程主机
 category: accumulation
-tags: linux
+tags:
+  - linux
+  - iterm
+  - scp
 keywords: iterm, linux scp
 banner: http://obxk8w81b.bkt.clouddn.com/Arles%20View%20from%20the%20Wheat%20Fields.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Arles%20View%20from%20the%20Wheat%20Fields.jpg

@@ -2,7 +2,9 @@
 layout: post
 title:  Handler替代TimerTask
 category: accumulation
-tags: TimerTask
+tags:
+  - TimerTask
+  - handler
 keywords: handler, TimerTask
 banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Branch%20in%20a%20Glass%20with%20a%20Book.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Branch%20in%20a%20Glass%20with%20a%20Book.jpg

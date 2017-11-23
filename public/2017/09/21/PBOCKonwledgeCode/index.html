@@ -18,7 +18,7 @@
 消费交易消费交易允许持卡人使用电子存折或电子钱包的余额进行购物或获取服务。此交易可以在销售点终端(POS)上脱机进行。使用电子存折进行的消费交易必须提交个人识别码(PIN)，使用电子钱包则不需要。
 发出初始化消费(INITIALIZE FOR PURCHASE)命令指令字节：      命令">
 <meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden.jpg">
-<meta property="og:updated_time" content="2017-11-08T08:20:05.000Z">
+<meta property="og:updated_time" content="2017-11-23T06:47:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PBOC知识收集（干货）">
 <meta name="twitter:description" content="PBOC规范基础知识（干货）摘自：《中国集成电路（IC）卡规范第2部分：电子钱包电子存折应用规范》
@@ -57,6 +57,17 @@
 
     <link rel="icon" sizes="192x192" href="images/icon.png">
     <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+
 </head>
 
 
@@ -379,8 +390,9 @@
             
                 
 
+
 <aside id="profile">
-    <div class="inner profile-inner">
+    <div class="inner profile-inner" id="profile-inner">
         <div class="base-info profile-block">
             <img id="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
             <h2 id="name">Cornor Lee</h2>
@@ -394,7 +406,7 @@
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                27
+                61
                 <span>tags</span>
             </div>
         </div>
@@ -446,18 +458,46 @@
             <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
           </svg>
         </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
-        
     </div>
 
-      <div >
-        
-    </div>
-
+    
 </aside>
 
+<script type="text/javascript">
+/*
+    滚动函数
+    接收三个参数,
+        1 接收一个DOM对象
+        2 给目标对象切换class
+        3 触发的高度 (可选项,如果不指定高度,会将DOM的高度作为触发高度)
+*/
+function scrollCheck(scrollTarget, toggleClass, scrollHeight){
+    document.addEventListener('scroll',function(){
+    var currentTop = window.pageYOffset;
+        currentTop > (scrollHeight||scrollTarget.clientHeight)
+        ?scrollTarget.classList.add(toggleClass)
+        :scrollTarget.classList.remove(toggleClass)
+    })
+}
+
+/*
+    博文页面
+*/
+(function(){
+    // if (isPages('data-ispost')){
+        // var navbar = document.querySelector('.navbar-custom');  0.769230769230769%
+        document.getElementById("toc-wrap").style.width= document.getElementById("profile-inner").offsetWidth+ "px";
+        var introHeader = document.querySelector('.inner.profile-inner').offsetHeight;
+        var toc = document.querySelector('.toc-wrap');
+        // var postTitle = document.querySelector('.post-title-haojen');
+        scrollCheck(toc,'toc-fixed',introHeader+40+64);
+        // scrollCheck(navbar,'is-fixed');
+        // scrollCheck(postTitle,'post-title-fixed',introHeader-60);
+    // }
+})();
+</script>
+
             
-
-
             <section id="main"><article id="post-PBOCKonwledgeCode" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -498,8 +538,9 @@
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/pboc/">PBOC</a>
+        <a class="tag-link" href="/tags/pboc/">PBOC</a>, <a class="tag-link" href="/tags/pboc-2-0/">PBOC 2.0</a>
     </div>
+
 
                         <div style="color:#cba11f;float:right">5 min read , Words: 807</div>                    </div>
                 
@@ -518,14 +559,15 @@
 <a id="more"></a>
 <p>APDU的格式为：<strong>CLA    INS  P1  P2  Lc  Data  Le</strong><br>其中CLA为指令类别；INS为指令码；P1、P2为参数；Lc为Data的长度；Le为希望响应时回答的数据字节数，0表最大可能长度。</p>
 <p>COS命令由具体应用分为4种命令报文结构如下：<br>① 情形1：CLA INS P1 P2 00<br>② 情形2：CLA INS P1 P2 Le<br>③ 情形3：CLA INS P1 P2 Lc Data<br>④ 情形4：CLA INS P1 P2 Lc Data Le</p>
-<p>而消费交易初始化的具体命令如下：<br><img src="images/blogimages/2017/Initialize_for_purchase.png" alt=""><br><img src="images/blogimages/2017/Initialize_for_purchase_data.png" alt=""></p>
+<p>而消费交易初始化的具体命令如下：</p>
+<p><img src="/images/blogimages/2017/Initialize_for_purchase.png" alt=""><br><img src="/images/blogimages/2017/Initialize_for_purchase_data.png" alt=""></p>
 <p>响应报文结构：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">响应数据  响应状态码</div><div class="line">Data      SW1 SW1</div></pre></td></tr></table></figure></p>
 <p>DATA： 返回给用户的数据，即命令的执行结果。<br>SW1、SW2： 返回命令处理的状态。</p>
 <blockquote>
 <p>如果命令执行不成功，则只在响应报文中回送SW1和SW2。命令执行成功的状态字一般是“9000”，但个别卡商在执行成功后，返回61 xx，这里表示还有xx字节需要返回，需要再使用卡商提供的GET REPONSE命令接收从IC卡中传递向读卡设备的数据。</p>
 </blockquote>
 <p>消费交易初始化执行成功，返回的响应报文，总长度是（Le 0F）15个字节：</p>
-<p><img src="images/blogimages/2017/Initialize_for_purchase_responce.png" alt=""></p>
+<p><img src="/images/blogimages/2017/Initialize_for_purchase_responce.png" alt=""></p>
 <blockquote>
 <p>一个字节是8bit，4个bit用一个16进制表示（0-9 A-F）。所以一个字节可以由两个16进制表示</p>
 </blockquote>
@@ -574,7 +616,7 @@
 <p>这里外部输入的PIN码长度是，4到12位（2-6字节），响应报文数据域不存在。</p>
 </blockquote>
 <p>此命令执行成功的状态字是“9000”。<br>当前的应用选择中，命令数据域中外部输入的个人识别码与卡中存放的个人识别码校验失败时，IC 卡将回送SW2=’Cx’，其中’x’表示个人识别码允许重试的次数;当卡回送’C0’时，表示不能重试个人识别 码。此时再使用VERIFY命令时，将回送失败状态字SW1 SW2=“6983”。</p>
-<p>IC卡可能回送的警告状态字见表48。<br><img src="images/blogimages/2017/pin_verify.png" alt=""></p>
+<p>IC卡可能回送的警告状态字见表48。<br><img src="/images/blogimages/2017/pin_verify.png" alt=""></p>
 <p>下面贴一些转换工具代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">  * 把16进制字符串转换成字节数组</div><div class="line">  *</div><div class="line">  * <span class="doctag">@param</span> hex</div><div class="line">  * <span class="doctag">@return</span></div><div class="line">  */</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] hexStringToByte(String hex) &#123;</div><div class="line">    <span class="keyword">int</span> len = (hex.length() / <span class="number">2</span>);</div><div class="line">    <span class="keyword">byte</span>[] result = <span class="keyword">new</span> <span class="keyword">byte</span>[len];</div><div class="line">    <span class="keyword">char</span>[] achar = hex.toCharArray();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</div><div class="line">        <span class="keyword">int</span> pos = i * <span class="number">2</span>;</div><div class="line">        result[i] = (<span class="keyword">byte</span>) (toByte(achar[pos]) &lt;&lt; <span class="number">4</span> | toByte(achar[pos + <span class="number">1</span>]));</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">byte</span> <span class="title">toByte</span><span class="params">(<span class="keyword">char</span> c)</span> </span>&#123;</div><div class="line">    <span class="keyword">byte</span> b = (<span class="keyword">byte</span>) <span class="string">"0123456789ABCDEF"</span>.indexOf(c);</div><div class="line">    <span class="keyword">return</span> b;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 把字节数组转换成16进制字符串</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> bArray</div><div class="line"> * <span class="doctag">@return</span></div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String <span class="title">bytesToHexString</span><span class="params">(<span class="keyword">byte</span>[] bArray)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span>(bArray == <span class="keyword">null</span> )</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">""</span>;</div><div class="line">    &#125;</div><div class="line">    StringBuffer sb = <span class="keyword">new</span> StringBuffer(bArray.length);</div><div class="line">    String sTemp;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; bArray.length; i++) &#123;</div><div class="line">        sTemp = Integer.toHexString(<span class="number">0xFF</span> &amp; bArray[i]);</div><div class="line">        <span class="keyword">if</span> (sTemp.length() &lt; <span class="number">2</span>)</div><div class="line">            sb.append(<span class="number">0</span>);</div><div class="line">        sb.append(sTemp.toUpperCase());</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> sb.toString();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>IC卡<strong>交易金额转换</strong>（以分为单位，输出byte[]）<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">IntToHex</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</div><div class="line">  <span class="keyword">char</span>[] ch = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">20</span>];</div><div class="line">  <span class="keyword">int</span> nIndex = <span class="number">0</span>;</div><div class="line">    <span class="keyword">while</span> ( <span class="keyword">true</span> )&#123;</div><div class="line">        <span class="keyword">int</span> m = n/<span class="number">16</span>;</div><div class="line">        <span class="keyword">int</span> k = n%<span class="number">16</span>;</div><div class="line">        <span class="keyword">if</span> ( k == <span class="number">15</span> )</div><div class="line">            ch[nIndex] = <span class="string">'F'</span>;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ( k == <span class="number">14</span> )</div><div class="line">            ch[nIndex] = <span class="string">'E'</span>;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ( k == <span class="number">13</span> )</div><div class="line">            ch[nIndex] = <span class="string">'D'</span>;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ( k == <span class="number">12</span> )</div><div class="line">            ch[nIndex] = <span class="string">'C'</span>;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ( k == <span class="number">11</span> )</div><div class="line">            ch[nIndex] = <span class="string">'B'</span>;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> ( k == <span class="number">10</span> )</div><div class="line">            ch[nIndex] = <span class="string">'A'</span>;</div><div class="line">        <span class="keyword">else</span></div><div class="line">            ch[nIndex] = (<span class="keyword">char</span>)(<span class="string">'0'</span> + k);</div><div class="line">        nIndex++;</div><div class="line">        <span class="keyword">if</span> ( m == <span class="number">0</span> )</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        n = m;</div><div class="line">    &#125;</div><div class="line">    StringBuffer sb = <span class="keyword">new</span> StringBuffer();</div><div class="line">    sb.append(ch, <span class="number">0</span>, nIndex);</div><div class="line">    sb.reverse();</div><div class="line">    String strHex = <span class="keyword">new</span> String(<span class="string">""</span>);</div><div class="line">    strHex += sb.toString();</div><div class="line">    <span class="keyword">return</span> strHex;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] hexStringToByteArray(String s) &#123;</div><div class="line">    <span class="keyword">if</span> (TextUtils.isEmpty(s))</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">int</span> len = s.length();</div><div class="line">    String append= <span class="string">""</span>;</div><div class="line">    <span class="keyword">switch</span> (len)&#123;</div><div class="line">        <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">            s = <span class="string">"0000000"</span>+s;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">2</span>:</div><div class="line">            s = <span class="string">"000000"</span>+s;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">3</span>:</div><div class="line">            s = <span class="string">"00000"</span>+s;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">4</span>:</div><div class="line">            s = <span class="string">"0000"</span>+s;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">5</span>:</div><div class="line">            s = <span class="string">"000"</span>+s;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">6</span>:</div><div class="line">            s = <span class="string">"00"</span>+s;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">7</span>:</div><div class="line">            s = <span class="string">"0"</span>+s;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">8</span>:</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">    len = s.length();</div><div class="line">    <span class="keyword">byte</span>[] b = <span class="keyword">new</span> <span class="keyword">byte</span>[len / <span class="number">2</span>];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i += <span class="number">2</span>) &#123;</div><div class="line">        <span class="comment">// 两位一组，表示一个字节,把这样表示的16进制字符串，还原成一个字节</span></div><div class="line">        b[i / <span class="number">2</span>] = (<span class="keyword">byte</span>) ((Character.digit(s.charAt(i), <span class="number">16</span>) &lt;&lt; <span class="number">4</span>) + Character</div><div class="line">                .digit(s.charAt(i + <span class="number">1</span>), <span class="number">16</span>));</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> b;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 交易金额转换</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] intTo4HexByte(<span class="keyword">int</span> num)&#123;</div><div class="line">    <span class="keyword">return</span> hexStringToByteArray(IntToHex(num));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <hr>
@@ -702,7 +744,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/09/21/PBOCKonwledgeCode/" data-id="cj9qryka6003u2zfym66wr71e" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/09/21/PBOCKonwledgeCode/" data-id="cjac5syhp003nw6fyo2wyuhpb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -873,7 +915,7 @@ gitment.render('comments')
                             <a href="/2017/08/17/IntervieweeQuestions/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg)" alt="Activity面试题积累" class="thumbnail-image"></span>
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg)" alt="Android面试题积累" class="thumbnail-image"></span>
     
 </a>
 
@@ -881,7 +923,7 @@ gitment.render('comments')
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2017/08/17/IntervieweeQuestions/" class="title">Activity面试题积累</a></p>
+                            <p class="item-title"><a href="/2017/08/17/IntervieweeQuestions/" class="title">Android面试题积累</a></p>
                             <p class="item-date"><time datetime="2017-08-16T16:00:00.000Z" itemprop="datePublished">2017-08-17</time></p>
                         </div>
                     </li>
@@ -933,7 +975,7 @@ gitment.render('comments')
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">38</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">40</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -952,7 +994,7 @@ gitment.render('comments')
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/aidl/">AIDL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ams/">AMS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aosp/">AOSP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-framework/">Android Framework</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/annotation/">Annotation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hook/">HOOK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/">HTTPS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/injection/">Injection</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview-knowledge/">Interview Knowledge</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pboc/">PBOC</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/timertask/">TimerTask</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/multi-process/">multi-process</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-server/">svn server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">4</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/aes/">AES</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aidl/">AIDL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ams/">AMS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">ANDROID</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aosp/">AOSP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-framework/">Android Framework</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-system-service/">Android system service</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/annotation/">Annotation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binder/">Binder</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eit/">EIT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gcm/">GCM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hook/">HOOK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/">HTTPS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/handlerthread/">HandlerThread</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-structure/">Hexo structure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/injection/">Injection</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview-knowledge/">Interview Knowledge</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jni/">JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">Java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/locationlistener/">LocationListener</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/looper/">Looper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/object-oriented/">Object-oriented</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/open-souces/">Open souces</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pboc/">PBOC</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pboc-2-0/">PBOC 2.0</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/patch-update/">Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxandroid/">RxAndroid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/singleton/">Singleton</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/timertask/">TimerTask</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-source-code/">android source code</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/assertion/">assertion</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/azure/">azure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/byte/">byte[]</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/exitapplication/">exitApplication</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/genericity/">genericity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google-map/">google map</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gson/">gson</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/handler/">handler</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iterm/">iterm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/multi-process/">multi-process</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/multi-thread/">multi-thread</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/new-features/">new features</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/notification/">notification</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/publickey/">publickey</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qiniu/">qiniu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading/">reading</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/remove-admob/">remove admob</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scp/">scp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sdk-compile/">sdk compile</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-server/">svn server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/third-party-signin/">third-party signin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webview/">webview</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -961,7 +1003,7 @@ gitment.render('comments')
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/aidl/" style="font-size: 12.5px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/aosp/" style="font-size: 10px;">AOSP</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-jni/" style="font-size: 15px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/injection/" style="font-size: 10px;">Injection</a> <a href="/tags/interview-knowledge/" style="font-size: 10px;">Interview Knowledge</a> <a href="/tags/pboc/" style="font-size: 12.5px;">PBOC</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/threadlocal/" style="font-size: 10px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 12.5px;">gradle</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 12.5px;">read</a> <a href="/tags/svn-server/" style="font-size: 12.5px;">svn server</a> <a href="/tags/technology/" style="font-size: 17.5px;">technology</a>
+            <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/aidl/" style="font-size: 12.5px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/aosp/" style="font-size: 12.5px;">AOSP</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/binder/" style="font-size: 17.5px;">Binder</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 15px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/injection/" style="font-size: 10px;">Injection</a> <a href="/tags/interview-knowledge/" style="font-size: 15px;">Interview Knowledge</a> <a href="/tags/jni/" style="font-size: 15px;">JNI</a> <a href="/tags/java/" style="font-size: 17.5px;">Java</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 10px;">Looper</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 12.5px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 12.5px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/threadlocal/" style="font-size: 12.5px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 10px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 12.5px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 12.5px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 12.5px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
         </div>
     </div>
 

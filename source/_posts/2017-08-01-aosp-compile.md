@@ -2,7 +2,9 @@
 layout: post
 title:  Mac下Android源码编译（AOSP）
 category: accumulation
-tags: AOSP
+tags:
+  - AOSP
+  - sdk compile
 keywords: aosp, sdk compile
 banner: http://obxk8w81b.bkt.clouddn.com/Child%20with%20Orange.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Child%20with%20Orange.jpg

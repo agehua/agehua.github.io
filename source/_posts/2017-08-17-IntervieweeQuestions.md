@@ -1,8 +1,10 @@
 ---
 layout: post
-title:  Activity面试题积累
+title:  Android面试题积累
 category: accumulation
-tags: Interview Knowledge
+tags:
+  - Interview Knowledge
+  - ANDROID
 keywords: Basic Knowledge, Interview
 banner: http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg
@@ -210,7 +212,7 @@ Android3.0引入硬件加速，默认会开启，WebView在硬件加速的情况
 
 1、Linux内核的基本知识
 
-![](images/blogimages/2017/binder-01.png)
+![](/images/blogimages/2017/binder-01.png)
 进程隔离/虚拟地址空间：进程间是不可以共享数据的，相当于被隔离，每个进程被分配到不同的虚拟地址中
 系统调用：Linux内核对应用有访问权限，用户只能在应用层通过系统调用，调用内核的某些程序
 binder驱动：它负责各个用户的进程，通过binder通信内核来进行交互的模块
@@ -222,7 +224,7 @@ binder驱动：它负责各个用户的进程，通过binder通信内核来进�
 安全性高，支持协议双方互相校验
 
 3、Binder通信模型
-![](images/blogimages/2017/binder-02.png)
+![](/images/blogimages/2017/binder-02.png)
 > 虚线表示并非直接交互
 
 说明1：Client进程、Server进程 & Service Manager 进程之间的交互都必须通过Binder驱动（使用 open 和 ioctl文件操作函数），而非直接交互
@@ -353,7 +355,7 @@ ListView是能将一个数据集合以动态滚动的方式展示到用户界面
 
 2、ListView的RecycleBin机制
 
-![](images/blogimages/2017/listview_recyclebin.png)
+![](/images/blogimages/2017/listview_recyclebin.png)
 
 3、ListView的优化
 重用convertView
@@ -368,7 +370,7 @@ ListView是能将一个数据集合以动态滚动的方式展示到用户界面
 
 1、android构建流程
 
-![](images/blogimages/2017/android_build_process.png)
+![](/images/blogimages/2017/android_build_process.png)
 
 2、jenkins持续集成构建
 这里可参考[蒲公英文档](http://www.pgyer.com/doc/view/jenkins)
@@ -740,7 +742,7 @@ OOM_ODJ：判别进程的优先级
 Android Lint是一个静态代码分析工具，它能够对你的Android项目中潜在的Bug、可优化的代码、安全性、性能、可用性、可访问性、国际化等进行检查
 
 2、Lint工作流程
-![](images/blogimages/2017/android_lint.png)
+![](/images/blogimages/2017/android_lint.png)
 
 3、配置Lint
 创建Lint.xml到根目录下，自定义Lint安全等级等

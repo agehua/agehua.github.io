@@ -1,8 +1,9 @@
 ---
 layout: post
 title:  IM 国外公司，服务费，方案
-category: accumulation
-tags: IM Company
+category: Investigation
+tags:
+  - IM Company
 keywords: instant messaging, IM Company
 banner: http://obxk8w81b.bkt.clouddn.com/Autumn%20Landscape%20with%20Four%20Trees.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Autumn%20Landscape%20with%20Four%20Trees.jpg

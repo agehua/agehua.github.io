@@ -2,7 +2,9 @@
 layout: post
 title: android JNI学习② JNI调用过程
 category: accumulation
-tags: Android JNI
+tags:
+  - JNI
+  - android source code
 keywords: jni, android源码
 description: android Jni调用过程
 banner: http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg

@@ -2,7 +2,9 @@
 layout: post
 title: Android优秀开源项目【持续更新】
 category: accumulation
-tags: technology
+tags:
+  - ANDROID
+  - Open souces
 keywords: Android
 description: Android优秀开源项目收集
 banner: http://obxk8w81b.bkt.clouddn.com/At%20the%20Foot%20of%20the%20Mountains.jpg

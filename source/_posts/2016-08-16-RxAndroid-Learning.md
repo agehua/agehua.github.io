@@ -2,7 +2,9 @@
 layout: post
 title: RxJava 学习
 category: technology
-tags: RxJava
+tags:
+  - RxJava
+  - RxAndroid
 keywords: RxJava RxAndroid
 description: RxAndroid学习
 banner: http://obxk8w81b.bkt.clouddn.com/Bulb%20Fields.jpg

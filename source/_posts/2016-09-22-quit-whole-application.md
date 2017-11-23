@@ -2,7 +2,9 @@
 layout: post
 title:  Android 退出整个应用程序解决方案
 category: technology
-tags: technology
+tags:
+  - ANDROID
+  - exitApplication
 keywords: Android,退出整个应用
 banner: http://obxk8w81b.bkt.clouddn.com/Enclosed%20Field%20with%20Ploughman.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Enclosed%20Field%20with%20Ploughman.jpg

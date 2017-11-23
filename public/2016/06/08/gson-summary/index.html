@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Agehua">
 <meta property="og:description" content="Gson解析使用总结">
 <meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Child%20with%20Orange.jpg">
-<meta property="og:updated_time" content="2017-02-15T01:26:00.000Z">
+<meta property="og:updated_time" content="2017-11-23T07:05:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Gson解析使用总结">
 <meta name="twitter:description" content="Gson解析使用总结">
@@ -51,6 +51,17 @@
 
     <link rel="icon" sizes="192x192" href="images/icon.png">
     <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+
 </head>
 
 
@@ -373,8 +384,9 @@
             
                 
 
+
 <aside id="profile">
-    <div class="inner profile-inner">
+    <div class="inner profile-inner" id="profile-inner">
         <div class="base-info profile-block">
             <img id="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
             <h2 id="name">Cornor Lee</h2>
@@ -388,7 +400,7 @@
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                27
+                61
                 <span>tags</span>
             </div>
         </div>
@@ -440,18 +452,46 @@
             <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
           </svg>
         </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
-        
     </div>
 
-      <div >
-        
-    </div>
-
+    
 </aside>
 
+<script type="text/javascript">
+/*
+    滚动函数
+    接收三个参数,
+        1 接收一个DOM对象
+        2 给目标对象切换class
+        3 触发的高度 (可选项,如果不指定高度,会将DOM的高度作为触发高度)
+*/
+function scrollCheck(scrollTarget, toggleClass, scrollHeight){
+    document.addEventListener('scroll',function(){
+    var currentTop = window.pageYOffset;
+        currentTop > (scrollHeight||scrollTarget.clientHeight)
+        ?scrollTarget.classList.add(toggleClass)
+        :scrollTarget.classList.remove(toggleClass)
+    })
+}
+
+/*
+    博文页面
+*/
+(function(){
+    // if (isPages('data-ispost')){
+        // var navbar = document.querySelector('.navbar-custom');  0.769230769230769%
+        document.getElementById("toc-wrap").style.width= document.getElementById("profile-inner").offsetWidth+ "px";
+        var introHeader = document.querySelector('.inner.profile-inner').offsetHeight;
+        var toc = document.querySelector('.toc-wrap');
+        // var postTitle = document.querySelector('.post-title-haojen');
+        scrollCheck(toc,'toc-fixed',introHeader+40+64);
+        // scrollCheck(navbar,'is-fixed');
+        // scrollCheck(postTitle,'post-title-fixed',introHeader-60);
+    // }
+})();
+</script>
+
             
-
-
             <section id="main"><article id="post-gson-summary" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -492,8 +532,9 @@
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/accumulation/">accumulation</a>
+        <a class="tag-link" href="/tags/gson/">gson</a>
     </div>
+
 
                         <div style="color:#cba11f;float:right">2 min read , Words: 288</div>                    </div>
                 
@@ -660,7 +701,7 @@
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/06/08/gson-summary/" data-id="cj9qryk8l001k2zfygmi9s7kx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/06/08/gson-summary/" data-id="cjac5syfu0012w6fycckjdw4t" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -840,7 +881,7 @@ gitment.render('comments')
                             <a href="/2017/08/17/IntervieweeQuestions/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg)" alt="Activity面试题积累" class="thumbnail-image"></span>
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg)" alt="Android面试题积累" class="thumbnail-image"></span>
     
 </a>
 
@@ -848,7 +889,7 @@ gitment.render('comments')
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2017/08/17/IntervieweeQuestions/" class="title">Activity面试题积累</a></p>
+                            <p class="item-title"><a href="/2017/08/17/IntervieweeQuestions/" class="title">Android面试题积累</a></p>
                             <p class="item-date"><time datetime="2017-08-16T16:00:00.000Z" itemprop="datePublished">2017-08-17</time></p>
                         </div>
                     </li>
@@ -900,7 +941,7 @@ gitment.render('comments')
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">38</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">7</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">40</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -919,7 +960,7 @@ gitment.render('comments')
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/aidl/">AIDL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ams/">AMS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aosp/">AOSP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-framework/">Android Framework</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-jni/">Android JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-patch-update/">Android Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-design-pattern/">Android design pattern</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/annotation/">Annotation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hook/">HOOK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/">HTTPS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/injection/">Injection</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview-knowledge/">Interview Knowledge</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pboc/">PBOC</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/timertask/">TimerTask</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/accumulation/">accumulation</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/multi-process/">multi-process</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-server/">svn server</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/technology/">technology</a><span class="tag-list-count">4</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/aes/">AES</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aidl/">AIDL</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ams/">AMS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">ANDROID</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aosp/">AOSP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-framework/">Android Framework</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-system-service/">Android system service</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/annotation/">Annotation</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/binder/">Binder</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eit/">EIT</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ejs/">EJS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gcm/">GCM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hook/">HOOK</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/">HTTPS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/handlerthread/">HandlerThread</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">Hexo</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo-structure/">Hexo structure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/im-company/">IM Company</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/injection/">Injection</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/interview-knowledge/">Interview Knowledge</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jni/">JNI</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">Java</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/locationlistener/">LocationListener</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/looper/">Looper</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/object-oriented/">Object-oriented</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/open-souces/">Open souces</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pboc/">PBOC</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pboc-2-0/">PBOC 2.0</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/patch-update/">Patch Update</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxandroid/">RxAndroid</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rxjava/">RxJava</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/singleton/">Singleton</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/threadlocal/">ThreadLocal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/timertask/">TimerTask</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-source-code/">android source code</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/assertion/">assertion</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/azure/">azure</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/byte/">byte[]</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/exitapplication/">exitApplication</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/genericity/">genericity</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/google-map/">google map</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gradle/">gradle</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gson/">gson</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/handler/">handler</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iterm/">iterm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/multi-process/">multi-process</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/multi-thread/">multi-thread</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/new-features/">new features</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/notification/">notification</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/publickey/">publickey</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qiniu/">qiniu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/read/">read</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading/">reading</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/remove-admob/">remove admob</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scp/">scp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sdk-compile/">sdk compile</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn-server/">svn server</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/third-party-signin/">third-party signin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webview/">webview</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -928,7 +969,7 @@ gitment.render('comments')
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/aidl/" style="font-size: 12.5px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/aosp/" style="font-size: 10px;">AOSP</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-jni/" style="font-size: 15px;">Android JNI</a> <a href="/tags/android-patch-update/" style="font-size: 10px;">Android Patch Update</a> <a href="/tags/android-design-pattern/" style="font-size: 10px;">Android design pattern</a> <a href="/tags/annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/injection/" style="font-size: 10px;">Injection</a> <a href="/tags/interview-knowledge/" style="font-size: 10px;">Interview Knowledge</a> <a href="/tags/pboc/" style="font-size: 12.5px;">PBOC</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/threadlocal/" style="font-size: 10px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/accumulation/" style="font-size: 20px;">accumulation</a> <a href="/tags/gradle/" style="font-size: 12.5px;">gradle</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/read/" style="font-size: 12.5px;">read</a> <a href="/tags/svn-server/" style="font-size: 12.5px;">svn server</a> <a href="/tags/technology/" style="font-size: 17.5px;">technology</a>
+            <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/aidl/" style="font-size: 12.5px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/aosp/" style="font-size: 12.5px;">AOSP</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 10px;">Annotation</a> <a href="/tags/binder/" style="font-size: 17.5px;">Binder</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 15px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/injection/" style="font-size: 10px;">Injection</a> <a href="/tags/interview-knowledge/" style="font-size: 15px;">Interview Knowledge</a> <a href="/tags/jni/" style="font-size: 15px;">JNI</a> <a href="/tags/java/" style="font-size: 17.5px;">Java</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 10px;">Looper</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 12.5px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 12.5px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/threadlocal/" style="font-size: 12.5px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 10px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 12.5px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 12.5px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 12.5px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
         </div>
     </div>
 

@@ -2,7 +2,9 @@
 layout: post
 title:  Android 增量更新整理
 category: accumulation
-tags: Android Patch Update
+tags:
+  - ANDROID
+  - Patch Update
 keywords: Android Patch Update
 banner: http://obxk8w81b.bkt.clouddn.com/A%20Girl%20in%20the%20Street,%20Two%20Coaches%20in%20the%20Background.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/A%20Girl%20in%20the%20Street,%20Two%20Coaches%20in%20the%20Background.jpg

@@ -1,8 +1,10 @@
 ---
 layout: post
 title: 《android开发艺术探索》读书笔记
-category: read
-tags: read
+category: accumulation
+tags:
+  - reading
+  - ANDROID
 keywords: 《android开发艺术探索》,读书笔记
 banner: http://obxk8w81b.bkt.clouddn.com/Auvers%20Town%20Hall%20on%2014%20July%201890.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Auvers%20Town%20Hall%20on%2014%20July%201890.jpg

@@ -2,7 +2,9 @@
 layout: post
 title:  解决Android多进程导致Application重复创建问题
 category: accumulation
-tags: multi-process
+tags:
+  - ANDROID
+  - multi-process
 keywords: multi-process
 banner: http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg

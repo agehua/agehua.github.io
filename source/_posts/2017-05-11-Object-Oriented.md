@@ -2,7 +2,10 @@
 layout: post
 title:  Android架构师积累
 category: accumulation
-tags: Android Framework
+tags:
+  - Android Framework
+  - EIT
+  - Object-oriented
 keywords: EIT, Object-oriented, Framework
 banner: http://obxk8w81b.bkt.clouddn.com/Beach%20at%20Scheveningen%20in%20Calm%20Weather.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Beach%20at%20Scheveningen%20in%20Calm%20Weather.jpg

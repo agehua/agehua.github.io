@@ -2,7 +2,9 @@
 layout: post
 title:  使用JNI获取publickey实现
 category: technology
-tags: Android JNI
+tags:
+  - JNI
+  - publickey
 keywords: JNI, publickey
 banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Branch%20in%20a%20Glass%20with%20a%20Book.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Branch%20in%20a%20Glass%20with%20a%20Book.jpg

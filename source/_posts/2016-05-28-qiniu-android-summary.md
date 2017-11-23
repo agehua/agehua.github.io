@@ -2,7 +2,9 @@
 layout: post
 title: 七牛android使用总结
 category: technology
-tags: technology
+tags:
+  - ANDROID
+  - qiniu
 keywords: qiniu, android
 description: 七牛android使用总结，包括list，delete，upload，download
 banner: http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg

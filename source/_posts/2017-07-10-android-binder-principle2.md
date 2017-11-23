@@ -2,7 +2,9 @@
 layout: post
 title:  Android Binder机制分析（二）
 category: accumulation
-tags: AIDL
+tags:
+  - AIDL
+  - Binder
 keywords: AIDL, Binder
 banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Branches.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Branches.jpg

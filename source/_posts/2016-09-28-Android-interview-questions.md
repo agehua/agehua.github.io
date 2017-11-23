@@ -2,7 +2,9 @@
 layout: post
 title:  Android面试知识点整理
 category: accumulation
-tags: accumulation
+tags:
+  - ANDROID
+  - Interview Knowledge
 keywords: Android,面试题
 banner: http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg

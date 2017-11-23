@@ -2,7 +2,8 @@
 layout: post
 title:  gradle 学习2——生成指定文件名的apk
 category: accumulation
-tags: gradle
+tags:
+  - gradle
 keywords: Android,gradle
 banner: http://obxk8w81b.bkt.clouddn.com/Cart%20with%20Red%20and%20White%20Ox.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Cart%20with%20Red%20and%20White%20Ox.jpg
@@ -174,3 +175,12 @@ def releaseTime() {
 ~~~
 
 最后生成的apk名字
+
+### Mac下Android Studio中获取SHA1和MD5
+打开Android Studio中的Terminal，也可以直接打开系统的终端
+
+#### 获取debug.keystore的SHA1和MD5
+
+输入: **keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android**
+
+获取其他keystore的，如正式签名文件的，**keytool -list -v -keystore ~/User/你的用户名/debug.keystore -alias androiddebugkey -storepass android -keypass android** 需要把路径和密码改成相应的就可以了

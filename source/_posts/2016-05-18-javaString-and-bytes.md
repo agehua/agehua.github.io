@@ -2,7 +2,9 @@
 layout: post
 title: Java String与C/C++中byte[]
 category: accumulation
-tags: accumulation
+tags:
+  - Java
+  - byte[]
 keywords: Java String, bytes,coding
 description: Java String与C/C++中byte[]
 banner: http://obxk8w81b.bkt.clouddn.com/Bridge%20and%20Houses%20on%20the%20Corner%20of%20Herengracht-Prinsessegracht,%20The%20Hague.jpg

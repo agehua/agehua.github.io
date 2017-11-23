@@ -2,7 +2,9 @@
 layout: post
 title:  注解在Android中的应用
 category: accumulation
-tags: Annotation
+tags:
+  - Annotation
+  - ANDROID
 keywords: Annotation, apt, annotationProcessor
 banner: http://obxk8w81b.bkt.clouddn.com/Basket%20of%20Potatoes.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Basket%20of%20Potatoes.jpg

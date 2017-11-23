@@ -1,8 +1,11 @@
 ---
 layout: post
 title: java多线程和并发面试问答
-category: technology
-tags: accumulation
+category: accumulation
+tags:
+  - Java
+  - multi-thread
+  - Interview Knowledge
 keywords: java, 多线程, 并发
 description:
 banner: http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%203.jpg

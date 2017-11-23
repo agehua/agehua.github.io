@@ -2,7 +2,9 @@
 layout: post
 title: 近期总结facebook google+ Twitter sign-in fragment使用
 category: accumulation
-tags: accumulation
+tags:
+  - ANDROID
+  - third-party signin
 keywords: android, google map, fragments
 description: google map2.0使用总结
 banner: http://obxk8w81b.bkt.clouddn.com/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg

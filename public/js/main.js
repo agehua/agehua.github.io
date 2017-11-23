@@ -34,9 +34,11 @@
     // Profile card
     $(document).on('click', function () {
         $('#profile').removeClass('card');
+        document.getElementById("toc-col").style.display=""
     }).on('click', '#profile-anchor', function (e) {
-        e.stopPropagation();
+        document.getElementById("toc-col").style.display="none"
         $('#profile').toggleClass('card');
+        e.stopPropagation();
     }).on('click', '.profile-inner', function (e) {
         e.stopPropagation();
     });

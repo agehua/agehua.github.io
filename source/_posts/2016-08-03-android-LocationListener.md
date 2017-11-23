@@ -2,7 +2,9 @@
 layout: post
 title: Android手机定位服务
 category: technology
-tags: technology
+tags:
+  - ANDROID
+  - LocationListener
 keywords: LocationListener
 description: Android使用手机定位服务使用，GPS服务不可用则跳转到手机位置服务设置页面
 banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Acacia%20Branches.jpg

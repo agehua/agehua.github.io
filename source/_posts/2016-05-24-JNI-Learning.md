@@ -2,7 +2,9 @@
 layout: post
 title: android JNI学习① 基础知识
 category: accumulation
-tags: Android JNI
+tags:
+  - JNI
+  - AES
 keywords: jni, aes 加密
 description: android JNI学习，实现aes加密
 banner: http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg

@@ -2,7 +2,10 @@
 layout: post
 title:  ThreadLocal、HandlerThread、Looper区别
 category: accumulation
-tags: accumulation
+tags:
+  - ThreadLocal
+  - HandlerThread
+  - Looper
 keywords: ThreadLocal, HandlerThread, Looper
 banner: http://obxk8w81b.bkt.clouddn.com/A%20Lane%20in%20the%20Public%20Garden%20at%20Arles.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/A%20Lane%20in%20the%20Public%20Garden%20at%20Arles.jpg

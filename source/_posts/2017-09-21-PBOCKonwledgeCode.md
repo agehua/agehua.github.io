@@ -2,8 +2,10 @@
 layout: post
 title:  PBOC知识收集（干货）
 category: accumulation
-tags: PBOC
-keywords: pboc
+tags:
+    - PBOC
+    - PBOC 2.0
+keywords: pboc, pboc2.0
 banner: http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden.jpg
 toc: true
@@ -33,8 +35,10 @@ COS命令由具体应用分为4种命令报文结构如下：
 ④ 情形4：CLA INS P1 P2 Lc Data Le
 
 而消费交易初始化的具体命令如下：
-![](images/blogimages/2017/Initialize_for_purchase.png)
-![](images/blogimages/2017/Initialize_for_purchase_data.png)
+
+![](/images/blogimages/2017/Initialize_for_purchase.png)
+![](/images/blogimages/2017/Initialize_for_purchase_data.png)
+
 
 响应报文结构：
 ~~~ Java
@@ -47,7 +51,7 @@ SW1、SW2： 返回命令处理的状态。
 
 消费交易初始化执行成功，返回的响应报文，总长度是（Le 0F）15个字节：
 
-![](images/blogimages/2017/Initialize_for_purchase_responce.png)
+![](/images/blogimages/2017/Initialize_for_purchase_responce.png)
 
 > 一个字节是8bit，4个bit用一个16进制表示（0-9 A-F）。所以一个字节可以由两个16进制表示
 
@@ -75,7 +79,7 @@ P2=’00’表示无特殊限定符被使用。在IC卡上，VERIFY命令在处�
 当前的应用选择中，命令数据域中外部输入的个人识别码与卡中存放的个人识别码校验失败时，IC 卡将回送SW2=’Cx’，其中’x’表示个人识别码允许重试的次数;当卡回送’C0’时，表示不能重试个人识别 码。此时再使用VERIFY命令时，将回送失败状态字SW1 SW2=“6983”。
 
 IC卡可能回送的警告状态字见表48。
-![](images/blogimages/2017/pin_verify.png)
+![](/images/blogimages/2017/pin_verify.png)
 
 
 下面贴一些转换工具代码：

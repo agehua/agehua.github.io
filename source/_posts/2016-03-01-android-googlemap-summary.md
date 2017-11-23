@@ -1,8 +1,10 @@
 ---
 layout: post
 title: android Google map使用总结
-category: technology
-tags: accumulation
+category: accumulation
+tags:
+  - ANDROID
+  - google map
 keywords: android, google map
 description: google map2.0使用总结
 banner: http://obxk8w81b.bkt.clouddn.com/Chestnut%20Tree%20in%20Blossom.jpg

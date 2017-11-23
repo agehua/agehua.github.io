@@ -2,7 +2,9 @@
 layout: post
 title:  ANDROID设计模式之单例模式
 category: accumulation
-tags: Android design pattern
+tags:
+  - ANDROID
+  - Singleton
 keywords: 单例模式, ANDROID
 banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Tree.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Tree.jpg
