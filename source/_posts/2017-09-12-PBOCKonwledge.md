@@ -5,6 +5,7 @@ category: accumulation
 tags:
   - PBOC
   - PBOC 2.0
+  - Basic Knowledge
 keywords: pboc, pboc2.0
 banner: http://obxk8w81b.bkt.clouddn.com/Cottages%20in%20Saintes-Maries.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Cottages%20in%20Saintes-Maries.jpg
@@ -19,12 +20,13 @@ toc: true
 - 集成电路卡(IC 卡) integrated circuit(s) card (ICC) 内部封装一个或多个集成电路用于执行处理和存储功能的卡片。
 - 电子存折 electronic deposit 一种为持卡人进行消费、取现等交易而设计的支持个人识别码(PIN)保护的金融IC卡应用。它支持圈存、圈提、消费和取现等交易。
 - 电子钱包 electronic purse 一种为方便持卡人小额消费而设计的金融IC卡应用。它支持圈存、消费等交易。消费不支持个人识别码(PIN)保护。
+<!--more-->
 - 圈存 load
   持卡人将其在银行相应账户上的资金划转到电子存折或电子钱包中。圈存交易必须在金融终端上联机进行。
 一般情况下，圈存到电子存折中的资金仍计付活期利息，圈存到电子钱包中的资金不计付利息。但 具体作法由发卡方自行决定。
 - 圈提 unload
   持卡人将电子存折中的部分或全部资金划回到其在银行的相应账户上。圈提交易必须在金融终端上 联机进行2。
-<!--more-->
+
 ### 符号和缩略语
 下列符号和缩略语适用于 JR/T 0025 的本部分。
 - AID 应用标识符(Application Identifier)

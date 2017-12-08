@@ -11,7 +11,7 @@ thumbnail: http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg
 toc: true
 ---
 
-### 1Activity面试题
+### 1、Activity面试题
 
 1、Activity是什么
 Activity是四大组件之一，它提供一个界面让用户点击和各种滑动操作，这就是Activity
@@ -70,7 +70,7 @@ App可以通过跳转到另一个App页面
 </intent-filter>
 ~~~
 
-### 2Fragment面试题
+### 2、Fragment面试题
 
 1、Fragment为什么被称为第五大组件
 Fragment比Activity更节省内存，其切换模式也更加舒适，使用频率不低于四大组件，且有自己的生命周期，而且必须依附于Activity
@@ -121,7 +121,7 @@ add：添加Fragment到栈顶页面
 remove：移除Fragment栈顶页面
 
 
-### 3Service面试题
+### 3、Service面试题
 
 1、Service是什么
 Service是四大组件之一，它可以在后台执行长时间运行操作而没有用户界面的应用组件
@@ -146,7 +146,7 @@ onUnbind()
 onDestroy()
 
 
-### 4Broadcast Receiver面试题
+### 4、Broadcast Receiver面试题
 
 1、Broadcast Receiver是什么
 Broadcast是四大组件之一，是一种广泛运用在应用程序之间传输信息的机制，通过发送Intent来传送我们的数据
@@ -182,7 +182,7 @@ AMS查找符合相应条件的广播发送到BroadcastReceiver相应的循环队
 以上三点都是源于其内部是用Handler实现的
 
 
-### 5 WebView面试题
+### 5、WebView面试题
 
 1、WebView安全漏洞
 API16之前存在远程代码执行安全漏洞，该漏洞源于程序没有正确限制使用WebView.addJavascriptInterface方法，远程攻击者可通过使用Java反射机制利用该漏洞执行任意Java对象的方法
@@ -208,7 +208,7 @@ Android3.0引入硬件加速，默认会开启，WebView在硬件加速的情况
 动态添加WebView，对传入WebView中使用的Context使用弱引用
 
 
-### 6Binder面试题
+### 6、Binder面试题
 
 1、Linux内核的基本知识
 
@@ -259,7 +259,7 @@ Binder 机制为每个进程分配了 UID/PID 来作为鉴别身份的标示，�
 transact()方法会回调onTransact()方法，进行参数的解封
 在onTransact()方法中调用服务端对应的方法，并将结果返回
 
-### 7Handler面试题
+### 7、Handler面试题
 
 1、Handler是什么
 Handler通过发送和处理Message和Runnable对象来关联相对应线程的MessageQueue
@@ -279,7 +279,7 @@ Handler改为静态内部类
 Handler.removeCallback()
 
 
-### 8AsyncTask面试题
+### 8、AsyncTask面试题
 
 1、AsyncTask是什么
 它本质上就是一个封装了线程池和Handler的异步框架
@@ -318,7 +318,7 @@ AsyncTask在Android 2.3之前默认采用并行执行任务，AsyncTask在Androi
 如果需要在Android 2.3之后采用并行执行任务，可以调用AsyncTask的executeOnExecutor()
 
 
-### 9HandlerThread面试题
+### 9、HandlerThread面试题
 
 1、HandlerThread产生背景
 当系统有多个耗时任务需要执行时，每个任务都会开启一个新线程去执行耗时任务，这样会导致系统多次创建和销毁线程，从而影响性能。为了解决这一问题，Google提供了HandlerThread，HandlerThread是在线程中创建一个Looper循环器，让Looper轮询消息队列，当有耗时任务进入队列时，则不需要开启新线程，在原有的线程中执行耗时任务即可，否则线程阻塞
@@ -332,7 +332,7 @@ HandlerThread缺点是不能同时继续进行多任务处理，需要等待进�
 HandlerThread与线程池不同，HandlerThread是一个串行队列，背后只有一个线程。
 
 
-### 10IntentService面试题
+### 10、IntentService面试题
 
 1、IntentService是什么
 IntentService是继承自Service并处理异步请求的一个类，其内部采用HandlerThread和Handler实现的，在IntentService内有一个工作线程来处理耗时操作，其优先级比普通Service高。当任务完成后，IntentService会自动停止，而不需要手动调用stopSelf()。另外，可以多次启动IntentService，每个耗时操作都会以工作队列的方式在IntentService中 **onHandlerIntent()** 回调方法中执行，并且每次只会执行一个工作线程
@@ -342,13 +342,13 @@ IntentService是继承自Service并处理异步请求的一个类，其内部采
 覆写构造方法和onHandlerIntent()方法
 在onHandlerIntent()中执行耗时操作
 
-### 11视图工作机制面试题
+### 11、视图工作机制面试题
 
 [Android进阶——Android视图工作机制之measure、layout、draw](http://blog.csdn.net/qq_30379689/article/details/54588736)
 
 [Android事件分发机制之dispatchTouchEvent、onInterceptTouchEvent、onTouchEvent](http://blog.csdn.net/qq_30379689/article/details/53967177)
 
-### 12ListView面试题
+### 12、ListView面试题
 
 1、ListView是什么
 ListView是能将一个数据集合以动态滚动的方式展示到用户界面上的View
@@ -366,7 +366,7 @@ ListView是能将一个数据集合以动态滚动的方式展示到用户界面
 开启硬件加速
 
 
-### 13Android项目构建面试题
+### 13、Android项目构建面试题
 
 1、android构建流程
 
@@ -410,7 +410,7 @@ ProGuard工具是用于压缩、优化和混淆我们的代码，其主作用是
 由于Java是一门跨平台的解释性语言，其源代码被编译成class字节码来适应其他平台，而class文件包含了Java源代码信息，很容易被反编译
 
 
-### 14ANR面试题
+### 14、ANR面试题
 
 1、什么是ANR
 Application Not Responding，页面无响应的对话框
@@ -436,7 +436,7 @@ AsyncTask的回调除了doInBackground，其他都是在主线程中
 Activity的onCreate和onResume回调尽量避免耗时操作
 
 
-### 15 OOM面试题
+### 15、OOM面试题
 
 1、什么是OOM
 OOM指Out of memory（内存溢出），当前占用内存加上我们申请的内存资源超过了Dalvik虚拟机的最大内存限制就会抛出Out of memory异常
@@ -460,7 +460,7 @@ listview重用convertView、使用LruCache
 谨慎使用多进程
 
 
-### 16 Bitmap面试题
+### 16、Bitmap面试题
 
 1、recycle
 在安卓3.0以前Bitmap是存放在堆中的，我们只要回收堆内存即可
@@ -557,7 +557,7 @@ public static String save(Bitmap bitmap,Bitmap.CompressFormat format, int qualit
 本地缓存
 内存缓存
 
-### 17UI卡顿面试题
+### 17、UI卡顿面试题
 
 1、UI卡顿原理
 View的绘制帧数保持60fps是最佳，这要求每帧的绘制时间不超过16ms（1000/60），如果安卓不能在16ms内完成界面的渲染，那么就会出现卡顿现象
@@ -586,7 +586,7 @@ ListView优化
 避免ANR
 不要在UI线程中做耗时操作
 
-### 18 内存泄漏面试题
+### 18、内存泄漏面试题
 
 1、Java内存泄漏引起的主要原因
 长生命周期的对象持有短生命周期对象的引用就很可能发生内存泄漏
@@ -605,7 +605,7 @@ Handler造成的内存泄漏：使用static的Handler内部类，同时在实现
 AsyncTask造成的内存泄漏：由于非静态内部类持有匿名内部类的引用而造成内存泄漏，可以通过AsyncTask内部持有外部Activity的弱引用同时改为静态内部类或在onDestroy()中执行AsyncTask.cancel()进行修复
 
 
-### 19 内存管理面试题
+### 19、内存管理面试题
 
 1、Android内存管理机制
 分配机制
@@ -627,7 +627,7 @@ Service完成任务后应停止它，或用IntentService（因为可以自动停
 使用ZIP对齐的APK
 使用多进程
 
-### 20 冷启动和热启动面试题
+### 20、冷启动和热启动面试题
 
 1、什么是冷启动和热启动
 冷启动：在启动应用前，系统中没有该应用的任何进程信息
@@ -657,7 +657,7 @@ contentView的measure/layout/draw显示在界面上
 通过懒加载方式初始化第三方SDK
 
 
-### 21其他优化面试题
+### 21、其他优化面试题
 
 1、Android不用静态变量存储数据
 静态变量等数据由于进程已经被杀死而被初始化
@@ -673,7 +673,7 @@ Parcelable：是Android的序列化方式，且性能比Serializeble高，Parcel
 
 4、避免在UI线程中做繁重的操作
 
-### 22架构模式面试题
+### 22、架构模式面试题
 
 Android基础——框架模式MVC在安卓中的实践
 http://blog.csdn.net/qq_30379689/article/details/52909656
@@ -683,7 +683,7 @@ Android基础——框架模式MVVM之DataBinding的实践
 http://blog.csdn.net/qq_30379689/article/details/53037430
 
 
-### 23 插件化面试题
+### 23、插件化面试题
 
 1、插件化解决的问题
 动态加载APK（反射、类加载器）
@@ -695,7 +695,7 @@ DexClassLoader：能够加载未安装的jar/apk/dex，主要用于动态加载�
 PathClassLoader：只能加载系统中已经安装过的apk
 
 
-### 24 热更新面试题
+### 24、热更新面试题
 
 1、热更新主要流程
 线上检查到Crash
@@ -716,7 +716,7 @@ Tinker
 ClassLoader会遍历dexElements数组，找到最前面的dex文件优先加载
 
 
-### 25 进程保活面试题
+### 25、进程保活面试题
 
 1、进程的优先级
 空进程
@@ -736,7 +736,7 @@ OOM_ODJ：判别进程的优先级
 利用JobScheduler机制拉活
 利用账号同步机制拉活
 
-### 26 Lint面试题
+### 26、Lint面试题
 
 1、什么是Android Lint
 Android Lint是一个静态代码分析工具，它能够对你的Android项目中潜在的Bug、可优化的代码、安全性、性能、可用性、可访问性、国际化等进行检查
@@ -750,7 +750,7 @@ Android Lint是一个静态代码分析工具，它能够对你的Android项目�
 在xml文件中可以使用tool:ignore(“UnusedResources”)来忽视Lint的报错
 自定义Lint检查，可以创建类，继承Detector和实现JavaPsiScanner
 
-### 27 Kotlin面试题
+### 27、Kotlin面试题
 
 1、什么是Kotlin
 Kotlin是一种基于JVM的编程语言

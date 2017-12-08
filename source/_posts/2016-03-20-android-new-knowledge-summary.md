@@ -5,6 +5,7 @@ category: accumulation
 tags:
   - ANDROID
   - new features
+  - Basic Knowledge
 keywords: 新特性, 新知识点,总结
 banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg

@@ -22,7 +22,7 @@ Mac上创建磁盘空间，直接区分大小写
 ~~~ C++
 hdiutil resize -size 100g ~/android.dmg.sparseimage
 ~~~
-我编译的是7.1.1版本的系统源码，所以给了100G空间
+我编译的是7.1.1版本的系统源码，狠心之下给了100G空间
 
 
 ### Android Build系统

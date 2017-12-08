@@ -5,6 +5,7 @@ category: accumulation
 tags:
     - PBOC
     - PBOC 2.0
+    - Basic Knowledge
 keywords: pboc, pboc2.0
 banner: http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden.jpg
@@ -18,13 +19,14 @@ toc: true
 
 #### 发出初始化消费(INITIALIZE FOR PURCHASE)命令
 指令字节：
+
+<!--more-->
 ~~~ Java
       命令                         CLA  INS   P1   P2
 消费初始化(INITIALIZE FOR PURCHASE) ‘80’ ‘50’ ‘01’ ‘0X’
 ~~~
 > 上面的指令字节，其实就是APDU（Application Protocol data unit), 是智能卡与智能卡读卡器之间传送的信息单元
 
-<!--more-->
 APDU的格式为：**CLA    INS  P1  P2  Lc  Data  Le**
 其中CLA为指令类别；INS为指令码；P1、P2为参数；Lc为Data的长度；Le为希望响应时回答的数据字节数，0表最大可能长度。
 
@@ -81,7 +83,7 @@ P2=’00’表示无特殊限定符被使用。在IC卡上，VERIFY命令在处�
 IC卡可能回送的警告状态字见表48。
 ![](/images/blogimages/2017/pin_verify.png)
 
-
+### 工具代码
 下面贴一些转换工具代码：
 ~~~ Java
 /**
@@ -209,5 +211,74 @@ public static byte[] hexStringToByteArray(String s) {
  */
 public static byte[] intTo4HexByte(int num){
     return hexStringToByteArray(IntToHex(num));
+}
+~~~
+
+Hex字符串转换为GBK
+~~~ Java
+public static String decode(String hexStr) throws UnsupportedEncodingException {
+    if (null == hexStr || "".equals(hexStr) || (hexStr.length()) % 2 != 0) {
+        return null;
+    }
+
+    int byteLength = hexStr.length() / 2;
+    byte[] bytes = new byte[byteLength];
+
+    int temp = 0;
+    for (int i = 0; i < byteLength; i++) {
+        temp = hex2Dec(hexStr.charAt(2 * i)) * 16 + hex2Dec(hexStr.charAt(2 * i + 1));
+        bytes[i] = (byte) (temp < 128 ? temp : temp - 256);
+    }
+    return new String(bytes,"GBK");
+}
+
+private static int hex2Dec(char ch) {
+    if (ch == '0')
+        return 0;
+    if (ch == '1')
+        return 1;
+    if (ch == '2')
+        return 2;
+    if (ch == '3')
+        return 3;
+    if (ch == '4')
+        return 4;
+    if (ch == '5')
+        return 5;
+    if (ch == '6')
+        return 6;
+    if (ch == '7')
+        return 7;
+    if (ch == '8')
+        return 8;
+    if (ch == '9')
+        return 9;
+    if (ch == 'a')
+        return 10;
+    if (ch == 'A')
+        return 10;
+    if (ch == 'B')
+        return 11;
+    if (ch == 'b')
+        return 11;
+    if (ch == 'C')
+        return 12;
+    if (ch == 'c')
+        return 12;
+    if (ch == 'D')
+        return 13;
+    if (ch == 'd')
+        return 13;
+    if (ch == 'E')
+        return 14;
+    if (ch == 'e')
+        return 14;
+    if (ch == 'F')
+        return 15;
+    if (ch == 'f')
+        return 15;
+    else
+        return -1;
+
 }
 ~~~
