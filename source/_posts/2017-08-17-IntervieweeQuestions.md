@@ -25,6 +25,7 @@ killed
 3、Activity生命周期
 onCreate()
 onStart()
+<!--more-->
 onResume()
 onPause()
 onStop()
@@ -40,7 +41,7 @@ onRestart()
 
 5、Activity任务栈
 先进后出
-<!--more-->
+
 6、Activity启动模式
 standard
 singletop
