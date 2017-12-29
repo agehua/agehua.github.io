@@ -56,8 +56,7 @@ function umountAndroid() { hdiutil detach /Volumes/android; }
 装载 android 存储卷后，您将在其中开展所有工作。您可以像对待外接式存储盘一样将其弹出（卸载）。
 
 ### Android源码下载
-
-Mac上源码下载没有太大问题，主要参考下面两篇文章：
+Android源码的下载要使用到repo工具，这部分主要参考了下面两篇文章：
 [CSDN——自己动手编译最新Android源码及SDK](http://blog.csdn.net/dd864140130/article/details/51718187)
 [Source-Android——谷歌下载源代码](https://source.android.com/source/downloading)
 
@@ -72,7 +71,7 @@ PATH=~/bin:$PATH
 curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
 chmod a+x ~/bin/repo
 ~~~
-关于repo工具和AOSP项目的组织方式，感兴趣的看上面的那篇CSDN博客
+> 关于repo工具和AOSP项目的组织方式，感兴趣的看上面的那篇CSDN博客
 
 #### 创建源码目录
 
@@ -83,8 +82,6 @@ cd source
 ~~~
 
 #### 初始化仓库
-`建议使用最下面带-b参数的命令来初始化仓库`
-
 我们将上面的source文件夹作为仓库，现在需要来初始化这个仓库了。通过执行初始化仓库命令可以获取AOSP项目master上最新的代码并初始化该仓库，命令如下（需要特殊的翻墙技巧）:
 
 ~~~ JavaScript
@@ -123,8 +120,7 @@ repo sync
 代码下载完成以后，不着急编译，先了解下Android Build系统。
 
 Android Build 系统用来编译 Android 系统，Android SDK 以及相关文档。该系统主要由 Make 文件，Shell 脚本以及 Python 脚本组成，其中最主要的是 Make 文件。
-B
-uild 系统中最主要的处理逻辑都在 Make 文件中，而其他的脚本文件只是起到一些辅助作用。
+Build 系统中最主要的处理逻辑都在 Make 文件中，而其他的脚本文件只是起到一些辅助作用。
 整个 Build 系统中的 Make 文件可以分为三类：
 
 - 第一类是 Build 系统核心文件，此类文件定义了整个 Build 系统的框架，而其他所有 Make 文件都是在这个框架的基础上编写出来的。
@@ -186,7 +182,7 @@ Which would you like? [aosp_arm-eng]
 
 但是我的lunch并没有列出这个编译目标：
 
-所以这里不使用lunch选择，而是使用choosecombo命令,`记住也要先执行envsetup.sh脚本哟`：
+所以这里可以使用choosecombo命令,`记住也要先执行envsetup.sh脚本哟`：
 
 ~~~ C++
 choosecombo
@@ -214,14 +210,22 @@ Variant choices are:
 > make 的参数“-j”指定了同时编译的 Job 数量，这是个整数，该值通常是编译主机 CPU 支持的并发线程总数的 1 倍或 2 倍（例如：在一个 4 核，每个核支持两个线程的 CPU 上，可以使用 make -j8 或 make -j16）
 
 下面介绍几个常用到的命令：
-当电脑磁盘空间不够用时，用下面的命令，遍历大文件
-~~~ C++
-sudo ncdu //查看硬盘中的大文件
-~~~
 
 如果make失败，或是想换一个BUILD类型，使用下面的命令：
 ~~~ C++
 make clobber //清理out目录下的文件
+~~~
+
+**ncdu**，当电脑磁盘空间不够用时，用下面的命令，遍历大文件
+
+~~~ C++
+sudo ncdu //查看硬盘中的大文件
+~~~
+
+安装方式：
+
+~~~ C++
+brew install ncdu
 ~~~
 
 ### 调试Android源码：
@@ -276,15 +280,16 @@ make: *** [ninja_wrapper] Error 1
 
 #### 错误收集
 
-1.**make failed to build some targets**
-这个是说明需要增加Java heap size，具体参见[stackoverflow](https://stackoverflow.com/questions/34940793/increasing-heap-size-while-building-the-android-source-code-on-ubuntu-15-10)
+1.**Try increasing heap size with java option '-Xmx<size>'**
+
+这个是说明需要增加Java heap size，具体参见[stackoverflow](https://stackoverflow.com/questions/35579646/android-source-code-compile-error-try-increasing-heap-size-with-java-option)
 
 解决方法是：
 
 ~~~ C
-export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4096m"  
-out/host/linux-x86/bin/jack-admin kill-server  
-out/host/linux-x86/bin/jack-admin start-server 
+export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4g"
+./prebuilts/sdk/tools/jack-admin kill-server
+./prebuilts/sdk/tools/jack-admin start-server
 ~~~
 
 2.**failed to build aosp. says subcommand failed**

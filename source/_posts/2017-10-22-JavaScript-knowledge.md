@@ -13,7 +13,9 @@ toc: true
 
 ## JavaScript积累
 
-> 本文大部分内容来自: [廖雪峰--JavaScript教程](https://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000)
+> 'Java and JavaScript are similar like Car and Carpet are similar' - Greg Hewgill
+
+本文大部分内容来自: [廖雪峰--JavaScript教程](https://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000)
 
 ### for ... of循环介绍
 ES6引入了for ... of循环遍历集合，你可能会有疑问，for ... of循环和for ... in循环有何区别？
