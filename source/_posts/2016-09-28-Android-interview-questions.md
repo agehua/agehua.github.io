@@ -212,3 +212,51 @@ interface BookManager {
         StringBuffer/String、HashMap/ArrayMap/SparseArray
 
 性能调优参考这篇博客[Andoid应用开发性能优化完全分析](http://blog.csdn.net/yanbober/article/details/48394201)
+
+
+####  使用 DialogFragment 创建对话框
+使用DialogFragment至少需要实现onCreateView或者onCreateDIalog方法。onCreateView即使用定义的xml布局文件展示Dialog。onCreateDialog即利用AlertDialog或者Dialog创建出Dialog。
+> 注：官方不推荐直接使用Dialog创建对话框。
+
+没有布局的Fragment的作用
+没有布局文件Fragment实际上是为了保存，当Activity重启时，保存大量数据准备的
+
+~~~ Java
+import android.app.Fragment;
+import android.os.Bundle;
+
+/** 
+ * 保存对象的Fragment 
+ *  
+ * @author zhy 
+ *  
+ */  
+public class OtherRetainedFragment extends Fragment  
+{  
+  
+    // data object we want to retain  
+    // 保存一个异步的任务  
+    private MyAsyncTask data;  
+  
+    // this method is only called once for this fragment  
+    @Override  
+    public void onCreate(Bundle savedInstanceState)  
+    {  
+        super.onCreate(savedInstanceState);  
+        // retain this fragment  
+        setRetainInstance(true);  
+    }  
+  
+    public void setData(MyAsyncTask data)  
+    {  
+        this.data = data;  
+    }
+    
+    public MyAsyncTask getData()
+    {
+        return data;
+    }
+}
+~~~
+
+具体参考：[Android 屏幕旋转 处理 AsyncTask 和 ProgressDialog 的最佳方案](http://blog.csdn.net/lmj623565791/article/details/37936275)

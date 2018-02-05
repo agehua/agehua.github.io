@@ -332,6 +332,16 @@ HandlerThread优点是异步不会堵塞，减少对性能的消耗
 HandlerThread缺点是不能同时继续进行多任务处理，需要等待进行处理，处理效率较低
 HandlerThread与线程池不同，HandlerThread是一个串行队列，背后只有一个线程。
 
+### Looper、Handler、Message三者关系
+转载自[Android 异步消息处理机制 让你深入理解 Looper、Handler、Message三者关系](http://blog.csdn.net/lmj623565791/article/details/38377229)
+
+- 1、首先Looper.prepare()在本线程中保存一个Looper实例，然后该实例中保存一个MessageQueue对象；因为Looper.prepare()在一个线程中只能调用一次，所以MessageQueue在一个线程中只会存在一个。
+- 2、Looper.loop()会让当前线程进入一个无限循环，不端从MessageQueue的实例中读取消息，然后回调msg.target.dispatchMessage(msg)方法。
+- 3、Handler的构造方法，会首先得到当前线程中保存的Looper实例，进而与Looper实例中的MessageQueue想关联。
+- 4、Handler的sendMessage方法，会给msg的target赋值为handler自身，然后加入MessageQueue中。
+- 5、在构造Handler实例时，我们会重写handleMessage方法，也就是msg.target.dispatchMessage(msg)最终调用的方法。
+
+好了，总结完成，大家可能还会问，那么在Activity中，我们并没有显示的调用Looper.prepare()和Looper.loop()方法，为啥Handler可以成功创建呢，这是因为在Activity的启动代码中，已经在当前UI线程调用了Looper.prepare()和Looper.loop()方法。
 
 ### 10、IntentService面试题
 

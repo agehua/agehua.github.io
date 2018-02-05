@@ -11,8 +11,6 @@ thumbnail: http://obxk8w81b.bkt.clouddn.com/Basket%20of%20Potatoes.jpg
 toc: true
 ---
 
-## 注解在Android中的应用
-
 注解是Java语言的特性之一，它是在源代码中插入标签，这些标签在后面的编译或者运行过程中起到某种作用，每个注解都必须通过注解接口 @Interface 进行声明，接口的方法对应着注解的元素。
 
 在上一篇文章[Injection(CDI)和assertion(断言)](https://agehua.github.io/2017/03/14/Android-CDI/)中介绍了Java中的CDI（上下文依赖注入）规范，这个规范就是使用注解的方式。这篇文章主要介绍注解在Android中的应用。
@@ -56,10 +54,10 @@ Butterknife的Bind注解用到的就是元注解。
 
 元注解，顾名思义，就是用来定义和实现注解的注解，总共有如下五种：
 - @Retention, 用来指明注解的访问范围，也就是在什么级别保留注解，有三种选择：
-  - 源码级注解：使用@Retention(RetentionPolicy.SOURCE)修饰的注解，该类型修饰的注解信息只会保留在 .java源码里，源码经过编译后，注解信息会被丢弃，不会保留在编译好的 .class文件中。
-  - 编译时注解：使用@Retention(RetentionPolicy.CLASS)修饰的注解，该类型的注解信息会保留在 .java源码里和 .class文件里，在执行的时候会被Java虚拟机丢弃，不会加载到虚拟机中。
-  - 运行时注解：使用@Retention(RetentionPolicy.RUNTIME)修饰的注解，Java虚拟机在运行期间也保留注解信息，可以通过反射机制读取注解的信息
-  未指定类型时，默认是CLASS类型。
+  - **源码级注解**：使用@Retention(RetentionPolicy.SOURCE)修饰的注解，该类型修饰的注解信息只会保留在 .java源码里，源码经过编译后，注解信息会被丢弃，不会保留在编译好的 .class文件中。
+  - **编译时注解**：使用@Retention(RetentionPolicy.CLASS)修饰的注解，该类型的注解信息会保留在 .java源码里和 .class文件里，在执行的时候会被Java虚拟机丢弃，不会加载到虚拟机中。
+  - **运行时注解**：使用@Retention(RetentionPolicy.RUNTIME)修饰的注解，Java虚拟机在运行期间也保留注解信息，可以通过反射机制读取注解的信息
+  `未指定类型时，默认是CLASS类型。`
 - @Target, 这个注解的取值是一个ElementType类型的数组，用来指定注解所使用的对象范围，共有十种不同的类型，如下表所示，同时支持多种类型共存，可以进行灵活的组合。
 
 | 元素类型 |  适用于|
@@ -82,7 +80,9 @@ Butterknife的Bind注解用到的就是元注解。
 - @Repeatable, 表示这个注解可以在同一个项上面应用多次。不过这个注解是在Java 8中才引入的，前面四个元注解都是在Java 5中就已经引入。
 
 ### 运行时注解
-前面说过，要定义运行时注解只需要在声明注解时指定 @Retention(RetentionPolicy.RUNTIME)即可，运行时注解一般和反射机制配合使用。相比编译时注解性能比较低，但灵活性好，实现起来比较简单。
+前面说过，要定义运行时注解只需要在声明注解时指定 @Retention(RetentionPolicy.RUNTIME)即可，运行时注解一般和反射机制配合使用。
+
+熟悉java反射机制的同学一定对java.lang.reflect包非常熟悉，该包中的所有api都支持读取运行时Annotation的能力。相比编译时注解性能比较低，但灵活性好，实现起来比较简单。
 
 > Butterknife在较低版本依然是通过运行时反射实现View的注入，性能较低下，不过在8.0.0版本以后使用编译时注解来提升性能。
 
@@ -188,7 +188,9 @@ public class BaseActivity extends AppCompatActivity {
 
 ### 编译时注解
 
-编译时注解能够自动处理Java源文件并生成更多的源码、配置文件、脚本或其他可能想要生成的东西。这些操作是通过**注解处理器**完成的。Java通过在编译期间调用 javac -processor命令可以调起注解处理器，它能够实现编译时注解的功能，从而提高函数库的性能。
+编译时注解能够自动处理Java源文件并生成更多的源码、配置文件、脚本或其他可能想要生成的东西。这些操作是通过**注解处理器（Annotation Processor Tool）**完成的。Java通过在编译期间调用 javac -processor命令可以调起注解处理器，它能够实现编译时注解的功能。
+
+注解处理器其实是在javac开始编译之前，以java源码文件或编译后的class文件作为输入，然后输出另一些文件，可以是.java文件，也可以是.class文件，但通常我们输出的是.java文件，这些.java文件回合其他源码文件一起被javac编译，从而提高函数库的性能。
 
 #### 定义注解处理器
 自定义编译时注解后，需要编写Processor类实现注解处理器，处理自定义注解。Processor继承自AbstractProcessor类并实现process方法，同时需要指定注解处理器能够处理的注解类型以及支持的Java版本，语句如下：
@@ -351,16 +353,16 @@ public class ContentViewProcessor extends AbstractProcessor {
 
 当然，我们可以使用android-apt插件的方式。
 
-APT(Annotation Processing Tool)是一种处理注释的工具,它对源代码文件进行检测找出其中的Annotation，使用Annotation进行额外的处理。
-注解处理器在处理Annotation时可以根据源文件中的Annotation生成额外的源文件和其它的文件(文件具体内容由注解处理器的编写者决定),APT还会编译生成的源文件和原来的源文件，将它们一起生成class文件。
+android-apt是由一位开发者自己开发的apt框架，源代码托管在[这里](https://bitbucket.org/hvisser/android-apt)，随着Android Gradle 插件 2.2 版本的发布，Android Gradle 插件提供了名为 annotationProcessor 的功能来完全代替 android-apt ，自此android-apt 作者在官网发表声明最新的Android Gradle插件现在已经支持annotationProcessor，并警告和或阻止android-apt ，并推荐大家使用 Android 官方插件annotationProcessor。
 
-android-apt是在Android Studio中使用注解处理器的一个辅助插件，它的作用主要如下：
+但是很多项目目前还是使用android-apt，如果想替换为annotationProcessor，那就要知道android-apt是如何使用的。
 
+它的作用主要如下：
 - 只在编译期间引入注解处理器所在的函数库作为依赖，不会打包到最终生成的APK中。
 - 为注解处理器生成的源码设置好正确的路径，以便Android Studio能够正常找到，避免报错。
 
-#### Project项目中使用apt
-使用该插件，添加如下到你的构建脚本中：
+#### Project项目中使用android-apt插件
+- 1.使用该插件，添加如下到你的构建脚本中：
 ~~~ Java
 //配置在Project下的build.gradle中
 buildscript {
@@ -377,41 +379,33 @@ buildscript {
 apply plugin: 'com.neenbedankt.android-apt'
 ~~~
 
-接着以apt的方式引入注解处理器函数库作为依赖
+- 2.接着以apt的方式引入注解处理器函数库作为依赖
 ~~~ Java
 dependencies {
    apt'com.bluelinelabs:logansquare-compiler:1.3.6'
    compile 'com.bluelinelabs:logansquare:1.3.6'
 }
 ~~~
+> [LoganSquare](https://github.com/bluelinelabs/LoganSquare)是一个实现了编译时注解以提高性能的JSON解析函数库。
 
-[LoganSquare](https://github.com/bluelinelabs/LoganSquare)是一个实现了编译时注解以提高性能的JSON解析函数库。上面的compiler库就是LoganSquare的注解处理器。
+通常在使用的时候，项目依赖可能分为多个部分。上面的compiler库就有两个组件loganSquare-compiler和loganSquare。loganSquare-commpiler仅用于编译时，是loganSquare的注解处理器，运行时必需使用loganSquare。
 
-#### 在Module中使用apt
-在Module中build.gradle的配置
+基本使用就是上面这两点，想用annotationProcessor替代android-apt。删除和替换相应部分即可
 
-通常在使用的时候，使用apt声明注解用到的库文件。项目依赖可能分为多个部分。例如Dagger有两个组件Dagger-compiler和dagger。dagger-commpiler仅用于编译时，运行时必需使用dagger。
-~~~ Java
-//配置到Module下的build.gradle中
-apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
+#### Provided 和apt/annotationProcessor区别
 
-dependencies {
- apt 'com.squareup.dagger:dagger-compiler:1.1.0'
- compile 'com.squareup.dagger:dagger:1.1.0'
-}
-~~~
+provided vs apt使用注解处理器的不同？
 
-> provided vs apt使用注解处理器的不同？
-  provided 将会导入注解处理器的classes和它的依赖到IDE的类路径下。这意味着你可以附带的引入并使用这些classes。例如，当注解处理器使用Guava，你可能错误的import其相关代码到你的Android 代码中。当运行时将导致crash。
-  provided也可以用在重复引用的库上，避免依赖重复的资源。
-  而使用apt，注解处理器的classes将不会添加到你当前的类路径下，仅仅用于注解处理过程。并且会把所有注解处理器生成的source放在IDE的类路径下，方便Android Studio引用。
+- provided 将会导入注解处理器的classes和它的依赖到IDE的类路径下。这意味着你可以附带的引入并使用这些classes。例如，当注解处理器使用Guava，你可能错误的import其相关代码到你的Android 代码中。当运行时将导致crash。
+- provided也可以用在重复引用的库上，避免依赖重复的资源。
+- 使用apt，注解处理器的classes将不会添加到你当前的类路径下，仅仅用于注解处理过程。并且会把所有注解处理器生成的source放在IDE的类路径下，方便Android Studio引用。
 
+具体可以参考：[深入理解编译注解（三）依赖关系 apt/annotationProcessor与Provided的区别](http://blog.csdn.net/u011315960/article/details/64443910)
+
+### APT处理annotation的流程
 
 越来越多第三方库使用apt技术，如DBflow、Dagger2、ButterKnife、ActivityRouter、AptPreferences。在编译时根据Annotation生成了相关的代码，非常高大上但是也非常简单的技术，可以给开发带来了很大的便利。
 
-
-### APT处理annotation的流程
 **注解处理器（AbstractProcess）+代码处理（javaPoet）+处理器注册（AutoService）+apt**
 
 具体流程：
