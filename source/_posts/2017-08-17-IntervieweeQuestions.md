@@ -615,7 +615,6 @@ Handler造成的内存泄漏：使用static的Handler内部类，同时在实现
 资源未关闭造成的内存泄漏：比如Socket、Broadcast、Cursor、Bitmap、ListView等，使用完后要关闭
 AsyncTask造成的内存泄漏：由于非静态内部类持有匿名内部类的引用而造成内存泄漏，可以通过AsyncTask内部持有外部Activity的弱引用同时改为静态内部类或在onDestroy()中执行AsyncTask.cancel()进行修复
 
-
 ### 19、内存管理面试题
 
 1、Android内存管理机制

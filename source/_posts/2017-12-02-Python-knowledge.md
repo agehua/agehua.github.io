@@ -6,6 +6,8 @@ tags:
     - Basic Knowledge
     - Python
 keywords: Python
+banner: http://obxk8w81b.bkt.clouddn.com/Donkey%20and%20Cart.jpg
+thumbnail: http://obxk8w81b.bkt.clouddn.com/Donkey%20and%20Cart.jpg
 toc: true
 ---
 
