@@ -65,19 +65,19 @@ new DownloadTask().executeOnExecutor(exec);
 - 3、什么是main（UI）线程：android启动的第一个线程。主要负责处理ui和事件的工作。
 
     【特别注意】
-    - 1、更新ui只能在ui线程进行，不可以在其他线程更新ui，否则会崩溃。
+    - 1)、更新ui只能在ui线程进行，不可以在其他线程更新ui，否则会崩溃。
     **ActivityThread只是运行在UI线程，不等于UI线程。**
-    - 2、在ui线程不可以做耗时操作，比如网络请求等，如果做耗时操作，就会阻塞ui线程，就会导致界面卡顿。会出现ANR（application not response、应用无响应）。
+    - 2)、在ui线程不可以做耗时操作，比如网络请求等，如果做耗时操作，就会阻塞ui线程，就会导致界面卡顿。会出现ANR（application not response、应用无响应）。
 
 - 4、异步通讯：那么我们要请求网络或者其他耗时操作的时候怎么办？这就涉及到异步通讯或者叫线程通讯。 
     先在子线程加载数据，做耗时操作，然后把取得的数据传递给ui线程，让ui线程来更新ui。
 - 5、线程通讯的方式：
 
-    - **1、Handler**
+    - **1)、Handler**
 
     **在主线程中使用方法：**
-        - 1、在主线程实例化一个Hanlder，复写handleMessage()方法，在里面做更新ui的操作；
-        - 2、让子线程持有handler的引用，使用handler来发送消息。
+        - (1)、在主线程实例化一个Hanlder，复写handleMessage()方法，在里面做更新ui的操作；
+        - (2)、让子线程持有handler的引用，使用handler来发送消息。
             传递参数： 获取消息，请使用handler.obtainMessage();
             what:用来区分消息的类型
             obj：传递复杂参数 
@@ -86,14 +86,14 @@ new DownloadTask().executeOnExecutor(exec);
         ![图片来自：http://gityuan.com/android/](/images/blogimages/2018/handler_thread_commun.jpg)
 
     **Handler的原理：**
-        - 1、在主线线程新建一个handler，在子线程中调用这个Handler发送消息到消息队列，在发送的时候，message.target会保存发送它的Handler；
-        - 2、主线程只带一个looper循环，会不断的从消息队列中取出消息，如果没有消息，就阻塞，这里的阻塞并不会导致主线程，因为这里的阻塞底层采用的是Linux的pipe与epoll机制；
-        - 3、在主线程中调用message.target（发送他的Handler）的DispatchMessage，间接调用handlerMeaage来处理消息。
+        - (1)、在主线线程新建一个handler，在子线程中调用这个Handler发送消息到消息队列，在发送的时候，message.target会保存发送它的Handler；
+        - (2)、主线程只带一个looper循环，会不断的从消息队列中取出消息，如果没有消息，就阻塞，这里的阻塞并不会导致主线程，因为这里的阻塞底层采用的是Linux的pipe与epoll机制；
+        - (3)、在主线程中调用message.target（发送他的Handler）的DispatchMessage，间接调用handlerMeaage来处理消息。
 
     **在子线程中使用Handler：**
         因为使用Handler需要消息循环，子线程中没有消息循环，所以，这里有2中方法：
-        - 1、使用主线程的loop（getMainLooper()），然后在创建Handler的时候，把这个获取的主线程的loop传进去；但是，这种方法，子线程中的Handler还是在主线程处理消息。因为用的主线程的循环。
-        - 2、给子线程建立消息循环：
+        - (1)、使用主线程的loop（getMainLooper()），然后在创建Handler的时候，把这个获取的主线程的loop传进去；但是，这种方法，子线程中的Handler还是在主线程处理消息。因为用的主线程的循环。
+        - (2)、给子线程建立消息循环：
         先调用 Looper.prepare();建立消息循环，消息队列等。
         在建立了Handler之后，调用Looper.loop()，开始loop循环，如果不掉用，循环就不会开始运行，就不会处理消息。 
 
@@ -119,7 +119,7 @@ new DownloadTask().executeOnExecutor(exec);
         ~~~
 
     **Handler的其他使用**           
-        - 1、hander.post()方法可以直接把一个代码post到主线程执行；
+        - (1)、hander.post()方法可以直接把一个代码post到主线程执行；
 
         ~~~ Java
             handler.post(new Runnable() {
@@ -129,7 +129,7 @@ new DownloadTask().executeOnExecutor(exec);
                     }
                 });
         ~~~
-        - 2、activity的runOnUITHread（）；
+        - (2)、activity的runOnUITHread（）；
 
         ~~~ Java
             runOnUiThread(new Runnable() {
@@ -139,7 +139,7 @@ new DownloadTask().executeOnExecutor(exec);
                 }
             });
         ~~~
-        - 3、任何控件的Post方法（）；
+        - (3)、任何控件的Post方法（）；
 
         ~~~ Java
             tv.post(new Runnable() {
@@ -149,7 +149,7 @@ new DownloadTask().executeOnExecutor(exec);
                     }
             });
         ~~~
-        - 4、延时执行：
+        - (4)、延时执行：
 
         ~~~ Java
             handler.postDelayed(new Runnable() {
@@ -160,7 +160,7 @@ new DownloadTask().executeOnExecutor(exec);
                 },1000);
         ~~~
 
-    - **2、HandlerThread: 支持Handler的线程，内部实现了Loop循环**
+    - **2)、HandlerThread: 支持Handler的线程，内部实现了Loop循环**
 
         使用方法：
 
@@ -184,7 +184,7 @@ new DownloadTask().executeOnExecutor(exec);
             }
         ~~~
 
-    - **3、AsyncTask:异步任务**
+    - **3)、AsyncTask:异步任务**
     继承自AsyncTask，写一个自己的异步任务，注意，AsyncTask有3个泛型。
         从做到又分别是：参数的类型，进度的类型，返回结果的类型。
         execute()：执行这个异步任务，必须在主线程中调用
