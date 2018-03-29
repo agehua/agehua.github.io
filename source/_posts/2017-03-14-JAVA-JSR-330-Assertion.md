@@ -1,31 +1,31 @@
 ---
 layout: post
-title:  Injection(CDI)和assertion(断言)
+title:  JSR-330和assertion(断言)介绍
 category: accumulation
 tags:
-  - Injection
+  - Annotation
   - assertion
-keywords: Injection, assert
+keywords: Annotation, assert, JSR-330
 banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Acacia%20Branches.jpg
 thumbnail: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Acacia%20Branches.jpg
 toc: true
 ---
 
-### @Inject注解和CDI（上下文依赖注入）
-怎么让代码显得高大上呢，当然是多使用注解，那[Android Support Annotation](https://developer.android.com/reference/android/support/annotation/package-summary.html)使用完了，有没有更高端的呢？
+### @Inject注解和Android中的依赖注入框架
+怎么让代码显得高大上呢，当然是多使用注解，那[Android Support Annotation](https://developer.android.com/reference/android/support/annotation/package-summary.html)没新意了，有没有更高端的呢？
 
-这篇文章就简单介绍下Java中存在的注解。
+当然有了。**Java 依赖注入标准（JSR-330）规范**，主要应用在JavaEE中。在 javax.inject 包中提供了一个接口 Provider，和几个注解类型 @Scope、@Inject、@Named、@Qualifier
 
-CDI（Contexts and Dependency Injection 上下文依赖注入）
-[Java 依赖注入标准（JSR-330）](http://blog.csdn.net/DL88250/article/details/4838803)规范，在javax.inject包中提供了一个接口Provider，和几个注解类型@Scope、@Inject、@Named、@Qualifier
+关于JSR-330标准可以看这篇文章：[Java 依赖注入标准（JSR-330）](http://blog.csdn.net/DL88250/article/details/4838803)
 
+下面简单介绍下 javax.inject 中提供的注解类型。
+
+<!--more-->
 #### @Inject
 @Inject是javax.inject中提供的一个注解，可以不使用new关键字直接创建对象，怎么样，是不是很高端 :)
 
 ##### 在字段注解：
 用@Inject注解，字段不能是final的。可以拥有一个合法的名称
-
-<!--more-->
 
 doc文档原文：
 
@@ -137,9 +137,9 @@ public class StudentDAO implements IUserDAO{
     @Override  
     public int count() {  
         System.out.println("----StudentDAO----");  
-        return 0;  
-    }  
-}  
+        return 0;
+    }
+}
 ~~~
 
 #### @Provider
@@ -175,8 +175,6 @@ T	get()
 #### @Singleton
 使用该注解标记该类只创建一次，不能被继承。一般在类上用该注解。
 
-
-
 [doc原文](http://docs.oracle.com/javaee/6/api/javax/inject/Singleton.html):
 ~~~ Java
 @Scope
@@ -185,7 +183,6 @@ T	get()
 public @interface Singleton
 Identifies a type that the injector only instantiates once. Not inherited.
 ~~~
-
 
 #### @Scope
 注解 @Scope 用于标识作用域注解。一个作用域注解是被标识在包含一个可注入构造器的类上的，用于控制该类型的实例如何被注入器重用。缺省情况下，如果没有标识作用域注解，注入器将为每一次注入都创建（通过注入类型的构造器）新实例，并不重用已有实例。如果多个线程都能够访问一个作用域内的实例，该实例实现应该是线程安全的。作用域实现由注入器完成。

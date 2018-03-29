@@ -13,23 +13,67 @@ toc: true
 
 注解是Java语言的特性之一，它是在源代码中插入标签，这些标签在后面的编译或者运行过程中起到某种作用，每个注解都必须通过注解接口 @Interface 进行声明，接口的方法对应着注解的元素。
 
-在上一篇文章[Injection(CDI)和assertion(断言)](https://agehua.github.io/2017/03/14/Android-CDI/)中介绍了Java中的CDI（上下文依赖注入）规范，这个规范就是使用注解的方式。这篇文章主要介绍注解在Android中的应用。
+在上一篇文章[JSR-330和assertion(断言)介绍](https://agehua.github.io/2017/03/14/JAVA-JSR-330-Assertion/)中介绍了Java中的JSR-330 规范，这个规范就是使用注解的方式。
 
-先看看Android上著名的View注入框架Butterknife的Bind注解的源码：
+这篇文章主要介绍注解在Android中的应用。
+
+### Andorid中的应用
+JSR-330规范只发布了规范 API 源码，主要是面向依赖注入使用者，而对注入器实现、配置并未作详细要求。
+该规范主要配合依赖注入框架来使用。在Android中的依赖注入框架有 ButterKnife 和 Dagger2。下面简单分析 ButterKnife 的应用。
+
+<!--more-->
+关于依赖注入框架的好处，我理解 1.可以减少样板类代码，比如 Setter 方法。2.程序运行期间，可以将某种依赖关系动态注入到对象中，实现懒加载（需要的时候才会去加载）。
+
+#### ButterKnife
+ButterKnife从严格意义上讲不算是依赖注入框架，它只是专注于Android 系统的VIew注入框架，并不支持其他方面的注入。它可以减少大量 findViewById 以及 setOnClickListener 代码。
+
+ButterKnife用到了编译时注解，因为它需要依赖 android-apt 插件
+~~~ Java
+//project 的 build.gradle 
+dependencies {
+    ...
+    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+}
+
+//Module:app 的 build.gradle
+dependencies {
+    ...
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+}
+
+~~~
+
+关于 android-apt 插件后面会介绍。
+
+ButterKnife提供的注解有：
+- 绑定控件：@BindView
+- 绑定资源：@BindString、@BindArray、@BindBool、@BindColor、@BindDimen、@BindDrawable、@BindBitmap。
+- 绑定监听：@OnClick、@OnLongClick、@OnTextChanged、@OnTouch
+- 可选绑定：@Nullable
+
+> @Nullable用于@BindView或其他的注解操作符，如果找不到目标时，避免引发异常，例如：
+~~~ Java
+@Nullable
+@BindView(R.id.tv_title)
+TextView tvTitle;
+~~~
+
+#### ButterKnife原理解析
+前面提到ButterKnife使用的是编译时注解，先看看最常用的@BindView注解的源码：
 
 ~~~ Java
 @Retention (RetentionPolicy.Class)
 @Target (ElementType.FIELD)
-public @interface Bind {
-   /** View ID to which the field will be found. **/
-   int[] value();
+public @interface BindView {
+   int value();
 }
 ~~~
 @interface 声明会创建一个实际的Java接口，与其他任何接口一样，注解也会编译成.class文件。@Retention 和@Target 下面会介绍到。
+> 关于ButterKnife更多源码分析，请看这篇文：[butterknife 源码分析](https://blog.csdn.net/gdutxiaoxu/article/details/71512754)
 
 ### Java注解的分类
 
-<!--more-->
 Java API中默认定义的注解叫做标准注解。它们定义在java.lang、java.lang.annotation和javax.annotation包中。按照使用场景不同，可以分为如下三类：
 
 #### 编译相关注解
@@ -73,7 +117,7 @@ Butterknife的Bind注解用到的就是元注解。
 | TYPE_PARAMETER     |   类型参数 |
 | TYPE_USE     |   类型的用途 |
 
-  > 如果一个注解的定义没有使用@Target修饰，那么它可以用在除了TYPE_USE和TYPE_PARAMETER之外的其他类型声明中
+> 如果一个注解的定义没有使用@Target修饰，那么它可以用在除了TYPE_USE和TYPE_PARAMETER之外的其他类型声明中
 
 - @Inherited, 表示该注解可以被子类继承的。
 - @Documented, 表示被修饰的注解应该被包含在被注解项的文档中（例如用JavaDoc生成的文档）

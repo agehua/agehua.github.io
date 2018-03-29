@@ -692,6 +692,9 @@ http://blog.csdn.net/qq_30379689/article/details/52910567
 Android基础——框架模式MVVM之DataBinding的实践
 http://blog.csdn.net/qq_30379689/article/details/53037430
 
+Android App的设计架构：MVC,MVP,MVVM与架构经验谈
+https://www.tianmaying.com/tutorial/AndroidMVC
+
 
 ### 23、插件化面试题
 

@@ -203,3 +203,29 @@ public static void main(String[] args){
 ### 总结
 
 一般单例模式包含了5种写法，分别是饿汉、懒汉、双重校验锁、静态内部类和枚举。相信看完之后你对单例模式有了充分的理解了，根据不同的场景选择最你最喜欢的一种单例模式吧！
+
+
+关于synchronized关键字，推荐学习这篇文章：[Java基础笔记 – 线程同步问题 解决同步问题的方法 synchronized方法 同步代码块](http://www.itzhai.com/java-based-notebook-thread-synchronization-problem-solving-synchronization-problems-synchronized-block-synchronized-methods.html)
+
+
+使用synchronized关键字，该关键字修饰的方法叫做同步方法。
+
+Java中每个对象都有一个锁或者称为监视器，当访问某个对象的synchronized方法时，表示将**该对象上锁**，而不仅仅是为该方法上锁。
+
+这样如果一个对象的synchronized方法被某个线程执行时，其他线程无法访问该对象的任何synchronized方法（`但是可以调用其他非synchronized的方法`）。直至该synchronized方法执行完。
+
+静态的synchronized方法调用情况：
+当调用一个对象的静态synchronized方法时，它锁定的并不是synchronized方法所在的对象，而是synchronized方法所在对象对应的**Class对象**。这样，其他线程就不能调用**该类的其他静态synchronized方法**了，但是可以调用非静态的synchronized方法。
+
+结论：**执行静态synchronized方法锁方法所在对象，执行非静态synchronized方法锁方法所在对象对应的Class对象。**
+
+使用synchronized创建同步代码块：
+通过使用synchronized同步代码块，锁定一个**对象**，该对象作为可执行的标志从而达到同步的效果。
+
+synchronized方法和synchronized同步代码块的区别：
+synchronized同步代码块只是锁定了该代码块，代码块外面的代码还是可以被访问的。
+synchronized方法是粗粒度的并发控制，某一个时刻只能有一个线程执行该synchronized方法。
+synchronized同步代码块是细粒度的并发控制，只会将块中的代码同步，代码块之外的代码可以被其他线程同时访问。
+
+
+关于设计模式，CSDN上也有一个总结: [Android源码设计模式分析一期发布](https://blog.csdn.net/bboyfeiyu/article/details/44563871)
