@@ -16,7 +16,7 @@ toc: true
 
 “个人财富自由”，是这某个人再也不用为了满足生活必需而出售自己的时间了。
 
-快速入门不进绝对有可能，而且绝对必要
+快速入门不仅绝对有可能，而且绝对必要
 
 MAKE (Minimal Actionable Knowledge and Experience)最少必要入门知识
 
