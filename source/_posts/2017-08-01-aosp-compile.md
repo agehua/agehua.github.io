@@ -73,6 +73,8 @@ chmod a+x ~/bin/repo
 ~~~
 > 关于repo工具和AOSP项目的组织方式，感兴趣的看上面的那篇CSDN博客
 
+> curl是一个利用URL规则在命令行下工作的文件传输工具，可以说是一款很强大的http命令行工具。它支持文件的上传和下载，是综合传输工具，但按传统，习惯称curl为下载工具。
+
 #### 创建源码目录
 
 在上面创建好的磁盘映像里，创建一个目录，用来存放repo工具下载下来的代码。后面编译出的产物也都放在这里。
@@ -92,6 +94,13 @@ repo init -u https://android.googlesource.com/platform/manifest
 ~~~ JavaScript
 REPO_URL = 'https://gerrit-google.tuna.tsinghua.edu.cn/git-repo'
 ~~~
+
+---
+`注意:` 上面的地址已经不能用了，要使用下面的地址，具体详情参看：[Git Repo 镜像使用帮助](https://mirror.tuna.tsinghua.edu.cn/help/git-repo/)
+~~~ JavaScript
+REPO_URL = 'https://mirrors.tuna.tsinghua.edu.cn/git/git-repo/'
+~~~
+---
 
 然后在使用下面的命令初始化仓库：
 ~~~ JavaScript
@@ -206,8 +215,22 @@ Variant choices are:
 
 #### 编译
 
-选择好编译目标后，调用“make -j4”进行编译就可以了
+选择好编译目标后，调用“make -j*”进行编译就可以了.
+
+可以看到线程数为8.
 > make 的参数“-j”指定了同时编译的 Job 数量，这是个整数，该值通常是编译主机 CPU 支持的并发线程总数的 1 倍或 2 倍（例如：在一个 4 核，每个核支持两个线程的 CPU 上，可以使用 make -j8 或 make -j16）
+
+可以使用下面的命令查看本机CPU的内核数与线程数：
+
+~~~ C++
+$ sysctl machdep.cpu
+machdep.cpu.core_count: 2
+machdep.cpu.thread_count: 4
+machdep.cpu.tsc_ccc.numerator: 242
+machdep.cpu.tsc_ccc.denominator: 2
+~~~
+
+可以看到我的电脑线程数为4，所以我采用 `make -4`
 
 下面介绍几个常用到的命令：
 
@@ -278,7 +301,16 @@ make: *** [ninja_wrapper] Error 1
 
 到这里Android源码部分的内容就整理完了，下篇文章利用Android源码分析下**Activity的启动流程**。
 
-#### 错误收集
+#### ccache造成硬盘空间不足
+ccache 是一个是适用于 C 和 C++ 的编译器缓存，有助于提高编译速度。但是它本身是采用**牺牲空间换取编译速度**的方式。如果你设置了 ccache，而且经常使用 make clean，或者经常在不同的编译产品之间切换（比如choosecombo 或 lunch命令），会导致大量的硬盘存储空间被占用。
+
+默认情况下，ccache 的缓存将存储在 ~/.ccache 下。如果你用的是MAC 电脑编译的 AOSP，可以看下这个目录有多大 :(
+
+要想清理空间，直接删除 ~/.ccache 下的内容即可。
+
+具体介绍参考google：[设置 ccache](https://source.android.com/source/initializing#setting-up-ccache)
+
+### 错误收集
 
 1.**Try increasing heap size with java option '-Xmx<size>'**
 
