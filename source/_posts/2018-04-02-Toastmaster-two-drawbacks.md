@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 投马-我的两个缺点
+title: 投马-two drawbacks
 category: english
 tags:
     - toastmaster
