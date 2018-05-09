@@ -47,7 +47,7 @@ standard
 singletop
 singletask: 能够保证Activity A在栈中只有一个实例，这个栈也允许存在其他的实例.
 > 特别需要注意的是使用startActivityForResult方法的时候，根据startActivityForResult的api说明: if the activity you are launching uses the singleTask launch mode, it will not run in your task and thus you will immediately receive a cancel result
-意思就是使用startActivityForResult方法启动一个singleTask的Activity，该Activity不会启动，会收到一个RESULT_CANCELED结果
+意思就是使用startActivityForResult方法启动一个singleTask模式的Activity，该Activity不会在原来的任务栈中启动，因此会立即收到一个RESULT_CANCELED结果
 
 singleinstance: singleInstance要求activity的实例不仅只有一个，并且整个task中只有一个activity实例，而singleTask所在的栈中允许存在其他activity的实例。
 > singleInstance的activity也具有上面的特性，此外，activity设置了singleInstance，那么无论被启动的activity有没有设置singleInstance，都无法获取返回值
@@ -136,16 +136,28 @@ startService
 bindService
 
 4、Service生命周期
-startService
+startService：
 onCreate()
-onStartCommand()
+onStartCommand(Intent intent, int flags, int startId)
 onDestroy()
-bindService
+
+> 重点介绍下，onStartCommand()方法，先看下官方doc里的介绍：
+Added in API level 5
+Called by the system every time a client explicitly starts the service by calling startService(Intent), providing the arguments it supplied and a unique integer token representing the start request. Do not call this method directly.
+参数：
+intent: The Intent supplied to startService(Intent), as given. This may be null if the service is being restarted after its process has gone away, and it had previously returned anything except START_STICKY_COMPATIBILITY.
+flags: Additional data about this start request. Currently either 0, START_FLAG_REDELIVERY, or START_FLAG_RETRY.
+startId: A unique integer representing this specific request to start. Use with stopSelfResult(int).
+返回值：
+The return value indicates what semantics the system should use for the service's current started state. It may be one of the constants associated with the START_CONTINUATION_MASK bits.
+总结如下，onStartCommand()是当一个service调用startService()之后由系统调用的，开发者不用直接调用这个方法，但是可以重写这个方法。
+方法的返回值有四个int值，分别是：START_STICKY, START_NOT_STICKY, START_REDELIVER_INTENT, or START_STICKY_COMPATIBILITY.
+
+bindService：
 onCreate()
 onBind()
 onUnbind()
 onDestroy()
-
 
 ### 4、Broadcast Receiver面试题
 

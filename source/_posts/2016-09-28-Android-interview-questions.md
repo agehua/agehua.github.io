@@ -38,12 +38,47 @@ ViewGroup的dispatchTouchEvent方法中有一个标志位**FLAG_DISALLOW_INTERCE
 在onTouchEvent方法中，如果当前view设置了OnClickListener，那么它的onClick方法会被调用，所以OnClickListener的优先级最低。
 
 #### 3.AsyncTask的方法介绍
+- 1. onPreExecute()
+这个方法会在后台任务开始执行之间调用，用于进行一些界面上的初始化操作，比如显示一个进度条对话框等。
+
+- 2. doInBackground(Params...)
+这个方法中的所有代码都会在子线程中运行，我们应该在这里去处理所有的耗时任务。任务一旦完成就可以通过return语句来将任务的执行结果进行返回，如果AsyncTask的第三个泛型参数指定的是Void，就可以不返回任务执行结果。注意，在这个方法中是不可以进行UI操作的，如果需要更新UI元素，比如说反馈当前任务的执行进度，可以调用publishProgress(Progress...)方法来完成。
+
+- 3. onProgressUpdate(Progress...)
+当在后台任务中调用了publishProgress(Progress...)方法后，这个方法就很快会被调用，方法中携带的参数就是在后台任务中传递过来的。在这个方法中可以对UI进行操作，利用参数中的数值就可以对界面元素进行相应的更新。
+
+- 4. onPostExecute(Result)
+当后台任务执行完毕并通过return语句进行返回时，这个方法就很快会被调用。返回的数据会作为参数传递到此方法中，可以利用返回的数据来进行一些UI操作，比如说提醒任务执行的结果，以及关闭掉进度条对话框等。
 
 #### 4.项目中Handler怎么使用？
 
 #### 5.项目中图片的适配问题怎么解决？
 
+- dpi 
+每英寸点数，全称dots per inch。用来表示屏幕密度，即屏幕物理区域中的像素量。高密度屏幕比低密度屏幕在给定物理区域的像素要多。
+- dp 
+即dip，全称device independent pixel。设备独立像素，是一种虚拟像素单位，用于以密度无关方式表示布局维度或位置，以确保在不同密度的屏幕上正常显示UI。在160dpi的设备上，1dp=1px。
+- density 
+设备的逻辑密度，是dip的缩放因子。以160dpi的屏幕为基线，density=dpi/160。
+    ~~~ Java
+    getResources().getDisplayMetrics().density
+    ~~~
+- sp 
+缩放独立像素，全称scale independent pixel。类似于dp，一般用于设置字体大小，可以根据用户设置的字体大小偏好来缩放。
+
+总结一下图片查找过程：优先匹配最适合的图片→查找密度高的目录（升序）→查找密度低的目录（降序)
+
+也可以使用.9图片
+
 #### 6.Android存储敏感信息的方式有？
+使用SharedPreferences, getSharedPreferences 指定为 MODE_PRIVATE
+运用SQLite数据库
+保存到 SDCard: FileOutputStream fos = this.openFileOutput("oauth_1.out",Context.MODE_WORLD_READABLE); 
+Keystore 也可以保存密钥
+写入SO 文件
+结合 ContentProvider 来保存信息
+上传到服务器由服务器保存
+采用多进程，放在单独的进程中保存
 
 #### 7.自定义广播
 - 继承自BroadcastReceiver
@@ -60,12 +95,14 @@ ViewGroup的dispatchTouchEvent方法中有一个标志位**FLAG_DISALLOW_INTERCE
 #### 9.Sqlite数据库更新并保留升级前的数据
 我们知道在SQLiteOpenHelper的构造方法:
 
-    super(Context context, String name, SQLiteDatabase.CursorFactory factory, int version)
-
+~~~ Java
+super(Context context, String name, SQLiteDatabase.CursorFactory factory, int version)
+~~~
 中最后一个参数表示数据库的版本号.当新的版本号大于当前的version时会调用方法:
 
-    onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-
+~~~ Java
+onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+~~~
 所以我们的重点是在该方法中实现SQLite数据库版本升级的管理
 
 对于保留升级前的数据，有两种解决办法：
@@ -221,6 +258,12 @@ interface BookManager {
 没有布局的Fragment的作用
 没有布局文件Fragment实际上是为了保存，当Activity重启时，保存大量数据准备的
 
+在运行时配置发生变化时，在Fragment中保存有状态的对象
+a) 继承Fragment，声明引用指向你的有状态的对象
+b) 当Fragment创建时调用setRetainInstance(boolean)
+c) 把Fragment实例添加到Activity中
+d) 当Activity重新启动后，使用FragmentManager对Fragment进行恢复
+
 ~~~ Java
 import android.app.Fragment;
 import android.os.Bundle;
@@ -258,5 +301,6 @@ public class OtherRetainedFragment extends Fragment
     }
 }
 ~~~
+
 
 具体参考：[Android 屏幕旋转 处理 AsyncTask 和 ProgressDialog 的最佳方案](http://blog.csdn.net/lmj623565791/article/details/37936275)
