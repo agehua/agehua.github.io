@@ -230,7 +230,9 @@ machdep.cpu.tsc_ccc.numerator: 242
 machdep.cpu.tsc_ccc.denominator: 2
 ~~~
 
-可以看到我的电脑线程数为4，所以我采用 `make -4`
+可以看到我的电脑线程数为4，所以我采用 `make -8`
+
+编译成功后，使用 `emulator` 命令就可以运行编译出来的模拟器啦。
 
 下面介绍几个常用到的命令：
 

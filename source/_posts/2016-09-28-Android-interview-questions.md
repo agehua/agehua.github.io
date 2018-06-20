@@ -29,6 +29,8 @@ thumbnail: http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%2
 ViewGroup的dispatchTouchEvent方法中有一个标志位**FLAG_DISALLOW_INTERCEPT**，这个标志位就是通过**子view调用requestDisallowInterceptTouchEvent方法**来设置的，一旦设置为true，那么ViewGroup不会拦截该事件。
 - (8) 以上结论均可以在书中的源码解析部分得到解释。Window的实现类为PhoneWindow，获取Activity的contentView的方法
 
+dispatchTouchEvent()返回true，后续事件（ACTION_MOVE、ACTION_UP）会再传递，如果返回false，dispatchTouchEvent()就接收不到ACTION_UP、ACTION_MOVE。
+
 ~~~ Java
 ((ViewGroup)getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0);
 ~~~
