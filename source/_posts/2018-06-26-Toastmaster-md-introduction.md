@@ -5,12 +5,23 @@ category: english
 tags:
     - toastmaster
 keywords: 投马, toastmaster, markdown
-banner: http://obxk8w81b.bkt.clouddn.com/Enclosed%20Wheat%20Field%20with%20Peasant.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Enclosed%20Wheat%20Field%20with%20Peasant.jpg
 toc: true
 ---
-
-
+~~~
+                   .-' _..`.         
+                  /  .'_.'.'
+                 | .' (.)`.
+                 ;'   ,_   `.
+ .--.__________.'    ;  `.;-'
+|  ./               /
+|  |               / 
+`..'`-._  _____, ..'
+     / | |     | |\ \
+    / /| |     | | \ \
+   / / | |     | |  \ \
+  /_/  |_|     |_|   \_\     
+~~~
+<!--more-->
 Good afternoon, today I want to introduce a new file format. Before the introduction, I want to ask a question firest: do you have a habit of taking notes or writing blogs?  
 This format called markdown The file name of this format end up with md or markdown extension. I write my blog use this format. And it is useful and convenient.
 
