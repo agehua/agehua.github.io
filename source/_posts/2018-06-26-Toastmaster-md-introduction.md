@@ -22,7 +22,8 @@ toc: true
   /_/  |_|     |_|   \_\     
 ~~~
 <!--more-->
-Good afternoon, today I want to introduce a new file format. Before the introduction, I want to ask a question firest: do you have a habit of taking notes or writing blogs?  
+Good afternoon, today I want to introduce a new file format. Before the introduction, I want to ask a question firest: do you have a habit of taking notes or writing blogs? You may heard of Evernote or Jianshu. They all suppost this format to publish arcitles or notes. 
+
 This format called markdown The file name of this format end up with md or markdown extension. I write my blog use this format. And it is useful and convenient.
 
 First, what is the markdown?
@@ -33,7 +34,7 @@ Markdown’s syntax is comprised entirely of punctuation(标点符号) character
 Second, how does the markdown work?
 To write Markdown content, you only need a simple text eidtor which support txt extension. That is because it’s written in “plaintext”, which is exactly the sort of text you’re used to writing and seeing. Plaintext is just the regular alphabet, with a few familiar symbols, like pounds (#) and backticks (`).
 
-But if you want to see the formated content while you are writing, you need an editor which support markdown. But don't worry, there are many recommendations in zhihu.
+But if you want to see the formated content while you are writing, you need an editor which support markdown. But don't worry, there are many recommendations on the Internet.
 
 Third, why markdown is popular?
 Markdown is not a replacement for HTML, or even close to it. HTML is a publishing format; Markdown is a writing format. Thus, Markdown’s formatting syntax only addresses issues that can be conveyed in plain text. 

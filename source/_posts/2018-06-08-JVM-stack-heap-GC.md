@@ -3,7 +3,7 @@ layout: post
 title: Java的内存管理与垃圾回收
 category: Java
 tags:
-    - GC
+    - G
     - JVM
 keywords: memory-management, GC
 banner: http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg
@@ -103,4 +103,6 @@ JVM的垃圾回收是多种机制的混合。JVM会根据程序运行状况，�
 
 ### 总结
 以上是对JVM内存管理的一个概述。实际上，JVM拥有众多版本。不同版本实施的GC机制会有不小的差异。另一方面，Java本身并没有规定JVM的GC实施方式。GC依然是JVM发展的一个热点方向。我们可以预期JVM的GC机制在未来会发生许多变化。
+
+另外，也可以参考这篇文章：[一篇简单易懂的原理文章，让你把JVM玩弄与手掌之中](https://www.jianshu.com/p/63fe09fe1a60)
 
