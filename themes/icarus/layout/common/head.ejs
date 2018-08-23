@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html<%= config.language ? " lang=" + config.language.substring(0, 2) : ""%>>
+<head>
+    <meta name="google-site-verification" content="TYEtqE2Xc2ZonkJumwKut0-iq4RVbEc8o5Y8HpmZ-eo" />
+    <meta name="baidu-site-verification" content="8WKGBCPPKp" />
+    <meta charset="utf-8">
+    <%
+        function capitalize (str) { return str.charAt(0).toUpperCase() + str.substring(1).toLowerCase() }
+        var title = page.title;
+        if (is_archive()) {
+            title = capitalize(__('index.archive'));
+            if (is_month()) {
+                title += ': ' + page.year + '/' + page.month;
+            } else if (is_year()) {
+                title += ': ' + page.year;
+            }
+        } else if (is_category()) {
+            title = capitalize(__('index.category')) + ': ' + page.category;
+        } else if (is_tag()) {
+            title = capitalize(__('index.tag')) + ': ' + page.tag;
+        }
+    %>
+    <title><% if (title) { %><%= title %> | <% } %><%= config.title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <%- open_graph({
+        image:          thumbnail(page),
+        fb_app_id:      theme.miscellaneous.open_graph.fb_app_id,
+        fb_admins:      theme.miscellaneous.open_graph.fb_admins,
+        twitter_id:     theme.miscellaneous.open_graph.twitter_id,
+        google_plus:    theme.miscellaneous.open_graph.google_plus,
+    }) %>
+    <%- meta(page) %>
+
+    <% if (theme.customize && theme.customize.social_links && theme.customize.social_links.rss) { %>
+        <link rel="alternate" href="<%- theme.customize.social_links.rss %>" title="<%= config.title %>" type="application/atom+xml" />
+    <% } %>
+
+    <% if (theme.customize.favicon) { %>
+        <link rel="icon" href="<%- url_for(theme.customize.favicon) %>" />
+    <% } %>
+
+    <%- css('libs/font-awesome/css/font-awesome.min') %>
+    <%- css('libs/open-sans/styles') %>
+    <%- css('libs/source-code-pro/styles') %>
+
+    <%- css('css/style') %>
+
+    <%- js('libs/jquery/2.1.3/jquery.min') %>
+    <%- partial('plugin/scripts', { isHead: true }) %>
+
+
+    <link rel="icon" sizes="192x192" href="images/icon.png">
+    <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+    <!--text spacing-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+
+</head>

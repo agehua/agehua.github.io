@@ -1,0 +1,21 @@
+<% if (post.comments) { %>
+    <section id="comments" class="comments">
+    <% if (theme.comment.disqus) { %>
+        <%- partial('comment/disqus') %>
+    <% } else if (theme.comment.duoshuo) { %>
+        <%- partial('comment/duoshuo') %>
+    <% } else if (theme.comment.youyan) { %>
+        <%- partial('comment/youyan') %>
+    <% } else if (theme.comment.commentit) { %>
+        <%- partial('comment/commentit') %>
+    <% } else if (theme.comment.facebook) { %>
+      <%- partial('comment/facebook') %>
+    <% } else if (theme.comment.isso) { %>
+        <%- partial('comment/isso') %>
+    <% } else if (theme.comment.changyan && theme.comment.changyan.appid && theme.comment.changyan.conf) { %>
+        <%- partial('comment/changyan') %>
+    <% } else if (theme.comment.gitment) { %>
+        <%- partial('comment/gitment') %>
+    <% } %>
+  </section>
+<% } %>

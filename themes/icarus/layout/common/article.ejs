@@ -1,0 +1,156 @@
+<article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %>" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <% if (post.banner) { %>
+            <%- partial('post/banner') %>
+        <% } %>
+        <% if (post.link || post.title) { %>
+            <header class="article-header">
+                <%- partial('post/title', { class_name: 'article-title' }) %>
+                <% if (post.layout != 'page') { %>
+                    <div class="article-meta">
+                        <%- partial('post/date', { class_name: 'article-date', date_format: null }) %>
+                        <%- partial('post/category') %>
+                        <%- partial('post/tag') %>
+                        <div style="color:#cba11f;float:right"><%- post.readingTime.text -%> , Words: <%- post.readingTime.words -%></div>
+                    </div>
+                <% } %>
+            </header>
+        <% } %>
+        <%- partial('post/gallery') %>
+        <div class="article-entry" itemprop="articleBody">
+        <% if (index && post.excerpt) { %>
+            <p><%- post.excerpt %></p>
+            <p class="article-more-link">
+                <a href="<%- url_for(post.path) %>#more"><%= __('article.more') %></a>
+            </p>
+        <% } else { %>
+
+            <%- post.content %>
+
+            <% if (theme.donate) { %>
+  <!-- donate css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+         
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      _background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+<!-- Donate Module -->
+<div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      <%= theme.donate.text %>
+    </span>
+
+
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+
+  <div id="donate_guide" class="donate_bar center hidden" >
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
+        <a href="<%= theme.donate.wechat %>" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="<%= theme.donate.wechat %>" title="微信打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+        <a href="<%= theme.donate.alipay %>" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="<%= theme.donate.alipay %>" title="支付宝打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+      </div>
+      <div style="display:inline-block;">
+          &nbsp;
+          <span class="donate_txt">
+              <%= theme.donate.text %>
+          </span>
+      </div>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className='hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+
+            <% } %>
+        <% } %>
+        </div>
+
+        <footer class="article-footer">
+          <% if (!index && post.toc) { %>
+
+          <% } %>
+
+          <%- partial('share/index', { post: post }) %>
+          <%- partial('comment/counter', { post: post }) %>
+        </footer>
+
+    </div>
+    <% if (!index) { %>
+        <%- partial('post/nav') %>
+    <% } %>
+    <script>
+        pangu.spacingPage();
+    </script>
+
+<% if (!index) { %>
+    <%- partial('comment/index') %>
+<% } %>
+</article>
+
+
