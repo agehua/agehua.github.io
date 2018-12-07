@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="google-site-verification" content="TYEtqE2Xc2ZonkJumwKut0-iq4RVbEc8o5Y8HpmZ-eo" />
+    <meta name="baidu-site-verification" content="8WKGBCPPKp" />
+    <meta charset="utf-8">
+    
+    <title>Android录音相关方法介绍 | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="本文介绍Android开发录音功能中用到的相关API和音频数据编码解码的处理 录音基础知识常用音频格式：  WAV 格式：音质高 无损格式 体积较大 AAC（Advanced Audio Coding） 格式：相对于 mp3，AAC 格式的音质更佳，文件更小，有损压缩，一般苹果或者Android SDK4.1.2（API 16）及以上版本支持播放,性价比高 AMR 格式：压缩比比较大，但相对其他的">
+<meta name="keywords" content="AudioRecord, AAC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android录音相关方法介绍">
+<meta property="og:url" content="http://agehua.github.io/2018/12/06/Android-audio-introduction/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="本文介绍Android开发录音功能中用到的相关API和音频数据编码解码的处理 录音基础知识常用音频格式：  WAV 格式：音质高 无损格式 体积较大 AAC（Advanced Audio Coding） 格式：相对于 mp3，AAC 格式的音质更佳，文件更小，有损压缩，一般苹果或者Android SDK4.1.2（API 16）及以上版本支持播放,性价比高 AMR 格式：压缩比比较大，但相对其他的">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg">
+<meta property="og:updated_time" content="2018-12-07T02:57:04.098Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android录音相关方法介绍">
+<meta name="twitter:description" content="本文介绍Android开发录音功能中用到的相关API和音频数据编码解码的处理 录音基础知识常用音频格式：  WAV 格式：音质高 无损格式 体积较大 AAC（Advanced Audio Coding） 格式：相对于 mp3，AAC 格式的音质更佳，文件更小，有损压缩，一般苹果或者Android SDK4.1.2（API 16）及以上版本支持播放,性价比高 AMR 格式：压缩比比较大，但相对其他的">
+<meta name="twitter:image" content="http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+
+
+    <link rel="icon" sizes="192x192" href="images/icon.png">
+    <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+    <!--text spacing-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+
+</head>
+
+
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+
+                <a class="main-nav-link" href='javascript:(
+        /*
+         * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *      http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         */
+        function go() {
+
+
+        var songs = [
+                    "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
+                    "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
+                    "https://static.rocko.xyz/audio/Music-outside.mp3",
+                    "https://static.rocko.xyz/audio/Music-sunburst.mp3"
+        ];
+
+
+        function c() {
+            var e = document.createElement("link");
+            e.setAttribute("type", "text/css");
+            e.setAttribute("rel", "stylesheet");
+            e.setAttribute("href", f);
+            e.setAttribute("class", l);
+            document.body.appendChild(e)
+        }
+
+        function h() {
+            var e = document.getElementsByClassName(l);
+            for (var t = 0; t < e.length; t++) {
+                document.body.removeChild(e[t])
+            }
+        }
+
+        function p() {
+            var e = document.createElement("div");
+            e.setAttribute("class", a);
+            document.body.appendChild(e);
+            setTimeout(function() {
+                document.body.removeChild(e)
+            }, 100)
+        }
+
+        function d(e) {
+            return {
+                height : e.offsetHeight,
+                width : e.offsetWidth
+            }
+        }
+
+        function v(i) {
+            var s = d(i);
+            return s.height > e && s.height < n && s.width > t && s.width < r
+        }
+
+        function m(e) {
+            var t = e;
+            var n = 0;
+            while (!!t) {
+                n += t.offsetTop;
+                t = t.offsetParent
+            }
+            return n
+        }
+
+        function g() {
+            var e = document.documentElement;
+            if (!!window.innerWidth) {
+                return window.innerHeight
+            } else if (e && !isNaN(e.clientHeight)) {
+                return e.clientHeight
+            }
+            return 0
+        }
+
+        function y() {
+            if (window.pageYOffset) {
+                return window.pageYOffset
+            }
+            return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+        }
+
+        function E(e) {
+            var t = m(e);
+            return t >= w && t <= b + w
+        }
+
+        function S() {
+            var e = document.getElementById("audio_element_id");
+            if(e != null){
+                var index = parseInt(e.getAttribute("curSongIndex"));
+                if(index > songs.length - 2) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                e.setAttribute("curSongIndex", index);
+                N();
+            }
+
+            e.src = i;
+            e.play()
+        }
+
+        function x(e) {
+            e.className += " " + s + " " + o
+        }
+
+        function T(e) {
+            e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+        }
+
+        function N() {
+            var e = document.getElementsByClassName(s);
+            var t = new RegExp("\\b" + s + "\\b");
+            for (var n = 0; n < e.length; ) {
+                e[n].className = e[n].className.replace(t, "")
+            }
+        }
+
+        function initAudioEle() {
+            var e = document.getElementById("audio_element_id");
+            if(e === null){
+                e = document.createElement("audio");
+                e.setAttribute("class", l);
+                e.setAttribute("curSongIndex", 0);
+                e.id = "audio_element_id";
+                e.loop = false;
+                e.bgcolor = 0;
+                e.addEventListener("canplay", function() {
+                setTimeout(function() {
+                    x(k)
+                }, 500);
+                setTimeout(function() {
+                    N();
+                    p();
+                    for (var e = 0; e < O.length; e++) {
+                        T(O[e])
+                    }
+                }, 15500)
+            }, true);
+            e.addEventListener("ended", function() {
+                N();
+                h();
+                go();
+            }, true);
+            e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+            document.body.appendChild(e);
+            }
+        }
+
+        initAudioEle();
+        var e = 30;
+        var t = 30;
+        var n = 350;
+        var r = 350;
+
+        var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+        var i = songs[curSongIndex];
+
+        var s = "mw-harlem_shake_me";
+        var o = "im_first";
+        var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+        var a = "mw-strobe_light";
+
+        /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
+        var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+
+        var l = "mw_added_css";
+        var b = g();
+        var w = y();
+        var C = document.getElementsByTagName("*");
+        var k = null;
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                if (E(A)) {
+                    k = A;
+                    break
+                }
+            }
+        }
+        if (A === null) {
+            console.warn("Could not find a node of the right size. Please try a different page.");
+            return
+        }
+        c();
+        S();
+        var O = [];
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                O.push(A)
+            }
+        }
+        })()'>High一下</a>
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+
+
+        </div>
+    </div>
+
+
+    <div id="main-nav-mobile" class="header-sub header-inner">
+
+        <table class="menu outer">
+
+
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    
+</header>
+
+        <div class="outer">
+            
+                
+
+
+<aside id="profile">
+    <div class="inner profile-inner" id="profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
+            <h2 id="name">Conor Lee</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                62
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                76
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+
+        <a href="https://github.com/agehua" class="github-corner" aria-label="View source on Github">
+          <svg width="64" height="64" viewBox="0 0 250 250" style="fill:#cba11f; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+            <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+          </svg>
+        </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+<div id='toc-col' class="toc-col">
+    
+</div>
+</aside>
+
+<script type="text/javascript">
+/*
+    滚动函数
+    接收三个参数,
+        1 接收一个DOM对象
+        2 给目标对象切换class
+        3 触发的高度 (可选项,如果不指定高度,会将DOM的高度作为触发高度)
+*/
+function scrollCheck(scrollTarget, toggleClass, scrollHeight){
+    document.addEventListener('scroll',function(){
+    var currentTop = window.pageYOffset;
+        currentTop > (scrollHeight||scrollTarget.clientHeight)
+        ?scrollTarget.classList.add(toggleClass)
+        :scrollTarget.classList.remove(toggleClass)
+    })
+}
+
+(function(){
+      try {
+        document.getElementById("toc-wrap").style.width= document.getElementById("profile-inner").offsetWidth+ "px";
+        var introHeader = document.querySelector('.inner.profile-inner').offsetHeight;
+        var toc = document.querySelector('.toc-wrap');
+        scrollCheck(toc,'toc-fixed',introHeader+40+64);
+      }catch(err){
+
+      }
+        // var node = document.querySelector('.profile-inner');
+        // scrollCheck(node,'profile-inner-fixed',64);
+})();
+</script>
+
+            
+            <section id="main"><article id="post-Android-audio-introduction" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<img src="http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Android录音相关方法介绍
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/12/06/Android-audio-introduction/">
+            <time datetime="2018-12-05T16:00:00.000Z" itemprop="datePublished">2018-12-06</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/aac/">AAC</a>, <a class="tag-link" href="/tags/audiorecord/">AudioRecord</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">8 min read , Words: 1471</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+
+            <p><code>本文介绍Android开发录音功能中用到的相关API和音频数据编码解码的处理</code></p>
+<h3 id="录音基础知识"><a href="#录音基础知识" class="headerlink" title="录音基础知识"></a>录音基础知识</h3><p><strong>常用音频格式：</strong></p>
+<ul>
+<li>WAV 格式：音质高 无损格式 体积较大</li>
+<li>AAC（Advanced Audio Coding） 格式：相对于 mp3，AAC 格式的音质更佳，文件更小，有损压缩，一般苹果或者Android SDK4.1.2（API 16）及以上版本支持播放,性价比高</li>
+<li>AMR 格式：压缩比比较大，但相对其他的压缩格式质量比较差，多用于人声，通话录音<ul>
+<li>AMR分类:  AMR(AMR-NB): 语音带宽范围：300－3400Hz，8KHz抽样</li>
+</ul>
+</li>
+<li>mp3 格式：特点 使用广泛， 有损压缩，牺牲了12KHz到16KHz高音频的音质<a id="more"></a>
+</li>
+</ul>
+<p><strong>音频开发的具体内容</strong></p>
+<ul>
+<li>音频采集/播放</li>
+<li>音频算法处理（去噪、静音检测、回声消除、音效处理、功放/增强、混音/分离，等等）</li>
+<li>音频的编解码和格式转换</li>
+<li>音频传输协议的开发（SIP，A2DP、AVRCP，等等）</li>
+</ul>
+<h3 id="录音API-AudioRecord"><a href="#录音API-AudioRecord" class="headerlink" title="录音API: AudioRecord"></a>录音API: <a href="https://developer.android.com/reference/android/media/AudioRecord" target="_blank" rel="noopener">AudioRecord</a></h3><p>AudioRecord是相对MediaRecord更为底层的API，使用AudioRecord也可以很方便的完成录音功能。AudioRecord录音录制的是原始的PCM音频数据，可以使用<a href="https://developer.android.com/reference/android/media/AudioTrack" target="_blank" rel="noopener">AudioTrack</a>来播放PCM音频文件。</p>
+<p>先看下AudioRecord的构造函数，<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> audioSource ：录音源</span></span><br><span class="line"><span class="comment"> * 这里选择使用麦克风：MediaRecorder.AudioSource.MIC</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> sampleRateInHz： 采样率</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> channelConfig：声道数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> audioFormat： 采样位数.</span></span><br><span class="line"><span class="comment"> *   See &#123;<span class="doctag">@link</span> AudioFormat#ENCODING_PCM_8BIT&#125;, &#123;<span class="doctag">@link</span> AudioFormat#ENCODING_PCM_16BIT&#125;,</span></span><br><span class="line"><span class="comment"> *   and &#123;<span class="doctag">@link</span> AudioFormat#ENCODING_PCM_FLOAT&#125;.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> bufferSizeInBytes： 音频录制的缓冲区大小</span></span><br><span class="line"><span class="comment"> *   See &#123;<span class="doctag">@link</span> #getMinBufferSize(int, int, int)&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">AudioRecord(<span class="keyword">int</span> audioSource, <span class="keyword">int</span> sampleRateInHz, <span class="keyword">int</span> channelConfig, <span class="keyword">int</span> audioFormat, <span class="keyword">int</span> bufferSizeInBytes)</span><br></pre></td></tr></table></figure></p>
+<p>可以看到构造函数需要 5 个参数，最后一个参数bufferSizeInBytes，获取方式为：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> channelCount=<span class="number">2</span>;     <span class="comment">//音频采样通道，默认2通道</span></span><br><span class="line">bufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)*<span class="number">2</span>; <span class="comment">// 5.录音过程中音频缓冲空间大小 (码率)</span></span><br></pre></td></tr></table></figure></p>
+<p>初始化完成后，就可以开始录制：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//实例化AudioRecord</span></span><br><span class="line">mRecorder=<span class="keyword">new</span> AudioRecord(MediaRecorder.AudioSource.MIC,sampleRate,channelConfig,</span><br><span class="line">    audioFormat,bufferSize);</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> FileOutputStream fos; <span class="comment">//用于保存录音文件</span></span><br><span class="line"><span class="comment">//开始录制</span></span><br><span class="line">mRecorder.startRecording();</span><br><span class="line"><span class="keyword">byte</span>[] byteBuffer = <span class="keyword">new</span> <span class="keyword">byte</span>[bufferSize];</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (state == RecordState.RECORDING) &#123; <span class="comment">// //循环读取数据到buffer中，并保存buffer中的数据到文件中</span></span><br><span class="line">    <span class="keyword">int</span> end = audioRecord.read(byteBuffer, <span class="number">0</span>, byteBuffer.length);</span><br><span class="line">    notifyData(byteBuffer);</span><br><span class="line">    fos.write(byteBuffer, <span class="number">0</span>, end);</span><br><span class="line">    fos.flush();</span><br><span class="line">&#125;</span><br><span class="line">mRecorder.stop();<span class="comment">//暂停录制</span></span><br></pre></td></tr></table></figure></p>
+<p>更新 RecordState 状态就可以退出 while循环，结束录制<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 表示当前状态</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> RecordState &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 空闲状态</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    IDLE,</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 录音中</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    RECORDING,</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 暂停中</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    PAUSE,</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 正在停止</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    STOP,</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 录音流程结束（转换结束）</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    FINISH</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="计算合适码率"><a href="#计算合适码率" class="headerlink" title="计算合适码率"></a>计算合适码率</h3><p>不同的设备可以支持的采样率不同，根据采样率从大到小计算 bufferSize<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getValidBufferSize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> rate : <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">44100</span>, <span class="number">22050</span>, <span class="number">11025</span>, <span class="number">16000</span>, <span class="number">8000</span>&#125;) &#123;  <span class="comment">// add the rates you wish to check against</span></span><br><span class="line">        <span class="keyword">int</span> bufferSize = AudioRecord.getMinBufferSize(rate, AudioFormat.CHANNEL_CONFIGURATION_DEFAULT, AudioFormat.ENCODING_PCM_16BIT);</span><br><span class="line">        <span class="keyword">if</span> (bufferSize &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            audioRecord = <span class="keyword">new</span> AudioRecord(MediaRecorder.AudioSource.VOICE_COMMUNICATION, currentConfig.getSampleRate(),</span><br><span class="line">                    currentConfig.getChannelConfig(), currentConfig.getEncodingConfig(), bufferSize);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="根据码率计算已录制时间"><a href="#根据码率计算已录制时间" class="headerlink" title="根据码率计算已录制时间"></a>根据码率计算已录制时间</h3><p>Stack Overflow上有回答：<a href="https://stackoverflow.com/questions/15227087/calculate-elapsed-time-from-audiorecord" target="_blank" rel="noopener">Calculate elapsed time from AudioRecord</a><br>上面提到 AudioRecord的最后一个参数就是码率：</p>
+<p><strong>码率 = 采样频率 <em> 采样位数 </em> 声道个数</strong>； 例：采样频率44.1KHz，量化位数16bit，立体声(双声道)，<br>未压缩时的码率 = 44.1KHz <em> 16 </em> 2 = 1411.2Kbps = 176.4KBps，即每秒要录制的资源大小, 理论上码率和质量成正比<br>对应时间的计算方式应该是：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">已录制时长(单位是秒) = dataSize/(getEncoding()*getChannelCount()*<span class="number">44100</span>)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取当前录音的采样位宽 单位bit</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 采样位宽 0: error</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getEncoding</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (encodingConfig == AudioFormat.ENCODING_PCM_8BIT) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">8</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (encodingConfig == AudioFormat.ENCODING_PCM_16BIT) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">16</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 当前的声道数</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 声道数： 0：error</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getChannelCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (channelConfig == AudioFormat.CHANNEL_IN_MONO) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (channelConfig == AudioFormat.CHANNEL_IN_STEREO) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>按照上面的步骤，我们就能成功的录制PCM音频文件了，但是处于传输和存储方面的考虑，一般来说，我们是不会直接录制PCM音频文件的。而是在录制过程中就对音频数据进行编码为aac、mp3、wav等其他格式的音频文件</p>
+<p>关于录制pcm，mp3格式，详细可以看这篇文章：<a href="https://www.jianshu.com/p/c0222de2faed" target="_blank" rel="noopener">Android音频开发（1）：音频基础知识</a></p>
+<h3 id="AAC格式介绍"><a href="#AAC格式介绍" class="headerlink" title="AAC格式介绍"></a>AAC格式介绍</h3><p>AAC（高级音频编码技术 Advanced Audio Coding)，出现于1997年，是基于MPEG-2的音频编码技术。由Fraunhofer IIS、杜比、苹果、AT&amp;T、索尼等公司共同开发，以取代mp3格式。2000年，MPEG-4标准出台，AAC从新整合了其特性，故现又称MPEG-4 AAC，即m4a。</p>
+<p>作为一种高压缩比的音频压缩算法，AAC通常压缩比为18：1，也有资料说为20：1，远胜mp3，而音质由于采用多声道，和使用低复杂性的描述方式，使其比几乎所有的传统编码方式在同规格的情况下更胜一筹。不过直到2006年，使用这一格式储存音频的并不多，可以播放该格式的mp3播放器更是少之又少，目前所知仅有苹果iPod，而手机支持AAC的相对要多一些，此外电脑上很多音频播放软件都支持AAC格式，如苹果iTunes。<br>AAC所采用的运算法则</p>
+<p>AAC所采用的运算法则与MP3的运算法则有所不同，AAC通过结合其他的功能来提高编码效率。AAC的音频算法在压缩能力上远远超过了以前的一些压缩算法（比如MP3等）。它还同时支持多达48个音轨、15个低频音轨、更多种采样率和比特率、多种语言的兼容能力、更高的解码效率。号称「最大能容纳48通道的音轨，采样率达96 KHz，并且在320Kbps的数据速率下能为5.1声道音乐节目提供相当于ITU-R广播的品质」。</p>
+<p>总之，AAC可以在比MP3文件节省大约30%的储存空间与带宽的前提下提供更好的音质。但是在空间上和结构上AAC和mp3编码出来后的风格不太一样，喜欢与否属于仁者见仁智者见智的事情。</p>
+<h3 id="硬件编解码API-MediaCodec"><a href="#硬件编解码API-MediaCodec" class="headerlink" title="硬件编解码API: MediaCodec"></a>硬件编解码API: MediaCodec</h3><p><a href="https://developer.android.com/reference/android/media/MediaCodec" target="_blank" rel="noopener">MediaCodec</a> 是 Android 提供的可以访问底层解码和编码Media的组件，它是 Android 底层多媒体支持框架的一部分</p>
+<p>下图是Android官方提供的MediaCodec工作流程：</p>
+<p><img src="/images/blogimages/2018/android_audio_mediacodec.png" alt="Android MediaCodec"></p>
+<p>针对于上图，我们可以把InputBuffers和OutputBuffers简单的理解为它们共同组成了一个环形的传送带，传送带上铺满了空盒子。<br>编解码开始后，我们需要得到一个空盒子（dequeueInputBuffer），然后往空盒子中填充原料（需要被编/解码的音/视频数据），并且放回到传送带你取出时候的那个位置上面（queueInputBuffer）。<br>传送带经过处理器（Codec）后，盒子里面的原料被加工成了你所期望的东西（编解码后的数据），你就可以按照你放入原料时候的顺序，连带着盒子一起取出加工好的东西（dequeueOutputBuffer），并将取出来的东西贴标签（加数据头之类的非必须）和装箱（组合编码后的帧数据）操作，同样之后也要把盒子放回到原来的位置（releaseOutputBuffer）</p>
+<h4 id="初始化编码器实例"><a href="#初始化编码器实例" class="headerlink" title="初始化编码器实例"></a>初始化编码器实例</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initAudioEncoder</span><span class="params">(RecordConfig recordConfig)</span></span>&#123;</span><br><span class="line">    aBufferInfo = <span class="keyword">new</span> MediaCodec.BufferInfo();</span><br><span class="line">    audioQueue = <span class="keyword">new</span> LinkedBlockingQueue&lt;&gt;();</span><br><span class="line">    audioCodecInfo = selectCodec(AUDIO_MIME_TYPE);</span><br><span class="line">    <span class="keyword">if</span> (audioCodecInfo == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 取到前面录音时的相关配置</span></span><br><span class="line">    <span class="keyword">int</span> sampleRate = recordConfig.getSampleRate();</span><br><span class="line">    <span class="keyword">int</span> pcmFormat = recordConfig.getEncoding();</span><br><span class="line">    <span class="keyword">int</span> chanelCount = recordConfig.getChannelCount();</span><br><span class="line"></span><br><span class="line">    audioFormat = MediaFormat.createAudioFormat(AUDIO_MIME_TYPE, sampleRate, chanelCount);</span><br><span class="line">    audioFormat.setInteger(MediaFormat.KEY_AAC_PROFILE, MediaCodecInfo.CodecProfileLevel.AACObjectLC);</span><br><span class="line">    audioFormat.setInteger(MediaFormat.KEY_CHANNEL_MASK, AudioFormat.CHANNEL_IN_STEREO);<span class="comment">//CHANNEL_IN_STEREO 立体声</span></span><br><span class="line">    <span class="keyword">int</span> bitRate = sampleRate * pcmFormat * chanelCount;</span><br><span class="line">    audioFormat.setInteger(MediaFormat.KEY_BIT_RATE, bitRate);</span><br><span class="line">    audioFormat.setInteger(MediaFormat.KEY_CHANNEL_COUNT, chanelCount);</span><br><span class="line">    audioFormat.setInteger(MediaFormat.KEY_SAMPLE_RATE, sampleRate);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (aEncoder != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123; <span class="comment">// 创建音频编码器</span></span><br><span class="line">        aEncoder = MediaCodec.createEncoderByType(AUDIO_MIME_TYPE);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"初始化音频编码器失败"</span>, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> MediaCodecInfo <span class="title">selectCodec</span><span class="params">(String mimeType)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> numCodecs = MediaCodecList.getCodecCount();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numCodecs; i++) &#123;</span><br><span class="line">        MediaCodecInfo codecInfo = MediaCodecList.getCodecInfoAt(i);</span><br><span class="line">        <span class="keyword">if</span> (!codecInfo.isEncoder()) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        String[] types = codecInfo.getSupportedTypes();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; types.length; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (types[j].equalsIgnoreCase(mimeType)) &#123;</span><br><span class="line">                <span class="keyword">return</span> codecInfo;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="解码器开始工作"><a href="#解码器开始工作" class="headerlink" title="解码器开始工作"></a>解码器开始工作</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//之前的音频录制是直接循环读取，然后写入文件，这里需要做编码处理再写入文件</span></span><br><span class="line"><span class="comment">//这里的处理就是和之前传送带取盒子放原料的流程一样</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">startAudioEncode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    audioEncoderThread = <span class="keyword">new</span> Thread() &#123; <span class="comment">// 注意一般在子线程中循环处理</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            Log.d(TAG, <span class="string">" 编码线程 启动..."</span>);</span><br><span class="line">            presentationTimeUs = System.currentTimeMillis() * <span class="number">1000</span>;</span><br><span class="line">            aEncoderEnd = <span class="keyword">false</span>;</span><br><span class="line">            aEncoder.configure(audioFormat, <span class="keyword">null</span>, <span class="keyword">null</span>,</span><br><span class="line">                    MediaCodec.CONFIGURE_FLAG_ENCODE);</span><br><span class="line">            aEncoder.start();</span><br><span class="line">            <span class="keyword">while</span> (audioEncoderLoop &amp;&amp; !Thread.interrupted()) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="keyword">byte</span>[] data = audioQueue.take(); <span class="comment">// 从队列中取得数据，这个队列在下面有解释</span></span><br><span class="line">                    encodeAudioData(data);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (aEncoder != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">//停止音频编码器</span></span><br><span class="line">                aEncoder.stop();</span><br><span class="line">                <span class="comment">//释放音频编码器</span></span><br><span class="line">                aEncoder.release();</span><br><span class="line">                aEncoder = <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            audioQueue.clear();</span><br><span class="line">            Log.d(TAG, <span class="string">"= =lgd= ==Audio 编码线程 退出..."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    audioEncoderLoop = <span class="keyword">true</span>;</span><br><span class="line">    audioEncoderThread.start();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 从队列中取得数据，并编码为 AAC 格式</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> input</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">encodeAudioData</span><span class="params">(<span class="keyword">byte</span>[] input)</span></span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//拿到输入缓冲区,用于传送数据进行编码</span></span><br><span class="line">        ByteBuffer[] inputBuffers = aEncoder.getInputBuffers();</span><br><span class="line">        <span class="comment">//首先通过dequeueInputBuffer(long timeoutUs)请求一个输入缓存，timeoutUs代表等待时间，设置为-1代表无限等待</span></span><br><span class="line">        <span class="keyword">int</span> inputBufferIndex = aEncoder.dequeueInputBuffer(-<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (inputBufferIndex &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            ByteBuffer inputBuffer = inputBuffers[inputBufferIndex];</span><br><span class="line">            <span class="comment">//使用之前要clear一下，避免之前的缓存数据影响当前数据</span></span><br><span class="line">            inputBuffer.clear();</span><br><span class="line">            <span class="comment">//把数据添加到输入缓存中，</span></span><br><span class="line">            inputBuffer.put(input);</span><br><span class="line">            <span class="comment">//并调用queueInputBuffer()把缓存数据入队</span></span><br><span class="line">            aEncoder.queueInputBuffer(inputBufferIndex, <span class="number">0</span>, input.length, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//拿到输出缓冲区,用于取到编码后的数据</span></span><br><span class="line">        ByteBuffer[] outputBuffers = aEncoder.getOutputBuffers();</span><br><span class="line">        <span class="comment">//拿到输出缓冲区的索引</span></span><br><span class="line">        <span class="keyword">int</span> outputBufferIndex = aEncoder.dequeueOutputBuffer(aBufferInfo, TIMEOUT_USEC);</span><br><span class="line"></span><br><span class="line">        ByteBuffer outputBuffer;</span><br><span class="line">        <span class="keyword">int</span> outBitSize;</span><br><span class="line">        <span class="keyword">int</span> outPacketSize;</span><br><span class="line">        <span class="keyword">byte</span>[] chunkAudio;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (outputBufferIndex &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            outBitSize = aBufferInfo.size;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//添加ADTS头,ADTS头包含了AAC文件的采样率、通道数、帧数据长度等信息。</span></span><br><span class="line">            outPacketSize = outBitSize + <span class="number">7</span>;<span class="comment">//7为ADTS头部的大小</span></span><br><span class="line">            outputBuffer = outputBuffers[outputBufferIndex];<span class="comment">//拿到输出Buffer</span></span><br><span class="line">            outputBuffer.position(aBufferInfo.offset);</span><br><span class="line">            outputBuffer.limit(aBufferInfo.offset + outBitSize);</span><br><span class="line">            chunkAudio = <span class="keyword">new</span> <span class="keyword">byte</span>[outPacketSize];</span><br><span class="line">            addADTStoPacket(chunkAudio, outPacketSize); <span class="comment">// 给编码出的aac裸流添加adts头字段</span></span><br><span class="line">            outputBuffer.get(chunkAudio, <span class="number">7</span>, outBitSize);<span class="comment">//将编码得到的AAC数据 取出到byte[]中偏移量offset=7</span></span><br><span class="line">            outputBuffer.position(aBufferInfo.offset);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> != mCallback) &#123;</span><br><span class="line">                mCallback.outputAudioData(chunkAudio, chunkAudio.length, (<span class="keyword">int</span>) aBufferInfo.presentationTimeUs / <span class="number">1000</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//releaseOutputBuffer方法必须调用</span></span><br><span class="line">            aEncoder.releaseOutputBuffer(outputBufferIndex, <span class="keyword">false</span>);</span><br><span class="line">            outputBufferIndex = aEncoder.dequeueOutputBuffer(aBufferInfo, <span class="number">10000</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception t) &#123;</span><br><span class="line">        Log.e(TAG, <span class="string">" =encodeAudioData=====error: "</span> + t.toString());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的audioQueue 是一个链表 <code>LinkedBlockingQueue&lt;byte[]&gt;</code>。<br>它的作用是由 audioRecord.read(byteBuffer, 0, byteBuffer.length) 获取录音数据，放入队列<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 放入音频数据</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> data </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">putAudioData</span><span class="params">(<span class="keyword">byte</span>[] data)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        audioQueue.put(data);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>给编码出的aac裸流添加adts头字段<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 添加ADTS头</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> packet 要空出前7个字节，否则会搞乱数据</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> packetLen</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addADTStoPacket</span><span class="params">(<span class="keyword">byte</span>[] packet, <span class="keyword">int</span> packetLen)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> profile = <span class="number">2</span>; <span class="comment">// AAC LC</span></span><br><span class="line">    <span class="keyword">int</span> freqIdx = <span class="number">8</span>; <span class="comment">// 44.1KHz</span></span><br><span class="line">    <span class="keyword">int</span> chanCfg = <span class="number">1</span>; <span class="comment">// CPE</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// fill in ADTS data</span></span><br><span class="line">    packet[<span class="number">0</span>] = (<span class="keyword">byte</span>) <span class="number">0xFF</span>;</span><br><span class="line">    packet[<span class="number">1</span>] = (<span class="keyword">byte</span>) <span class="number">0xF9</span>;</span><br><span class="line">    packet[<span class="number">2</span>] = (<span class="keyword">byte</span>) (((profile - <span class="number">1</span>) &lt;&lt; <span class="number">6</span>) + (freqIdx &lt;&lt; <span class="number">2</span>) + (chanCfg &gt;&gt; <span class="number">2</span>));</span><br><span class="line">    packet[<span class="number">3</span>] = (<span class="keyword">byte</span>) (((chanCfg &amp; <span class="number">3</span>) &lt;&lt; <span class="number">6</span>) + (packetLen &gt;&gt; <span class="number">11</span>));</span><br><span class="line">    packet[<span class="number">4</span>] = (<span class="keyword">byte</span>) ((packetLen &amp; <span class="number">0x7FF</span>) &gt;&gt; <span class="number">3</span>);</span><br><span class="line">    packet[<span class="number">5</span>] = (<span class="keyword">byte</span>) (((packetLen &amp; <span class="number">7</span>) &lt;&lt; <span class="number">5</span>) + <span class="number">0x1F</span>);</span><br><span class="line">    packet[<span class="number">6</span>] = (<span class="keyword">byte</span>) <span class="number">0xFC</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="音视频混合API-音视频混合API"><a href="#音视频混合API-音视频混合API" class="headerlink" title="音视频混合API: 音视频混合API"></a>音视频混合API: 音视频混合API</h3><p><a href="https://developer.android.com/reference/android/media/MediaMuxer" target="_blank" rel="noopener">MediaMuxer</a>的使用很简单，在Android Developer官网上MediaMuxer的API说明中，也有其简单的使用示例代码，这里就不列了。</p>
+<p>参照官方的说明和代码示例，我们可以知道，音视频混合（也可以音频和音频混合），只需要将编码器的MediaFormat加入到MediaMuxer中，得到一个音轨视频轨的索引，然后每次从编码器中取出来的ByteBuffer，写入（writeSampleData）到编码器所在的轨道中就ok了。<br>这里需要注意的是，<strong>一定要等编码器设置编码格式完成后，再将它加入到混合器中</strong>，编码器编码格式设置完成的标志是dequeueOutputBuffer得到返回值为MediaCodec.INFO_OUTPUT_FORMAT_CHANGED。</p>
+<h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><p>文章内用到的源码，在<a href="https://github.com/agehua/ZlwAudioRecorder" target="_blank" rel="noopener">agehua/ZlwAudioRecorder</a>，这个是forked from zhaolewei/ZlwAudioRecorder。在原来项目上加入了 AAC 格式支持</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://blog.csdn.net/junzia/article/details/54018671" target="_blank" rel="noopener">Android硬编码——音频编码、视频编码及音视频混合</a></p>
+<p><a href="https://www.jianshu.com/p/c0222de2faed" target="_blank" rel="noopener">Android音频开发（1）：音频基础知识</a></p>
+<hr>
+<div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="https://i.creativecommons.org/l/by/2.5/cn/88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://agehua.github.io/">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
+
+<p>本文链接：<a href="http://agehua.github.io/2018/12/06/Android-audio-introduction/">http://agehua.github.io/2018/12/06/Android-audio-introduction/</a></p>
+
+
+            
+  <!-- donate css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+         
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      _background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+<!-- Donate Module -->
+<div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+    </span>
+
+
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+
+  <div id="donate_guide" class="donate_bar center hidden" >
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
+        <a href="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+        <a href="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+      </div>
+      <div style="display:inline-block;">
+          &nbsp;
+          <span class="donate_txt">
+              Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+          </span>
+      </div>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className='hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+
+            
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2018/12/06/Android-audio-introduction/" data-id="cjpdh1vlo00593vvd0q4au43f" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2018/12/06/Android-audio-introduction/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/08/22/Handler-Looper-MessageQueue/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Handler、Looper与MessageQueue分析</div>
+        </a>
+    
+</nav>
+
+
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+    
+    <section id="comments" class="comments">
+    
+        
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2018/12/06/Android-audio-introduction/', // 可选。默认为 location.href
+  title: 'Android录音相关方法介绍',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+    
+  </section>
+
+
+
+</article>
+
+
+</section>
+            
+                <aside id="sidebar">
+    <!-- 在_config.yml中配置了widgets，来决定widgets的顺序 -->
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/06/Android-audio-introduction/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Android录音相关方法介绍" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2018/12/06/Android-audio-introduction/" class="title">Android录音相关方法介绍</a></p>
+                            <p class="item-date"><time datetime="2018-12-05T16:00:00.000Z" itemprop="datePublished">2018-12-06</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/08/22/Handler-Looper-MessageQueue/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Handler、Looper与MessageQueue分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2018/08/22/Handler-Looper-MessageQueue/" class="title">Handler、Looper与MessageQueue分析</a></p>
+                            <p class="item-date"><time datetime="2018-08-21T16:00:00.000Z" itemprop="datePublished">2018-08-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/06/26/Toastmaster-md-introduction/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/english/">english</a></p>
+                            <p class="item-title"><a href="/2018/06/26/Toastmaster-md-introduction/" class="title">投马-Markdown介绍</a></p>
+                            <p class="item-date"><time datetime="2018-06-25T16:00:00.000Z" itemprop="datePublished">2018-06-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/06/08/JVM-stack-heap-GC/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg)" alt="Java的内存管理与垃圾回收" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">Java</a></p>
+                            <p class="item-title"><a href="/2018/06/08/JVM-stack-heap-GC/" class="title">Java的内存管理与垃圾回收</a></p>
+                            <p class="item-date"><time datetime="2018-06-07T16:00:00.000Z" itemprop="datePublished">2018-06-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/04/23/Usage-of-genericity/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Enclosed%20Wheat%20Field%20with%20Peasant.jpg)" alt="泛型的应用" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">Java</a></p>
+                            <p class="item-title"><a href="/2018/04/23/Usage-of-genericity/" class="title">泛型的应用</a></p>
+                            <p class="item-date"><time datetime="2018-04-22T16:00:00.000Z" itemprop="datePublished">2018-04-23</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">47</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/aidl/" style="font-size: 12px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/aosp/" style="font-size: 12px;">AOSP</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 12px;">Annotation</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 18px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 14px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview-knowledge/" style="font-size: 16px;">Interview Knowledge</a> <a href="/tags/jni/" style="font-size: 14px;">JNI</a> <a href="/tags/jvm/" style="font-size: 10px;">JVM</a> <a href="/tags/java/" style="font-size: 16px;">Java</a> <a href="/tags/javascript/" style="font-size: 12px;">JavaScript</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 12px;">Looper</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 12px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 12px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/threadlocal/" style="font-size: 12px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 12px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 12px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 12px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 14px;">toastmaster</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.bigademo.com">ghost老司机的博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://107.182.178.94/">我的ghost博客</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Jixin Li<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2018/12/06/Android-audio-introduction/', // 可选。默认为 location.href
+  title: 'Android录音相关方法介绍',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+<script>
+    var bigfa_scroll = {
+        drawCircle: function(id, percentage, color) {
+            var width = jQuery(id).width();
+            var height = jQuery(id).height();
+            var radius = parseInt(width / 2.20);
+            var position = width;
+            var positionBy2 = position / 2;
+            var bg = jQuery(id)[0];
+            id = id.split("# ");
+            var ctx = bg.getContext("2d");
+            var imd = null;
+            var circ = Math.PI * 2;
+            var quart = Math.PI / 2;
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineCap = "square";
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineWidth = 3;
+            imd = ctx.getImageData(0, 0, position, position);
+            var draw = function(current, ctxPass) {
+                ctxPass.putImageData(imd, 0, 0);
+                ctxPass.beginPath();
+                ctxPass.arc(positionBy2, positionBy2, radius, -(quart), ((circ) * current) - quart, false);
+                ctxPass.stroke();
+            }
+            draw(percentage / 100, ctx);
+        },
+        backToTop: function($this) {
+            $this.click(function() {
+                jQuery("body,html").animate({
+                    scrollTop: 0
+                },
+                800);
+                return false;
+            });
+        },
+        scrollHook: function($this, color) {
+            color = color ? color: "# 000000";
+            $this.scroll(function() {
+                var docHeight = (jQuery(document).height() - jQuery(window).height()),
+                $windowObj = $this,
+                $per = jQuery(".per"),
+                percentage = 0;
+                defaultScroll = $windowObj.scrollTop();
+                percentage = parseInt((defaultScroll / docHeight) * 100);
+                var backToTop = jQuery("# backtoTop");
+                if (backToTop.length > 0) {
+                    if ($windowObj.scrollTop() > 200) {
+                        backToTop.addClass("button--show");
+                    } else {
+                        backToTop.removeClass("button--show");
+                    }
+                    $per.attr("data-percent", percentage);
+                    bigfa_scroll.drawCircle("# backtoTopCanvas", percentage, color);
+                }
+            });
+        }
+    }
+
+</script>
+
+
+    </div>
+    <!-- <script src="http://cdn.maxjia.com/js/particles.min.js"></script> -->
+  
+  
+    <canvas class="fireworks" style="position: fixed; left: 0px; top: 0px; z-index: 1; pointer-events: none; width: 1440px; height: 416px;" width="2880" height="832"></canvas>
+    
+    
+      <script type="text/javascript" src="/js/anime.min.js"></script>
+      <script type="text/javascript" src="/js/firework.js"></script>
+</body>
+</html>

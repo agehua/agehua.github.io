@@ -330,6 +330,15 @@ AsyncTask.cancel()
 AsyncTask在Android 2.3之前默认采用并行执行任务，AsyncTask在Android 2.3之后默认采用串行执行任务
 如果需要在Android 2.3之后采用并行执行任务，可以调用AsyncTask的executeOnExecutor()
 
+8、一个AsyncTask**对象**只能被执行一次，即只能调用一次execute，多次执行就报错。
+同一个进程里所有用到 AsyncTask 的地方都是同一个线程池，导致任务缓存队列就容易满.
+同一个进程里面所有AsyncTask对象都共享同一个SerialExecutor对象。
+
+参考：https://blog.csdn.net/zhaoyangfang/article/details/76100607
+
+> 在Android2.3中AsyncTask的调用可以并发执行.在一个线程池中被调用. 该线程池有5个核心线程.即一次可以并发执行5个任务    
+在Android3.0及其以后AsyncTask的调用在默认情况同时只能有1个任务在执行.    
+在AsyncTask中采用了SerialExecutor,线程池中只有一个线程的线程池但我们可以调用方法asyncTask.executeOnExecutor(executor, params);来设置自己的线程池实现并发。
 
 ### 9、HandlerThread面试题
 

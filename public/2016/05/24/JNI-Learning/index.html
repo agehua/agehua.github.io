@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="google-site-verification" content="TYEtqE2Xc2ZonkJumwKut0-iq4RVbEc8o5Y8HpmZ-eo" />
+    <meta name="baidu-site-verification" content="8WKGBCPPKp" />
+    <meta charset="utf-8">
+    
+    <title>android JNI学习① 基础知识 | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="android JNI学习，实现aes加密">
+<meta name="keywords" content="jni, aes 加密">
+<meta property="og:type" content="article">
+<meta property="og:title" content="android JNI学习① 基础知识">
+<meta property="og:url" content="http://agehua.github.io/2016/05/24/JNI-Learning/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="android JNI学习，实现aes加密">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg">
+<meta property="og:updated_time" content="2018-08-23T13:50:26.104Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="android JNI学习① 基础知识">
+<meta name="twitter:description" content="android JNI学习，实现aes加密">
+<meta name="twitter:image" content="http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+
+
+    <link rel="icon" sizes="192x192" href="images/icon.png">
+    <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+    <!--text spacing-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+
+</head>
+
+
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+
+                <a class="main-nav-link" href='javascript:(
+        /*
+         * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *      http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         */
+        function go() {
+
+
+        var songs = [
+                    "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
+                    "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
+                    "https://static.rocko.xyz/audio/Music-outside.mp3",
+                    "https://static.rocko.xyz/audio/Music-sunburst.mp3"
+        ];
+
+
+        function c() {
+            var e = document.createElement("link");
+            e.setAttribute("type", "text/css");
+            e.setAttribute("rel", "stylesheet");
+            e.setAttribute("href", f);
+            e.setAttribute("class", l);
+            document.body.appendChild(e)
+        }
+
+        function h() {
+            var e = document.getElementsByClassName(l);
+            for (var t = 0; t < e.length; t++) {
+                document.body.removeChild(e[t])
+            }
+        }
+
+        function p() {
+            var e = document.createElement("div");
+            e.setAttribute("class", a);
+            document.body.appendChild(e);
+            setTimeout(function() {
+                document.body.removeChild(e)
+            }, 100)
+        }
+
+        function d(e) {
+            return {
+                height : e.offsetHeight,
+                width : e.offsetWidth
+            }
+        }
+
+        function v(i) {
+            var s = d(i);
+            return s.height > e && s.height < n && s.width > t && s.width < r
+        }
+
+        function m(e) {
+            var t = e;
+            var n = 0;
+            while (!!t) {
+                n += t.offsetTop;
+                t = t.offsetParent
+            }
+            return n
+        }
+
+        function g() {
+            var e = document.documentElement;
+            if (!!window.innerWidth) {
+                return window.innerHeight
+            } else if (e && !isNaN(e.clientHeight)) {
+                return e.clientHeight
+            }
+            return 0
+        }
+
+        function y() {
+            if (window.pageYOffset) {
+                return window.pageYOffset
+            }
+            return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+        }
+
+        function E(e) {
+            var t = m(e);
+            return t >= w && t <= b + w
+        }
+
+        function S() {
+            var e = document.getElementById("audio_element_id");
+            if(e != null){
+                var index = parseInt(e.getAttribute("curSongIndex"));
+                if(index > songs.length - 2) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                e.setAttribute("curSongIndex", index);
+                N();
+            }
+
+            e.src = i;
+            e.play()
+        }
+
+        function x(e) {
+            e.className += " " + s + " " + o
+        }
+
+        function T(e) {
+            e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+        }
+
+        function N() {
+            var e = document.getElementsByClassName(s);
+            var t = new RegExp("\\b" + s + "\\b");
+            for (var n = 0; n < e.length; ) {
+                e[n].className = e[n].className.replace(t, "")
+            }
+        }
+
+        function initAudioEle() {
+            var e = document.getElementById("audio_element_id");
+            if(e === null){
+                e = document.createElement("audio");
+                e.setAttribute("class", l);
+                e.setAttribute("curSongIndex", 0);
+                e.id = "audio_element_id";
+                e.loop = false;
+                e.bgcolor = 0;
+                e.addEventListener("canplay", function() {
+                setTimeout(function() {
+                    x(k)
+                }, 500);
+                setTimeout(function() {
+                    N();
+                    p();
+                    for (var e = 0; e < O.length; e++) {
+                        T(O[e])
+                    }
+                }, 15500)
+            }, true);
+            e.addEventListener("ended", function() {
+                N();
+                h();
+                go();
+            }, true);
+            e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+            document.body.appendChild(e);
+            }
+        }
+
+        initAudioEle();
+        var e = 30;
+        var t = 30;
+        var n = 350;
+        var r = 350;
+
+        var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+        var i = songs[curSongIndex];
+
+        var s = "mw-harlem_shake_me";
+        var o = "im_first";
+        var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+        var a = "mw-strobe_light";
+
+        /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
+        var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+
+        var l = "mw_added_css";
+        var b = g();
+        var w = y();
+        var C = document.getElementsByTagName("*");
+        var k = null;
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                if (E(A)) {
+                    k = A;
+                    break
+                }
+            }
+        }
+        if (A === null) {
+            console.warn("Could not find a node of the right size. Please try a different page.");
+            return
+        }
+        c();
+        S();
+        var O = [];
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                O.push(A)
+            }
+        }
+        })()'>High一下</a>
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+
+
+        </div>
+    </div>
+
+
+    <div id="main-nav-mobile" class="header-sub header-inner">
+
+        <table class="menu outer">
+
+
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    
+</header>
+
+        <div class="outer">
+            
+                
+
+
+<aside id="profile">
+    <div class="inner profile-inner" id="profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
+            <h2 id="name">Conor Lee</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                62
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                76
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+
+        <a href="https://github.com/agehua" class="github-corner" aria-label="View source on Github">
+          <svg width="64" height="64" viewBox="0 0 250 250" style="fill:#cba11f; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+            <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+          </svg>
+        </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+<div id='toc-col' class="toc-col">
+    
+</div>
+</aside>
+
+<script type="text/javascript">
+/*
+    滚动函数
+    接收三个参数,
+        1 接收一个DOM对象
+        2 给目标对象切换class
+        3 触发的高度 (可选项,如果不指定高度,会将DOM的高度作为触发高度)
+*/
+function scrollCheck(scrollTarget, toggleClass, scrollHeight){
+    document.addEventListener('scroll',function(){
+    var currentTop = window.pageYOffset;
+        currentTop > (scrollHeight||scrollTarget.clientHeight)
+        ?scrollTarget.classList.add(toggleClass)
+        :scrollTarget.classList.remove(toggleClass)
+    })
+}
+
+(function(){
+      try {
+        document.getElementById("toc-wrap").style.width= document.getElementById("profile-inner").offsetWidth+ "px";
+        var introHeader = document.querySelector('.inner.profile-inner').offsetHeight;
+        var toc = document.querySelector('.toc-wrap');
+        scrollCheck(toc,'toc-fixed',introHeader+40+64);
+      }catch(err){
+
+      }
+        // var node = document.querySelector('.profile-inner');
+        // scrollCheck(node,'profile-inner-fixed',64);
+})();
+</script>
+
+            
+            <section id="main"><article id="post-JNI-Learning" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<img src="http://obxk8w81b.bkt.clouddn.com/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            android JNI学习① 基础知识
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/05/24/JNI-Learning/">
+            <time datetime="2016-05-23T16:00:00.000Z" itemprop="datePublished">2016-05-24</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/aes/">AES</a>, <a class="tag-link" href="/tags/jni/">JNI</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">6 min read , Words: 1073</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+
+            <p>本文只是用来记录，写的不好还请见谅。</p>
+<h3 id="1-JNI介绍"><a href="#1-JNI介绍" class="headerlink" title="1.JNI介绍"></a>1.JNI介绍</h3><p>JNI概念 : Java本地接口,Java Native Interface, 它是一个协议, 该协议用来沟通Java代码和外部的本地C/C++代码, 通过该协议 Java代码可以调用外部的本地代码, 外部的C/C++ 代码可以调用Java代码;</p>
+<p>C和Java的侧重 :</p>
+<ul>
+<li>C语言 : C语言中最重要的是 函数 function;</li>
+<li>Java语言 : Java中最重要的是 JVM, class类, 以及class中的方法;</li>
+</ul>
+<p>C与Java如何交流 :</p>
+<ul>
+<li>JNI规范 : C语言与Java语言交流需要一个适配器, 中间件, 即 JNI, JNI提供了一种规范;</li>
+<li>C语言中调用Java方法 : 可以让我们在C代码中找到Java代码class中的方法, 并且调用该方法;</li>
+<li>Java语言中调用C语言方法 : 同时也可以在Java代码中, 将一个C语言的方法映射到Java的某个方法上;</li>
+<li>JNI桥梁作用 : JNI提供了一个桥梁, 打通了C语言和Java语言之间的障碍;</li>
+</ul>
+<a id="more"></a>
+<p>JNI中的一些概念 :</p>
+<ul>
+<li>native : Java语言中修饰本地方法的修饰符, 被该修饰符修饰的方法没有方法体;</li>
+<li>Native方法 : 在Java语言中被native关键字修饰的方法是Native方法;</li>
+<li>JNI层 : Java声明Native方法的部分;</li>
+<li>JNI函数 : JNIEnv提供的函数, 这些函数在jni.h中进行定义;</li>
+<li>JNI方法 : Native方法对应的JNI层实现的 C/C++方法, 即在jni目录中实现的那些C语言代码;</li>
+</ul>
+<h3 id="2-NDK简单介绍"><a href="#2-NDK简单介绍" class="headerlink" title="2.NDK简单介绍"></a>2.NDK简单介绍</h3><p>C代码执行 : C代码被编译成库文件之后, 才能执行, 库文件分为动态库 和静态库 两种;</p>
+<ul>
+<li>动态库 : unix环境下.so后缀的是动态库, windows环境下.dll 后缀的是动态库; 动态库可以依赖静态库加载一些可执行的C代码;</li>
+<li>静态库 :.a后缀是静态库的扩展名;</li>
+</ul>
+<p>库文件来源 : C代码 进行 编译 链接操作之后, 才会生成库文件, 不同类型的CPU 操作系统 生成的库文件是不一样;</p>
+<ul>
+<li>CPU分类 : arm结构, 嵌入式设备处理器; x86结构, pc服务器处理器; 不同的CPU指令集不同;</li>
+<li>交叉编译 :windows x86编译出来的库文件可以在arm平台运行的代码;</li>
+<li>交叉编译工具链 : Google提供的 NDK 就是交叉编译工具链, 可以在linux环境下编译出在arn平台下执行的二进制库文件;</li>
+</ul>
+<p>NDK作用 : 是Google提供了交叉编译工具链, 能够在linux平台编译出在arm平台下执行的二进制库文件;</p>
+<p>NDK版本介绍 : android-ndk-windows 是在windows系统中的cygwin使用的, android-ndk-linux 是在linux下使用的;</p>
+<p>想深入了解NDK开发的同学，可以去安装一下cygwin，本文只涉及简单的C语言代码，不需要使用cygwin。</p>
+<h3 id="3-环境准备，使用android-studio还是Eclipse"><a href="#3-环境准备，使用android-studio还是Eclipse" class="headerlink" title="3.环境准备，使用android studio还是Eclipse"></a>3.环境准备，使用android studio还是Eclipse</h3><p>推荐使用Eclipse，这篇文章讲了使用Eclipse生成.h文件和生成so文件的配置过程。配置成功后可以远离命令行<a href="http://blog.csdn.net/jspping/article/details/47780307" target="_blank" rel="noopener">Eclipse ADT插件生成.h/.so文件</a></p>
+<h4 id="3-1-Java调用C流程"><a href="#3-1-Java调用C流程" class="headerlink" title="3.1 Java调用C流程"></a>3.1 Java调用C流程</h4><ul>
+<li>a. 定义 Native 方法 : 比如在com.packagename.jni.JNITest.java 类中定义 Native 方法 public native int add(int x, int y);</li>
+<li>b. 生成方法签名 : 进入 AndroidProject/bin/classes 目录, 使用 javah com.packagename.jni.JNITest 命令, 便生成了头文件, 该头文件引用了 jni.h, 以及定义好了对应的 Native 方法, 生成 JNIEXPORT jint JNICALL Java_com_packagename_jni_JNITest_add (JNIEnv *, jobject, jint, jint);  </li>
+</ul>
+<p>Java中定义的方法 :</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//将Java中的两个int值 传给C语言, 进行相加后, 返回java语言 shuliang.han.ndkparameterpassing.DataProvider  </span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>对应C语言中定义的方法 :</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span>  </span></span><br><span class="line"></span><br><span class="line"><span class="comment">//方法签名, Java环境和调用native方法的类必不可少, 后面的参数就是native方法的参数  </span></span><br><span class="line"><span class="function">jint <span class="title">Java_com_packagename_jni_JNITest_add</span><span class="params">(JNIEnv * env, jobject obj, jint x, jint y)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">return</span> x + y;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-2-生成-so文件"><a href="#3-2-生成-so文件" class="headerlink" title="3.2 生成.so文件"></a>3.2 生成.so文件</h4><p>Android.mk 文件：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">LOCAL_PATH := $(call my-dir)    </span><br><span class="line"></span><br><span class="line">include $(CLEAR_VARS)    </span><br><span class="line"></span><br><span class="line">LOCAL_MODULE    := hello-jni    </span><br><span class="line">LOCAL_SRC_FILES := hello-jni.c    </span><br><span class="line"></span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>文件内容解释：</p>
+<p><strong>获取当前文件内容</strong> : $(call my-dir) 是编译器中的宏方法, 调用该宏方法, 就会返回前的目录路径;</p>
+<p><strong>赋值符号</strong> : “ := “ 是赋值符号, 第一句话 是 返回当前文件所在的当前目录, 并将这个目录路径赋值给 LOCAL_PATH;</p>
+<p><strong>初始化编译模块参数</strong> : $(CLEAR_VARS) 作用是将编译模块的参数初始化, LOCAL_MODULE LOCAL_SRC_FILES 也是这样的参数;</p>
+<p><strong>指定编译模块</strong> : LOCAL_MODULE    := hello-jni , 指定编译后的 so 文件名称, 编译好之后系统会在该名称前面加上 “lib”, 后缀加上 “.so”;</p>
+<p><strong>指定编译源文件</strong> : LOCAL_SRC_FILES := hello-jni.c 告诉编译系统源文件, 如果有多个文件那么就依次写在后面即可;</p>
+<p><strong>编译成静态库</strong> : include $(BUILD_SHARED_LIBRARY), 作用是告诉系统, 将编译的结果编译成.so后缀的静态库;</p>
+<p><strong>静态库引入</strong> : NDK的platform中有很多 “.a” 结尾的动态库, 我们编译动态库的时候, 可以将一些静态库引入进来;</p>
+</li>
+<li><p>生成 动态库 so 文件 : 进入 Android.mk 所在目录, 在该目录执行ndk下的ndk-build命令;</p>
+</li>
+<li>Java代码加载动态库 : 在 Java 代码中调用该类的类前面, 在类的一开始, 不在方法中, 加入</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span>&#123; System.loadLibrary(<span class="string">"hello"</span>); &#125; ;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Application.mk 文件内容为（不写这个文件也可以）:</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">APP_STL := stlport_static</span><br><span class="line">APP_ABI := all</span><br></pre></td></tr></table></figure>
+<!-- ![](/assets/img/jni_structure.png  =338x461) –&gt;
+<!-- 指定图片大小有问题 -->
+<!-- [![Pure CSS Happy Hacking Keyboard](/assets/img/jni_structure.png)](http://codepen.io/P233/pen/qEagi) -->
+<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2016/jni_structure.png" alt="Eclipse JNI目录结构"></p>
+<p><a href="http://blog.csdn.net/hejinjing_tom_com/article/details/8125648" target="_blank" rel="noopener">这篇文章</a>是使用javah导出头文件过程中，常见错误和解决办法，这里做一个记录。</p>
+<h3 id="4-字符串的处理"><a href="#4-字符串的处理" class="headerlink" title="4.字符串的处理"></a>4.字符串的处理</h3><ul>
+<li>Java中的String转为C语言中的char字符串<br>下面的工具方法可以在C程序中解决这个问题：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// java中的jstring, 转化为c的一个字符数组  </span></span><br><span class="line">char* Jstring2CStr(JNIEnv* env, jstring jstr) &#123;  </span><br><span class="line"><span class="comment">//声明了一个字符串变量 rtn  </span></span><br><span class="line">char* rtn = NULL;  </span><br><span class="line"><span class="comment">//找到Java中的String的Class对象  </span></span><br><span class="line">jclass clsstring = (*env)-&gt;FindClass(env, <span class="string">"java/lang/String"</span>);  </span><br><span class="line"><span class="comment">//创建一个Java中的字符串 "GB2312"  </span></span><br><span class="line">jstring strencode = (*env)-&gt;NewStringUTF(env, <span class="string">"GB2312"</span>);  </span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 获取String中定义的方法 getBytes(), 该方法的参数是 String类型的, 返回值是 byte[]数组</span></span><br><span class="line"><span class="comment"> * "(Ljava/lang/String;)[B" 方法前面解析 :</span></span><br><span class="line"><span class="comment"> * -- Ljava/lang/String; 表示参数是String字符串</span></span><br><span class="line"><span class="comment"> * -- [B : 中括号表示这是一个数组, B代表byte类型, 返回值是一个byte数组</span></span><br><span class="line"><span class="comment"> */</span>  </span><br><span class="line">jmethodID mid = (*env)-&gt;GetMethodID(env, clsstring, <span class="string">"getBytes"</span>,  </span><br><span class="line">		<span class="string">"(Ljava/lang/String;)[B"</span>);  </span><br><span class="line"><span class="comment">//调用Java中的getBytes方法, 传入参数介绍 参数②表示调用该方法的对象, 参数③表示方法id , 参数④表示方法参数  </span></span><br><span class="line">jbyteArray barr = (jbyteArray)(*env)-&gt;CallObjectMethod(env, jstr, mid,  </span><br><span class="line">		strencode); <span class="comment">// String .getByte("GB2312");  </span></span><br><span class="line"><span class="comment">//获取数组的长度  </span></span><br><span class="line">jsize alen = (*env)-&gt;GetArrayLength(env, barr);  </span><br><span class="line"><span class="comment">//获取数组中的所有的元素 , 存放在 jbyte*数组中  </span></span><br><span class="line">jbyte* ba = (*env)-&gt;GetByteArrayElements(env, barr, JNI_FALSE);  </span><br><span class="line"><span class="comment">//将Java数组中所有元素拷贝到C的char*数组中, 注意C语言数组结尾要加一个 '\0'  </span></span><br><span class="line"><span class="keyword">if</span> (alen &gt; <span class="number">0</span>) &#123;  </span><br><span class="line">	rtn = (char*) malloc(alen + <span class="number">1</span>); <span class="comment">//new   char[alen+1]; "\0"  </span></span><br><span class="line">	memcpy(rtn, ba, alen);  </span><br><span class="line">	rtn[alen] = <span class="number">0</span>;  </span><br><span class="line">&#125;  </span><br><span class="line">(*env)-&gt;ReleaseByteArrayElements(env, barr, ba, <span class="number">0</span>); <span class="comment">//释放内存  </span></span><br><span class="line">	<span class="keyword">return</span> rtn;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Jstring2CStr方法讲解 :</p>
+<ul>
+<li><p>a. 获取Java中String类型的class对象 : 参数 : 上下文环境 env, String类完整路径 ;</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">jclass clsstring = (*env)-&gt;FindClass(env, <span class="string">"java/lang/String"</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>b.创建Java字符串 : 使用 NewStringUTF 方法;</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">jstring strencode = (*env)-&gt;NewStringUTF(env, <span class="string">"GB2312"</span>);  </span><br><span class="line">~~~   </span><br><span class="line">   - c.获取<span class="built_in">String</span>中的getBytes()方法 : 参数介绍 ① env 上下文环境 ② 完整的类路径 ③ 方法名 ④ 方法签名, 方法签名 Ljava/lang/<span class="built_in">String</span>; 代表参数是<span class="built_in">String</span>字符串, [B  中括号表示这是一个数组, B代表byte类型, 返回值是一个byte数组;</span><br><span class="line">~~~ Javascript</span><br><span class="line">jmethodID mid = (*env)-&gt;GetMethodID(env, clsstring, <span class="string">"getBytes"</span>,  </span><br><span class="line">    <span class="string">"(Ljava/lang/String;)[B"</span>);  </span><br><span class="line">~~~       </span><br><span class="line">   - d. 获取数组的长度 :</span><br><span class="line">~~~ Javascript</span><br><span class="line">jsize alen = (*env)-&gt;GetArrayLength(env, barr);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>e. 获取数组元素 : 获取数组中的所有的元素 , 存放在 jbyte*数组中;</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">jbyte* ba = (*env)-&gt;GetByteArrayElements(env, barr, JNI_FALSE);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>f.数组拷贝: 将Java数组中所有元素拷贝到C的char*数组中, 注意C语言数组结尾要加一个 ‘\0’;</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (alen &gt; <span class="number">0</span>) &#123;  </span><br><span class="line">    rtn = (char*) malloc(alen + <span class="number">1</span>); <span class="comment">//new   char[alen+1]; "\0"  </span></span><br><span class="line">    memcpy(rtn, ba, alen);  </span><br><span class="line">    rtn[alen] = <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>g.释放内存 :</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">(*env)-&gt;ReleaseByteArrayElements(env, barr, ba, <span class="number">0</span>); <span class="comment">//释放内存</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-JNI方法命名规则-标准JNI规范"><a href="#5-JNI方法命名规则-标准JNI规范" class="headerlink" title="5.JNI方法命名规则(标准JNI规范)"></a>5.JNI方法命名规则(标准JNI规范)</h3><ul>
+<li><p><strong>JNI实现的方法与Java中Native方法的映射关系 :</strong></p>
+<p>使用方法名进行映射, 可以使用javah工具进入bin/classes目录下执行命令, 即可生成头文件;</p>
+</li>
+<li><p><strong>JNI方法参数介绍:</strong></p>
+<p>参数① : 第一个参数是JNI接口指针JNIEnv;</p>
+<p>参数② : 如果Native方法是非静态的, 那么第二个参数就是对Java对象的引用, 如果Native方法是静态的, 那么第二个参数就是对Java类的Class对象的引用;</p>
+</li>
+<li><p><strong>JNI方法名规范:</strong>  </p>
+<p>返回值+Java前缀+全路径类名+方法名+参数① JNIEnv+参数② jobject+其它参数;</p>
+<p>注意分隔符 : Java前缀 与 类名 以及类名之间的包名 和 方法名之间 使用 “_“ 进行分割;</p>
+</li>
+<li><p><strong>声明 非静态 方法:</strong></p>
+<p>Native方法 : public int hello (String str, int i);</p>
+<p>JNI方法: jint Java_shuliang_han_Hello_hello(JNIEnv * env, jobject obj, jstring str, jint i);</p>
+</li>
+<li><p><strong>声明 静态 方法 :</strong></p>
+<p>Native方法 : public static int hello (String str, int i);</p>
+<p>JNI方法 : jint Java_shuliang_han_Hello_hello(JNIEnv * env, jobject clazz, jstring str, jint i);</p>
+</li>
+<li><p><strong>两种规范 :</strong></p>
+<p>以上是Java的标准JNI规范, 在Android中还有一套自定义的规范, 该规范是Android应用框架层 和 框架层交互使用的JNI规范, 依靠方法注册 映射 Native方法 和 JNI方法;</p>
+</li>
+<li><p><strong>JNIEnv作用 :</strong></p>
+<p>JNIEnv 是一个指针,指向了一组JNI函数, 这些函数可以在jni.h中查询到,通过这些函数可以实现 Java层 与 JNI层的交互 , 通过JNIEnv 调用JNI函数 可以访问java虚拟机, 操作java对象;</p>
+</li>
+<li><p><strong>JNI线程相关性 :</strong></p>
+<p>JNIEnv只在当前的线程有效,JNIEnv不能跨线程传递, 相同的Java线程调用本地方法, 所使用的JNIEnv是相同的, 一个Native方法不能被不同的Java线程调用;</p>
+</li>
+<li><p><strong>JNIEnv结构体系 :</strong></p>
+<p>JNIEnv指针指向一个线程相关的结构,线程相关结构指向一个指针数组,指针数组中的每个元素最终指向一个JNI函数.</p>
+</li>
+</ul>
+<h3 id="6-AES加密实现"><a href="#6-AES加密实现" class="headerlink" title="6.AES加密实现"></a>6.AES加密实现</h3><p>网上有几种AES实现的方式：</p>
+<ul>
+<li><p>1.这个是我现在项目中使用的方法，在Github上有这个工程，这种方式是使用JNI生成一个与设备相关的密码，可以将该密码作为AES的密钥。<a href="https://github.com/MasonLiuChn/AndroidUltimateEncrypt" target="_blank" rel="noopener">链接地址</a></p>
+</li>
+<li><p>2.网上还有一种方式是由JNI生成keyValue和iv，Java层使用：<a href="http://blog.csdn.net/why_2012_gogo/article/details/40055245" target="_blank" rel="noopener">链接地址</a></p>
+</li>
+</ul>
+<p>主要代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">	System.loadLibrary(<span class="string">"cwtlib"</span>);</span><br><span class="line">	keyValue = getKeyValue();</span><br><span class="line">	iv = getIv();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">null</span> != keyValue &amp;&amp;</span><br><span class="line">		<span class="keyword">null</span> != iv) &#123;</span><br><span class="line">		KeyGenerator kgen;  </span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            kgen = KeyGenerator.getInstance(<span class="string">"AES"</span>);  </span><br><span class="line">            kgen.init(<span class="number">128</span>, <span class="keyword">new</span> SecureRandom(keyValue));  </span><br><span class="line">            key = kgen.generateKey();  </span><br><span class="line">            paramSpec = <span class="keyword">new</span> IvParameterSpec(iv);  </span><br><span class="line">            ecipher = Cipher.getInstance(<span class="string">"AES/CBC/PKCS5Padding"</span>);         </span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;  </span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchPaddingException e) &#123;  </span><br><span class="line">        &#125;  </span><br><span class="line">	&#125;</span><br><span class="line">&#125;   </span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">byte</span>[] getKeyValue();</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">byte</span>[] getIv();</span><br></pre></td></tr></table></figure>
+<p>  这种方式，在android app程序完全退出后，再进入该app时，之前加密好的字符串<strong>无法解密。</strong></p>
+<ul>
+<li><p>3.还有一种是直接由C或C++实现AES整个算法，直接使用网上代码并不知道靠不靠谱</p>
+<p>所以，我们项目最终使用了第一种方法</p>
+</li>
+</ul>
+<h3 id="7-JNI混淆问题"><a href="#7-JNI混淆问题" class="headerlink" title="7.JNI混淆问题"></a>7.JNI混淆问题</h3><p>  检查下 C/C++代码中没有直接访问Java代码的类或者类的成员变量、类的成员函数。</p>
+<p>  如果有的话，这些就不能混淆</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//保留jni的回调类</span></span><br><span class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">your</span>.<span class="title">jnicallback</span>.<span class="title">class</span> </span>&#123; *; &#125;</span><br><span class="line"><span class="comment">//这个不用更改，直接复制就可以</span></span><br><span class="line">-keepclasseswithmembernames <span class="class"><span class="keyword">class</span> * </span>&#123;</span><br><span class="line">    <span class="keyword">native</span> &lt;methods&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="8-总结"><a href="#8-总结" class="headerlink" title="8.总结"></a>8.总结</h3><p>android 实现JNI入门并不难，笔者也刚刚入门，但要深入了解还是需要很长的路要走。</p>
+<h4 id="8-1-更新内容，JNI获取publickey实现"><a href="#8-1-更新内容，JNI获取publickey实现" class="headerlink" title="8.1 更新内容，JNI获取publickey实现"></a>8.1 更新内容，JNI获取publickey实现</h4><p>在本文中最终使用第6点中的第一种方式，但原方法在4.0.4手机上遇到兼容性问题，详情请看我的这篇博客<a href="https://agehua.github.io/2016/05/24/JNI-Learning0/">使用JNI获取publickey实现</a></p>
+<hr>
+<div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="https://i.creativecommons.org/l/by/2.5/cn/88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://agehua.github.io/">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
+
+<p>本文链接：<a href="http://agehua.github.io/2016/05/24/JNI-Learning/">http://agehua.github.io/2016/05/24/JNI-Learning/</a></p>
+
+
+            
+  <!-- donate css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+         
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      _background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+<!-- Donate Module -->
+<div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+    </span>
+
+
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+
+  <div id="donate_guide" class="donate_bar center hidden" >
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
+        <a href="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+        <a href="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+      </div>
+      <div style="display:inline-block;">
+          &nbsp;
+          <span class="donate_txt">
+              Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+          </span>
+      </div>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className='hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+
+            
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2016/05/24/JNI-Learning/" data-id="cjpdh1vht000p3vvd8dekpr0a" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2016/05/24/JNI-Learning/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/05/24/JNI-Learning0/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    android JNI学习② JNI调用过程
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/05/18/javaString-and-bytes/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Java String与C/C++中byte[]</div>
+        </a>
+    
+</nav>
+
+
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+    
+    <section id="comments" class="comments">
+    
+        
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2016/05/24/JNI-Learning/', // 可选。默认为 location.href
+  title: 'android JNI学习① 基础知识',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+    
+  </section>
+
+
+
+</article>
+
+
+</section>
+            
+                <aside id="sidebar">
+    <!-- 在_config.yml中配置了widgets，来决定widgets的顺序 -->
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/12/06/Android-audio-introduction/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Android录音相关方法介绍" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2018/12/06/Android-audio-introduction/" class="title">Android录音相关方法介绍</a></p>
+                            <p class="item-date"><time datetime="2018-12-05T16:00:00.000Z" itemprop="datePublished">2018-12-06</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/08/22/Handler-Looper-MessageQueue/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Handler、Looper与MessageQueue分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2018/08/22/Handler-Looper-MessageQueue/" class="title">Handler、Looper与MessageQueue分析</a></p>
+                            <p class="item-date"><time datetime="2018-08-21T16:00:00.000Z" itemprop="datePublished">2018-08-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/06/26/Toastmaster-md-introduction/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/english/">english</a></p>
+                            <p class="item-title"><a href="/2018/06/26/Toastmaster-md-introduction/" class="title">投马-Markdown介绍</a></p>
+                            <p class="item-date"><time datetime="2018-06-25T16:00:00.000Z" itemprop="datePublished">2018-06-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/06/08/JVM-stack-heap-GC/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg)" alt="Java的内存管理与垃圾回收" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">Java</a></p>
+                            <p class="item-title"><a href="/2018/06/08/JVM-stack-heap-GC/" class="title">Java的内存管理与垃圾回收</a></p>
+                            <p class="item-date"><time datetime="2018-06-07T16:00:00.000Z" itemprop="datePublished">2018-06-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/04/23/Usage-of-genericity/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Enclosed%20Wheat%20Field%20with%20Peasant.jpg)" alt="泛型的应用" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">Java</a></p>
+                            <p class="item-title"><a href="/2018/04/23/Usage-of-genericity/" class="title">泛型的应用</a></p>
+                            <p class="item-date"><time datetime="2018-04-22T16:00:00.000Z" itemprop="datePublished">2018-04-23</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">47</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/aidl/" style="font-size: 12px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/aosp/" style="font-size: 12px;">AOSP</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 12px;">Annotation</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 18px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 14px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview-knowledge/" style="font-size: 16px;">Interview Knowledge</a> <a href="/tags/jni/" style="font-size: 14px;">JNI</a> <a href="/tags/jvm/" style="font-size: 10px;">JVM</a> <a href="/tags/java/" style="font-size: 16px;">Java</a> <a href="/tags/javascript/" style="font-size: 12px;">JavaScript</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 12px;">Looper</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 12px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 12px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/threadlocal/" style="font-size: 12px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 12px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 12px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 12px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 14px;">toastmaster</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://www.bigademo.com">ghost老司机的博客</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://107.182.178.94/">我的ghost博客</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Jixin Li<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2016/05/24/JNI-Learning/', // 可选。默认为 location.href
+  title: 'android JNI学习① 基础知识',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+<script>
+    var bigfa_scroll = {
+        drawCircle: function(id, percentage, color) {
+            var width = jQuery(id).width();
+            var height = jQuery(id).height();
+            var radius = parseInt(width / 2.20);
+            var position = width;
+            var positionBy2 = position / 2;
+            var bg = jQuery(id)[0];
+            id = id.split("# ");
+            var ctx = bg.getContext("2d");
+            var imd = null;
+            var circ = Math.PI * 2;
+            var quart = Math.PI / 2;
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineCap = "square";
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineWidth = 3;
+            imd = ctx.getImageData(0, 0, position, position);
+            var draw = function(current, ctxPass) {
+                ctxPass.putImageData(imd, 0, 0);
+                ctxPass.beginPath();
+                ctxPass.arc(positionBy2, positionBy2, radius, -(quart), ((circ) * current) - quart, false);
+                ctxPass.stroke();
+            }
+            draw(percentage / 100, ctx);
+        },
+        backToTop: function($this) {
+            $this.click(function() {
+                jQuery("body,html").animate({
+                    scrollTop: 0
+                },
+                800);
+                return false;
+            });
+        },
+        scrollHook: function($this, color) {
+            color = color ? color: "# 000000";
+            $this.scroll(function() {
+                var docHeight = (jQuery(document).height() - jQuery(window).height()),
+                $windowObj = $this,
+                $per = jQuery(".per"),
+                percentage = 0;
+                defaultScroll = $windowObj.scrollTop();
+                percentage = parseInt((defaultScroll / docHeight) * 100);
+                var backToTop = jQuery("# backtoTop");
+                if (backToTop.length > 0) {
+                    if ($windowObj.scrollTop() > 200) {
+                        backToTop.addClass("button--show");
+                    } else {
+                        backToTop.removeClass("button--show");
+                    }
+                    $per.attr("data-percent", percentage);
+                    bigfa_scroll.drawCircle("# backtoTopCanvas", percentage, color);
+                }
+            });
+        }
+    }
+
+</script>
+
+
+    </div>
+    <!-- <script src="http://cdn.maxjia.com/js/particles.min.js"></script> -->
+  
+  
+    <canvas class="fireworks" style="position: fixed; left: 0px; top: 0px; z-index: 1; pointer-events: none; width: 1440px; height: 416px;" width="2880" height="832"></canvas>
+    
+    
+      <script type="text/javascript" src="/js/anime.min.js"></script>
+      <script type="text/javascript" src="/js/firework.js"></script>
+</body>
+</html>

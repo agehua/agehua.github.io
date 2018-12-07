@@ -3,7 +3,7 @@ layout: post
 title: Java的内存管理与垃圾回收
 category: Java
 tags:
-    - G
+    - GC
     - JVM
 keywords: memory-management, GC
 banner: http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg
