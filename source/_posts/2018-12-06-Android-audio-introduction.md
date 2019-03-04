@@ -178,7 +178,7 @@ AAC所采用的运算法则与MP3的运算法则有所不同，AAC通过结合�
 
 下图是Android官方提供的MediaCodec工作流程：
 
-![Android MediaCodec](/images/blogimages/2018/android_audio_mediacodec.png)
+![Android MediaCodec](../images/blogimages/2018/android_audio_mediacodec.png)
 
 针对于上图，我们可以把InputBuffers和OutputBuffers简单的理解为它们共同组成了一个环形的传送带，传送带上铺满了空盒子。
 编解码开始后，我们需要得到一个空盒子（dequeueInputBuffer），然后往空盒子中填充原料（需要被编/解码的音/视频数据），并且放回到传送带你取出时候的那个位置上面（queueInputBuffer）。
