@@ -7,8 +7,8 @@ tags:
   - webview
 keywords: Android Webview, js漏洞
 description: Android Webview总结，遇到问题就在这里记录 :(
-banner: http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg
+banner: http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg
+thumbnail: http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg
 ---
 
 

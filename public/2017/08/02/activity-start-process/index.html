@@ -15,12 +15,12 @@
 <meta property="og:site_name" content="Agehua">
 <meta property="og:description" content="Activity启动流程分析本文主要介绍Activity的启动过程和过程中主要涉及的类。如果你跟随上一篇文章，成功编译了Android源码，可以动手跟本篇文章一步一步调试分析整个启动过程。没有编译源码，也可以看看android.googlesource，这里也有源码。 主要对象功能介绍zygote进程和SystemServer进程android是基于Linux系统的，而在linux中，所有的进程都">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg">
-<meta property="og:updated_time" content="2018-12-07T03:38:53.780Z">
+<meta property="og:image" content="http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg">
+<meta property="og:updated_time" content="2019-03-22T03:05:52.260Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Activity启动流程分析">
 <meta name="twitter:description" content="Activity启动流程分析本文主要介绍Activity的启动过程和过程中主要涉及的类。如果你跟随上一篇文章，成功编译了Android源码，可以动手跟本篇文章一步一步调试分析整个启动过程。没有编译源码，也可以看看android.googlesource，这里也有源码。 主要对象功能介绍zygote进程和SystemServer进程android是基于Linux系统的，而在linux中，所有的进程都">
-<meta name="twitter:image" content="http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg">
+<meta name="twitter:image" content="http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg">
     
 
     
@@ -304,7 +304,7 @@
                 <nav id="sub-nav">
                     <div class="profile" id="profile-nav">
                         <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
+                            <img class="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
                             <i class="fa fa-caret-down"></i>
                         </a>
                     </div>
@@ -393,7 +393,7 @@
 <aside id="profile">
     <div class="inner profile-inner" id="profile-inner">
         <div class="base-info profile-block">
-            <img id="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
+            <img id="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
             <h2 id="name">Conor Lee</h2>
             <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
@@ -501,7 +501,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
         
             
 	
-		<img src="http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg" class="article-banner" />
+		<img src="http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg" class="article-banner" />
 	
 
 
@@ -655,14 +655,14 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 </blockquote>
 <p>到这里总结下IApplicationThread接口的Binder机制：</p>
 <p>客户端：ApplicationThread &lt;=====Binder驱动&lt;===== ApplicationThreadProxy：服务器<br>对比之前的IActivityManager：<br>客户端：ActivityManagerProxy =====&gt;Binder驱动=====&gt; ActivityManagerService：服务器<br>有没有发现<strong>Binder只能单向传递</strong>。</p>
-<p>这两次的Binder通信如下图所示：<br><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/ams_binder_process.png" alt=""></p>
+<p>这两次的Binder通信如下图所示：<br><img src="http://blog.conorlee.top/blogimages/2017/ams_binder_process.png" alt=""></p>
 <p>再来看ApplicationThread类的scheduleLaunchActivity()方法<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// we use token to identify this activity without having to send the</span></span><br><span class="line"><span class="comment">// activity itself back to the activity manager. (matters more with ipc)</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">scheduleLaunchActivity</span><span class="params">(Intent intent, IBinder token, <span class="keyword">int</span> ident,</span></span></span><br><span class="line"><span class="function"><span class="params">        ActivityInfo info, Configuration curConfig, Configuration overrideConfig,</span></span></span><br><span class="line"><span class="function"><span class="params">        CompatibilityInfo compatInfo, String referrer, IVoiceInteractor voiceInteractor,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span> procState, Bundle state, PersistableBundle persistentState,</span></span></span><br><span class="line"><span class="function"><span class="params">        List&lt;ResultInfo&gt; pendingResults, List&lt;ReferrerIntent&gt; pendingNewIntents,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">boolean</span> notResumed, <span class="keyword">boolean</span> isForward, ProfilerInfo profilerInfo)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    updateProcessState(procState, <span class="keyword">false</span>);</span><br><span class="line">    ActivityClientRecord r = <span class="keyword">new</span> ActivityClientRecord();</span><br><span class="line"></span><br><span class="line">    r.token = token;</span><br><span class="line">    r.ident = ident;</span><br><span class="line">    r.intent = intent;</span><br><span class="line">    r.referrer = referrer;</span><br><span class="line">    r.voiceInteractor = voiceInteractor;</span><br><span class="line">    r.activityInfo = info;</span><br><span class="line">    r.compatInfo = compatInfo;</span><br><span class="line">    r.state = state;</span><br><span class="line">    r.persistentState = persistentState;</span><br><span class="line"></span><br><span class="line">    r.pendingResults = pendingResults;</span><br><span class="line">    r.pendingIntents = pendingNewIntents;</span><br><span class="line"></span><br><span class="line">    r.startsNotResumed = notResumed;</span><br><span class="line">    r.isForward = isForward;</span><br><span class="line"></span><br><span class="line">    r.profilerInfo = profilerInfo;</span><br><span class="line"></span><br><span class="line">    r.overrideConfig = overrideConfig;</span><br><span class="line">    updatePendingConfiguration(curConfig);</span><br><span class="line"></span><br><span class="line">    sendMessage(H.LAUNCH_ACTIVITY, r);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>在继续看接收消息的地方，在H类里（H类继承了Handler），<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (DEBUG_MESSAGES) Slog.v(TAG, <span class="string">"&gt;&gt;&gt; handling: "</span> + codeToString(msg.what));</span><br><span class="line">    <span class="keyword">switch</span> (msg.what) &#123;</span><br><span class="line">        <span class="keyword">case</span> LAUNCH_ACTIVITY: &#123;</span><br><span class="line">            Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, <span class="string">"activityStart"</span>);</span><br><span class="line">            <span class="keyword">final</span> ActivityClientRecord r = (ActivityClientRecord) msg.obj;</span><br><span class="line"></span><br><span class="line">            r.packageInfo = getPackageInfoNoCheck(</span><br><span class="line">                  r.activityInfo.applicationInfo, r.compatInfo);</span><br><span class="line">            handleLaunchActivity(r, <span class="keyword">null</span>, <span class="string">"LAUNCH_ACTIVITY"</span>);</span><br><span class="line">            Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);</span><br><span class="line">        &#125; <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//....</span></span><br></pre></td></tr></table></figure></p>
 <p>handleLaunchActivity()-&gt;performLaunchActivity()。</p>
 <p>performLaunchActivity()通过ClassLoader导入相应的Activity类，然后把它启动起来，注意看代码里的注释。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Activity activity = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">//通过ClassLoader将foo.bar.multi.XXXActivity类加载进来：</span></span><br><span class="line">    java.lang.ClassLoader cl = r.packageInfo.getClassLoader();</span><br><span class="line">    activity = mInstrumentation.newActivity(</span><br><span class="line">            cl, component.getClassName(), r.intent);</span><br><span class="line">    StrictMode.incrementExpectedActivityCount(activity.getClass());</span><br><span class="line">    r.intent.setExtrasClassLoader(cl);</span><br><span class="line">    r.intent.prepareToEnterProcess();</span><br><span class="line">    <span class="keyword">if</span> (r.state != <span class="keyword">null</span>) &#123;</span><br><span class="line">        r.state.setClassLoader(cl);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!mInstrumentation.onException(activity, e)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(</span><br><span class="line">            <span class="string">"Unable to instantiate activity "</span> + component</span><br><span class="line">            + <span class="string">": "</span> + e.toString(), e);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">//创建Application对象，这是根据AndroidManifest.xml配置文件中的Application标签的信息来创建的</span></span><br><span class="line">    Application app = r.packageInfo.makeApplication(<span class="keyword">false</span>, mInstrumentation);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//代码主要创建Activity的上下文信息，并通过attach方法将这些上下文信息设置到XXXActivity中去：</span></span><br><span class="line">    <span class="keyword">if</span> (activity != <span class="keyword">null</span>) &#123;</span><br><span class="line">      activity.attach(appContext, <span class="keyword">this</span>, getInstrumentation(), r.token,</span><br><span class="line">      r.ident, app, r.intent, r.activityInfo, title, r.parent,</span><br><span class="line">      r.embeddedID, r.lastNonConfigurationInstances, config,</span><br><span class="line">      r.referrer, r.voiceInteractor, window);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//调用activity的onCreate函数，上面提到过这个方法：</span></span><br><span class="line">    mInstrumentation.callActivityOnCreate(activity, r.state);</span><br></pre></td></tr></table></figure></p>
 <p>无论是通过点击应用程序图标来启动Activity，还是通过Activity内部调用startActivity接口来启动新的Activity，都要借助于应用程序框架层的ActivityManagerService服务进程。在Android应用程序框架层中，ActivityManagerService是一个非常重要的接口，它不但负责启动Activity和Service，还负责管理Activity和Service。</p>
 <p>Android应用程序框架层中的ActivityManagerService启动Activity的过程大致如下图所示：</p>
-<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/activity-start-process.png" alt="图片来自：http://blog.csdn.net/luoshengyang/article/details/6685853"></p>
+<p><img src="http://blog.conorlee.top/blogimages/2017/activity-start-process.png" alt="图片来自：http://blog.csdn.net/luoshengyang/article/details/6685853"></p>
 <p>在这个图中，ActivityManagerService和ActivityStack位于同一个进程中，而ApplicationThread和ActivityThread位于另一个进程中。其中，ActivityManagerService是负责管理Activity的生命周期的，ActivityManagerService还借助ActivityStack是来把所有的Activity按照后进先出的顺序放在一个堆栈中；对于每一个应用程序来说，都有一个ActivityThread来表示应用程序的主进程，而每一个ActivityThread都包含有一个ApplicationThread实例，它是一个Binder对象，负责和其它进程进行通信。</p>
 <p>下面简要总结一下启动的过程：</p>
 <ul>
@@ -708,8 +708,8 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
       display: inline-block;
       width: 82px;
       height: 82px;
-      background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
-      _background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      _background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
       -webkit-transition: background 0s;
       -moz-transition: background 0s;
       -o-transition: background 0s;
@@ -752,12 +752,12 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
       ------------------------------------------------------------------------------------------------------------------------------
       <br>
       <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
-        <a href="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
-          <img src="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+        <a href="http://cdn.conorlee.top/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
           style="float:left;"/>
         </a>
-        <a href="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
-          <img src="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+        <a href="http://cdn.conorlee.top/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
           style="float:left;"/>
         </a>
       </div>
@@ -809,7 +809,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/08/02/activity-start-process/" data-id="cjsud13jx003kz1vdqeot98w0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/08/02/activity-start-process/" data-id="cjtjiejjh003w2tvd3sgrx9j2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -957,7 +957,7 @@ gitment.render('comments')
                             <a href="/2019/01/26/Android-request-memory-leaks/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Android避免网络请求造成内存泄漏" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Evening%20The%20End%20of%20the%20Day%20after%20Millet.jpg)" alt="Android避免网络请求造成内存泄漏" class="thumbnail-image"></span>
     
 </a>
 
@@ -976,7 +976,7 @@ gitment.render('comments')
                             <a href="/2018/12/06/Android-audio-introduction/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Android录音相关方法介绍" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20the%20Public%20Park%20in%20Arles.jpg)" alt="Android录音相关方法介绍" class="thumbnail-image"></span>
     
 </a>
 
@@ -995,7 +995,7 @@ gitment.render('comments')
                             <a href="/2018/08/22/Handler-Looper-MessageQueue/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Handler、Looper与MessageQueue分析" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Handler、Looper与MessageQueue分析" class="thumbnail-image"></span>
     
 </a>
 
@@ -1033,7 +1033,7 @@ gitment.render('comments')
                             <a href="/2018/06/08/JVM-stack-heap-GC/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg)" alt="Java的内存管理与垃圾回收" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg)" alt="Java的内存管理与垃圾回收" class="thumbnail-image"></span>
     
 </a>
 

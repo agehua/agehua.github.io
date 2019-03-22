@@ -297,7 +297,7 @@
                 <nav id="sub-nav">
                     <div class="profile" id="profile-nav">
                         <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
+                            <img class="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
                             <i class="fa fa-caret-down"></i>
                         </a>
                     </div>
@@ -386,7 +386,7 @@
 <aside id="profile">
     <div class="inner profile-inner" id="profile-inner">
         <div class="base-info profile-block">
-            <img id="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
+            <img id="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
             <h2 id="name">Conor Lee</h2>
             <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
@@ -496,7 +496,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
             
 	
 		<a href="/2019/01/26/Android-request-memory-leaks/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg" class="article-banner" />
+            <img src="http://cdn.conorlee.top/Evening%20The%20End%20of%20the%20Day%20after%20Millet.jpg" class="article-banner" />
         </a>
 	
 
@@ -536,140 +536,22 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     </div>
 
 
-                        <div style="color:#cba11f;float:right">4 min read , Words: 735</div>                    </div>
+                        <div style="color:#cba11f;float:right">4 min read , Words: 736</div>                    </div>
                 
             </header>
         
         
         <div class="article-entry" itemprop="articleBody">
         
-
-            <p>现在的网络请求框架很多也很完善，但是使用中不注意还是会有内存泄漏的现象。为了避免内存泄漏，大概有两种方式：</p>
+            <p><p>现在的网络请求框架很多也很完善，但是使用中不注意还是会有内存泄漏的现象。为了避免内存泄漏，大概有两种方式：</p>
 <ul>
 <li>1.在Activity结束时取消请求</li>
 <li>2.在异步回调的时候，通过Activity.isFinishing()方法判断Activity是否已经被销毁</li>
 </ul>
-<p>但是最近在工作中，发现一个问题：同一个请求，会在多个页面被调用到，这就导致相同的代码包括发送请求，成功或失败回调，数据解析等会出现好几处。<br>如果我想把这个网络请求单独抽离出来，放到一个类里，不依赖具体的Activity，现在的网络框架回调一般都会运行在主线程，如果未及时释放资源，很容易造成内存泄漏。</p>
-<p>针对这种方式，可以采用EventBus，来发送包含解析后的数据到对应的Activity，在Activity onDestroy里取消EventBus监听。但是如果使用postSticky发送事件，会导致事件接收混乱。</p>
-<p>为了真的实现这种需求，参考网上的一篇文章：<a href="https://iluhcm.com/2017/03/05/handle-asynchronous-callbacks-when-activity-finishes/" target="_blank" rel="noopener">如何在Activity/Fragment结束时处理异步回调？</a></p>
-<h3 id="基于Lifeful接口的异步回调框架"><a href="#基于Lifeful接口的异步回调框架" class="headerlink" title="基于Lifeful接口的异步回调框架"></a>基于Lifeful接口的异步回调框架</h3><h4 id="Lifeful接口设计"><a href="#Lifeful接口设计" class="headerlink" title="Lifeful接口设计"></a>Lifeful接口设计</h4><p>我们定义Lifeful，一个不依赖于Context、也不依赖于PATH的接口。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 判断生命周期是否已经结束的一个接口。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Lifeful</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 判断某一个组件生命周期是否已经走到最后。一般用于异步回调时判断Activity或Fragment生命周期是否已经结束。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isAlive</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>实际上，我们只需要让具有生命周期的类(一般是Activity或Fragment)实现这个接口，然后再通过这个接口来判断这个实现类是否还存在，就可以与Context解耦了。</p>
-<p>接下来定义一个接口生成器，通过弱引用包装Lifeful接口的实现类，并返回所需要的相关信息。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 生命周期具体对象生成器。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">LifefulGenerator</span>&lt;<span class="title">Callback</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">Callback <span class="title">getCallback</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">WeakReference&lt;Lifeful&gt; <span class="title">getLifefulWeakReference</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isLifefulNull</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>提供一个该接口的默认实现：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 默认生命周期管理包装生成器。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultLifefulGenerator</span>&lt;<span class="title">Callback</span>&gt; <span class="keyword">implements</span> <span class="title">LifefulGenerator</span>&lt;<span class="title">Callback</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> WeakReference&lt;Lifeful&gt; mLifefulWeakReference;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> mLifefulIsNull;</span><br><span class="line">    <span class="keyword">private</span> Callback mCallback;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DefaultLifefulGenerator</span><span class="params">(Callback callback, Lifeful lifeful)</span> </span>&#123;</span><br><span class="line">        mCallback = callback;</span><br><span class="line">        mLifefulWeakReference = <span class="keyword">new</span> WeakReference&lt;&gt;(lifeful);</span><br><span class="line">        mLifefulIsNull = lifeful == <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Callback <span class="title">getCallback</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mCallback;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> WeakReference&lt;Lifeful&gt; <span class="title">getLifefulWeakReference</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mLifefulWeakReference;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isLifefulNull</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mLifefulIsNull;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>接着通过一个静态方法判断是否对象的生命周期：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 生命周期相关帮助类。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LifefulUtils</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = LifefulUtils.class.getSimpleName();</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">boolean</span> <span class="title">shouldGoHome</span><span class="params">(LifefulGenerator&lt;T&gt; lifefulGenerator, <span class="keyword">boolean</span> objectIsNull)</span> </span>&#123;</span><br><span class="line">        WeakReference&lt;Lifeful&gt; lifefulWeakReference = lifefulGenerator.getLifefulWeakReference();</span><br><span class="line">        <span class="keyword">if</span> (lifefulWeakReference == <span class="keyword">null</span>) &#123;</span><br><span class="line">            Log.e(TAG, <span class="string">"Go home, lifefulWeakReference == null"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Lifeful lifeful = lifefulWeakReference.get();</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == lifeful &amp;&amp; !objectIsNull) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != lifeful &amp;&amp; !lifeful.isAlive()) &#123;</span><br><span class="line">            lifefulGenerator.setCallback(<span class="keyword">null</span>); <span class="comment">// 取消持有的callback</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">boolean</span> <span class="title">shouldGoHome</span><span class="params">(LifefulGenerator&lt;T&gt; lifefulGenerator)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == lifefulGenerator) &#123;</span><br><span class="line">            Log.e(TAG, <span class="string">"Go home, null == lifefulGenerator"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">if</span> (<span class="keyword">null</span> == lifefulGenerator.getCallback()) &#123;</span><br><span class="line">            Log.e(TAG, <span class="string">"Go home, null == lifefulGenerator.getCallback()"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> shouldGoHome(lifefulGenerator, lifefulGenerator.isLifefulNull());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="具有生命周期的Runnable"><a href="#具有生命周期的Runnable" class="headerlink" title="具有生命周期的Runnable"></a>具有生命周期的Runnable</h4><p>具体到跟线程打交道的异步类，只有Runnable(Thread也是其子类)，因此只需要处理Runnable就可以了。我们可以通过Wrapper包装器模式，在处理真正的Runnable类之前，先通过Lifeful接口判断对象是否还存在，如果不存在则直接返回。对于Runnable：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 与周期相关的异步线程回调类。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LifefulRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> LifefulGenerator&lt;Runnable&gt; mLifefulGenerator;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LifefulRunnable</span><span class="params">(Runnable runnable, Lifeful lifeful)</span> </span>&#123;</span><br><span class="line">        mLifefulGenerator = <span class="keyword">new</span> DefaultLifefulGenerator&lt;&gt;(runnable, lifeful);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (LifefulUtils.shouldGoHome(mLifefulGenerator)) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        mLifefulGenerator.getCallback().run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="Lifeful的实现类"><a href="#Lifeful的实现类" class="headerlink" title="Lifeful的实现类"></a>Lifeful的实现类</h4><p>最后说一下Lifeful类的实现类，主要包括Activity和Fragment，<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">Lifeful</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isAlive</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> activityIsAlive();</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">activityIsAlive</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (currentActivity == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN_MR1) &#123;</span><br><span class="line">            <span class="keyword">return</span> !(currentActivity.isDestroyed() || currentActivity.isFinishing());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> !currentActivity.isFinishing();</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> <span class="keyword">implements</span> <span class="title">Lifeful</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isAlive</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> activityIsAlive();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">activityIsAlive</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		Activity currentActivity = getActivity();</span><br><span class="line">		<span class="keyword">if</span> (currentActivity == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN_MR1) &#123;</span><br><span class="line">            <span class="keyword">return</span> !(currentActivity.isDestroyed() || currentActivity.isFinishing());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> !currentActivity.isFinishing();</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>除了这两个类以外，别的类如果有生命周期，或者包含生命周期的引用，也可以实现Lifeful接口(如View，可以通过onAttachedToWindow()和onDetachedToWindow())。</p>
-<p>包含生命周期的异步调用<br>对于需要用到异步的地方，调用也很方便。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ThreadCore是一个用于线程调度的ThreadPoolExecutor封装类，也用于主线程和工作线程之间的切换</span></span><br><span class="line">ThreadCore.getInstance().postOnMainLooper(<span class="keyword">new</span> LifefulRunnable(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 实现真正的逻辑。</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="keyword">this</span>));</span><br></pre></td></tr></table></figure>
-<hr>
-<div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="https://i.creativecommons.org/l/by/2.5/cn/88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://agehua.github.io/">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
-
-<p>本文链接：<a href="http://agehua.github.io/2019/01/26/Android-request-memory-leaks/">http://agehua.github.io/2019/01/26/Android-request-memory-leaks/</a></p>
-
-
-            
-  <!-- donate css -->
-  <style type="text/css">
-      .center {
-          text-align: center;
-      }
-      .hidden {
-          display: none;
-      }
-         
-    .donate_bar a.btn_donate{
-      display: inline-block;
-      width: 82px;
-      height: 82px;
-      background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
-      _background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
-      -webkit-transition: background 0s;
-      -moz-transition: background 0s;
-      -o-transition: background 0s;
-      -ms-transition: background 0s;
-      transition: background 0s;
-
-    }
-
-    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
-    .donate_bar .donate_txt {
-      display: block;
-      color: #9d9d9d;
-      font: 14px/2 "Microsoft Yahei";
-    }
-    .bold{ font-weight: bold; }
-  </style>
-  <!-- /css -->
-
-<!-- Donate Module -->
-<div id="donate_module">
-
-  <!-- btn_donate & tips -->
-  <div id="donate_board" class="donate_bar center">
-      <br>
-      ------------------------------------------------------------------------------------------------------------------------------
-      <br>
-    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
-    <span class="donate_txt">
-      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
-    </span>
-
-
-  </div>
-  <!-- /btn_donate & tips -->
-
-  <!-- donate guide -->
-
-  <div id="donate_guide" class="donate_bar center hidden" >
-        <br>
-      ------------------------------------------------------------------------------------------------------------------------------
-      <br>
-      <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
-        <a href="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
-          <img src="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
-          style="float:left;"/>
-        </a>
-        <a href="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
-          <img src="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
-          style="float:left;"/>
-        </a>
-      </div>
-      <div style="display:inline-block;">
-          &nbsp;
-          <span class="donate_txt">
-              Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
-          </span>
-      </div>
-
-  </div>
-  <!-- /donate guide -->
-
-  <!-- donate script -->
-  <script type="text/javascript">
-    document.getElementById('btn_donate').onclick = function() {
-      $('#donate_board').addClass('hidden');
-      $('#donate_guide').removeClass('hidden');
-    }
-
-    function donate_on_web(){
-      $('#donate').submit();
-        }
-
-    var original_window_onload = window.onload;
-        window.onload = function () {
-            if (original_window_onload) {
-                original_window_onload();
-            }
-            document.getElementById('donate_board_wdg').className='hidden';
-    }
-  </script>
-  <!-- /donate script -->
-</div>
-<!-- /Donate Module -->
-
-            
+<p>但是最近在工作中，发现一个问题：同一个请求，会在多个页面被调用到，这就导致相同的代码包括发送请求，成功或失败回调，数据解析等会出现好几处。<br>如果我想把这个网络请求单独抽离出来，放到一个类里，不依赖具体的Activity，现在的网络框架回调一般都会运行在主线程，如果未及时释放资源，很容易造成内存泄漏。</p></p>
+            <p class="article-more-link">
+                <a href="/2019/01/26/Android-request-memory-leaks/#more">Read More</a>
+            </p>
         
         </div>
 
@@ -682,7 +564,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2019/01/26/Android-request-memory-leaks/" data-id="cjsud13l7004tz1vdmlgcu2vl" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2019/01/26/Android-request-memory-leaks/" data-id="cjtjiejkq004z2tvd5s6pc1vd" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -774,7 +656,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
             
 	
 		<a href="/2018/12/06/Android-audio-introduction/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg" class="article-banner" />
+            <img src="http://cdn.conorlee.top/Entrance%20to%20the%20Public%20Park%20in%20Arles.jpg" class="article-banner" />
         </a>
 	
 
@@ -846,7 +728,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2018/12/06/Android-audio-introduction/" data-id="cjsud13l8004wz1vdfin9a6n4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2018/12/06/Android-audio-introduction/" data-id="cjtjiejkt00562tvd7zicfli7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -938,7 +820,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
             
 	
 		<a href="/2018/08/22/Handler-Looper-MessageQueue/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg" class="article-banner" />
+            <img src="http://cdn.conorlee.top/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg" class="article-banner" />
         </a>
 	
 
@@ -1002,7 +884,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2018/08/22/Handler-Looper-MessageQueue/" data-id="cjsud13t4009qz1vdn3pcz8oy" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2018/08/22/Handler-Looper-MessageQueue/" data-id="cjtjiejl2005a2tvdw2q0mlun" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1147,7 +1029,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2018/06/26/Toastmaster-md-introduction/" data-id="cjsud13kt004hz1vdxiig1sm3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2018/06/26/Toastmaster-md-introduction/" data-id="cjtjiejkd004o2tvd9edqnyqm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1239,7 +1121,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
             
 	
 		<a href="/2018/06/08/JVM-stack-heap-GC/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg" class="article-banner" />
+            <img src="http://cdn.conorlee.top/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg" class="article-banner" />
         </a>
 	
 
@@ -1304,7 +1186,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2018/06/08/JVM-stack-heap-GC/" data-id="cjsud13l4004pz1vdezujf0cm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2018/06/08/JVM-stack-heap-GC/" data-id="cjtjiejkf004s2tvdq2nxz55x" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1396,7 +1278,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
             
 	
 		<a href="/2018/04/23/Usage-of-genericity/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Enclosed%20Wheat%20Field%20with%20Peasant.jpg" class="article-banner" />
+            <img src="http://cdn.conorlee.top/Enclosed%20Wheat%20Field%20with%20Peasant.jpg" class="article-banner" />
         </a>
 	
 
@@ -1460,7 +1342,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2018/04/23/Usage-of-genericity/" data-id="cjsud13kr004dz1vd40mof5do" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2018/04/23/Usage-of-genericity/" data-id="cjtjiejka004k2tvdjfvz2bcf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1605,7 +1487,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2018/04/02/Toastmaster-two-drawbacks/" data-id="cjsud13lf004zz1vdmn603ots" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2018/04/02/Toastmaster-two-drawbacks/" data-id="cjtjiejk8004h2tvd6z8vtzft" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1697,7 +1579,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
             
 	
 		<a href="/2018/03/14/IntentService-AsyncTask/" itemprop="url">
-            <img src="http://obxk8w81b.bkt.clouddn.com/Enclosed%20Field%20with%20Rising%20Sun.jpg" class="article-banner" />
+            <img src="http://cdn.conorlee.top/Enclosed%20Field%20with%20Rising%20Sun.jpg" class="article-banner" />
         </a>
 	
 
@@ -1760,7 +1642,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2018/03/14/IntentService-AsyncTask/" data-id="cjsud13l2004lz1vdbm2xtax6" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2018/03/14/IntentService-AsyncTask/" data-id="cjtjiejkk004v2tvdqrvsyvpu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1867,7 +1749,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                             <a href="/2019/01/26/Android-request-memory-leaks/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Android避免网络请求造成内存泄漏" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Evening%20The%20End%20of%20the%20Day%20after%20Millet.jpg)" alt="Android避免网络请求造成内存泄漏" class="thumbnail-image"></span>
     
 </a>
 
@@ -1886,7 +1768,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                             <a href="/2018/12/06/Android-audio-introduction/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Android录音相关方法介绍" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20the%20Public%20Park%20in%20Arles.jpg)" alt="Android录音相关方法介绍" class="thumbnail-image"></span>
     
 </a>
 
@@ -1905,7 +1787,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                             <a href="/2018/08/22/Handler-Looper-MessageQueue/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Handler、Looper与MessageQueue分析" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Handler、Looper与MessageQueue分析" class="thumbnail-image"></span>
     
 </a>
 
@@ -1943,7 +1825,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                             <a href="/2018/06/08/JVM-stack-heap-GC/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg)" alt="Java的内存管理与垃圾回收" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg)" alt="Java的内存管理与垃圾回收" class="thumbnail-image"></span>
     
 </a>
 

@@ -6,8 +6,8 @@ tags:
   - Annotation
   - assertion
 keywords: Annotation, assert, JSR-330
-banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Acacia%20Branches.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Acacia%20Branches.jpg
+banner: http://cdn.conorlee.top/Blossoming%20Acacia%20Branches.jpg
+thumbnail: http://cdn.conorlee.top/Blossoming%20Acacia%20Branches.jpg
 toc: true
 ---
 

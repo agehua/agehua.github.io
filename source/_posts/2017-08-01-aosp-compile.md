@@ -6,8 +6,8 @@ tags:
   - AOSP
   - sdk compile
 keywords: aosp, sdk compile
-banner: http://obxk8w81b.bkt.clouddn.com/Child%20with%20Orange.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Child%20with%20Orange.jpg
+banner: http://cdn.conorlee.top/Child%20with%20Orange.jpg
+thumbnail: http://cdn.conorlee.top/Child%20with%20Orange.jpg
 toc: true
 ---
 
@@ -272,7 +272,7 @@ sudo ./development/tools/idegen/idegen.sh
 在Android源码找到目录/packages/experimental，在这个目录下有Google提供基于前面提到的Android BUILD模式构建的apk工程。
 如下图：
 
-![](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/aosp_make_single_module.png)
+![](http://blog.conorlee.top/blogimages/2017/aosp_make_single_module.png)
 
 我们选择一个工程：MultiPackageApk，要把它安装到模拟器上需要执行下面的命令：
 ~~~ C++
@@ -299,7 +299,7 @@ make: *** [ninja_wrapper] Error 1
 位置在：/Library/Android_sdk/tools/lib/monitor-x86_64/monitor.app
 如下图：
 
-![](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/aosp_monitor_position.png)
+![](http://blog.conorlee.top/blogimages/2017/aosp_monitor_position.png)
 
 到这里Android源码部分的内容就整理完了，下篇文章利用Android源码分析下**Activity的启动流程**。
 

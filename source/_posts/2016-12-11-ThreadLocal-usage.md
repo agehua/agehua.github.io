@@ -6,8 +6,8 @@ tags:
   - Java
   - ThreadLocal
 keywords: ThreadLocal
-banner: http://obxk8w81b.bkt.clouddn.com/A%20Wind-Beaten%20Tree.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/A%20Wind-Beaten%20Tree.jpg
+banner: http://cdn.conorlee.top/A%20Wind-Beaten%20Tree.jpg
+thumbnail: http://cdn.conorlee.top/A%20Wind-Beaten%20Tree.jpg
 toc: true
 ---
 
@@ -152,7 +152,7 @@ public class DateUtil {
 
 先看一下Thread和ThreadLocal两个类的具体结构，如下：
 
-![ThreadLocal](http://oui2w5whj.bkt.clouddn.com/blogimages/2016/ThreadLocal.png)
+![ThreadLocal](http://blog.conorlee.top/blogimages/2016/ThreadLocal.png)
 
 从线程Thread的角度来看，每个线程内部都会持有一个对ThreadLocalMap实例的引用（也就是threadLocals变量），ThreadLocalMap是TThreadLocal的静态内部类。而Entry则是ThreadLocalMap的静态内部类。ThreadLocalMap实例相当于线程的局部变量空间，由Entry[] table存储着线程的私有数据。
 

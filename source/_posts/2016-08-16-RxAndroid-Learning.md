@@ -7,8 +7,8 @@ tags:
   - RxAndroid
 keywords: RxJava RxAndroid
 description: RxAndroid学习
-banner: http://obxk8w81b.bkt.clouddn.com/Bulb%20Fields.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Bulb%20Fields.jpg
+banner: http://cdn.conorlee.top/Bulb%20Fields.jpg
+thumbnail: http://cdn.conorlee.top/Bulb%20Fields.jpg
 ---
 
 

@@ -6,8 +6,8 @@ tags:
   - Hexo
   - Hexo structure
 keywords: Hexo结构
-banner: http://obxk8w81b.bkt.clouddn.com/Boy%20Cutting%20Grass%20with%20a%20Sickle.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Boy%20Cutting%20Grass%20with%20a%20Sickle.jpg
+banner: http://cdn.conorlee.top/Boy%20Cutting%20Grass%20with%20a%20Sickle.jpg
+thumbnail: http://cdn.conorlee.top/Boy%20Cutting%20Grass%20with%20a%20Sickle.jpg
 ---
 
 ### 起步

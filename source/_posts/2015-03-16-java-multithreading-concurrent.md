@@ -8,8 +8,8 @@ tags:
   - Interview Knowledge
 keywords: java, 多线程, 并发
 description:
-banner: http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%203.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%203.jpg
+banner: http://cdn.conorlee.top/Daubigny%20s%20Garden%203.jpg
+thumbnail: http://cdn.conorlee.top/Daubigny%20s%20Garden%203.jpg
 ---
 
 本文基于**酷勤网关于java多线程和并发面试题的文**章，进行了少量的整理和补充。[原文在这](http://www.kuqin.com/shuoit/20140708/341091.html)。

@@ -6,8 +6,8 @@ tags:
   - ANDROID
   - Interview Knowledge
 keywords: Android,面试题
-banner: http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Cottages%20Reminiscence%20of%20the%20North.jpg
+banner: http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg
+thumbnail: http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg
 ---
 
 

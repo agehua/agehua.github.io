@@ -6,8 +6,8 @@ tags:
     - Memory leaks
     - net request
 keywords: Memory leaks, net request
-banner: http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg
+banner: http://cdn.conorlee.top/Evening%20The%20End%20of%20the%20Day%20after%20Millet.jpg
+thumbnail: http://cdn.conorlee.top/Evening%20The%20End%20of%20the%20Day%20after%20Millet.jpg
 toc: true
 ---
 
@@ -18,6 +18,8 @@ toc: true
 
 但是最近在工作中，发现一个问题：同一个请求，会在多个页面被调用到，这就导致相同的代码包括发送请求，成功或失败回调，数据解析等会出现好几处。
 如果我想把这个网络请求单独抽离出来，放到一个类里，不依赖具体的Activity，现在的网络框架回调一般都会运行在主线程，如果未及时释放资源，很容易造成内存泄漏。
+
+<!--more-->
 
 针对这种方式，可以采用EventBus，来发送包含解析后的数据到对应的Activity，在Activity onDestroy里取消EventBus监听。但是如果使用postSticky发送事件，会导致事件接收混乱。
 

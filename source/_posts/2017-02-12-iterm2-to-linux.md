@@ -7,8 +7,8 @@ tags:
   - iterm
   - scp
 keywords: iterm, linux scp
-banner: http://obxk8w81b.bkt.clouddn.com/Arles%20View%20from%20the%20Wheat%20Fields.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Arles%20View%20from%20the%20Wheat%20Fields.jpg
+banner: http://cdn.conorlee.top/Arles%20View%20from%20the%20Wheat%20Fields.jpg
+thumbnail: http://cdn.conorlee.top/Arles%20View%20from%20the%20Wheat%20Fields.jpg
 toc: true
 ---
 

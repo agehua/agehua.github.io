@@ -16,7 +16,7 @@ customize:
         url: images/avatar.png
     profile:
         enabled: true # Whether to show profile bar
-        avatar: http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg
+        avatar: http://cdn.conorlee.top/profile.jpeg
         gravatar: # Gravatar email address, if you enable Gravatar, your avatar config will be overriden
         author: Conor Lee
         author_title: Android Developer & Web Enthusiast

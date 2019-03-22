@@ -15,12 +15,12 @@
 <meta property="og:site_name" content="Agehua">
 <meta property="og:description" content="注解是Java语言的特性之一，它是在源代码中插入标签，这些标签在后面的编译或者运行过程中起到某种作用，每个注解都必须通过注解接口 @Interface 进行声明，接口的方法对应着注解的元素。 在上一篇文章JSR-330和assertion(断言)介绍中介绍了Java中的JSR-330 规范，这个规范就是使用注解的方式。 这篇文章主要介绍注解在Android中的应用。 Andorid中的应用JSR-">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Basket%20of%20Potatoes.jpg">
-<meta property="og:updated_time" content="2018-12-07T03:38:53.776Z">
+<meta property="og:image" content="http://cdn.conorlee.top/Basket%20of%20Potatoes.jpg">
+<meta property="og:updated_time" content="2019-03-22T03:05:49.255Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="注解在Android中的应用">
 <meta name="twitter:description" content="注解是Java语言的特性之一，它是在源代码中插入标签，这些标签在后面的编译或者运行过程中起到某种作用，每个注解都必须通过注解接口 @Interface 进行声明，接口的方法对应着注解的元素。 在上一篇文章JSR-330和assertion(断言)介绍中介绍了Java中的JSR-330 规范，这个规范就是使用注解的方式。 这篇文章主要介绍注解在Android中的应用。 Andorid中的应用JSR-">
-<meta name="twitter:image" content="http://obxk8w81b.bkt.clouddn.com/Basket%20of%20Potatoes.jpg">
+<meta name="twitter:image" content="http://cdn.conorlee.top/Basket%20of%20Potatoes.jpg">
     
 
     
@@ -304,7 +304,7 @@
                 <nav id="sub-nav">
                     <div class="profile" id="profile-nav">
                         <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
+                            <img class="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
                             <i class="fa fa-caret-down"></i>
                         </a>
                     </div>
@@ -393,7 +393,7 @@
 <aside id="profile">
     <div class="inner profile-inner" id="profile-inner">
         <div class="base-info profile-block">
-            <img id="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
+            <img id="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
             <h2 id="name">Conor Lee</h2>
             <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
@@ -501,7 +501,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
         
             
 	
-		<img src="http://obxk8w81b.bkt.clouddn.com/Basket%20of%20Potatoes.jpg" class="article-banner" />
+		<img src="http://cdn.conorlee.top/Basket%20of%20Potatoes.jpg" class="article-banner" />
 	
 
 
@@ -735,7 +735,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <h4 id="Processor输出日志"><a href="#Processor输出日志" class="headerlink" title="Processor输出日志"></a>Processor输出日志</h4><p>虽然是编译时执行Processor,但也是可以输入日志信息用于调试的。Processor日志输出的位置在编译器下方的Messages窗口中。Processor支持最基础的System.out方法。</p>
 <p>同样Processor也有自己的Log输出工具: Messager。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//同样是Butterknife源码</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">error</span><span class="params">(Element element, String message, Object... args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (args.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      message = String.format(message, args);</span><br><span class="line">    &#125;</span><br><span class="line">    processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, message, element);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h3 id="注册注解处理器"><a href="#注册注解处理器" class="headerlink" title="注册注解处理器"></a>注册注解处理器</h3><p>为了让javac -processor能够对定义好的注解处理进行处理，我们需要将注解处理器打包到一个jar文件中，同时，需要在jar文件中增加一个名为<strong>javax.annotation.processing.processor</strong>的文件来指明jar文件中有哪些注解处理器，这个文件最终目录在jar文件根目录的META-INF/service目录中，jar文件解压后的目录结构如下图：</p>
-<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/processor_jar.png" alt="图片来自http://blog.csdn.net/lmj623565791/article/details/43452969"></p>
+<p><img src="http://blog.conorlee.top/blogimages/2017/processor_jar.png" alt="图片来自http://blog.csdn.net/lmj623565791/article/details/43452969"></p>
 <p>javax.annotation.processing.Processor文件的内容是注解处理器全路径名，如果存在多个注解处理器，以换行进行分隔，代码看图片</p>
 <p>源文件的目录是，我们需要在src/main/java同级目录中新建一个名为resources的目录，将META-INF/services/javax.annotation.processing.Processor文件放进去就行</p>
 <blockquote>
@@ -782,7 +782,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <li>4.注册处理器</li>
 <li>5.利用APT完成如下图的工作内容。</li>
 </ul>
-<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/apt_processor.png" alt="图片来自http://blog.csdn.net/xx326664162/article/details/68490059"></p>
+<p><img src="http://blog.conorlee.top/blogimages/2017/apt_processor.png" alt="图片来自http://blog.csdn.net/xx326664162/article/details/68490059"></p>
 <h3 id="annotationProcessor介绍"><a href="#annotationProcessor介绍" class="headerlink" title="annotationProcessor介绍"></a>annotationProcessor介绍</h3><p>annotationProcessor是APT工具中的一种，他是google开发的内置框架，不需要引入，可以直接在build.gradle文件中使用，<br>ButterKnife就是使用annotationProcessor处理注解，如下：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">     <span class="function">annotationProcessor <span class="title">project</span><span class="params">(<span class="string">':xx'</span>)</span></span></span><br><span class="line"><span class="function">     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -811,8 +811,8 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
       display: inline-block;
       width: 82px;
       height: 82px;
-      background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
-      _background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      _background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
       -webkit-transition: background 0s;
       -moz-transition: background 0s;
       -o-transition: background 0s;
@@ -855,12 +855,12 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
       ------------------------------------------------------------------------------------------------------------------------------
       <br>
       <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
-        <a href="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
-          <img src="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+        <a href="http://cdn.conorlee.top/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
           style="float:left;"/>
         </a>
-        <a href="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
-          <img src="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+        <a href="http://cdn.conorlee.top/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
           style="float:left;"/>
         </a>
       </div>
@@ -912,7 +912,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/04/10/Annotation-Android-usage/" data-id="cjsud13jg0035z1vdlce31pqx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/04/10/Annotation-Android-usage/" data-id="cjtjieji9002y2tvdzctusn9k" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1060,7 +1060,7 @@ gitment.render('comments')
                             <a href="/2019/01/26/Android-request-memory-leaks/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Android避免网络请求造成内存泄漏" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Evening%20The%20End%20of%20the%20Day%20after%20Millet.jpg)" alt="Android避免网络请求造成内存泄漏" class="thumbnail-image"></span>
     
 </a>
 
@@ -1079,7 +1079,7 @@ gitment.render('comments')
                             <a href="/2018/12/06/Android-audio-introduction/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Android录音相关方法介绍" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20the%20Public%20Park%20in%20Arles.jpg)" alt="Android录音相关方法介绍" class="thumbnail-image"></span>
     
 </a>
 
@@ -1098,7 +1098,7 @@ gitment.render('comments')
                             <a href="/2018/08/22/Handler-Looper-MessageQueue/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Handler、Looper与MessageQueue分析" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Handler、Looper与MessageQueue分析" class="thumbnail-image"></span>
     
 </a>
 
@@ -1136,7 +1136,7 @@ gitment.render('comments')
                             <a href="/2018/06/08/JVM-stack-heap-GC/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg)" alt="Java的内存管理与垃圾回收" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg)" alt="Java的内存管理与垃圾回收" class="thumbnail-image"></span>
     
 </a>
 

@@ -6,8 +6,8 @@ tags:
   - read
   - nodejs
 keywords: nodejs
-banner: http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg
+banner: http://cdn.conorlee.top/Daubigny%20s%20Garden%202.jpg
+thumbnail: http://cdn.conorlee.top/Daubigny%20s%20Garden%202.jpg
 ---
 
 > 本文是我自己的学习笔记，整理自[《Node入门》](http://www.nodebeginner.org/index-zh-cn.html)

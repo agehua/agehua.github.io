@@ -6,8 +6,8 @@ tags:
   - ANDROID
   - Singleton
 keywords: 单例模式, ANDROID
-banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Tree.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Almond%20Tree.jpg
+banner: http://cdn.conorlee.top/Blossoming%20Almond%20Tree.jpg
+thumbnail: http://cdn.conorlee.top/Blossoming%20Almond%20Tree.jpg
 ---
 
 ### 向大神致敬

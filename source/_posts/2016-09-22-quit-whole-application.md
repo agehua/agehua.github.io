@@ -6,8 +6,8 @@ tags:
   - ANDROID
   - exitApplication
 keywords: Android,退出整个应用
-banner: http://obxk8w81b.bkt.clouddn.com/Enclosed%20Field%20with%20Ploughman.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Enclosed%20Field%20with%20Ploughman.jpg
+banner: http://cdn.conorlee.top/Enclosed%20Field%20with%20Ploughman.jpg
+thumbnail: http://cdn.conorlee.top/Enclosed%20Field%20with%20Ploughman.jpg
 ---
 
 

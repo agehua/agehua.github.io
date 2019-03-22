@@ -6,8 +6,8 @@ tags:
   - Interview Knowledge
   - ANDROID
 keywords: Senior Knowledge, Interview
-banner: http://obxk8w81b.bkt.clouddn.com/Enclosed%20Field%20with%20Ploughman.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Enclosed%20Field%20with%20Ploughman.jpg
+banner: http://cdn.conorlee.top/Enclosed%20Field%20with%20Ploughman.jpg
+thumbnail: http://cdn.conorlee.top/Enclosed%20Field%20with%20Ploughman.jpg
 toc: true
 ---
 

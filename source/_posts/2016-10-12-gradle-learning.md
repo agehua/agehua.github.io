@@ -5,8 +5,8 @@ category: accumulation
 tags:
   - gradle
 keywords: Android,gradle
-banner: http://obxk8w81b.bkt.clouddn.com/Crab%20on%20Its%20Back.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Crab%20on%20Its%20Back.jpg
+banner: http://cdn.conorlee.top/Crab%20on%20Its%20Back.jpg
+thumbnail: http://cdn.conorlee.top/Crab%20on%20Its%20Back.jpg
 ---
 
 
@@ -24,7 +24,7 @@ Gradle是一种依赖管理工具，基于Groovy语言，面向Java应用为主�
 
 - 每一个构建都是由一个或多个 projects 构成的，每一个 project 是由一个或多个 tasks 构成的，一个 task是指不可分的最小工作单元，执行构建工作（比如编译项目或执行测试）
 
-![basic structure](http://oui2w5whj.bkt.clouddn.com/blogimages/2016/gradle_structure1.png)
+![basic structure](http://blog.conorlee.top/blogimages/2016/gradle_structure1.png)
 
 一个工程的Build，是由多个Project组成，而一个Project又是由task组成的
 
@@ -52,7 +52,7 @@ Gradle的设计理念是，所有有用的特性都由Gradle插件提供，例�
 
 Gradle各个task的关系图：
 
-![basic task](http://oui2w5whj.bkt.clouddn.com/blogimages/2016/gradle_task.png)
+![basic task](http://blog.conorlee.top/blogimages/2016/gradle_task.png)
 
 从上图可以看出，我们通常在执行一个build命令时其实是将一些零散的命令批量执行了，我们也可以根据自己的需求执行其中某一个命令。
 

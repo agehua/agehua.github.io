@@ -7,8 +7,8 @@ tags:
   - Open souces
 keywords: Android
 description: Android优秀开源项目收集
-banner: http://obxk8w81b.bkt.clouddn.com/At%20the%20Foot%20of%20the%20Mountains.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/At%20the%20Foot%20of%20the%20Mountains.jpg
+banner: http://cdn.conorlee.top/At%20the%20Foot%20of%20the%20Mountains.jpg
+thumbnail: http://cdn.conorlee.top/At%20the%20Foot%20of%20the%20Mountains.jpg
 ---
 
 一直想找些Android经典的开源项目学习一下，大健发现了这么一篇帖子，不少好东西，分享在此。希望能够对[Android开发](http://android.eoe.cn/)的同学有所帮助。感谢作者的整理和分享。[tisa007](http://my.eoe.cn/123581)

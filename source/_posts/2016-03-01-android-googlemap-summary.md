@@ -7,8 +7,8 @@ tags:
   - google map
 keywords: android, google map
 description: google map2.0使用总结
-banner: http://obxk8w81b.bkt.clouddn.com/Chestnut%20Tree%20in%20Blossom.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Chestnut%20Tree%20in%20Blossom.jpg
+banner: http://cdn.conorlee.top/Chestnut%20Tree%20in%20Blossom.jpg
+thumbnail: http://cdn.conorlee.top/Chestnut%20Tree%20in%20Blossom.jpg
 ---
 
 

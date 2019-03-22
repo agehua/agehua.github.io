@@ -5,8 +5,8 @@ category: Mac
 tags:
     - CMD
 keywords: mac cmd
-banner: http://obxk8w81b.bkt.clouddn.com/Encampment%20of%20Gypsies%20with%20Caravans.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Encampment%20of%20Gypsies%20with%20Caravans.jpg
+banner: http://cdn.conorlee.top/Encampment%20of%20Gypsies%20with%20Caravans.jpg
+thumbnail: http://cdn.conorlee.top/Encampment%20of%20Gypsies%20with%20Caravans.jpg
 toc: true
 ---
 

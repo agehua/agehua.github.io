@@ -7,8 +7,8 @@ tags:
   - Android system service
   - Binder
 keywords: hook, system service, Binder
-banner: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg
+banner: http://cdn.conorlee.top/Blossoming%20Chestnut%20Branches.jpg
+thumbnail: http://cdn.conorlee.top/Blossoming%20Chestnut%20Branches.jpg
 toc: true
 ---
 
@@ -115,7 +115,7 @@ static private IClipboard getService() {
 
 到这里我们就简单的分析完了系统中的获取剪切板的服务，其实系统中的服务都是这么个逻辑，只是有的可能会在外面包装一层罢了，下面总结一下流程：
 
-![](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/clipboard-ipc-process.png)
+![](http://blog.conorlee.top/blogimages/2017/clipboard-ipc-process.png)
 
 现在只要记住一点：每次获取系统服务的流程都是一样的，先通过ServiceManager的getService方法获取远端服务的IBinder对象，然后在通过指定服务的Stub类的asInterface方法转化成本地可使用对象，而这个对象其实就是一个Proxy对象，在这个过程中，Stub类继承了Binder对象和实现了AIDL接口类型，Proxy对象实现了AIDL接口类型，而AIDL接口类型实现了IInterface接口类型。
 
@@ -127,7 +127,7 @@ static private IClipboard getService() {
   - 静态代理：代理类中维护一个原始对象的成员变量，每个方法调用之前调用原始对象的方法即可。无需任何条件限制
   - 动态代理：比静态代理复杂点就是有一个规则：就是原始对象必须要实现接口才可以操作，原理是因为动态代理其实是自动生成一个代理类的字节码，类名一般都是Proxy$0啥的，这个类会自动实现原始类实现的接口方法，然后在使用反射机制调用接口中的所有方法。
 
-![](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/service-proxy-common.png)
+![](http://blog.conorlee.top/blogimages/2017/service-proxy-common.png)
 
 下面结合VirtualApk源码，分析这个原理：
 
@@ -444,7 +444,7 @@ public Object invoke(Object proxy, Method method, Object[] args) throws Throwabl
 }
 ~~~
 到这里就已经完成了hook剪切板服务的整个步骤，再看一下流程图：
-![](http://oui2w5whj.bkt.clouddn.com/blogimages/2017/hook-clipboard-process.png)
+![](http://blog.conorlee.top/blogimages/2017/hook-clipboard-process.png)
 
 - 1、我们的目的就是拦截系统的服务功能，那么最开始的入口就是服务大管家ServiceManager对象，而在他内部也正好有一个远端服务对象的IBinder缓存池，那么这个变量就是我们操作的对象了，可以先使用反射机制去获取到他，然后在获取到指定的剪切板服务IBinder对象实例。
 - 2、下一步肯定是Hook这个剪切板服务的Binder对象，这里采用动态代理方式产生一个Binder对象代理类，符合两个规则：

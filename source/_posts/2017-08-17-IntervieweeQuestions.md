@@ -6,8 +6,8 @@ tags:
   - Interview Knowledge
   - ANDROID
 keywords: Basic Knowledge, Interview
-banner: http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Daubigny%20s%20Garden%202.jpg
+banner: http://cdn.conorlee.top/Daubigny%20s%20Garden%202.jpg
+thumbnail: http://cdn.conorlee.top/Daubigny%20s%20Garden%202.jpg
 toc: true
 ---
 

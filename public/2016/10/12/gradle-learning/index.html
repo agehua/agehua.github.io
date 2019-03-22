@@ -15,12 +15,12 @@
 <meta property="og:site_name" content="Agehua">
 <meta property="og:description" content="Gradle是一种依赖管理工具，基于Groovy语言，面向Java应用为主，它抛弃了基于XML的各种繁琐配置，取而代之的是一种基于Groovy的内部领域特定（DSL）语言。它提供灵活的通用构建工具，就像ant。同时完美兼容Maven或Ivy仓库 Gradle的基本组成 项目(Project) 和 任务(tasks)，Gradle 里的任何东西都是基于这两个基础概念。">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Crab%20on%20Its%20Back.jpg">
-<meta property="og:updated_time" content="2018-12-07T03:38:53.769Z">
+<meta property="og:image" content="http://cdn.conorlee.top/Crab%20on%20Its%20Back.jpg">
+<meta property="og:updated_time" content="2019-03-22T03:05:53.754Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gradle 学习">
 <meta name="twitter:description" content="Gradle是一种依赖管理工具，基于Groovy语言，面向Java应用为主，它抛弃了基于XML的各种繁琐配置，取而代之的是一种基于Groovy的内部领域特定（DSL）语言。它提供灵活的通用构建工具，就像ant。同时完美兼容Maven或Ivy仓库 Gradle的基本组成 项目(Project) 和 任务(tasks)，Gradle 里的任何东西都是基于这两个基础概念。">
-<meta name="twitter:image" content="http://obxk8w81b.bkt.clouddn.com/Crab%20on%20Its%20Back.jpg">
+<meta name="twitter:image" content="http://cdn.conorlee.top/Crab%20on%20Its%20Back.jpg">
     
 
     
@@ -304,7 +304,7 @@
                 <nav id="sub-nav">
                     <div class="profile" id="profile-nav">
                         <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
+                            <img class="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
                             <i class="fa fa-caret-down"></i>
                         </a>
                     </div>
@@ -393,7 +393,7 @@
 <aside id="profile">
     <div class="inner profile-inner" id="profile-inner">
         <div class="base-info profile-block">
-            <img id="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
+            <img id="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
             <h2 id="name">Conor Lee</h2>
             <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
@@ -501,7 +501,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
         
             
 	
-		<img src="http://obxk8w81b.bkt.clouddn.com/Crab%20on%20Its%20Back.jpg" class="article-banner" />
+		<img src="http://cdn.conorlee.top/Crab%20on%20Its%20Back.jpg" class="article-banner" />
 	
 
 
@@ -561,7 +561,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <li><p>每一个构建都是由一个或多个 projects 构成的，每一个 project 是由一个或多个 tasks 构成的，一个 task是指不可分的最小工作单元，执行构建工作（比如编译项目或执行测试）</p>
 </li>
 </ul>
-<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2016/gradle_structure1.png" alt="basic structure"></p>
+<p><img src="http://blog.conorlee.top/blogimages/2016/gradle_structure1.png" alt="basic structure"></p>
 <p>一个工程的Build，是由多个Project组成，而一个Project又是由task组成的</p>
 <p>任何一个构建系统都是由多个构建文件组成，如Ant是由build.xml组成，Maven是由pom.xml组成，Make是由makefile组成。这些构建脚本定义了一系列的规则来指定项目编译流程。</p>
 <h4 id="Gradle构建系统的组成"><a href="#Gradle构建系统的组成" class="headerlink" title="Gradle构建系统的组成"></a>Gradle构建系统的组成</h4><p>Gradle的构建系统是由以下几个文件组成</p>
@@ -582,7 +582,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <li>4.gradle check：编译并测试你的代码。其它的插件会加入更多的检查步骤，如使用 checkstyle、pmd、findbugs</li>
 </ul>
 <p>Gradle各个task的关系图：</p>
-<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2016/gradle_task.png" alt="basic task"></p>
+<p><img src="http://blog.conorlee.top/blogimages/2016/gradle_task.png" alt="basic task"></p>
 <p>从上图可以看出，我们通常在执行一个build命令时其实是将一些零散的命令批量执行了，我们也可以根据自己的需求执行其中某一个命令。</p>
 <h4 id="外部依赖"><a href="#外部依赖" class="headerlink" title="外部依赖"></a>外部依赖</h4><p>通常, 一个 Java 项目将有许多外部的依赖, 既指向外部的 JAR 文件. 为了在项目里引用这些 JAR 文件, 你需要告诉 Gradle 去哪里找它们. 在 Gradle 中, JAR 文件位于一个仓库中，这里的仓库类似于 maven 的仓库。</p>
 <p>首先，指定maven的仓库地址：</p>
@@ -629,8 +629,8 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
       display: inline-block;
       width: 82px;
       height: 82px;
-      background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
-      _background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      _background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
       -webkit-transition: background 0s;
       -moz-transition: background 0s;
       -o-transition: background 0s;
@@ -673,12 +673,12 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
       ------------------------------------------------------------------------------------------------------------------------------
       <br>
       <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
-        <a href="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
-          <img src="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+        <a href="http://cdn.conorlee.top/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
           style="float:left;"/>
         </a>
-        <a href="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
-          <img src="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+        <a href="http://cdn.conorlee.top/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
           style="float:left;"/>
         </a>
       </div>
@@ -728,7 +728,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/10/12/gradle-learning/" data-id="cjsud13hi001rz1vd9oytwf1k" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/10/12/gradle-learning/" data-id="cjtjiejf5001l2tvdcknohjo9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -876,7 +876,7 @@ gitment.render('comments')
                             <a href="/2019/01/26/Android-request-memory-leaks/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Android避免网络请求造成内存泄漏" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Evening%20The%20End%20of%20the%20Day%20after%20Millet.jpg)" alt="Android避免网络请求造成内存泄漏" class="thumbnail-image"></span>
     
 </a>
 
@@ -895,7 +895,7 @@ gitment.render('comments')
                             <a href="/2018/12/06/Android-audio-introduction/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Android录音相关方法介绍" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20the%20Public%20Park%20in%20Arles.jpg)" alt="Android录音相关方法介绍" class="thumbnail-image"></span>
     
 </a>
 
@@ -914,7 +914,7 @@ gitment.render('comments')
                             <a href="/2018/08/22/Handler-Looper-MessageQueue/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Handler、Looper与MessageQueue分析" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Handler、Looper与MessageQueue分析" class="thumbnail-image"></span>
     
 </a>
 
@@ -952,7 +952,7 @@ gitment.render('comments')
                             <a href="/2018/06/08/JVM-stack-heap-GC/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg)" alt="Java的内存管理与垃圾回收" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg)" alt="Java的内存管理与垃圾回收" class="thumbnail-image"></span>
     
 </a>
 

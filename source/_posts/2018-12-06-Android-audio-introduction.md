@@ -6,8 +6,8 @@ tags:
     - AudioRecord
     - AAC
 keywords: AudioRecord, AAC
-banner: http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg
+banner: http://cdn.conorlee.top/Entrance%20to%20the%20Public%20Park%20in%20Arles.jpg
+thumbnail: http://cdn.conorlee.top/Entrance%20to%20the%20Public%20Park%20in%20Arles.jpg
 toc: true
 ---
 

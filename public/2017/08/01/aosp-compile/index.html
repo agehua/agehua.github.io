@@ -15,12 +15,12 @@
 <meta property="og:site_name" content="Agehua">
 <meta property="og:description" content="Mac下源码编译作为一名安卓开发人员，有能力阅读Android源码，是向高手进阶的重要一步。本文介绍在Mac系统下，进行Android源码编译需要的操作。 编译需要的步骤android源码编译的四个流程: 1.搭建编译环境; 2.源码下载; 3.编译源码; 4运行.下文也将按照该流程讲述. 搭建编译环境使用本地工作环境来编译 Android 源文件，需要使用 Linux 或 Mac OS。目前不支">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Child%20with%20Orange.jpg">
-<meta property="og:updated_time" content="2018-12-07T03:38:53.779Z">
+<meta property="og:image" content="http://cdn.conorlee.top/Child%20with%20Orange.jpg">
+<meta property="og:updated_time" content="2019-03-22T03:05:53.024Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac下Android源码编译（AOSP）">
 <meta name="twitter:description" content="Mac下源码编译作为一名安卓开发人员，有能力阅读Android源码，是向高手进阶的重要一步。本文介绍在Mac系统下，进行Android源码编译需要的操作。 编译需要的步骤android源码编译的四个流程: 1.搭建编译环境; 2.源码下载; 3.编译源码; 4运行.下文也将按照该流程讲述. 搭建编译环境使用本地工作环境来编译 Android 源文件，需要使用 Linux 或 Mac OS。目前不支">
-<meta name="twitter:image" content="http://obxk8w81b.bkt.clouddn.com/Child%20with%20Orange.jpg">
+<meta name="twitter:image" content="http://cdn.conorlee.top/Child%20with%20Orange.jpg">
     
 
     
@@ -304,7 +304,7 @@
                 <nav id="sub-nav">
                     <div class="profile" id="profile-nav">
                         <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
+                            <img class="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
                             <i class="fa fa-caret-down"></i>
                         </a>
                     </div>
@@ -393,7 +393,7 @@
 <aside id="profile">
     <div class="inner profile-inner" id="profile-inner">
         <div class="base-info profile-block">
-            <img id="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
+            <img id="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
             <h2 id="name">Conor Lee</h2>
             <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
@@ -501,7 +501,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
         
             
 	
-		<img src="http://obxk8w81b.bkt.clouddn.com/Child%20with%20Orange.jpg" class="article-banner" />
+		<img src="http://cdn.conorlee.top/Child%20with%20Orange.jpg" class="article-banner" />
 	
 
 
@@ -633,7 +633,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <p>但这里不用Android Studio来打开工程，而是使用IntelliJ来查看和DebugAndroid源码，具体参考这篇文章<a href="http://www.jianshu.com/p/1d1b8d0de1ed" target="_blank" rel="noopener">使用 IntelliJ 查看 Android 源码</a></p>
 </blockquote>
 <h4 id="单独编译Android源代码工程的模块"><a href="#单独编译Android源代码工程的模块" class="headerlink" title="单独编译Android源代码工程的模块"></a>单独编译Android源代码工程的模块</h4><p>在Android源码找到目录/packages/experimental，在这个目录下有Google提供基于前面提到的Android BUILD模式构建的apk工程。<br>如下图：</p>
-<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/aosp_make_single_module.png" alt=""></p>
+<p><img src="http://blog.conorlee.top/blogimages/2017/aosp_make_single_module.png" alt=""></p>
 <p>我们选择一个工程：MultiPackageApk，要把它安装到模拟器上需要执行下面的命令：<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">source build/envsetup.sh</span><br><span class="line">mmm packages/experimental/MultiPackageApk    </span><br><span class="line">make snod</span><br></pre></td></tr></table></figure></p>
 <p>重启下模拟器，刚才安装的应用就会出现了</p>
 <p>单独编译源代码工程出错：</p>
@@ -642,7 +642,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <h4 id="使用-IntelliJ-Debug-Android-源码"><a href="#使用-IntelliJ-Debug-Android-源码" class="headerlink" title="使用 IntelliJ Debug Android 源码"></a>使用 IntelliJ Debug Android 源码</h4><p>参考这篇文章：<a href="http://www.jianshu.com/p/7c2ab3d9498c" target="_blank" rel="noopener">使用 IntelliJ Debug Android 源码</a></p>
 <p>文中，有一个地方跟我的电脑上不太一样：</p>
 <h4 id="打开-monitor-选择-debug-进程"><a href="#打开-monitor-选择-debug-进程" class="headerlink" title="打开 monitor 选择 debug 进程"></a>打开 monitor 选择 debug 进程</h4><p>我电脑上的monitor不是用命令行打开，而是有monitor.app。<br>位置在：/Library/Android_sdk/tools/lib/monitor-x86_64/monitor.app<br>如下图：</p>
-<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/aosp_monitor_position.png" alt=""></p>
+<p><img src="http://blog.conorlee.top/blogimages/2017/aosp_monitor_position.png" alt=""></p>
 <p>到这里Android源码部分的内容就整理完了，下篇文章利用Android源码分析下<strong>Activity的启动流程</strong>。</p>
 <h4 id="ccache造成硬盘空间不足"><a href="#ccache造成硬盘空间不足" class="headerlink" title="ccache造成硬盘空间不足"></a>ccache造成硬盘空间不足</h4><p>ccache 是一个是适用于 C 和 C++ 的编译器缓存，有助于提高编译速度。但是它本身是采用<strong>牺牲空间换取编译速度</strong>的方式。如果你设置了 ccache，而且经常使用 make clean，或者经常在不同的编译产品之间切换（比如choosecombo 或 lunch命令），会导致大量的硬盘存储空间被占用。</p>
 <p>默认情况下，ccache 的缓存将存储在 ~/.ccache 下。如果你用的是MAC 电脑编译的 AOSP，可以看下这个目录有多大 :(</p>
@@ -688,8 +688,8 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
       display: inline-block;
       width: 82px;
       height: 82px;
-      background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
-      _background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      _background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
       -webkit-transition: background 0s;
       -moz-transition: background 0s;
       -o-transition: background 0s;
@@ -732,12 +732,12 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
       ------------------------------------------------------------------------------------------------------------------------------
       <br>
       <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
-        <a href="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
-          <img src="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+        <a href="http://cdn.conorlee.top/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
           style="float:left;"/>
         </a>
-        <a href="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
-          <img src="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+        <a href="http://cdn.conorlee.top/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
           style="float:left;"/>
         </a>
       </div>
@@ -789,7 +789,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/08/01/aosp-compile/" data-id="cjsud13jo0039z1vds5xwtpte" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/08/01/aosp-compile/" data-id="cjtjiejiw003g2tvd6lfjvyog" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -937,7 +937,7 @@ gitment.render('comments')
                             <a href="/2019/01/26/Android-request-memory-leaks/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Android避免网络请求造成内存泄漏" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Evening%20The%20End%20of%20the%20Day%20after%20Millet.jpg)" alt="Android避免网络请求造成内存泄漏" class="thumbnail-image"></span>
     
 </a>
 
@@ -956,7 +956,7 @@ gitment.render('comments')
                             <a href="/2018/12/06/Android-audio-introduction/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Android录音相关方法介绍" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20the%20Public%20Park%20in%20Arles.jpg)" alt="Android录音相关方法介绍" class="thumbnail-image"></span>
     
 </a>
 
@@ -975,7 +975,7 @@ gitment.render('comments')
                             <a href="/2018/08/22/Handler-Looper-MessageQueue/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Handler、Looper与MessageQueue分析" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Handler、Looper与MessageQueue分析" class="thumbnail-image"></span>
     
 </a>
 
@@ -1013,7 +1013,7 @@ gitment.render('comments')
                             <a href="/2018/06/08/JVM-stack-heap-GC/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg)" alt="Java的内存管理与垃圾回收" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg)" alt="Java的内存管理与垃圾回收" class="thumbnail-image"></span>
     
 </a>
 

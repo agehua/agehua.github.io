@@ -5,8 +5,8 @@ category: accumulation
 tags:
   - gradle
 keywords: Android,gradle
-banner: http://obxk8w81b.bkt.clouddn.com/Cart%20with%20Red%20and%20White%20Ox.jpg
-thumbnail: http://obxk8w81b.bkt.clouddn.com/Cart%20with%20Red%20and%20White%20Ox.jpg
+banner: http://cdn.conorlee.top/Cart%20with%20Red%20and%20White%20Ox.jpg
+thumbnail: http://cdn.conorlee.top/Cart%20with%20Red%20and%20White%20Ox.jpg
 ---
 
 上一篇[Gradle学习]()了解了Gradle的基本结构和依赖关系，这篇文章介绍下怎么在Android上使用Gradle生成指定包名的APK
@@ -132,7 +132,7 @@ productFlavors{
 ~~~
 每一个构建过的productFlavors都会在**app->build->generated->source->buildConfig**目录下创建自己对应的一个flavor目录，如下图：
 
-![Gradle build structure](http://oui2w5whj.bkt.clouddn.com/blogimages/2016/gradle_structure2.png)
+![Gradle build structure](http://blog.conorlee.top/blogimages/2016/gradle_structure2.png)
 
 而，buildConfigField会在指定的目录，**flavor->release/debug->包名**，下生成一个BuildConfig.java文件，我的代码在BuildConfig.java中定义了一个int类型的buildType和boolean类型的LEO_DEBUG。要使用这两个字段只需要:
 

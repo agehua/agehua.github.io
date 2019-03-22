@@ -15,12 +15,12 @@
 <meta property="og:site_name" content="Agehua">
 <meta property="og:description" content="本文转载自博文：Android系统篇之—-免root实现Hook系统服务拦截方法，结合最新开源的滴滴插件化方案 VirtualApk 对hook系统服务进行分析。 360之前开源了一款插件框架 Droid Plugin。与滴滴同一天，360又开源了一款插件框架 RePlugin。 有关新闻介绍在这里：https://www.itcodemonkey.com/article/278.html">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg">
-<meta property="og:updated_time" content="2018-12-07T03:38:53.779Z">
+<meta property="og:image" content="http://cdn.conorlee.top/Blossoming%20Chestnut%20Branches.jpg">
+<meta property="og:updated_time" content="2019-03-22T03:05:47.749Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android免root实现hook系统服务拦截方法">
 <meta name="twitter:description" content="本文转载自博文：Android系统篇之—-免root实现Hook系统服务拦截方法，结合最新开源的滴滴插件化方案 VirtualApk 对hook系统服务进行分析。 360之前开源了一款插件框架 Droid Plugin。与滴滴同一天，360又开源了一款插件框架 RePlugin。 有关新闻介绍在这里：https://www.itcodemonkey.com/article/278.html">
-<meta name="twitter:image" content="http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg">
+<meta name="twitter:image" content="http://cdn.conorlee.top/Blossoming%20Chestnut%20Branches.jpg">
     
 
     
@@ -304,7 +304,7 @@
                 <nav id="sub-nav">
                     <div class="profile" id="profile-nav">
                         <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
+                            <img class="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
                             <i class="fa fa-caret-down"></i>
                         </a>
                     </div>
@@ -393,7 +393,7 @@
 <aside id="profile">
     <div class="inner profile-inner" id="profile-inner">
         <div class="base-info profile-block">
-            <img id="avatar" src="http://7xuos6.com1.z0.glb.clouddn.com/profile.jpeg" />
+            <img id="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
             <h2 id="name">Conor Lee</h2>
             <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
@@ -501,7 +501,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
         
             
 	
-		<img src="http://obxk8w81b.bkt.clouddn.com/Blossoming%20Chestnut%20Branches.jpg" class="article-banner" />
+		<img src="http://cdn.conorlee.top/Blossoming%20Chestnut%20Branches.jpg" class="article-banner" />
 	
 
 
@@ -567,7 +567,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <p>看到这里的设置剪切板内容的方法，其实内部是调用了getService方法获取对象然后在调用指定方法，那么可以大概知道了这个getService方法返回的应该就是IClipboard.Stub通过asInterface方法返回的Proxy对象：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">private</span> IClipboard <span class="title">getService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (sStaticLock) &#123;</span><br><span class="line">        <span class="keyword">if</span> (sService != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> sService;</span><br><span class="line">        &#125;</span><br><span class="line">        IBinder b = ServiceManager.getService(<span class="string">"clipboard"</span>);</span><br><span class="line">        sService = IClipboard.Stub.asInterface(b);</span><br><span class="line">        <span class="keyword">return</span> sService;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>吧，果然是这样，这里通过ServiceManager获取到Clipboard的远端IBinder对象，然后通过asInterface方法返回一个Proxy对象即可。</p>
 <p>到这里我们就简单的分析完了系统中的获取剪切板的服务，其实系统中的服务都是这么个逻辑，只是有的可能会在外面包装一层罢了，下面总结一下流程：</p>
-<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/clipboard-ipc-process.png" alt=""></p>
+<p><img src="http://blog.conorlee.top/blogimages/2017/clipboard-ipc-process.png" alt=""></p>
 <p>现在只要记住一点：每次获取系统服务的流程都是一样的，先通过ServiceManager的getService方法获取远端服务的IBinder对象，然后在通过指定服务的Stub类的asInterface方法转化成本地可使用对象，而这个对象其实就是一个Proxy对象，在这个过程中，Stub类继承了Binder对象和实现了AIDL接口类型，Proxy对象实现了AIDL接口类型，而AIDL接口类型实现了IInterface接口类型。</p>
 <h3 id="Hook系统服务"><a href="#Hook系统服务" class="headerlink" title="Hook系统服务"></a>Hook系统服务</h3><p>上面分析完了Android中系统服务的使用流程以及原理解析，下面在来看一下android中实现Hook机制的方法和原理解析，我们知道其实在很多系统中都存在这样一个Hook技术，有的也叫作钩子，但是不管任何系统，Hook技术的核心点都是一样的，只有两点即可完成Hook技术：</p>
 <ul>
@@ -578,7 +578,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 </ul>
 </li>
 </ul>
-<p><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/service-proxy-common.png" alt=""></p>
+<p><img src="http://blog.conorlee.top/blogimages/2017/service-proxy-common.png" alt=""></p>
 <p>下面结合VirtualApk源码，分析这个原理：</p>
 <pre><code>这里的代码与原博文里的代码有所不同，原博文是结合DroidPlugin进行分析
 </code></pre><p>在VirtualApk的源码com/didi/virtualapk/delegate/目录下，有两个Proxy结尾的类，这两个类动态代理模式相同，我们只看一个。在IContentProviderProxy.java文件中<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IContentProviderProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//.....代码省略</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IContentProvider <span class="title">newInstance</span><span class="params">(Context context, IContentProvider iContentProvider)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> (IContentProvider) Proxy.newProxyInstance(iContentProvider.getClass().getClassLoader(),</span><br><span class="line">              <span class="keyword">new</span> Class[] &#123; IContentProvider.class &#125;, <span class="keyword">new</span> IContentProviderProxy(context, iContentProvider));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">      Log.v(TAG, method.toGenericString() + <span class="string">" : "</span> + Arrays.toString(args));</span><br><span class="line">      wrapperUri(method, args);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">          <span class="keyword">return</span> method.invoke(mBase, args);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">          <span class="keyword">throw</span> e.getTargetException();</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//...代码省略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -665,7 +665,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">IClipboardHookBinderHandler</span><span class="params">(IBinder base)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.base = base;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.stub =Class.forName(<span class="string">"android.content.IClipboard$Stub"</span>);</span><br><span class="line">    <span class="keyword">this</span>.iinterface = Class.forName(<span class="string">"android.content.IClipboard"</span>);</span><br><span class="line">  &#125;<span class="keyword">catch</span> (ClassNotFoundException e)&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>到这里，看来这个对象也符合了代理的条件，那么就简单了，继续使用动态代理机制产生一个代理类即可：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">IClipboardHookBinderHandler</span><span class="params">(IBinder base, Class&lt;?&gt; stubClass)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    Method asInterfaceMethod = stubClass.getDeclaredMethod(<span class="string">"asInterface"</span>, IBinder.class);</span><br><span class="line">    <span class="keyword">this</span>.base = asInterfaceMethod.invoke(<span class="keyword">null</span>, base);</span><br><span class="line">  &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"hooked failed"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这个代理类的InvocationHandler中，先需要通过反射获取到Proxy原始对象：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="string">"getPrimaryClip"</span>.equals(method.getName())) &#123;</span><br><span class="line">      <span class="keyword">return</span> ClipData.newPlainText(<span class="keyword">null</span>, <span class="string">"you are hooked"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//欺骗系统，使之认为剪切板上一直有内容</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="string">"hasPrimaryClip"</span>.equals(method.getName())) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//千万不要忘了调用原始对象的方法</span></span><br><span class="line">  <span class="keyword">return</span> method.invoke(base, args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>到这里就已经完成了hook剪切板服务的整个步骤，再看一下流程图：<br><img src="http://oui2w5whj.bkt.clouddn.com/blogimages/2017/hook-clipboard-process.png" alt=""></p>
+<p>到这里就已经完成了hook剪切板服务的整个步骤，再看一下流程图：<br><img src="http://blog.conorlee.top/blogimages/2017/hook-clipboard-process.png" alt=""></p>
 <ul>
 <li>1、我们的目的就是拦截系统的服务功能，那么最开始的入口就是服务大管家ServiceManager对象，而在他内部也正好有一个远端服务对象的IBinder缓存池，那么这个变量就是我们操作的对象了，可以先使用反射机制去获取到他，然后在获取到指定的剪切板服务IBinder对象实例。</li>
 <li>2、下一步肯定是Hook这个剪切板服务的Binder对象，这里采用动态代理方式产生一个Binder对象代理类，符合两个规则：<ul>
@@ -703,8 +703,8 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
       display: inline-block;
       width: 82px;
       height: 82px;
-      background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
-      _background: url("http://7xsl28.com1.z0.glb.clouddn.com/btn_reward.gif") no-repeat;
+      background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      _background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
       -webkit-transition: background 0s;
       -moz-transition: background 0s;
       -o-transition: background 0s;
@@ -747,12 +747,12 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
       ------------------------------------------------------------------------------------------------------------------------------
       <br>
       <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
-        <a href="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
-          <img src="http://7xuos6.com1.z0.glb.clouddn.com/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+        <a href="http://cdn.conorlee.top/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
           style="float:left;"/>
         </a>
-        <a href="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
-          <img src="http://7xuos6.com1.z0.glb.clouddn.com/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+        <a href="http://cdn.conorlee.top/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
           style="float:left;"/>
         </a>
       </div>
@@ -804,7 +804,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/07/12/android-noroot-hook/" data-id="cjsud13jq003cz1vdnmgoftw7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/07/12/android-noroot-hook/" data-id="cjtjiejjd003p2tvdwsm700rm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -952,7 +952,7 @@ gitment.render('comments')
                             <a href="/2019/01/26/Android-request-memory-leaks/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Android避免网络请求造成内存泄漏" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Evening%20The%20End%20of%20the%20Day%20after%20Millet.jpg)" alt="Android避免网络请求造成内存泄漏" class="thumbnail-image"></span>
     
 </a>
 
@@ -971,7 +971,7 @@ gitment.render('comments')
                             <a href="/2018/12/06/Android-audio-introduction/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Android录音相关方法介绍" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20the%20Public%20Park%20in%20Arles.jpg)" alt="Android录音相关方法介绍" class="thumbnail-image"></span>
     
 </a>
 
@@ -990,7 +990,7 @@ gitment.render('comments')
                             <a href="/2018/08/22/Handler-Looper-MessageQueue/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Handler、Looper与MessageQueue分析" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20the%20Pawn%20Bank,%20The%20Hague.jpg)" alt="Handler、Looper与MessageQueue分析" class="thumbnail-image"></span>
     
 </a>
 
@@ -1028,7 +1028,7 @@ gitment.render('comments')
                             <a href="/2018/06/08/JVM-stack-heap-GC/" class="thumbnail">
     
     
-        <span style="background-image:url(http://obxk8w81b.bkt.clouddn.com/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg)" alt="Java的内存管理与垃圾回收" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg)" alt="Java的内存管理与垃圾回收" class="thumbnail-image"></span>
     
 </a>
 
