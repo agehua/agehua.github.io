@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://agehua.github.io/2019/03/27/Android-APP-Bundles-Introduction/</loc>
+    <lastmod>2019-03-27T10:47:02.896Z</lastmod>
+    <data>
+        <display>
+        <title>Android避免网络请求造成内存泄漏</title>
+        <pubTime>2019-03-26T16:00:00.000Z</pubTime>
+        
+        <tag>Android APP Bundles</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://agehua.github.io/2019/01/26/Android-request-memory-leaks/</loc>
     <lastmod>2019-03-22T03:11:22.595Z</lastmod>
     <data>
@@ -1275,9 +1295,9 @@
         
         <tag>Java</tag>
          
-        <tag>multi-thread</tag>
-         
         <tag>Interview Knowledge</tag>
+         
+        <tag>multi-thread</tag>
          
          
            

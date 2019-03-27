@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://agehua.github.io/2019/03/27/Android-APP-Bundles-Introduction/</loc>
+    
+    <lastmod>2019-03-27T10:47:02.896Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://agehua.github.io/2019/01/26/Android-request-memory-leaks/</loc>
     
     <lastmod>2019-03-22T03:11:22.595Z</lastmod>
