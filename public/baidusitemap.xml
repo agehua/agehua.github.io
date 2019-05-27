@@ -4,6 +4,48 @@
 
     
   <url>
+    <loc>http://agehua.github.io/2019/05/27/TCP-Three-way-Handshake/</loc>
+    <lastmod>2019-05-27T08:28:02.996Z</lastmod>
+    <data>
+        <display>
+        <title>TCP三次握手解读</title>
+        <pubTime>2019-05-26T16:00:00.000Z</pubTime>
+        
+        <tag>TCP</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2018/12/06/Android-audio-introduction/</loc>
+    <lastmod>2019-05-27T06:27:31.927Z</lastmod>
+    <data>
+        <display>
+        <title>Android录音相关方法介绍</title>
+        <pubTime>2018-12-05T16:00:00.000Z</pubTime>
+        
+        <tag>AudioRecord</tag>
+         
+        <tag>AAC</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://agehua.github.io/2019/03/27/Android-APP-Bundles-Introduction/</loc>
     <lastmod>2019-03-27T10:47:02.896Z</lastmod>
     <data>
@@ -34,28 +76,6 @@
         <tag>Memory leaks</tag>
          
         <tag>net request</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://agehua.github.io/2018/12/06/Android-audio-introduction/</loc>
-    <lastmod>2019-03-22T03:10:28.249Z</lastmod>
-    <data>
-        <display>
-        <title>Android录音相关方法介绍</title>
-        <pubTime>2018-12-05T16:00:00.000Z</pubTime>
-        
-        <tag>AudioRecord</tag>
-         
-        <tag>AAC</tag>
          
          
            
@@ -853,11 +873,11 @@
         <title>跨平台桌面程序开发</title>
         <pubTime>2017-10-21T16:00:00.000Z</pubTime>
         
+        <tag>JavaScript</tag>
+         
         <tag>Alfred Workflow</tag>
          
         <tag>Electron</tag>
-         
-        <tag>JavaScript</tag>
          
          
            
@@ -1295,9 +1315,9 @@
         
         <tag>Java</tag>
          
-        <tag>Interview Knowledge</tag>
-         
         <tag>multi-thread</tag>
+         
+        <tag>Interview Knowledge</tag>
          
          
            
