@@ -13,7 +13,7 @@ toc: true
 
 ### 背景
 
-之前写过一篇文章：[《ThreadLocal、HandlerThread、Lopper区别》](https://agehua.github.io/2016/09/05/ThreadLocal-HandlerThread-Lopper/)，其中简单提及了ThreadLocal的解释。本篇文章主要结合具体应用场景——SimpleDateFormat，和大家来一起学习ThreadLocal的原理，并对ThreadLocal进行一个详细的介绍。
+之前写过一篇文章：[《ThreadLocal、HandlerThread、Lopper区别》](/2016/09/05/ThreadLocal-HandlerThread-Lopper/)，其中简单提及了ThreadLocal的解释。本篇文章主要结合具体应用场景——SimpleDateFormat，和大家来一起学习ThreadLocal的原理，并对ThreadLocal进行一个详细的介绍。
 
 下面是本文的参考资料：
 

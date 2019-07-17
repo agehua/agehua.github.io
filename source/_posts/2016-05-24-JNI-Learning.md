@@ -318,4 +318,4 @@ public static native byte[] getIv();
 android 实现JNI入门并不难，笔者也刚刚入门，但要深入了解还是需要很长的路要走。
 
 #### 8.1 更新内容，JNI获取publickey实现
-在本文中最终使用第6点中的第一种方式，但原方法在4.0.4手机上遇到兼容性问题，详情请看我的这篇博客[使用JNI获取publickey实现](https://agehua.github.io/2016/05/24/JNI-Learning0/)
+在本文中最终使用第6点中的第一种方式，但原方法在4.0.4手机上遇到兼容性问题，详情请看我的这篇博客[使用JNI获取publickey实现](/2016/05/24/JNI-Learning0/)

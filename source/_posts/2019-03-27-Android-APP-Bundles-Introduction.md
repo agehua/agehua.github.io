@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Android避免网络请求造成内存泄漏
+title: Android App Bundle(AAB) 文件介绍
 category: accumulation
 tags:
     - Android APP Bundles

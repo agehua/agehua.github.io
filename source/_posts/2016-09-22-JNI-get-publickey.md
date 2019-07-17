@@ -12,7 +12,7 @@ thumbnail: http://cdn.conorlee.top/Blossoming%20Almond%20Branch%20in%20a%20Glass
 
 
 ### 1.前言
-之前写过一篇文件是关于[JNI学习和积累](http://agehua.github.io/2016/JNI-Learning)的文章。
+之前写过一篇文件是关于[JNI学习和积累](/2016/JNI-Learning)的文章。
 这篇文章主要讲在使用JNI取得Publickey过程中遇到的问题和一些总结。
 
 ### 2.JNI获取Publickey实现

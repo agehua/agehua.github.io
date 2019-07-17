@@ -9,7 +9,7 @@ banner: http://cdn.conorlee.top/Enclosed%20Wheat%20Field%20with%20Peasant.jpg
 thumbnail: http://cdn.conorlee.top/Enclosed%20Wheat%20Field%20with%20Peasant.jpg
 toc: true
 ---
-我在之前转载过一篇Java泛型的介绍：[JAVA 泛型通配符 T，E，K，V 区别，T 以及 Class<T>，Class<?> 的区别](http://agehua.github.io/2016/11/21/Difference_between-T-E-K-V/)
+我在之前转载过一篇Java泛型的介绍：[JAVA 泛型通配符 T，E，K，V 区别，T 以及 Class<T>，Class<?> 的区别](/2016/11/21/Difference_between-T-E-K-V/)
 
 最近在开发中遇到一个场景，想简化流程，突然发现可以使用泛型。
 这个场景就是，在手机上实现分页加载的功能时，把通用的数据映射成对象，然后使用泛型来替代具体业务类，从而封装出一个对应分页加载的类。

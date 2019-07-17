@@ -146,7 +146,7 @@ public ActivityResult execStartActivity(Context who, IBinder contextThread, IBin
     return null;
 }
 ~~~
-可以看到execStartActivity()方法，调用了ActivityManagerNative的startActivity()方法，看到这个ActivityManagerNative类有没有感觉和之前一篇文章，[Android Binder机制分析（二）](https://agehua.github.io/2017/07/10/android-binder-principle2/)里的ServiceManagerNative有点类似，这里涉及到的是系统服务间的Binder机制，不了解的同学可以看看这篇文章。
+可以看到execStartActivity()方法，调用了ActivityManagerNative的startActivity()方法，看到这个ActivityManagerNative类有没有感觉和之前一篇文章，[Android Binder机制分析（二）](/2017/07/10/android-binder-principle2/)里的ServiceManagerNative有点类似，这里涉及到的是系统服务间的Binder机制，不了解的同学可以看看这篇文章。
 
 稍后分析ActivityManagerNative，这里简单介绍下Instrumentation类。
 
@@ -180,7 +180,7 @@ ActivityThread你都没听说过？那你肯定听说过传说中的UI线程吧�
 所以说，AMS是董事会，负责指挥和调度的，ActivityThread是老板，虽然说家里的事自己说了算，但是需要听从AMS的指挥，而Instrumentation则是老板娘，负责家里的大事小事，但是一般不抛头露面，听一家之主ActivityThread的安排。
 
 #### 简介AMS和ActivityThread之间的Binder通信
-前面的两篇文章：[Android Binder机制分析（一）](https://agehua.github.io/2017/07/08/android-binder-principle/)和[Android Binder机制分析（二）](https://agehua.github.io/2017/07/10/android-binder-principle2/)。已经介绍了Android都是通过Binder机制调用远程的系统服务。这里在介绍下ActivityThread（App进程）是如何调用AMS服务的。
+前面的两篇文章：[Android Binder机制分析（一）](/2017/07/08/android-binder-principle/)和[Android Binder机制分析（二）](/2017/07/10/android-binder-principle2/)。已经介绍了Android都是通过Binder机制调用远程的系统服务。这里在介绍下ActivityThread（App进程）是如何调用AMS服务的。
 
 前面我们说到，在调用Activity.startActivity()的时候，实际上调用的是：
 **mInstrumentation.execStartActivity()**

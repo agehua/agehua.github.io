@@ -13,7 +13,7 @@ toc: true
 
 注解是Java语言的特性之一，它是在源代码中插入标签，这些标签在后面的编译或者运行过程中起到某种作用，每个注解都必须通过注解接口 @Interface 进行声明，接口的方法对应着注解的元素。
 
-在上一篇文章[JSR-330和assertion(断言)介绍](https://agehua.github.io/2017/03/14/JAVA-JSR-330-Assertion/)中介绍了Java中的JSR-330 规范，这个规范就是使用注解的方式。
+在上一篇文章[JSR-330和assertion(断言)介绍](/2017/03/14/JAVA-JSR-330-Assertion/)中介绍了Java中的JSR-330 规范，这个规范就是使用注解的方式。
 
 这篇文章主要介绍注解在Android中的应用。
 

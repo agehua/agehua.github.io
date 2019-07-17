@@ -437,7 +437,7 @@ public static IPackageManager getPackageManager() {
 - 5、因为系统中的服务获取都是肯定是跨进程的，远端服务都是在system_server进程中的，所以asInterface方法中返回的是Proxy代理对象，也就是本地端的中间者。
 - 6、最后返回的对象其实就是这个Proxy对象，而这个对象内部使用了静态代理方式，内部有一个来自远端的mRemote变量即IBinder对象。然后直接调用方法其实就是调用mRemote的transact方法进行通信了。
 
-所以在这个过程中可以看到有两个对象很重要，一个是ServiceManager，一个是IBinder对象。[下篇文章](http://agehua.github.io/2017/07/10/android-binder-principle2/)再来一一介绍
+所以在这个过程中可以看到有两个对象很重要，一个是ServiceManager，一个是IBinder对象。[下篇文章](/2017/07/10/android-binder-principle2/)再来一一介绍
 
 
 

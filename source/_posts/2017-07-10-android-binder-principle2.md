@@ -12,7 +12,7 @@ toc: true
 ---
 
 ### 背景
-[上篇文章](http://agehua.github.io/2017/07/08/android-binder-principle/
+[上篇文章](/2017/07/08/android-binder-principle/
 )分析到了Binder机制，分别介绍了自定义AIDL服务和调用系统的远程服务和他们之间的区别。
 本文承接上篇文章，继续介绍ServiceManager和系统服务的注册流程，最后对Binder机制进行分析。
 
@@ -22,7 +22,7 @@ toc: true
 ### 服务大管家ServiceManager
 > ServiceManager.java的源码可以在谷歌源码中看到，[点击这里](https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/os/ServiceManager.java)
 
-[上篇文章](http://agehua.github.io/2017/07/08/android-binder-principle/
+[上篇文章](/2017/07/08/android-binder-principle/
 )末尾提到，系统服务的IBinder对象都是由ServiceManager统一管理的。为什么这么说呢，先看下ServiceManager.getService方法:
 <!--more-->
 ~~~ Java
