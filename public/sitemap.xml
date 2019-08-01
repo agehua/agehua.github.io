@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://agehua.github.io/2019/07/30/LeakCanary_source_code/</loc>
+    
+    <lastmod>2019-08-01T01:53:51.820Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://agehua.github.io/2019/07/17/RecyclerView-pre-initiate/</loc>
     
     <lastmod>2019-07-17T10:06:34.077Z</lastmod>
