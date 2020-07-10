@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="google-site-verification" content="TYEtqE2Xc2ZonkJumwKut0-iq4RVbEc8o5Y8HpmZ-eo" />
+    <meta name="baidu-site-verification" content="8WKGBCPPKp" />
+    <meta charset="utf-8">
+    
+    <title>CoordinatorLayout源码解读 | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="CoordinatorLayout本文源码基于 27.1.1AppBarLayout 和 CoordinatorLayout是 2015年就已经推出的Material Design控件，一直以来也是只知其一这次通过阅读源码参考实现一个水平方向的 CoordinatorLayout和AppBarLayout组合。">
+<meta name="keywords" content="NestedScrollingChild2, NestedScrollingParent">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CoordinatorLayout源码解读">
+<meta property="og:url" content="http://agehua.github.io/2019/09/12/Horizontal-Coordinator/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="CoordinatorLayout本文源码基于 27.1.1AppBarLayout 和 CoordinatorLayout是 2015年就已经推出的Material Design控件，一直以来也是只知其一这次通过阅读源码参考实现一个水平方向的 CoordinatorLayout和AppBarLayout组合。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://cdn.conorlee.top/Field%20with%20Ploughman%20and%20Mill.jpg">
+<meta property="og:updated_time" content="2019-10-08T05:51:39.924Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CoordinatorLayout源码解读">
+<meta name="twitter:description" content="CoordinatorLayout本文源码基于 27.1.1AppBarLayout 和 CoordinatorLayout是 2015年就已经推出的Material Design控件，一直以来也是只知其一这次通过阅读源码参考实现一个水平方向的 CoordinatorLayout和AppBarLayout组合。">
+<meta name="twitter:image" content="http://cdn.conorlee.top/Field%20with%20Ploughman%20and%20Mill.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+
+
+    <link rel="icon" sizes="192x192" href="images/icon.png">
+    <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+    <!--text spacing-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+
+</head>
+
+
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+
+                <a class="main-nav-link" href='javascript:(
+        /*
+         * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *      http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         */
+        function go() {
+
+
+        var songs = [
+                    "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
+                    "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
+                    "https://static.rocko.xyz/audio/Music-outside.mp3",
+                    "https://static.rocko.xyz/audio/Music-sunburst.mp3"
+        ];
+
+
+        function c() {
+            var e = document.createElement("link");
+            e.setAttribute("type", "text/css");
+            e.setAttribute("rel", "stylesheet");
+            e.setAttribute("href", f);
+            e.setAttribute("class", l);
+            document.body.appendChild(e)
+        }
+
+        function h() {
+            var e = document.getElementsByClassName(l);
+            for (var t = 0; t < e.length; t++) {
+                document.body.removeChild(e[t])
+            }
+        }
+
+        function p() {
+            var e = document.createElement("div");
+            e.setAttribute("class", a);
+            document.body.appendChild(e);
+            setTimeout(function() {
+                document.body.removeChild(e)
+            }, 100)
+        }
+
+        function d(e) {
+            return {
+                height : e.offsetHeight,
+                width : e.offsetWidth
+            }
+        }
+
+        function v(i) {
+            var s = d(i);
+            return s.height > e && s.height < n && s.width > t && s.width < r
+        }
+
+        function m(e) {
+            var t = e;
+            var n = 0;
+            while (!!t) {
+                n += t.offsetTop;
+                t = t.offsetParent
+            }
+            return n
+        }
+
+        function g() {
+            var e = document.documentElement;
+            if (!!window.innerWidth) {
+                return window.innerHeight
+            } else if (e && !isNaN(e.clientHeight)) {
+                return e.clientHeight
+            }
+            return 0
+        }
+
+        function y() {
+            if (window.pageYOffset) {
+                return window.pageYOffset
+            }
+            return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+        }
+
+        function E(e) {
+            var t = m(e);
+            return t >= w && t <= b + w
+        }
+
+        function S() {
+            var e = document.getElementById("audio_element_id");
+            if(e != null){
+                var index = parseInt(e.getAttribute("curSongIndex"));
+                if(index > songs.length - 2) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                e.setAttribute("curSongIndex", index);
+                N();
+            }
+
+            e.src = i;
+            e.play()
+        }
+
+        function x(e) {
+            e.className += " " + s + " " + o
+        }
+
+        function T(e) {
+            e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+        }
+
+        function N() {
+            var e = document.getElementsByClassName(s);
+            var t = new RegExp("\\b" + s + "\\b");
+            for (var n = 0; n < e.length; ) {
+                e[n].className = e[n].className.replace(t, "")
+            }
+        }
+
+        function initAudioEle() {
+            var e = document.getElementById("audio_element_id");
+            if(e === null){
+                e = document.createElement("audio");
+                e.setAttribute("class", l);
+                e.setAttribute("curSongIndex", 0);
+                e.id = "audio_element_id";
+                e.loop = false;
+                e.bgcolor = 0;
+                e.addEventListener("canplay", function() {
+                setTimeout(function() {
+                    x(k)
+                }, 500);
+                setTimeout(function() {
+                    N();
+                    p();
+                    for (var e = 0; e < O.length; e++) {
+                        T(O[e])
+                    }
+                }, 15500)
+            }, true);
+            e.addEventListener("ended", function() {
+                N();
+                h();
+                go();
+            }, true);
+            e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+            document.body.appendChild(e);
+            }
+        }
+
+        initAudioEle();
+        var e = 30;
+        var t = 30;
+        var n = 350;
+        var r = 350;
+
+        var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+        var i = songs[curSongIndex];
+
+        var s = "mw-harlem_shake_me";
+        var o = "im_first";
+        var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+        var a = "mw-strobe_light";
+
+        /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
+        var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+
+        var l = "mw_added_css";
+        var b = g();
+        var w = y();
+        var C = document.getElementsByTagName("*");
+        var k = null;
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                if (E(A)) {
+                    k = A;
+                    break
+                }
+            }
+        }
+        if (A === null) {
+            console.warn("Could not find a node of the right size. Please try a different page.");
+            return
+        }
+        c();
+        S();
+        var O = [];
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                O.push(A)
+            }
+        }
+        })()'>High一下</a>
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+
+
+        </div>
+    </div>
+
+
+    <div id="main-nav-mobile" class="header-sub header-inner">
+
+        <table class="menu outer">
+
+
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    
+</header>
+
+        <div class="outer">
+            
+                
+
+
+<aside id="profile">
+    <div class="inner profile-inner" id="profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
+            <h2 id="name">Conor Lee</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                74
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                89
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+
+        <a href="https://github.com/agehua" class="github-corner" aria-label="View source on Github">
+          <svg width="64" height="64" viewBox="0 0 250 250" style="fill:#cba11f; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+            <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+          </svg>
+        </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+<div id='toc-col' class="toc-col">
+    
+</div>
+</aside>
+
+<script type="text/javascript">
+/*
+    滚动函数
+    接收三个参数,
+        1 接收一个DOM对象
+        2 给目标对象切换class
+        3 触发的高度 (可选项,如果不指定高度,会将DOM的高度作为触发高度)
+*/
+function scrollCheck(scrollTarget, toggleClass, scrollHeight){
+    document.addEventListener('scroll',function(){
+    var currentTop = window.pageYOffset;
+        currentTop > (scrollHeight||scrollTarget.clientHeight)
+        ?scrollTarget.classList.add(toggleClass)
+        :scrollTarget.classList.remove(toggleClass)
+    })
+}
+
+(function(){
+      try {
+        document.getElementById("toc-wrap").style.width= document.getElementById("profile-inner").offsetWidth+ "px";
+        var introHeader = document.querySelector('.inner.profile-inner').offsetHeight;
+        var toc = document.querySelector('.toc-wrap');
+        scrollCheck(toc,'toc-fixed',introHeader+40+64);
+      }catch(err){
+
+      }
+        // var node = document.querySelector('.profile-inner');
+        // scrollCheck(node,'profile-inner-fixed',64);
+})();
+</script>
+
+            
+            <section id="main"><article id="post-Horizontal-Coordinator" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<img src="http://cdn.conorlee.top/Field%20with%20Ploughman%20and%20Mill.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            CoordinatorLayout源码解读
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/09/12/Horizontal-Coordinator/">
+            <time datetime="2019-09-11T16:00:00.000Z" itemprop="datePublished">2019-09-12</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/coordinatorlayout/">CoordinatorLayout</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">16 min read , Words: 3115</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+
+            <h3 id="CoordinatorLayout"><a href="#CoordinatorLayout" class="headerlink" title="CoordinatorLayout"></a>CoordinatorLayout</h3><p><code>本文源码基于 27.1.1</code><br>AppBarLayout 和 CoordinatorLayout是 2015年就已经推出的Material Design控件，一直以来也是只知其一<br>这次通过阅读源码参考实现一个水平方向的 CoordinatorLayout和AppBarLayout组合。<br><a id="more"></a><br>CoordinatorLayout是一个增强型的FrameLayout。<br>CoordinatorLayout#LayoutParams是用在子view上，对应在xml里子view的”<code>app:layout_xxx</code>“属性。<br>通常的一个包含CoordinatorLayout的布局文件，大概是这样：<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;android.support.design.widget.CoordinatorLayout</span><br><span class="line">    xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    xmlns:app=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span><br><span class="line">    xmlns:tools=<span class="string">"http://schemas.android.com/tools"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"match_parent"</span></span><br><span class="line">    android:id=<span class="string">"@+id/coordinator"</span>&gt;</span><br><span class="line">    &lt;android.support.design.widget.AppBarLayout</span><br><span class="line">        android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">        android:id=<span class="string">"@+id/appbar"</span></span><br><span class="line">        android:layout_height=<span class="string">"220dp"</span></span><br><span class="line">        android:background=<span class="string">"#ffffff"</span>&gt;</span><br><span class="line">        ....</span><br><span class="line">    &lt;/android.support.design.widget.AppBarLayout&gt;</span><br><span class="line">  </span><br><span class="line">    &lt;android.support.v7.widget.RecyclerView</span><br><span class="line">        android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">        android:layout_height=<span class="string">"500dp"</span></span><br><span class="line">        android:background=<span class="string">"#1d9d29"</span></span><br><span class="line">        app:layout_behavior=<span class="string">"@string/appbar_scrolling_view_behavior"</span>&gt;</span><br><span class="line">        ....</span><br><span class="line">    &lt;/android.support.v7.widget.RecyclerView&gt;</span><br><span class="line"></span><br><span class="line">&lt;/android.support.design.widget.CoordinatorLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<p>来看一下CoordinatorLayout#LayoutParams的解析<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// CoordinatorLayout#LayoutParams</span></span><br><span class="line">LayoutParams(Context context, AttributeSet attrs) &#123;</span><br><span class="line">    <span class="keyword">super</span>(context, attrs);</span><br><span class="line">    <span class="keyword">final</span> TypedArray a = context.obtainStyledAttributes(attrs,</span><br><span class="line">            R.styleable.CoordinatorLayout_Layout);</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    mBehaviorResolved = a.hasValue(</span><br><span class="line">            R.styleable.CoordinatorLayout_Layout_layout_behavior);</span><br><span class="line">    <span class="keyword">if</span> (mBehaviorResolved) &#123;</span><br><span class="line">        <span class="comment">// 这里通过反射获得对应的Behavior对象</span></span><br><span class="line">        mBehavior = parseBehavior(context, attrs, a.getString(</span><br><span class="line">                R.styleable.CoordinatorLayout_Layout_layout_behavior));</span><br><span class="line">    &#125;</span><br><span class="line">    a.recycle();</span><br><span class="line">    <span class="keyword">if</span> (mBehavior != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// If we have a Behavior, dispatch that it has been attached</span></span><br><span class="line">        mBehavior.onAttachedToLayoutParams(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>感兴趣的可以继续点到<code>CoordinatorLayout_Layout</code>style里面看看。</p>
+<p>这里简单介绍几个属性：</p>
+<ul>
+<li>app:layout_anchor </li>
+<li>app:layout_anchorGravity<br>这两个一般配合FloatingActionButton使用，用来指定位置</li>
+<li>app:layout_behavior<br>是本文的重点，为子View指定一个Behavider，是一个字符串，这是使用反射方式取得Behavior类。具体解析方式去看上面的<code>parseBehavior()方法</code>，这里不介绍了</li>
+</ul>
+<h3 id="Bahavior介绍"><a href="#Bahavior介绍" class="headerlink" title="Bahavior介绍"></a>Bahavior介绍</h3><p>在上面的布局文件里，RecyclerView指定了一个 appbar_scrolling_view_behavior，对应的类为： <strong>android.support.design.widget.AppBarLayout$ScrollingViewBehavior</strong>。<br>这个Behavior也可以配合其他view使用，比如ViewPager、ListView、ScrollView。</p>
+<p>AppBarLayout为什么没有指定layout_behavior呢？<br>因为CoordinatorLayout提供了一个注解：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> DefaultBehavior &#123;</span><br><span class="line">    Class&lt;? extends Behavior&gt; value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>而AppBarLayout正是通过注解的方式添加的：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@CoordinatorLayout</span>.DefaultBehavior(AppBarLayout.Behavior.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppBarLayout</span> <span class="keyword">extends</span> <span class="title">LinearLayout</span> </span>&#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>关于这个注解的解析在getResolvedLayoutParams(View child)这个方法里，感兴趣的可以去看一下。<br>Behavior解析出来后，调用child.layoutParams.setBehavior()，保存在了child的LayoutParams的成员变量里。</p>
+<p>CoordinatorLayout.Behavior是一个抽象类，总共有9个子类，直接子类有4个，如下：</p>
+<ul>
+<li>AppBarLayout.ScrollingViewBehavior 继承自 HeaderScrollingViewBehavior</li>
+<li>AppBarLayout.Behavior 继承自 HeaderBehavior</li>
+<li>BaseTransientBottomBar.Behavior 继承自 SwipeDismissBehavior</li>
+<li>BottomSheetBehavior</li>
+<li>FloatingActionButton.Behavior</li>
+<li>HeaderBehavior 继承自 ViewOffsetBehavior</li>
+<li>HeaderScrollingViewBehavior 继承自 ViewOffsetBehavior</li>
+<li>SwipeDismissBehavior</li>
+<li>ViewOffsetBehavior</li>
+</ul>
+<p>下面以CoordinatorLayout + AppBarLayout + Recyclerview为例，分析用到的Behavior类结构如下：<br><img src="/images/blogimages/2019/uml_classes_behavior.png" alt="部分Behavior类图"></p>
+<p>现在CoordinatorLayout的子view都有了Behavior类，那么它们之间怎么和CoordinatorLayout交互并联动呢？</p>
+<h3 id="以AppBarLayout-Recyclerview为例分析子View之间联动"><a href="#以AppBarLayout-Recyclerview为例分析子View之间联动" class="headerlink" title="以AppBarLayout + Recyclerview为例分析子View之间联动"></a>以AppBarLayout + Recyclerview为例分析子View之间联动</h3><p>CoordinatorLayout是通过CoordinatorLayout.Behavior来控制子view的连动，这里涉及到触摸事件的处理。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> handled = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">boolean</span> cancelSuper = <span class="keyword">false</span>;</span><br><span class="line">    MotionEvent cancelEvent = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> action = ev.getActionMasked();</span><br><span class="line">    <span class="comment">// 这里mBehaviorTouchView 会在 performIntercept()方法返回true时被赋值，表示将事件交给CoordinatorLayout处理</span></span><br><span class="line">    <span class="keyword">if</span> (mBehaviorTouchView != <span class="keyword">null</span> || (cancelSuper = performIntercept(ev, TYPE_ON_TOUCH))) &#123;</span><br><span class="line">        <span class="comment">// Safe since performIntercept guarantees that</span></span><br><span class="line">        <span class="comment">// mBehaviorTouchView != null if it returns true</span></span><br><span class="line">        <span class="keyword">final</span> LayoutParams lp = (LayoutParams) mBehaviorTouchView.getLayoutParams();</span><br><span class="line">        <span class="keyword">final</span> Behavior b = lp.getBehavior();</span><br><span class="line">        <span class="comment">// 通过mBehaviorTouchView的layoutParams来获取Behavior对象，交由mBehaviorTouchView的Behavior对象来处理事件</span></span><br><span class="line">        <span class="keyword">if</span> (b != <span class="keyword">null</span>) &#123;</span><br><span class="line">            handled = b.onTouchEvent(<span class="keyword">this</span>, mBehaviorTouchView, ev);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Keep the super implementation correct</span></span><br><span class="line">    <span class="keyword">if</span> (mBehaviorTouchView == <span class="keyword">null</span>) &#123; <span class="comment">// 如果mBehaviorTouchView 为空，则还是交由父类去处理touch事件</span></span><br><span class="line">        handled |= <span class="keyword">super</span>.onTouchEvent(ev);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面分析可以看出，CoordinatorLayout本身并没有处理touch事件，而是哪个子view确定拦截事件后，交给这个子view的Behavior对象来处理这个事件。</p>
+<p>我们以AppBarLayout + Recyclerview这两个比较常见的子View形式来分析。首先有两种滑动逻辑：</p>
+<h4 id="当手指触摸AppBarLayout时候的滑动逻辑"><a href="#当手指触摸AppBarLayout时候的滑动逻辑" class="headerlink" title="当手指触摸AppBarLayout时候的滑动逻辑"></a>当手指触摸AppBarLayout时候的滑动逻辑</h4><p>为弄清手指触摸AppBarLayout时候的滑动逻辑，我们先看一下AppBarLayout.Behavior这个类。关于这个类的继承关系可以看上面的类图，这里先总结一下两个类的作用，需要详细的实现的请自行阅读源码吧：</p>
+<p>ViewOffsetBehavior：该Behavior主要运用于View的移动，从名字就可以看出来，该类中提供了上下移动，左右移动的方法。<br>HeaderBehavior：该类主要用于View处理触摸事件以及触摸后的fling事件，AppBarLayout.Behavior的onTouchEvent和onInterceptTouchEvent处理逻辑都是在这里</p>
+<p>HeaderBehavior的滑动都是通过setHeaderTopBottomOffset()方法处理的，这个方法在AppBarLayout.Behavior中进行了重写。</p>
+<p>我们直接看AppBarLayout.Behavior中的源码：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="comment">//newOffeset传入了dy，也就是我们手指移动距离上一次移动的距离，</span></span><br><span class="line"><span class="comment">//minOffset等于AppBarLayout的负的height，maxOffset等于0。</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">setHeaderTopBottomOffset</span><span class="params">(CoordinatorLayout coordinatorLayout,</span></span></span><br><span class="line"><span class="function"><span class="params">        AppBarLayout appBarLayout, <span class="keyword">int</span> newOffset, <span class="keyword">int</span> minOffset, <span class="keyword">int</span> maxOffset)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> curOffset = getTopBottomOffsetForScrollingSibling();<span class="comment">//获取当前的滑动Offset</span></span><br><span class="line">    <span class="keyword">int</span> consumed = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">//AppBarLayout滑动的距离如果超出了minOffset或者maxOffset，则直接返回0</span></span><br><span class="line">    <span class="keyword">if</span> (minOffset != <span class="number">0</span> &amp;&amp; curOffset &gt;= minOffset &amp;&amp; curOffset &lt;= maxOffset) &#123;</span><br><span class="line">        <span class="comment">//矫正newOffset，使其minOffset&lt;=newOffset&lt;=maxOffset</span></span><br><span class="line">        newOffset = MathUtils.clamp(newOffset, minOffset, maxOffset);</span><br><span class="line">		<span class="comment">//由于默认没设置Interpolator，所以interpolatedOffset=newOffset;</span></span><br><span class="line">        <span class="keyword">if</span> (curOffset != newOffset) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> interpolatedOffset = appBarLayout.hasChildWithInterpolator()</span><br><span class="line">                    ? interpolateOffset(appBarLayout, newOffset)</span><br><span class="line">                    : newOffset;</span><br><span class="line">			<span class="comment">//调用ViewOffsetBehvaior的方法setTopAndBottomOffset(...)，最终通过</span></span><br><span class="line">			<span class="comment">//ViewCompat.offsetTopAndBottom()移动AppBarLayout</span></span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">boolean</span> offsetChanged = setTopAndBottomOffset(interpolatedOffset);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//记录下消费了多少的dy。</span></span><br><span class="line">            consumed = curOffset - newOffset;</span><br><span class="line">            <span class="comment">//没设置Interpolator的情况， mOffsetDelta永远=0</span></span><br><span class="line">            mOffsetDelta = newOffset - interpolatedOffset;</span><br><span class="line">			<span class="comment">//....</span></span><br><span class="line">            <span class="comment">//分发回调OnOffsetChangedListener.onOffsetChanged(...)</span></span><br><span class="line">            appBarLayout.dispatchOffsetUpdates(getTopAndBottomOffset());</span><br><span class="line"></span><br><span class="line">            updateAppBarLayoutDrawableState(coordinatorLayout, appBarLayout, newOffset,</span><br><span class="line">                    newOffset &lt; curOffset ? -<span class="number">1</span> : <span class="number">1</span>, <span class="keyword">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="keyword">return</span> consumed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面注释也解释的比较清楚了，通过setTopAndBottomOffset()来计算AppBarLayout滑动多少距离，达到移动AppBarLayout的目的，那么这里AppBarLayout就可以跟着手上下移动了.<br><strong>但是，RecyclerView是如何跟随滑动的呢？</strong><br>在上面的布局文件里，我们给RecyclerView指定了一个layout_behavior，前面也说了这个Behavior是通过反射获取的，点击去可以找到这个类，它是：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</span><br></pre></td></tr></table></figure></p>
+<p><code>注意区分，这个类不是我们上面提到的AppBarLayout.Behavior，两者并不相同</code></p>
+<p>AppBarLayout$ScrollingViewBehavior重写了下面两个方法，并通过这两个方法将AppBarLayout和Recyclerview关联了起来<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">layoutDependsOn</span><span class="params">(CoordinatorLayout parent, View child, View dependency)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// We depend on any AppBarLayouts</span></span><br><span class="line">    <span class="keyword">return</span> dependency <span class="keyword">instanceof</span> AppBarLayout;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onDependentViewChanged</span><span class="params">(CoordinatorLayout parent, View child,</span></span></span><br><span class="line"><span class="function"><span class="params">        View dependency)</span> </span>&#123;</span><br><span class="line">    offsetChildAsNeeded(parent, child, dependency);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Recyclerview依赖于AppBarLayout，在AppBarLayout移动的过程中，Recyclerview会随着AppBarLayout的移动回调onDependentViewChanged()方法，进而调用 offsetChildAsNeeded(parent, child, dependency)</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">offsetChildAsNeeded</span><span class="params">(CoordinatorLayout parent, View child, View dependency)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> CoordinatorLayout.Behavior behavior =</span><br><span class="line">            ((CoordinatorLayout.LayoutParams) dependency.getLayoutParams()).getBehavior();</span><br><span class="line">    <span class="keyword">if</span> (behavior <span class="keyword">instanceof</span> Behavior) &#123;</span><br><span class="line">        <span class="comment">// Offset the child, pinning it to the bottom the header-dependency, maintaining</span></span><br><span class="line">        <span class="comment">// any vertical gap and overlap</span></span><br><span class="line">        <span class="keyword">final</span> Behavior ablBehavior = (Behavior) behavior;</span><br><span class="line">        ViewCompat.offsetTopAndBottom(child, (dependency.getBottom() - child.getTop())</span><br><span class="line">                + ablBehavior.mOffsetDelta</span><br><span class="line">                + getVerticalLayoutGap()</span><br><span class="line">                - getOverlapPixelsForOffset(dependency));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样我们就知道了当手指移动AppBarLayout时候的过程，下面整理一下：</p>
+<p>首先通过Behavior.onTouchEvent(…)收到滑动距离，进而通知AppBarLayout.Behavior调用ViewCompat.offsetTopAndBottom()进行滑动；在AppBarLayout滑动的过程中，由于Recyclerview中的ScrollingViewBehavior会依赖于AppBarLayout，所以在AppBarLayout滑动时候，Recyclerview也会随着滑动，调用的方法也是ViewCompat.offsetTopAndBottom()。</p>
+<h4 id="当手指触摸Recyclerview时的滑动逻辑"><a href="#当手指触摸Recyclerview时的滑动逻辑" class="headerlink" title="当手指触摸Recyclerview时的滑动逻辑"></a>当手指触摸Recyclerview时的滑动逻辑</h4><p>在Touch触发的时候，先走到CoordinatorLayout的onInterceptTouchEvent()方法，然后走到performIntercept()，调用Behavior的onInterceptTouchEvent()方法，最终Recyclerview绑定的ScrollingViewBehavior并没有重写onInterceptTouchEvent()，所以父viewCoordinatorLayout并不会拦截这个Touch事件，所以会在Recyclerview的onInterceptTouchEvent进行处理。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onInterceptTouchEvent</span><span class="params">(MotionEvent e)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> action = e.getActionMasked();</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> actionIndex = e.getActionIndex();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span> (action) &#123;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</span><br><span class="line">                <span class="keyword">if</span> (mIgnoreMotionEventTillDown) &#123;</span><br><span class="line">                    mIgnoreMotionEventTillDown = <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                mScrollPointerId = e.getPointerId(<span class="number">0</span>);</span><br><span class="line">                mInitialTouchX = mLastTouchX = (<span class="keyword">int</span>) (e.getX() + <span class="number">0.5f</span>);</span><br><span class="line">                mInitialTouchY = mLastTouchY = (<span class="keyword">int</span>) (e.getY() + <span class="number">0.5f</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (mScrollState == SCROLL_STATE_SETTLING) &#123;</span><br><span class="line">                    getParent().requestDisallowInterceptTouchEvent(<span class="keyword">true</span>);</span><br><span class="line">                    setScrollState(SCROLL_STATE_DRAGGING);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// Clear the nested offsets</span></span><br><span class="line">                mNestedOffsets[<span class="number">0</span>] = mNestedOffsets[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">int</span> nestedScrollAxis = ViewCompat.SCROLL_AXIS_NONE;</span><br><span class="line">                <span class="keyword">if</span> (canScrollHorizontally) &#123;</span><br><span class="line">                    nestedScrollAxis |= ViewCompat.SCROLL_AXIS_HORIZONTAL;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (canScrollVertically) &#123;</span><br><span class="line">                    nestedScrollAxis |= ViewCompat.SCROLL_AXIS_VERTICAL;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 在这里触发nestedscroll</span></span><br><span class="line">                startNestedScroll(nestedScrollAxis, TYPE_TOUCH);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">                <span class="comment">//...</span></span><br><span class="line">        &#125;</span><br><span class="line">         <span class="keyword">return</span> mScrollState == SCROLL_STATE_DRAGGING;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>Recyclerview实现了NestedScrollingChild2接口，但是具体实现都在NestedScrollingChildHelper类中<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">startNestedScroll</span><span class="params">(@ScrollAxis <span class="keyword">int</span> axes, @NestedScrollType <span class="keyword">int</span> type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (hasNestedScrollingParent(type)) &#123;</span><br><span class="line">        <span class="comment">// Already in progress</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (isNestedScrollingEnabled()) &#123; <span class="comment">//是否支持嵌套滑动</span></span><br><span class="line">        ViewParent p = mView.getParent();</span><br><span class="line">        View child = mView; <span class="comment">// mView就是当前的Recyclerview</span></span><br><span class="line">        <span class="comment">//从子View向外查询第一个接收滑动的父View，当前p就是CoordinatorLayout</span></span><br><span class="line">        <span class="keyword">while</span> (p != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (ViewParentCompat.onStartNestedScroll(p, child, mView, axes, type)) &#123;</span><br><span class="line">                setNestedScrollingParentForType(type, p);</span><br><span class="line">                <span class="comment">//调用父view的onNestedScrollAccepted()</span></span><br><span class="line">                ViewParentCompat.onNestedScrollAccepted(p, child, mView, axes, type);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (p <span class="keyword">instanceof</span> View) &#123;</span><br><span class="line">                child = (View) p;</span><br><span class="line">            &#125;</span><br><span class="line">            p = p.getParent();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面是ViewParentCompat.onStartNestedScroll()的处理代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">onStartNestedScroll</span><span class="params">(ViewParent parent, View child, View target,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span> nestedScrollAxes, <span class="keyword">int</span> type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (parent <span class="keyword">instanceof</span> NestedScrollingParent2) &#123;</span><br><span class="line">        <span class="comment">// First try the NestedScrollingParent2 API</span></span><br><span class="line">        <span class="keyword">return</span> ((NestedScrollingParent2) parent).onStartNestedScroll(child, target,</span><br><span class="line">                nestedScrollAxes, type);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type == ViewCompat.TYPE_TOUCH) &#123;</span><br><span class="line">        <span class="comment">// Else if the type is the default (touch), try the NestedScrollingParent API</span></span><br><span class="line">        <span class="keyword">return</span> IMPL.onStartNestedScroll(parent, child, target, nestedScrollAxes);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>CoordinatorLayout正好实现了NestedScrollingParent2接口，所以由CoordinatorLayout来处理onStartNestedScroll()方法<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onStartNestedScroll</span><span class="params">(View child, View target, <span class="keyword">int</span> axes, <span class="keyword">int</span> type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">boolean</span> handled = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> childCount = getChildCount();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; childCount; i++) &#123;</span><br><span class="line">        <span class="keyword">final</span> View view = getChildAt(i);</span><br><span class="line">        <span class="keyword">if</span> (view.getVisibility() == View.GONE) &#123;</span><br><span class="line">            <span class="comment">// If it's GONE, don't dispatch</span></span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">final</span> LayoutParams lp = (LayoutParams) view.getLayoutParams();</span><br><span class="line">        <span class="keyword">final</span> Behavior viewBehavior = lp.getBehavior();</span><br><span class="line">        <span class="comment">// 由CoordinatorLayout转发给各个Behavior</span></span><br><span class="line">        <span class="keyword">if</span> (viewBehavior != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">boolean</span> accepted = viewBehavior.onStartNestedScroll(<span class="keyword">this</span>, view, child,</span><br><span class="line">                    target, axes, type);</span><br><span class="line">            handled |= accepted;</span><br><span class="line">            lp.setNestedScrollAccepted(type, accepted);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            lp.setNestedScrollAccepted(type, <span class="keyword">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> handled;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面代码可以看出，由CoordinatorLayout转发给各个Behavior，根据其返回值作进一步处理</p>
+<p>下面是Behavior的onStartNestedScroll()方法的注释：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Called when a descendant of the CoordinatorLayout attempts to initiate a nested scroll.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;Any Behavior associated with any direct child of the CoordinatorLayout may respond</span></span><br><span class="line"><span class="comment">     * to this event and return true to indicate that the CoordinatorLayout should act as</span></span><br><span class="line"><span class="comment">     * a nested scrolling parent for this scroll. Only Behaviors that return true from</span></span><br><span class="line"><span class="comment">     * this method will receive subsequent nested scroll events.&lt;/p&gt;</span></span><br><span class="line"><span class="comment">     //...</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@see</span> NestedScrollingParent2#onStartNestedScroll(View, View, int, int)</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure></p>
+<p>当CoordinatorLayout的子类想要启动一个nested scroll（嵌套滑动）时需要重写这个方法。CoordinatorLayout的子类可以响应这个事件，返回true表示CoordinatorLayout应该扮演一个嵌套滑动的父类。只有返回true的Behavior才会收到后续的嵌套滑动事件。</p>
+<p>在这个例子中（AppBarLayout+ Recyclerview），只有AppBarLayout.Behavior重写了这个方法，并返回了true。但是这里并没有移动view的方法。</p>
+<blockquote>
+<p>简单总结一下：Recyclerview作为子View滑动时候会首先调用startNestedScroll(…)方法来询问父View即CoordinatorLayout是否需要消费事件，<br>CoordinatorLayout作为代理做发给对应Behavior，这里就分发给了AppBarLayout.Behavior，并返回true，说明AppBarLayout需要进行消费事件的处理.<br>而ScrollingViewBehavior作为事件的触发者，并没有重写startNestedScroll()方法，所以返回false，表示不需要对事件进行消费。</p>
+</blockquote>
+<p>前面分析了Recyclerview的onInterceptTouchEvent()的处理流程，父类并没有拦截Touch事件。<br>所以，Touch事件肯定是在Recyclerview的 onTouchEvent()里进行了处理。最终，在Recyclerview的onTouchEvent对ACTION_MOVE的处理中看到了下面的代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">case</span> MotionEvent.ACTION_MOVE: &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> index = e.findPointerIndex(mScrollPointerId);</span><br><span class="line">    <span class="keyword">if</span> (index &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        Log.e(TAG, <span class="string">"Error processing scroll; pointer index for id "</span></span><br><span class="line">                + mScrollPointerId + <span class="string">" not found. Did any MotionEvents get skipped?"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> x = (<span class="keyword">int</span>) (e.getX(index) + <span class="number">0.5f</span>);</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> y = (<span class="keyword">int</span>) (e.getY(index) + <span class="number">0.5f</span>);</span><br><span class="line">    <span class="keyword">int</span> dx = mLastTouchX - x;</span><br><span class="line">    <span class="keyword">int</span> dy = mLastTouchY - y;</span><br><span class="line">    <span class="comment">// 1.这里向父view（CoordinatorLayout）分发了滑动处理</span></span><br><span class="line">    <span class="keyword">if</span> (dispatchNestedPreScroll(dx, dy, mScrollConsumed, mScrollOffset, TYPE_TOUCH)) &#123;</span><br><span class="line">        <span class="comment">// 剪掉被AppBarLayout消耗的距离，剩下距离作为Recyclerview的滑动距离</span></span><br><span class="line">        dx -= mScrollConsumed[<span class="number">0</span>];</span><br><span class="line">        dy -= mScrollConsumed[<span class="number">1</span>];</span><br><span class="line">        vtev.offsetLocation(mScrollOffset[<span class="number">0</span>], mScrollOffset[<span class="number">1</span>]);</span><br><span class="line">        <span class="comment">// Updated the nested offsets</span></span><br><span class="line">        mNestedOffsets[<span class="number">0</span>] += mScrollOffset[<span class="number">0</span>];</span><br><span class="line">        mNestedOffsets[<span class="number">1</span>] += mScrollOffset[<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mScrollState == SCROLL_STATE_DRAGGING) &#123;</span><br><span class="line">        mLastTouchX = x - mScrollOffset[<span class="number">0</span>];</span><br><span class="line">        mLastTouchY = y - mScrollOffset[<span class="number">1</span>];</span><br><span class="line">        <span class="comment">// 2.这里向父view（CoordinatorLayout）分发了滑动处理</span></span><br><span class="line">        <span class="keyword">if</span> (scrollByInternal(</span><br><span class="line">                canScrollHorizontally ? dx : <span class="number">0</span>,</span><br><span class="line">                canScrollVertically ? dy : <span class="number">0</span>,</span><br><span class="line">                vtev)) &#123;</span><br><span class="line">            getParent().requestDisallowInterceptTouchEvent(<span class="keyword">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (mGapWorker != <span class="keyword">null</span> &amp;&amp; (dx != <span class="number">0</span> || dy != <span class="number">0</span>)) &#123;</span><br><span class="line">            mGapWorker.postFromTraversal(<span class="keyword">this</span>, dx, dy);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>进入上面注释2处：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">scrollByInternal</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y, MotionEvent ev)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> unconsumedX = <span class="number">0</span>, unconsumedY = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> consumedX = <span class="number">0</span>, consumedY = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    consumePendingUpdateOperations();</span><br><span class="line">    <span class="keyword">if</span> (mAdapter != <span class="keyword">null</span>) &#123;</span><br><span class="line">        startInterceptRequestLayout();</span><br><span class="line">        onEnterLayoutOrScroll();</span><br><span class="line">        TraceCompat.beginSection(TRACE_SCROLL_TAG);</span><br><span class="line">        fillRemainingScrollValues(mState);</span><br><span class="line">        <span class="keyword">if</span> (x != <span class="number">0</span>) &#123;</span><br><span class="line">            consumedX = mLayout.scrollHorizontallyBy(x, mRecycler, mState);</span><br><span class="line">            unconsumedX = x - consumedX;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// dispatchNestedScroll也向CoordinatorLayout转发了处理</span></span><br><span class="line">    <span class="keyword">if</span> (dispatchNestedScroll(consumedX, consumedY, unconsumedX, unconsumedY, mScrollOffset,</span><br><span class="line">            TYPE_TOUCH)) &#123;</span><br><span class="line">        <span class="comment">// Update the last touch co-ords, taking any scroll offset into account</span></span><br><span class="line">        mLastTouchX -= mScrollOffset[<span class="number">0</span>];</span><br><span class="line">        mLastTouchY -= mScrollOffset[<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (ev != <span class="keyword">null</span>) &#123;</span><br><span class="line">            ev.offsetLocation(mScrollOffset[<span class="number">0</span>], mScrollOffset[<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        mNestedOffsets[<span class="number">0</span>] += mScrollOffset[<span class="number">0</span>];</span><br><span class="line">        mNestedOffsets[<span class="number">1</span>] += mScrollOffset[<span class="number">1</span>];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (getOverScrollMode() != View.OVER_SCROLL_NEVER) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ev != <span class="keyword">null</span> &amp;&amp; !MotionEventCompat.isFromSource(ev, InputDevice.SOURCE_MOUSE)) &#123;</span><br><span class="line">            pullGlows(ev.getX(), unconsumedX, ev.getY(), unconsumedY);</span><br><span class="line">        &#125;</span><br><span class="line">        considerReleasingGlowsOnScroll(x, y);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (consumedX != <span class="number">0</span> || consumedY != <span class="number">0</span>) &#123;</span><br><span class="line">        dispatchOnScrolled(consumedX, consumedY);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!awakenScrollBars()) &#123;</span><br><span class="line">        invalidate();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> consumedX != <span class="number">0</span> || consumedY != <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从上面两段代码可以发现在Recyclerview的onTouch事件中，有两处将事件分发了出去，先简单说一下两个分发的流程顺序：<br>1.dispatchNestedPreScroll流程是:</p>
+<blockquote>
+<p>Recyclerview.dispatchNestedPreScroll(…) -&gt; NestedScrollingChildHelper.dispatchNestedPreScroll(…)<br>-&gt;ViewParentCompat.onNestedPreScroll()-&gt;NestedScrollingParent2.onNestedPreScroll()-&gt;CoordinatorLayout.onNestedPreScroll(…)</p>
+</blockquote>
+<p>2.dispatchNestedScroll流程是:</p>
+<blockquote>
+<p>Recyclerview.dispatchNestedScroll(…) -&gt; NestedScrollingChildHelper.dispatchNestedScroll(…)<br>-&gt;ViewParentCompat.onNestedScroll()-&gt;NestedScrollingParent2.onNestedScroll()-&gt;CoordinatorLayout.onNestedScroll(…)</p>
+</blockquote>
+<h4 id="onNestedPreScroll和onNestedScroll区别"><a href="#onNestedPreScroll和onNestedScroll区别" class="headerlink" title="onNestedPreScroll和onNestedScroll区别"></a>onNestedPreScroll和onNestedScroll区别</h4><p>关于这两者的区别，看一下谷歌给出的介绍：</p>
+<blockquote>
+<p>onNestedPreScroll is called each time the nested scroll is updated by the nested scrolling child, before the nested scrolling child has consumed the scroll distance itself. Each Behavior responding to the nested scroll will receive the same values. The CoordinatorLayout will report as consumed the maximum number of pixels in either direction that any Behavior responding to the nested scroll reported as consumed.</p>
+</blockquote>
+<p><code>这里的the nested scrolling child指的是实现了NestedScrollingChild2或NestedScrollingChild接口的view。</code></p>
+<p>onNestedPreScroll由the nested scrolling child发起，在the nested scrolling child消费滑动距离之前调用这个方法。<br>任何响应嵌套滑动的Behavior消耗的像素数都是由CoordinatorLayout来转发。</p>
+<blockquote>
+<p>onNestedScroll is called each time the nested scroll is updated by the nested scrolling child, with both consumed and unconsumed components of the scroll supplied in pixels. Each Behavior responding to the nested scroll will receive the same values.</p>
+</blockquote>
+<p>onNestedScroll也是由the nested scrolling child发起，并且每个响应嵌套滑动的Behavior都会收到相同的消耗和未消耗的像素数。</p>
+<p>总结一下就是：</p>
+<ul>
+<li>onNestedPreScroll : 接收<strong>滑动控件</strong>处理滑动前的滑动距离信息，所有Behavior控件并且Behavior的isNestedScrollAccepted()返回true，都可以优先响应滑动操作。消耗部分或者全部滑动距离.</li>
+<li>onNestedScroll : 接收子控件处理完滑动后的滑动距离信息, 在这里外控件可以选择是否处理剩余的滑动距离.</li>
+</ul>
+<h4 id="onNestedPreScroll流程分析"><a href="#onNestedPreScroll流程分析" class="headerlink" title="onNestedPreScroll流程分析"></a>onNestedPreScroll流程分析</h4><p>下面先以onNestedPreScroll为例，分析滑动处理流程。<br>在CoordinatorLayout的onNestedPreScroll()方法中<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNestedPreScroll</span><span class="params">(View target, <span class="keyword">int</span> dx, <span class="keyword">int</span> dy, <span class="keyword">int</span>[] consumed, <span class="keyword">int</span>  type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> xConsumed = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> yConsumed = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">boolean</span> accepted = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> childCount = getChildCount();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; childCount; i++) &#123;</span><br><span class="line">        <span class="keyword">final</span> View view = getChildAt(i);</span><br><span class="line">        <span class="keyword">if</span> (view.getVisibility() == GONE) &#123;</span><br><span class="line">            <span class="comment">// If the child is GONE, skip...</span></span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> LayoutParams lp = (LayoutParams) view.getLayoutParams();</span><br><span class="line">        <span class="keyword">if</span> (!lp.isNestedScrollAccepted(type)) &#123;</span><br><span class="line">            <span class="comment">// 没有接受事件，这里直接返回</span></span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 将事件转发给各个Behavior</span></span><br><span class="line">        <span class="keyword">final</span> Behavior viewBehavior = lp.getBehavior();</span><br><span class="line">        <span class="keyword">if</span> (viewBehavior != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mTempIntPair[<span class="number">0</span>] = mTempIntPair[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">            viewBehavior.onNestedPreScroll(<span class="keyword">this</span>, view, target, dx, dy, mTempIntPair, type);</span><br><span class="line"></span><br><span class="line">            xConsumed = dx &gt; <span class="number">0</span> ? Math.max(xConsumed, mTempIntPair[<span class="number">0</span>])</span><br><span class="line">                    : Math.min(xConsumed, mTempIntPair[<span class="number">0</span>]);</span><br><span class="line">            yConsumed = dy &gt; <span class="number">0</span> ? Math.max(yConsumed, mTempIntPair[<span class="number">1</span>])</span><br><span class="line">                    : Math.min(yConsumed, mTempIntPair[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">            accepted = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    consumed[<span class="number">0</span>] = xConsumed;</span><br><span class="line">    consumed[<span class="number">1</span>] = yConsumed;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (accepted) &#123;</span><br><span class="line">        onChildViewsChanged(EVENT_NESTED_SCROLL);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看到这里CoordinatorLayout遍历子view的Behavior，大家应该比较熟悉了。<br>前面代码CoordinatorLayout的onStartNestedScroll()里有<code>lp.setNestedScrollAccepted(type, accepted);</code>这样一句话，由于Recyclerview的Behavior没有重写这个方法，所以accepted的值是false，导致这里<code>lp.isNestedScrollAccepted(type)</code>得到的值也是false，所以Recyclerview并不会执行onNestedPreScroll()方法。<br>只有另一个子View(AppBarLayout) 会触发这个方法：AppBarLayout.Behavior的onNestedPreScroll()<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNestedPreScroll</span><span class="params">(CoordinatorLayout coordinatorLayout, AppBarLayout child,</span></span></span><br><span class="line"><span class="function"><span class="params">        View target, <span class="keyword">int</span> dx, <span class="keyword">int</span> dy, <span class="keyword">int</span>[] consumed, <span class="keyword">int</span> type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (dy != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> min, max;</span><br><span class="line">        <span class="keyword">if</span> (dy &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// We're scrolling down</span></span><br><span class="line">            min = -child.getTotalScrollRange();</span><br><span class="line">            max = min + child.getDownNestedPreScrollRange();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// We're scrolling up</span></span><br><span class="line">            min = -child.getUpNestedPreScrollRange();</span><br><span class="line">            max = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (min != max) &#123;</span><br><span class="line">            <span class="comment">// AppBarLayout只支持垂直方向，这里只需要更新Y方向值就可以</span></span><br><span class="line">            consumed[<span class="number">1</span>] = scroll(coordinatorLayout, child, dy, min, max);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>scroll()会调用setHeaderTopBottomOffset()方法，这个方法在前面介绍手指触摸AppBarLayout时已经贴过，这里就不贴了，需要注意的是AppBarLayout.Behavior对setHeaderTopBottomOffset()方法进行了重写。</p>
+<p>consumed的值有两种情况：</p>
+<ul>
+<li>当滑动的距离在minOffset和maxOffset区间之内，则consume!=0，也就说明需要AppBarLayout进行消费，这里对应着AppBarLayout还没移出我们的视线时候的消费情况。</li>
+<li>当滑动的距离超出了minOffset或者maxOffset后，则consume==0，也就说明需要AppBarLayout不进行消费了，这里对应着AppBarLayout移出我们的视线时候的消费情况。</li>
+</ul>
+<p>再看一下刚才CoordinatorLayout.onNestedPreScroll()方法中最后一句<code>onChildViewsChanged(EVENT_NESTED_SCROLL);</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">onChildViewsChanged</span><span class="params">(@DispatchChangeEvent <span class="keyword">final</span> <span class="keyword">int</span> type)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; childCount; i++) &#123;</span><br><span class="line">            <span class="comment">//...</span></span><br><span class="line">            <span class="comment">// Get the current draw rect of the view</span></span><br><span class="line">            getChildRect(child, <span class="keyword">true</span>, drawRect);</span><br><span class="line">            <span class="comment">//...</span></span><br><span class="line">            <span class="keyword">if</span> (type != EVENT_VIEW_REMOVED) &#123;</span><br><span class="line">                <span class="comment">// Did it change? if not continue</span></span><br><span class="line">                getLastChildRect(child, lastDrawRect);</span><br><span class="line">                <span class="keyword">if</span> (lastDrawRect.equals(drawRect)) &#123; <span class="comment">//当前view的宽高没有发生变化</span></span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                recordLastChildRect(child, drawRect);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// Update any behavior-dependent views for the change</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; childCount; j++) &#123;</span><br><span class="line">                <span class="comment">// j 从1开始，checkChild就是Recyclerview</span></span><br><span class="line">                <span class="keyword">final</span> View checkChild = mDependencySortedChildren.get(j);</span><br><span class="line">                <span class="keyword">final</span> LayoutParams checkLp = (LayoutParams) checkChild.getLayoutParams();</span><br><span class="line">                <span class="keyword">final</span> Behavior b = checkLp.getBehavior();</span><br><span class="line">                <span class="comment">// 这里b是AppBarLayout.ScrollingViewBehavior，layoutDependsOn()返回true</span></span><br><span class="line">                <span class="keyword">if</span> (b != <span class="keyword">null</span> &amp;&amp; b.layoutDependsOn(<span class="keyword">this</span>, checkChild, child)) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (type == EVENT_PRE_DRAW &amp;&amp; checkLp.getChangedAfterNestedScroll()) &#123;</span><br><span class="line">                        <span class="comment">// If this is from a pre-draw and we have already been changed</span></span><br><span class="line">                        <span class="comment">// from a nested scroll, skip the dispatch and reset the flag</span></span><br><span class="line">                        checkLp.resetChangedAfterNestedScroll();</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">final</span> <span class="keyword">boolean</span> handled;</span><br><span class="line">                    <span class="keyword">switch</span> (type) &#123;</span><br><span class="line">                        <span class="keyword">case</span> EVENT_VIEW_REMOVED:</span><br><span class="line">                            <span class="comment">// EVENT_VIEW_REMOVED means that we need to dispatch</span></span><br><span class="line">                            <span class="comment">// onDependentViewRemoved() instead</span></span><br><span class="line">                            b.onDependentViewRemoved(<span class="keyword">this</span>, checkChild, child);</span><br><span class="line">                            handled = <span class="keyword">true</span>;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        <span class="keyword">default</span>:</span><br><span class="line">                            <span class="comment">// Otherwise we dispatch onDependentViewChanged()</span></span><br><span class="line">                            <span class="comment">// 传进来的type = EVENT_NESTED_SCROLL</span></span><br><span class="line">                            handled = b.onDependentViewChanged(<span class="keyword">this</span>, checkChild, child);</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (type == EVENT_NESTED_SCROLL) &#123;</span><br><span class="line">                        <span class="comment">// If this is from a nested scroll, set the flag so that we may skip</span></span><br><span class="line">                        <span class="comment">// any resulting onPreDraw dispatch (if needed)</span></span><br><span class="line">                        checkLp.setChangedAfterNestedScroll(handled);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在AppBarLayout.ScrollingViewBehavior的onDependentViewChanged()方法中，会调用其offsetChildAsNeeded()方法<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">offsetChildAsNeeded</span><span class="params">(CoordinatorLayout parent, View child, View dependency)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> CoordinatorLayout.Behavior behavior =</span><br><span class="line">            ((CoordinatorLayout.LayoutParams) dependency.getLayoutParams()).getBehavior();</span><br><span class="line">    <span class="keyword">if</span> (behavior <span class="keyword">instanceof</span> Behavior) &#123;</span><br><span class="line">        <span class="comment">// Offset the child, pinning it to the bottom the header-dependency, maintaining</span></span><br><span class="line">        <span class="comment">// any vertical gap and overlap</span></span><br><span class="line">        <span class="keyword">final</span> Behavior ablBehavior = (Behavior) behavior;</span><br><span class="line">        ViewCompat.offsetTopAndBottom(child, (dependency.getBottom() - child.getTop())</span><br><span class="line">                + ablBehavior.mOffsetDelta</span><br><span class="line">                + getVerticalLayoutGap()</span><br><span class="line">                - getOverlapPixelsForOffset(dependency));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>dependency这里就是AppBarLayout，child就是Recyclerview，而parent当然就是CoordinatorLayout了。<br>这个方法就是根据AppBarLayout的位置，来调整Recyclerview的位置。如果注释掉这个代码，滑动过程中，Recyclerview左边距位置不会调整，会和AppBarLayout之间出现空白。</p>
+<h4 id="onNestedScroll流程分析"><a href="#onNestedScroll流程分析" class="headerlink" title="onNestedScroll流程分析"></a>onNestedScroll流程分析</h4><p>与上面类似，来看CoordinatorLayout的onNestedScroll()方法：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNestedScroll</span><span class="params">(View target, <span class="keyword">int</span> dxConsumed, <span class="keyword">int</span> dyConsumed,</span></span></span><br><span class="line"><span class="function"><span class="params">                            <span class="keyword">int</span> dxUnconsumed, <span class="keyword">int</span> dyUnconsumed, <span class="keyword">int</span> type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> childCount = getChildCount();</span><br><span class="line">    <span class="keyword">boolean</span> accepted = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; childCount; i++) &#123;</span><br><span class="line">        <span class="keyword">final</span> View view = getChildAt(i);</span><br><span class="line">        <span class="keyword">if</span> (view.getVisibility() == GONE) &#123;</span><br><span class="line">            <span class="comment">// If the child is GONE, skip...</span></span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//这里也是先判断是否接受嵌套滑动</span></span><br><span class="line">        <span class="keyword">final</span> LayoutParams lp = (LayoutParams) view.getLayoutParams();</span><br><span class="line">        <span class="keyword">if</span> (!lp.isNestedScrollAccepted(type)) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 分发给每个Behavior</span></span><br><span class="line">        <span class="keyword">final</span> Behavior viewBehavior = lp.getBehavior();</span><br><span class="line">        <span class="keyword">if</span> (viewBehavior != <span class="keyword">null</span>) &#123;</span><br><span class="line">            viewBehavior.onNestedScroll(<span class="keyword">this</span>, view, target, dxConsumed, dyConsumed,</span><br><span class="line">                    dxUnconsumed, dyUnconsumed, type);</span><br><span class="line">            accepted = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (accepted) &#123;</span><br><span class="line">        onChildViewsChanged(EVENT_NESTED_SCROLL);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>同样，在我们例子中，Recyclerview的isNestedScrollAccepted返回的是false，所以也不会处理onNestedScroll()逻辑。<br>因为当前是拖动Recyclerview来移动AppBarLayout，所以Recyclerview没必要处理onNestedScroll()方法.</p>
+<p>找到AppBarLayout#Behavior类的onNestedScroll()方法中：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNestedScroll</span><span class="params">(CoordinatorLayout coordinatorLayout, AppBarLayout child,</span></span></span><br><span class="line"><span class="function"><span class="params">        View target, <span class="keyword">int</span> dxConsumed, <span class="keyword">int</span> dyConsumed, <span class="keyword">int</span> dxUnconsumed, <span class="keyword">int</span> dyUnconsumed,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span> type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (dyUnconsumed &lt; <span class="number">0</span>) &#123; <span class="comment">// 小于0表示view要向下滑动</span></span><br><span class="line">        <span class="comment">// If the scrolling view is scrolling down but not consuming, it's probably be at</span></span><br><span class="line">        <span class="comment">// the top of it's content</span></span><br><span class="line">        scroll(coordinatorLayout, child, dyUnconsumed,</span><br><span class="line">                -child.getDownNestedScrollRange(), <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到这里AppBarLayout处理了垂直方向向下的滑动。</p>
+<h3 id="水平方向联动"><a href="#水平方向联动" class="headerlink" title="水平方向联动"></a>水平方向联动</h3><p>系统的AppBarLayout只支持垂直方向：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOrientation</span><span class="params">(<span class="keyword">int</span> orientation)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (orientation != VERTICAL) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"AppBarLayout is always vertical and does"</span></span><br><span class="line">                + <span class="string">" not support horizontal orientation"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">super</span>.setOrientation(orientation);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>要实现水平方向的AppBarLayout，只需要按照上面的分析，重写对应的方法，具体代码放在了这里<a href="https://github.com/agehua/HorizontalCoordinatorDemo" target="_blank" rel="noopener">Github agehua/HorizontalCoordinatorDemo</a></p>
+<h3 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h3><p><a href="https://my.oschina.net/u/3863980/blog/1922943" target="_blank" rel="noopener">CoordinatorLayout三部曲学习之三：AppBarLayout联动源码学习</a></p>
+<p><a href="https://www.gcssloop.com/customview/multi-touch" target="_blank" rel="noopener">安卓自定义View进阶-多点触控详解</a></p>
+<hr>
+<div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="https://i.creativecommons.org/l/by/2.5/cn/88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://conorlee.top/" target="_blank" rel="noopener">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
+
+<p>本文链接：<a href="http://agehua.github.io/2019/09/12/Horizontal-Coordinator/">http://agehua.github.io/2019/09/12/Horizontal-Coordinator/</a></p>
+
+
+            
+  <!-- donate css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+         
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      _background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+<!-- Donate Module -->
+<div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+    </span>
+
+
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+
+  <div id="donate_guide" class="donate_bar center hidden" >
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
+        <a href="http://cdn.conorlee.top/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+        <a href="http://cdn.conorlee.top/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+      </div>
+      <div style="display:inline-block;">
+          &nbsp;
+          <span class="donate_txt">
+              Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+          </span>
+      </div>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className='hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+
+            
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2019/09/12/Horizontal-Coordinator/" data-id="ckcfwvpd5009wiyvdad8f3thg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2019/09/12/Horizontal-Coordinator/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/12/08/Android-bits-operation/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    弄懂Android 源码中那些巧妙位运算
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2019/07/30/LeakCanary_source_code/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">LeakCanary源码分析及借鉴</div>
+        </a>
+    
+</nav>
+
+
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+    
+    <section id="comments" class="comments">
+    
+        
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2019/09/12/Horizontal-Coordinator/', // 可选。默认为 location.href
+  title: 'CoordinatorLayout源码解读',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+    
+  </section>
+
+
+
+</article>
+
+
+</section>
+            
+                <aside id="sidebar">
+    <!-- 在_config.yml中配置了widgets，来决定widgets的顺序 -->
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2020/07/10/profile_analysis/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://cdn.conorlee.top/Field%20with%20Wheat%20Stacks.jpg)" alt="Android Studio CPU Profiler使用" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2020/07/10/profile_analysis/" class="title">Android Studio CPU Profiler使用</a></p>
+                            <p class="item-date"><time datetime="2020-07-09T16:00:00.000Z" itemprop="datePublished">2020-07-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2020/05/26/download-function-analysis/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://cdn.conorlee.top/Field%20with%20Two%20Rabbits.jpg)" alt="分析下载功能源码和实现" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2020/05/26/download-function-analysis/" class="title">分析下载功能源码和实现</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T16:00:00.000Z" itemprop="datePublished">2020-05-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/12/09/Android-Measure/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://cdn.conorlee.top/Field%20with%20Stacks%20of%20Wheat.jpg)" alt="从FrameLayout分析View测量原理" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2019/12/09/Android-Measure/" class="title">从FrameLayout分析View测量原理</a></p>
+                            <p class="item-date"><time datetime="2019-12-08T16:00:00.000Z" itemprop="datePublished">2019-12-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/12/08/Android-bits-operation/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://cdn.conorlee.top/Field%20with%20Poppies.jpg)" alt="弄懂Android 源码中那些巧妙位运算" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2019/12/08/Android-bits-operation/" class="title">弄懂Android 源码中那些巧妙位运算</a></p>
+                            <p class="item-date"><time datetime="2019-12-07T16:00:00.000Z" itemprop="datePublished">2019-12-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/09/12/Horizontal-Coordinator/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://cdn.conorlee.top/Field%20with%20Ploughman%20and%20Mill.jpg)" alt="CoordinatorLayout源码解读" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2019/09/12/Horizontal-Coordinator/" class="title">CoordinatorLayout源码解读</a></p>
+                            <p class="item-date"><time datetime="2019-09-11T16:00:00.000Z" itemprop="datePublished">2019-09-12</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/aidl/" style="font-size: 12px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/aosp/" style="font-size: 12px;">AOSP</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 12px;">Annotation</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 18px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 14px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview-knowledge/" style="font-size: 16px;">Interview Knowledge</a> <a href="/tags/jni/" style="font-size: 14px;">JNI</a> <a href="/tags/jvm/" style="font-size: 10px;">JVM</a> <a href="/tags/java/" style="font-size: 16px;">Java</a> <a href="/tags/javascript/" style="font-size: 12px;">JavaScript</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 12px;">Looper</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 12px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 12px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 14px;">RecyclerView</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 12px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 12px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 12px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 12px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 14px;">toastmaster</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://conorlee.top">我的阿里云博客(没钱续费)</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://agehua.github.io/">My Github Pages</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://invitation.conorlee.top/MrLiAndTeacherTian_WeddingInvitation.html">Wedding Invitation(手机观看最佳)</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 Jixin Li<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2019/09/12/Horizontal-Coordinator/', // 可选。默认为 location.href
+  title: 'CoordinatorLayout源码解读',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+<script>
+    var bigfa_scroll = {
+        drawCircle: function(id, percentage, color) {
+            var width = jQuery(id).width();
+            var height = jQuery(id).height();
+            var radius = parseInt(width / 2.20);
+            var position = width;
+            var positionBy2 = position / 2;
+            var bg = jQuery(id)[0];
+            id = id.split("# ");
+            var ctx = bg.getContext("2d");
+            var imd = null;
+            var circ = Math.PI * 2;
+            var quart = Math.PI / 2;
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineCap = "square";
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineWidth = 3;
+            imd = ctx.getImageData(0, 0, position, position);
+            var draw = function(current, ctxPass) {
+                ctxPass.putImageData(imd, 0, 0);
+                ctxPass.beginPath();
+                ctxPass.arc(positionBy2, positionBy2, radius, -(quart), ((circ) * current) - quart, false);
+                ctxPass.stroke();
+            }
+            draw(percentage / 100, ctx);
+        },
+        backToTop: function($this) {
+            $this.click(function() {
+                jQuery("body,html").animate({
+                    scrollTop: 0
+                },
+                800);
+                return false;
+            });
+        },
+        scrollHook: function($this, color) {
+            color = color ? color: "# 000000";
+            $this.scroll(function() {
+                var docHeight = (jQuery(document).height() - jQuery(window).height()),
+                $windowObj = $this,
+                $per = jQuery(".per"),
+                percentage = 0;
+                defaultScroll = $windowObj.scrollTop();
+                percentage = parseInt((defaultScroll / docHeight) * 100);
+                var backToTop = jQuery("# backtoTop");
+                if (backToTop.length > 0) {
+                    if ($windowObj.scrollTop() > 200) {
+                        backToTop.addClass("button--show");
+                    } else {
+                        backToTop.removeClass("button--show");
+                    }
+                    $per.attr("data-percent", percentage);
+                    bigfa_scroll.drawCircle("# backtoTopCanvas", percentage, color);
+                }
+            });
+        }
+    }
+
+</script>
+
+
+    </div>
+    <!-- <script src="http://cdn.maxjia.com/js/particles.min.js"></script> -->
+  
+  
+    <canvas class="fireworks" style="position: fixed; left: 0px; top: 0px; z-index: 1; pointer-events: none; width: 1440px; height: 416px;" width="2880" height="832"></canvas>
+    
+    
+      <script type="text/javascript" src="/js/anime.min.js"></script>
+      <script type="text/javascript" src="/js/firework.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/33.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,89 +1,99 @@
 
-## Android B角色入门：
+## 《Qcon2019/基于 C++ 构建微信客户端跨平台开发框架》学习
 
-以现象分析本质
+## 微信支付的跨平台架构详解 学习
 
-一个安卓App本质是一个压缩包，格式是.apk结尾。用压缩包方式打开可以看到里面主要有：
-- 1.class文件，这里是.dex结尾的文件。谷歌为android设计了一个特殊的虚拟机，叫做dalvik。
-- 2.assets目录，里面主要是静态html，字体文件(ttf)和图片
-- 3.res目录，里面是开发时自己创建的各种资源，如图片（png）、音乐（MP3）
-- 4.AndroidManifest.xml文件，这个是android工程的清单文件，四大组件的声明要写在这里
+### 建立 C++ 与原生系统框架进行互相通讯的机制
 
-在Android studio工程中，看源码比上面稍微复杂一点.
-Android studio的特点是，一个工程，多个模块。Eclipse是一个工作空间，多个工程，下面以我们Fidea的工程来简单介绍下：
-- 1.一个主模块（module）是 “app”
-- 2.一个目录gradle，里面有这个工程要使用的gradle的版本信息
-- 3.一个build目录，这个工程的构建目录，里面是临时的生成的一些东西
-- 4.还有两个重要的文件build.gradle，settings.gradle
+#### 上下层对象转换机制
+隐藏语言通讯的细节。让开发者只和当前语言打交道，**核心：对象转换流程**
 
-Android studio使用Gradle构建工程。工程目录有build.gradle，settings.gradle两个gradle文件。
-而且，每个module模块根目录也有一个build.gradle文件。
+对象转换流程的关键：
+- 维护对象的唯一性
+- 维护对象的继承关系
 
-关于gradle构建的知识以后再说。
-接下来看module ”app”：
-
-- libs目录：里面是要依赖的库
-- src目录：里面是代码和资源文件
-
-打开src/mian/目录，里面有：
-- assets目录，对应刚才apk压缩包里的assets目录。
-- java目录，对应生成的class.dex
-- res目录，对应apk里面的res目录
-
-android 应用层开发主要使用java做为开发语言。
-app界面使用xml格式进行布局。
-
-一个Activity
+#### 代码生成器
+设计 IDL(Interface Definition Language 接口描述语言)
+- 定义一个对象
+- 区分对象的类型 
+- 支持在对象里定义方法
+- 支持基本的数据类型
+- 支持描述继承关系
 
 
-Hi  各位好
-以下是我总结的Fidea B角色应该知道的android入门清单，若有不足之处请指正。
+### 建立 C++  控制 iOS 和 安卓 UI 布局渲染的机制
+- 布局语法：Flexbox
+- 布局引擎：Yoga
+- 渲染机制：系统能力
 
-一 语言：
-1，Java
+#### yoga简介
+yoga本是Facebook在React Native里引入的一种跨平台的基于CSS的布局系统，它实现了Flexbox规范（https://facebook.github.io/yoga/docs/flex-direction/）
 
-二 开发工具及环境
-1，Android studio 2.X（https://developer.android.com/studio/index.html?hl=zh-cn#mac-bundle）。电脑上没有android sdk的话，初次打开Android studio会让你下载。
-2，Fidea android工程是使用Android7.1.1 API25进行编译的，需要下载这个版本的sdk.
-3，由于Android studio使用Gradle构建，Fidea项目使用的Gradle版本是3.3-all。在studio里面下载可能比较困难，可以在https://services.gradle.org/distributions/ 这里下载到本地，然后具体配置可以联系我 :)
-4，没有安卓手机的话，模拟器推荐使用Genymotion，响应速度快，但同时需要下载VirtualBox(会占用一定的磁盘空间)。有安卓手机，需要打开手机的开发者模式，打开USB调试选项，然后用数据线连接电脑即可
-5，CornerStone  SVN代码管理工具
-
-三 框架
-1，bcprov-jdk15on-155.jar  纯Java实现的加密算法包
-2，google-zxing  二维码扫描框架
-3，EventBus 发布者订阅者模式的消息传递框架
-4，com.zhy:autolayout 布局约束框架
-5，fastjson  处理Json和对象框架
-6，materialloadingprogressbar  符合材料设计的下拉刷新和加载更多的框架
-7，PhotoView  统一的手机相册风格框架
-8，play-services-maps 使用谷歌地图服务
-9，okhttp，okio 处理网络请求的框架
-10，rxvolley，rxvolley-OKhttp 管理网络请求调度的框架
-11，glide 图片加载框架
-12，nineoldandroids  android开源动画库
-13，multidex 多dex文件支持框架
+yoga有如下特性：
+- 完全兼容Flexbox布局，遵守W3C的规范。
+- 支持Java、C#、Objective-C、C四种语言。
+- 底层代码使用C语言编写，性能不是问题，并且可以更容易跟其他平台集成。
+- 支持流行框架如React Native。
 
 
-备注说明： 还有一些谷歌提供的support view，和第三方封装的view这里没有列出来
-
-四 推荐学习资料——建议有一点java基础
-1，书籍：《第一行代码》作者郭霖，手把手教你入门，清晰易懂，
-  Brian Hardy，Bill Phillips《 Android编程权威指南》京东地址：http://item.jd.com/11431307.html
-2, 文档教程：Android官方培训课程中文版：http://hukai.me/android-training-course-in-chinese/index.html
-  Android基础课堂 https://yq.aliyun.com/articles/60495
-3，视频教程：慕课网——Android工程师  http://www.imooc.com/course/programdetail/pid/33
-  极客学院——Android入门：http://www.jikexueyuan.com/path/android/
-5，Android 开源App：Google sample：https://github.com/googlesamples?utf8=%E2%9C%93&query=android
-  知乎问答：https://www.zhihu.com/question/26687642
-6，Android studio教程：stormzhang：http://stormzhang.com/devtools/2014/11/25/android-studio-tutorial1/，
-  Tikitoo：http://www.jianshu.com/p/36cfa1614d23
 
 
-最后，安利一下我自己的博客: https://agehua.github.io/，欢迎大家浏览，哈哈！
+### 基于 C++ 编写业务框架，搭建工具链
 
 
-## OCS分享会
+### 问题1
+ViewController 自己负责和不同的 ViewController 通讯。那么 ViewController 得不到复用，更致命的是业务流程的代码非常不清晰，业务流程的代码都被分散到各个 Controller 中， 而一个 Controller 又可能耦合了多个业务的代码。
+
+解决：架构抽象的第一步就是将业务流程抽象为一个独立的角色 UseCase。同时, 把界面抽象为 UIPage。 一个大的业务流程可以分解为一个个小的业务流程。
+
+和刚才基于 MVC 混乱的架构相比：
+- 业务流程的代码能够聚合到 UseCase 中，而不是分散到原来 iOS, 安卓的各个 ViewController，Activity 中。
+- 业务流程和界面得到了复用。
+- 契合微信支付多流程，界面跳转复杂的业务特点。
+
+### 问题2
+比如我们要给一个朋友转账，输入金额，确认支付，触发 Cgi 后。下一个流程是多变的。有可能用户需要去实名，有可能用户要进入一个安全拦截的 WebView，或者是正常拉起收银台。
+`本文中的名词 CGI 可以理解为一个网络请求，类似HTTP请求。`
+那么以往在 iOS, 安卓分开实现时，都没有一个统一的处理机制。要么就是通过网络回包的某个字段来判断，要么就是本地维护一些状态来决定下一步走什么流程等等，非常繁琐，易错。
+
+### 问题3
+支付业务流程还有个特殊的地方，那就是在正常流程的中间，往往很多时候要需要插入一些特殊流程。比如有些地方要跳转 Webview, 有些地方要跳转小程序，有些地方要弹窗告知用户风险，或者终止当前流程，等等。我们经常需要在业务代码里面不断重复增加这样的处理。
+
+解决：
+微信支付需要一个路由机制。路由机制的核心思想，就是通过向路由传递数据，然后路由解析数据，并响应。
+结合微信支付和网络密切相关的特点。创新地将支付领域模型作为传递的数据。
+
+> 那么怎么建立这个支付领域模型的呢？建模，就是建立映射。领域知识 + 建模方法 = 领域建模。那么这里的领域知识，就是对支付业务流程的理解。建模方法，我采用了 UML 建模。最终会落地为 Proto 协议供客户端和后台一起使用。
+
+首先，微信支付业务特点就是和网络密切相关，流程和页面往往是由 Cgi 串联起来。因此建立模型时，最外层便是网络回包。对于路由机制，这里我们只关心路由数据模型。
+
+路由数据模型由 路由类型，还有各个路由类型所需要的信息组合成。
+
+路由类型清晰的定义了要触发的行为。究竟是要开启一个 UseCase，还是要打开一个界面，或者 网页，小程序，弹窗等等。
+
+然后就是这些行为所需要的数据。比如打开小程序所需要的参数，弹窗所需要的参数等。
+
+### 问题4
+CGI 一对多通讯问题。
+
+解决：
+将 Cgi 抽象为独立对象
+
+在架构设计上来说，旧架构是通过单例模式实现的集约型 API，而我们新的架构则是通过命令模式实现的离散型 API。
+
+关于 Cgi 由谁发起，之前安卓和 iOS 都没有一个统一的做法。有些人会放到 Activity，ViewController，和 UI 代码耦合起来。
+
+因此，在跨平台软件架构中，我们统一由业务流程 UseCase 进行发起。并且生命周期是一对一的，一个 Cgi 只会有一个 UseCase 处理， UseCase 销毁后，Cgi 也随之销毁。
+对比旧架构：
+- 杜绝了一对多通信造成的 Bug
+- 生命周期和业务逻辑绑定，不会出现业务结束，Cgi 回来后再触发动作。
+- 高内聚，低耦合。将 Cgi 相关的数据，能力集中处理，业务侧无需感知。
+- 提供统一的缓存，加密能力。
 
 
-## chatbot调研
+
+RecyclerView item的根布局在Recyclerview布局方向上的宽或高必须是match_parent或固定尺寸，否则在一些设备设备上（4.4.0）alignParentRight属性失效
+### 资料
+
+下载地址：
+https://github.com/100mango/zen/blob/master/Qcon2019/%E5%9F%BA%E4%BA%8E%20C%2B%2B%20%E6%9E%84%E5%BB%BA%E5%BE%AE%E4%BF%A1%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%B7%A8%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E6%A1%86%E6%9E%B6.key

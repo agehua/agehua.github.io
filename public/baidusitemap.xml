@@ -4,6 +4,110 @@
 
     
   <url>
+    <loc>http://agehua.github.io/2020/07/10/profile_analysis/</loc>
+    <lastmod>2020-07-10T07:40:23.514Z</lastmod>
+    <data>
+        <display>
+        <title>Android Studio CPU Profiler使用</title>
+        <pubTime>2020-07-09T16:00:00.000Z</pubTime>
+        
+        <tag>Profiler</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2020/05/26/download-function-analysis/</loc>
+    <lastmod>2020-05-27T03:49:22.460Z</lastmod>
+    <data>
+        <display>
+        <title>分析下载功能源码和实现</title>
+        <pubTime>2020-05-25T16:00:00.000Z</pubTime>
+        
+        <tag>download</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2019/12/09/Android-Measure/</loc>
+    <lastmod>2020-03-06T01:53:56.030Z</lastmod>
+    <data>
+        <display>
+        <title>从FrameLayout分析View测量原理</title>
+        <pubTime>2019-12-08T16:00:00.000Z</pubTime>
+        
+        <tag>FrameLayout</tag>
+         
+        <tag>RelativeLayout</tag>
+         
+        <tag>Measure</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2019/12/08/Android-bits-operation/</loc>
+    <lastmod>2019-12-24T07:37:25.881Z</lastmod>
+    <data>
+        <display>
+        <title>弄懂Android 源码中那些巧妙位运算</title>
+        <pubTime>2019-12-07T16:00:00.000Z</pubTime>
+        
+        <tag>bits operation</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2019/09/12/Horizontal-Coordinator/</loc>
+    <lastmod>2019-10-08T05:51:39.924Z</lastmod>
+    <data>
+        <display>
+        <title>CoordinatorLayout源码解读</title>
+        <pubTime>2019-09-11T16:00:00.000Z</pubTime>
+        
+        <tag>CoordinatorLayout</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://agehua.github.io/2019/07/30/LeakCanary_source_code/</loc>
     <lastmod>2019-08-01T01:53:51.820Z</lastmod>
     <data>

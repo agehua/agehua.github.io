@@ -394,11 +394,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                69
+                74
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                82
+                89
                 <span>tags</span>
             </div>
         </div>
@@ -490,6 +490,803 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
             
             <section id="main">
+    <article id="post-JavaScript-knowledge" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2017/10/22/JavaScript-knowledge/" itemprop="url">
+            <img src="http://cdn.conorlee.top/Bridge%20and%20Houses%20on%20the%20Corner%20of%20Herengracht-Prinsessegracht,%20The%20Hague.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/10/22/JavaScript-knowledge/">JavaScript知识点积累</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/10/22/JavaScript-knowledge/">
+            <time datetime="2017-10-21T16:00:00.000Z" itemprop="datePublished">2017-10-22</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/basic-knowledge/">Basic Knowledge</a>, <a class="tag-link" href="/tags/javascript/">JavaScript</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">18 min read , Words: 3594</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h2 id="JavaScript积累"><a href="#JavaScript积累" class="headerlink" title="JavaScript积累"></a>JavaScript积累</h2><blockquote>
+<p>‘Java and JavaScript are similar like Car and Carpet are similar’ - Greg Hewgill</p>
+</blockquote>
+<p>本文大部分内容来自: <a href="https://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000" target="_blank" rel="noopener">廖雪峰–JavaScript教程</a></p>
+<h3 id="for-…-of循环介绍"><a href="#for-…-of循环介绍" class="headerlink" title="for … of循环介绍"></a>for … of循环介绍</h3><p>ES6引入了for … of循环遍历集合，你可能会有疑问，for … of循环和for … in循环有何区别？</p>
+<p>for … in循环由于历史遗留问题，它遍历的实际上是对象的属性名称。一个Array数组实际上也是一个对象，它的每个元素的索引被视为一个属性。</p></p>
+            <p class="article-more-link">
+                <a href="/2017/10/22/JavaScript-knowledge/#more">Read More</a>
+            </p>
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2017/10/22/JavaScript-knowledge/" data-id="ckcfwvp8k004iiyvd63c7fk7z" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2017/10/22/JavaScript-knowledge/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+</article>
+
+
+
+
+    <article id="post-PBOCKonwledgeCode" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2017/09/21/PBOCKonwledgeCode/" itemprop="url">
+            <img src="http://cdn.conorlee.top/Daubigny%20s%20Garden.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/09/21/PBOCKonwledgeCode/">PBOC知识收集（干货）</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/09/21/PBOCKonwledgeCode/">
+            <time datetime="2017-09-20T16:00:00.000Z" itemprop="datePublished">2017-09-21</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/basic-knowledge/">Basic Knowledge</a>, <a class="tag-link" href="/tags/pboc/">PBOC</a>, <a class="tag-link" href="/tags/pboc-2-0/">PBOC 2.0</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">7 min read , Words: 1222</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h2 id="PBOC规范基础知识（干货）"><a href="#PBOC规范基础知识（干货）" class="headerlink" title="PBOC规范基础知识（干货）"></a>PBOC规范基础知识（干货）</h2><p>摘自：《中国集成电路（IC）卡规范第2部分：电子钱包电子存折应用规范》</p>
+<h3 id="消费交易"><a href="#消费交易" class="headerlink" title="消费交易"></a>消费交易</h3><p>消费交易允许持卡人使用电子存折或电子钱包的余额进行购物或获取服务。此交易可以在销售点终端(POS)上脱机进行。使用电子存折进行的消费交易必须提交个人识别码(PIN)，使用电子钱包则不需要。</p>
+<h4 id="发出初始化消费-INITIALIZE-FOR-PURCHASE-命令"><a href="#发出初始化消费-INITIALIZE-FOR-PURCHASE-命令" class="headerlink" title="发出初始化消费(INITIALIZE FOR PURCHASE)命令"></a>发出初始化消费(INITIALIZE FOR PURCHASE)命令</h4><p>指令字节：</p></p>
+            <p class="article-more-link">
+                <a href="/2017/09/21/PBOCKonwledgeCode/#more">Read More</a>
+            </p>
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2017/09/21/PBOCKonwledgeCode/" data-id="ckcfwvp7s003liyvd89cu5367" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2017/09/21/PBOCKonwledgeCode/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+</article>
+
+
+
+
+    <article id="post-PBOCKonwledge" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2017/09/12/PBOCKonwledge/" itemprop="url">
+            <img src="http://cdn.conorlee.top/Cottages%20in%20Saintes-Maries.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/09/12/PBOCKonwledge/">PBOC知识收集</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/09/12/PBOCKonwledge/">
+            <time datetime="2017-09-11T16:00:00.000Z" itemprop="datePublished">2017-09-12</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/basic-knowledge/">Basic Knowledge</a>, <a class="tag-link" href="/tags/pboc/">PBOC</a>, <a class="tag-link" href="/tags/pboc-2-0/">PBOC 2.0</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">3 min read , Words: 408</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h2 id="PBOC规范基础知识"><a href="#PBOC规范基础知识" class="headerlink" title="PBOC规范基础知识"></a>PBOC规范基础知识</h2><h3 id="术语和定义"><a href="#术语和定义" class="headerlink" title="术语和定义"></a>术语和定义</h3><ul>
+<li>集成电路 integrated circuit (IC) 具有处理和/或存储功能的电子器件。</li>
+<li>集成电路卡(IC 卡) integrated circuit(s) card (ICC) 内部封装一个或多个集成电路用于执行处理和存储功能的卡片。</li>
+<li>电子存折 electronic deposit 一种为持卡人进行消费、取现等交易而设计的支持个人识别码(PIN)保护的金融IC卡应用。它支持圈存、圈提、消费和取现等交易。</li>
+<li>电子钱包 electronic purse 一种为方便持卡人小额消费而设计的金融IC卡应用。它支持圈存、消费等交易。消费不支持个人识别码(PIN)保护。</p>
+            <p class="article-more-link">
+                <a href="/2017/09/12/PBOCKonwledge/#more">Read More</a>
+            </p>
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2017/09/12/PBOCKonwledge/" data-id="ckcfwvp83003tiyvd7yrlj3fh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2017/09/12/PBOCKonwledge/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+</article>
+
+
+
+
+    <article id="post-IntervieweeQuestions" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2017/08/17/IntervieweeQuestions/" itemprop="url">
+            <img src="http://cdn.conorlee.top/Daubigny%20s%20Garden%202.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/08/17/IntervieweeQuestions/">Android面试题积累</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/08/17/IntervieweeQuestions/">
+            <time datetime="2017-08-16T16:00:00.000Z" itemprop="datePublished">2017-08-17</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/android/">ANDROID</a>, <a class="tag-link" href="/tags/interview-knowledge/">Interview Knowledge</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">7 min read , Words: 1241</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="1、Activity面试题"><a href="#1、Activity面试题" class="headerlink" title="1、Activity面试题"></a>1、Activity面试题</h3><p>1、Activity是什么<br>Activity是四大组件之一，它提供一个界面让用户点击和各种滑动操作，这就是Activity</p>
+<p>2、Activity四种状态<br>runing<br>paused<br>stopped<br>killed</p>
+<p>3、Activity生命周期<br>onCreate()<br>onStart()<br></p>
+            <p class="article-more-link">
+                <a href="/2017/08/17/IntervieweeQuestions/#more">Read More</a>
+            </p>
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2017/08/17/IntervieweeQuestions/" data-id="ckcfwvp870040iyvdpz29uquk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2017/08/17/IntervieweeQuestions/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+</article>
+
+
+
+
+    <article id="post-activity-start-process" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2017/08/02/activity-start-process/" itemprop="url">
+            <img src="http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/08/02/activity-start-process/">Activity启动流程分析</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/08/02/activity-start-process/">
+            <time datetime="2017-08-01T16:00:00.000Z" itemprop="datePublished">2017-08-02</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/ams/">AMS</a>, <a class="tag-link" href="/tags/aosp/">AOSP</a>, <a class="tag-link" href="/tags/binder/">Binder</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">13 min read , Words: 2471</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h2 id="Activity启动流程分析"><a href="#Activity启动流程分析" class="headerlink" title="Activity启动流程分析"></a>Activity启动流程分析</h2><p>本文主要介绍Activity的启动过程和过程中主要涉及的类。如果你跟随上一篇文章，成功编译了Android源码，可以动手跟本篇文章一步一步调试分析整个启动过程。没有编译源码，也可以看看<a href="https://android.googlesource.com/platform/frameworks/base/+/master/" target="_blank" rel="noopener">android.googlesource</a>，这里也有源码。</p>
+<h3 id="主要对象功能介绍"><a href="#主要对象功能介绍" class="headerlink" title="主要对象功能介绍"></a>主要对象功能介绍</h3><h4 id="zygote进程和SystemServer进程"><a href="#zygote进程和SystemServer进程" class="headerlink" title="zygote进程和SystemServer进程"></a>zygote进程和SystemServer进程</h4><p>android是基于Linux系统的，而在linux中，所有的进程都是由init进程直接或者是间接fork出来的，<strong>zygote</strong> 进程也不例外。</p>
+<blockquote>
+<p>每一个App其实都是</p>
+<ul>
+<li>一个单独的dalvik虚拟机</li>
+<li>一个单独的进程</li>
+</ul>
+</blockquote>
+<p>Android系统开启新进程的方式，是通过fork第一个<strong>zygote</strong> 进程实现的。所以说，除了第一个zygote进程，其他应用所在的进程都是zygote的子进程。<br></p>
+            <p class="article-more-link">
+                <a href="/2017/08/02/activity-start-process/#more">Read More</a>
+            </p>
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2017/08/02/activity-start-process/" data-id="ckcfwvp7z003oiyvd65nlp1jv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2017/08/02/activity-start-process/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+</article>
+
+
+
+
     <article id="post-aosp-compile" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -561,7 +1358,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/08/01/aosp-compile/" data-id="cjys9cp9y003c3ovdajczrtxx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/08/01/aosp-compile/" data-id="ckcfwvp7p003eiyvdm1uvs5qm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -721,7 +1518,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/07/12/android-noroot-hook/" data-id="cjys9cpbs003j3ovdgwmdzlli" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/07/12/android-noroot-hook/" data-id="ckcfwvp7r003iiyvdq8gc4xim" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -883,7 +1680,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2017/07/10/android-binder-principle2/" data-id="cjys9cp8700353ovd3ktf1ama" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2017/07/10/android-binder-principle2/" data-id="ckcfwvp81003qiyvdl20lnsg9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -969,800 +1766,8 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 
 
-    <article id="post-android-binder-principle" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2017/07/08/android-binder-principle/" itemprop="url">
-            <img src="http://cdn.conorlee.top/Blossoming%20Almond%20Tree.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/07/08/android-binder-principle/">Android Binder机制分析（一）</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/07/08/android-binder-principle/">
-            <time datetime="2017-07-07T16:00:00.000Z" itemprop="datePublished">2017-07-08</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/aidl/">AIDL</a>, <a class="tag-link" href="/tags/binder/">Binder</a>
-    </div>
-
-
-                        <div style="color:#cba11f;float:right">8 min read , Words: 1516</div>                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="背景分析"><a href="#背景分析" class="headerlink" title="背景分析"></a>背景分析</h3><p>最近在学习Android非侵入Hook机制，</p>
-<p>6月30日，360开源RePlugin，安卓进入“全面插件化”时代：<a href="https://www.itcodemonkey.com/article/278.html" target="_blank" rel="noopener">https://www.itcodemonkey.com/article/278.html</a></p>
-<p>同一天，滴滴开源Android端插件化框架VirtualAPK：<a href="https://www.itcodemonkey.com/article/277.html" target="_blank" rel="noopener">https://www.itcodemonkey.com/article/277.html</a></p>
-<p>然后本人发现竟然可以不在清单文件中注册就可以启动Activity，还有这种操作？哈哈。后面会有单独的文章介绍这种骚操作。</p>
-<p>在搜索中发现了这篇博客，<a href="http://www.wjdiankong.cn/android%E7%B3%BB%E7%BB%9F%E7%AF%87%E4%B9%8B-binder%E6%9C%BA%E5%88%B6%E5%92%8C%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" target="_blank" rel="noopener"><br>Android系统篇之—-Binder机制和远程服务调用机制分析</a>。本文大部分转载自原来博客，结合自己的分析，是研究Hook机制前的知识储备。</p>
-<h3 id="Android中远程服务调用分析"><a href="#Android中远程服务调用分析" class="headerlink" title="Android中远程服务调用分析"></a>Android中远程服务调用分析</h3><p>简单介绍，跨进程调用一个远程服务需要下面这几步：<br></p>
-            <p class="article-more-link">
-                <a href="/2017/07/08/android-binder-principle/#more">Read More</a>
-            </p>
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-          <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2017/07/08/android-binder-principle/" data-id="cjys9cp7a00323ovdy4wsumgs" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-          
-    
-        <a href="http://agehua.github.io/2017/07/08/android-binder-principle/#comments" class="article-comment-link">Comments</a>
-    
-
-
-        </footer>
-
-    </div>
-    
-    <script>
-        pangu.spacingPage();
-    </script>
-
-
-</article>
-
-
-
-
-    <article id="post-handler-replace-timertask" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2017/05/18/handler-replace-timertask/" itemprop="url">
-            <img src="http://cdn.conorlee.top/Blossoming%20Almond%20Branch%20in%20a%20Glass%20with%20a%20Book.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/05/18/handler-replace-timertask/">Handler替代TimerTask</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/05/18/handler-replace-timertask/">
-            <time datetime="2017-05-17T16:00:00.000Z" itemprop="datePublished">2017-05-18</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/timertask/">TimerTask</a>, <a class="tag-link" href="/tags/handler/">handler</a>
-    </div>
-
-
-                        <div style="color:#cba11f;float:right">1 min read , Words: 81</div>                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="Handler替代TimerTask"><a href="#Handler替代TimerTask" class="headerlink" title="Handler替代TimerTask"></a>Handler替代TimerTask</h3><p>原文来自：<a href="http://www.mopri.de/2010/timertask-bad-do-it-the-android-way-use-a-handler/" target="_blank" rel="noopener">http://www.mopri.de/2010/timertask-bad-do-it-the-android-way-use-a-handler/</a></p>
-<p>作者文中提到，使用TimerTask更新GUI，debug看起来可以，但实际上根本不起作用。<br>同时作者发现，使用handler可以得到更好的表现。</p>
-<p>下面是一个例子，使用handler在100ms后启动一个Runnable:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> Handler handler = <span class="keyword">new</span> Handler();</span><br><span class="line">handler.postDelayed(runnable, <span class="number">100</span>);</span><br></pre></td></tr></table></figure></p>
-<p>下面代码里有一个小技巧，实现每隔100ms运行一次Runnable，就像TimerTask的scheduleAtFixedRate()方法:</p></p>
-            <p class="article-more-link">
-                <a href="/2017/05/18/handler-replace-timertask/#more">Read More</a>
-            </p>
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-          <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2017/05/18/handler-replace-timertask/" data-id="cjys9cpcb003m3ovds5i9ydtx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-          
-    
-        <a href="http://agehua.github.io/2017/05/18/handler-replace-timertask/#comments" class="article-comment-link">Comments</a>
-    
-
-
-        </footer>
-
-    </div>
-    
-    <script>
-        pangu.spacingPage();
-    </script>
-
-
-</article>
-
-
-
-
-    <article id="post-Object-Oriented" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2017/05/11/Object-Oriented/" itemprop="url">
-            <img src="http://cdn.conorlee.top/Beach%20at%20Scheveningen%20in%20Calm%20Weather.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/05/11/Object-Oriented/">Android架构师积累</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/05/11/Object-Oriented/">
-            <time datetime="2017-05-10T16:00:00.000Z" itemprop="datePublished">2017-05-11</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/android-framework/">Android Framework</a>, <a class="tag-link" href="/tags/eit/">EIT</a>, <a class="tag-link" href="/tags/object-oriented/">Object-oriented</a>
-    </div>
-
-
-                        <div style="color:#cba11f;float:right">4 min read , Words: 745</div>                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h2 id="Android架构师积累-——By-高焕堂"><a href="#Android架构师积累-——By-高焕堂" class="headerlink" title="Android架构师积累 ——By 高焕堂"></a>Android架构师积累 ——By 高焕堂</h2><p>“-Oriented”的涵意<br>◎ ”-Oriented”意味着一种信仰 。<br>◎ ”Object-oriented”相信任何软件都是<br>由对象所构成的，而且Nothing else 。</p>
-<p>”-Driven”的涵意; 例如:Model-driven、Use Case-driven<br>– 其实”-driven”是”引导”，而不是大家常说的”驱动”。<br>– 就向北极星引导我们，指出方向而已。也像汽车司机(Driver)只是引导汽车方向，并没有去驱动汽车;而是引擎才是驱动汽车。</p>
-<p>“-Centered”的涵意; 例如:Architecture-centered、 Architecture-centeric<br>–一切软件开发的活动都围绕着架构，就像盛诞节的糖果和礼物都挂在圣诞树上一样。</p>
-<h3 id="卡榫函数"><a href="#卡榫函数" class="headerlink" title="卡榫函数"></a>卡榫函数</h3><p>• 所谓「卡榫(Hook)」，就是用来接合两个东西的接口。如果两个东西于不同时间出现，则一方会预留虚空，给予另一边于未来时刻能以实体来填补该空间，两者虚实相依，就密合起来了。设计优良的卡榫，可以让实体易于新陈代谢、抽换自如(Plug and Play, 俗称PnP)。<br></p>
-            <p class="article-more-link">
-                <a href="/2017/05/11/Object-Oriented/#more">Read More</a>
-            </p>
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-          <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2017/05/11/Object-Oriented/" data-id="cjys9cp5v002u3ovdlqltp7o4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-          
-    
-        <a href="http://agehua.github.io/2017/05/11/Object-Oriented/#comments" class="article-comment-link">Comments</a>
-    
-
-
-        </footer>
-
-    </div>
-    
-    <script>
-        pangu.spacingPage();
-    </script>
-
-
-</article>
-
-
-
-
-    <article id="post-Annotation-Android-usage" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2017/04/10/Annotation-Android-usage/" itemprop="url">
-            <img src="http://cdn.conorlee.top/Basket%20of%20Potatoes.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/04/10/Annotation-Android-usage/">注解在Android中的应用</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/04/10/Annotation-Android-usage/">
-            <time datetime="2017-04-09T16:00:00.000Z" itemprop="datePublished">2017-04-10</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/android/">ANDROID</a>, <a class="tag-link" href="/tags/annotation/">Annotation</a>
-    </div>
-
-
-                        <div style="color:#cba11f;float:right">6 min read , Words: 1166</div>                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p>注解是Java语言的特性之一，它是在源代码中插入标签，这些标签在后面的编译或者运行过程中起到某种作用，每个注解都必须通过注解接口 @Interface 进行声明，接口的方法对应着注解的元素。</p>
-<p>在上一篇文章<a href="/2017/03/14/JAVA-JSR-330-Assertion/">JSR-330和assertion(断言)介绍</a>中介绍了Java中的JSR-330 规范，这个规范就是使用注解的方式。</p>
-<p>这篇文章主要介绍注解在Android中的应用。</p>
-<h3 id="Andorid中的应用"><a href="#Andorid中的应用" class="headerlink" title="Andorid中的应用"></a>Andorid中的应用</h3><p>JSR-330规范只发布了规范 API 源码，主要是面向依赖注入使用者，而对注入器实现、配置并未作详细要求。<br>该规范主要配合依赖注入框架来使用。在Android中的依赖注入框架有 ButterKnife 和 Dagger2。下面简单分析 ButterKnife 的应用。</p></p>
-            <p class="article-more-link">
-                <a href="/2017/04/10/Annotation-Android-usage/#more">Read More</a>
-            </p>
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-          <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2017/04/10/Annotation-Android-usage/" data-id="cjys9cp6q002z3ovd0tbq0nzk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-          
-    
-        <a href="http://agehua.github.io/2017/04/10/Annotation-Android-usage/#comments" class="article-comment-link">Comments</a>
-    
-
-
-        </footer>
-
-    </div>
-    
-    <script>
-        pangu.spacingPage();
-    </script>
-
-
-</article>
-
-
-
-
-    <article id="post-SVN-server-linux" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2017/03/20/SVN-server-linux/" itemprop="url">
-            <img src="http://cdn.conorlee.top/Bank%20of%20the%20Oise%20at%20Auvers.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/03/20/SVN-server-linux/">linux(centos) 搭建SVN服务器</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/03/20/SVN-server-linux/">
-            <time datetime="2017-03-19T16:00:00.000Z" itemprop="datePublished">2017-03-20</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/linux/">linux</a>, <a class="tag-link" href="/tags/svn-server/">svn server</a>
-    </div>
-
-
-                        <div style="color:#cba11f;float:right">2 min read , Words: 202</div>                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="linux-centos-搭建SVN服务器"><a href="#linux-centos-搭建SVN服务器" class="headerlink" title="linux(centos) 搭建SVN服务器"></a>linux(centos) 搭建SVN服务器</h3><p>安装步骤如下：</p>
-<h4 id="第一步：安装SVN"><a href="#第一步：安装SVN" class="headerlink" title="第一步：安装SVN"></a>第一步：安装SVN</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">yum install subversion</span><br></pre></td></tr></table></figure>
-<h4 id="第二步：创建SVN版本库目录"><a href="#第二步：创建SVN版本库目录" class="headerlink" title="第二步：创建SVN版本库目录"></a>第二步：创建SVN版本库目录</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">mkdir -p /var/svn/svnrepos</span><br></pre></td></tr></table></figure>
-<h4 id="第三步：创建版本库"><a href="#第三步：创建版本库" class="headerlink" title="第三步：创建版本库"></a>第三步：创建版本库</h4></p>
-            <p class="article-more-link">
-                <a href="/2017/03/20/SVN-server-linux/#more">Read More</a>
-            </p>
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-          <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2017/03/20/SVN-server-linux/" data-id="cjys9cp65002x3ovdaw80bxb2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-          
-    
-        <a href="http://agehua.github.io/2017/03/20/SVN-server-linux/#comments" class="article-comment-link">Comments</a>
-    
-
-
-        </footer>
-
-    </div>
-    
-    <script>
-        pangu.spacingPage();
-    </script>
-
-
-</article>
-
-
-
-
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
     </nav>
 
 </section>
@@ -1779,10 +1784,10 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2019/07/30/LeakCanary_source_code/" class="thumbnail">
+                            <a href="/2020/07/10/profile_analysis/" class="thumbnail">
     
     
-        <span style="background-image:url(http://cdn.conorlee.top/Field%20of%20Spring%20Wheat%20at%20Sunrise.jpg)" alt="LeakCanary源码分析及借鉴" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Field%20with%20Wheat%20Stacks.jpg)" alt="Android Studio CPU Profiler使用" class="thumbnail-image"></span>
     
 </a>
 
@@ -1790,18 +1795,18 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2019/07/30/LeakCanary_source_code/" class="title">LeakCanary源码分析及借鉴</a></p>
-                            <p class="item-date"><time datetime="2019-07-29T16:00:00.000Z" itemprop="datePublished">2019-07-30</time></p>
+                            <p class="item-title"><a href="/2020/07/10/profile_analysis/" class="title">Android Studio CPU Profiler使用</a></p>
+                            <p class="item-date"><time datetime="2020-07-09T16:00:00.000Z" itemprop="datePublished">2020-07-10</time></p>
                         </div>
                     </li>
                 
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2019/07/17/RecyclerView-pre-initiate/" class="thumbnail">
+                            <a href="/2020/05/26/download-function-analysis/" class="thumbnail">
     
     
-        <span style="background-image:url(http://cdn.conorlee.top/Farmhouse%20with%20Two%20Figures.jpg)" alt="RecyclerView预加载机制源码分析" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Field%20with%20Two%20Rabbits.jpg)" alt="分析下载功能源码和实现" class="thumbnail-image"></span>
     
 </a>
 
@@ -1809,18 +1814,18 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2019/07/17/RecyclerView-pre-initiate/" class="title">RecyclerView预加载机制源码分析</a></p>
-                            <p class="item-date"><time datetime="2019-07-16T16:00:00.000Z" itemprop="datePublished">2019-07-17</time></p>
+                            <p class="item-title"><a href="/2020/05/26/download-function-analysis/" class="title">分析下载功能源码和实现</a></p>
+                            <p class="item-date"><time datetime="2020-05-25T16:00:00.000Z" itemprop="datePublished">2020-05-26</time></p>
                         </div>
                     </li>
                 
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2019/05/31/RecyclerView-source-code/" class="thumbnail">
+                            <a href="/2019/12/09/Android-Measure/" class="thumbnail">
     
     
-        <span style="background-image:url(http://cdn.conorlee.top/Farmhouse%20in%20a%20Wheat%20Field.jpg)" alt="RecyclerView 源码分析" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Field%20with%20Stacks%20of%20Wheat.jpg)" alt="从FrameLayout分析View测量原理" class="thumbnail-image"></span>
     
 </a>
 
@@ -1828,18 +1833,18 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2019/05/31/RecyclerView-source-code/" class="title">RecyclerView 源码分析</a></p>
-                            <p class="item-date"><time datetime="2019-05-30T16:00:00.000Z" itemprop="datePublished">2019-05-31</time></p>
+                            <p class="item-title"><a href="/2019/12/09/Android-Measure/" class="title">从FrameLayout分析View测量原理</a></p>
+                            <p class="item-date"><time datetime="2019-12-08T16:00:00.000Z" itemprop="datePublished">2019-12-09</time></p>
                         </div>
                     </li>
                 
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2019/05/30/RecyclerView-Design-Pattern/" class="thumbnail">
+                            <a href="/2019/12/08/Android-bits-operation/" class="thumbnail">
     
     
-        <span style="background-image:url(http://cdn.conorlee.top/Farmhouse%20in%20Provence.jpg)" alt="RecyclerView 中的设计模式" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Field%20with%20Poppies.jpg)" alt="弄懂Android 源码中那些巧妙位运算" class="thumbnail-image"></span>
     
 </a>
 
@@ -1847,18 +1852,18 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2019/05/30/RecyclerView-Design-Pattern/" class="title">RecyclerView 中的设计模式</a></p>
-                            <p class="item-date"><time datetime="2019-05-29T16:00:00.000Z" itemprop="datePublished">2019-05-30</time></p>
+                            <p class="item-title"><a href="/2019/12/08/Android-bits-operation/" class="title">弄懂Android 源码中那些巧妙位运算</a></p>
+                            <p class="item-date"><time datetime="2019-12-07T16:00:00.000Z" itemprop="datePublished">2019-12-08</time></p>
                         </div>
                     </li>
                 
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2019/05/27/TCP-Three-way-Handshake/" class="thumbnail">
+                            <a href="/2019/09/12/Horizontal-Coordinator/" class="thumbnail">
     
     
-        <span style="background-image:url(http://cdn.conorlee.top/Mike_Tyson_8.jpg)" alt="TCP三次握手解读" class="thumbnail-image"></span>
+        <span style="background-image:url(http://cdn.conorlee.top/Field%20with%20Ploughman%20and%20Mill.jpg)" alt="CoordinatorLayout源码解读" class="thumbnail-image"></span>
     
 </a>
 
@@ -1866,8 +1871,8 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2019/05/27/TCP-Three-way-Handshake/" class="title">TCP三次握手解读</a></p>
-                            <p class="item-date"><time datetime="2019-05-26T16:00:00.000Z" itemprop="datePublished">2019-05-27</time></p>
+                            <p class="item-title"><a href="/2019/09/12/Horizontal-Coordinator/" class="title">CoordinatorLayout源码解读</a></p>
+                            <p class="item-date"><time datetime="2019-09-11T16:00:00.000Z" itemprop="datePublished">2019-09-12</time></p>
                         </div>
                     </li>
                 
@@ -1880,7 +1885,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">54</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">59</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -1890,7 +1895,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/aidl/" style="font-size: 12px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/aosp/" style="font-size: 12px;">AOSP</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 12px;">Annotation</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 18px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 14px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview-knowledge/" style="font-size: 16px;">Interview Knowledge</a> <a href="/tags/jni/" style="font-size: 14px;">JNI</a> <a href="/tags/jvm/" style="font-size: 10px;">JVM</a> <a href="/tags/java/" style="font-size: 16px;">Java</a> <a href="/tags/javascript/" style="font-size: 12px;">JavaScript</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 12px;">Looper</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 12px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 12px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 14px;">RecyclerView</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 12px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 12px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 12px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 12px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 14px;">toastmaster</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/aidl/" style="font-size: 12px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/aosp/" style="font-size: 12px;">AOSP</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 12px;">Annotation</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 18px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 14px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview-knowledge/" style="font-size: 16px;">Interview Knowledge</a> <a href="/tags/jni/" style="font-size: 14px;">JNI</a> <a href="/tags/jvm/" style="font-size: 10px;">JVM</a> <a href="/tags/java/" style="font-size: 16px;">Java</a> <a href="/tags/javascript/" style="font-size: 12px;">JavaScript</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 12px;">Looper</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 12px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 12px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 14px;">RecyclerView</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 12px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 12px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 12px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 12px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 14px;">toastmaster</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
         </div>
     </div>
 
@@ -1899,7 +1904,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1915,7 +1920,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                     </li>
                 
                     <li>
-                        <a href="http://conorlee.top">我的阿里云博客</a>
+                        <a href="http://conorlee.top">我的阿里云博客(没钱续费)</a>
                     </li>
                 
                     <li>
@@ -1939,7 +1944,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2019 Jixin Li<br>
+            &copy; 2020 Jixin Li<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
