@@ -7,19 +7,19 @@
     
     <title>弄懂Android 源码中那些巧妙位运算 | Agehua</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="位运算要使用位运算之前，肯定是要了解下面的这些运算符号以及作用的。">
+    <meta name="description" content="本文部分内容节选自星星笑语的文章 原码反码补码的概念在介绍位运算符之前，我们先来看看关于反码补码等的相关知识。  正数的原码反码补码相同，都是将数字转换为二进制形式，然后将高位补0。比如说对于8位来说： 10所对应的原码反码补码都是 0000 1010 30所对应的原码反码补码都是 0001 1110">
 <meta name="keywords" content="bits operation">
 <meta property="og:type" content="article">
 <meta property="og:title" content="弄懂Android 源码中那些巧妙位运算">
 <meta property="og:url" content="http://agehua.github.io/2019/12/08/Android-bits-operation/index.html">
 <meta property="og:site_name" content="Agehua">
-<meta property="og:description" content="位运算要使用位运算之前，肯定是要了解下面的这些运算符号以及作用的。">
+<meta property="og:description" content="本文部分内容节选自星星笑语的文章 原码反码补码的概念在介绍位运算符之前，我们先来看看关于反码补码等的相关知识。  正数的原码反码补码相同，都是将数字转换为二进制形式，然后将高位补0。比如说对于8位来说： 10所对应的原码反码补码都是 0000 1010 30所对应的原码反码补码都是 0001 1110">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://cdn.conorlee.top/Field%20with%20Poppies.jpg">
-<meta property="og:updated_time" content="2019-12-24T07:37:25.881Z">
+<meta property="og:updated_time" content="2020-07-13T01:49:58.973Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="弄懂Android 源码中那些巧妙位运算">
-<meta name="twitter:description" content="位运算要使用位运算之前，肯定是要了解下面的这些运算符号以及作用的。">
+<meta name="twitter:description" content="本文部分内容节选自星星笑语的文章 原码反码补码的概念在介绍位运算符之前，我们先来看看关于反码补码等的相关知识。  正数的原码反码补码相同，都是将数字转换为二进制形式，然后将高位补0。比如说对于8位来说： 10所对应的原码反码补码都是 0000 1010 30所对应的原码反码补码都是 0001 1110">
 <meta name="twitter:image" content="http://cdn.conorlee.top/Field%20with%20Poppies.jpg">
     
 
@@ -540,7 +540,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     </div>
 
 
-                        <div style="color:#cba11f;float:right">3 min read , Words: 430</div>                    </div>
+                        <div style="color:#cba11f;float:right">4 min read , Words: 753</div>                    </div>
                 
             </header>
         
@@ -548,7 +548,63 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
         <div class="article-entry" itemprop="articleBody">
         
 
-            <h3 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h3><p>要使用位运算之前，肯定是要了解下面的这些运算符号以及作用的。<br><a id="more"></a></p>
+            <p>本文部分内容节选自<a href="https://blog.csdn.net/u014068277" target="_blank" rel="noopener">星星笑语</a>的文章</p>
+<h3 id="原码反码补码的概念"><a href="#原码反码补码的概念" class="headerlink" title="原码反码补码的概念"></a>原码反码补码的概念</h3><p>在介绍位运算符之前，我们先来看看关于反码补码等的相关知识。</p>
+<ul>
+<li>正数的原码反码补码相同，都是将数字转换为二进制形式，然后将高位补0。比如说对于8位来说：<ul>
+<li>10所对应的原码反码补码都是 0000 1010</li>
+<li>30所对应的原码反码补码都是 0001 1110<a id="more"></a></li>
+</ul>
+</li>
+<li><p>而对于负数，负数的原码是它的绝对值对应的二进制，而最高位是1。所以：</p>
+<ul>
+<li>-10所对应的原码是 1000 1010</li>
+<li>-30所对应的原码是 1001 1110</li>
+</ul>
+</li>
+<li><p><strong>负数的反码是它原码最高位除外的其余所有位取反</strong>，所以：</p>
+<ul>
+<li>-10所对应的反码是 1111 0101</li>
+<li>-30所对应的反码是 1110 0001</li>
+</ul>
+</li>
+<li><p><strong>而负数的补码是将其反码的数值+1</strong>，所以：<br>  -10所对应的补码是 1111 0110<br>  -30所对应的补码是 1110 0010</p>
+</li>
+</ul>
+<p>是不是感觉负数的三种很杂乱？没关系，马上让你觉得不过如此～</p>
+<p>我们对于刚才计算出来的负数的三种码，我们抛开符号为的概念，把三种码作为单存的二进制数来看。首先对于原码，原码是在最高位写上1得到的，而对于8位二进制，最高位的1是128，所以：</p>
+<ul>
+<li>-10所对应的原码是 1000 1010，而这个二进制数是128+10；</li>
+<li>-30所对应的原码是 1001 1110，而这个二进制数是128+30；</li>
+</ul>
+<p>然后对于反码，在原码的基础上，最高位不变，其余各位取反，也就是说抛开最高位，其余各位变化前后的和是111 1111，所以：</p>
+<ul>
+<li>-10所对应的反码是 1111 0101，其值为127-10+128 </li>
+<li>-30所对应的反码是 1110 0001，其值为127-30+128<blockquote>
+<p>其余各位变化前后的和是111 1111，意思是 <code>原码 + 反码 = 127</code></p>
+</blockquote>
+</li>
+</ul>
+<p>至于补码，就是反码加上1，所以：</p>
+<ul>
+<li><strong>-10所对应的补码是 1111 0110，其值为256-10</strong></li>
+<li><strong>-30所对应的补码是 1110 0010，其值为256-30</strong><blockquote>
+<p>所以一个负数就可以看成是一个正数 256-x</p>
+</blockquote>
+</li>
+</ul>
+<p>计算机为什么要引入补码的概念呢？主要是补码能够简化计算，例如对于8位的二进制数，从0000 0000一直到1111 1111，如果看作补码，所表示的数依次为0，1，…，127，-128，-127，…，-2，-1。对于两个正数的加法，正数的补码就是它本身，所以直接相加就能得到结果（注意，如果和超过了127，结果会错误）；</p>
+<blockquote>
+<p>-128 对应的补码是 1000 0000，对应原码是 1 1000 0000</p>
+</blockquote>
+<p>对于两个负数的加法，我们仍然可以将他们的补码直接相加，而得到结果～比如对于两个负数-a和-b，他们的补码分别是256-a和256-b，相加后是512-（a+b），当a+b小于128时（a+b&gt;128时这两个数相加超过了范围，得不到正确的结果），在计算机的表示是1 xxxx xxxx由于最高位的1超过了8位的范围所以舍去，所以相加结果是128-（a+b）而这就是-a-b的补码。</p>
+<p>对于正数a和负数-b之间的加法，我们将其补码相加后得到256+a-b，而这就是a-b的补码（不管ab谁大都成立）。</p>
+<p>由于减法可以对被减数取反，所以我们只用考虑加法运算。所以说如果使用补码，可以很好的将加减法运算转换成两个正数（负数的补码可以看成是一个正数256-x）的加法运算。如果计算机保存补码，在做数之间的加减法运算的时候能够直接将补码相加而得到正确的结果（没超过范围的情况下）。</p>
+<p>我们也能够直接相加得到正确的结果。由于减法可以对被减数取反，所以我们只用考虑加法运算</p>
+<p>实际上，考虑将所以有理数按256取模得到的数相等来分成256组，在做加减乘运算的时候，用同组的任意两个数运算得到的结果均是相同的，而负数和其补码是位于同一个组的，所以在做四则运算的时候，加减乘运算完全可以使用其的补码。</p>
+<h3 id="整型在-Java的内存形式"><a href="#整型在-Java的内存形式" class="headerlink" title="整型在 Java的内存形式"></a>整型在 Java的内存形式</h3><p>学习完补码之后，我们认识到如果使用补码，其在做运算时的方便之处。而Java的整形就是保存的各个数的补码，我们也可以在 Java上验证：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">System.out.println(Integer.toHexString(-<span class="number">1</span>));</span><br><span class="line">System.out.println(Integer.toHexString(-<span class="number">10</span>));</span><br><span class="line">System.out.println(Integer.toHexString(Integer.MAX_VALUE));</span><br><span class="line">System.out.println(Integer.toHexString(Integer.MAX_VALUE));</span><br><span class="line"></span><br><span class="line">System.out.println(Long.toHexString(-<span class="number">1</span>));</span><br><span class="line">System.out.println(Long.toHexString(Long.MAX_VALUE));</span><br><span class="line"></span><br><span class="line">ffffffff</span><br><span class="line">fffffff6</span><br><span class="line"><span class="number">7f</span>ffffff</span><br><span class="line"><span class="number">7f</span>ffffff</span><br><span class="line">ffffffffffffffff</span><br><span class="line"><span class="number">7f</span>ffffffffffffff</span><br></pre></td></tr></table></figure>
+<h3 id="Java中的位运算"><a href="#Java中的位运算" class="headerlink" title="Java中的位运算"></a>Java中的位运算</h3><p>要使用位运算之前，肯定是要了解下面的这些运算符号以及作用的。</p>
 <ul>
 <li>与运算（and）<br><strong><code>&amp;</code></strong>表示，当两个相同位对应的数都是1的时候，该位获得的结果才是1，否则为0<br>例如说<code>6 &amp; 11</code>，转换为二进制就是<code>0110 &amp; 1011</code>，结果为<code>0010</code></li>
 <li>或运算（or）<br><code>|</code>表示，当两个相同位对应的数只要有一个数1的时候，该位获得的结果为1，否则为0<br>还是用6和11这两个数做例子，就是<code>0110 | 1011 = 1111</code></li>
@@ -559,8 +615,25 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <ul>
 <li>异或运算（xor）<br><strong><code>^</code></strong>表示，当两个相同位对应的数字不同的时候为1，否则为0<br>例如说：<code>0110 ^ 1011 = 1101</code></li>
 <li>左移（shl）<br><code>&lt;&lt;</code>表示，<code>a &lt;&lt; b</code>表示a左移b位，由于移位在末位多出来的未知数字补零。<br>在这里面可以等价为<code>a * 2^b</code>这个运算（针对十进制）。</li>
-<li>右移（shr）<br><code>&gt;&gt;</code>表示，<code>a &gt;&gt; b</code>表示将a右移b位，原本的末位进行右移后会被舍弃，若有需求会在高位进行补零。同样的，右移在十进制里面也可以近似为<code>a / (2^b)</code>的形式，不过要对结果取整，也不一定准确，只能够说意思大概如此。</li>
+<li>右移（shr）<br><code>&gt;&gt;</code>表示，<code>a &gt;&gt; b</code>表示将a右移b位，原本的末位进行右移后会被舍弃，左边的用原有标志位补充。同样的，右移在十进制里面也可以近似为<code>a / (2^b)</code>的形式，不过要对结果取整，也不一定准确，只能够说意思大概如此。</li>
+<li>无符号右移<br><code>&gt;&gt;&gt;</code>表示，不管正负标志位为0还是1，将该数的二进制码整体右移，左边部分总是以0填充，右边部分舍弃。</li>
 </ul>
+<blockquote>
+<p>1 &lt;&lt; 1 = 2(对于int数的计算) 4 &gt;&gt; 1 = 2(对于int数的计算)  4 &gt;&gt;&gt; 1 = 2(对于int数的计算)</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">System.out.println(Integer.toHexString(<span class="number">0x7fffffff</span> &gt;&gt; <span class="number">4</span>));</span><br><span class="line">System.out.println(Integer.toHexString(<span class="number">0x8fffffff</span> &gt;&gt; <span class="number">4</span>));</span><br><span class="line">System.out.println(Integer.toHexString(<span class="number">0xffffffff</span> &gt;&gt; <span class="number">4</span>));</span><br><span class="line">System.out.println(Integer.toHexString(<span class="number">0x0fffffff</span> &gt;&gt; <span class="number">4</span>));</span><br><span class="line">System.out.println();</span><br><span class="line">System.out.println(Integer.toHexString(<span class="number">0x7fffffff</span> &lt;&lt; <span class="number">4</span>));</span><br><span class="line">System.out.println(Integer.toHexString(<span class="number">0x8fffffff</span> &lt;&lt; <span class="number">4</span>));</span><br><span class="line">System.out.println(Integer.toHexString(<span class="number">0xffffffff</span> &lt;&lt; <span class="number">4</span>));</span><br><span class="line">System.out.println(Integer.toHexString(<span class="number">0x0fffffff</span> &lt;&lt; <span class="number">4</span>));</span><br><span class="line">System.out.println();</span><br><span class="line">System.out.println(Integer.toHexString(<span class="number">0x7fffffff</span> &gt;&gt;&gt; <span class="number">4</span>));</span><br><span class="line">System.out.println(Integer.toHexString(<span class="number">0x8fffffff</span> &gt;&gt;&gt; <span class="number">4</span>));</span><br><span class="line">System.out.println(Integer.toHexString(<span class="number">0xffffffff</span> &gt;&gt;&gt; <span class="number">4</span>));</span><br><span class="line">System.out.println(Integer.toHexString(<span class="number">0x0fffffff</span> &gt;&gt;&gt; <span class="number">4</span>));</span><br><span class="line"></span><br><span class="line">        <span class="number">7f</span>fffff</span><br><span class="line">        f8ffffff</span><br><span class="line">        ffffffff</span><br><span class="line">        ffffff</span><br><span class="line"></span><br><span class="line">        fffffff0</span><br><span class="line">        fffffff0</span><br><span class="line">        fffffff0</span><br><span class="line">        fffffff0</span><br><span class="line"></span><br><span class="line">        <span class="number">7f</span>fffff</span><br><span class="line">        <span class="number">8f</span>fffff</span><br><span class="line">        fffffff</span><br><span class="line">        ffffff</span><br></pre></td></tr></table></figure>
+<p>总结来说：</p>
+<ul>
+<li>右移：整体向右移，原来的最高位是0，就补0，原来的最高位是1，就补1；</li>
+<li>左移：整体左移，在最低位补0；</li>
+<li>无符号右移：最高位补0。</li>
+</ul>
+<p>位运算符的使用又如下几点需要注意：</p>
+<ul>
+<li>位运算符都是在整型保存在内存地址上的每一位进行运算的，所以有些会看起来超出我们的常识；</li>
+<li>左移右移并不能简单的看作是在数的基础上乘以2或者除以2，而要结合它的内存形式来具体分析。</li>
+</ul>
+<p>例如：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">System.out.println(~<span class="number">1</span>);</span><br><span class="line">结果是-<span class="number">2</span>而不是<span class="number">0</span></span><br><span class="line"></span><br><span class="line">这是因为<span class="number">1</span>在内存上是<span class="number">000</span>....<span class="number">001</span>,~<span class="number">1</span>就是<span class="number">111</span>...<span class="number">1110</span>,而这是-<span class="number">2</span>的补码，所以结果是-<span class="number">1</span>；</span><br><span class="line"></span><br><span class="line">System.out.println(-<span class="number">1</span> &gt;&gt; <span class="number">1</span>);</span><br><span class="line">结果还是-<span class="number">1</span>而不是<span class="number">0</span></span><br><span class="line"></span><br><span class="line">这是因为-<span class="number">1</span>在内存上是<span class="number">111</span>...<span class="number">1</span>，它的符号位是<span class="number">1</span>，所以右移的时候高位补<span class="number">1</span>，结果不变；</span><br><span class="line"></span><br><span class="line">System.out.println(Integer.MAX_VALUE &lt;&lt; <span class="number">1</span>);</span><br><span class="line">结果是-<span class="number">2</span>，正数左移移成了负数。。。</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="number">0xBFFFFFFF</span>);</span><br><span class="line">System.out.println(<span class="number">0xBFFFFFFF</span> &lt;&lt; <span class="number">1</span>);</span><br><span class="line">-<span class="number">1073741825</span></span><br><span class="line"><span class="number">2147483646</span></span><br><span class="line">负数左移成了正数。。。</span><br><span class="line"></span><br><span class="line">System.out.println(-<span class="number">1</span> &gt;&gt;&gt; <span class="number">1</span>);</span><br><span class="line"><span class="number">2147483647</span></span><br><span class="line">-<span class="number">1</span>左移成了<span class="keyword">int</span>的最大值。。。</span><br></pre></td></tr></table></figure></p>
 <h3 id="Android中的应用"><a href="#Android中的应用" class="headerlink" title="Android中的应用"></a>Android中的应用</h3><ul>
 <li><p><strong><code>A | B</code> 添加标志B，可以添加多个（只要不冲突）</strong><br>例如：</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">mViewFlags = SOUND_EFFECTS_ENABLED | HAPTIC_FEEDBACK_ENABLED | FOCUSABLE_AUTO;</span><br></pre></td></tr></table></figure>
@@ -713,7 +786,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2019/12/08/Android-bits-operation/" data-id="ckcfwvpcv009niyvd5a2qynjw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2019/12/08/Android-bits-operation/" data-id="ckck4fnxj005oe5vdejsc964n" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding

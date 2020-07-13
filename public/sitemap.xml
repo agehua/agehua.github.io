@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://agehua.github.io/2019/12/08/Android-bits-operation/</loc>
+    
+    <lastmod>2020-07-13T01:49:58.973Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://agehua.github.io/2020/07/10/profile_analysis/</loc>
     
     <lastmod>2020-07-10T07:40:23.514Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>http://agehua.github.io/2019/12/09/Android-Measure/</loc>
     
     <lastmod>2020-03-06T01:53:56.030Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2019/12/08/Android-bits-operation/</loc>
-    
-    <lastmod>2019-12-24T07:37:25.881Z</lastmod>
     
   </url>
   
