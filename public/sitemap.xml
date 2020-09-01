@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://agehua.github.io/2020/08/31/JVM-stack-and_heap/</loc>
+    
+    <lastmod>2020-08-31T10:02:33.236Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/09/20/android-design-pattern-singleton/</loc>
+    
+    <lastmod>2020-07-27T03:23:06.552Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://agehua.github.io/2019/12/08/Android-bits-operation/</loc>
     
-    <lastmod>2020-07-13T01:49:58.973Z</lastmod>
+    <lastmod>2020-07-13T06:29:57.218Z</lastmod>
     
   </url>
   
@@ -355,13 +369,6 @@
     <loc>http://agehua.github.io/2016/09/28/Android-interview-questions/</loc>
     
     <lastmod>2019-03-22T02:13:41.049Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/09/20/android-design-pattern-singleton/</loc>
-    
-    <lastmod>2019-03-22T02:13:39.684Z</lastmod>
     
   </url>
   

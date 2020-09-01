@@ -4,8 +4,50 @@
 
     
   <url>
+    <loc>http://agehua.github.io/2020/08/31/JVM-stack-and_heap/</loc>
+    <lastmod>2020-08-31T10:02:33.236Z</lastmod>
+    <data>
+        <display>
+        <title>JVM 堆和栈知识点积累</title>
+        <pubTime>2020-08-30T16:00:00.000Z</pubTime>
+        
+        <tag>JVM</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2016/09/20/android-design-pattern-singleton/</loc>
+    <lastmod>2020-07-27T03:23:06.552Z</lastmod>
+    <data>
+        <display>
+        <title>ANDROID设计模式之单例模式</title>
+        <pubTime>2016-09-19T16:00:00.000Z</pubTime>
+        
+        <tag>ANDROID</tag>
+         
+        <tag>Singleton</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://agehua.github.io/2019/12/08/Android-bits-operation/</loc>
-    <lastmod>2020-07-13T01:49:58.973Z</lastmod>
+    <lastmod>2020-07-13T06:29:57.218Z</lastmod>
     <data>
         <display>
         <title>弄懂Android 源码中那些巧妙位运算</title>
@@ -1104,28 +1146,6 @@
         <tag>ANDROID</tag>
          
         <tag>Interview Knowledge</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://agehua.github.io/2016/09/20/android-design-pattern-singleton/</loc>
-    <lastmod>2019-03-22T02:13:39.684Z</lastmod>
-    <data>
-        <display>
-        <title>ANDROID设计模式之单例模式</title>
-        <pubTime>2016-09-19T16:00:00.000Z</pubTime>
-        
-        <tag>ANDROID</tag>
-         
-        <tag>Singleton</tag>
          
          
            

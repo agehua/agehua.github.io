@@ -8,12 +8,11 @@ tags:
 keywords: 单例模式, ANDROID
 banner: http://cdn.conorlee.top/Blossoming%20Almond%20Tree.jpg
 thumbnail: http://cdn.conorlee.top/Blossoming%20Almond%20Tree.jpg
+toc: true
 ---
 
-### 向大神致敬
 
-本文转载自[stormzhang ANDROID设计模式之单例模式 ](http://stormzhang.com/designpattern/2016/03/27/android-design-pattern-singleton/)，
-稍有修改
+本文转载自[stormzhang ANDROID设计模式之单例模式 ](http://stormzhang.com/designpattern/2016/03/27/android-design-pattern-singleton/)，内容稍有补充
 
 ### 常用单例模式
 
@@ -111,7 +110,10 @@ public final class InputMethodManager {
 
 以上是Android源码中输入法类相关的单例使用方式。
 
-但其实还有一种更好的方式如下：
+- 加锁的懒汉模式看起来即解决了线程并发问题，又实现了延迟加载，然而它存在着性能问题，依然不够完美。
+- synchronized修饰的同步方法比一般方法要慢很多，如果多次调用getInstance()，累积的性能损耗就比较大了。
+
+因此就有了双重校验锁，先看下它的实现代码。
 
 #### 双重校验锁
 
@@ -140,7 +142,57 @@ public class Singleton {
 
 可以看到上面在synchronized (Singleton.class)外又添加了一层if，这是为了在instance已经实例化后下次进入不必执行synchronized (Singleton.class)获取对象锁，从而提高性能。
 
-以上两种方式还是挺麻烦的，我们不禁要问，有没有更好的实现方式呢？答案是肯定的。 我们可以利用JVM的类加载机制去实现。在很多情况下JVM已经为我们提供了同步控制，比如：
+> 我们看到双重校验锁即实现了延迟加载，又解决了线程并发问题，同时还解决了执行效率问题，是否真的就万无一失了呢？
+
+- 这里要提到**Java中的指令重排优化**。所谓指令重排优化是指在不改变原语义的情况下，通过调整指令的执行顺序让程序运行的更快。
+- JVM中并没有规定编译器优化相关的内容，也就是说JVM可以自由的进行指令重排序的优化。
+- 这个问题的关键就在于**由于指令重排优化的存在，导致初始化Singleton和将对象地址赋给instance字段的顺序是不确定的**。
+- 在某个线程创建单例对象时，在构造方法被调用之前，就为该对象分配了内存空间并将对象的字段设置为默认值。
+- 此时就可以将分配的内存地址赋值给instance字段了，然而该对象可能还没有初始化。若紧接着另外一个线程来调用getInstance，取到的就是状态不正确的对象，程序就会出错。
+ 
+#### volatile关键字
+JDK5的修正：以上就是双重校验锁会失效的原因，不过还好在JDK1.5及之后版本增加了volatile关键字。
+
+**volatile的一个语义是禁止指令重排序优化**，也就保证了instance变量被赋值的时候对象已经是初始化过的，从而避免了上面说到的问题。
+Java中的volatile 变量是什么？
+理解volatile关键字的作用的前提是要理解Java内存模型，volatile关键字的作用主要有两个：
+ 
+- 多线程主要围绕可见性和原子性两个特性而展开，使用volatile关键字修饰的变量，保证了其在多线程之间的可见性，
+即每次读取到volatile变量，一定是最新的数据
+- 代码底层执行不像我们看到的高级语言—-Java程序这么简单，
+    - 它的执行是Java代码–>字节码–>根据字节码执行对应的C/C++代码–>C/C++代码被编译成汇编语言–>和硬件电路交互，
+    - 现实中，为了获取更好的性能JVM可能会对指令进行重排序，多线程下可能会出现一些意想不到的问题。
+    - 使用volatile则会对禁止语义重排序，当然这也一定程度上降低了代码执行效率
+- 从实践角度而言，volatile的一个重要作用就是和CAS结合，保证了原子性，
+    - 详细的可以参见java.util.concurrent.atomic包下的类，比如AtomicInteger。
+    - CAS（Compare and swap）比较和替换是设计并发算法时用到的一种技术。
+    - 简单来说，比较和替换是使用一个期望值和一个变量的当前值进行比较，如果当前变量的值与我们期望的值相等，就使用一个新值替换当前变量的值。
+- volatile是一个特殊的修饰符，只有成员变量才能使用它。
+    - 在Java并发程序缺少同步类的情况下，多线程对成员变量的操作对其它线程是透明的。
+    - volatile变量可以保证下一个读取操作会在前一个写操作之后发生。
+
+来源： http://blog.csdn.net/fly910905/article/details/79283557
+
+代码如下：
+~~~ Java
+public class Singleton {
+    private static volatile Singleton instance = null;
+    private Singleton(){}
+    public static Singleton getInstance() {
+        if (instance == null) { // Single Checked
+            synchronized (Singleton.class) {
+                if (instance == null) { // Double checked
+                    instance = new Singleton();
+                }
+ 
+            }
+        }
+        return instance;
+    }
+}
+~~~
+
+以上三种方式还是挺麻烦的，我们不禁要问，有没有更好的实现方式呢？答案是肯定的。 我们可以利用JVM的类加载机制去实现。在很多情况下JVM已经为我们提供了同步控制，比如：
 
 在static{}区块中初始化的数据
 访问final字段时
@@ -227,5 +279,5 @@ synchronized同步代码块只是锁定了该代码块，代码块外面的代�
 synchronized方法是粗粒度的并发控制，某一个时刻只能有一个线程执行该synchronized方法。
 synchronized同步代码块是细粒度的并发控制，只会将块中的代码同步，代码块之外的代码可以被其他线程同时访问。
 
-
+参考： [Java单例模式的不同写法（懒汉式、饿汉式、双检锁、静态内部类、枚举）](https://blog.csdn.net/fly910905/article/details/79286680)
 关于设计模式，CSDN上也有一个总结: [Android源码设计模式分析一期发布](https://blog.csdn.net/bboyfeiyu/article/details/44563871)
