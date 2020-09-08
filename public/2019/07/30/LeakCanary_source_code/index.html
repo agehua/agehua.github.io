@@ -461,6 +461,11 @@
 
 <div id='toc-col' class="toc-col">
     
+          <div id='toc-wrap' class="toc-wrap">
+              <strong class="toc-title">文章目录</strong>
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#煤矿中的金丝雀"><span class="toc-number">1.</span> <span class="toc-text">煤矿中的金丝雀</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存泄漏检测的基本原理"><span class="toc-number">2.</span> <span class="toc-text">内存泄漏检测的基本原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java垃圾回收-GC"><span class="toc-number">2.1.</span> <span class="toc-text">Java垃圾回收(GC)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LeakCanary使用"><span class="toc-number">3.</span> <span class="toc-text">LeakCanary使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#监听Activity销毁的方法"><span class="toc-number">3.1.</span> <span class="toc-text">监听Activity销毁的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#检测对象弱引用关联引用队列"><span class="toc-number">3.2.</span> <span class="toc-text">检测对象弱引用关联引用队列</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LeakCanary的线程调度"><span class="toc-number">4.</span> <span class="toc-text">LeakCanary的线程调度</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IdleHandler的妙用"><span class="toc-number">4.1.</span> <span class="toc-text">IdleHandler的妙用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#手动触发GC"><span class="toc-number">4.2.</span> <span class="toc-text">手动触发GC</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#泄露信息分析"><span class="toc-number">5.</span> <span class="toc-text">泄露信息分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prof文件分析"><span class="toc-number">6.</span> <span class="toc-text">prof文件分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#返回分析结果"><span class="toc-number">6.1.</span> <span class="toc-text">返回分析结果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#学习借鉴"><span class="toc-number">7.</span> <span class="toc-text">学习借鉴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ref"><span class="toc-number">8.</span> <span class="toc-text">Ref</span></a></li></ol>
+          </div>
+    
 </div>
 </aside>
 
@@ -497,6 +502,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
             
             <section id="main"><article id="post-LeakCanary_source_code" class="article article-type-post" itemscope itemprop="blogPost">
+  
     <div class="article-inner">
         
             
@@ -698,8 +704,6 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     <span class="donate_txt">
       Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
     </span>
-
-
   </div>
   <!-- /btn_donate & tips -->
 
@@ -767,7 +771,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2019/07/30/LeakCanary_source_code/" data-id="ckescqse4005quxvdr1brw001" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2019/07/30/LeakCanary_source_code/" data-id="cketmkxbz005rrjvds5qyz4z8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1048,7 +1052,7 @@ gitment.render('comments')
                     </li>
                 
                     <li>
-                        <a href="http://conorlee.top">我的阿里云博客(没钱续费)</a>
+                        <a href="http://conorlee.top">我的阿里云博客(求赞助)</a>
                     </li>
                 
                     <li>
@@ -1189,7 +1193,7 @@ gitment.render('comments')
   
     <canvas class="fireworks" style="position: fixed; left: 0px; top: 0px; z-index: 1; pointer-events: none; width: 1440px; height: 416px;" width="2880" height="832"></canvas>
     
-    
+
       <script type="text/javascript" src="/js/anime.min.js"></script>
       <script type="text/javascript" src="/js/firework.js"></script>
 <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/33.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>

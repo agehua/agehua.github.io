@@ -1,4 +1,5 @@
 <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %>" itemscope itemprop="blogPost">
+  
     <div class="article-inner">
         <% if (post.banner) { %>
             <%- partial('post/banner') %>
@@ -73,8 +74,6 @@
     <span class="donate_txt">
       <%= theme.donate.text %>
     </span>
-
-
   </div>
   <!-- /btn_donate & tips -->
 

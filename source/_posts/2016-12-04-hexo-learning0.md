@@ -30,7 +30,7 @@ EJS是JavaScript模板库，用来从JSON数据中生成HTML字符串
 <h1><%=title %></h1>                    注：会把title里面存的值给显示出来在h1中。
 <p><%= 'hello world' %></p>             注：会把hello world显示在h1中。
 <h1><%= '<b>hello world</b>' %></h1>    注：会把hello world变粗，然后显示在h1中。
-~~~ javascript
+~~~
 #### 4、<%- code %>将不会进行转义；，这一行代码不会执行，像是被注释了一样，然后显示原来的html。也不会影响整个页面的执行。
 
 ~~~ javascript

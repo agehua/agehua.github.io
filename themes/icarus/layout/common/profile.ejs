@@ -46,14 +46,14 @@
         </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
     </div>
 
-<div id='toc-col' class="toc-col">
-    <% if (page.toc) { %>
-          <div id='toc-wrap' class="toc-wrap">
-              <strong class="toc-title">文章目录</strong>
-              <%- toc(page.content, {list_number: true}) %>
-          </div>
-    <% } %>
-</div>
+    <div id='toc-col' class="toc-col">
+        <% if (page.toc) { %>
+            <div id='toc-wrap' class="toc-wrap">
+                <strong class="toc-title">文章目录</strong>
+                <%- toc(page.content, {list_number: true}) %>
+            </div>
+        <% } %>
+    </div>
 </aside>
 
 <script type="text/javascript">

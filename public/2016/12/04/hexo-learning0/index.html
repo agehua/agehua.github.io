@@ -16,7 +16,7 @@
 <meta property="og:description" content="什么是EJS？EJS是JavaScript模板库，用来从JSON数据中生成HTML字符串 EJS的语法和功能：1、缓存功能，能够缓存已经解析好的html模版2、&amp;lt;% code %&amp;gt;用于执行其中javascript代码。&amp;lt;% alert(&apos;hello world&apos;) %&amp;gt; 3、&amp;lt;%= code =%&amp;gt;会对code进行html转义；">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://cdn.conorlee.top/Bulb%20Fields.jpg">
-<meta property="og:updated_time" content="2020-09-01T07:45:18.899Z">
+<meta property="og:updated_time" content="2020-09-08T06:16:45.786Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo 模板学习——EJS介绍">
 <meta name="twitter:description" content="什么是EJS？EJS是JavaScript模板库，用来从JSON数据中生成HTML字符串 EJS的语法和功能：1、缓存功能，能够缓存已经解析好的html模版2、&amp;lt;% code %&amp;gt;用于执行其中javascript代码。&amp;lt;% alert(&apos;hello world&apos;) %&amp;gt; 3、&amp;lt;%= code =%&amp;gt;会对code进行html转义；">
@@ -461,6 +461,11 @@
 
 <div id='toc-col' class="toc-col">
     
+          <div id='toc-wrap' class="toc-wrap">
+              <strong class="toc-title">文章目录</strong>
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是EJS？"><span class="toc-number">1.</span> <span class="toc-text">什么是EJS？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EJS的语法和功能："><span class="toc-number">2.</span> <span class="toc-text">EJS的语法和功能：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、缓存功能，能够缓存已经解析好的html模版"><span class="toc-number">2.1.</span> <span class="toc-text">1、缓存功能，能够缓存已经解析好的html模版</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、-lt-code-gt-用于执行其中javascript代码。"><span class="toc-number">2.2.</span> <span class="toc-text">2、&lt;% code %&gt;用于执行其中javascript代码。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、-lt-code-gt-会对code进行html转义；"><span class="toc-number">2.3.</span> <span class="toc-text">3、&lt;%= code =%&gt;会对code进行html转义；</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、-lt-code-gt-将不会进行转义；，这一行代码不会执行，像是被注释了一样，然后显示原来的html。也不会影响整个页面的执行。"><span class="toc-number">2.4.</span> <span class="toc-text">4、&lt;%- code %&gt;将不会进行转义；，这一行代码不会执行，像是被注释了一样，然后显示原来的html。也不会影响整个页面的执行。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5、支持自定义标签，比如’-lt-’可以使用’‘代替；"><span class="toc-number">2.5.</span> <span class="toc-text">5、支持自定义标签，比如’&lt;%’可以使用’NaN‘代替；</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6、提供一些辅助函数，用于模版中使用"><span class="toc-number">2.6.</span> <span class="toc-text">6、提供一些辅助函数，用于模版中使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ejs我的总结："><span class="toc-number">2.7.</span> <span class="toc-text">ejs我的总结：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stylus介绍"><span class="toc-number">3.</span> <span class="toc-text">stylus介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Stylus安装"><span class="toc-number">3.1.</span> <span class="toc-text">Stylus安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#生成CSS"><span class="toc-number">3.2.</span> <span class="toc-text">生成CSS</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS3-column多列布局介绍"><span class="toc-number">4.</span> <span class="toc-text">CSS3 column多列布局介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#栅格与响应式设计"><span class="toc-number">5.</span> <span class="toc-text">栅格与响应式设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Bootstrap中的栅格"><span class="toc-number">5.1.</span> <span class="toc-text">Bootstrap中的栅格:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Foundation中的栅格"><span class="toc-number">5.2.</span> <span class="toc-text">Foundation中的栅格</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Block-Grid"><span class="toc-number">5.3.</span> <span class="toc-text">Block Grid</span></a></li></ol></li></ol>
+          </div>
+    
 </div>
 </aside>
 
@@ -497,6 +502,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
             
             <section id="main"><article id="post-hexo-learning0" class="article article-type-post" itemscope itemprop="blogPost">
+  
     <div class="article-inner">
         
             
@@ -540,7 +546,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     </div>
 
 
-                        <div style="color:#cba11f;float:right">2 min read , Words: 356</div>                    </div>
+                        <div style="color:#cba11f;float:right">2 min read , Words: 355</div>                    </div>
                 
             </header>
         
@@ -551,7 +557,8 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
             <h3 id="什么是EJS？"><a href="#什么是EJS？" class="headerlink" title="什么是EJS？"></a>什么是EJS？</h3><p>EJS是JavaScript模板库，用来从JSON数据中生成HTML字符串</p>
 <h3 id="EJS的语法和功能："><a href="#EJS的语法和功能：" class="headerlink" title="EJS的语法和功能："></a>EJS的语法和功能：</h3><h4 id="1、缓存功能，能够缓存已经解析好的html模版"><a href="#1、缓存功能，能够缓存已经解析好的html模版" class="headerlink" title="1、缓存功能，能够缓存已经解析好的html模版"></a>1、缓存功能，能够缓存已经解析好的html模版</h4><h4 id="2、-lt-code-gt-用于执行其中javascript代码。"><a href="#2、-lt-code-gt-用于执行其中javascript代码。" class="headerlink" title="2、&lt;% code %&gt;用于执行其中javascript代码。"></a>2、&lt;% code %&gt;用于执行其中javascript代码。</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;% alert(<span class="string">'hello world'</span>) %&gt;</span><br></pre></td></tr></table></figure>
 <h4 id="3、-lt-code-gt-会对code进行html转义；"><a href="#3、-lt-code-gt-会对code进行html转义；" class="headerlink" title="3、&lt;%= code =%&gt;会对code进行html转义；"></a>3、&lt;%= code =%&gt;会对code进行html转义；</h4><a id="more"></a>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;h1&gt;&lt;%=title %&gt;&lt;/h1&gt;                    注：会把title里面存的值给显示出来在h1中。</span><br><span class="line">&lt;p&gt;&lt;%= 'hello world' %&gt;&lt;/p&gt;             注：会把hello world显示在h1中。</span><br><span class="line">&lt;h1&gt;&lt;%= '&lt;b&gt;hello world&lt;/b&gt;' %&gt;&lt;/h1&gt;    注：会把hello world变粗，然后显示在h1中。</span><br><span class="line">~~~ javascript</span><br><span class="line">#### 4、&lt;%- code %&gt;将不会进行转义；，这一行代码不会执行，像是被注释了一样，然后显示原来的html。也不会影响整个页面的执行。</span><br><span class="line"></span><br><span class="line">~~~ javascript</span><br><span class="line">&lt;h1&gt;&lt;%-title %&gt;asd&lt;/h1&gt;          最后显示asd，及显示原网页</span><br><span class="line">&lt;p&gt;&lt;%# 'hello world' %&gt;asd&lt;/p&gt;   最后显示asd，及显示原网页</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;h1&gt;&lt;%=title %&gt;&lt;/h1&gt;                    注：会把title里面存的值给显示出来在h1中。</span><br><span class="line">&lt;p&gt;&lt;%= 'hello world' %&gt;&lt;/p&gt;             注：会把hello world显示在h1中。</span><br><span class="line">&lt;h1&gt;&lt;%= '&lt;b&gt;hello world&lt;/b&gt;' %&gt;&lt;/h1&gt;    注：会把hello world变粗，然后显示在h1中。</span><br></pre></td></tr></table></figure>
+<h4 id="4、-lt-code-gt-将不会进行转义；，这一行代码不会执行，像是被注释了一样，然后显示原来的html。也不会影响整个页面的执行。"><a href="#4、-lt-code-gt-将不会进行转义；，这一行代码不会执行，像是被注释了一样，然后显示原来的html。也不会影响整个页面的执行。" class="headerlink" title="4、&lt;%- code %&gt;将不会进行转义；，这一行代码不会执行，像是被注释了一样，然后显示原来的html。也不会影响整个页面的执行。"></a>4、&lt;%- code %&gt;将不会进行转义；，这一行代码不会执行，像是被注释了一样，然后显示原来的html。也不会影响整个页面的执行。</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;h1&gt;&lt;%-title %&gt;asd&lt;/h1&gt;          最后显示asd，及显示原网页</span><br><span class="line">&lt;p&gt;&lt;%# 'hello world' %&gt;asd&lt;/p&gt;   最后显示asd，及显示原网页</span><br></pre></td></tr></table></figure>
 <h4 id="5、支持自定义标签，比如’-lt-’可以使用’‘代替；"><a href="#5、支持自定义标签，比如’-lt-’可以使用’‘代替；" class="headerlink" title="5、支持自定义标签，比如’&lt;%’可以使用’‘代替；"></a>5、支持自定义标签，比如’&lt;%’可以使用’NaN‘代替；</h4><pre><code>ejs 里，默认的闭合标记是 &lt;%  .. %&gt;，我们也可以定义自己的标签。例如：
 </code></pre><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">app.set(<span class="string">"view options"</span>,&#123;                                                                                  </span><br><span class="line">   <span class="string">"open"</span>:<span class="string">"&#123;&#123;"</span>,                                                                                  </span><br><span class="line">   <span class="string">"close"</span>:<span class="string">"&#125;&#125;"</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <h4 id="6、提供一些辅助函数，用于模版中使用"><a href="#6、提供一些辅助函数，用于模版中使用" class="headerlink" title="6、提供一些辅助函数，用于模版中使用"></a>6、提供一些辅助函数，用于模版中使用</h4><ul>
@@ -679,8 +686,6 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     <span class="donate_txt">
       Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
     </span>
-
-
   </div>
   <!-- /btn_donate & tips -->
 
@@ -748,7 +753,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/12/04/hexo-learning0/" data-id="ckescqsba0024uxvd21a3643m" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/12/04/hexo-learning0/" data-id="cketmkx9o0025rjvdqy0yoa2g" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1029,7 +1034,7 @@ gitment.render('comments')
                     </li>
                 
                     <li>
-                        <a href="http://conorlee.top">我的阿里云博客(没钱续费)</a>
+                        <a href="http://conorlee.top">我的阿里云博客(求赞助)</a>
                     </li>
                 
                     <li>
@@ -1170,7 +1175,7 @@ gitment.render('comments')
   
     <canvas class="fireworks" style="position: fixed; left: 0px; top: 0px; z-index: 1; pointer-events: none; width: 1440px; height: 416px;" width="2880" height="832"></canvas>
     
-    
+
       <script type="text/javascript" src="/js/anime.min.js"></script>
       <script type="text/javascript" src="/js/firework.js"></script>
 <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/33.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
