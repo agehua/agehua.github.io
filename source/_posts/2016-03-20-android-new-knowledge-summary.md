@@ -201,3 +201,19 @@ onConfigurationChanged-->
   - 1.补充一点，当前Activity产生事件弹出Toast和AlertDialog的时候Activity的生命周期不会有改变
   - 2.Activity运行时按下HOME键(跟被完全覆盖是一样的)：onSaveInstanceState --> onPause --> onStop       onRestart -->onStart--->onResume
   - 3.Activity未被完全覆盖只是失去焦点：onPause--->onResume
+
+
+
+### 五.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)的限制
+
+在stackoverflow 上有一个提问：
+[onTouchEvent() will not be triggered if setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) is invoked](https://stackoverflow.com/questions/10845928/ontouchevent-will-not-be-triggered-if-setsystemuivisibilityview-system-ui-fla)
+
+> Android 4.4 (API Level 19) introduces a new SYSTEM_UI_FLAG_IMMERSIVE flag for setSystemUiVisibility() that lets your app go truly "full screen." This flag, when combined with the SYSTEM_UI_FLAG_HIDE_NAVIGATION and SYSTEM_UI_FLAG_FULLSCREEN flags, hides the navigation and status bars and lets your app capture all touch events on the screen.
+
+正确用法应该是：
+~~~ java
+int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
+getWindow().getDecorView().setSystemUiVisibility(uiOptions);
+~~~
+

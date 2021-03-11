@@ -2,6 +2,48 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://agehua.github.io/2018/03/01/IntervieweeQuestions-senior/</loc>
+    
+    <lastmod>2021-03-11T09:56:29.382Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2020/08/31/JVM-stack-and_heap/</loc>
+    
+    <lastmod>2021-03-10T09:27:06.763Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/03/20/android-new-knowledge-summary/</loc>
+    
+    <lastmod>2021-02-01T02:38:50.511Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2020/12/04/RecyclerView_scroll_relatedapi/</loc>
+    
+    <lastmod>2020-12-07T07:18:03.432Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2020/10/26/Diffrence-between-kotlin&Java/</loc>
+    
+    <lastmod>2020-11-03T03:26:20.277Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2019/12/08/Android-bits-operation/</loc>
+    
+    <lastmod>2020-10-10T02:12:27.974Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://agehua.github.io/2016/12/04/hexo-learning0/</loc>
     
     <lastmod>2020-09-08T06:16:45.786Z</lastmod>
@@ -30,13 +72,6 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2020/08/31/JVM-stack-and_heap/</loc>
-    
-    <lastmod>2020-09-01T07:45:18.926Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://agehua.github.io/about/index.html</loc>
     
     <lastmod>2020-09-01T07:45:18.926Z</lastmod>
@@ -58,23 +93,9 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2019/12/08/Android-bits-operation/</loc>
-    
-    <lastmod>2020-09-01T07:45:18.922Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://agehua.github.io/2019/12/09/Android-Measure/</loc>
     
     <lastmod>2020-09-01T07:45:18.922Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2019/07/30/LeakCanary_source_code/</loc>
-    
-    <lastmod>2020-09-01T07:45:18.920Z</lastmod>
     
   </url>
   
@@ -86,9 +107,9 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2019/05/31/RecyclerView-source-code/</loc>
+    <loc>http://agehua.github.io/2019/07/30/LeakCanary_source_code/</loc>
     
-    <lastmod>2020-09-01T07:45:18.919Z</lastmod>
+    <lastmod>2020-09-01T07:45:18.920Z</lastmod>
     
   </url>
   
@@ -100,9 +121,9 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2019/05/30/RecyclerView-Design-Pattern/</loc>
+    <loc>http://agehua.github.io/2019/05/31/RecyclerView-source-code/</loc>
     
-    <lastmod>2020-09-01T07:45:18.917Z</lastmod>
+    <lastmod>2020-09-01T07:45:18.919Z</lastmod>
     
   </url>
   
@@ -114,14 +135,21 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2019/03/27/Android-APP-Bundles-Introduction/</loc>
+    <loc>http://agehua.github.io/2019/05/30/RecyclerView-Design-Pattern/</loc>
+    
+    <lastmod>2020-09-01T07:45:18.917Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2019/01/26/Android-request-memory-leaks/</loc>
     
     <lastmod>2020-09-01T07:45:18.916Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2019/01/26/Android-request-memory-leaks/</loc>
+    <loc>http://agehua.github.io/2019/03/27/Android-APP-Bundles-Introduction/</loc>
     
     <lastmod>2020-09-01T07:45:18.916Z</lastmod>
     
@@ -135,14 +163,14 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2018/06/26/Toastmaster-md-introduction/</loc>
+    <loc>http://agehua.github.io/2018/06/08/JVM-stack-heap-GC/</loc>
     
     <lastmod>2020-09-01T07:45:18.915Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2018/06/08/JVM-stack-heap-GC/</loc>
+    <loc>http://agehua.github.io/2018/06/26/Toastmaster-md-introduction/</loc>
     
     <lastmod>2020-09-01T07:45:18.915Z</lastmod>
     
@@ -156,14 +184,14 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2018/04/02/Toastmaster-two-drawbacks/</loc>
+    <loc>http://agehua.github.io/2018/03/14/IntentService-AsyncTask/</loc>
     
     <lastmod>2020-09-01T07:45:18.914Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2018/03/14/IntentService-AsyncTask/</loc>
+    <loc>http://agehua.github.io/2018/04/02/Toastmaster-two-drawbacks/</loc>
     
     <lastmod>2020-09-01T07:45:18.914Z</lastmod>
     
@@ -177,23 +205,9 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2018/03/01/IntervieweeQuestions-senior/</loc>
-    
-    <lastmod>2020-09-01T07:45:18.913Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://agehua.github.io/2018/01/08/Toastmaster-self-introduction/</loc>
     
     <lastmod>2020-09-01T07:45:18.912Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2017/12/02/Python-knowledge/</loc>
-    
-    <lastmod>2020-09-01T07:45:18.911Z</lastmod>
     
   </url>
   
@@ -205,7 +219,14 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2017/09/12/PBOCKonwledge/</loc>
+    <loc>http://agehua.github.io/2017/12/02/Python-knowledge/</loc>
+    
+    <lastmod>2020-09-01T07:45:18.911Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2017/09/21/PBOCKonwledgeCode/</loc>
     
     <lastmod>2020-09-01T07:45:18.909Z</lastmod>
     
@@ -219,7 +240,7 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2017/09/21/PBOCKonwledgeCode/</loc>
+    <loc>http://agehua.github.io/2017/09/12/PBOCKonwledge/</loc>
     
     <lastmod>2020-09-01T07:45:18.909Z</lastmod>
     
@@ -261,7 +282,7 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2017/05/11/Object-Oriented/</loc>
+    <loc>http://agehua.github.io/2017/07/08/android-binder-principle/</loc>
     
     <lastmod>2020-09-01T07:45:18.905Z</lastmod>
     
@@ -275,7 +296,7 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2017/07/08/android-binder-principle/</loc>
+    <loc>http://agehua.github.io/2017/05/11/Object-Oriented/</loc>
     
     <lastmod>2020-09-01T07:45:18.905Z</lastmod>
     
@@ -289,13 +310,6 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2017/03/14/JAVA-JSR-330-Assertion/</loc>
-    
-    <lastmod>2020-09-01T07:45:18.903Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://agehua.github.io/2017/03/20/SVN-server-linux/</loc>
     
     <lastmod>2020-09-01T07:45:18.903Z</lastmod>
@@ -303,14 +317,21 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2017/03/09/Https-Questions/</loc>
+    <loc>http://agehua.github.io/2017/03/14/JAVA-JSR-330-Assertion/</loc>
+    
+    <lastmod>2020-09-01T07:45:18.903Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2017/02/21/Multi-Process-Dispatch/</loc>
     
     <lastmod>2020-09-01T07:45:18.902Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2017/02/21/Multi-Process-Dispatch/</loc>
+    <loc>http://agehua.github.io/2017/03/09/Https-Questions/</loc>
     
     <lastmod>2020-09-01T07:45:18.902Z</lastmod>
     
@@ -324,14 +345,14 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2017/01/13/abroad-IM-service-company/</loc>
+    <loc>http://agehua.github.io/2016/12/20/Android-patch-update/</loc>
     
     <lastmod>2020-09-01T07:45:18.901Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/12/20/Android-patch-update/</loc>
+    <loc>http://agehua.github.io/2017/01/13/abroad-IM-service-company/</loc>
     
     <lastmod>2020-09-01T07:45:18.901Z</lastmod>
     
@@ -345,14 +366,14 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/</loc>
+    <loc>http://agehua.github.io/2016/12/06/hexo-learning1/</loc>
     
     <lastmod>2020-09-01T07:45:18.899Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/12/06/hexo-learning1/</loc>
+    <loc>http://agehua.github.io/2016/12/03/nodejs-learning-getting-started/</loc>
     
     <lastmod>2020-09-01T07:45:18.899Z</lastmod>
     
@@ -366,21 +387,14 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/10/12/gradle-learning/</loc>
-    
-    <lastmod>2020-09-01T07:45:18.897Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/</loc>
-    
-    <lastmod>2020-09-01T07:45:18.897Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://agehua.github.io/2016/10/13/gradle-learning2/</loc>
+    
+    <lastmod>2020-09-01T07:45:18.897Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/10/12/gradle-learning/</loc>
     
     <lastmod>2020-09-01T07:45:18.897Z</lastmod>
     
@@ -394,14 +408,21 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/09/22/JNI-get-publickey/</loc>
+    <loc>http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/</loc>
+    
+    <lastmod>2020-09-01T07:45:18.897Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/09/22/quit-whole-application/</loc>
     
     <lastmod>2020-09-01T07:45:18.896Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/09/22/quit-whole-application/</loc>
+    <loc>http://agehua.github.io/2016/09/22/JNI-get-publickey/</loc>
     
     <lastmod>2020-09-01T07:45:18.896Z</lastmod>
     
@@ -443,13 +464,6 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/07/25/android-webview-summary/</loc>
-    
-    <lastmod>2020-09-01T07:45:18.889Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://agehua.github.io/2016/06/08/gson-summary/</loc>
     
     <lastmod>2020-09-01T07:45:18.889Z</lastmod>
@@ -457,7 +471,14 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/05/24/JNI-Learning0/</loc>
+    <loc>http://agehua.github.io/2016/07/25/android-webview-summary/</loc>
+    
+    <lastmod>2020-09-01T07:45:18.889Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://agehua.github.io/2016/05/28/qiniu-android-summary/</loc>
     
     <lastmod>2020-09-01T07:45:18.888Z</lastmod>
     
@@ -471,7 +492,7 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/05/28/qiniu-android-summary/</loc>
+    <loc>http://agehua.github.io/2016/05/24/JNI-Learning0/</loc>
     
     <lastmod>2020-09-01T07:45:18.888Z</lastmod>
     
@@ -492,16 +513,16 @@
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/03/20/android-new-knowledge-summary/</loc>
+    <loc>http://agehua.github.io/2016/03/20/android-books-reading-/</loc>
     
     <lastmod>2020-09-01T07:45:18.885Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://agehua.github.io/2016/03/20/android-books-reading-/</loc>
+    <loc>http://agehua.github.io/2016/03/15/facebook-google+signin/</loc>
     
-    <lastmod>2020-09-01T07:45:18.885Z</lastmod>
+    <lastmod>2020-09-01T07:45:18.880Z</lastmod>
     
   </url>
   
@@ -514,13 +535,6 @@
   
   <url>
     <loc>http://agehua.github.io/2015/11/06/book-list-of-2015/</loc>
-    
-    <lastmod>2020-09-01T07:45:18.880Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://agehua.github.io/2016/03/15/facebook-google+signin/</loc>
     
     <lastmod>2020-09-01T07:45:18.880Z</lastmod>
     

@@ -266,6 +266,16 @@ public static int makeMeasureSpec(
 
 Java中整形就是保存的各个数的补码。关于浮点型或原码、反码与补码的概念，请看这篇文章：[Java基础补完之数值与位运算符](https://blog.csdn.net/u014068277/article/details/102654292)
 
+### 补充
+1、判断两个数是否异号
+~~~ Java
+int x = -1, y = 2;
+bool f = ((x ^ y) < 0); // true
+int x = 3, y = 2;
+bool f = ((x ^ y) < 0); // false
+~~~
+这个技巧还是很实用的，利用的是补码编码的符号位。如果不用位运算来判断是否异号，需要使用if else分支，还挺麻烦的。有人可能想到利用乘积或者商来判断，但是这种方式可能造成溢出，从而出现错误。
+
 ### Ref
 [谈谈位运算和在Android中的运用](https://juejin.im/post/5c51f308e51d45141a1f2f2c)
 

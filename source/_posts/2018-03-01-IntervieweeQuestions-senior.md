@@ -456,9 +456,18 @@ Capacity就是buckets的数目，Load factor就是buckets填满程度的最大�
 - 1.发生在编译的时候
 - 2.PECS，extends善于提供精确的对象 A是B的子集，Super善于插入精确的对象 A是B的超集
 - 3.博客推荐：[Effective Java笔记（不含反序列化、并发、注解和枚举）](https://www.jianshu.com/p/4e4751b5bbbb)、[android阿里面试java基础锦集](https://www.jianshu.com/p/6006a3284f55)
+
 ### 60.activity的生命周期
-- 1.a启动b，后退键再到a的生命周期流程：a.create-->a.start-->a.resume-->a.pause-->b.create-->b.start-->b.resume-->b界面绘制-->a.stop-->b.pause-->b.stop-->b.destroy-->a.restart-->a.start-->a.resume
+- 1.a启动b，后退键再到a的生命周期流程：a.create-->a.start-->a.resume-->a.pause-->b.create-->b.start-->b.resume-->b界面绘制-->a.stop-->b.pause-->a.restart-->a.start-->a.resume-->b.stop-->b.destroy
 - 2.意外销毁会调用saveInstance，重新恢复的时候回调用restoreInstance。储存数据的时候使用了委托机制，从activity-->window-->viewGroup-->view 会递归调用save来保持本view的数据，restore则是递归恢复本view数据。我们可以在里面做一些自己需要的数据操作。
+
+![](/images/blogimages/2018/activity_lifecircle.jpeg)
+
+从图中可以得出两点总结：
+
+- 当跳转到另一个Activity时，总是要等到另一个Activity的onResume方法执行完才会返回当前Activity的生命周期继续执行
+- 当跳转到另一个Activity时，总是要等到当前的Activity的onPause方法执行完才会执行另一个Activity的生命周期（onCreate或onRestart）
+
 
 ### 61.面试常考的算法
 - 1.快排、堆排序为首的各种排序算法
