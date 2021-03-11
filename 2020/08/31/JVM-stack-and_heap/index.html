@@ -16,7 +16,7 @@
 <meta property="og:description" content="最近在看《深入理解Java虚拟机》，在此记录一下书中的重点，方便以后查阅。部分介绍内容来自网络。 线程独占区">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://cdn.conorlee.top/First%20Steps%20after%20Millet.jpg">
-<meta property="og:updated_time" content="2020-09-01T07:45:18.926Z">
+<meta property="og:updated_time" content="2021-03-10T09:27:06.763Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM 堆和栈知识点积累">
 <meta name="twitter:description" content="最近在看《深入理解Java虚拟机》，在此记录一下书中的重点，方便以后查阅。部分介绍内容来自网络。 线程独占区">
@@ -546,7 +546,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     </div>
 
 
-                        <div style="color:#cba11f;float:right">6 min read , Words: 1141</div>                    </div>
+                        <div style="color:#cba11f;float:right">6 min read , Words: 1144</div>                    </div>
                 
             </header>
         
@@ -556,6 +556,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
             <p>最近在看《深入理解Java虚拟机》，在此记录一下书中的重点，方便以后查阅。部分介绍内容来自网络。</p>
 <h3 id="线程独占区"><a href="#线程独占区" class="headerlink" title="线程独占区"></a>线程独占区</h3><a id="more"></a>
+<p><img src="/images/blogimages/2020/jvm_stack_and_heap.png" alt="jvm memmoy model"></p>
 <h4 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h4><p>虚拟机栈属于线程独占区，具体指虚拟机栈中的局部变量表。虚拟机栈描述的是Java方法执行的动态内存模型。每个方法执行都会创建一个栈帧，伴随着方法从创建到执行完成。用于存储局部变量表，操作数栈，动态链接，方法出口等。</p>
 <p>局部变量表的内存空间，在编译期完成分配，当进入一个方法时，这个方法需要帧中分配多少内存是固定的，在方法运行期间不会改变局部变量表大小</p>
 <p>局部变量表保存的是对象的引用，对象是分配在堆内存中</p>
@@ -917,7 +918,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2020/08/31/JVM-stack-and_heap/" data-id="ckie83vv7007uq0vdgdqee6t2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2020/08/31/JVM-stack-and_heap/" data-id="ckm4p7p660063ntvd0ddhln4e" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1222,7 +1223,7 @@ gitment.render('comments')
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2020 Jixin Li<br>
+            &copy; 2021 Jixin Li<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

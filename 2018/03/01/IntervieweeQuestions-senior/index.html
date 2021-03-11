@@ -16,7 +16,7 @@
 <meta property="og:description" content="转载自简书Android大厂面试题锦集(BAT TMD JD 小米)  1.android事件分发机制，请详细说下整个流程">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://cdn.conorlee.top/Enclosed%20Field%20with%20Ploughman.jpg">
-<meta property="og:updated_time" content="2020-09-01T07:45:18.913Z">
+<meta property="og:updated_time" content="2021-03-11T09:56:29.382Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android面试题积累(高阶)">
 <meta name="twitter:description" content="转载自简书Android大厂面试题锦集(BAT TMD JD 小米)  1.android事件分发机制，请详细说下整个流程">
@@ -546,7 +546,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     </div>
 
 
-                        <div style="color:#cba11f;float:right">6 min read , Words: 1037</div>                    </div>
+                        <div style="color:#cba11f;float:right">6 min read , Words: 1043</div>                    </div>
                 
             </header>
         
@@ -1003,9 +1003,17 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <li>6.连接结束<h3 id="59-java泛型类型擦除发生在什么时候，通配符有什么需要注意的。"><a href="#59-java泛型类型擦除发生在什么时候，通配符有什么需要注意的。" class="headerlink" title="59.java泛型类型擦除发生在什么时候，通配符有什么需要注意的。"></a>59.java泛型类型擦除发生在什么时候，通配符有什么需要注意的。</h3></li>
 <li>1.发生在编译的时候</li>
 <li>2.PECS，extends善于提供精确的对象 A是B的子集，Super善于插入精确的对象 A是B的超集</li>
-<li>3.博客推荐：<a href="https://www.jianshu.com/p/4e4751b5bbbb" target="_blank" rel="noopener">Effective Java笔记（不含反序列化、并发、注解和枚举）</a>、<a href="https://www.jianshu.com/p/6006a3284f55" target="_blank" rel="noopener">android阿里面试java基础锦集</a><h3 id="60-activity的生命周期"><a href="#60-activity的生命周期" class="headerlink" title="60.activity的生命周期"></a>60.activity的生命周期</h3></li>
-<li>1.a启动b，后退键再到a的生命周期流程：a.create–&gt;a.start–&gt;a.resume–&gt;a.pause–&gt;b.create–&gt;b.start–&gt;b.resume–&gt;b界面绘制–&gt;a.stop–&gt;b.pause–&gt;b.stop–&gt;b.destroy–&gt;a.restart–&gt;a.start–&gt;a.resume</li>
+<li>3.博客推荐：<a href="https://www.jianshu.com/p/4e4751b5bbbb" target="_blank" rel="noopener">Effective Java笔记（不含反序列化、并发、注解和枚举）</a>、<a href="https://www.jianshu.com/p/6006a3284f55" target="_blank" rel="noopener">android阿里面试java基础锦集</a></li>
+</ul>
+<h3 id="60-activity的生命周期"><a href="#60-activity的生命周期" class="headerlink" title="60.activity的生命周期"></a>60.activity的生命周期</h3><ul>
+<li>1.a启动b，后退键再到a的生命周期流程：a.create–&gt;a.start–&gt;a.resume–&gt;a.pause–&gt;b.create–&gt;b.start–&gt;b.resume–&gt;b界面绘制–&gt;a.stop–&gt;b.pause–&gt;a.restart–&gt;a.start–&gt;a.resume–&gt;b.stop–&gt;b.destroy</li>
 <li>2.意外销毁会调用saveInstance，重新恢复的时候回调用restoreInstance。储存数据的时候使用了委托机制，从activity–&gt;window–&gt;viewGroup–&gt;view 会递归调用save来保持本view的数据，restore则是递归恢复本view数据。我们可以在里面做一些自己需要的数据操作。</li>
+</ul>
+<p><img src="/images/blogimages/2018/activity_lifecircle.jpeg" alt=""></p>
+<p>从图中可以得出两点总结：</p>
+<ul>
+<li>当跳转到另一个Activity时，总是要等到另一个Activity的onResume方法执行完才会返回当前Activity的生命周期继续执行</li>
+<li>当跳转到另一个Activity时，总是要等到当前的Activity的onPause方法执行完才会执行另一个Activity的生命周期（onCreate或onRestart）</li>
 </ul>
 <h3 id="61-面试常考的算法"><a href="#61-面试常考的算法" class="headerlink" title="61.面试常考的算法"></a>61.面试常考的算法</h3><ul>
 <li>1.快排、堆排序为首的各种排序算法</li>
@@ -1236,7 +1244,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2018/03/01/IntervieweeQuestions-senior/" data-id="ckie83vu7006jq0vd57ecoq3s" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2018/03/01/IntervieweeQuestions-senior/" data-id="ckm4p7p5j0051ntvd9b4jqr0v" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1541,7 +1549,7 @@ gitment.render('comments')
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2020 Jixin Li<br>
+            &copy; 2021 Jixin Li<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

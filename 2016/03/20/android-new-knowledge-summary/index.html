@@ -16,7 +16,7 @@
 <meta property="og:description" content="一、mipmap 目录和drawable 目录有什么区别Nexus 6 有 493 ppi，它刚好在 xxhdpi和xxxhdpi之间，所以显示的时候需要对xxxhdpi的资源进行缩小，如果你用了mipmap-xxxhdpi,那么这里会对sclae有一个优化，性能更好，占用内存更少。所以现在官方推荐使用mipmap： 二、setTranslucentStatus()方法在Android4.4之后使">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://cdn.conorlee.top/Blossoming%20Chestnut%20Branches.jpg">
-<meta property="og:updated_time" content="2020-09-01T07:45:18.885Z">
+<meta property="og:updated_time" content="2021-02-01T02:38:50.511Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android新特性新知识点总结">
 <meta name="twitter:description" content="一、mipmap 目录和drawable 目录有什么区别Nexus 6 有 493 ppi，它刚好在 xxhdpi和xxxhdpi之间，所以显示的时候需要对xxxhdpi的资源进行缩小，如果你用了mipmap-xxxhdpi,那么这里会对sclae有一个优化，性能更好，占用内存更少。所以现在官方推荐使用mipmap： 二、setTranslucentStatus()方法在Android4.4之后使">
@@ -541,7 +541,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     </div>
 
 
-                        <div style="color:#cba11f;float:right">2 min read , Words: 366</div>                    </div>
+                        <div style="color:#cba11f;float:right">3 min read , Words: 442</div>                    </div>
                 
             </header>
         
@@ -587,6 +587,11 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <li>2.Activity运行时按下HOME键(跟被完全覆盖是一样的)：onSaveInstanceState –&gt; onPause –&gt; onStop       onRestart –&gt;onStart—&gt;onResume</li>
 <li>3.Activity未被完全覆盖只是失去焦点：onPause—&gt;onResume</li>
 </ul>
+<h3 id="五-setSystemUiVisibility-View-SYSTEM-UI-FLAG-HIDE-NAVIGATION-的限制"><a href="#五-setSystemUiVisibility-View-SYSTEM-UI-FLAG-HIDE-NAVIGATION-的限制" class="headerlink" title="五.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)的限制"></a>五.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)的限制</h3><p>在stackoverflow 上有一个提问：<br><a href="https://stackoverflow.com/questions/10845928/ontouchevent-will-not-be-triggered-if-setsystemuivisibilityview-system-ui-fla" target="_blank" rel="noopener">onTouchEvent() will not be triggered if setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) is invoked</a></p>
+<blockquote>
+<p>Android 4.4 (API Level 19) introduces a new SYSTEM_UI_FLAG_IMMERSIVE flag for setSystemUiVisibility() that lets your app go truly “full screen.” This flag, when combined with the SYSTEM_UI_FLAG_HIDE_NAVIGATION and SYSTEM_UI_FLAG_FULLSCREEN flags, hides the navigation and status bars and lets your app capture all touch events on the screen.</p>
+</blockquote>
+<p>正确用法应该是：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;</span><br><span class="line">getWindow().getDecorView().setSystemUiVisibility(uiOptions);</span><br></pre></td></tr></table></figure></p>
 <hr>
 <div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="http://blog.conorlee.top/blogimages/attribution_88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://conorlee.top/" target="_blank" rel="noopener">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
 
@@ -704,7 +709,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2016/03/20/android-new-knowledge-summary/" data-id="ckie83vop000bq0vdpisznrz8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2016/03/20/android-new-knowledge-summary/" data-id="ckm4p7oze000hntvdg598bhzf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1009,7 +1014,7 @@ gitment.render('comments')
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2020 Jixin Li<br>
+            &copy; 2021 Jixin Li<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
