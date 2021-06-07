@@ -120,6 +120,35 @@ intent1.addCategory(Intent.CATEGORY_LAUNCHER);
 startActivity(intent1);
 ~~~
 
+#### VideoActivity关闭后，切回到默认task
+
+画中画切到手机桌面上后，将画中画切换为全屏，这时候退出VideoActivity会回到手机桌面，如果需要返回到App的默认activity栈，则需要添加下面的代码：
+
+~~~ java
+public static void navToLauncherTask(Context appContext) {
+    if (null == appContext || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        return;
+    }
+    ActivityManager activityManager = (ActivityManager) appContext.getSystemService(Context.ACTIVITY_SERVICE);
+    // iterate app tasks available and navigate to launcher task (browse task)
+    final List<ActivityManager.AppTask> appTasks = activityManager.getAppTasks();
+    for (ActivityManager.AppTask task : appTasks) {
+        final Intent baseIntent = task.getTaskInfo().baseIntent;
+        final Set<String> categories = baseIntent.getCategories();
+        if (categories != null && categories.contains(Intent.CATEGORY_LAUNCHER)) {
+            task.moveToFront();
+            return;
+        }
+    }
+}
+~~~
+
+### 注意问题
+- 在支持画中画的activity中，并且开启过画中画，getContext()方法返回值是`ContextThemeWrapper`，用这个跳转页面（getContext().startActivity），会有栈reparent问题，可以使用XXXActivity.this 或者 view.getContext()代替
+
+
 ### REF
 
 https://developer.android.google.cn/guide/topics/ui/picture-in-picture
+
+https://proandroiddev.com/task-management-for-picture-in-picture-mode-on-android-o-882103271cad
