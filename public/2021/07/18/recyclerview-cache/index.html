@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="google-site-verification" content="TYEtqE2Xc2ZonkJumwKut0-iq4RVbEc8o5Y8HpmZ-eo" />
+    <meta name="baidu-site-verification" content="8WKGBCPPKp" />
+    <meta charset="utf-8">
+    
+    <title>RecyclerView 缓存机制 | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="RecyclerView 内存性能优越，这得益于它独特的缓存机制 由问题引入 回收的是什么？复用什么？ 回收到哪里去？从哪里获得复用？ 什么时候回收？什么时候复用？">
+<meta name="keywords" content="Android,gradle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RecyclerView 缓存机制">
+<meta property="og:url" content="http://agehua.github.io/2021/07/18/recyclerview-cache/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="RecyclerView 内存性能优越，这得益于它独特的缓存机制 由问题引入 回收的是什么？复用什么？ 回收到哪里去？从哪里获得复用？ 什么时候回收？什么时候复用？">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://cdn.conorlee.top/Garden%20Behind%20a%20House.jpg">
+<meta property="og:updated_time" content="2021-08-07T09:05:05.871Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RecyclerView 缓存机制">
+<meta name="twitter:description" content="RecyclerView 内存性能优越，这得益于它独特的缓存机制 由问题引入 回收的是什么？复用什么？ 回收到哪里去？从哪里获得复用？ 什么时候回收？什么时候复用？">
+<meta name="twitter:image" content="https://cdn.conorlee.top/Garden%20Behind%20a%20House.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+
+
+    <link rel="icon" sizes="192x192" href="images/icon.png">
+    <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+    <!--text spacing-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+
+</head>
+
+
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+
+                <a class="main-nav-link" href='javascript:(
+        /*
+         * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *      http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         */
+        function go() {
+
+
+        var songs = [
+                    "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
+                    "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
+                    "https://static.rocko.xyz/audio/Music-outside.mp3",
+                    "https://static.rocko.xyz/audio/Music-sunburst.mp3"
+        ];
+
+
+        function c() {
+            var e = document.createElement("link");
+            e.setAttribute("type", "text/css");
+            e.setAttribute("rel", "stylesheet");
+            e.setAttribute("href", f);
+            e.setAttribute("class", l);
+            document.body.appendChild(e)
+        }
+
+        function h() {
+            var e = document.getElementsByClassName(l);
+            for (var t = 0; t < e.length; t++) {
+                document.body.removeChild(e[t])
+            }
+        }
+
+        function p() {
+            var e = document.createElement("div");
+            e.setAttribute("class", a);
+            document.body.appendChild(e);
+            setTimeout(function() {
+                document.body.removeChild(e)
+            }, 100)
+        }
+
+        function d(e) {
+            return {
+                height : e.offsetHeight,
+                width : e.offsetWidth
+            }
+        }
+
+        function v(i) {
+            var s = d(i);
+            return s.height > e && s.height < n && s.width > t && s.width < r
+        }
+
+        function m(e) {
+            var t = e;
+            var n = 0;
+            while (!!t) {
+                n += t.offsetTop;
+                t = t.offsetParent
+            }
+            return n
+        }
+
+        function g() {
+            var e = document.documentElement;
+            if (!!window.innerWidth) {
+                return window.innerHeight
+            } else if (e && !isNaN(e.clientHeight)) {
+                return e.clientHeight
+            }
+            return 0
+        }
+
+        function y() {
+            if (window.pageYOffset) {
+                return window.pageYOffset
+            }
+            return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+        }
+
+        function E(e) {
+            var t = m(e);
+            return t >= w && t <= b + w
+        }
+
+        function S() {
+            var e = document.getElementById("audio_element_id");
+            if(e != null){
+                var index = parseInt(e.getAttribute("curSongIndex"));
+                if(index > songs.length - 2) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                e.setAttribute("curSongIndex", index);
+                N();
+            }
+
+            e.src = i;
+            e.play()
+        }
+
+        function x(e) {
+            e.className += " " + s + " " + o
+        }
+
+        function T(e) {
+            e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+        }
+
+        function N() {
+            var e = document.getElementsByClassName(s);
+            var t = new RegExp("\\b" + s + "\\b");
+            for (var n = 0; n < e.length; ) {
+                e[n].className = e[n].className.replace(t, "")
+            }
+        }
+
+        function initAudioEle() {
+            var e = document.getElementById("audio_element_id");
+            if(e === null){
+                e = document.createElement("audio");
+                e.setAttribute("class", l);
+                e.setAttribute("curSongIndex", 0);
+                e.id = "audio_element_id";
+                e.loop = false;
+                e.bgcolor = 0;
+                e.addEventListener("canplay", function() {
+                setTimeout(function() {
+                    x(k)
+                }, 500);
+                setTimeout(function() {
+                    N();
+                    p();
+                    for (var e = 0; e < O.length; e++) {
+                        T(O[e])
+                    }
+                }, 15500)
+            }, true);
+            e.addEventListener("ended", function() {
+                N();
+                h();
+                go();
+            }, true);
+            e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+            document.body.appendChild(e);
+            }
+        }
+
+        initAudioEle();
+        var e = 30;
+        var t = 30;
+        var n = 350;
+        var r = 350;
+
+        var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+        var i = songs[curSongIndex];
+
+        var s = "mw-harlem_shake_me";
+        var o = "im_first";
+        var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+        var a = "mw-strobe_light";
+
+        /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
+        var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+
+        var l = "mw_added_css";
+        var b = g();
+        var w = y();
+        var C = document.getElementsByTagName("*");
+        var k = null;
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                if (E(A)) {
+                    k = A;
+                    break
+                }
+            }
+        }
+        if (A === null) {
+            console.warn("Could not find a node of the right size. Please try a different page.");
+            return
+        }
+        c();
+        S();
+        var O = [];
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                O.push(A)
+            }
+        }
+        })()'>High一下</a>
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+
+
+        </div>
+    </div>
+
+
+    <div id="main-nav-mobile" class="header-sub header-inner">
+
+        <table class="menu outer">
+
+
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    
+</header>
+
+        <div class="outer">
+            
+                
+
+
+<aside id="profile">
+    <div class="inner profile-inner" id="profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
+            <h2 id="name">Conor Lee</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                83
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                92
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+
+        <a href="https://github.com/agehua" class="github-corner" aria-label="View source on Github">
+          <svg width="64" height="64" viewBox="0 0 250 250" style="fill:#cba11f; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+            <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+          </svg>
+        </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+    <div id='toc-col' class="toc-col">
+        
+            <div id='toc-wrap' class="toc-wrap">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#由问题引入"><span class="toc-number">1.</span> <span class="toc-text">由问题引入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#从addView-开始"><span class="toc-number">2.</span> <span class="toc-text">从addView()开始</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#第一次尝试"><span class="toc-number">2.1.</span> <span class="toc-text">第一次尝试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第二次尝试"><span class="toc-number">2.2.</span> <span class="toc-text">第二次尝试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第三次尝试"><span class="toc-number">2.3.</span> <span class="toc-text">第三次尝试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第四次尝试"><span class="toc-number">2.4.</span> <span class="toc-text">第四次尝试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第五次尝试"><span class="toc-number">2.5.</span> <span class="toc-text">第五次尝试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建ViewHolder并绑定数据"><span class="toc-number">2.6.</span> <span class="toc-text">创建ViewHolder并绑定数据</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存优先级"><span class="toc-number">3.</span> <span class="toc-text">缓存优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#预布局、预测动画是什么？"><span class="toc-number">5.</span> <span class="toc-text">预布局、预测动画是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ref"><span class="toc-number">6.</span> <span class="toc-text">Ref</span></a></li></ol>
+            </div>
+        
+    </div>
+</aside>
+
+<script type="text/javascript">
+/*
+    滚动函数
+    接收三个参数,
+        1 接收一个DOM对象
+        2 给目标对象切换class
+        3 触发的高度 (可选项,如果不指定高度,会将DOM的高度作为触发高度)
+*/
+function scrollCheck(scrollTarget, toggleClass, scrollHeight){
+    document.addEventListener('scroll',function(){
+    var currentTop = window.pageYOffset;
+        currentTop > (scrollHeight||scrollTarget.clientHeight)
+        ?scrollTarget.classList.add(toggleClass)
+        :scrollTarget.classList.remove(toggleClass)
+    })
+}
+
+(function(){
+      try {
+        document.getElementById("toc-wrap").style.width= document.getElementById("profile-inner").offsetWidth+ "px";
+        var introHeader = document.querySelector('.inner.profile-inner').offsetHeight;
+        var toc = document.querySelector('.toc-wrap');
+        scrollCheck(toc,'toc-fixed',introHeader+40+64);
+      }catch(err){
+
+      }
+        // var node = document.querySelector('.profile-inner');
+        // scrollCheck(node,'profile-inner-fixed',64);
+})();
+</script>
+
+            
+            <section id="main"><article id="post-recyclerview-cache" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-inner">
+        
+            
+	
+		<img src="https://cdn.conorlee.top/Garden%20Behind%20a%20House.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            RecyclerView 缓存机制
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2021/07/18/recyclerview-cache/">
+            <time datetime="2021-07-17T16:00:00.000Z" itemprop="datePublished">2021-07-18</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/gradle/">gradle</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">16 min read , Words: 3101</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+
+            <p>RecyclerView 内存性能优越，这得益于它独特的缓存机制</p>
+<h3 id="由问题引入"><a href="#由问题引入" class="headerlink" title="由问题引入"></a>由问题引入</h3><ul>
+<li>回收的是什么？复用什么？</li>
+<li>回收到哪里去？从哪里获得复用？</li>
+<li>什么时候回收？什么时候复用？<a id="more"></a>
+<h3 id="从addView-开始"><a href="#从addView-开始" class="headerlink" title="从addView()开始"></a>从addView()开始</h3>RecyclerView继承自 ViewGroup，遂以RecyclerView.addView()为切入点向上搜寻复用的代码。<br>在RecyclerView.java中全局搜索“addView”，发现RecyclerView()并没有对addView()函数重载，但找到一处addView()的调用：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//RecyclerView是ViewGroup的子类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RecyclerView</span> <span class="keyword">extends</span> <span class="title">ViewGroup</span> <span class="keyword">implements</span> <span class="title">ScrollingView</span>, <span class="title">NestedScrollingChild2</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initChildrenHelper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mChildHelper = <span class="keyword">new</span> ChildHelper(<span class="keyword">new</span> ChildHelper.Callback() &#123;</span><br><span class="line">            ...</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addView</span><span class="params">(View child, <span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (VERBOSE_TRACING) &#123;</span><br><span class="line">                    TraceCompat.beginSection(<span class="string">"RV addView"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//直接调用ViewGroup.addView()</span></span><br><span class="line">                RecyclerView.<span class="keyword">this</span>.addView(child, index);</span><br><span class="line">                <span class="keyword">if</span> (VERBOSE_TRACING) &#123;</span><br><span class="line">                    TraceCompat.endSection();</span><br><span class="line">                &#125;</span><br><span class="line">                dispatchChildAttached(child);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以ChildHelper.Callback.addView()为起点沿着调用链继续向上搜寻，经历了如下方法调用：</p>
+<ul>
+<li>ChildHelper.addView()</li>
+<li>LayoutManager.addViewInt()</li>
+<li>LayoutManager.addView()</li>
+<li>LinearLayoutManager.layoutChunk()：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">layoutChunk</span><span class="params">(RecyclerView.Recycler recycler, RecyclerView.State state,LayoutState layoutState, LayoutChunkResult result)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//获得下一个表项</span></span><br><span class="line">        View view = layoutState.next(recycler);</span><br><span class="line">        ...</span><br><span class="line">        LayoutParams params = (LayoutParams) view.getLayoutParams();</span><br><span class="line">        <span class="keyword">if</span> (layoutState.mScrapList == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">//将表项插入到列表中</span></span><br><span class="line">            <span class="keyword">if</span> (mShouldReverseLayout == (layoutState.mLayoutDirection == LayoutState.LAYOUT_START)) &#123;</span><br><span class="line">                addView(view);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                addView(view, <span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>addView(view)中传入的view是函数layoutState.next()的返回值。猜测该函数是用来获得下一个表项的。表项不止一个，应该有一个循环不断的获得下一个表项才对。果然layoutChunk在 fill() 方法的 while 循环中被调用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinearLayoutManager</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">LayoutManager</span> <span class="keyword">implements</span> <span class="title">ItemTouchHelper</span>.<span class="title">ViewDropHandler</span>, <span class="title">RecyclerView</span>.<span class="title">SmoothScroller</span>.<span class="title">ScrollVectorProvider</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">fill</span><span class="params">(RecyclerView.Recycler recycler, LayoutState layoutState,</span></span></span><br><span class="line"><span class="function"><span class="params">            RecyclerView.State state, <span class="keyword">boolean</span> stopOnFocusable)</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="comment">//recyclerview 剩余空间</span></span><br><span class="line">        <span class="keyword">int</span> remainingSpace = layoutState.mAvailable + layoutState.mExtra;</span><br><span class="line">        LayoutChunkResult layoutChunkResult = mLayoutChunkResult;</span><br><span class="line">        <span class="comment">//不断填充，直到空间消耗完毕</span></span><br><span class="line">        <span class="keyword">while</span> ((layoutState.mInfinite || remainingSpace &gt; <span class="number">0</span>) &amp;&amp; layoutState.hasMore(state)) &#123;</span><br><span class="line">            layoutChunkResult.resetInternal();</span><br><span class="line">            <span class="keyword">if</span> (VERBOSE_TRACING) &#123;</span><br><span class="line">                TraceCompat.beginSection(<span class="string">"LLM LayoutChunk"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//填充一个表项</span></span><br><span class="line">            layoutChunk(recycler, state, layoutState, layoutChunkResult);</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而fill()是在onLayoutChildren()中被调用：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Lay out all relevant child views from the given adapter.</span></span><br><span class="line"><span class="comment"> * 布局所有给定adapter中相关孩子视图</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLayoutChildren</span><span class="params">(Recycler recycler, State state)</span> </span>&#123;</span><br><span class="line"> 	Log.e(TAG, <span class="string">"You must override onLayoutChildren(Recycler recycler, State state) "</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看完注释，感觉前面猜测应该是正确的。onLayoutChildren()是用来布局RecyclerView中所有的表项的。</p>
+<p>回头去看一下layoutState.next()，表项复用逻辑应该就在其中.<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinearLayoutManager</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LayoutState</span> </span>&#123;       </span><br><span class="line">       <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Gets the view for the next element that we should layout.</span></span><br><span class="line"><span class="comment">         * 获得下一个元素的视图用于布局</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function">View <span class="title">next</span><span class="params">(RecyclerView.Recycler recycler)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (mScrapList != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> nextViewFromScrapList();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//调用了Recycler.getViewForPosition()</span></span><br><span class="line">            <span class="keyword">final</span> View view = recycler.getViewForPosition(mCurrentPosition);</span><br><span class="line">            mCurrentPosition += mItemDirection;</span><br><span class="line">            <span class="keyword">return</span> view;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最终调用了Recycler.getViewForPosition()，Recycler是回收器的意思，感觉离想要找的“复用”逻辑越来越近了。 Recycler到底是做什么用的？<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RecyclerView</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * A Recycler is responsible for managing scrapped or detached item views for reuse.</span></span><br><span class="line"><span class="comment">     *  Recycler负责管理scrapped和detached表项的复用</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Recycler</span> </span>&#123;</span><br><span class="line">      ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>终于找到你~~ ，Recycler用于表项的复用！沿着Recycler.getViewForPosition()的调用链继续向下搜寻，找到了一个关键函数（函数太长了，为了防止头晕，只列出了关键节点）<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RecyclerView</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Recycler</span> </span>&#123;</span><br><span class="line">       <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Attempts to get the ViewHolder for the given position, either from the Recycler scrap,</span></span><br><span class="line"><span class="comment">         * cache, the RecycledViewPool, or creating it directly.</span></span><br><span class="line"><span class="comment">         * 尝试获得指定位置的ViewHolder，要么从scrap，cache，RecycledViewPool中获取，要么直接重新创建</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="meta">@Nullable</span></span><br><span class="line">        <span class="function">ViewHolder <span class="title">tryGetViewHolderForPositionByDeadline</span><span class="params">(<span class="keyword">int</span> position,</span></span></span><br><span class="line"><span class="function"><span class="params">                <span class="keyword">boolean</span> dryRun, <span class="keyword">long</span> deadlineNs)</span> </span>&#123;</span><br><span class="line">            ...</span><br><span class="line">            <span class="keyword">boolean</span> fromScrapOrHiddenOrCache = <span class="keyword">false</span>;</span><br><span class="line">            ViewHolder holder = <span class="keyword">null</span>;</span><br><span class="line">            <span class="comment">//0 从changed scrap集合中获取ViewHolder</span></span><br><span class="line">            <span class="keyword">if</span> (mState.isPreLayout()) &#123;</span><br><span class="line">                holder = getChangedScrapViewForPosition(position);</span><br><span class="line">                fromScrapOrHiddenOrCache = holder != <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//1. 通过position从attach scrap或一级回收缓存中获取ViewHolder</span></span><br><span class="line">            <span class="keyword">if</span> (holder == <span class="keyword">null</span>) &#123;</span><br><span class="line">                holder = getScrapOrHiddenOrCachedHolderForPosition(position, dryRun);</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> (holder == <span class="keyword">null</span>) &#123;</span><br><span class="line">                ...</span><br><span class="line">                <span class="keyword">final</span> <span class="keyword">int</span> type = mAdapter.getItemViewType(offsetPosition);</span><br><span class="line">                <span class="comment">//2. 通过id在attach scrap集合和一级回收缓存中查找viewHolder</span></span><br><span class="line">                <span class="keyword">if</span> (mAdapter.hasStableIds()) &#123;</span><br><span class="line">                    holder = getScrapOrCachedViewForId(mAdapter.getItemId(offsetPosition),</span><br><span class="line">                            type, dryRun);</span><br><span class="line">                    ...</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//3. 从自定义缓存中获取ViewHolder</span></span><br><span class="line">                <span class="keyword">if</span> (holder == <span class="keyword">null</span> &amp;&amp; mViewCacheExtension != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="comment">// We are NOT sending the offsetPosition because LayoutManager does not</span></span><br><span class="line">                    <span class="comment">// know it.</span></span><br><span class="line">                    <span class="keyword">final</span> View view = mViewCacheExtension</span><br><span class="line">                            .getViewForPositionAndType(<span class="keyword">this</span>, position, type);</span><br><span class="line">                    ...</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//4.从缓存池中拿ViewHolder</span></span><br><span class="line">                <span class="keyword">if</span> (holder == <span class="keyword">null</span>) &#123; <span class="comment">// fallback to pool</span></span><br><span class="line">                    ...</span><br><span class="line">                    holder = getRecycledViewPool().getRecycledView(type);</span><br><span class="line">                    ...</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//所有缓存都没有命中，只能创建ViewHolder</span></span><br><span class="line">                <span class="keyword">if</span> (holder == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    ...</span><br><span class="line">                    holder = mAdapter.createViewHolder(RecyclerView.<span class="keyword">this</span>, type);</span><br><span class="line">                    ...</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">boolean</span> bound = <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">if</span> (mState.isPreLayout() &amp;&amp; holder.isBound()) &#123;</span><br><span class="line">                <span class="comment">// do not update unless we absolutely have to.</span></span><br><span class="line">                holder.mPreLayoutPosition = position;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//只有invalid的viewHolder才能绑定视图数据</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (!holder.isBound() || holder.needsUpdate() || holder.isInvalid()) &#123;</span><br><span class="line">                <span class="keyword">final</span> <span class="keyword">int</span> offsetPosition = mAdapterHelper.findPositionOffset(position);</span><br><span class="line">                <span class="comment">//获得ViewHolder后，绑定视图数据</span></span><br><span class="line">                bound = tryBindViewHolderByDeadline(holder, offsetPosition, position, deadlineNs);</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">            <span class="keyword">return</span> holder;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>函数的名字以“tryGet”开头，“尝试获得”表示可能获得失败，再结合注释中说的：“尝试获得指定位置的ViewHolder，要么从scrap，cache，RecycledViewPool中，要么直接重新创建。”猜测scrap，cache，RecycledViewPool是回收表项的容器，相当于表项缓存，如果缓存未命中则只能重新创建。</p>
+<p>函数的返回值是ViewHolder，难道回收和复用的是ViewHolder? 函数开头声明了局部变量ViewHolder holder = null;最终返回的也是这个局部变量，并且有4处holder == null的判断，这样的代码结构是不是有点像缓存？每次判空意味着上一级缓存未命中并继续尝试新的获取方法？缓存是不是有不止一种存储形式？ 让我们一次一次地看：</p>
+<h4 id="第一次尝试"><a href="#第一次尝试" class="headerlink" title="第一次尝试"></a>第一次尝试</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">ViewHolder <span class="title">tryGetViewHolderForPositionByDeadline</span><span class="params">(<span class="keyword">int</span> position,</span></span></span><br><span class="line"><span class="function"><span class="params">                <span class="keyword">boolean</span> dryRun, <span class="keyword">long</span> deadlineNs)</span> </span>&#123;</span><br><span class="line">      ...</span><br><span class="line">      <span class="keyword">if</span> (mState.isPreLayout()) &#123;</span><br><span class="line">          holder = getChangedScrapViewForPosition(position);</span><br><span class="line">          fromScrapOrHiddenOrCache = holder != <span class="keyword">null</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>只有在mState.isPreLayout()为true时才会做这次尝试，这应该是一种特殊情况，先忽略。</p>
+<h4 id="第二次尝试"><a href="#第二次尝试" class="headerlink" title="第二次尝试"></a>第二次尝试</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">ViewHolder <span class="title">tryGetViewHolderForPositionByDeadline</span><span class="params">(<span class="keyword">int</span> position,</span></span></span><br><span class="line"><span class="function"><span class="params">                <span class="keyword">boolean</span> dryRun, <span class="keyword">long</span> deadlineNs)</span> </span>&#123;</span><br><span class="line">      ...</span><br><span class="line">      <span class="keyword">if</span> (holder == <span class="keyword">null</span>) &#123;</span><br><span class="line">          holder = getScrapOrHiddenOrCachedHolderForPosition(position, dryRun);</span><br><span class="line">          <span class="comment">//下面一段代码蕴含着一个线索，买个伏笔，先把他略去</span></span><br><span class="line">          ...</span><br><span class="line">      &#125;</span><br><span class="line">      ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当第一次尝试失败后，尝试通过getScrapOrHiddenOrCachedHolderForPosition()获得ViewHolder。<br>这里故意省略了一段代码，先埋个伏笔，待会分析。先沿着获取ViewHolder的调用链继续往下：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//省略非关键代码</span></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Returns a view for the position either from attach scrap, hidden children, or cache.</span></span><br><span class="line"><span class="comment">         * 从attach scrap，hidden children或者cache中获得指定位置上的一个ViewHolder</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function">ViewHolder <span class="title">getScrapOrHiddenOrCachedHolderForPosition</span><span class="params">(<span class="keyword">int</span> position, <span class="keyword">boolean</span> dryRun)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> scrapCount = mAttachedScrap.size();</span><br><span class="line">            <span class="comment">// Try first for an exact, non-invalid match from scrap.</span></span><br><span class="line">            <span class="comment">//1.在attached scrap中搜索ViewHolder</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; scrapCount; i++) &#123;</span><br><span class="line">                <span class="keyword">final</span> ViewHolder holder = mAttachedScrap.get(i);</span><br><span class="line">                <span class="keyword">if</span> (!holder.wasReturnedFromScrap() &amp;&amp; holder.getLayoutPosition() == position</span><br><span class="line">                        &amp;&amp; !holder.isInvalid() &amp;&amp; (mState.mInPreLayout || !holder.isRemoved())) &#123;</span><br><span class="line">                    holder.addFlags(ViewHolder.FLAG_RETURNED_FROM_SCRAP);</span><br><span class="line">                    <span class="keyword">return</span> holder;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//2.从移除屏幕的视图中搜索ViewHolder，找到了之后将他存入scrap回收集合中</span></span><br><span class="line">            <span class="keyword">if</span> (!dryRun) &#123;</span><br><span class="line">                View view = mChildHelper.findHiddenNonRemovedView(position);</span><br><span class="line">                <span class="keyword">if</span> (view != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">final</span> ViewHolder vh = getChildViewHolderInt(view);</span><br><span class="line">                    mChildHelper.unhide(view);</span><br><span class="line">                    <span class="keyword">int</span> layoutIndex = mChildHelper.indexOfChild(view);</span><br><span class="line">                    ...</span><br><span class="line">                    mChildHelper.detachViewFromParent(layoutIndex);</span><br><span class="line">                    scrapView(view);</span><br><span class="line">                    vh.addFlags(ViewHolder.FLAG_RETURNED_FROM_SCRAP</span><br><span class="line">                            | ViewHolder.FLAG_BOUNCED_FROM_HIDDEN_LIST);</span><br><span class="line">                    <span class="keyword">return</span> vh;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// Search in our first-level recycled view cache.</span></span><br><span class="line">            <span class="comment">//3.在缓存中搜索ViewHolder</span></span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> cacheSize = mCachedViews.size();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; cacheSize; i++) &#123;</span><br><span class="line">                <span class="keyword">final</span> ViewHolder holder = mCachedViews.get(i);</span><br><span class="line">                <span class="comment">//若找到ViewHolder，还需要对ViewHolder的索引进行匹配判断</span></span><br><span class="line">                <span class="keyword">if</span> (!holder.isInvalid() &amp;&amp; holder.getLayoutPosition() == position) &#123;</span><br><span class="line">                    ...</span><br><span class="line">                    <span class="keyword">return</span> holder;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>依次从三个地方搜索ViewHolder：1. mAttachedScrap  2. 隐藏表项  3. mCachedViews，找到立即返回。<br>其中mAttachedScrap和mCachedViews作为Recycler的成员变量，用来存储一组ViewHolder：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Recycler</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ArrayList&lt;ViewHolder&gt; mAttachedScrap = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">final</span> ArrayList&lt;ViewHolder&gt; mCachedViews = <span class="keyword">new</span> ArrayList&lt;ViewHolder&gt;();</span><br><span class="line">    ...</span><br><span class="line">    RecycledViewPool mRecyclerPool;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看到这里应该可以初步得出结论：RecyclerView回收机制中，<strong>回收复用的对象是ViewHolder</strong>，且以ArrayList为结构存储在Recycler对象中。</p>
+<p>RecycledViewPool mRecyclerPool; 看着也像是回收容器，那待会是不是也会到这里拿 ViewHolder?</p>
+<p>值得注意的是，<strong>当成功从mCachedViews中获取ViewHolder对象后，还需要对其索引进行判断，这就意味着 mCachedViews中缓存的ViewHolder只能复用于指定位置</strong> ，打个比方：手指向上滑动，列表向下滚动，第2个表项移出屏幕，第4个表项移入屏幕，此时再滑回去，第2个表项再次出现，这个过程中第4个表项不能复用被回收的第2个表项的ViewHolder，因为他们的位置不同，而再次进入屏幕的第2个表项就可以成功复用。 待会可以对比一下其他复用是否也需要索引判断</p>
+<p>回到刚才埋下的伏笔，把第二次尝试获取ViewHolder的代码补全：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">ViewHolder <span class="title">tryGetViewHolderForPositionByDeadline</span><span class="params">(<span class="keyword">int</span> position,</span></span></span><br><span class="line"><span class="function"><span class="params">                <span class="keyword">boolean</span> dryRun, <span class="keyword">long</span> deadlineNs)</span> </span>&#123;</span><br><span class="line">      ...</span><br><span class="line">      <span class="keyword">if</span> (holder == <span class="keyword">null</span>) &#123;</span><br><span class="line">          holder = getScrapOrHiddenOrCachedHolderForPosition(position, dryRun);</span><br><span class="line">          <span class="comment">//下面一段代码蕴含这一个线索，买个伏笔，先把他略去</span></span><br><span class="line">          <span class="keyword">if</span> (holder != <span class="keyword">null</span>) &#123;</span><br><span class="line">               <span class="comment">//检验ViewHolder有效性</span></span><br><span class="line">               <span class="keyword">if</span> (!validateViewHolderForOffsetPosition(holder)) &#123;</span><br><span class="line">                    <span class="comment">// recycle holder (and unscrap if relevant) since it can not be used</span></span><br><span class="line">                    <span class="keyword">if</span> (!dryRun) &#123;</span><br><span class="line">                         <span class="comment">// we would like to recycle this but need to make sure it is not used by</span></span><br><span class="line">                         <span class="comment">// animation logic etc.</span></span><br><span class="line">                         holder.addFlags(ViewHolder.FLAG_INVALID);</span><br><span class="line">                         <span class="keyword">if</span> (holder.isScrap()) &#123;</span><br><span class="line">                              removeDetachedView(holder.itemView, <span class="keyword">false</span>);</span><br><span class="line">                              holder.unScrap();</span><br><span class="line">                          &#125; <span class="keyword">else</span> <span class="keyword">if</span> (holder.wasReturnedFromScrap()) &#123;</span><br><span class="line">                              holder.clearReturnedFromScrapFlag();</span><br><span class="line">                          &#125;</span><br><span class="line">                          <span class="comment">//若不满足有效性检验，则回收ViewHolder</span></span><br><span class="line">                          recycleViewHolderInternal(holder);</span><br><span class="line">                    &#125;</span><br><span class="line">                    holder = <span class="keyword">null</span>;</span><br><span class="line">               &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    fromScrapOrHiddenOrCache = <span class="keyword">true</span>;</span><br><span class="line">               &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果成功获得ViewHolder则检验其有效性，若检验失败则将其回收。好不容易获取了ViewHoler对象，一言不合就把他回收？难道对所有复用的 ViewHolder 都有这么严格的检验吗？ 暂时无法回答这些疑问，还是先把复用逻辑看完吧：</p>
+<h4 id="第三次尝试"><a href="#第三次尝试" class="headerlink" title="第三次尝试"></a>第三次尝试</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">ViewHolder <span class="title">tryGetViewHolderForPositionByDeadline</span><span class="params">(<span class="keyword">int</span> position,</span></span></span><br><span class="line"><span class="function"><span class="params">                <span class="keyword">boolean</span> dryRun, <span class="keyword">long</span> deadlineNs)</span> </span>&#123;</span><br><span class="line">      ...</span><br><span class="line">      <span class="comment">//只有当Adapter设置了id，才会进行这次查找</span></span><br><span class="line">      <span class="keyword">if</span> (mAdapter.hasStableIds()) &#123;</span><br><span class="line">           holder = getScrapOrCachedViewForId(mAdapter.getItemId(offsetPosition),type, dryRun);</span><br><span class="line">           <span class="keyword">if</span> (holder != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">// update position</span></span><br><span class="line">                holder.mPosition = offsetPosition;</span><br><span class="line">                fromScrapOrHiddenOrCache = <span class="keyword">true</span>;</span><br><span class="line">           &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这一次尝试调用的函数名（“byId”）和上一次（“byPosition”）只是后缀不一样。上一次是通过表项位置，这一次是通过表项id。内部实现也几乎一样，判断的依据从表项位置变成表项id。为表项设置id属于特殊情况，先忽略。</p>
+<h4 id="第四次尝试"><a href="#第四次尝试" class="headerlink" title="第四次尝试"></a>第四次尝试</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">ViewHolder <span class="title">tryGetViewHolderForPositionByDeadline</span><span class="params">(<span class="keyword">int</span> position,</span></span></span><br><span class="line"><span class="function"><span class="params">                <span class="keyword">boolean</span> dryRun, <span class="keyword">long</span> deadlineNs)</span> </span>&#123;</span><br><span class="line">      ...</span><br><span class="line">      <span class="keyword">if</span> (holder == <span class="keyword">null</span> &amp;&amp; mViewCacheExtension != <span class="keyword">null</span>) &#123;</span><br><span class="line">           <span class="comment">// We are NOT sending the offsetPosition because LayoutManager does not</span></span><br><span class="line">           <span class="comment">// know it.</span></span><br><span class="line">          <span class="keyword">final</span> View view = mViewCacheExtension.getViewForPositionAndType(<span class="keyword">this</span>, position, type);</span><br><span class="line">           <span class="keyword">if</span> (view != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">//获得view对应的ViewHolder</span></span><br><span class="line">                holder = getChildViewHolder(view);</span><br><span class="line">                <span class="keyword">if</span> (holder == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"getViewForPositionAndType returned"</span></span><br><span class="line">                                    + <span class="string">" a view which does not have a ViewHolder"</span></span><br><span class="line">                                    + exceptionLabel());</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (holder.shouldIgnore()) &#123;</span><br><span class="line">                   <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"getViewForPositionAndType returned"</span></span><br><span class="line">                                    + <span class="string">" a view that is ignored. You must call stopIgnoring before"</span></span><br><span class="line">                                    + <span class="string">" returning this view."</span> + exceptionLabel());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>经过从mAttachedScrap和mCachedViews获取ViewHolder未果后，继续尝试通过ViewCacheExtension 获取：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * ViewCacheExtension is a helper class to provide an additional layer of view caching that can</span></span><br><span class="line"><span class="comment"> * be controlled by the developer.</span></span><br><span class="line"><span class="comment"> * ViewCacheExtension提供了额外的表项缓存层，用户帮助开发者自己控制表项缓存</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * When &#123;<span class="doctag">@link</span> Recycler#getViewForPosition(int)&#125; is called, Recycler checks attached scrap and</span></span><br><span class="line"><span class="comment"> * first level cache to find a matching View. If it cannot find a suitable View, Recycler will</span></span><br><span class="line"><span class="comment"> * call the &#123;<span class="doctag">@link</span> #getViewForPositionAndType(Recycler, int, int)&#125; before checking</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> RecycledViewPool&#125;.</span></span><br><span class="line"><span class="comment"> * 当Recycler从attached scrap和first level cache中未能找到匹配的表项时，它会在去RecycledViewPool中查找之前，先尝试从自定义缓存中查找</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewCacheExtension</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Returns a View that can be binded to the given Adapter position.</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;</span></span><br><span class="line"><span class="comment">     * This method should &lt;b&gt;not&lt;/b&gt; create a new View. Instead, it is expected to return</span></span><br><span class="line"><span class="comment">     * an already created View that can be re-used for the given type and position.</span></span><br><span class="line"><span class="comment">     * If the View is marked as ignored, it should first call</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> LayoutManager#stopIgnoringView(View)&#125; before returning the View.</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;</span></span><br><span class="line"><span class="comment">     * RecyclerView will re-bind the returned View to the position if necessary.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> View <span class="title">getViewForPositionAndType</span><span class="params">(Recycler recycler, <span class="keyword">int</span> position, <span class="keyword">int</span> type)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注释揭露了很多信息：ViewCacheExtension用于开发者自定义表项缓存，且这层缓存的访问顺序位于mAttachedScrap和mCachedViews之后，RecycledViewPool 之前。这和<code>Recycler.tryGetViewHolderForPositionByDeadline()</code>中的代码逻辑一致，那接下来的第五次尝试，应该是从 RecycledViewPool 中获取 ViewHolder</p>
+<h4 id="第五次尝试"><a href="#第五次尝试" class="headerlink" title="第五次尝试"></a>第五次尝试</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">ViewHolder <span class="title">tryGetViewHolderForPositionByDeadline</span><span class="params">(<span class="keyword">int</span> position,</span></span></span><br><span class="line"><span class="function"><span class="params">                <span class="keyword">boolean</span> dryRun, <span class="keyword">long</span> deadlineNs)</span> </span>&#123;</span><br><span class="line">      ...</span><br><span class="line">      <span class="keyword">if</span> (holder == <span class="keyword">null</span>) &#123; </span><br><span class="line">          ...</span><br><span class="line">          <span class="comment">//从回收池中获取ViewHolder对象</span></span><br><span class="line">          holder = getRecycledViewPool().getRecycledView(type);</span><br><span class="line">          <span class="keyword">if</span> (holder != <span class="keyword">null</span>) &#123;</span><br><span class="line">               holder.resetInternal();</span><br><span class="line">               <span class="keyword">if</span> (FORCE_INVALIDATE_DISPLAY_LIST) &#123;</span><br><span class="line">                    invalidateDisplayListInt(holder);</span><br><span class="line">               &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>前四次尝试都未果，最后从RecycledViewPool 中获取ViewHolder。稍等片刻！相对于从mAttachedScrap  和 mCachedViews 中获取 ViewHolder，此处并没有严格的检验逻辑。为啥要区别对待不同的缓存？ 大大的问号悬在头顶，但现在暂时无法解答，还是接着看RecycledViewPool 的结构吧~<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Recycler</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    RecycledViewPool mRecyclerPool;</span><br><span class="line">    <span class="comment">//获得RecycledViewPool实例</span></span><br><span class="line">    <span class="function">RecycledViewPool <span class="title">getRecycledViewPool</span><span class="params">()</span> </span>&#123;</span><br><span class="line">          <span class="keyword">if</span> (mRecyclerPool == <span class="keyword">null</span>) &#123;</span><br><span class="line">              mRecyclerPool = <span class="keyword">new</span> RecycledViewPool();</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">return</span> mRecyclerPool;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">RecycledViewPool</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//从回收池中获取ViewHolder对象</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ViewHolder <span class="title">getRecycledView</span><span class="params">(<span class="keyword">int</span> viewType)</span> </span>&#123;</span><br><span class="line">          <span class="keyword">final</span> ScrapData scrapData = mScrap.get(viewType);</span><br><span class="line">          <span class="keyword">if</span> (scrapData != <span class="keyword">null</span> &amp;&amp; !scrapData.mScrapHeap.isEmpty()) &#123;</span><br><span class="line">              <span class="keyword">final</span> ArrayList&lt;ViewHolder&gt; scrapHeap = scrapData.mScrapHeap;</span><br><span class="line">              <span class="keyword">return</span> scrapHeap.remove(scrapHeap.size() - <span class="number">1</span>);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>函数中只要访问了类成员变量，它的复杂度就提高了，因为类成员变量的作用于超出了函数体，使得函数就和类中其他函数耦合，所以不得不进行阅读更多以帮助理解该函数：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">RecycledViewPool</span> </span>&#123;</span><br><span class="line">        <span class="comment">//同类ViewHolder缓存个数上限</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_MAX_SCRAP = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Tracks both pooled holders, as well as create/bind timing metadata for the given type.</span></span><br><span class="line"><span class="comment">         * 回收池中存放单个类型ViewHolder的容器</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ScrapData</span> </span>&#123;</span><br><span class="line">            <span class="comment">//同类ViewHolder存储在ArrayList中</span></span><br><span class="line">            ArrayList&lt;ViewHolder&gt; mScrapHeap = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            <span class="comment">//每种类型的ViewHolder最多存5个</span></span><br><span class="line">            <span class="keyword">int</span> mMaxScrap = DEFAULT_MAX_SCRAP;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//回收池中存放所有类型ViewHolder的容器</span></span><br><span class="line">        SparseArray&lt;ScrapData&gt; mScrap = <span class="keyword">new</span> SparseArray&lt;&gt;();</span><br><span class="line">        ...</span><br><span class="line">        <span class="comment">//ViewHolder入池 按viewType分类入池，一个类型的ViewType存放在一个ScrapData中</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">putRecycledView</span><span class="params">(ViewHolder scrap)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> viewType = scrap.getItemViewType();</span><br><span class="line">            <span class="keyword">final</span> ArrayList&lt;ViewHolder&gt; scrapHeap = getScrapDataForType(viewType).mScrapHeap;</span><br><span class="line">            <span class="comment">//如果超限了，则放弃入池</span></span><br><span class="line">            <span class="keyword">if</span> (mScrap.get(viewType).mMaxScrap &lt;= scrapHeap.size()) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (DEBUG &amp;&amp; scrapHeap.contains(scrap)) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"this scrap item already exists"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            scrap.resetInternal();</span><br><span class="line">            <span class="comment">//回收时，ViewHolder从列表尾部插入</span></span><br><span class="line">            scrapHeap.add(scrap);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//从回收池中获取ViewHolder对象</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> ViewHolder <span class="title">getRecycledView</span><span class="params">(<span class="keyword">int</span> viewType)</span> </span>&#123;</span><br><span class="line">              <span class="keyword">final</span> ScrapData scrapData = mScrap.get(viewType);</span><br><span class="line">              <span class="keyword">if</span> (scrapData != <span class="keyword">null</span> &amp;&amp; !scrapData.mScrapHeap.isEmpty()) &#123;</span><br><span class="line">                  <span class="keyword">final</span> ArrayList&lt;ViewHolder&gt; scrapHeap = scrapData.mScrapHeap;</span><br><span class="line">                  <span class="comment">//复用时，从列表尾部获取ViewHolder（优先复用刚入池的ViewHoler）</span></span><br><span class="line">                  <span class="keyword">return</span> scrapHeap.remove(scrapHeap.size() - <span class="number">1</span>);</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上述代码列出了RecycledViewPool 中最关键的一个成员变量和两个函数。至此可以得出结论：RecycledViewPool中的ViewHolder存储在SparseArray中，并且按viewType分类存储（即是Adapter.getItemViewType()的返回值），同一类型的ViewHolder存放在ArrayList 中，且默认最多存储5个。</p>
+<p>相比较于mCachedViews，<strong>从mRecyclerPool中成功获取ViewHolder对象后并没有做合法性和表项位置校验，只检验viewType是否一致</strong>。所以从mRecyclerPool中取出的ViewHolder只能复用于相同viewType的表项。</p>
+<h4 id="创建ViewHolder并绑定数据"><a href="#创建ViewHolder并绑定数据" class="headerlink" title="创建ViewHolder并绑定数据"></a>创建ViewHolder并绑定数据</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">ViewHolder <span class="title">tryGetViewHolderForPositionByDeadline</span><span class="params">(<span class="keyword">int</span> position,<span class="keyword">boolean</span> dryRun, <span class="keyword">long</span> deadlineNs)</span> </span>&#123;</span><br><span class="line">            ...</span><br><span class="line">            <span class="comment">//所有缓存都没有命中，只能创建ViewHolder</span></span><br><span class="line">            <span class="keyword">if</span> (holder == <span class="keyword">null</span>) &#123;</span><br><span class="line">                ...</span><br><span class="line">                holder = mAdapter.createViewHolder(RecyclerView.<span class="keyword">this</span>, type);</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">            <span class="keyword">boolean</span> bound = <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">if</span> (mState.isPreLayout() &amp;&amp; holder.isBound()) &#123;</span><br><span class="line">                <span class="comment">// do not update unless we absolutely have to.</span></span><br><span class="line">                holder.mPreLayoutPosition = position;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//如果表项没有绑定过数据 或 表项需要更新 或 表项无效 且表项没有被移除时绑定表项数据</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (!holder.isBound() || holder.needsUpdate() || holder.isInvalid()) &#123;</span><br><span class="line">                <span class="keyword">if</span> (DEBUG &amp;&amp; holder.isRemoved()) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Removed holder should be bound and it should"</span></span><br><span class="line">                            + <span class="string">" come here only in pre-layout. Holder: "</span> + holder</span><br><span class="line">                            + exceptionLabel());</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">final</span> <span class="keyword">int</span> offsetPosition = mAdapterHelper.findPositionOffset(position);</span><br><span class="line">                <span class="comment">//为表项绑定数据</span></span><br><span class="line">                bound = tryBindViewHolderByDeadline(holder, offsetPosition, position, deadlineNs);</span><br><span class="line">            &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>再进行了上述所有尝试后，如果依然没有获得ViewHolder，只能重新创建并绑定数据。沿着调用链往下，就会找到熟悉的<code>onCreateViewHolder()</code>和<code>onBindViewHolder()</code>。</li>
+<li>绑定数据的逻辑嵌套在一个大大的if中（原来<strong>并不是每次都要绑定数据，只有满足特定条件时才需要绑定</strong>）</li>
+<li>那什么情况下需要绑定，什么情况下不需要呢？这就要引出“缓存优先级”这个概念。</li>
+</ul>
+<h3 id="缓存优先级"><a href="#缓存优先级" class="headerlink" title="缓存优先级"></a>缓存优先级</h3><p>缓存有优先级一说，在使用图片二级缓存（内存+磁盘）时，会先尝试去优先级高的内存中获取，若未命中再去磁盘中获取。优先级越高意味着性能越好。RecyclerView的缓存机制中是否也能套用“缓存优先级”这一逻辑？</p>
+<p>虽然为了获取ViewHolder做了5次尝试（共从6个地方获取），先排除3种特殊情况，即从mChangedScrap获取、通过id获取、从自定义缓存获取，正常流程中只剩下3种获取方式，优先级从高到低依次是：</p>
+<ul>
+<li>1.从mAttachedScrap获取</li>
+<li>2.从mCachedViews获取</li>
+<li>3.从mRecyclerPool 获取</li>
+</ul>
+<p>这样的缓存优先级是不是意味着，对应的复用性能也是从高到低？（复用性能越好意味着所做的昂贵操作越少）</p>
+<ul>
+<li>最坏情况：重新创建ViewHodler并重新绑定数据</li>
+<li>次好情况：复用ViewHolder但重新绑定数据</li>
+<li>最好情况：复用ViewHolder且不重新绑定数据</li>
+</ul>
+<p>毫无疑问，所有缓存都未命中的情况下会发生最坏情况。剩下的两种情况应该由3种获取方式来分摊，猜测优先级最低的 mRecyclerPool 方式应该命中次好情况，而优先级最高的 mAttachedScrap 应该命中最好情况，去源码中验证一下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">ViewHolder <span class="title">getScrapOrHiddenOrCachedHolderForPosition</span><span class="params">(<span class="keyword">int</span> position, <span class="keyword">boolean</span> dryRun)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">final</span> <span class="keyword">int</span> scrapCount = mAttachedScrap.size();</span><br><span class="line"></span><br><span class="line">       <span class="comment">// Try first for an exact, non-invalid match from scrap.</span></span><br><span class="line">       <span class="comment">//1.从attached scrap回收集合中</span></span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; scrapCount; i++) &#123;</span><br><span class="line">           <span class="keyword">final</span> ViewHolder holder = mAttachedScrap.get(i);</span><br><span class="line">           <span class="comment">//只有当holder是有效时才返回</span></span><br><span class="line">           <span class="keyword">if</span> (!holder.wasReturnedFromScrap() &amp;&amp; holder.getLayoutPosition() == position</span><br><span class="line">                   &amp;&amp; !holder.isInvalid() &amp;&amp; (mState.mInPreLayout || !holder.isRemoved())) &#123;</span><br><span class="line">               holder.addFlags(ViewHolder.FLAG_RETURNED_FROM_SCRAP);</span><br><span class="line">               <span class="keyword">return</span> holder;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ViewHolder <span class="title">tryGetViewHolderForPositionByDeadline</span><span class="params">(<span class="keyword">int</span> position,</span></span></span><br><span class="line"><span class="function"><span class="params">                <span class="keyword">boolean</span> dryRun, <span class="keyword">long</span> deadlineNs)</span> </span>&#123;</span><br><span class="line">      ...</span><br><span class="line">      <span class="keyword">if</span> (holder == <span class="keyword">null</span>) &#123; </span><br><span class="line">          ...</span><br><span class="line">          <span class="comment">//从回收池中获取ViewHolder对象</span></span><br><span class="line">          holder = getRecycledViewPool().getRecycledView(type);</span><br><span class="line">          <span class="keyword">if</span> (holder != <span class="keyword">null</span>) &#123;</span><br><span class="line">               <span class="comment">//重置ViewHolder</span></span><br><span class="line">               holder.resetInternal();</span><br><span class="line">               <span class="keyword">if</span> (FORCE_INVALIDATE_DISPLAY_LIST) &#123;</span><br><span class="line">                    invalidateDisplayListInt(holder);</span><br><span class="line">               &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      ...</span><br><span class="line">      <span class="comment">//如果表项没有绑定过数据 或 表项需要更新 或 表项无效 且表项没有被移除时绑定表项数据</span></span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span> (!holder.isBound() || holder.needsUpdate() || holder.isInvalid()) &#123;</span><br><span class="line">          <span class="keyword">if</span> (DEBUG &amp;&amp; holder.isRemoved()) &#123;</span><br><span class="line">              <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Removed holder should be bound and it should"</span></span><br><span class="line">                            + <span class="string">" come here only in pre-layout. Holder: "</span> + holder</span><br><span class="line">                            + exceptionLabel());</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">final</span> <span class="keyword">int</span> offsetPosition = mAdapterHelper.findPositionOffset(position);</span><br><span class="line">          <span class="comment">//为表项绑定数据</span></span><br><span class="line">          bound = tryBindViewHolderByDeadline(holder, offsetPosition, position, deadlineNs);</span><br><span class="line">      &#125;</span><br><span class="line">      ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> </span>&#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * This ViewHolder has been bound to a position; mPosition, mItemId and mItemViewType</span></span><br><span class="line"><span class="comment">         * are all valid.</span></span><br><span class="line"><span class="comment">         * 绑定标志位</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> FLAG_BOUND = <span class="number">1</span> &lt;&lt; <span class="number">0</span>;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * This ViewHolder’s data is invalid. The identity implied by mPosition and mItemId</span></span><br><span class="line"><span class="comment">         * are not to be trusted and may no longer match the item view type.</span></span><br><span class="line"><span class="comment">         * This ViewHolder must be fully rebound to different data.</span></span><br><span class="line"><span class="comment">         * 无效标志位</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> FLAG_INVALID = <span class="number">1</span> &lt;&lt; <span class="number">2</span>;</span><br><span class="line">        <span class="comment">//判断ViewHolder是否无效</span></span><br><span class="line">        <span class="function"><span class="keyword">boolean</span> <span class="title">isInvalid</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="comment">//将当前ViewHolder对象的flag和无效标志位做位与操作</span></span><br><span class="line">            <span class="keyword">return</span> (mFlags &amp; FLAG_INVALID) != <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//判断ViewHolder是否被绑定</span></span><br><span class="line">        <span class="function"><span class="keyword">boolean</span> <span class="title">isBound</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="comment">//将当前ViewHolder对象的flag和绑定标志位做位与操作</span></span><br><span class="line">            <span class="keyword">return</span> (mFlags &amp; FLAG_BOUND) != <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 将ViewHolder重置</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">resetInternal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="comment">//将ViewHolder的flag置0</span></span><br><span class="line">            mFlags = <span class="number">0</span>;</span><br><span class="line">            mPosition = NO_POSITION;</span><br><span class="line">            mOldPosition = NO_POSITION;</span><br><span class="line">            mItemId = NO_ID;</span><br><span class="line">            mPreLayoutPosition = NO_POSITION;</span><br><span class="line">            mIsRecyclableCount = <span class="number">0</span>;</span><br><span class="line">            mShadowedHolder = <span class="keyword">null</span>;</span><br><span class="line">            mShadowingHolder = <span class="keyword">null</span>;</span><br><span class="line">            clearPayload();</span><br><span class="line">            mWasImportantForAccessibilityBeforeHidden = ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_AUTO;</span><br><span class="line">            mPendingAccessibilityState = PENDING_ACCESSIBILITY_STATE_NOT_SET;</span><br><span class="line">            clearNestedRecyclerViewIfNotNested(<span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>温故知新，回看 mRecyclerPool 复用逻辑时，发现在成功获得ViewHolder对象后，立即对其重置（将flag置0）。这样就满足了绑定数据的判断条件（因为0和非0位与之后必然为0）。</p>
+<p>同样的，在才mAttachedScrap中获取ViewHolder时，只有当其是有效的才会返回。所以猜测成立：从mRecyclerPool中复用的ViewHolder需要重新绑定数据，从mAttachedScrap 中复用的ViewHolder不要重新出创建也不需要重新绑定数据。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><p>在 RecyclerView 中，并不是每次绘制表项，都会重新创建 ViewHolder 对象，也不是每次都会重新绑定 ViewHolder 数据。</p>
+</li>
+<li><p>RecyclerView 通过Recycler获得下一个待绘制表项。</p>
+</li>
+<li><p>Recycler有4个层次用于缓存 ViewHolder 对象，优先级从高到底依次为</p>
+<ul>
+<li><code>ArrayList&lt;ViewHolder&gt; mAttachedScrap</code>、</li>
+<li><code>ArrayList&lt;ViewHolder&gt; mCachedViews</code>、</li>
+<li><code>ViewCacheExtension mViewCacheExtension</code>、</li>
+<li><code>RecycledViewPool mRecyclerPool</code>。</li>
+</ul>
+</li>
+<li><p>如果四层缓存都未命中，则重新创建并绑定 ViewHolder 对象。</p>
+</li>
+<li><p>RecycledViewPool 对 ViewHolder 按<strong>viewType分类存储</strong>（通过SparseArray），<strong>同类 ViewHolder 存储在默认大小为5的ArrayList中</strong>。</p>
+</li>
+<li><p><strong>从mRecyclerPool中复用的 ViewHolder 需要重新绑定数据，从mAttachedScrap 中复用的 ViewHolder 不需要重新创建也不需要重新绑定数据</strong>。</p>
+</li>
+<li><p><strong>从mRecyclerPool中复用的ViewHolder ，只能复用于viewType相同的表项，从mCachedViews中复用的 ViewHolder ，只能复用于指定位置的表项</strong>。</p>
+</li>
+<li><p><strong>mCachedViews是离屏缓存，用于缓存指定位置的 ViewHolder ，只有“列表回滚”这一种场景（刚滚出屏幕的表项再次进入屏幕）</strong>，才有可能命中该缓存。该缓存存放在默认大小为 2 的ArrayList中。</p>
+</li>
+</ul>
+<p>这篇文章粗略的回答了关于“复用”的4个问题，即“复用什么？”、“从哪里获得复用？”、“什么时候复用？”、“复用优先级”。读到这里，可能会有很多疑问：</p>
+<h3 id="预布局、预测动画是什么？"><a href="#预布局、预测动画是什么？" class="headerlink" title="预布局、预测动画是什么？"></a>预布局、预测动画是什么？</h3><p>关于预测动画和预布局的介绍，可以看这篇文章：<a href="https://juejin.cn/post/6844904146684870669" target="_blank" rel="noopener">深入理解 RecyclerView 的缓存机制</a></p>
+<h3 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h3><p><a href="https://juejin.cn/post/6844904146684870669" target="_blank" rel="noopener">深入理解 RecyclerView 的缓存机制</a></p>
+<hr>
+<div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="http://blog.conorlee.top/blogimages/attribution_88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://conorlee.top/" target="_blank" rel="noopener">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
+
+<p>本文链接：<a href="http://agehua.github.io/2021/07/18/recyclerview-cache/">http://agehua.github.io/2021/07/18/recyclerview-cache/</a></p>
+
+
+            
+  <!-- donate css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+         
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      _background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+<!-- Donate Module -->
+<div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+    </span>
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+
+  <div id="donate_guide" class="donate_bar center hidden" >
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
+        <a href="http://cdn.conorlee.top/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+        <a href="http://cdn.conorlee.top/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+      </div>
+      <div style="display:inline-block;">
+          &nbsp;
+          <span class="donate_txt">
+              Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+          </span>
+      </div>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className='hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+
+            
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2021/07/18/recyclerview-cache/" data-id="cks1kn200006ri3vdouyjkmya" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2021/07/18/recyclerview-cache/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2021/07/18/gradle-plugin/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    自定义gradle插件
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2021/06/07/ANR-summary/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">ANR 总结与分析</div>
+        </a>
+    
+</nav>
+
+
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+    
+    <section id="comments" class="comments">
+    
+        
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2021/07/18/recyclerview-cache/', // 可选。默认为 location.href
+  title: 'RecyclerView 缓存机制',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+    
+  </section>
+
+
+
+</article>
+
+
+</section>
+            
+                <aside id="sidebar">
+    <!-- 在_config.yml中配置了widgets，来决定widgets的顺序 -->
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/08/07/ANR-summary copy/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Garden%20in%20Auvers.jpg)" alt="ANR 总结与分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2021/08/07/ANR-summary copy/" class="title">ANR 总结与分析</a></p>
+                            <p class="item-date"><time datetime="2021-08-06T16:00:00.000Z" itemprop="datePublished">2021-08-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/07/18/gradle-plugin/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Gardens%20on%20Montmartre%20and%20the%20Blute-Fin%20Windmill.jpg)" alt="自定义gradle插件" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2021/07/18/gradle-plugin/" class="title">自定义gradle插件</a></p>
+                            <p class="item-date"><time datetime="2021-07-17T16:00:00.000Z" itemprop="datePublished">2021-07-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/07/18/recyclerview-cache/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Garden%20Behind%20a%20House.jpg)" alt="RecyclerView 缓存机制" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2021/07/18/recyclerview-cache/" class="title">RecyclerView 缓存机制</a></p>
+                            <p class="item-date"><time datetime="2021-07-17T16:00:00.000Z" itemprop="datePublished">2021-07-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/06/07/ANR-summary/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/French%20Peasant%20Woman%20Suckling%20Her%20Baby%20after%20Dalou.jpg)" alt="ANR 总结与分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2021/06/07/ANR-summary/" class="title">ANR 总结与分析</a></p>
+                            <p class="item-date"><time datetime="2021-06-06T16:00:00.000Z" itemprop="datePublished">2021-06-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/04/19/Android-PIP-Hack-summary/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Flying%20Fox.jpg)" alt="android 画中画功能总结" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2021/04/19/Android-PIP-Hack-summary/" class="title">android 画中画功能总结</a></p>
+                            <p class="item-date"><time datetime="2021-04-18T16:00:00.000Z" itemprop="datePublished">2021-04-19</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">68</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/aidl/" style="font-size: 12px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/anr/" style="font-size: 12px;">ANR</a> <a href="/tags/aosp/" style="font-size: 12px;">AOSP</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 12px;">Annotation</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 18px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 14px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview-knowledge/" style="font-size: 16px;">Interview Knowledge</a> <a href="/tags/jni/" style="font-size: 14px;">JNI</a> <a href="/tags/jvm/" style="font-size: 12px;">JVM</a> <a href="/tags/java/" style="font-size: 16px;">Java</a> <a href="/tags/javascript/" style="font-size: 12px;">JavaScript</a> <a href="/tags/kotlin/" style="font-size: 12px;">Kotlin</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 12px;">Looper</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 12px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 12px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 16px;">RecyclerView</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 12px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 12px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 16px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/picture-in-picture/" style="font-size: 10px;">picture-in-picture</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 12px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 14px;">toastmaster</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://conorlee.top">我的阿里云博客(求赞助)</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://agehua.github.io/">My Github Pages</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://invitation.conorlee.top/MrLiAndTeacherTian_WeddingInvitation.html">Wedding Invitation(手机观看最佳)</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2021 Jixin Li<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2021/07/18/recyclerview-cache/', // 可选。默认为 location.href
+  title: 'RecyclerView 缓存机制',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+<script>
+    var bigfa_scroll = {
+        drawCircle: function(id, percentage, color) {
+            var width = jQuery(id).width();
+            var height = jQuery(id).height();
+            var radius = parseInt(width / 2.20);
+            var position = width;
+            var positionBy2 = position / 2;
+            var bg = jQuery(id)[0];
+            id = id.split("# ");
+            var ctx = bg.getContext("2d");
+            var imd = null;
+            var circ = Math.PI * 2;
+            var quart = Math.PI / 2;
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineCap = "square";
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineWidth = 3;
+            imd = ctx.getImageData(0, 0, position, position);
+            var draw = function(current, ctxPass) {
+                ctxPass.putImageData(imd, 0, 0);
+                ctxPass.beginPath();
+                ctxPass.arc(positionBy2, positionBy2, radius, -(quart), ((circ) * current) - quart, false);
+                ctxPass.stroke();
+            }
+            draw(percentage / 100, ctx);
+        },
+        backToTop: function($this) {
+            $this.click(function() {
+                jQuery("body,html").animate({
+                    scrollTop: 0
+                },
+                800);
+                return false;
+            });
+        },
+        scrollHook: function($this, color) {
+            color = color ? color: "# 000000";
+            $this.scroll(function() {
+                var docHeight = (jQuery(document).height() - jQuery(window).height()),
+                $windowObj = $this,
+                $per = jQuery(".per"),
+                percentage = 0;
+                defaultScroll = $windowObj.scrollTop();
+                percentage = parseInt((defaultScroll / docHeight) * 100);
+                var backToTop = jQuery("# backtoTop");
+                if (backToTop.length > 0) {
+                    if ($windowObj.scrollTop() > 200) {
+                        backToTop.addClass("button--show");
+                    } else {
+                        backToTop.removeClass("button--show");
+                    }
+                    $per.attr("data-percent", percentage);
+                    bigfa_scroll.drawCircle("# backtoTopCanvas", percentage, color);
+                }
+            });
+        }
+    }
+
+</script>
+
+
+    </div>
+    <!-- <script src="http://cdn.maxjia.com/js/particles.min.js"></script> -->
+  
+  
+    <canvas class="fireworks" style="position: fixed; left: 0px; top: 0px; z-index: 1; pointer-events: none; width: 1440px; height: 416px;" width="2880" height="832"></canvas>
+    
+
+      <script type="text/javascript" src="/js/anime.min.js"></script>
+      <script type="text/javascript" src="/js/firework.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/33.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -9,7 +9,7 @@ banner: http://cdn.conorlee.top/Cart%20with%20Red%20and%20White%20Ox.jpg
 thumbnail: http://cdn.conorlee.top/Cart%20with%20Red%20and%20White%20Ox.jpg
 ---
 
-上一篇[Gradle学习]()了解了Gradle的基本结构和依赖关系，这篇文章介绍下怎么在Android上使用Gradle生成指定包名的APK
+上一篇[Gradle学习](https://conorlee.top/2016/10/12/gradle-learning/)了解了Gradle的基本结构和依赖关系，这篇文章介绍下怎么在Android上使用Gradle生成指定包名的APK
 
 ### 需求场景
 在我们Android开发基本进入测试阶段后，会根据后台的不同环境，打包出对应不同环境（如SIT、UAT、PRD等）的APK安装包。
