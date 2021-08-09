@@ -4,14 +4,14 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2021/08/07/ANR-summary%20copy/</loc>
-    <lastmod>2021-08-07T09:05:11.813Z</lastmod>
+    <loc>http://agehua.github.io/2021/08/07/view-scroll-apis/</loc>
+    <lastmod>2021-08-09T01:26:52.705Z</lastmod>
     <data>
         <display>
-        <title>ANR 总结与分析</title>
+        <title>移动view的几种方式总结</title>
         <pubTime>2021-08-06T16:00:00.000Z</pubTime>
         
-        <tag>ANR</tag>
+        <tag>view scroll</tag>
          
          
            
@@ -399,12 +399,12 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2019/07/17/RecyclerView-pre-initiate/</loc>
+    <loc>http://agehua.github.io/2019/05/31/RecyclerView-source-code/</loc>
     <lastmod>2020-09-01T07:45:18.919Z</lastmod>
     <data>
         <display>
-        <title>RecyclerView预加载机制源码分析</title>
-        <pubTime>2019-07-16T16:00:00.000Z</pubTime>
+        <title>RecyclerView 源码分析</title>
+        <pubTime>2019-05-30T16:00:00.000Z</pubTime>
         
         <tag>RecyclerView</tag>
          
@@ -419,12 +419,12 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2019/05/31/RecyclerView-source-code/</loc>
+    <loc>http://agehua.github.io/2019/07/17/RecyclerView-pre-initiate/</loc>
     <lastmod>2020-09-01T07:45:18.919Z</lastmod>
     <data>
         <display>
-        <title>RecyclerView 源码分析</title>
-        <pubTime>2019-05-30T16:00:00.000Z</pubTime>
+        <title>RecyclerView预加载机制源码分析</title>
+        <pubTime>2019-07-16T16:00:00.000Z</pubTime>
         
         <tag>RecyclerView</tag>
          
@@ -479,6 +479,28 @@
 
     
   <url>
+    <loc>http://agehua.github.io/2019/01/26/Android-request-memory-leaks/</loc>
+    <lastmod>2020-09-01T07:45:18.916Z</lastmod>
+    <data>
+        <display>
+        <title>Android避免网络请求造成内存泄漏</title>
+        <pubTime>2019-01-25T16:00:00.000Z</pubTime>
+        
+        <tag>Memory leaks</tag>
+         
+        <tag>net request</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://agehua.github.io/2019/03/27/Android-APP-Bundles-Introduction/</loc>
     <lastmod>2020-09-01T07:45:18.916Z</lastmod>
     <data>
@@ -509,28 +531,6 @@
         <tag>AudioRecord</tag>
          
         <tag>AAC</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://agehua.github.io/2019/01/26/Android-request-memory-leaks/</loc>
-    <lastmod>2020-09-01T07:45:18.916Z</lastmod>
-    <data>
-        <display>
-        <title>Android避免网络请求造成内存泄漏</title>
-        <pubTime>2019-01-25T16:00:00.000Z</pubTime>
-        
-        <tag>Memory leaks</tag>
-         
-        <tag>net request</tag>
          
          
            
@@ -585,26 +585,6 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2018/04/23/Usage-of-genericity/</loc>
-    <lastmod>2020-09-01T07:45:18.914Z</lastmod>
-    <data>
-        <display>
-        <title>泛型的应用</title>
-        <pubTime>2018-04-22T16:00:00.000Z</pubTime>
-        
-        <tag>genericity</tag>
-         
-         
-           
-             
-              <breadCrumb title="Java" url="http://agehua.github.io/categories/java/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://agehua.github.io/2018/04/02/Toastmaster-two-drawbacks/</loc>
     <lastmod>2020-09-01T07:45:18.914Z</lastmod>
     <data>
@@ -640,6 +620,26 @@
            
              
               <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2018/04/23/Usage-of-genericity/</loc>
+    <lastmod>2020-09-01T07:45:18.914Z</lastmod>
+    <data>
+        <display>
+        <title>泛型的应用</title>
+        <pubTime>2018-04-22T16:00:00.000Z</pubTime>
+        
+        <tag>genericity</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://agehua.github.io/categories/java/"/>
           
         </display>
     </data>
@@ -733,18 +733,18 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2017/10/22/Buildcross-platform-desktop-apps/</loc>
+    <loc>http://agehua.github.io/2017/09/21/PBOCKonwledgeCode/</loc>
     <lastmod>2020-09-01T07:45:18.909Z</lastmod>
     <data>
         <display>
-        <title>跨平台桌面程序开发</title>
-        <pubTime>2017-10-21T16:00:00.000Z</pubTime>
+        <title>PBOC知识收集（干货）</title>
+        <pubTime>2017-09-20T16:00:00.000Z</pubTime>
         
-        <tag>Alfred Workflow</tag>
+        <tag>Basic Knowledge</tag>
          
-        <tag>Electron</tag>
+        <tag>PBOC</tag>
          
-        <tag>JavaScript</tag>
+        <tag>PBOC 2.0</tag>
          
          
            
@@ -781,18 +781,18 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2017/09/21/PBOCKonwledgeCode/</loc>
+    <loc>http://agehua.github.io/2017/10/22/Buildcross-platform-desktop-apps/</loc>
     <lastmod>2020-09-01T07:45:18.909Z</lastmod>
     <data>
         <display>
-        <title>PBOC知识收集（干货）</title>
-        <pubTime>2017-09-20T16:00:00.000Z</pubTime>
+        <title>跨平台桌面程序开发</title>
+        <pubTime>2017-10-21T16:00:00.000Z</pubTime>
         
-        <tag>Basic Knowledge</tag>
+        <tag>JavaScript</tag>
          
-        <tag>PBOC</tag>
+        <tag>Alfred Workflow</tag>
          
-        <tag>PBOC 2.0</tag>
+        <tag>Electron</tag>
          
          
            
@@ -814,9 +814,9 @@
         
         <tag>Binder</tag>
          
-        <tag>AMS</tag>
-         
         <tag>AOSP</tag>
+         
+        <tag>AMS</tag>
          
          
            
@@ -919,6 +919,30 @@
 
     
   <url>
+    <loc>http://agehua.github.io/2017/05/11/Object-Oriented/</loc>
+    <lastmod>2020-09-01T07:45:18.905Z</lastmod>
+    <data>
+        <display>
+        <title>Android架构师积累</title>
+        <pubTime>2017-05-10T16:00:00.000Z</pubTime>
+        
+        <tag>Android Framework</tag>
+         
+        <tag>EIT</tag>
+         
+        <tag>Object-oriented</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://agehua.github.io/2017/05/18/handler-replace-timertask/</loc>
     <lastmod>2020-09-01T07:45:18.905Z</lastmod>
     <data>
@@ -963,30 +987,6 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2017/05/11/Object-Oriented/</loc>
-    <lastmod>2020-09-01T07:45:18.905Z</lastmod>
-    <data>
-        <display>
-        <title>Android架构师积累</title>
-        <pubTime>2017-05-10T16:00:00.000Z</pubTime>
-        
-        <tag>Android Framework</tag>
-         
-        <tag>EIT</tag>
-         
-        <tag>Object-oriented</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://agehua.github.io/2017/04/10/Annotation-Android-usage/</loc>
     <lastmod>2020-09-01T07:45:18.904Z</lastmod>
     <data>
@@ -1016,9 +1016,9 @@
         <title>linux(centos) 搭建SVN服务器</title>
         <pubTime>2017-03-19T16:00:00.000Z</pubTime>
         
-        <tag>svn server</tag>
-         
         <tag>linux</tag>
+         
+        <tag>svn server</tag>
          
          
            
@@ -1053,6 +1053,28 @@
 
     
   <url>
+    <loc>http://agehua.github.io/2017/02/21/Multi-Process-Dispatch/</loc>
+    <lastmod>2020-09-01T07:45:18.902Z</lastmod>
+    <data>
+        <display>
+        <title>解决Android多进程导致Application重复创建问题</title>
+        <pubTime>2017-02-20T16:00:00.000Z</pubTime>
+        
+        <tag>ANDROID</tag>
+         
+        <tag>multi-process</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://agehua.github.io/2017/03/09/Https-Questions/</loc>
     <lastmod>2020-09-01T07:45:18.902Z</lastmod>
     <data>
@@ -1073,16 +1095,18 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2017/02/21/Multi-Process-Dispatch/</loc>
-    <lastmod>2020-09-01T07:45:18.902Z</lastmod>
+    <loc>http://agehua.github.io/2017/02/12/iterm2-to-linux/</loc>
+    <lastmod>2020-09-01T07:45:18.901Z</lastmod>
     <data>
         <display>
-        <title>解决Android多进程导致Application重复创建问题</title>
-        <pubTime>2017-02-20T16:00:00.000Z</pubTime>
+        <title>MAC下用iTerm2连接远程主机</title>
+        <pubTime>2017-02-11T16:00:00.000Z</pubTime>
         
-        <tag>ANDROID</tag>
+        <tag>linux</tag>
          
-        <tag>multi-process</tag>
+        <tag>iterm</tag>
+         
+        <tag>scp</tag>
          
          
            
@@ -1137,18 +1161,16 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2017/02/12/iterm2-to-linux/</loc>
-    <lastmod>2020-09-01T07:45:18.901Z</lastmod>
+    <loc>http://agehua.github.io/2016/12/11/ThreadLocal-usage/</loc>
+    <lastmod>2020-09-01T07:45:18.900Z</lastmod>
     <data>
         <display>
-        <title>MAC下用iTerm2连接远程主机</title>
-        <pubTime>2017-02-11T16:00:00.000Z</pubTime>
+        <title>ThreadLocal一个使用——SimpleDateFormat</title>
+        <pubTime>2016-12-10T16:00:00.000Z</pubTime>
         
-        <tag>linux</tag>
+        <tag>Java</tag>
          
-        <tag>iterm</tag>
-         
-        <tag>scp</tag>
+        <tag>ThreadLocal</tag>
          
          
            
@@ -1161,16 +1183,16 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/12/11/ThreadLocal-usage/</loc>
-    <lastmod>2020-09-01T07:45:18.900Z</lastmod>
+    <loc>http://agehua.github.io/2016/12/06/hexo-learning1/</loc>
+    <lastmod>2020-09-01T07:45:18.899Z</lastmod>
     <data>
         <display>
-        <title>ThreadLocal一个使用——SimpleDateFormat</title>
-        <pubTime>2016-12-10T16:00:00.000Z</pubTime>
+        <title>Hexo 模板学习——Hexo 结构</title>
+        <pubTime>2016-12-05T16:00:00.000Z</pubTime>
         
-        <tag>Java</tag>
+        <tag>Hexo</tag>
          
-        <tag>ThreadLocal</tag>
+        <tag>Hexo structure</tag>
          
          
            
@@ -1198,28 +1220,6 @@
            
              
               <breadCrumb title="read" url="http://agehua.github.io/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://agehua.github.io/2016/12/06/hexo-learning1/</loc>
-    <lastmod>2020-09-01T07:45:18.899Z</lastmod>
-    <data>
-        <display>
-        <title>Hexo 模板学习——Hexo 结构</title>
-        <pubTime>2016-12-05T16:00:00.000Z</pubTime>
-        
-        <tag>Hexo</tag>
-         
-        <tag>Hexo structure</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
           
         </display>
     </data>
@@ -1271,14 +1271,14 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/10/12/gradle-learning/</loc>
+    <loc>http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/</loc>
     <lastmod>2020-09-01T07:45:18.897Z</lastmod>
     <data>
         <display>
-        <title>gradle 学习</title>
-        <pubTime>2016-10-11T16:00:00.000Z</pubTime>
+        <title>Hexo 出错情况收集</title>
+        <pubTime>2016-11-02T16:00:00.000Z</pubTime>
         
-        <tag>gradle</tag>
+        <tag>Hexo</tag>
          
          
            
@@ -1291,14 +1291,14 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/11/03/hexo-mac-module-not-found/</loc>
+    <loc>http://agehua.github.io/2016/10/12/gradle-learning/</loc>
     <lastmod>2020-09-01T07:45:18.897Z</lastmod>
     <data>
         <display>
-        <title>Hexo 出错情况收集</title>
-        <pubTime>2016-11-02T16:00:00.000Z</pubTime>
+        <title>gradle 学习</title>
+        <pubTime>2016-10-11T16:00:00.000Z</pubTime>
         
-        <tag>Hexo</tag>
+        <tag>gradle</tag>
          
          
            
@@ -1509,28 +1509,6 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/05/24/JNI-Learning/</loc>
-    <lastmod>2020-09-01T07:45:18.888Z</lastmod>
-    <data>
-        <display>
-        <title>android JNI学习① 基础知识</title>
-        <pubTime>2016-05-23T16:00:00.000Z</pubTime>
-        
-        <tag>JNI</tag>
-         
-        <tag>AES</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://agehua.github.io/2016/05/28/qiniu-android-summary/</loc>
     <lastmod>2020-09-01T07:45:18.888Z</lastmod>
     <data>
@@ -1546,6 +1524,28 @@
            
              
               <breadCrumb title="technology" url="http://agehua.github.io/categories/technology/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2016/05/24/JNI-Learning/</loc>
+    <lastmod>2020-09-01T07:45:18.888Z</lastmod>
+    <data>
+        <display>
+        <title>android JNI学习① 基础知识</title>
+        <pubTime>2016-05-23T16:00:00.000Z</pubTime>
+        
+        <tag>JNI</tag>
+         
+        <tag>AES</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
           
         </display>
     </data>
@@ -1645,6 +1645,28 @@
 
     
   <url>
+    <loc>http://agehua.github.io/2016/03/01/android-googlemap-summary/</loc>
+    <lastmod>2020-09-01T07:45:18.880Z</lastmod>
+    <data>
+        <display>
+        <title>android Google map使用总结</title>
+        <pubTime>2016-02-29T16:00:00.000Z</pubTime>
+        
+        <tag>ANDROID</tag>
+         
+        <tag>google map</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://agehua.github.io/2016/03/15/facebook-google+signin/</loc>
     <lastmod>2020-09-01T07:45:18.880Z</lastmod>
     <data>
@@ -1687,16 +1709,18 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/03/01/android-googlemap-summary/</loc>
-    <lastmod>2020-09-01T07:45:18.880Z</lastmod>
+    <loc>http://agehua.github.io/2015/03/16/java-multithreading-concurrent/</loc>
+    <lastmod>2020-09-01T07:45:18.879Z</lastmod>
     <data>
         <display>
-        <title>android Google map使用总结</title>
-        <pubTime>2016-02-29T16:00:00.000Z</pubTime>
+        <title>java多线程和并发面试问答</title>
+        <pubTime>2015-03-15T16:00:00.000Z</pubTime>
         
-        <tag>ANDROID</tag>
+        <tag>Java</tag>
          
-        <tag>google map</tag>
+        <tag>multi-thread</tag>
+         
+        <tag>Interview Knowledge</tag>
          
          
            
@@ -1719,30 +1743,6 @@
         <tag>ANDROID</tag>
          
         <tag>Open souces</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://agehua.github.io/2015/03/16/java-multithreading-concurrent/</loc>
-    <lastmod>2020-09-01T07:45:18.879Z</lastmod>
-    <data>
-        <display>
-        <title>java多线程和并发面试问答</title>
-        <pubTime>2015-03-15T16:00:00.000Z</pubTime>
-        
-        <tag>Java</tag>
-         
-        <tag>multi-thread</tag>
-         
-        <tag>Interview Knowledge</tag>
          
          
            
