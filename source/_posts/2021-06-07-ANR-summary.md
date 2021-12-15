@@ -434,4 +434,19 @@ Service Timeout是位于”ActivityManager”线程中的AMS.MainHandler收到SE
 
 ANR发生的过程怀疑是，应用被杀死，但没有杀死Service，然后重启应用，启动过程中CPU占用过高，而出现的ANR
 
-本文内容将会在处理ANR的过程中不断补充
+### 哪些场景会出现ANR
+- 场景1：低内存anr：查看CPU，手机内存低导致anr时，一般以下两个进程CPU使用率高，手机会出现大量应用anr：
+~~~ java
+35% 90/mmcqd/0: 0% user + 35% kernel
+18% 49/kswapd0: 0% user + 18% kernel
+~~~
+- 场景2： 某一个进程的cpu使用率高，导致当前进程无法获取资源，可以根据trace查看是哪个进程在工作；
+- 场景3：主线程卡死： 1）主线程等待其他线程锁waiting to lock； 2） 主线程繁忙；3）主线程对应的native调用栈卡住；
+- 场景4：Activity resume、restart或pause太慢，导致无焦点窗口问题，通常会有黑屏白屏等现象；
+- 场景5：省电精灵智能省电模式冻结后台进程，resume activity时，没有及时解冻，产生无焦点窗口anr；
+- 场景6：其它进程Binder线程耗尽（ProcessState.cpp中指定最大binder线程数，如maxThreads:32），导致当前进程卡在IPCThreadState::talkWithDriver；
+- 场景7：Input dispatching timed out：接收输入事件的窗口出现异常，丢失焦点，伴随冻屏现象
+- 场景8：monkey启动大量对象GC耗时久导致anr。从dumpsys中可以看到启动很多window，从log中看GC耗时很久；
+- 场景9：抓取整机log导致anr。此类问题中，adbd、bugreport、chargelogcat等进程CPU使用率高；
+- 场景10：Framework缺陷导致无焦点窗口问题，activity已经正常resume了（am_on_resume_called），dumpsys中mFocusedWindow为null。
+

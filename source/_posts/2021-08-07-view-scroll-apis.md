@@ -1,10 +1,10 @@
 ---
 layout: post
-title: ANR 总结与分析
+title: 移动view的几种方式总结
 category: accumulation
 tags:
-    - ANR
-keywords: ANR, InputDispatcher
+    - view scroll 
+keywords: scroll, view, layout, margin
 banner: https://cdn.conorlee.top/Garden%20in%20Auvers.jpg
 thumbnail: https://cdn.conorlee.top/Garden%20in%20Auvers.jpg
 toc: true
