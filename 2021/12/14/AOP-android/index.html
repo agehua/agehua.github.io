@@ -16,7 +16,7 @@
 <meta property="og:description" content="我在很早之前就了解过面向切面（AOP）的编程思想，比如AspectJ 实现简单的切面编程，不过都快忘了 :(。本文是想探究AOP在Android环境中的使用，补全Android开发者的技能树。 常见的AOP编程框架有AspectJ、 Cglib，Hibernate 和 Spring 等等，而这些目前流行的AOP框架绝大多数底层实现都是直接或间接地通过 ASM 来实现字节码操作，本文重点就来介绍一下">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://cdn.conorlee.top/Girl%20in%20White%20in%20the%20Woods.jpg">
-<meta property="og:updated_time" content="2021-12-15T13:29:48.274Z">
+<meta property="og:updated_time" content="2021-12-16T03:17:30.075Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android场景实现AOP编程">
 <meta name="twitter:description" content="我在很早之前就了解过面向切面（AOP）的编程思想，比如AspectJ 实现简单的切面编程，不过都快忘了 :(。本文是想探究AOP在Android环境中的使用，补全Android开发者的技能树。 常见的AOP编程框架有AspectJ、 Cglib，Hibernate 和 Spring 等等，而这些目前流行的AOP框架绝大多数底层实现都是直接或间接地通过 ASM 来实现字节码操作，本文重点就来介绍一下">
@@ -546,7 +546,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     </div>
 
 
-                        <div style="color:#cba11f;float:right">6 min read , Words: 1060</div>                    </div>
+                        <div style="color:#cba11f;float:right">6 min read , Words: 1052</div>                    </div>
                 
             </header>
         
@@ -782,8 +782,8 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <h4 id="android-plugin层"><a href="#android-plugin层" class="headerlink" title="android plugin层"></a>android plugin层</h4><p>语言选择：Google编译工具组从3.2.0开始，新增的插件全部都是用Kotlin编写的。</p>
 <p>怎么查看官方的plugin都有哪些呢，在android studio Project视图 &gt; External libraries &gt; com.android.tools.build:gradle:x.x.x里，如下图：</p>
 <p><img src="/images/blogimages/2021/gradle-official-plugins.png" alt="官方gradle插件"></p>
-<p>如何创建Plugin我们后面再说，可以提前了解一点的是：官方和我们自己实现的plugin都是基于 <code>org.gradle.api.Plugin</code> 实现的，都需要提供一个类似 <code>META-INF.gradle-plugins</code> 这样的配置文件，文件内容是需要指定 “<code>implementation-class</code>”的实现类是什么。</p>
-<p>打开上图里的任意一个.properties文件，里面就是对应plugin实现类的地址</p>
+<p>如何创建Plugin我们后面再说，可以提前了解一点的是：官方和我们自己实现的plugin都是基于 <code>org.gradle.api.Plugin</code> 实现的，都需要提供一个类似 <code>META-INF.gradle-plugins/xxx.properties</code> 这样的配置文件，文件内容是需要指定 “<code>implementation-class</code>”的实现类是什么。</p>
+<p>打开上图里的任意一个<code>.properties</code>文件，里面就是对应plugin实现类的地址</p>
 <h4 id="自定义Gradle-Plugin"><a href="#自定义Gradle-Plugin" class="headerlink" title="自定义Gradle Plugin"></a>自定义Gradle Plugin</h4><p>Gradle支持通过插件的方式来扩展功能，已保证开发者可以按照自己的需求来完成自动化构建。而且Gradle插件允许已任何可以被编译成字节码的语言编写<br>Gradle提供如下几个插件编写方式：</p>
 <ul>
 <li>Build Script<br>我们可以在build脚本中直接完成插件代码的编写，这种方式缺点是只能在一个脚本中使用，优点是开发编译都很方便</li>
@@ -795,7 +795,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <li>Standalone Project<br>以独立工程实现，在这种情况下，插件JAR包存在，并支持在一个包中包含多个插件</li>
 </ul>
 <p>根据Gradle规定，用户自定义的插件需要实现Plugin接口。当我们在build脚本中使用插件时，可以通过apply plugin:[PLUG_ID]来指明。然后Gradle会调用该插件中的apply方法：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">apply plugin: GreetingPlugin</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GreetingPlugin</span> <span class="keyword">implements</span> <span class="title">Plugin</span>&lt;<span class="title">Project</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">apply</span><span class="params">(Project project)</span> </span>&#123;</span><br><span class="line">        project.task(<span class="string">'hello'</span>) &lt;&lt; &#123;</span><br><span class="line">            println <span class="string">"Hello from the GreetingPlugin"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这段代码用于添加一个名为”hello“的task，它的代码虽然简单，但是apply方法中传递了一个重要的类 <code>org.gradle.api.Project</code>，其他复杂的插件都是通过Project类来操作编译过程，达到对应的效果。<br>下面是 Project 类的一些重要方法：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">   <span class="comment">// 根据name创建一个task，就是上面例子里的写法，还有好多同名方法，这里不一一列举了</span></span><br><span class="line">   <span class="function">Task <span class="title">task</span><span class="params">(String name)</span> <span class="keyword">throws</span> InvalidUserDataException</span>;</span><br><span class="line">   <span class="comment">// 根据一个工程路径，获得一个File对象，省略同名方法</span></span><br><span class="line">   <span class="function">File <span class="title">file</span><span class="params">(Object path)</span></span>;</span><br><span class="line">   <span class="comment">// Adds a closure to be called immediately after this project has been evaluated.</span></span><br><span class="line">afterEvaluate​(Closure closure)</span><br><span class="line">   <span class="comment">//Returns the properties of this project.</span></span><br><span class="line">   getProperties()</span><br><span class="line">   <span class="comment">// ...</span></span><br></pre></td></tr></table></figure></p>
+<p>这段代码用于添加一个名为”hello“的task，它的代码虽然简单，但是apply方法中传递了一个重要的类 <code>org.gradle.api.Project</code>，其他复杂的插件都是通过Project类来操作编译过程，达到对应的效果。<br>下面是 Project 类的一些重要方法：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 根据name创建一个task，就是上面例子里的写法，还有好多同名方法，这里不一一列举了</span></span><br><span class="line"><span class="function">Task <span class="title">task</span><span class="params">(String name)</span> <span class="keyword">throws</span> InvalidUserDataException</span>;</span><br><span class="line"><span class="comment">// 根据一个工程路径，获得一个File对象，省略同名方法</span></span><br><span class="line"><span class="function">File <span class="title">file</span><span class="params">(Object path)</span></span>;</span><br><span class="line"><span class="comment">// Adds a closure to be called immediately after this project has been evaluated.</span></span><br><span class="line">afterEvaluate​(Closure closure)</span><br><span class="line"><span class="comment">//Returns the properties of this project.</span></span><br><span class="line">getProperties()</span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure></p>
 <p>其他方法的介绍可以看gradle 文档：<a href="https://docs.gradle.org/current/javadoc/org/gradle/api/Project.html" target="_blank" rel="noopener">https://docs.gradle.org/current/javadoc/org/gradle/api/Project.html</a></p>
 <p>如果我们不单只是创建一个Task去执行，还想在android编译过程中进行处理，则需要使用到<code>Transform Api</code>，像下面这种方式：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">AppExtension appExtension = (AppExtension)project.getProperties().get(<span class="string">"android"</span>);</span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line"><span class="comment">// AppExtension appExtension = project.extensions.getByType(AppExtension)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//将自定义Transform添加到编译流程中</span></span><br><span class="line">appExtension.registerTransform(<span class="keyword">new</span> MethodTimeTransform(project));</span><br></pre></td></tr></table></figure></p>
 <h4 id="Transform-Api"><a href="#Transform-Api" class="headerlink" title="Transform Api"></a>Transform Api</h4><p>Transform 是专门处理构建过程中的中间产物，Transform 可以被看作是 Gradle 在编译项目时的一个 task，在 .class 文件转换成 .dex 的流程中会执行这些 task，对所有的 .class 文件（可包括第三方库的 .class）进行转换，转换的逻辑定义在 Transform 的 transform 方法中。实际上平时我们在 build.gradle 中常用的功能都是通过 Transform 实现的，比如混淆（proguard）、dexBuilder等。</p>
@@ -923,7 +923,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2021/12/14/AOP-android/" data-id="ckx7knb2q006o3avd4kpofbo0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2021/12/14/AOP-android/" data-id="ckx8ndw2s00b5h2vddokq4a0h" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
