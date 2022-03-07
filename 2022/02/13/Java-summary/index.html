@@ -16,7 +16,7 @@
 <meta property="og:description" content="java的内存分配策略1、Java 程序运行时的内存分配策略有三种： (1) 静态分配 (2) 栈式分配 (3) 堆式分配">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://cdn.conorlee.top/Green%20Wheat%20Field%202.jpg">
-<meta property="og:updated_time" content="2022-02-22T02:29:25.706Z">
+<meta property="og:updated_time" content="2022-03-04T07:34:41.441Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java内存分配策略">
 <meta name="twitter:description" content="java的内存分配策略1、Java 程序运行时的内存分配策略有三种： (1) 静态分配 (2) 栈式分配 (3) 堆式分配">
@@ -463,7 +463,7 @@
         
             <div id='toc-wrap' class="toc-wrap">
                 <strong class="toc-title">文章目录</strong>
-                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#java的内存分配策略"><span class="toc-number">1.</span> <span class="toc-text">java的内存分配策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java集合"><span class="toc-number">2.</span> <span class="toc-text">java集合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ArrayList"><span class="toc-number">2.1.</span> <span class="toc-text">ArrayList</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CopyOnWriteArrayList"><span class="toc-number">2.2.</span> <span class="toc-text">CopyOnWriteArrayList</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LinkedList"><span class="toc-number">2.3.</span> <span class="toc-text">LinkedList</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HashMap"><span class="toc-number">2.4.</span> <span class="toc-text">HashMap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ConcurrentHashMap"><span class="toc-number">2.5.</span> <span class="toc-text">ConcurrentHashMap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TreeMap和LinkedHashMap"><span class="toc-number">2.6.</span> <span class="toc-text">TreeMap和LinkedHashMap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HashSet和TreeSet"><span class="toc-number">2.7.</span> <span class="toc-text">HashSet和TreeSet</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Android中的Bundle-SparseArray和ArrayMap"><span class="toc-number">2.8.</span> <span class="toc-text">Android中的Bundle,SparseArray和ArrayMap</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ArrayList和LinkedList区别"><span class="toc-number">3.</span> <span class="toc-text">ArrayList和LinkedList区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HashMap、concurrentHashMap、HashTable的区别"><span class="toc-number">4.</span> <span class="toc-text">HashMap、concurrentHashMap、HashTable的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HashMap、HashTable区别"><span class="toc-number">4.1.</span> <span class="toc-text">HashMap、HashTable区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ConcurrentHashMap与HashTable的区别"><span class="toc-number">4.2.</span> <span class="toc-text">ConcurrentHashMap与HashTable的区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java中Vector和ArrayList的区别"><span class="toc-number">5.</span> <span class="toc-text">Java中Vector和ArrayList的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关于ArrayList和Vector区别如下："><span class="toc-number">5.1.</span> <span class="toc-text">关于ArrayList和Vector区别如下：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#深拷贝or浅拷贝"><span class="toc-number">6.</span> <span class="toc-text">深拷贝or浅拷贝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java引用类型"><span class="toc-number">7.</span> <span class="toc-text">java引用类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#android中的位运算"><span class="toc-number">8.</span> <span class="toc-text">android中的位运算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-内存模型（Java-Memory-Model-JMM）"><span class="toc-number">9.</span> <span class="toc-text">Java 内存模型（Java Memory Model ,JMM）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java内存模型的实现"><span class="toc-number">9.1.</span> <span class="toc-text">Java内存模型的实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ReentrantLock与synchronized对比"><span class="toc-number">10.</span> <span class="toc-text">ReentrantLock与synchronized对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#深入理解-AQS-和-CAS-原理"><span class="toc-number">11.</span> <span class="toc-text">深入理解 AQS 和 CAS 原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注解原理"><span class="toc-number">12.</span> <span class="toc-text">注解原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#应用APP启动过程"><span class="toc-number">13.</span> <span class="toc-text">应用APP启动过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#android崩溃"><span class="toc-number">14.</span> <span class="toc-text">android崩溃</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#异常分类"><span class="toc-number">15.</span> <span class="toc-text">异常分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exception-和-Error-区别"><span class="toc-number">16.</span> <span class="toc-text">Exception 和 Error 区别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ClassNotFoundException-和-NoClassDefFoundError-区别"><span class="toc-number">16.1.</span> <span class="toc-text">ClassNotFoundException 和 NoClassDefFoundError 区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java多线程sleep和wait的区别"><span class="toc-number">17.</span> <span class="toc-text">Java多线程sleep和wait的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简述jvm中默认的classLoader与功能"><span class="toc-number">18.</span> <span class="toc-text">简述jvm中默认的classLoader与功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重写的特性"><span class="toc-number">19.</span> <span class="toc-text">重写的特性</span></a></li></ol>
+                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#java的内存分配策略"><span class="toc-number">1.</span> <span class="toc-text">java的内存分配策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java集合"><span class="toc-number">2.</span> <span class="toc-text">java集合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ArrayList"><span class="toc-number">2.1.</span> <span class="toc-text">ArrayList</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CopyOnWriteArrayList"><span class="toc-number">2.2.</span> <span class="toc-text">CopyOnWriteArrayList</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LinkedList"><span class="toc-number">2.3.</span> <span class="toc-text">LinkedList</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HashMap"><span class="toc-number">2.4.</span> <span class="toc-text">HashMap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ConcurrentHashMap"><span class="toc-number">2.5.</span> <span class="toc-text">ConcurrentHashMap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TreeMap和LinkedHashMap"><span class="toc-number">2.6.</span> <span class="toc-text">TreeMap和LinkedHashMap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HashSet和TreeSet"><span class="toc-number">2.7.</span> <span class="toc-text">HashSet和TreeSet</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Android中的Bundle-SparseArray和ArrayMap"><span class="toc-number">2.8.</span> <span class="toc-text">Android中的Bundle,SparseArray和ArrayMap</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ArrayList和LinkedList区别"><span class="toc-number">3.</span> <span class="toc-text">ArrayList和LinkedList区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HashMap、concurrentHashMap、HashTable的区别"><span class="toc-number">4.</span> <span class="toc-text">HashMap、concurrentHashMap、HashTable的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HashMap、HashTable区别"><span class="toc-number">4.1.</span> <span class="toc-text">HashMap、HashTable区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ConcurrentHashMap与HashTable的区别"><span class="toc-number">4.2.</span> <span class="toc-text">ConcurrentHashMap与HashTable的区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java中Vector和ArrayList的区别"><span class="toc-number">5.</span> <span class="toc-text">Java中Vector和ArrayList的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关于ArrayList和Vector区别如下："><span class="toc-number">5.1.</span> <span class="toc-text">关于ArrayList和Vector区别如下：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#深拷贝or浅拷贝"><span class="toc-number">6.</span> <span class="toc-text">深拷贝or浅拷贝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java引用类型"><span class="toc-number">7.</span> <span class="toc-text">java引用类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#android中的位运算"><span class="toc-number">8.</span> <span class="toc-text">android中的位运算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-内存模型（Java-Memory-Model-JMM）"><span class="toc-number">9.</span> <span class="toc-text">Java 内存模型（Java Memory Model ,JMM）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java内存模型的实现"><span class="toc-number">9.1.</span> <span class="toc-text">Java内存模型的实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ReentrantLock与synchronized对比"><span class="toc-number">10.</span> <span class="toc-text">ReentrantLock与synchronized对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#深入理解-AQS-和-CAS-原理"><span class="toc-number">11.</span> <span class="toc-text">深入理解 AQS 和 CAS 原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注解原理"><span class="toc-number">12.</span> <span class="toc-text">注解原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#应用APP启动过程"><span class="toc-number">13.</span> <span class="toc-text">应用APP启动过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#android崩溃"><span class="toc-number">14.</span> <span class="toc-text">android崩溃</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#异常分类"><span class="toc-number">15.</span> <span class="toc-text">异常分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exception-和-Error-区别"><span class="toc-number">16.</span> <span class="toc-text">Exception 和 Error 区别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ClassNotFoundException-和-NoClassDefFoundError-区别"><span class="toc-number">16.1.</span> <span class="toc-text">ClassNotFoundException 和 NoClassDefFoundError 区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java多线程sleep和wait的区别"><span class="toc-number">17.</span> <span class="toc-text">Java多线程sleep和wait的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简述jvm中默认的classLoader与功能"><span class="toc-number">18.</span> <span class="toc-text">简述jvm中默认的classLoader与功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重写的特性"><span class="toc-number">19.</span> <span class="toc-text">重写的特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#理解Serializable和Parcelable"><span class="toc-number">20.</span> <span class="toc-text">理解Serializable和Parcelable</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#自行决定哪些需要字段需要序列化"><span class="toc-number">20.1.</span> <span class="toc-text">自行决定哪些需要字段需要序列化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Activity-中的-onAttachedToWindow，View-的-onAttachedToWindow和-RecyclerView-Adapter-的-onViewAttachedToWindow"><span class="toc-number">21.</span> <span class="toc-text">Activity 中的 onAttachedToWindow，View 的 onAttachedToWindow和 RecyclerView.Adapter 的 onViewAttachedToWindow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LiveData为何能感知生命周期"><span class="toc-number">22.</span> <span class="toc-text">LiveData为何能感知生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ViewModel"><span class="toc-number">23.</span> <span class="toc-text">ViewModel</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#原理"><span class="toc-number">23.1.</span> <span class="toc-text">原理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kotlin单例"><span class="toc-number">24.</span> <span class="toc-text">Kotlin单例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用-object-关键字"><span class="toc-number">24.1.</span> <span class="toc-text">使用 object 关键字</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#怎样保证任务顺序执行"><span class="toc-number">25.</span> <span class="toc-text">怎样保证任务顺序执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#怎么统计app启动过程中的方法"><span class="toc-number">26.</span> <span class="toc-text">怎么统计app启动过程中的方法</span></a></li></ol>
             </div>
         
     </div>
@@ -546,7 +546,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     </div>
 
 
-                        <div style="color:#cba11f;float:right">8 min read , Words: 1424</div>                    </div>
+                        <div style="color:#cba11f;float:right">9 min read , Words: 1717</div>                    </div>
                 
             </header>
         
@@ -604,6 +604,9 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <li>JavaStack中引用的对象(栈内存中引用的对象)</li>
 <li>方法区中静态引用</li>
 </ul>
+<blockquote>
+<p>（1.jvm栈的栈帧中的本地变量表的引用 2.方法区静态属性引用 3.方法区中的常量引用 4.本地方法引用）</p>
+</blockquote>
 <p>5、Java 是如何管理内存</p>
 <pre><code>    Java 的内存管理就是对象的分配和释放问题。在 Java 中，程序员需要通过关键字 new 为
 每个对象申请内存空间 (基本类型除外)，所有的对象都在堆 (Heap)中分配空间。另外，对象的
@@ -640,7 +643,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <ol>
 <li><p>缺点<br>内存消耗大: 每次写操作都需要复制一个新的数组,所以内存占用是非常大的<br>数据不一致: 读数据的时候可能读取到的不是最新的数据,因为可能部分写入的数据还未同步到读的数组中.<br>对内存敏感和实时性要求很高的场景都不适合.</p>
 </li>
-<li><p>CopyOnWriteArrayList为啥比Vector性能好?<br>在Vector内部,增删改查都进行了synchronized修饰,每个方法都要去锁,性能会大大降低.而CopyOnWriteArrayList只是把增删改加锁了,所以CopyOnWriteArrayList在读方面明显好于Vector.所以CopyOnWriteArrayList最好是在读多写少的场景下使用.</p>
+<li><p>CopyOnWriteArrayList为啥比Vector性能好?<br>在Vector内部,增删改查都进行了synchronized修饰,每个方法都要去锁,性能会大大降低.而CopyOnWriteArrayList只是把增删改加锁了,所以CopyOnWriteArrayList在读方面明显好于Vector.所以CopyOnWriteArrayList最好是在<code>读多写少</code>的场景下使用.</p>
 </li>
 </ol>
 <h4 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
@@ -651,7 +654,11 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <li>实现了Cloneable接口,标识着可以它可以被复制.注意,ArrayList里面的clone()复制其实是浅复制(不知道此概念的赶快去查资料,这知识点非常重要).</li>
 </ul>
 <p>实现了Serializable 标识着集合可被序列化。</p>
-<p>LinkedList底层是链表结构<br>插入和删除比较快（O(1)），查询则相对慢一些（O(n)）<br>因为是链表结构，所以分配的空间不要求是连续的</p>
+<p>LinkedList底层是链表结构:</p>
+<ul>
+<li>插入和删除比较快（O(1)），查询则相对慢一些（O(n)）</li>
+<li>因为是链表结构，所以分配的空间不要求是连续的</li>
+</ul>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    E item;  <span class="comment">//该节点的数据</span></span><br><span class="line">    Node&lt;E&gt; next; <span class="comment">//指向下一个节点的指针</span></span><br><span class="line">    Node&lt;E&gt; prev; <span class="comment">//指向上一个节点的指针</span></span><br><span class="line"></span><br><span class="line">    Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) &#123;</span><br><span class="line">        <span class="keyword">this</span>.item = element;</span><br><span class="line">        <span class="keyword">this</span>.next = next;</span><br><span class="line">        <span class="keyword">this</span>.prev = prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h4><ol>
 <li>存储结构<br>JDK 1.7<br>内部是以数组的形式存储了Entry对象,而每个Entry对象里面有key和value用来存值.它里面包含了key、value、next、hash四个字段,其中next字段是用来引用下一个Entry的(相同的hash值会被放入同一个链表中).数组中的每个位置都是一条单链表(也可以称之为桶),数组中的元素的表头.解决冲突的方式是拉链法,同一条单链表中的Entry的hash值是相同的.</li>
@@ -956,7 +963,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 </li>
 <li><p>CPU及锁资源释放:<br>sleep、wait调用后都会暂停当前线程并让出CPU的执行时间，但不同的是sleep不会释放当前持有对象的锁资源，到时间后会继续执行，而wait会释放所有的锁并需要notify/notifyAll后重新获取到对象资源后才能继续执行。</p>
 </li>
-<li>异常捕获方面：<br>sleep需要捕获或者抛出异常，而wait/notify/notifyAll则不需要。</li>
+<li>异常捕获方面：<br>sleep需要捕获或者抛出异常，而notify/notifyAll则不需要，但是wait方法需要捕获 InterruptedException。</li>
 </ul>
 <h3 id="简述jvm中默认的classLoader与功能"><a href="#简述jvm中默认的classLoader与功能" class="headerlink" title="简述jvm中默认的classLoader与功能"></a>简述jvm中默认的classLoader与功能</h3><ul>
 <li>1.Bootstrap ClassLoader：负责加载java基础类，主要是 %JRE_HOME/lib/ 目录下的rt.jar、resources.jar、charsets.jar和class等</li>
@@ -974,7 +981,79 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <li>3.子类抛出异常小于等于父类方法抛出异常。即：子类抛出的异常类型要为父类的子类</li>
 <li>4.子类访问权限大于等于父类方法访问权限。</li>
 </ul>
-<hr>
+<h3 id="理解Serializable和Parcelable"><a href="#理解Serializable和Parcelable" class="headerlink" title="理解Serializable和Parcelable"></a>理解Serializable和Parcelable</h3><p>我们日常用到的有二种场景。</p>
+<ul>
+<li>1.数据的持久化保存，这里主要是指保存到文件</li>
+<li>2.Android页面间数据的传递</li>
+</ul>
+<p>第一种情况两者耗时差不多</p>
+<p>第二种情况intent putExtra中添加实现了Serializable接口的对象时。Parcel会将Serializable先序列化为字节数组，然后写入，所以这中间就进行了二次序列化，性能肯定比Parcelable要低很多。所以如果我们的场景是界间传值的话，Parcelable是首选。</p>
+<h4 id="自行决定哪些需要字段需要序列化"><a href="#自行决定哪些需要字段需要序列化" class="headerlink" title="自行决定哪些需要字段需要序列化"></a>自行决定哪些需要字段需要序列化</h4><ul>
+<li><p>1.继承Parcelable的类，在writeToParcel 方法中由开发者自己决定哪些字段参与初始化</p>
+</li>
+<li><p>2.Serializable可以使用<code>transient</code>关键字来忽略一些不需要参与序列化的字段，也可以重写writeObject和readObject二个方法来替代默认的序列化调用。JDK中有很多这样的类，比如ArrayList，HashMap，都是重写了writeObject方法。</p>
+</li>
+</ul>
+<blockquote>
+<p>为什么HashMap要自定义序列化逻辑呢？我想可能的原因是，存储数据的数组table，一般都是不满的（因为HashMap的负载因子默认0.75，超过就会扩容），里面肯定会有很多null，如果是默认的序列化，这些null也会被被序列化，显然这些null是没有必要的做序列化的</p>
+</blockquote>
+<h3 id="Activity-中的-onAttachedToWindow，View-的-onAttachedToWindow和-RecyclerView-Adapter-的-onViewAttachedToWindow"><a href="#Activity-中的-onAttachedToWindow，View-的-onAttachedToWindow和-RecyclerView-Adapter-的-onViewAttachedToWindow" class="headerlink" title="Activity 中的 onAttachedToWindow，View 的 onAttachedToWindow和 RecyclerView.Adapter 的 onViewAttachedToWindow"></a>Activity 中的 onAttachedToWindow，View 的 onAttachedToWindow和 RecyclerView.Adapter 的 onViewAttachedToWindow</h3><ul>
+<li>Activity 中的 onAttachedToWindow 就是在 View 附加到 window 上的时候进行回调，而 onDetachedFromWindow() 就刚好相反。是在OnResume之后回调，但是在 onAttachedToWindow() 回调的时候，<strong>不能拿到 View 的宽高</strong></li>
+<li>View 的 onAttachedToWindow 的调用时机会发生在 onMeasure() 之前。我们在自定义 View 的时候，某些比较重量级的资源，而且不能与其他 View 通用的时候，就可以重写这两个方法，并在 onAttachedToWindow() 中进行初始化，onDetachedFromWindow() 方法里释放掉。</li>
+<li>RecyclerView.Adapter 的 onViewAttachedToWindow 和onViewDetachedToWindow。这两个方法在列表布局的时候，用作曝光埋点非常好用，当 Adapter 创建的 View 被窗口分离（即滑动离开了当前窗口界面的）的时候，onViewDetachedToWindow() 会被直接回调，反之，在列表项 View 在被滑动进屏幕的时候，onViewAttachedToWindow() 会立马被调用。</li>
+</ul>
+<blockquote>
+<p>RecyclerView.Adapter 的onBindViewHolder和onViewRecycled(RecyclerView.ViewHolder holder)可以成对使用，表示ViewHolder绑定和解绑，但是这两个方法不适合用来做曝光埋点。因为RecyclerView的一二级缓存的重复使用不会回调onBindViewHolder。</p>
+</blockquote>
+<ul>
+<li><p>RecyclerView.Adapter 咋还有一个 onAttachedToRecyclerView。根据源码我们可以发现，onAttachedToRecyclerView() 是在 setAdapter() 的时候触发。</p>
+</li>
+<li><p>我的 RecyclerView.Adapter 的 onViewAttachedToWindow 为啥没起作用？<br>可能会有小伙伴会遇到这个问题，在遇到这个问题前，先检查一下你这个 RecyclerView 是否是一个正常滚动的 View，你如果是被别人嵌套滚动，把自己设置了 isNestedScrollingEnabled 为 false 的话，那你都失去了 Recyclerview 的功用了，那自然是不行的。<br>可能又有小伙伴说了，由于需求历史原因，我就是用了 NestedScrollView 嵌套了 Recyclerview，并禁掉了 Recyclerview 的滑动功能，但又想做上面的曝光埋点功能，那如何是好？<br>如果是这样的话，大概你就只能通过类似 View 的 getGlobalVisibleRect() 这样的方法来判断 View 的可见性来处理了。关于 View 的可见性分析，这里就点到为止，大家就自行 Google 吧。</p>
+</li>
+</ul>
+<h3 id="LiveData为何能感知生命周期"><a href="#LiveData为何能感知生命周期" class="headerlink" title="LiveData为何能感知生命周期"></a>LiveData为何能感知生命周期</h3><p>LiveData是一个数据持有类，它可以通过添加观察者被其他组件观察其变更</p>
+<p>LiveData的特点：</p>
+<ul>
+<li>1）采用观察者模式，数据发生改变，可以自动回调（比如更新UI）。</li>
+<li>2）不需要手动处理生命周期，不会因为Activity的销毁重建而丢失数据。</li>
+<li>3）不会出现内存泄漏。</li>
+<li>4）不需要手动取消订阅，Activity在非活跃状态下（pause、stop、destroy之后）不会收到数据更新信息。</li>
+</ul>
+<p>LiveData 的生命周期感知是由Lifecycle来实现的。ComponentActivity 实现了LifecycleOwner，并添加了一个ReportFragment，通过fragment的生命周期回调来完成生命周期的状态切换，并通知给注册的 LifecycleObserver接口</p>
+<p><img src="/images/blogimages/2022/lifecircle_api_class.png" alt="lifecycle类图"></p>
+<p>自定义的Activity都继承自AppCompatActivity ，AppCompatActivity 实现了LifecycleOwner接口，同时持有实现了Lifecycle的LifecycleRegistry对象，这个对象就可以将其理解为观察者模式中的Subject，LifecycleRegistr聚合多个LifecycleObserver，生命周期改变时通知LifecycleObserver进行相应的方法调用。</p>
+<h3 id="ViewModel"><a href="#ViewModel" class="headerlink" title="ViewModel"></a>ViewModel</h3><p>ViewModel旨在以注重生命周期的方式存储和管理界面相关的数据(配合它里面的livedata)。</p>
+<ul>
+<li>1.1 将Activity的UI处理和数据处理分离，分开管理，解耦且高效。</li>
+<li>1.2 ViewModel在屏幕旋转等系统配置更改后被继续保留，避免再次请求数据，浪费网络资源。<strong>重建该 Activity时，它接收的ViewModel实例与之前的Activity持有的ViewModel相同</strong>。只有当Activity真正销毁时，框架才会调用getViewModelStore().clear()清除所有的ViewModel。</li>
+<li>1.3 避免页面销毁后，数据返回后刷新界面导致crash，例如页面发起请求后，数据还没返回就关闭activity，数据返回后，刷新界面，因view不存在而crash。</li>
+<li>1.4 <strong>两个Fragment可以使用其Activity的ViewModel来处理通信</strong>。</li>
+<li>1.5 和onSaveInstanceState()对比，onSaveInstanceState()仅适合可以序列化再反序列化的少量数据，而不适合数量可能较大的数据，如用户列表或位图。</li>
+<li>1.6 ViewModelScope，为应用中的每个ViewModel定义了ViewModelScope。如果ViewModel已清除，则在<strong>此范围内启动的协程都会自动取消</strong>。</li>
+</ul>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>ViewModelProvider<br>ViewModelStoreOwner：是一个接口，只定义了一个方法：getViewModelStore()。同样ComponentActivity和Fragment实现了这个接口，所以我们在Activity或者Fragment中使用ViewModelProvider传入的this就可以了。</p>
+<p>ViewModelStore：ViewModelStore主要是用来存储ViewModel对象的，内部有一个HashMap集合（<code>HashMap&lt;String, ViewModel&gt; mMap</code>）用来存储ViewModel对象。</p>
+<p>ComponentActivity持有一个ViewModelStore，可以通过ViewModelStoreOwner中的getViewModelStore()方法获取。（为啥不直接在Activity获取ViewModelStore，再获取ViewModel呢？因为ViewModel要通过ViewModelProvider.Factory创建）</p>
+<p>Factory：是一个接口，用来创建ViewModel的</p>
+<p>Activity 可以调用ViewMode的方法，同时ViewModel通过LiveData变化的监听改变view</p>
+<h3 id="Kotlin单例"><a href="#Kotlin单例" class="headerlink" title="Kotlin单例"></a>Kotlin单例</h3><h4 id="使用-object-关键字"><a href="#使用-object-关键字" class="headerlink" title="使用 object 关键字"></a>使用 object 关键字</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">object SomeSingleton&#123;</span><br><span class="line">  <span class="function">fun <span class="title">sayHi</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>转成java代码之后是：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">SomeSingleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> SomeSingleton INSTANCE;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">sayHi</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        SomeSingleton var0 = <span class="keyword">new</span> SomeSingleton();</span><br><span class="line">        INSTANCE = var0;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有对比就清晰了，Kotlin 的 object 关键字，在 Java 表现的特点如下：</p>
+<ul>
+<li>类用 final 标记，标识不可变性。</li>
+<li>内部声明一个 static final 的当前类的对象 INSATNCE。</li>
+<li>在静态代码块中，进行 INSTANCE 对象的初始化。</li>
+</ul>
+<p>可以看到，在 Kotlin 的 object 中，是<strong>使用类的初始化锁来保证线程安全的</strong>。</p>
+<blockquote>
+<p>那什么是类的初始化锁？简单来说， JVM 在类的初始化阶段（即在 Class 被加载后，且被线程使用之前），会执行类的初始化，在初始化期间，JVM 会去获取一个锁。这个锁可以同步多个线程对同一个类的初始化，避免多线程调用时，引发线程安全的问题。</p>
+</blockquote>
+<h3 id="怎样保证任务顺序执行"><a href="#怎样保证任务顺序执行" class="headerlink" title="怎样保证任务顺序执行"></a>怎样保证任务顺序执行</h3><ol>
+<li>观察者模式，使用队列保存注册的观察者，按队列顺序依次执行</li>
+<li>责任链模式，参考view的事件分发</li>
+</ol>
+<h3 id="怎么统计app启动过程中的方法"><a href="#怎么统计app启动过程中的方法" class="headerlink" title="怎么统计app启动过程中的方法"></a>怎么统计app启动过程中的方法</h3><hr>
 <div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="http://blog.conorlee.top/blogimages/attribution_88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://conorlee.top/" target="_blank" rel="noopener">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
 
 <p>本文链接：<a href="http://agehua.github.io/2022/02/13/Java-summary/">http://agehua.github.io/2022/02/13/Java-summary/</a></p>
@@ -1093,7 +1172,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2022/02/13/Java-summary/" data-id="ckzxiodj90073x6vd78fqpnxb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2022/02/13/Java-summary/" data-id="cl0g5cni20074klvdy7jlmqle" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding

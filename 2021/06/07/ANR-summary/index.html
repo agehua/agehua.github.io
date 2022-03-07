@@ -16,7 +16,7 @@
 <meta property="og:description" content="ANR 分类Android ANR问题分为三类：Input，Receiver，Service 在我们常见的APP开发中，主要遇到的都是Input超时问题，本文就详细分析下Input超时是如何产生以及如何排查">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://cdn.conorlee.top/French%20Peasant%20Woman%20Suckling%20Her%20Baby%20after%20Dalou.jpg">
-<meta property="og:updated_time" content="2022-02-18T08:42:10.559Z">
+<meta property="og:updated_time" content="2022-03-03T08:54:55.771Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ANR 总结与分析">
 <meta name="twitter:description" content="ANR 分类Android ANR问题分为三类：Input，Receiver，Service 在我们常见的APP开发中，主要遇到的都是Input超时问题，本文就详细分析下Input超时是如何产生以及如何排查">
@@ -657,7 +657,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <h3 id="ANR日志生成原理"><a href="#ANR日志生成原理" class="headerlink" title="ANR日志生成原理"></a>ANR日志生成原理</h3><p>网上大概有这么几种方式：</p>
 <ol>
 <li>系统的 system_server 进程在检测到 App 出现 ANR 后，会向出现 ANR 的进程发送 <code>SIGQUIT (signal 3)</code>信号。正常情况下，系统的 libart.so 会收到该信号，并调用 Java 虚拟机的 dump 方法生成 traces。<br>以友盟+的 U-APM 应用性能监控平台为例，集成SDK 后，SDK 会拦截 SIGQUIT。在出现 ANR 时，libcrashsdk.so 会优先收到信号，并生成 traces 和 ANR 日志。在 SDK 处理完信号后，会将信号继续传递给系统的 libart.so，让系统生成 ANR traces.txt。</li>
-<li>监控ANR异常，通过反编译Bugly jar包，发现ANR异常捕获是通过FileObserver实现的。<br>当ANR发生的时候，通过监听文件文件夹“data/anr/”的写入情况, 来判断是否发生了ANR，如果监听到data/anr/traces.txt文件写入。说明有此时有ANR异常发生。</li>
+<li>监控ANR异常，通过反编译Bugly jar包，发现ANR异常捕获是通过FileObserver实现的。<br>当ANR发生的时候，通过监听文件文件夹“<code>data/anr/</code>”的写入情况, 来判断是否发生了ANR，如果监听到<code>data/anr/traces.txt</code>文件写入。说明有此时有ANR异常发生。</li>
 </ol>
 <p>FileObserver捕获ANR异常,缺点是Android5.0低权限应用不能监听变化“、data/anr/traces.txt”，只能在root之后才可以</p>
 <ol>
@@ -782,7 +782,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2021/06/07/ANR-summary/" data-id="ckzxiodj0006ox6vdygz5b0me" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2021/06/07/ANR-summary/" data-id="cl0g5cnfd006eklvd6y0p3hr0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
