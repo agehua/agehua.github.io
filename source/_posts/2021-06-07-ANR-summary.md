@@ -19,6 +19,14 @@ Android ANR问题分为三类：Input，Receiver，Service
 
 详细源码可以参考：[Input系统—ANR原理分析](http://gityuan.com/2017/01/01/input-anr/)
 
+要产生 ANR，至少得有两个输入事件，场景如下：
+
+- 第一个输入事件产生，系统将其发送给用户当前操作的 App；
+- 系统收到第二个事件，发现当前距第一个输入事件发送时间超过 0.5s 仍未处理完毕，则设置一个定时器，5s 后触发；
+- 5s 之后，若系统发现第一个输入事件仍然没有回应时，则触发 ANR，激活 App 中的 Signal Cather 线程生成 traces.txt，然后弹出 ANR 对话框，告知用户 App 无响应。
+
+也就是说，要产生 ANR，第一个输入事件必需在 5.5s 以上没有被处理完成并反馈回系统；并且要有第二个输入事件产生。如果没有第二个输入事件，即便第一个输入事件执行了 60s 或更长时间，也是不会产生 ANR 的。
+
 ### ANR 产生原因
 Input ANR reason主要有以下几类：
 
@@ -450,3 +458,25 @@ ANR发生的过程怀疑是，应用被杀死，但没有杀死Service，然后�
 - 场景9：抓取整机log导致anr。此类问题中，adbd、bugreport、chargelogcat等进程CPU使用率高；
 - 场景10：Framework缺陷导致无焦点窗口问题，activity已经正常resume了（am_on_resume_called），dumpsys中mFocusedWindow为null。
 
+### ANR一定会发生吗？
+不会
+
+可以参考这篇文章：<https://juejin.cn/post/6890758574364950541> 和 <http://gityuan.com/2019/04/06/android-anr/>
+
+比如 input事件：
+> input超时机制为什么是扫雷，而非定时爆炸呢？是由于对于input来说即便某次事件执行时间超过timeout时长，只要用户后续在没有再生成输入事件，则不会触发ANR。 这里的扫雷是指当前输入系统中正在处理着某个耗时事件的前提下，后续的每一次input事件都会检测前一个正在处理的事件是否超时（进入扫雷状态），检测当前的时间距离上次输入事件分发时间点是否超过timeout时长。如果前一个输入事件，则会重置ANR的timeout，从而不会爆炸。
+
+更多细节详见Input系统-ANR原理分析，<http://gityuan.com/2017/01/01/input-anr>
+
+
+### ANR日志生成原理
+网上大概有这么几种方式：
+
+1. 系统的 system_server 进程在检测到 App 出现 ANR 后，会向出现 ANR 的进程发送 `SIGQUIT (signal 3)`信号。正常情况下，系统的 libart.so 会收到该信号，并调用 Java 虚拟机的 dump 方法生成 traces。
+以友盟+的 U-APM 应用性能监控平台为例，集成SDK 后，SDK 会拦截 SIGQUIT。在出现 ANR 时，libcrashsdk.so 会优先收到信号，并生成 traces 和 ANR 日志。在 SDK 处理完信号后，会将信号继续传递给系统的 libart.so，让系统生成 ANR traces.txt。
+2. 监控ANR异常，通过反编译Bugly jar包，发现ANR异常捕获是通过FileObserver实现的。
+当ANR发生的时候，通过监听文件文件夹“`data/anr/`”的写入情况, 来判断是否发生了ANR，如果监听到`data/anr/traces.txt`文件写入。说明有此时有ANR异常发生。
+
+FileObserver捕获ANR异常,缺点是Android5.0低权限应用不能监听变化“、data/anr/traces.txt”，只能在root之后才可以
+3. `ANR-WatchDog`是参考Android WatchDog机制（com.android.server.WatchDog.java）起个单独线程向主线程发送一个变量+1操作，自我休眠自定义ANR的阈值，休眠过后判断变量是否+1完成，如果未完成则告警。
+但是无法保证能捕捉所有ANR，对阈值的设置直接影响捕获概率。

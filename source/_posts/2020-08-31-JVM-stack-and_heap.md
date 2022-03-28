@@ -15,15 +15,15 @@ toc: true
 
 <!--more-->
 
-![jvm memmoy model](/images/blogimages/2020/jvm_stack_and_heap.png)
+![jvm memmory model](/images/blogimages/2020/jvm_stack_and_heap.png)
 #### 虚拟机栈
 虚拟机栈属于线程独占区，具体指虚拟机栈中的局部变量表。虚拟机栈描述的是Java方法执行的动态内存模型。每个方法执行都会创建一个栈帧，伴随着方法从创建到执行完成。用于存储局部变量表，操作数栈，动态链接，方法出口等。
 
 局部变量表的内存空间，在编译期完成分配，当进入一个方法时，这个方法需要帧中分配多少内存是固定的，在方法运行期间不会改变局部变量表大小
 
-局部变量表保存的是对象的引用，对象是分配在堆内存中
+局部变量表保存的是对象的引用，对象是分配在`堆内存`中
 
-虚拟机栈已满，但仍有方法需要进栈，则会抛出 StackOverflowError，栈未满，但内存不够了，则会抛出OutOfMemory异常
+虚拟机栈已满，但仍有方法需要进栈，则会抛出 StackOverflowError，栈未满；但内存不够了，则会抛出OutOfMemory异常
 
 栈有一个很重要的特殊性，就是存在栈中的数据可以共享。假设我们同时定义：
 ~~~ Java
@@ -232,7 +232,7 @@ A[] a = new A[10];
 > 上面三个都会对扶摇引用进行权限验证，不具备访问权限，抛出java.lang.illegalAccessError异常
 接口方法解析 接口所有方法都是public，所以不存在权限验证
  
-### 初始化
+#### 初始化
 
 初始化时类加载的最后一步
 初始化是执行`<clinit>()`方法的过程
@@ -291,6 +291,42 @@ public class Parent {
     - 在初始化一个类时，并不会先初始化它所实现的接口
     - 在初始化一个接口时，并不会初始化它的父接口
 只有当程序访问的静态变量或静态方法确实在当前类或当前接口中定义时，才可以认为是对类或接口的主动使用
+
+来看一个父类子类和成员变量初始化顺序的问题：
+~~~ java
+public class Base {
+
+    private String baseName = "base";
+    public Base() {
+        callName();
+    }
+
+    public void callName() {
+        System.out.println(baseName);
+    }
+
+    static class Sub extends Base {
+        private String baseName = "sub";
+
+        public void callName() { // 子类重写了父类的方法
+            System.out.println(baseName) ;
+        }
+    }
+
+    public static void main(String[] args) {
+        Base b = new Sub();
+    }
+    /**
+     * 链接：https://www.nowcoder.com/questionTerminal/c2bfb1512dfa4a7eab773a5871a52402
+     * 来源：牛客网
+     *
+     * 初始化的过程：1、初始化父类中的静态成员变量和静态代码块。2、初始化子类中的静态成员变量和静态代码块。3、初始化父类的普通成员变量和代码块，再执行父类的构造方法。4、初始化子类的普通成员变量和代码块，再执行子类的构造方法。
+     * 题目中new Sub()会先初始化父类中的baseName变量，再调用父类的构造函数，调用子类重写的callName()方法，打印出子类中的baseName，接下来才初始化子类中变量，调用子类构造函数，所以打印null。
+     * 可以单步调试看下代码的执行过程。
+     */
+}
+~~~
+答案是只有  ”null“
 
 ### 类的实例化
 为新的对象分配内存，为实例变量赋初始值，为实例变量赋默认值。
@@ -455,6 +491,13 @@ i = i++, i 变量先进入操作数栈，然后在局部变量表中进行自增
 
 反过来，i = ++i， i 变量先在局部变量表中进行自增，然后再将 i 进栈，然后再把栈中的数据返回给我们的变量 i 
 
+所以这题的答案是：
+~~~ java
+i=4
+j=1
+k=11
+~~~
+
 2.类变量准备阶段和初始化阶段差别
 ~~~ Java
 public class Test {
@@ -490,7 +533,8 @@ Singleton类加载过程中，有两步都对counter2的值进行了修改：
 
 把 `public static int counter1;` 改为 `public static int counter1 = 1`;，打印结果是`2，0`。
 
-准备阶段赋初值，初始化阶段为类变量赋予正确默认值
+准备阶段赋初值，初始化阶段为类变量赋予正确默认值，且初始化赋值按照从上到下执行。
+具体解释可以看这篇文章：<https://juejin.cn/post/6991736846204010533>
 
 
 

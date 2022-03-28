@@ -4,6 +4,7 @@ title: Recyclerview 滑动相关功能总结
 category: accumulation
 tags:
     - RecyclerView
+    - Android Source Code
 keywords: scroll, RecyclerView
 banner: https://cdn.conorlee.top/Flowering%20Garden.jpg
 thumbnail: https://cdn.conorlee.top/Flowering%20Garden.jpg

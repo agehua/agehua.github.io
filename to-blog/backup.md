@@ -1,99 +1,49 @@
 
-## 《Qcon2019/基于 C++ 构建微信客户端跨平台开发框架》学习
 
-## 微信支付的跨平台架构详解 学习
+### android 存储介绍
+外部存储目录external与内部存储目录internal
 
-### 建立 C++ 与原生系统框架进行互相通讯的机制
+1. 内部存储目录：打开文件管理器，最外层的data目录即为内部存储目录，内部都是app的包名，存储着应用程序相关的数据，例如 data/data/包名/(shared_prefs、database、files、cache)，这里面的文件对未root用户不可见，当用户卸载App时，存储在这里的数据也会被销毁。
+2. 外部存储目录：和内部存储目录data同级的其他目录基本都为外部存储目录，外部存储目录分为私有目录和公有目录，私有目录存储在android文件夹下，各应用数据存储在对应以包为名的目录下，这里的数据不同应用不可共享。与android目录同级的目录为公有目录，这些目录可以由我们自己创建。
 
-#### 上下层对象转换机制
-隐藏语言通讯的细节。让开发者只和当前语言打交道，**核心：对象转换流程**
+Context 类提供了基本文件和目录处理方法（存储的文件仅供应用内部使用，此法足以）来处理获取并操作内部存储空间下应用私有目录文件的方法。
+（1）File getFilesDir() 获取/data/data/<包名>/files目录。
+（2）FileInputStream openFileInput(String name)：打开现有文件进行读取
+（3）FileOutputStream openFileOutPutStream(String name,int mode)： 打开文件进行写入，如果不存在就创建它。
+（4）File getDir(String name,int mode) 获取/data/data/<包名>目录的子目录（不存在就创建它)。
+（5）String[] fileList() *获取主文件目录下的文件列表，可与其它方法配合使用，如openFileInput(String)>。
+（6）File getCacheDir() 获取/data/data/<包名>/cache目录，应及时清理该目录，并节约使用。
 
-对象转换流程的关键：
-- 维护对象的唯一性
-- 维护对象的继承关系
+3. 应用内部存储空间中的应用私有目录和外部存储空间中的应用私有目录和区别
 
-#### 代码生成器
-设计 IDL(Interface Definition Language 接口描述语言)
-- 定义一个对象
-- 区分对象的类型 
-- 支持在对象里定义方法
-- 支持基本的数据类型
-- 支持描述继承关系
-
-
-### 建立 C++  控制 iOS 和 安卓 UI 布局渲染的机制
-- 布局语法：Flexbox
-- 布局引擎：Yoga
-- 渲染机制：系统能力
-
-#### yoga简介
-yoga本是Facebook在React Native里引入的一种跨平台的基于CSS的布局系统，它实现了Flexbox规范（https://facebook.github.io/yoga/docs/flex-direction/）
-
-yoga有如下特性：
-- 完全兼容Flexbox布局，遵守W3C的规范。
-- 支持Java、C#、Objective-C、C四种语言。
-- 底层代码使用C语言编写，性能不是问题，并且可以更容易跟其他平台集成。
-- 支持流行框架如React Native。
+- （1）context.getFilesDir() 内部存储data/data/包名/files目录；
+- （2）context.getCacheDir() 内部存储data/data/包名/cache目录；
+- （3）Environment.getExternalStorageDirectory() 外部存储根目录 Environment.getExternalStoragePublicDirectory("")； 外部存储 /storage/emulated/0
+- （4）外部存储公有目录context.getExternalFilesDir() 外部存储私有目录 storage/sdcard/Android/data/包名/files。一般存储长时间保存的数据。 
+- （5）context.getExternalCacheDir() 外部存储私有目录 storage/sdcard/Android/data/包名/cache。一般存储临时缓存数据。
 
 
+从 7.0 开始，Android SDK 中的 StrictMode策略禁止开发人员在应用外部公开 file:// URI，如果我们在使用 file://URI 时忽视了这两条规定，将导致用户在 7.0 及更高版本系统的设备中使用到相关功能时，出现 FileUriExposedException 异常，导致应用出现崩溃闪退问题。而这两个过程的替代解决方案便是使用 FileProvider。FileProvider帮助我们将访问受限的 file:// URI 转化为可以授权共享的 content:// URI。
+
+FileProvider的使用：
+a. 声明FileProvider为ContentProvider,并给予一定权限(及指定一个位置用来保存文件) 在AndroidManifest.xml中添加一个FileProvider声明。
 
 
-### 基于 C++ 编写业务框架，搭建工具链
+### 算法题学习方向
+算法 - Algorithms
 
+- 排序算法：快速排序、归并排序、计数排序
+- 搜索算法：回溯、递归、剪枝技巧
+- 图论：最短路、最小生成树、网络流建模
+- 动态规划：背包问题、最长子序列、计数问题
+- 基础技巧：分治、倍增、二分、贪心
 
-### 问题1
-ViewController 自己负责和不同的 ViewController 通讯。那么 ViewController 得不到复用，更致命的是业务流程的代码非常不清晰，业务流程的代码都被分散到各个 Controller 中， 而一个 Controller 又可能耦合了多个业务的代码。
+数据结构 - Data Structures
 
-解决：架构抽象的第一步就是将业务流程抽象为一个独立的角色 UseCase。同时, 把界面抽象为 UIPage。 一个大的业务流程可以分解为一个个小的业务流程。
+- 数组与链表：单 / 双向链表、跳舞链
+- 栈与队列
+- 树与图：最近公共祖先、并查集
+- 哈希表
+- 堆：大 / 小根堆、可并堆
+- 字符串：字典树、后缀树
 
-和刚才基于 MVC 混乱的架构相比：
-- 业务流程的代码能够聚合到 UseCase 中，而不是分散到原来 iOS, 安卓的各个 ViewController，Activity 中。
-- 业务流程和界面得到了复用。
-- 契合微信支付多流程，界面跳转复杂的业务特点。
-
-### 问题2
-比如我们要给一个朋友转账，输入金额，确认支付，触发 Cgi 后。下一个流程是多变的。有可能用户需要去实名，有可能用户要进入一个安全拦截的 WebView，或者是正常拉起收银台。
-`本文中的名词 CGI 可以理解为一个网络请求，类似HTTP请求。`
-那么以往在 iOS, 安卓分开实现时，都没有一个统一的处理机制。要么就是通过网络回包的某个字段来判断，要么就是本地维护一些状态来决定下一步走什么流程等等，非常繁琐，易错。
-
-### 问题3
-支付业务流程还有个特殊的地方，那就是在正常流程的中间，往往很多时候要需要插入一些特殊流程。比如有些地方要跳转 Webview, 有些地方要跳转小程序，有些地方要弹窗告知用户风险，或者终止当前流程，等等。我们经常需要在业务代码里面不断重复增加这样的处理。
-
-解决：
-微信支付需要一个路由机制。路由机制的核心思想，就是通过向路由传递数据，然后路由解析数据，并响应。
-结合微信支付和网络密切相关的特点。创新地将支付领域模型作为传递的数据。
-
-> 那么怎么建立这个支付领域模型的呢？建模，就是建立映射。领域知识 + 建模方法 = 领域建模。那么这里的领域知识，就是对支付业务流程的理解。建模方法，我采用了 UML 建模。最终会落地为 Proto 协议供客户端和后台一起使用。
-
-首先，微信支付业务特点就是和网络密切相关，流程和页面往往是由 Cgi 串联起来。因此建立模型时，最外层便是网络回包。对于路由机制，这里我们只关心路由数据模型。
-
-路由数据模型由 路由类型，还有各个路由类型所需要的信息组合成。
-
-路由类型清晰的定义了要触发的行为。究竟是要开启一个 UseCase，还是要打开一个界面，或者 网页，小程序，弹窗等等。
-
-然后就是这些行为所需要的数据。比如打开小程序所需要的参数，弹窗所需要的参数等。
-
-### 问题4
-CGI 一对多通讯问题。
-
-解决：
-将 Cgi 抽象为独立对象
-
-在架构设计上来说，旧架构是通过单例模式实现的集约型 API，而我们新的架构则是通过命令模式实现的离散型 API。
-
-关于 Cgi 由谁发起，之前安卓和 iOS 都没有一个统一的做法。有些人会放到 Activity，ViewController，和 UI 代码耦合起来。
-
-因此，在跨平台软件架构中，我们统一由业务流程 UseCase 进行发起。并且生命周期是一对一的，一个 Cgi 只会有一个 UseCase 处理， UseCase 销毁后，Cgi 也随之销毁。
-对比旧架构：
-- 杜绝了一对多通信造成的 Bug
-- 生命周期和业务逻辑绑定，不会出现业务结束，Cgi 回来后再触发动作。
-- 高内聚，低耦合。将 Cgi 相关的数据，能力集中处理，业务侧无需感知。
-- 提供统一的缓存，加密能力。
-
-
-
-RecyclerView item的根布局在Recyclerview布局方向上的宽或高必须是match_parent或固定尺寸，否则在一些设备设备上（4.4.0）alignParentRight属性失效
-### 资料
-
-下载地址：
-https://github.com/100mango/zen/blob/master/Qcon2019/%E5%9F%BA%E4%BA%8E%20C%2B%2B%20%E6%9E%84%E5%BB%BA%E5%BE%AE%E4%BF%A1%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%B7%A8%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E6%A1%86%E6%9E%B6.key

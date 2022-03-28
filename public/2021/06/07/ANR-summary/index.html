@@ -16,7 +16,7 @@
 <meta property="og:description" content="ANR 分类Android ANR问题分为三类：Input，Receiver，Service 在我们常见的APP开发中，主要遇到的都是Input超时问题，本文就详细分析下Input超时是如何产生以及如何排查">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://cdn.conorlee.top/French%20Peasant%20Woman%20Suckling%20Her%20Baby%20after%20Dalou.jpg">
-<meta property="og:updated_time" content="2021-10-15T05:55:52.931Z">
+<meta property="og:updated_time" content="2022-03-03T08:54:55.771Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ANR 总结与分析">
 <meta name="twitter:description" content="ANR 分类Android ANR问题分为三类：Input，Receiver，Service 在我们常见的APP开发中，主要遇到的都是Input超时问题，本文就详细分析下Input超时是如何产生以及如何排查">
@@ -401,11 +401,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                84
+                87
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                97
+                99
                 <span>tags</span>
             </div>
         </div>
@@ -463,7 +463,7 @@
         
             <div id='toc-wrap' class="toc-wrap">
                 <strong class="toc-title">文章目录</strong>
-                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#ANR-分类"><span class="toc-number">1.</span> <span class="toc-text">ANR 分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ANR-产生原因"><span class="toc-number">2.</span> <span class="toc-text">ANR 产生原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例分析，Reason-Waiting-because-the-focused-window-is-paused"><span class="toc-number">3.</span> <span class="toc-text">实例分析，Reason: Waiting because the focused window is paused.</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查看-dumpsys-文件"><span class="toc-number">3.1.</span> <span class="toc-text">查看 dumpsys 文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Waiting-because-no-window-has-focus-but-there-is-a-focused-application-that-may-eventually-add-a-window-when-it-finishes-starting-up"><span class="toc-number">4.</span> <span class="toc-text">Waiting because no window has focus but there is a focused application that may eventually add a window when it finishes starting up</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关键：traces-txt-日志分析"><span class="toc-number">4.1.</span> <span class="toc-text">关键：traces.txt 日志分析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拓展Service，Reason-executing-service-xxx-xxx-Service"><span class="toc-number">5.</span> <span class="toc-text">拓展Service，Reason: executing service xxx/xxx.Service</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#哪些场景会出现ANR"><span class="toc-number">6.</span> <span class="toc-text">哪些场景会出现ANR</span></a></li></ol>
+                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#ANR-分类"><span class="toc-number">1.</span> <span class="toc-text">ANR 分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ANR-产生原因"><span class="toc-number">2.</span> <span class="toc-text">ANR 产生原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例分析，Reason-Waiting-because-the-focused-window-is-paused"><span class="toc-number">3.</span> <span class="toc-text">实例分析，Reason: Waiting because the focused window is paused.</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查看-dumpsys-文件"><span class="toc-number">3.1.</span> <span class="toc-text">查看 dumpsys 文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Waiting-because-no-window-has-focus-but-there-is-a-focused-application-that-may-eventually-add-a-window-when-it-finishes-starting-up"><span class="toc-number">4.</span> <span class="toc-text">Waiting because no window has focus but there is a focused application that may eventually add a window when it finishes starting up</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关键：traces-txt-日志分析"><span class="toc-number">4.1.</span> <span class="toc-text">关键：traces.txt 日志分析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拓展Service，Reason-executing-service-xxx-xxx-Service"><span class="toc-number">5.</span> <span class="toc-text">拓展Service，Reason: executing service xxx/xxx.Service</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#哪些场景会出现ANR"><span class="toc-number">6.</span> <span class="toc-text">哪些场景会出现ANR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ANR一定会发生吗？"><span class="toc-number">7.</span> <span class="toc-text">ANR一定会发生吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ANR日志生成原理"><span class="toc-number">8.</span> <span class="toc-text">ANR日志生成原理</span></a></li></ol>
             </div>
         
     </div>
@@ -546,7 +546,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     </div>
 
 
-                        <div style="color:#cba11f;float:right">21 min read , Words: 4181</div>                    </div>
+                        <div style="color:#cba11f;float:right">22 min read , Words: 4276</div>                    </div>
                 
             </header>
         
@@ -557,6 +557,13 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
             <h3 id="ANR-分类"><a href="#ANR-分类" class="headerlink" title="ANR 分类"></a>ANR 分类</h3><p>Android ANR问题分为三类：Input，Receiver，Service</p>
 <p>在我们常见的APP开发中，主要遇到的都是Input超时问题，本文就详细分析下Input超时是如何产生以及如何排查<br><a id="more"></a><br>在分析Input超时之前，我们先来简单的介绍一下Android的Input系统。Android Input体系中，大致有两种类型的事件，实体按键key事件，屏幕点击触摸事件，当然如果根据事件类型的不同我们还能细分为基础实体按键的key(power，volume up/down，recents，back，home)，实体键盘按键，屏幕点击(多点，单点)，屏幕滑动等等的事件。在Android整个Input体系中有三个格外重要的成员：Eventhub，InputReader，InputDispatcher。它们分别担负着各自不同的职责，Eventhub负责监听/dev/input产生Input事件，InputReader负责从Eventhub读取事件，并将读取的事件发给InputDispatcher，InputDispatcher则根据实际的需要具体分发给当前手机获得焦点实际的Window。当然它们三者之间有工作远比我介绍的要复杂的很多。</p>
 <p>详细源码可以参考：<a href="http://gityuan.com/2017/01/01/input-anr/" target="_blank" rel="noopener">Input系统—ANR原理分析</a></p>
+<p>要产生 ANR，至少得有两个输入事件，场景如下：</p>
+<ul>
+<li>第一个输入事件产生，系统将其发送给用户当前操作的 App；</li>
+<li>系统收到第二个事件，发现当前距第一个输入事件发送时间超过 0.5s 仍未处理完毕，则设置一个定时器，5s 后触发；</li>
+<li>5s 之后，若系统发现第一个输入事件仍然没有回应时，则触发 ANR，激活 App 中的 Signal Cather 线程生成 traces.txt，然后弹出 ANR 对话框，告知用户 App 无响应。</li>
+</ul>
+<p>也就是说，要产生 ANR，第一个输入事件必需在 5.5s 以上没有被处理完成并反馈回系统；并且要有第二个输入事件产生。如果没有第二个输入事件，即便第一个输入事件执行了 60s 或更长时间，也是不会产生 ANR 的。</p>
 <h3 id="ANR-产生原因"><a href="#ANR-产生原因" class="headerlink" title="ANR 产生原因"></a>ANR 产生原因</h3><p>Input ANR reason主要有以下几类：</p>
 <ul>
 <li>无窗口, 有应用：Waiting because no window has focus but there is a focused application that may eventually add a window when it finishes starting up.</li>
@@ -640,6 +647,22 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <li>场景9：抓取整机log导致anr。此类问题中，adbd、bugreport、chargelogcat等进程CPU使用率高；</li>
 <li>场景10：Framework缺陷导致无焦点窗口问题，activity已经正常resume了（am_on_resume_called），dumpsys中mFocusedWindow为null。</li>
 </ul>
+<h3 id="ANR一定会发生吗？"><a href="#ANR一定会发生吗？" class="headerlink" title="ANR一定会发生吗？"></a>ANR一定会发生吗？</h3><p>不会</p>
+<p>可以参考这篇文章：<a href="https://juejin.cn/post/6890758574364950541" target="_blank" rel="noopener">https://juejin.cn/post/6890758574364950541</a> 和 <a href="http://gityuan.com/2019/04/06/android-anr/" target="_blank" rel="noopener">http://gityuan.com/2019/04/06/android-anr/</a></p>
+<p>比如 input事件：</p>
+<blockquote>
+<p>input超时机制为什么是扫雷，而非定时爆炸呢？是由于对于input来说即便某次事件执行时间超过timeout时长，只要用户后续在没有再生成输入事件，则不会触发ANR。 这里的扫雷是指当前输入系统中正在处理着某个耗时事件的前提下，后续的每一次input事件都会检测前一个正在处理的事件是否超时（进入扫雷状态），检测当前的时间距离上次输入事件分发时间点是否超过timeout时长。如果前一个输入事件，则会重置ANR的timeout，从而不会爆炸。</p>
+</blockquote>
+<p>更多细节详见Input系统-ANR原理分析，<a href="http://gityuan.com/2017/01/01/input-anr" target="_blank" rel="noopener">http://gityuan.com/2017/01/01/input-anr</a></p>
+<h3 id="ANR日志生成原理"><a href="#ANR日志生成原理" class="headerlink" title="ANR日志生成原理"></a>ANR日志生成原理</h3><p>网上大概有这么几种方式：</p>
+<ol>
+<li>系统的 system_server 进程在检测到 App 出现 ANR 后，会向出现 ANR 的进程发送 <code>SIGQUIT (signal 3)</code>信号。正常情况下，系统的 libart.so 会收到该信号，并调用 Java 虚拟机的 dump 方法生成 traces。<br>以友盟+的 U-APM 应用性能监控平台为例，集成SDK 后，SDK 会拦截 SIGQUIT。在出现 ANR 时，libcrashsdk.so 会优先收到信号，并生成 traces 和 ANR 日志。在 SDK 处理完信号后，会将信号继续传递给系统的 libart.so，让系统生成 ANR traces.txt。</li>
+<li>监控ANR异常，通过反编译Bugly jar包，发现ANR异常捕获是通过FileObserver实现的。<br>当ANR发生的时候，通过监听文件文件夹“<code>data/anr/</code>”的写入情况, 来判断是否发生了ANR，如果监听到<code>data/anr/traces.txt</code>文件写入。说明有此时有ANR异常发生。</li>
+</ol>
+<p>FileObserver捕获ANR异常,缺点是Android5.0低权限应用不能监听变化“、data/anr/traces.txt”，只能在root之后才可以</p>
+<ol>
+<li><code>ANR-WatchDog</code>是参考Android WatchDog机制（com.android.server.WatchDog.java）起个单独线程向主线程发送一个变量+1操作，自我休眠自定义ANR的阈值，休眠过后判断变量是否+1完成，如果未完成则告警。<br>但是无法保证能捕捉所有ANR，对阈值的设置直接影响捕获概率。</li>
+</ol>
 <hr>
 <div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="http://blog.conorlee.top/blogimages/attribution_88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://conorlee.top/" target="_blank" rel="noopener">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
 
@@ -759,7 +782,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2021/06/07/ANR-summary/" data-id="ckx7knb2o006m3avdk8d1uciu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2021/06/07/ANR-summary/" data-id="cl1aijqwf006zfuvdxseecakd" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -904,6 +927,63 @@ gitment.render('comments')
                     <li>
                         
                         <div class="item-thumbnail">
+                            <a href="/2022/03/28/sp-source-code-analysis/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Green%20Wheat%20Field%20with%20Cypress.jpg)" alt="SP源码阅读和其导致ANR原因分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2022/03/28/sp-source-code-analysis/" class="title">SP源码阅读和其导致ANR原因分析</a></p>
+                            <p class="item-date"><time datetime="2022-03-27T16:00:00.000Z" itemprop="datePublished">2022-03-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2022/02/13/Java-summary/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Green%20Wheat%20Field%202.jpg)" alt="Java内存分配策略" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/java/">Java</a></p>
+                            <p class="item-title"><a href="/2022/02/13/Java-summary/" class="title">Java内存分配策略</a></p>
+                            <p class="item-date"><time datetime="2022-02-12T16:00:00.000Z" itemprop="datePublished">2022-02-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2022/02/10/android-binder-principle3/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Great%20Peacock%20Moth.jpg)" alt="Android Binder机制分析（三）" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2022/02/10/android-binder-principle3/" class="title">Android Binder机制分析（三）</a></p>
+                            <p class="item-date"><time datetime="2022-02-09T16:00:00.000Z" itemprop="datePublished">2022-02-10</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
                             <a href="/2021/12/14/AOP-android/" class="thumbnail">
     
     
@@ -939,63 +1019,6 @@ gitment.render('comments')
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2021/07/18/gradle-plugin/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://cdn.conorlee.top/Gardens%20on%20Montmartre%20and%20the%20Blute-Fin%20Windmill.jpg)" alt="自定义gradle插件" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2021/07/18/gradle-plugin/" class="title">自定义gradle插件</a></p>
-                            <p class="item-date"><time datetime="2021-07-17T16:00:00.000Z" itemprop="datePublished">2021-07-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2021/07/18/recyclerview-cache/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://cdn.conorlee.top/Garden%20Behind%20a%20House.jpg)" alt="RecyclerView 缓存机制" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2021/07/18/recyclerview-cache/" class="title">RecyclerView 缓存机制</a></p>
-                            <p class="item-date"><time datetime="2021-07-17T16:00:00.000Z" itemprop="datePublished">2021-07-18</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2021/06/07/ANR-summary/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://cdn.conorlee.top/French%20Peasant%20Woman%20Suckling%20Her%20Baby%20after%20Dalou.jpg)" alt="ANR 总结与分析" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2021/06/07/ANR-summary/" class="title">ANR 总结与分析</a></p>
-                            <p class="item-date"><time datetime="2021-06-06T16:00:00.000Z" itemprop="datePublished">2021-06-07</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1005,7 +1028,7 @@ gitment.render('comments')
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">69</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">71</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -1015,7 +1038,7 @@ gitment.render('comments')
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/agp/" style="font-size: 10px;">AGP</a> <a href="/tags/aidl/" style="font-size: 12px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/anr/" style="font-size: 10px;">ANR</a> <a href="/tags/aop/" style="font-size: 10px;">AOP</a> <a href="/tags/aosp/" style="font-size: 12px;">AOSP</a> <a href="/tags/asm/" style="font-size: 10px;">ASM</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 12px;">Annotation</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 18px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 14px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview-knowledge/" style="font-size: 16px;">Interview Knowledge</a> <a href="/tags/jni/" style="font-size: 14px;">JNI</a> <a href="/tags/jvm/" style="font-size: 12px;">JVM</a> <a href="/tags/java/" style="font-size: 16px;">Java</a> <a href="/tags/javascript/" style="font-size: 12px;">JavaScript</a> <a href="/tags/kotlin/" style="font-size: 12px;">Kotlin</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 12px;">Looper</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 12px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 12px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 16px;">RecyclerView</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 12px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/transform/" style="font-size: 10px;">Transform</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 12px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 16px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/picture-in-picture/" style="font-size: 10px;">picture-in-picture</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 12px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 14px;">toastmaster</a> <a href="/tags/view-scroll/" style="font-size: 10px;">view scroll</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/agp/" style="font-size: 11.67px;">AGP</a> <a href="/tags/aidl/" style="font-size: 13.33px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/anr/" style="font-size: 10px;">ANR</a> <a href="/tags/aop/" style="font-size: 10px;">AOP</a> <a href="/tags/aosp/" style="font-size: 11.67px;">AOSP</a> <a href="/tags/asm/" style="font-size: 10px;">ASM</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-source-code/" style="font-size: 18.33px;">Android Source Code</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 11.67px;">Annotation</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 16.67px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16.67px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview/" style="font-size: 10px;">Interview</a> <a href="/tags/interview-knowledge/" style="font-size: 15px;">Interview Knowledge</a> <a href="/tags/jni/" style="font-size: 13.33px;">JNI</a> <a href="/tags/jvm/" style="font-size: 11.67px;">JVM</a> <a href="/tags/java/" style="font-size: 15px;">Java</a> <a href="/tags/javascript/" style="font-size: 11.67px;">JavaScript</a> <a href="/tags/kotlin/" style="font-size: 11.67px;">Kotlin</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 11.67px;">Looper</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 11.67px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 11.67px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 16.67px;">RecyclerView</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 11.67px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/transform/" style="font-size: 10px;">Transform</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 11.67px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/multi-process/" style="font-size: 10px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/picture-in-picture/" style="font-size: 10px;">picture-in-picture</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 11.67px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 13.33px;">toastmaster</a> <a href="/tags/view-scroll/" style="font-size: 10px;">view scroll</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
         </div>
     </div>
 
@@ -1024,7 +1047,7 @@ gitment.render('comments')
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -1064,7 +1087,7 @@ gitment.render('comments')
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2021 Jixin Li<br>
+            &copy; 2022 Jixin Li<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

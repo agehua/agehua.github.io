@@ -4,7 +4,8 @@ title: 自定义gradle插件
 category: accumulation
 tags:
     - gradle
-keywords: Android,gradle
+    - AGP
+keywords: Android,gradle,AGP
 banner: https://cdn.conorlee.top/Gardens%20on%20Montmartre%20and%20the%20Blute-Fin%20Windmill.jpg
 thumbnail: https://cdn.conorlee.top/Gardens%20on%20Montmartre%20and%20the%20Blute-Fin%20Windmill.jpg
 toc: true
@@ -145,7 +146,7 @@ ExtensionAware对象有一个方法getExtensions()，该方法返回一个Extens
 
 > **扩展对象vs额外属性** 被用来扩展一个对象的DSL的扩展是扩展可知的，一个已注册的扩展模型会暴露一些属性和方法，用来给构建脚本建立新的构建语言结构，这些属性名和方法在创建的时候已经定好。扩展模型的典型用例是插件。额外属性，是一些通过ext命名空间创建的简单变量，它们一般提供给用户空间也就是构建脚本使用，额外属性的属性名是可以任意指定的。请尽量避免在插件实现中使用额外属性。
 
-4.2 放在buildSrc目录下
+#### 放在buildSrc目录下
 与自定义task一样，Groovy代码放在`buildSrc/src/main/groovy` 目录下，
 ~~~ java
 package com.sososeen.credential
@@ -190,7 +191,7 @@ apply plugin : 'credentials'
 ~~~
 执行 gradle printUserCredential 命令，可以看到打印结果与之前一样。
 
-以jar文件形式提供插件
+#### 以jar文件形式提供插件
 这个步骤与自定义task打包为jar文件一样，新建一个项目，把buildSrc目录下的文件复制过来，同时，在该项目下创建一个build.gradle文件。
 ~~~ java
 apply plugin: 'groovy' //应用这个插件来编译Groovy代码

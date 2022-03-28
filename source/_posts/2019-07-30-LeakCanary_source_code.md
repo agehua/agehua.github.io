@@ -4,6 +4,7 @@ title: LeakCanary源码分析及借鉴
 category: accumulation
 tags:
     - LeakCanary
+    - Android Source Code
 keywords: LeakCanary, SourceCode
 banner: http://cdn.conorlee.top/Field%20of%20Spring%20Wheat%20at%20Sunrise.jpg
 thumbnail: http://cdn.conorlee.top/Field%20of%20Spring%20Wheat%20at%20Sunrise.jpg
@@ -469,6 +470,8 @@ private void cancelToast(final Toast toast) {
 
 这里的FutureResult，会阻塞当前后台子线程，并监听主线程是否空闲，若5秒内不空闲，则返回RETRY_LATER。
 若主线程空闲则会调用waitingForToast.set(toast)，不在阻塞后台子线程，调用android.os.Debug.dumpHprofData()生成.prof文件。
+
+> Debug.dumpHprofData 会导致线程阻塞。因为dumpheap的操作是在应用进程的主线程中进行操作，本质上是在该应用进程的虚拟机中进行，dumpheap时应用进程会block住，如过heap文件过大很容易导致应用进程操作界面卡住，如果此时再进行点击或滑动等操作极易再抛出anr等弹窗，用户体验极差。
 
 这里介绍下 FutureResult 的实现：
 ~~~ Java

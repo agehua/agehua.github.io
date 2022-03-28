@@ -4,6 +4,7 @@ title: RecyclerView 源码分析
 category: accumulation
 tags:
     - RecyclerView
+    - Android Source Code
 keywords: RecyclerView
 banner: http://cdn.conorlee.top/Farmhouse%20in%20a%20Wheat%20Field.jpg
 thumbnail: http://cdn.conorlee.top/Farmhouse%20in%20a%20Wheat%20Field.jpg
@@ -671,7 +672,26 @@ if (mShouldReverseLayout == (layoutState.mLayoutDirection
         addView(view, 0);
 }
 ~~~
-很明显调用了addView方法，虽然这个方法是LayoutManager的，但这个方法最终会多次辗转调用到RecyclerView的addView方法，将view添加在RecyclerView中。综上，我们就梳理了整个第二步布局的过程，此过程完成了子View的测量与布局，任务还是相当繁重。
+很明显调用了addView方法，虽然这个方法是**LayoutManager的**，但这个方法最终会多次辗转调用到RecyclerView的addView方法，将view添加在RecyclerView中。综上，我们就梳理了整个第二步布局的过程，此过程完成了子View的测量与布局，任务还是相当繁重。
+
+
+多说一点，这里的addView()，中间会调用的下面这个方法，这个方法会调用到 `RecyclerView的onChildAttachedToWindow` 和 `mAdapter.onViewAttachedToWindow`。通过这两个方法可以监听view或者viewholder显示的时机
+~~~ java
+// RecyclerView
+void dispatchChildAttached(View child) {
+        final ViewHolder viewHolder = getChildViewHolderInt(child);
+        onChildAttachedToWindow(child);
+        if (mAdapter != null && viewHolder != null) {
+            mAdapter.onViewAttachedToWindow(viewHolder);
+        }
+        if (mOnChildAttachStateListeners != null) {
+            final int cnt = mOnChildAttachStateListeners.size();
+            for (int i = cnt - 1; i >= 0; i--) {
+                mOnChildAttachStateListeners.get(i).onChildViewAttachedToWindow(child);
+            }
+        }
+    }
+~~~
 
 #### dispatchLayoutStep3
 
@@ -1334,9 +1354,26 @@ ViewHolder tryGetViewHolderForPositionByDeadline(int position,
         }
         if (holder == null) {
             // ...
+            // 这里会回调到 adapter的 onCreateViewHolder()方法
             holder = mAdapter.createViewHolder(RecyclerView.this, type);
             // ...
         }
+    }
+
+    // 拿到holder之后会调用 tryBindViewHolderByDeadline 进行绑定
+    boolean bound = false;
+    if (mState.isPreLayout() && holder.isBound()) {
+        // do not update unless we absolutely have to.
+        holder.mPreLayoutPosition = position;
+    } else if (!holder.isBound() || holder.needsUpdate() || holder.isInvalid()) {
+        if (DEBUG && holder.isRemoved()) {
+            throw new IllegalStateException("Removed holder should be bound and it should"
+                    + " come here only in pre-layout. Holder: " + holder
+                    + exceptionLabel());
+        }
+        final int offsetPosition = mAdapterHelper.findPositionOffset(position);
+        // 下面方法会回调adapter的onBindViewHolder()方法
+        bound = tryBindViewHolderByDeadline(holder, offsetPosition, position, deadlineNs);
     }
 
     //生成LayoutParams的代码 ...

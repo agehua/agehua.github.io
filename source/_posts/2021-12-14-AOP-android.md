@@ -301,9 +301,9 @@ AGP 4.1 中移除了构建缓存，本文使用的AGP版本为 3.5.4
 
 ![官方gradle插件](/images/blogimages/2021/gradle-official-plugins.png)
 
-如何创建Plugin我们后面再说，可以提前了解一点的是：官方和我们自己实现的plugin都是基于 `org.gradle.api.Plugin` 实现的，都需要提供一个类似 `META-INF.gradle-plugins` 这样的配置文件，文件内容是需要指定 “`implementation-class`”的实现类是什么。
+如何创建Plugin我们后面再说，可以提前了解一点的是：官方和我们自己实现的plugin都是基于 `org.gradle.api.Plugin` 实现的，都需要提供一个类似 `META-INF.gradle-plugins/xxx.properties` 这样的配置文件，文件内容是需要指定 “`implementation-class`”的实现类是什么。
 
-打开上图里的任意一个.properties文件，里面就是对应plugin实现类的地址
+打开上图里的任意一个`.properties`文件，里面就是对应plugin实现类的地址
 
 #### 自定义Gradle Plugin
 Gradle支持通过插件的方式来扩展功能，已保证开发者可以按照自己的需求来完成自动化构建。而且Gradle插件允许已任何可以被编译成字节码的语言编写
@@ -334,15 +334,15 @@ class GreetingPlugin implements Plugin<Project> {
 这段代码用于添加一个名为”hello“的task，它的代码虽然简单，但是apply方法中传递了一个重要的类 `org.gradle.api.Project`，其他复杂的插件都是通过Project类来操作编译过程，达到对应的效果。
 下面是 Project 类的一些重要方法：
 ~~~ java
-    // 根据name创建一个task，就是上面例子里的写法，还有好多同名方法，这里不一一列举了
-    Task task(String name) throws InvalidUserDataException;
-    // 根据一个工程路径，获得一个File对象，省略同名方法
-    File file(Object path);
-    // Adds a closure to be called immediately after this project has been evaluated.
-	afterEvaluate​(Closure closure)
-    //Returns the properties of this project.
-    getProperties()
-    // ...
+// 根据name创建一个task，就是上面例子里的写法，还有好多同名方法，这里不一一列举了
+Task task(String name) throws InvalidUserDataException;
+// 根据一个工程路径，获得一个File对象，省略同名方法
+File file(Object path);
+// Adds a closure to be called immediately after this project has been evaluated.
+afterEvaluate​(Closure closure)
+//Returns the properties of this project.
+getProperties()
+// ...
 ~~~
 其他方法的介绍可以看gradle 文档：https://docs.gradle.org/current/javadoc/org/gradle/api/Project.html
 
@@ -360,6 +360,7 @@ appExtension.registerTransform(new MethodTimeTransform(project));
 Transform 是专门处理构建过程中的中间产物，Transform 可以被看作是 Gradle 在编译项目时的一个 task，在 .class 文件转换成 .dex 的流程中会执行这些 task，对所有的 .class 文件（可包括第三方库的 .class）进行转换，转换的逻辑定义在 Transform 的 transform 方法中。实际上平时我们在 build.gradle 中常用的功能都是通过 Transform 实现的，比如混淆（proguard）、dexBuilder等。
 
 篇幅有限，本文关于当前android上实现AOP编程就介绍到这里。关于Transform api的语法和具体例子可以看这篇文章：[手把手教大家用Transform API和ASM实现一个防快速点击案例](https://juejin.cn/post/6864349303843307534)
+
 
 
 
