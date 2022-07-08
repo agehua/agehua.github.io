@@ -184,6 +184,10 @@ System.out.println(-1 >>> 1);
 例如：
 ~~~ Java
 mViewFlags = SOUND_EFFECTS_ENABLED | HAPTIC_FEEDBACK_ENABLED | FOCUSABLE_AUTO;
+
+// 或者
+mPrivateFlags |= PFLAG_FORCE_LAYOUT;
+mPrivateFlags |= PFLAG_INVALIDATED; 
 ~~~
 
 - **`A & B` 判断A中是否有标志B**

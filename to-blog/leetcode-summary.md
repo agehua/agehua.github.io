@@ -1,4 +1,12 @@
 
+~~~ java
+Arrays.copyOf(int[], length); // 返回一个新数组
+
+//  java.util.Arrays
+public static <T> T[] copyOf(@RecentlyNonNull T[] original, int newLength) {
+        throw new RuntimeException("Stub!");
+}
+~~~
 ### 116. 填充每个节点的下一个右侧节点指针
 https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node/
 

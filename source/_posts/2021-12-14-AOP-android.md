@@ -372,3 +372,5 @@ ASM教程：https://github.com/dengshiwei/asm-module
 ASM入门篇：https://segmentfault.com/a/1190000040160637
 
 参考：https://juejin.cn/post/6844903616487096333
+
+[Android 进阶之路：ASM 修改字节码，这样学就对了！](<https://blog.csdn.net/lmj623565791/article/details/119880194>)

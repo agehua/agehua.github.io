@@ -502,7 +502,7 @@ com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1113)
   - 第一次加载时，需要将整个SP加载到内存当中，如果过于大，会导致阻塞，甚至会导致 ANR
   - 每次apply或者commit，都会把全部的数据一次性写入磁盘, 所以 SP 文件不应该过大, 影响整体性能
   - SharedPreference的文件存储性能与`文件大小`相关，我们不要将毫无关联的配置项保存在同一个文件中，同时考虑将频繁修改的条目单独隔离出来
-- apply()同步回写（commitToMemory()）内存SharedPreferences.mMap，然后把异步回写磁盘的任务放到一个`子线程`中等待处理。apply()不需要等待写入磁盘完成，而是马上返回
+- apply()同步回写（commitToMemory()）内存SharedPreferences.mMap，然后把`异步`回写磁盘的任务放到一个`子线程`中等待处理。apply()不需要等待写入磁盘完成，而是马上返回
 - commit()同步回写（commitToMemory()）内存SharedPreferences.mMap，然后如果`mDiskWritesInFlight`（此时需要将数据写入磁盘，但还未处理或未处理完成的次数）的值等于1，那么直接在调用 `commit()的线程`（一般是主线程）执行回写磁盘的操作，否则把异步回写磁盘的任务放到一个子线程中等待执行。commit()会阻塞调用线程，直到写入磁盘完成才返回
 - SP 操作仅仅把 commit() 替换为 apply() 不是万能的，如果 commit() 过于频繁也会和apply一样，在 `ActivityThread` 中导致ANR
 

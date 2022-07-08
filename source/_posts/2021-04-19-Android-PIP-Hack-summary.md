@@ -36,6 +36,8 @@ toc: true
 
 > taskAffinity 需要配合singleTask或singleInstance使用。这里指定为singleTop是有一个小技巧，即可以通过是否添加 intent.addFlags(FLAG_ACTIVITY_NEW_TASK) 标记`动态控制`是否在新任务栈中打开VideoActivity
 
+注意：如果VideoActivity不添加taskAffinity属性，开启画中画的情况下，那么新启动的Activity有 `singleTask`或`FLAG_ACTIVITY_NEW_TASK`标记，新的Activity会展示在画中画中
+
 #### 进入画中画
 
 - 1.主动触发
@@ -142,6 +144,7 @@ public static void navToLauncherTask(Context appContext) {
     }
 }
 ~~~
+> task 也有 startActivity的方法，感兴趣的可以看一下
 
 ### 注意问题
 - 在支持画中画的activity中，并且开启过画中画，getContext()方法返回值是`ContextThemeWrapper`，用这个跳转页面（getContext().startActivity），会有栈reparent问题，可以使用XXXActivity.this 或者 view.getContext()代替

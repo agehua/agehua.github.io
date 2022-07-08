@@ -85,6 +85,13 @@ toc: true
     		使用这些对象。如果对象满足这两个条件，这些对象就可以判定为 Java 中的内存泄漏，这些对象
     		不会被 GC 所回收，然而它却占用内存。
 
+#### 对象被回收的条件
+
+- 可达性分析，该对象没有与GC Roots相连接的引用链，将进行如下操作
+- 如果对象还没有执行finalize()方法，就会被放入F-Queue中
+- 当GC触发时，Finalizer线程会F-Queue中的对象的finalize()方法
+- 执行完finalize()方法后，会再次判断对象是否可达，如果不可达，才会被回收（所以对象可以通过在finalize()中将自己连接上某个GC Root链的方式来拯救自己）
+
 ### java集合
 
 - 1.List：ArrayList、LinkedList、Vector、CopyOnWriteArrayList
@@ -820,7 +827,8 @@ public final class SomeSingleton {
 ### 怎样保证任务顺序执行
 
 1. 观察者模式，使用队列保存注册的观察者，按队列顺序依次执行
-2. 责任链模式，参考view的事件分发
+2. 责任链模式，参考view的事件分发、有序广播、Okhttp拦截器
+
 
 ### 怎么统计app启动过程中的方法
 AMS 方法进入的时候埋点，方法退出的时候埋点
@@ -936,7 +944,16 @@ executeOps() 方法和 executePopOps() 方法遍历正好相反、相同指令�
 
 在32位的应用上，内存使用不合理时，会比较容易引发因虚拟内存不足而导致的白屏或OOM等问题。参考：<https://cloud.tencent.com/developer/article/1797705>
 
+### 虚拟内存浅析
+在多任务操作系统中，每个进程都拥有独立的虚拟地址空间，通过虚拟地址进行内存访问主要具备以下几点优势：
+
+- 进程可使用连续的地址空间来访问不连续的物理内存，内存管理方面得到了简化。
+- 实现进程与物理内存的隔离，对各个进程的内存数据起到了保护的作用。
+- 程序可使用远大于可用物理内存的地址空间，虚拟地址在读写前不占用实际的物理内存，并为内存与磁盘的交换提供了便利。
+
 ### 重载和重写的区别
+
+<https://zhuanlan.zhihu.com/p/288278829>
 
 | *区别点* | *重载方法* | *重写方法* |
 |:--------:|:-------:|:--------:| 
@@ -985,3 +1002,154 @@ Java方法类型签名中特殊字符/字母含义
 |D|double||
 |[|数组| 以[开头，配合其他的特殊字符，表示对应数据类型的数组，几个[表示几维数组|
 |L|全类名|引用类型 以 L 开头 ; 结尾，中间是引用类型的全类名|
+
+
+### android 中系统时间
+参考： <https://www.jianshu.com/p/dfa184764daa>
+
+#### System.currentTimeMillis()
+我们一般通过它来获取手机系统的当前时间。事实上，它返回的值是系统时刻距离标准时刻(1970.01.01 00:00:00)的毫秒数。它相当于家里的“挂钟”一样，并不是十分精准，而且可以随意修改。所以它可能经常被网络或者用户校准。正是由于这个原因，这个方法获取的值不适合用来做时间间隔的统计。但是它适合用来获取当前日期，时刻等时间点相关的逻辑。
+
+#### SystemClock.upTimeMillis()
+
+这个值记录了系统启动到当前时刻经过的时间。但是系统深度睡眠(CPU睡眠，黑屏，系统等待唤醒)之中的时间不算在内。这个值不受系统时间设置，电源策略等因素的影响，因此它是大多数时间间隔统计的基础，例如Thread.sleep(long millis),Object.wait(long millis),System.nanoTime()等。系统保证了这个值只增长不下降，所以它适合所有的不包括系统睡眠时间的时间间隔统计。
+
+#### SystemClock.elapsedRealtime() & SystemClock.elapsedRealtimeNanos
+
+这个值与SystemClock.upTimeMillis()类似。它是系统启动到当前时刻经过的时间，包括了系统睡眠经过的时间。在CPU休眠之后，它依然保持增长。所以它适合做更加广泛通用的时间间隔的统计。
+
+综上，如果想要避免用户修改时间，网络校准时间对时间间隔统计的影响，使用SystemClock类相关的方法就可以了，至于选择upTimeMillis()还是elapsedRealtime()就要根据自己的需求确定了。
+
+系统还提供了几个时间控制相关的工具：
+
+- 标准方法Thread.sleep(long millis) 和 Object.wait(long millis)是基于SystemClock.upTimeMillis()的。所以在系统休眠之后它们的回调也会延期，直到系统被唤醒才继续计时。并且这两个同步方法会响应InterruptException，所以在使用它们的时候必须要处理InterruptException异常。
+- SystemClock.sleep(long millis) 与 Thread.sleep(long millis) 方法是类似的，只不过SystemClock.sleep(long millis) 不响应InterruptException异常。
+Handler类的 postDelay()方法也是基于SystemClock.upTimeMillis()方法的。
+- AlarmManager可以定时发送消息，即使在系统睡眠、应用停止的状态下也可以发送。我们在创建定时事件的时候有两个参数可以选择RTC和ELAPSED_REALTIME，它们对应的方法就是System.currentTimeMillis() ~ RTC，SystemClock.elapsedRealtime() ~ ELAPSED_REALTIME。这样一对应，它们的区别也就非常明显了。
+
+### 子线程更新UI
+
+下次如果有人问你 Android 中子线程真的不能更新 UI 吗？ 你可以这么回答：
+任何线程都可以更新自己创建的 UI。只要保证满足下面几个条件就好了
+
+- 在 ViewRootImpl 还没创建出来之前
+    - UI 修改的操作没有线程限制。
+- 在 ViewRootImpl 创建完成之后
+    - 1.保证「创建 ViewRootImpl 的操作」和「执行修改 UI 的操作」在同一个线程即可。也就是说，要在同一个线程调用 ViewManager#addView 和 ViewManager#updateViewLayout 的方法。
+    > 注：ViewManager 是一个接口，WindowManger 接口继承了这个接口，我们通常都是通过 WindowManger（具体实现为 WindowMangerImpl） 进行 view 的 add remove update 操作的。
+    - 2.对应的线程需要创建 Looper 并且调用 Looper#loop 方法，开启消息循环。
+
+有同学可能会问，保证上述条件 1 成立，不就可以避免 checkThread 时候抛出异常了吗？为什么还需要开启消息循坏？
+
+- 条件 1 可以避免检查异常，但是无法保证 UI 可以被绘制出来。
+- 条件 2 可以让更新的 UI 效果呈现出来
+
+WindowManger#addView 最终会调用 WindowManageGlobal#addView 方法，进而触发ViewRootImpl#setView 方法，该方法内部会调用 ViewRootImpl#requestLayout 方法。
+
+了解过 UI 绘制原理的同学应该知道 下一步就是 scheduleTraversals 了，该方法会往消息队列中插入一条消息屏障，然后调用 Choreographer#postCallback 方法，往 looper 中插入一条异步的 MSG_DO_SCHEDULE_CALLBACK 消息。等待垂直同步信号回来之后执行。
+
+注：ViewRootImpl 有一个 Choreographer  成员变量，ViewRootImpl 的构造函数中会调用 Choreographer#getInstance(); 方法，获取一个当前线程的 Choreographer 局部实例。
+
+**使用子线程更新 UI 有实际应用场景吗？**
+
+Android 中的  SurfaceView 通常会通过一个子线程来进行页面的刷新。如果我们的自定义 View 需要频繁刷新，或者刷新时数据处理量比较大，那么可以考虑使用 SurfaceView 来取代 View。
+
+### java线程状态
+- 1. 初始状态(`NEW`)
+实现Runnable接口和继承Thread可以得到一个线程类，new一个实例出来，线程就进入了初始状态。
+- 2. 就绪状态(`RUNNABLE之READY`)
+就绪状态只是说你资格运行，调度程序(Cpu)没有挑选到你，你就永远是就绪状态。
+调用线程的start()方法，此线程进入就绪状态。
+当前线程sleep()方法结束，其他线程join()结束，等待用户输入完毕，某个线程拿到对象锁，这些线程也将进入就绪状态。
+当前线程时间片用完了，调用当前线程的yield()方法，当前线程进入就绪状态。
+锁池里的线程拿到对象锁后，进入就绪状态。
+进入：调用Thread.start()
+- 3. 运行中状态(`RUNNABLE之RUNNING`)
+线程调度程序从可运行池中选择一个线程作为当前线程时线程所处的状态。这也是线程进入运行状态的唯一的一种方式。
+- 4. 阻塞状态(`BLOCKED`)
+阻塞状态是线程阻塞在进入synchronized关键字修饰的方法或代码块(获取锁)时的状态。
+进入：等待进入synchronized方法、等待进入synchronized块
+退出：获取到锁
+- 5. 等待(`WAITING`)
+处于这种状态的线程不会被分配CPU执行时间，它们要等待被显式地唤醒，否则会处于无限期等待的状态。
+进入：Object.wait() Thread.join() LockSupport.park()
+退出：Object.notify() Object.notifyAll() LockSupport.unpark(Thread)
+- 6. 超时等待(`TIMED_WAITING`)
+处于这种状态的线程不会被分配CPU执行时间，不过无须无限期等待被其他线程显示地唤醒，在达到一定时间后它们会自动唤醒。
+进入：Thread.sleep(long) Object.wait(long) Thread.join(long) LockSupport.parkNanos() LockSupport.parkUnit()
+退出：Object.notify() Object.notifyAll() LockSupport.unpark(Thread)
+- 7. 终止状态(`TERMINATED`)
+当线程的run()方法完成时，或者主线程的main()方法完成时，我们就认为它终止了。这个线程对象也许是活的，但是它已经不是一个单独执行的线程。线程一旦终止了，就不能复生。
+在一个终止的线程上调用start()方法，会抛出java.lang.IllegalThreadStateException异常。
+进入：执行完成
+
+### 同步队列与等待队列
+Wait()与Notify()方法
+wait(): 持有锁的线程调用wait()方法后，会一直阻塞，直到有别的线程调用notify()将其唤醒
+notify(): 只能通知一个等待线程，唤醒任意一个处于wait线程
+notifyall()：将等待队列中的所有线程唤醒，并加入`同步队列`
+
+任意一个object以及其子类对象都有两个队列
+
+同步队列：所有尝试获取该对象Monitor失败的线程，都加入同步队列排队获取锁
+
+等待队列：**已经拿到锁的线程**在等待其他资源时，主动释放锁，置入该对象等待队列中，等待被唤醒，当调用notify()会在等待队列中任意唤醒一个线程，将其置入同步队列的尾部，排队获取锁
+
+![等待队列与同步队列](/images/blogimages/2020/wait_and_notify_queue.webp)
+
+同步队列状态
+当前线程想调用对象A的同步方法时，发现对象A的锁被别的线程占有，此时当前线程进入同步队列。简言之，**同步队列里面放的都是想争夺对象锁的线程**。
+当一个线程1被另外一个线程2唤醒时，1线程进入同步队列，去争夺对象锁。
+同步队列是在同步的环境下才有的概念，一个对象对应一个同步队列。
+线程等待时间到了或被notify/notifyAll唤醒后，会进入同步队列竞争锁，如果获得锁，进入`RUNNABLE`状态，否则进入`BLOCKED`状态等待获取锁。
+
+
+参考：<https://segmentfault.com/a/1190000038392244>
+### Https 单向认证和双向认证
+<https://cloud.tencent.com/developer/article/1420302>
+
+除了tcp三次握手，还有ssl四次握手<https://www.cnblogs.com/wangwenhui/p/14870881.html>
+
+
+<https://segmentfault.com/a/1190000025126670>
+
+### Activity启动流程主要包含几步？
+
+我们以点击Launcher的一个icon为开始，整体扯一下Activity的启动过程，桌面其实就是LauncherApp的一个Activity
+
+- 当点击Launcher的icon开始，Launcher进程会像AMS发送点击icon的启动信息（这些信息就是在AndroidMainifest.xml中`<intent-filter>`标签定义的启动信息，数据由PackageManagerService解析出来）
+- AMS收到信息后会先后经过ActivityTaskManagerService->ActivityStartController->ActivityStarter内部类Request，然后把信息存到Request中，并通知Launcher进程让Activity休眠（补充个小知识点，这个过程会检测Activity在AndroidMainifest.xml的注册，如果没有注册就报错了）
+- Launcher进程的ApplicationThread对象收到消息后调用handlePauseActivity()进行暂停，并通知AMS已经暂停。
+实现细节：ActivityThread.sendMessage()通过ActivityThread的H类发送Handler消息，然后触发 mTransactionExecutor.execute(transaction)，
+执行过程中依赖ActivityClientRecord.mLifecycleState数值并通过ClientTransactionHandler抽象类的实现（ActivityThread）进行分发。
+注 ：ActivityClientRecord.mLifecycleState（-1 ~ 7分别代表 UNDEFINED, PRE_ON_CREATE, ON_CREATE, ON_START, ON_RESUME, ON_PAUSE, ON_STOP, ON_DESTROY, ON_RESTART）
+- AMS收到Launcher的已暂停消息后，会检查要启动的Activity所在的进程是否已经启动了，如果已经启动了就打开，如果未启动则通过Process.start(android.app.ActivityThread)来启动一个新的进程。
+- 进程创建好以后，会调用ActivityThread.main(),初始化MainLooper，并创建Application对象。然后Instrumentation.newApplication()反射创建Application，创建ContextImpl通过Application的attach方法与Application进行绑定，最终会调用Instrumentation.callApplicationOnCreate执行Application的onCreate函数进行一些初始化的工作。完成后会通知AMS进程已经启动好了。
+通知过程：通过IActivityManager.attachApplication（IApplicationThread thread, long startSeq），将Application对象传入AMS
+- AMS收到app进程启动成功的消息后，从ActivityTaskManagerService中取出对应的Activity启动信息， 并通过ApplicationThreadProxy对象，调用其scheduleTransaction(ClientTransaction transaction)方法，具体要启动的Activity都在ClientTransaction对象中。
+- app进程的ApplicationThread收到消息后会调用ActiivtyThread.sendMessage()，通过H发送Handler消息，在handleMessage方法的内部又会调用 mTransactionExecutor.execute(transaction);具体参考第3步
+最终调用performLaunchActivity方法创建activity和context并将其做关联，然后通过mInstrumentation.callActivityOnCreate()->Activity.performCreate()->Activity.onCreate()回调到了Activity的生命周期。
+
+activity向Instrumentation请求创建
+
+Instrumentation通过AMS在本地进程的IBinder接口，访问AMS，这里采用的跨进程技术是AIDL。
+
+然后AMS进程一系列的工作，如判断该activity是否存在，启动模式是什么，有没有进行注册等等。
+
+通过ClientLifeCycleManager，利用本地进程在系统服务进程的IBinder接口直接访问本地ActivityThread。
+
+ApplicationThread是ActivityThread的内部类，IApplicationThread是在远程服务端的Binder接口
+
+ApplicationThread接收到服务端的事务后，把事务直接转交给ActivityThread处理。
+
+ActivityThread通过Instrumentation利用类加载器进行创建实例，同时利用Instrumentation回调activity的生命中周期
+
+### 阻止activity重建时出现多个fragment
+正常activity重建后，fragment系统会帮你重建一个，执行到onCreate 自己又会重建一个，所以会出现多个
+~~~ java
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            savedInstanceState.putParcelable("android:support:fragments", (Parcelable)null);
+        }
+}
+~~~

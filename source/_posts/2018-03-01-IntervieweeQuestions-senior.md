@@ -3,7 +3,7 @@ layout: post
 title:  Android面试题积累(高阶)
 category: accumulation
 tags:
-  - Interview Knowledge
+  - Interview
   - ANDROID
 keywords: Senior Knowledge, Interview
 banner: http://cdn.conorlee.top/Enclosed%20Field%20with%20Ploughman.jpg

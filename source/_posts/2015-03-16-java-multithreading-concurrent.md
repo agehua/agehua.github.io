@@ -5,7 +5,7 @@ category: accumulation
 tags:
   - Java
   - multi-thread
-  - Interview Knowledge
+  - Interview
 keywords: java, 多线程, 并发
 description:
 banner: http://cdn.conorlee.top/Daubigny%20s%20Garden%203.jpg
@@ -57,16 +57,20 @@ thumbnail: http://cdn.conorlee.top/Daubigny%20s%20Garden%203.jpg
 ### 6. 有哪些不同的线程生命周期？
 当我们在Java程序中新建一个线程时，它的状态是New。当我们调用线程的start()方法时，状态被改变为Runnable。线程调度器会为Runnable线程池中的线程分配CPU时间并且讲它们的状态改变为Running。其他的线程状态还有Waiting，Blocked和Dead。[Read more...](http://www.journaldev.com/1044/life-cycle-of-thread-understanding-thread-states-in-java)
 
-- **新建（new Thread）**：当创建Thread类的一个实例（对象）时，此线程进入新建状态（未被启动）。例如：`Thread  t1=new Thread()`;
-- **就绪（runnable）**：线程已经被启动，正在等待被分配给CPU时间片，也就是说此时线程正在就绪队列中排队等候得到CPU资源。例如：`t1.start()`;
-- **运行（running）**：线程获得CPU资源正在执行任务（run()方法），此时除非此线程自动放弃CPU资源或者有优先级更高的线程进入，线程将一直运行到结束。
-- **死亡（dead）**：当线程执行完毕或被其它线程杀死，线程就进入死亡状态，这时线程不可能再进入就绪状态等待执行。
-- **自然终止**：正常运行run()方法后终止
-- **异常终止**：调用stop()方法让一个线程终止运行
-- **堵塞（blocked）**：由于某种原因导致正在运行的线程让出CPU并暂停自己的执行，即进入堵塞状态。
-- **正在睡眠**：用sleep(long t) 方法可使线程进入睡眠方式。一个睡眠着的线程在指定的时间过去可进入就绪状态。
-- **正在等待**：调用wait()方法。（调用motify()方法回到就绪状态）
-- **被另一个线程所阻塞**：调用suspend()方法。（调用resume()方法恢复）
+
+Java中线程的状态分为6种。
+
+1. 初始(NEW)：新创建了一个线程对象，但还没有调用start()方法。
+2. 运行(RUNNABLE)：Java线程中将就绪（ready）和运行中（running）两种状态笼统的称为“运行”。线程对象创建后，其他线程(比如main线程）调用了该对象的start()方法。该状态的线程位于可运行线程池中，等待被线程调度选中，获取CPU的使用权，此时处于就绪状态（ready）。就绪状态的线程在获得CPU时间片后变为运行中状态（running）。
+3. 阻塞(BLOCKED)：表示线程阻塞于锁。
+  阻塞状态是线程阻塞在进入synchronized关键字修饰的方法或代码块(获取锁)时的状态。
+4. 等待(WAITING)：进入该状态的线程需要等待其他线程做出一些特定动作（通知或中断）。
+5. 超时等待(TIMED_WAITING)：该状态不同于WAITING，它可以在指定的时间后自行返回。
+
+终止(TERMINATED)：表示该线程已经执行完毕。
+这6种状态定义在Thread类的State枚举中，可查看源码进行一一对应
+
+<https://segmentfault.com/a/1190000038392244>
 
 ### 7. 可以直接调用Thread类的run()方法么？
 可以，但是如果我们调用了Thread的run()方法，它的行为就会和普通的方法一样，为了在新的线程中执行我们的代码，必须使用Thread。start()方法。
@@ -196,6 +200,11 @@ Java集合类都是快速失败的，这就意味着当集合被改变且一个�
 并发容器支持并发的遍历和并发的更新。
 
 主要的类有ConcurrentHashMap, CopyOnWriteArrayList 和CopyOnWriteArraySet。
+
+> 如何在for循环中移除某些元素呢？，可以使用倒序遍历或者正序遍历移除同时修改i的值，或者使用Iterator的remove()方法。具体可以看这篇文章：<https://www.cnblogs.com/zwwhnly/p/12530819.html>
+
+
+
 
 ### 6. Executors类是什么？
 Executors为Executor，ExecutorService，ScheduledExecutorService，ThreadFactory和Callable类提供了一些工具方法。

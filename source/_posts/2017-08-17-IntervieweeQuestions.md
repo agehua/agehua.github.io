@@ -3,7 +3,7 @@ layout: post
 title:  Android面试题积累
 category: accumulation
 tags:
-  - Interview Knowledge
+  - Interview
   - ANDROID
 keywords: Basic Knowledge, Interview
 banner: http://cdn.conorlee.top/Daubigny%20s%20Garden%202.jpg
@@ -94,9 +94,15 @@ transaction.add(R.id.fragments, fragment);
 transaction.commit();
 
 
-3、FragmentPageAdapter和FragmentPageStateAdapter的区别
+3、FragmentPageAdapter和FragmentStatePagerAdapter的区别
 FragmentPageAdapter在每次切换页面的的时候，是将Fragment进行分离，适合页面较少的Fragment使用以保存一些内存，对系统内存不会多大影响
-FragmentPageStateAdapter在每次切换页面的时候，是将Fragment进行回收，适合页面较多的Fragment使用，这样就不会消耗更多的内存
+FragmentPagerAdapter 中所有创建过的Fragment都缓存在FragmentManager中；页面切换，只是调用detach，而不是remove，所以只执行onDestroyView，而不是onDestroy。
+- destroyItem的时候，调用detach从页面上移除fragment，内存中还有当前实例
+
+FragmentStatePagerAdapter，使用 mFragments 在每次切换页面的时候，是将Fragment进行回收，适合页面较多的Fragment使用，这样就不会消耗更多的内存
+FragmentStatePagerAdapter缓存的个数是(mOffscreenPageLimit * 2 + 1)，而不是全部；页面切换，调用remove删除，且要缓存State。
+- destroyItem的时候，将当前fragment = null，直接销毁fragment
+
 
 4、Fragment生命周期
 onAttach()

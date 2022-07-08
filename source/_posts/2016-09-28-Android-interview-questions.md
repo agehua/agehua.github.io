@@ -4,7 +4,7 @@ title:  Android面试知识点整理
 category: accumulation
 tags:
   - ANDROID
-  - Interview Knowledge
+  - Interview
 keywords: Android,面试题
 banner: http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg
 thumbnail: http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg
@@ -38,6 +38,44 @@ dispatchTouchEvent()返回true，后续事件（ACTION_MOVE、ACTION_UP）会再
 #### 2.OnTouchListener、onTouchEvent、OnClickListener优先级顺序
 如果给一个view设置了OnTouchListener，那么OnTouchListener中的onTouch方法会被回调。这时事件如何处理还要看**onTouch**的返回值，如果返回false，那么当前view的**onTouchEvent方法**会被调用；如果返回true，那么onTouchEvent方法将不会被调用。
 在onTouchEvent方法中，如果当前view设置了OnClickListener，那么它的onClick方法会被调用，所以OnClickListener的优先级最低。
+
+### 自定义View事件拦截
+
+#### 1.重写onInterceptTouchEvent()
+这种是常规写法
+~~~ java
+@Override
+public boolean onInterceptTouchEvent(MotionEvent ev) {
+    switch (ev.getAction()) {
+        case MotionEvent.ACTION_DOWN: // 为了子view能够响应事件，当前view ACTION_DOWN一般不拦截
+            break;
+        // .. 满足条件拦截其他事件
+    }
+}
+
+// 配合 onTouchEvent
+@Override
+public boolean onTouchEvent(MotionEvent e) {
+    case MotionEvent.ACTION_MOVE:
+        // 当前view 拦截了ACTION_MOVE，并作出响应处理
+        break;
+    return true;
+}
+~~~
+
+#### 2.重写dispatchTouchEvent
+这种写法相对少见
+~~~ java
+@Override
+public boolean dispatchTouchEvent(MotionEvent ev) {
+    // 在super之前处理某些事件，可以阻止事件传递到当前view的onTouchEvent
+    if (statified) {
+        // 比如原有onTouchEvent逻辑复杂，又加了一个单独的view，可以优先让这个view触发事件
+        return true;
+    }
+    return super.dispatchTouchEvent(ev);
+}
+~~~
 
 #### 3.AsyncTask的方法介绍
 - 1. onPreExecute()
