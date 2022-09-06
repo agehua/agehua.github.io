@@ -147,3 +147,86 @@ mBeanList = mFCMModel.getList();
 
 `这里的Type是 java.lang.reflect.Type `
 
+### 获取泛型的类型参数
+
+以kotlin语音为例，我们不能直接获取一个泛型的类型，比如：
+~~~ java
+val listType = ArrayList<String>::class.java // 不被允许
+val mapType = Map<String, String>::class.java // 不被允许
+~~~
+如何获取一个泛型的具体类型呢，有两种方式：
+
+#### 使用匿名内部类
+先看下面的例子：
+~~~ java
+val list1 = ArrayList<String>()
+val list2 = object: ArrayList<String>() {} // 使用object创建匿名内部类
+
+println(list1.javaClass.genericSuperclass)
+println(list2.javaClass.genericSuperclass) 
+
+// 结果：
+java.util.AbstractList<E>
+java.util.ArrayList<java.lang.String>
+~~~
+list2成功拿到了泛型的具体类型，这是因为 **泛型类型擦除并不是真的将全部的类型信息都擦除，还是会将类型信息放在对应class的常量池中**
+
+**匿名内部类在初始化的时候就会绑定父类或父接口的相应信息**，这样就能通过获取父类或父接口的泛型信息来实现我们的需求。
+
+我们来设计一个能获取所有类型的信息的泛型类：
+
+~~~ java
+import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
+
+open class GenericsToken<T> {
+    var type : Type = Any::class.java
+    init {
+        // 在初始化的时候就能拿到父类或父接口的类型信息
+        val superClass = this.javaClass.genericSuperclass
+        type = (superClass as ParameterizedType).getActualTypeArguments()[0]
+    }
+}
+
+// 使用：
+val gt = object: GenericsToken<Map<String, String>>() {} // 一个匿名内部类
+println(gt.type)
+
+// 结果：
+java.util.Map<java.lang.String, ? extends java.lang.String>
+~~~
+
+到这里再看下上面的fastjson是如何获取泛型类型的，是不是就可以为什么fastjson要这样写了？
+
+同理，Gson也是用的相同的设计
+
+#### 使用内联函数
+其实Kotlin中的内联函数在编译的时候，编译器也会将相应函数的字节码插入到调用的地方，参数类型也会插入到字节码中，这样我们就可以获取参数的类型了。
+~~~ java
+inline fun <reified T> getType() { // 关键字 reified
+    return T::class.java
+}
+~~~
+这里的意思相当于在编译的会将具体的类型插入响应的字节码中，那么我们就能在运行时获取到对应参数的类型了。所以可以在Kotlin中改进Gson的使用方式：
+
+~~~ java
+inline fun <reified T : Any> Gson.fromJson(json: String) : T { // 对 Gson.fromJson进行扩展
+    return Gson().fromJson(json, T::class.java)
+}
+
+// 使用
+val json =" ... "
+val stringList = Gson().fromJson<List<String>>(json) // 只需传入json一个参数
+~~~
+
+`reified` 关键字带来的特性在Android开发中也格外有用，比如修改 startActivity 方法：
+~~~ java
+inline fun <reified T : Activity> Activity.startActivity() {
+    startActivity(Intent(this, T::class.java))
+}
+
+// 使用
+startActivity<DetailActivity>()
+~~~
+
+更多关于 `reified` 关键字的介绍可以看这篇文章：<https://juejin.cn/post/6844903833596854279>

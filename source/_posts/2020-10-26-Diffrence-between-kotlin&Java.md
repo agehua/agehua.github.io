@@ -48,6 +48,7 @@ Kotlin 通过以下措施修复了 Java 中一系列长期困扰我们的问题�
 - 密封类 `sealed class A`
 - 分离用于只读与可变集合的接口 `MutableList, MutableSet, MutableMap`
 - 协程
+- 数组支持泛型，不会协变
 
 ### 空安全
 ~~~ java
@@ -282,11 +283,64 @@ fun demo(strs: Source<String>) {
     // ……
 }
 ~~~
+
 一般原则是：当一个类 C 的类型参数 T 被声明为 out 时，它就只能出现在 C 的成员的输出-位置，但回报是 `C<Base>` 可以安全地作为 `C<Derived>`的超类。
 
 简而言之，他们说类 C 是在参数 T 上是协变的，或者说 T 是一个协变的类型参数。 你可以认为 C 是 T 的生产者，而不是 T 的消费者。
 
 这里，out 由于它在类型参数声明处提供，所以我们称之为声明处型变.
+
+#### 泛型函数
+
+不仅类可以有类型参数。函数也可以有。**类型参数要放在函数名称之前**
+~~~ java
+fun <T> singletonList(item: T): List<T> {
+    // ……
+}
+
+fun <T> T.basicToString(): String {  // 扩展函数
+    // ……
+}
+~~~
+要调用泛型函数，在调用处函数名之后指定类型参数即可：
+~~~ java
+val l = singletonList<Int>(1)
+~~~
+可以省略能够从上下文中推断出来的类型参数，所以以下示例同样适用：
+~~~ java
+val l = singletonList(1)
+~~~
+
+泛型函数约束的上界
+
+最常见的约束类型是与 Java 的 extends 关键字对应的 上界：
+
+~~~ java
+fun <T : Comparable<T>> sort(list: List<T>) {  …… }
+~~~
+
+冒号之后指定的类型是上界：只有 Comparable<T> 的子类型可以替代 T。 例如：
+
+~~~ java
+sort(listOf(1, 2, 3)) // OK。Int 是 Comparable<Int> 的子类型
+sort(listOf(HashMap<Int, String>())) // 错误：HashMap<Int, String> 不是
+sort(listOf(1, 2, 3)) // OK。Int 是 Comparable<Int> 的子类型
+sort(listOf(HashMap<Int, String>())) // 错误：HashMap<Int, String> 不是 Comparable<HashMap<Int, String>> 的子类型
+~~~
+
+默认的上界（如果没有声明）是 Any?。在尖括号中只能指定一个上界。 如果同一类型参数需要多个上界，我们需要一个单独的 where-子句：
+
+~~~ java
+fun <T> copyWhenGreater(list: List<T>, threshold: T): List<String>
+    where T : CharSequence,
+          T : Comparable<T> {
+    return list.filter { it > threshold }.map { it.toString() }
+}
+~~~
+
+所传递的类型必须同时满足 where 子句的所有条件。在上述示例中，类型 T 必须既实现了 CharSequence 也实现了 Comparable。
+
+
 ### Kotlin与java8的 SAM 转换对比
 只有一个抽象方法的接口称为函数式接口或 SAM（Single Abstract Method 单一抽象方法）接口。函数式接口可以有多个非抽象成员，但只能有一个抽象成员。
 SAM 实际上这是java8中提出的概念，你就把他理解为是只有一个抽象方法的接口的就可以了

@@ -35,15 +35,15 @@ toc: true
         用时将会由 Java 垃圾回收器来负责回收。
 
     (4) 栈与堆的区别：
-    		    在方法体内定义的（局部变量）一些基本类型的变量和对象的引用变量都是在方法的栈内存
-    		中分配的。当在一段方法块中定义一个变量时，Java 就会在栈中为该变量分配内存空间，当超过
-    		该变量的作用域后，该变量也就无效了，分配给它的内存空间也将被释放掉，该内存空间可以被
-    		重新使用。
+    		在方法体内定义的（局部变量）一些基本类型的变量和对象的引用变量都是在方法的栈内存
+    	中分配的。当在一段方法块中定义一个变量时，Java 就会在栈中为该变量分配内存空间，当超过
+    	该变量的作用域后，该变量也就无效了，分配给它的内存空间也将被释放掉，该内存空间可以被
+    	重新使用。
 
-    		    堆内存用来存放所有由 new 创建的对象（包括该对象其中的所有成员变量）和数组。在堆中分
-    		配的内存，将由 Java 垃圾回收器来自动管理。在堆中产生了一个数组或者对象后，还可以在栈
-    		中定义一个特殊的变量，这个变量的取值等于数组或者对象在堆内存中的首地址，这个特殊的变
-    		量就是我们上面说的引用变量。我们可以通过这个引用变量来访问堆中的对象或者数组。
+    		堆内存用来存放所有由 new 创建的对象（包括该对象其中的所有成员变量）和数组。在堆中分
+    	配的内存，将由 Java 垃圾回收器来自动管理。在堆中产生了一个数组或者对象后，还可以在栈
+    	中定义一个特殊的变量，这个变量的取值等于数组或者对象在堆内存中的首地址，这个特殊的变
+    	量就是我们上面说的引用变量。我们可以通过这个引用变量来访问堆中的对象或者数组。
 
 	(5) 结论：
 `局部变量的基本数据类型和引用存储于栈中，引用的对象实体存储于堆中`。—— 因为它们属于方法中的变量，生命周期随方法而结束。
@@ -104,6 +104,12 @@ toc: true
 Stack<E> extends Vector<E> 
 // 或者
 Deque<Integer> stack = new ArrayDeque<Integer>();
+// 入栈
+stack.push(E item)
+// 出栈
+stack.pop()
+// 查看栈顶元素
+stack.peek()
 ~~~
 
 #### ArrayList
@@ -210,6 +216,14 @@ private static class Node<E> {
     }
 }
 ~~~
+
+~~~ java
+// LinkedList 当做队列使用
+Queue<Integer> queue = new LinkedList<>();
+queue.peek(); // 得到队列头元素，不出队
+queue.poll(); // 取出队列头元素，出队
+queue.offer();// 入队，队列容量不够时，不会抛出异常，这点跟 queue.add() 相反
+~~~~
 
 #### HashMap
 
@@ -404,14 +418,6 @@ ConcurrentHashMap使用Lock锁住部分数组，而HashTable则是锁住整个�
 - ArrayList是最常用的List实现类，内部是通过`数组`实现的，它允许对元素进行快速随机访问。数组的缺点是每个元素之间不能有间隔，当数组大小不满足时需要增加存储能力，就要讲已经有数组的数据复制到新的存储空间中。当从ArrayList的中间位置插入或者删除元素时，需要对数组进行复制、移动、代价比较高。因此，它适合随机查找和遍历，不适合插入和删除。
 - Vector与ArrayList一样，也是通过`数组`实现的，不同的是它支持线程的同步，即某一时刻只有一个线程能够写Vector，避免多线程同时写而引起的不一致性，但实现同步需要很高的花费，因此，访问它比访问ArrayList慢。
 - LinkedList是用`链表结构`存储数据的，很适合数据的动态插入和删除，随机访问和遍历速度比较慢。另外，他还提供了List接口中没有定义的方法，专门用于操作表头和表尾元素，可以当作堆栈、队列和双向队列使用。
-
-~~~ java
-// LinkedList 当做队列使用
-Queue<Integer> queue = new LinkedList<>();
-queue.peek(); // 得到队列头元素，不出队
-queue.poll(); // 取出队列头元素，出队
-~~~~
-
 
 #### 关于ArrayList和Vector区别如下：
 
@@ -1105,7 +1111,23 @@ notifyall()：将等待队列中的所有线程唤醒，并加入`同步队列`
 
 
 参考：<https://segmentfault.com/a/1190000038392244>
+
+### 静态方法传递Context会导致内存泄漏吗？
+
+不会，解释如下：
+
+Passing a context or any argument for that matter, to a method, whether it is static or not, will put that argument on the function stack. For the scope of that function the context will be kept on the stack. As soon as the function ends, the function stack is cleared, i.e. the context won't leak! No exceptions to this! This is the whole pure synchronous function thing discussed previously.
+
+If you pass a context to a method (static or not) and in that method you decide to run some background stuff you might leak. This is not a pure function.
+
+You would leak if you are holding onto the context longer than it takes to finish executing the original method. Using anonymous inner classes for callbacks when doing background work is typically a culprit here because that callback is invoked after the original function ends. You should ask yourself how the callback can fire and access the context argument if the original function has concluded. Well a copy is created so you now are holding onto a context that outlives the scope of the original function and tada leak!
+
+参考：<https://www.reddit.com/r/androiddev/comments/d9khex/can_passing_context_to_static_method_cause_a/>
+
 ### Https 单向认证和双向认证
+
+贴张https讲解比较全面的图：![HTTPS加密、解密、验证及数据传输过程](/images/blogimages/2022/https_request.webp)
+还可以参考下面的链接：
 <https://cloud.tencent.com/developer/article/1420302>
 
 除了tcp三次握手，还有ssl四次握手<https://www.cnblogs.com/wangwenhui/p/14870881.html>
@@ -1153,3 +1175,104 @@ protected void onCreate(@Nullable Bundle savedInstanceState) {
         }
 }
 ~~~
+
+
+### intent传输数据大小限制
+通过 intent 的 bundle 的源码可以看到它们都是实现了 Parcelable ，其实就是通过序列化来实现通信的。Parcelable 的底层使用了 Parcel 机制。传递实际上是使用了 binder 机制，binder 机制会将 Parcel序列化的数据写入到一个**共享内存**中，读取时也是 binder 从共享内存中读出字节流，然后 Parcel 反序列化后使用。这就是 Intent 或 Bundle 能够在 activity或者跨进程通信的原理。
+
+这个共享内存就叫 `Binder transaction buffer`，这块内存有一个大小限制，目前是 1MB，而且共用的，当超过了这个大小就会报错（TransactionTooLargeException）。
+
+
+### Handler
+Handler 构造方法：
+~~~ java
+// Handler.java
+public Handler(@Nullable Callback callback, boolean async) {
+
+    mLooper = Looper.myLooper();
+    if (mLooper == null) {
+        throw new RuntimeException(
+            "Can't create handler inside thread " + Thread.currentThread()
+                    + " that has not called Looper.prepare()");
+    }
+    mQueue = mLooper.mQueue;
+    mCallback = callback;
+    mAsynchronous = async;
+}
+
+// Looper.java 
+public static @Nullable Looper myLooper() {
+    return sThreadLocal.get();
+}
+
+// Looper.java 
+private static void prepare(boolean quitAllowed) {
+    if (sThreadLocal.get() != null) {
+        throw new RuntimeException("Only one Looper may be created per thread");
+    }
+    sThreadLocal.set(new Looper(quitAllowed)); // 创建mQueue
+}
+
+// Looper.java 
+private Looper(boolean quitAllowed) {
+    mQueue = new MessageQueue(quitAllowed);
+    mThread = Thread.currentThread();
+}
+~~~
+
+- 一个线程可以创建**多个handler**，但只会有**一个Looper**，因此也只会有**一个MessageQueue**。
+- 如果子线程创建handler的时候没有调用 `Looper.prepare()` 那么会抛出运行时异常
+
+~~~ java
+//MessageQueue.java
+MessageQueue(boolean quitAllowed) {
+    mQuitAllowed = quitAllowed;
+    mPtr = nativeInit();
+}
+~~~
+在java层中，mPtr保存了nativeInit()返回的值，Looper和MessageQueue在java层和native层都有，但它们的功能并不是一一对应，此处native层的Looper与Java层的Looper没有任何的关系，只是在native层重实现了一套类似功能的逻辑。通过管道与epoll机制建立一套消息机制
+在java层，没有消息时，会调用nativePollOnce方法进入阻塞。进入阻塞后可以通过超时唤起，也可以调用 `natvieWake` 主动唤起
+
+~~~ c
+//frameworks/base/core/jni/android_os_MessageQueue.cpp
+static void android_os_MessageQueue_nativePollOnce(JNIEnv* env, jobject obj,
+        jlong ptr, jint timeoutMillis) {
+    //把ptr强转为NativeMessageQueue
+    NativeMessageQueue* nativeMessageQueue = reinterpret_cast<NativeMessageQueue*>(ptr);
+    nativeMessageQueue->pollOnce(env, obj, timeoutMillis);
+}
+~~~
+
+总结一下：
+
+因为java层的消息机制是依赖native层的消息机制来实现的，而native层的消息机制是通过`Linux的管道和epoll机制`实现的，epoll机制是一种高效的IO多路复用机制， 它使用一个文件描述符管理多个描述符，java层通过mPtr指针也就共享了native层的epoll机制的高效性，当loop方法中取不到消息时，便阻塞在MessageQueue的next方法，而next方法阻塞在`nativePollOnce`方法，`nativePollOnce`方法通过JNI调用进入到native层中去，最终nativePollOnce方法阻塞在`epoll_wait`方法中，epoll_wait方法会让当前线程释放CPU资源进入休眠状态，等到下一个消息到达(mWakeEventFd会往管道写入字符)或监听的其他事件发生时就会唤醒线程，然后处理消息，所以就算loop方法是死循环，当线程空闲时，它会进入休眠状态，不会消耗大量的CPU资源。
+
+
+Native层参考这两篇文章： <https://www.jianshu.com/p/57a426b8f145>
+                    <https://www.jianshu.com/p/c4e34c16aa45>
+
+### 为什么`List<String>`不能赋值给`List<Object>`
+java在1.5的时候引入了泛型，虽然String是Object的子类，但是`List<String>` 并不是`List<Object>`的子类型，这叫做不支持协变（也有说型变）。
+
+如何让java支持协变，`List<String>` 可以赋值给 `List<Object>`呢，下面这样写就可以
+~~~ java
+List<? extends Object> list = new ArrayList<String>();
+list.add("kotlin"); // 编译报错，不允许
+~~~
+
+在kotlin写法如下：
+~~~ java
+val list: List<Any?> = ArrayList<String?>()
+// 这里的List是一个接口类
+public interface List<out E> : Collection<E> {
+    //...
+    // 没有add方法
+}
+~~~
+add方法不能使用的原因就是将泛型声明为协变所需要付出的代价。
+
+跟协变对立的是**逆变**，关键字是`super或in（kotlin`
+
+这里再延伸一下，java中数组不支持泛型是协变的，kotlin中数组是支持泛型的，也就不再协变
+
+更多的关于协变和逆变的介绍可以看我的这篇文章：[Kotlin 与 Java 语言比较](https://conorlee.top/2020/10/26/Diffrence-between-kotlin&Java/)
