@@ -25,7 +25,7 @@
     "hexo-readingtime": "^1.0.1",
     "hexo-renderer-ejs": "^0.2.0",
     "hexo-renderer-marked": "^0.2.10",
-    "hexo-renderer-stylus": "^0.3.1",
+    "hexo-renderer-stylus": "^0.3.3",
     "hexo-server": "^0.2.0",
     "pangu": "^3.3.0"
   }
