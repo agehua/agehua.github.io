@@ -5,22 +5,15 @@
     <meta name="baidu-site-verification" content="8WKGBCPPKp" />
     <meta charset="utf-8">
     
-    <title>Android面试知识点整理 | Agehua</title>
+    <title>Tag: Native Crash | Agehua</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="只整理android面试中涉及到的知识点。不断补充中。。。 1.Android事件传递机制下面内容摘选自《Android开发艺术探索》  (1) 当一个点击事件发生之后，传递过程遵循如下顺序：Activity -&amp;gt; Window -&amp;gt; View。如果一个view的onTouchEvent方法返回false，那么它的父容器的onTouchEvent方法将会被调用，依此类推，如果所有的元素">
-<meta name="keywords" content="Android,面试题">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android面试知识点整理">
-<meta property="og:url" content="http://agehua.github.io/2016/09/28/Android-interview-questions/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Agehua">
+<meta property="og:url" content="http://agehua.github.io/tags/native-crash/index.html">
 <meta property="og:site_name" content="Agehua">
-<meta property="og:description" content="只整理android面试中涉及到的知识点。不断补充中。。。 1.Android事件传递机制下面内容摘选自《Android开发艺术探索》  (1) 当一个点击事件发生之后，传递过程遵循如下顺序：Activity -&amp;gt; Window -&amp;gt; View。如果一个view的onTouchEvent方法返回false，那么它的父容器的onTouchEvent方法将会被调用，依此类推，如果所有的元素">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg">
-<meta property="og:updated_time" content="2023-11-16T03:42:40.832Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android面试知识点整理">
-<meta name="twitter:description" content="只整理android面试中涉及到的知识点。不断补充中。。。 1.Android事件传递机制下面内容摘选自《Android开发艺术探索》  (1) 当一个点击事件发生之后，传递过程遵循如下顺序：Activity -&amp;gt; Window -&amp;gt; View。如果一个view的onTouchEvent方法返回false，那么它的父容器的onTouchEvent方法将会被调用，依此类推，如果所有的元素">
-<meta name="twitter:image" content="http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg">
+<meta name="twitter:title" content="Agehua">
     
 
     
@@ -496,430 +489,88 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 </script>
 
             
-            <section id="main"><article id="post-Android-interview-questions" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-inner">
-        
-            
-	
-		<img src="http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg" class="article-banner" />
-	
-
-
-
-        
-        
-            <header class="article-header">
+            <section id="main">
+<div class="timeline timeline-wrap">
+    <div class="timeline-row timeline-row-major">
+        <span class="node"><i class="fa fa-tag"></i></span>
+        <h1 class="title">#Native Crash</h1>
+    </div>
+    
+        <div class="timeline-row">
+            <span class="node"></span>
+            <div class="content">
                 
     
-        <h1 class="article-title" itemprop="name">
-            Android面试知识点整理
+        <h1 itemprop="name">
+            <a class="timeline-article-title" href="/2023/11/13/native-crash-anr-log-analysis/">Native Crash日志分析</a>
         </h1>
     
 
-                
-                    <div class="article-meta">
-                        
+                <div class="article-meta">
+                    
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/09/28/Android-interview-questions/">
-            <time datetime="2016-09-27T16:00:00.000Z" itemprop="datePublished">2016-09-28</time>
+        <a href="/2023/11/13/native-crash-anr-log-analysis/">
+            <time datetime="2023-11-12T16:00:00.000Z" itemprop="datePublished">2023-11-13</time>
         </a>
     </div>
 
 
-                        
+                    
     <div class="article-category">
     	<i class="fa fa-folder"></i>
         <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
     </div>
 
-                        
+                    
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/android/">ANDROID</a>, <a class="tag-link" href="/tags/interview/">Interview</a>
+        <a class="tag-link" href="/tags/native-crash/">Native Crash</a>
     </div>
 
 
-                        <div style="color:#cba11f;float:right">5 min read , Words: 941</div>                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-
-            <p>只整理android面试中涉及到的知识点。不断补充中。。。</p>
-<h4 id="1-Android事件传递机制"><a href="#1-Android事件传递机制" class="headerlink" title="1.Android事件传递机制"></a>1.Android事件传递机制</h4><p>下面内容摘选自《Android开发艺术探索》</p>
-<ul>
-<li>(1) 当一个点击事件发生之后，传递过程遵循如下顺序：<strong>Activity -&gt; Window -&gt; View</strong>。<br>如果一个view的onTouchEvent方法返回false，那么它的父容器的onTouchEvent方法将会被调用，依此类推，如果所有的元素都不处理这个事件，那么这个事件将会最终传递给Activity处理(调用Activity的onTouchEvent方法)。</li>
-</ul>
-<a id="more"></a>
-<ul>
-<li>(2) 正常情况下，一个事件序列只能被一个view拦截并消耗，因为一旦某个元素拦截了某个事件，那么同一个事件序列内的所有事件都会直接交给它处理，并且该元素的<strong>onInterceptTouchEvent</strong>方法不会再被调用了。</li>
-<li>(3) 某个view一旦开始处理事件，如果它不消耗ACTION_DOWN事件，那么<strong>同一事件序列的其他事件都不会再交给它来处理</strong>，并且事件将重新交给它的<strong>父容器去处理</strong>(调用父容器的onTouchEvent方法)；如果它消耗ACTION_DOWN事件，但是不消耗其他类型事件，那么这个点击事件会消失，父容器的onTouchEvent方法不会被调用，<strong>当前view依然可以收到后续的事件</strong>，但是这些事件最后都会传递给Activity处理。</li>
-<li>(4) ViewGroup默认不拦截任何事件，因为它的<strong>onInterceptTouchEvent</strong>方法默认返回false。view没有onInterceptTouchEvent方法，一旦有点击事件传递给它，那么它的onTouchEvent方法就会被调用。</li>
-<li>(5) View的<strong>onTouchEvent</strong>默认都会消耗事件(返回true)，除非它是不可点击的(clickable和longClickable都为false)。view的longClickable默认是false的，clickable则不一定，Button默认是true，而TextView默认是false。</li>
-<li>(6) <strong>View的enable属性不影响onTouchEvent的默认返回值</strong>。哪怕一个view是disable状态，只要它的clickable或者longClickable有一个是true，那么它的onTouchEvent就会返回true。</li>
-<li>(7) 事件传递过程总是<strong>先传递给父元素</strong>，然后再由<strong>父元素分发给子view</strong>，通过<strong>requestDisallowInterceptTouchEvent</strong>方法可以在<strong>子元素中干预父元素的事件分发过程</strong>，但是<strong>ACTION_DOWN事件除外</strong>，即当面对ACTION_DOWN事件时，ViewGroup总是会调用自己的onInterceptTouchEvent方法来询问自己是否要拦截事件。<br>ViewGroup的dispatchTouchEvent方法中有一个标志位<strong>FLAG_DISALLOW_INTERCEPT</strong>，这个标志位就是通过<strong>子view调用requestDisallowInterceptTouchEvent方法</strong>来设置的，一旦设置为true，那么ViewGroup不会拦截该事件。</li>
-<li>(8) 以上结论均可以在书中的源码解析部分得到解释。Window的实现类为PhoneWindow，获取Activity的contentView的方法</li>
-</ul>
-<p>dispatchTouchEvent()返回true，后续事件（ACTION_MOVE、ACTION_UP）会再传递，如果返回false，dispatchTouchEvent()就接收不到ACTION_UP、ACTION_MOVE。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">((ViewGroup)getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
-<h4 id="2-OnTouchListener、onTouchEvent、OnClickListener优先级顺序"><a href="#2-OnTouchListener、onTouchEvent、OnClickListener优先级顺序" class="headerlink" title="2.OnTouchListener、onTouchEvent、OnClickListener优先级顺序"></a>2.OnTouchListener、onTouchEvent、OnClickListener优先级顺序</h4><p>如果给一个view设置了OnTouchListener，那么OnTouchListener中的onTouch方法会被回调。这时事件如何处理还要看<strong>onTouch</strong>的返回值，如果返回false，那么当前view的<strong>onTouchEvent方法</strong>会被调用；如果返回true，那么onTouchEvent方法将不会被调用。<br>在onTouchEvent方法中，如果当前view设置了OnClickListener，那么它的onClick方法会被调用，所以OnClickListener的优先级最低。</p>
-<h3 id="自定义View事件拦截"><a href="#自定义View事件拦截" class="headerlink" title="自定义View事件拦截"></a>自定义View事件拦截</h3><h4 id="1-重写onInterceptTouchEvent"><a href="#1-重写onInterceptTouchEvent" class="headerlink" title="1.重写onInterceptTouchEvent()"></a>1.重写onInterceptTouchEvent()</h4><p>这种是常规写法<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onInterceptTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (ev.getAction()) &#123;</span><br><span class="line">        <span class="keyword">case</span> MotionEvent.ACTION_DOWN: <span class="comment">// 为了子view能够响应事件，当前view ACTION_DOWN一般不拦截</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="comment">// .. 满足条件拦截其他事件</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 配合 onTouchEvent</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">case</span> MotionEvent.ACTION_MOVE:</span><br><span class="line">        <span class="comment">// 当前view 拦截了ACTION_MOVE，并作出响应处理</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-重写dispatchTouchEvent"><a href="#2-重写dispatchTouchEvent" class="headerlink" title="2.重写dispatchTouchEvent"></a>2.重写dispatchTouchEvent</h4><p>这种写法相对少见<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dispatchTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 在super之前处理某些事件，可以阻止事件传递到当前view的onTouchEvent</span></span><br><span class="line">    <span class="keyword">if</span> (statified) &#123;</span><br><span class="line">        <span class="comment">// 比如原有onTouchEvent逻辑复杂，又加了一个单独的view，可以优先让这个view触发事件</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.dispatchTouchEvent(ev);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="3-AsyncTask的方法介绍"><a href="#3-AsyncTask的方法介绍" class="headerlink" title="3.AsyncTask的方法介绍"></a>3.AsyncTask的方法介绍</h4><ul>
-<li><ol>
-<li>onPreExecute()<br>这个方法会在后台任务开始执行之间调用，用于进行一些界面上的初始化操作，比如显示一个进度条对话框等。</li>
-</ol>
-</li>
-<li><ol>
-<li>doInBackground(Params…)<br>这个方法中的所有代码都会在子线程中运行，我们应该在这里去处理所有的耗时任务。任务一旦完成就可以通过return语句来将任务的执行结果进行返回，如果AsyncTask的第三个泛型参数指定的是Void，就可以不返回任务执行结果。注意，在这个方法中是不可以进行UI操作的，如果需要更新UI元素，比如说反馈当前任务的执行进度，可以调用publishProgress(Progress…)方法来完成。</li>
-</ol>
-</li>
-<li><ol>
-<li>onProgressUpdate(Progress…)<br>当在后台任务中调用了publishProgress(Progress…)方法后，这个方法就很快会被调用，方法中携带的参数就是在后台任务中传递过来的。在这个方法中可以对UI进行操作，利用参数中的数值就可以对界面元素进行相应的更新。</li>
-</ol>
-</li>
-<li><ol>
-<li>onPostExecute(Result)<br>当后台任务执行完毕并通过return语句进行返回时，这个方法就很快会被调用。返回的数据会作为参数传递到此方法中，可以利用返回的数据来进行一些UI操作，比如说提醒任务执行的结果，以及关闭掉进度条对话框等。</li>
-</ol>
-</li>
-</ul>
-<h4 id="4-项目中Handler怎么使用？"><a href="#4-项目中Handler怎么使用？" class="headerlink" title="4.项目中Handler怎么使用？"></a>4.项目中Handler怎么使用？</h4><h4 id="5-项目中图片的适配问题怎么解决？"><a href="#5-项目中图片的适配问题怎么解决？" class="headerlink" title="5.项目中图片的适配问题怎么解决？"></a>5.项目中图片的适配问题怎么解决？</h4><ul>
-<li>dpi<br>每英寸点数，全称dots per inch。用来表示屏幕密度，即屏幕物理区域中的像素量。高密度屏幕比低密度屏幕在给定物理区域的像素要多。</li>
-<li>dp<br>即dip，全称device independent pixel。设备独立像素，是一种虚拟像素单位，用于以密度无关方式表示布局维度或位置，以确保在不同密度的屏幕上正常显示UI。在160dpi的设备上，1dp=1px。</li>
-<li><p>density<br>设备的逻辑密度，是dip的缩放因子。以160dpi的屏幕为基线，density=dpi/160。</p>
-  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">getResources().getDisplayMetrics().density</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>sp<br>缩放独立像素，全称scale independent pixel。类似于dp，一般用于设置字体大小，可以根据用户设置的字体大小偏好来缩放。</p>
-</li>
-</ul>
-<p>总结一下图片查找过程：优先匹配最适合的图片→查找密度高的目录（升序）→查找密度低的目录（降序)</p>
-<p>也可以使用.9图片</p>
-<h4 id="6-Android存储敏感信息的方式有？"><a href="#6-Android存储敏感信息的方式有？" class="headerlink" title="6.Android存储敏感信息的方式有？"></a>6.Android存储敏感信息的方式有？</h4><p>使用SharedPreferences, getSharedPreferences 指定为 MODE_PRIVATE<br>运用SQLite数据库<br>保存到 SDCard: FileOutputStream fos = this.openFileOutput(“oauth_1.out”,Context.MODE_WORLD_READABLE);<br>Keystore 也可以保存密钥<br>写入SO 文件<br>结合 ContentProvider 来保存信息<br>上传到服务器由服务器保存<br>采用多进程，放在单独的进程中保存</p>
-<h4 id="7-自定义广播"><a href="#7-自定义广播" class="headerlink" title="7.自定义广播"></a>7.自定义广播</h4><ul>
-<li>继承自BroadcastReceiver</li>
-<li>重写onReceive(Context,Intent)<pre><code>Intent.getAction
-</code></pre></li>
-<li>动态注册（Context.registerReceiver()），静态注册（使用IntentFilter指定action）</li>
-</ul>
-<h4 id="8-加分项"><a href="#8-加分项" class="headerlink" title="8.加分项"></a>8.加分项</h4><ul>
-<li>JNI开发</li>
-<li>性能优化</li>
-<li>优秀作品</li>
-</ul>
-<h4 id="9-Sqlite数据库更新并保留升级前的数据"><a href="#9-Sqlite数据库更新并保留升级前的数据" class="headerlink" title="9.Sqlite数据库更新并保留升级前的数据"></a>9.Sqlite数据库更新并保留升级前的数据</h4><p>我们知道在SQLiteOpenHelper的构造方法:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">super</span>(Context context, String name, SQLiteDatabase.CursorFactory factory, <span class="keyword">int</span> version)</span><br></pre></td></tr></table></figure>
-<p>中最后一个参数表示数据库的版本号.当新的版本号大于当前的version时会调用方法:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">onUpgrade(SQLiteDatabase db, <span class="keyword">int</span> oldVersion, <span class="keyword">int</span> newVersion)</span><br></pre></td></tr></table></figure>
-<p>所以我们的重点是在该方法中实现SQLite数据库版本升级的管理</p>
-<p>对于保留升级前的数据，有两种解决办法：</p>
-<p><strong>SQLite提供了ALTER TABLE命令</strong>，允许用户重命名或添加新的字段到已有表中，但是不能从表中删除字段。并且只能在表的末尾添加字段，比如，为Subscription添加两个字段：</p>
-<ul>
-<li>ALTER TABLE Subscription ADD COLUMN Activation BLOB;</li>
-<li>ALTER TABLE Subscription ADD COLUMN Key BLOB;</li>
-</ul>
-<p><strong>注释</strong>：Sqlite支持BLOB(二进制大对象)数据类型</p>
-<p><strong>保留数据删除原表创建新表</strong>，具体思路是：</p>
-<ul>
-<li>1：将表A重新命名：例如重新命名为：temp_A</li>
-<li>2：创建新表A</li>
-<li>3：将temp_A中的数据【也就是更新前的数据】插入到新表A</li>
-</ul>
-<p>具体操作如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//重命名原来的数据表</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TEMP_SQL_CREATE_TABLE_SUBSCRIBE = <span class="string">"alter table "</span></span><br><span class="line">            + A + <span class="string">" rename to temp_A"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//然后把备份表temp_A中的数据copy到新创建的数据库表A中，这个表A没发生结构上的变化</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String INSERT_SUBSCRIBE = <span class="string">"select 'insert into A (code,name,username,tablename)</span></span><br><span class="line"><span class="string">                        values ("</span>code<span class="string">","</span>name<span class="string">","</span>cnki<span class="string">","</span>tablename<span class="string">")' as insertSQL from temp_A"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除备份表</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DELETE_TEMP_SUBSCRIBE = <span class="string">"delete from temp_A "</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DROP_TEMP_SUBSCRIBE = <span class="string">"drop table if exists temp_A"</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpgrade</span><span class="params">(SQLiteDatabase db, <span class="keyword">int</span> oldVersion, <span class="keyword">int</span> newVersion)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = oldVersion; j &lt;= newVersion; j++) &#123;</span><br><span class="line">            <span class="keyword">switch</span> (j) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">　　　　　　　　　<span class="comment">//创建临时表</span></span><br><span class="line">                db.execSQL(TEMP_SQL_CREATE_TABLE_SUBSCRIBE);</span><br><span class="line">　　 　　　　　　<span class="comment">//执行OnCreate方法，这个方法中放的是表的初始化操作工作，比如创建新表之类的</span></span><br><span class="line">                onCreate(db);</span><br><span class="line">　　　　　　　　　<span class="comment">//删除之前的表里面的默认数据</span></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arrWhereAct.length; i++) &#123;</span><br><span class="line">                    db.execSQL(DELETE_TEMP_SUBSCRIBE + arrWhereAct[i]);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//将临时表中的数据放入表A</span></span><br><span class="line">　　　　　　　　　Cursor cursor = db.rawQuery(INSERT_SUBSCRIBE, <span class="keyword">null</span>);</span><br><span class="line">                <span class="keyword">if</span> (cursor.moveToFirst()) &#123;</span><br><span class="line">                    <span class="keyword">do</span> &#123;</span><br><span class="line">                        db.execSQL(cursor.getString(cursor</span><br><span class="line">                                .getColumnIndex(<span class="string">"insertSQL"</span>)));</span><br><span class="line">                    &#125; <span class="keyword">while</span> (cursor.moveToNext());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                cursor.close();</span><br><span class="line">　　　　　　　　　<span class="comment">//将临时表删除掉</span></span><br><span class="line">                db.execSQL(DROP_TEMP_SUBSCRIBE);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>注意</strong>，为什么要在方法里写for循环，主要是考虑到跨版本升级，比如有的用户一直不升级版本，数据库版本号一直是1，而客户端最新版本其实对应的数据库版本已经是4了，那么我中途可能对数据库做了很多修改，通过这个for循环，可以迭代升级，不会发生错误。</p>
-</blockquote>
-<h4 id="10-AIDL支持的数据类型"><a href="#10-AIDL支持的数据类型" class="headerlink" title="10.AIDL支持的数据类型"></a>10.AIDL支持的数据类型</h4><p>其实AIDL这门语言非常的简单，基本上它的语法和 Java 是一样的，只是在一些细微处有些许差别——毕竟它只是被创造出来简化Android程序员工作的，太复杂不好——所以在这里我就着重的说一下它和 Java 不一样的地方。主要有下面这些点：</p>
-<p><strong>文件类型</strong>：用AIDL书写的文件的后缀是 .aidl，而不是 .java。</p>
-<p><strong>数据类型</strong>：AIDL默认支持一些数据类型，在使用这些数据类型的时候是不需要导包的，但是除了这些类型之外的数据类型，在使用之前必须导包，就算目标文件与当前正在编写的 .aidl 文件在同一个包下——在 Java 中，这种情况是不需要导包的。比如，现在我们编写了两个文件，一个叫做Book.java ，另一个叫做 BookManager.aidl，它们都在 com.lypeer.aidldemo 包下 ，现在我们需要在 .aidl 文件里使用 Book 对象，那么我们就必须在 .aidl 文件里面写上 import com.lypeer.aidldemo.Book; 哪怕 .java 文件和 .aidl 文件就在一个包下。</p>
-<p>   默认支持的数据类型包括：</p>
-<ul>
-<li>Java中的八种基本数据类型，包括 byte，short，int，long，float，double，boolean，char。</li>
-<li>String 类型。</li>
-<li>CharSequence类型。</li>
-<li>List类型：List中的所有元素必须是AIDL支持的类型之一，或者是一个其他AIDL生成的接口，或者是定义的parcelable（下文关于这个会有详解）。List可以使用泛型。</li>
-<li>Map类型：Map中的所有元素必须是AIDL支持的类型之一，或者是一个其他AIDL生成的接口，或者是定义的parcelable。Map是不支持泛型的。</li>
-</ul>
-<p><strong>定向tag</strong>：这是一个极易被忽略的点——这里的“被忽略”指的不是大家都不知道，而是很少人会正确的使用它。在我的理解里，定向tag是这样的：AIDL中的定向tag表示了在跨进程通信中数据的流向，其中<strong>in表示数据只能由客户端流向服务端</strong>，<strong>out表示数据只能由服务端流向客户端</strong>，<strong>而inout则表示数据可在服务端与客户端之间双向流通</strong>。其中，<strong>数据流向是针对在客户端中的那个传入方法的对象而言的</strong>。in为定向tag的话表现为服务端将会接收到一个那个对象的完整数据，但是客户端的那个对象不会因为服务端对传参的修改而发生变动；out的话表现为服务端将会接收到那个对象的的空对象，但是在服务端对接收到的空对象有任何修改之后客户端将会同步变动；inout为定向tag的情况下，服务端将会接收到客户端传来对象的完整信息，并且客户端将会同步服务端对该对象的任何变动。</p>
-<p>另外，Java 中的基本类型和String，CharSequence的定向tag默认且只能是in。还有，请注意，请不要滥用定向tag，而是要根据需要选取合适的——要是不管三七二十一，全都一上来就用inout，等工程大了系统的开销就会大很多——因为排列整理参数的开销是很昂贵的。</p>
-<p><strong>两种AIDL文件</strong>：在我的理解里，所有的AIDL文件大致可以分为两类。<strong>一类是用来定义parcelable对象</strong>，以供其他AIDL文件使用AIDL中非默认支持的数据类型的。<strong>一类是用来定义方法接口</strong>，以供系统使用来完成跨进程通信的。可以看到，两类文件都是在“定义”些什么，而不涉及具体的实现，这就是为什么它叫做“Android接口定义语言”。<br>注：所有的非默认支持数据类型必须通过第一类AIDL文件定义才能被使用。</p>
-<p>下面是两个例子，对于常见的AIDL文件都有所涉及：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Book.aidl</span></span><br><span class="line"><span class="comment">//第一类AIDL文件的例子</span></span><br><span class="line"><span class="comment">//这个文件的作用是引入了一个序列化对象 Book 供其他的AIDL文件使用</span></span><br><span class="line"><span class="comment">//注意：Book.aidl与Book.java的包名应当是一样的</span></span><br><span class="line"><span class="keyword">package</span> com.lypeer.ipcclient;</span><br><span class="line"></span><br><span class="line"><span class="comment">//注意parcelable是小写</span></span><br><span class="line">parcelable Book;</span><br><span class="line"></span><br><span class="line"><span class="comment">// BookManager.aidl</span></span><br><span class="line"><span class="comment">//第二类AIDL文件的例子</span></span><br><span class="line"><span class="keyword">package</span> com.lypeer.ipcclient;</span><br><span class="line"><span class="comment">//导入所需要使用的非默认支持数据类型的包</span></span><br><span class="line"><span class="keyword">import</span> com.lypeer.ipcclient.Book;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">BookManager</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//所有的返回值前都不需要加任何东西，不管是什么数据类型</span></span><br><span class="line">    <span class="function">List&lt;Book&gt; <span class="title">getBooks</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">Book <span class="title">getBook</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getBookCount</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//传参时除了Java基本类型以及String，CharSequence之外的类型</span></span><br><span class="line">    <span class="comment">//都需要在前面加上定向tag，具体加什么量需而定</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setBookPrice</span><span class="params">(in Book book , <span class="keyword">int</span> price)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">void</span> <span class="title">setBookName</span><span class="params">(in Book book , String name)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">void</span> <span class="title">addBookIn</span><span class="params">(in Book book)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addBookOut</span><span class="params">(out Book book)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addBookInout</span><span class="params">(inout Book book)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="11-Android布局的优化方案"><a href="#11-Android布局的优化方案" class="headerlink" title="11.Android布局的优化方案"></a>11.Android布局的优化方案</h4><ul>
-<li>层级观察器(Hierarchy Viewer)：</li>
-<li>使用layoutopt工具输出</li>
-<li>重用布局文件：<include></include></li>
-<li>使用&lt; merge /&gt;标签减少布局的嵌套层次；</li>
-<li>仅在需要时才加载布局，ViewStub</li>
-</ul>
-<h4 id="12-Android性能调优"><a href="#12-Android性能调优" class="headerlink" title="12.Android性能调优"></a>12.Android性能调优</h4><ul>
-<li>UI卡顿</li>
-<li>ANR异常</li>
-<li>内存性能优化</li>
-<li>Android API使用：<pre><code>StringBuffer/String、HashMap/ArrayMap/SparseArray
-</code></pre></li>
-</ul>
-<p>性能调优参考这篇博客<a href="http://blog.csdn.net/yanbober/article/details/48394201" target="_blank" rel="noopener">Andoid应用开发性能优化完全分析</a></p>
-<h4 id="使用-DialogFragment-创建对话框"><a href="#使用-DialogFragment-创建对话框" class="headerlink" title="使用 DialogFragment 创建对话框"></a>使用 DialogFragment 创建对话框</h4><p>使用DialogFragment至少需要实现onCreateView或者onCreateDIalog方法。onCreateView即使用定义的xml布局文件展示Dialog。onCreateDialog即利用AlertDialog或者Dialog创建出Dialog。</p>
-<blockquote>
-<p>注：官方不推荐直接使用Dialog创建对话框。</p>
-</blockquote>
-<p>没有布局的Fragment的作用<br>没有布局文件Fragment实际上是为了保存，当Activity重启时，保存大量数据准备的</p>
-<p>在运行时配置发生变化时，在Fragment中保存有状态的对象<br>a) 继承Fragment，声明引用指向你的有状态的对象<br>b) 当Fragment创建时调用setRetainInstance(boolean)<br>c) 把Fragment实例添加到Activity中<br>d) 当Activity重新启动后，使用FragmentManager对Fragment进行恢复</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> android.app.Fragment;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment"> * 保存对象的Fragment </span></span><br><span class="line"><span class="comment"> *  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zhy </span></span><br><span class="line"><span class="comment"> *  </span></span><br><span class="line"><span class="comment"> */</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OtherRetainedFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span>  </span></span><br><span class="line"><span class="class"></span>&#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// data object we want to retain  </span></span><br><span class="line">    <span class="comment">// 保存一个异步的任务  </span></span><br><span class="line">    <span class="keyword">private</span> MyAsyncTask data;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// this method is only called once for this fragment  </span></span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span>  </span></span><br><span class="line"><span class="function">    </span>&#123;  </span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);  </span><br><span class="line">        <span class="comment">// retain this fragment  </span></span><br><span class="line">        setRetainInstance(<span class="keyword">true</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setData</span><span class="params">(MyAsyncTask data)</span>  </span></span><br><span class="line"><span class="function">    </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.data = data;  </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> MyAsyncTask <span class="title">getData</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>具体参考：<a href="http://blog.csdn.net/lmj623565791/article/details/37936275" target="_blank" rel="noopener">Android 屏幕旋转 处理 AsyncTask 和 ProgressDialog 的最佳方案</a></p>
-<hr>
-<div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="http://blog.conorlee.top/blogimages/attribution_88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://conorlee.top/" target="_blank" rel="noopener">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
-
-<p>本文链接：<a href="http://agehua.github.io/2016/09/28/Android-interview-questions/">http://agehua.github.io/2016/09/28/Android-interview-questions/</a></p>
-
-
-            
-  <!-- donate css -->
-  <style type="text/css">
-      .center {
-          text-align: center;
-      }
-      .hidden {
-          display: none;
-      }
-         
-    .donate_bar a.btn_donate{
-      display: inline-block;
-      width: 82px;
-      height: 82px;
-      background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
-      _background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
-      -webkit-transition: background 0s;
-      -moz-transition: background 0s;
-      -o-transition: background 0s;
-      -ms-transition: background 0s;
-      transition: background 0s;
-
-    }
-
-    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
-    .donate_bar .donate_txt {
-      display: block;
-      color: #9d9d9d;
-      font: 14px/2 "Microsoft Yahei";
-    }
-    .bold{ font-weight: bold; }
-  </style>
-  <!-- /css -->
-
-<!-- Donate Module -->
-<div id="donate_module">
-
-  <!-- btn_donate & tips -->
-  <div id="donate_board" class="donate_bar center">
-      <br>
-      ------------------------------------------------------------------------------------------------------------------------------
-      <br>
-    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
-    <span class="donate_txt">
-      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
-    </span>
-  </div>
-  <!-- /btn_donate & tips -->
-
-  <!-- donate guide -->
-
-  <div id="donate_guide" class="donate_bar center hidden" >
-        <br>
-      ------------------------------------------------------------------------------------------------------------------------------
-      <br>
-      <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
-        <a href="http://cdn.conorlee.top/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
-          <img src="http://cdn.conorlee.top/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
-          style="float:left;"/>
-        </a>
-        <a href="http://cdn.conorlee.top/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
-          <img src="http://cdn.conorlee.top/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
-          style="float:left;"/>
-        </a>
-      </div>
-      <div style="display:inline-block;">
-          &nbsp;
-          <span class="donate_txt">
-              Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
-          </span>
-      </div>
-
-  </div>
-  <!-- /donate guide -->
-
-  <!-- donate script -->
-  <script type="text/javascript">
-    document.getElementById('btn_donate').onclick = function() {
-      $('#donate_board').addClass('hidden');
-      $('#donate_guide').removeClass('hidden');
-    }
-
-    function donate_on_web(){
-      $('#donate').submit();
-        }
-
-    var original_window_onload = window.onload;
-        window.onload = function () {
-            if (original_window_onload) {
-                original_window_onload();
-            }
-            document.getElementById('donate_board_wdg').className='hidden';
-    }
-  </script>
-  <!-- /donate script -->
-</div>
-<!-- /Donate Module -->
-
-            
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-          <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2016/09/28/Android-interview-questions/" data-id="clp0uhpzv001ogh4743otiibl" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-          
-    
-        <a href="http://agehua.github.io/2016/09/28/Android-interview-questions/#comments" class="article-comment-link">Comments</a>
-    
-
-
-        </footer>
-
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2016/10/12/gradle-learning/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Newer</strong>
-            <div class="article-nav-title">
-                
-                    gradle 学习
-                
+                </div>
             </div>
+        </div>
+    
+        <div class="timeline-row">
+            <span class="node"></span>
+            <div class="content">
+                
+    
+        <h1 itemprop="name">
+            <a class="timeline-article-title" href="/2023/11/02/native-crash-principle/">Native Crash捕获原理</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2023/11/02/native-crash-principle/">
+            <time datetime="2023-11-01T16:00:00.000Z" itemprop="datePublished">2023-11-02</time>
         </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/native-crash/">Native Crash</a>
+    </div>
+
+
+                </div>
+            </div>
+        </div>
     
-    
-        <a href="/2016/09/22/quit-whole-application/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">Android 退出整个应用程序解决方案</div>
-        </a>
-    
-</nav>
-
-
-    
-    <script>
-        pangu.spacingPage();
-    </script>
-
-
-    
-    <section id="comments" class="comments">
-    
-        
-<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-var gitment = new Gitment({
-  id: '2016/09/28/Android-interview-questions/', // 可选。默认为 location.href
-  title: 'Android面试知识点整理',
-  owner: 'agehua',
-  repo: 'agehua.me',
-  oauth: {
-    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
-    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
-  },
-})
-gitment.render('comments')
-</script>
-
-    
-  </section>
-
-
-
-</article>
-
-
+</div>
 </section>
             
                 <aside id="sidebar">
@@ -1105,8 +756,8 @@ gitment.render('comments')
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 var gitment = new Gitment({
-  id: '2016/09/28/Android-interview-questions/', // 可选。默认为 location.href
-  title: 'Android面试知识点整理',
+  id: 'tags/native-crash/index.html', // 可选。默认为 location.href
+  title: 'undefined',
   owner: 'agehua',
   repo: 'agehua.me',
   oauth: {

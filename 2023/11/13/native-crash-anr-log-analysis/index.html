@@ -5,21 +5,21 @@
     <meta name="baidu-site-verification" content="8WKGBCPPKp" />
     <meta charset="utf-8">
     
-    <title>NA Crash日志分析 | Agehua</title>
+    <title>Native Crash日志分析 | Agehua</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="本文主要介绍Native Crash和ANR问题定位（如何分析log日志）">
-<meta name="keywords" content="NA Crash">
+    <meta name="description" content="本文是上一篇《Native Crash 捕获原理》的姊妹篇，主要介绍如何分析Native Crash日志，以及常见的Native Crash类型">
+<meta name="keywords" content="Native Crash">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NA Crash日志分析">
+<meta property="og:title" content="Native Crash日志分析">
 <meta property="og:url" content="http://agehua.github.io/2023/11/13/native-crash-anr-log-analysis/index.html">
 <meta property="og:site_name" content="Agehua">
-<meta property="og:description" content="本文主要介绍Native Crash和ANR问题定位（如何分析log日志）">
+<meta property="og:description" content="本文是上一篇《Native Crash 捕获原理》的姊妹篇，主要介绍如何分析Native Crash日志，以及常见的Native Crash类型">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://cdn.conorlee.top/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg">
-<meta property="og:updated_time" content="2023-11-16T03:42:40.871Z">
+<meta property="og:updated_time" content="2023-11-16T07:02:23.047Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NA Crash日志分析">
-<meta name="twitter:description" content="本文主要介绍Native Crash和ANR问题定位（如何分析log日志）">
+<meta name="twitter:title" content="Native Crash日志分析">
+<meta name="twitter:description" content="本文是上一篇《Native Crash 捕获原理》的姊妹篇，主要介绍如何分析Native Crash日志，以及常见的Native Crash类型">
 <meta name="twitter:image" content="https://cdn.conorlee.top/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg">
     
 
@@ -518,7 +518,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                 
     
         <h1 class="article-title" itemprop="name">
-            NA Crash日志分析
+            Native Crash日志分析
         </h1>
     
 
@@ -542,11 +542,11 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/na-crash/">NA Crash</a>
+        <a class="tag-link" href="/tags/native-crash/">Native Crash</a>
     </div>
 
 
-                        <div style="color:#cba11f;float:right">5 min read , Words: 875</div>                    </div>
+                        <div style="color:#cba11f;float:right">5 min read , Words: 873</div>                    </div>
                 
             </header>
         
@@ -554,10 +554,10 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
         <div class="article-entry" itemprop="articleBody">
         
 
-            <p>本文主要介绍Native Crash和ANR问题定位（如何分析log日志）<br><a id="more"></a></p>
+            <p>本文是上一篇《<a href="https://conorlee.top/2023/11/02/native-crash-principle/" target="_blank" rel="noopener">Native Crash 捕获原理</a>》的姊妹篇，主要介绍如何分析Native Crash日志，以及常见的Native Crash类型<br><a id="more"></a></p>
 <h3 id="NA-Crash日志对比"><a href="#NA-Crash日志对比" class="headerlink" title="NA Crash日志对比"></a>NA Crash日志对比</h3><p>Logcat中抓到的日志：<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">A  Fatal signal <span class="number">11</span> (SIGSEGV), code <span class="number">1</span> (SEGV_MAPERR), fault addr <span class="number">0x0</span> in tid <span class="number">14206</span> (dodola.breakpad), pid <span class="number">14206</span> (dodola.breakpad)</span><br><span class="line">Cmdline: com.dodola.breakpad</span><br><span class="line">pid: <span class="number">14206</span>, tid: <span class="number">14206</span>, name: dodola.breakpad  &gt;&gt;&gt; com.dodola.breakpad &lt;&lt;&lt;</span><br><span class="line">	#00 pc 000000000000f6d0  /data/app/~~thPbPJ0ZokAxuuRZPsdShQ==/com.dodola.breakpad-_xwNfmDQiQWDDcg5TlCGqA==/lib/arm64/libcrash-lib.so (Crash()+20) (BuildId: ad36e849968841628dab3afed7e6010c4c500b02)</span><br><span class="line">	#01 pc 000000000000f774  /data/app/~~thPbPJ0ZokAxuuRZPsdShQ==/com.dodola.breakpad-_xwNfmDQiQWDDcg5TlCGqA==/lib/arm64/libcrash-lib.so (Java_com_dodola_breakpad_MainActivity_crash+20) (BuildId: ad36e849968841628dab3afed7e6010c4c500b02)</span><br><span class="line">	#04 pc 000000000031cad4  /data/data/com.dodola.breakpad/code_cache/.overlay/base.apk/classes.dex (com.dodola.breakpad.MainActivity$1$1.run+8)</span><br><span class="line">	#08 pc 000000000031cb1c  /data/data/com.dodola.breakpad/code_cache/.overlay/base.apk/classes.dex (com.dodola.breakpad.MainActivity$1.onClick+20)</span><br></pre></td></tr></table></figure></p>
 <p>APM SDK抓到的日志（理想状态）：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Native Crash, signal: <span class="number">11</span>, tname: dodola.breakpad, pid: <span class="number">13283</span>, tid: <span class="number">13283</span>, code: <span class="number">1</span>, error: <span class="number">0</span></span><br><span class="line">Stack trace is      </span><br><span class="line">    #0, pc 61075, fname: /data/app/~~kP4phbJym0CIi4w4vSCamQ==/com.dodola.breakpad-qFT3bN7o6AtUgPbpqY5P0Q==/lib/arm64/libcrash-lib.so, (sname: Java_com_dodola_breakpad_MainActivity_stringFromJNI, saddr: 55)   </span><br><span class="line">    #1, pc 61019, fname: /data/app/~~kP4phbJym0CIi4w4vSCamQ==/com.dodola.breakpad-qFT3bN7o6AtUgPbpqY5P0Q==/lib/arm64/libcrash-lib.so, (sname: Java_com_dodola_breakpad_MainActivity_crash, saddr: 15)   </span><br><span class="line">    #2, pc 61003, fname: /data/app/~~kP4phbJym0CIi4w4vSCamQ==/com.dodola.breakpad-qFT3bN7o6AtUgPbpqY5P0Q==/lib/arm64/libcrash-lib.so, (sname: _Z5Crashv, saddr: 15)     </span><br><span class="line">    #3, pc 60987, fname: /data/app/~~kP4phbJym0CIi4w4vSCamQ==/com.dodola.breakpad-qFT3bN7o6AtUgPbpqY5P0Q==/lib/arm64/libcrash-lib.so</span><br><span class="line">                                                                                                    </span><br><span class="line"><span class="function">Java <span class="title">thread</span><span class="params">(main)</span>, stack is : </span></span><br><span class="line"><span class="function">    com.dodola.breakpad.MainActivity.<span class="title">crash</span><span class="params">()</span> -2</span></span><br><span class="line"><span class="function">    com.dodola.breakpad.MainActivity$1$1.<span class="title">run</span><span class="params">()</span> 63</span></span><br><span class="line"><span class="function">    java.lang.Thread.<span class="title">run</span><span class="params">()</span> 1,015</span></span><br><span class="line"><span class="function">    com.dodola.breakpad.MainActivity$1.<span class="title">onClick</span><span class="params">()</span> 65</span></span><br><span class="line"><span class="function">    android.view.View.<span class="title">performClick</span><span class="params">()</span> 7,614</span></span><br><span class="line"><span class="function">    android.view.View.<span class="title">performClickInternal</span><span class="params">()</span> 7,591</span></span><br><span class="line"><span class="function">    android.view.View.-$$Nest$<span class="title">mperformClickInternal</span><span class="params">()</span> 0</span></span><br><span class="line"><span class="function">    android.view.View$PerformClick.<span class="title">run</span><span class="params">()</span> 29,809</span></span><br><span class="line"><span class="function">    android.os.Handler.<span class="title">handleCallback</span><span class="params">()</span> 942</span></span><br><span class="line"><span class="function">    android.os.Handler.<span class="title">dispatchMessage</span><span class="params">()</span> 99</span></span><br><span class="line"><span class="function">    android.os.Looper.<span class="title">loopOnce</span><span class="params">()</span> 223</span></span><br><span class="line"><span class="function">    android.os.Looper.<span class="title">loop</span><span class="params">()</span> 324</span></span><br><span class="line"><span class="function">    android.app.ActivityThread.<span class="title">main</span><span class="params">()</span> 8,546</span></span><br><span class="line"><span class="function">    java.lang.reflect.Method.<span class="title">invoke</span><span class="params">()</span> -2</span></span><br><span class="line"><span class="function">    com.android.internal.os.RuntimeInit$MethodAndArgsCaller.<span class="title">run</span><span class="params">()</span> 582</span></span><br><span class="line"><span class="function">    com.android.internal.os.ZygoteInit.<span class="title">main</span><span class="params">()</span> 1,061</span></span><br></pre></td></tr></table></figure></p>
-<p>信息有：</p>
+<p>上面的关键信息有：</p>
 <ul>
 <li>NA Crash，Signal 11 -&gt; SIGSEGV -&gt; 非法内存操作，空指针操作</li>
 <li>进程名，包名只展示后15个字符</li>
@@ -573,7 +573,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 </li>
 <li>Java调用堆栈（根据线程名匹配）</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">typedef struct &#123;</span><br><span class="line">  <span class="comment">/* Pathname of shared object that contains address. */</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">char</span>* dli_fname;</span><br><span class="line">  <span class="comment">/* Address at which shared object is loaded. */</span></span><br><span class="line">  <span class="keyword">void</span>* dli_fbase;</span><br><span class="line">  <span class="comment">/* Name of nearest symbol with address lower than addr. */</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">char</span>* dli_sname;</span><br><span class="line">  <span class="comment">/* Exact address of symbol named in dli_sname. */</span></span><br><span class="line">  <span class="keyword">void</span>* dli_saddr;</span><br><span class="line">&#125; Dl_info;</span><br></pre></td></tr></table></figure>
+<p>Dl_info 结构体如下：<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">  <span class="comment">/* Pathname of shared object that contains address. */</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">char</span>* dli_fname;</span><br><span class="line">  <span class="comment">/* Address at which shared object is loaded. */</span></span><br><span class="line">  <span class="keyword">void</span>* dli_fbase;</span><br><span class="line">  <span class="comment">/* Name of nearest symbol with address lower than addr. */</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">char</span>* dli_sname;</span><br><span class="line">  <span class="comment">/* Exact address of symbol named in dli_sname. */</span></span><br><span class="line">  <span class="keyword">void</span>* dli_saddr;</span><br><span class="line">&#125; Dl_info;</span><br></pre></td></tr></table></figure></p>
 <h3 id="根据日志堆栈定位到代码"><a href="#根据日志堆栈定位到代码" class="headerlink" title="根据日志堆栈定位到代码"></a>根据日志堆栈定位到代码</h3><h4 id="使用addr2line和objdump命令"><a href="#使用addr2line和objdump命令" class="headerlink" title="使用addr2line和objdump命令"></a>使用addr2line和objdump命令</h4><p>这两个命令行工具已在NDK中集成，在我的mac上地址如下：<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">/Users/xxx/Library/Android/sdk/ndk/<span class="number">21.4</span><span class="number">.7075529</span>/toolchains/aarch64-linux-android<span class="number">-4.9</span>/prebuilt/darwin-x86_64/bin</span><br></pre></td></tr></table></figure></p>
 <h4 id="addr2line-工具可以帮助定位到代码行号"><a href="#addr2line-工具可以帮助定位到代码行号" class="headerlink" title="addr2line 工具可以帮助定位到代码行号"></a>addr2line 工具可以帮助定位到代码行号</h4><p>执行如下的命令，多个指针地址可以在一个命令中带入，以空格隔开即可：<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">./aarch64-linux-android-addr2line -e /Users/xxx/StudioProjects/NativeCrash1/NativeCrashCatcher/app/build/intermediates/cmake/normDebug/obj/arm64-v8a/libcrash-lib.so <span class="number">000000000000f</span>6d0 <span class="number">000000000000f</span>774</span><br></pre></td></tr></table></figure></p>
 <p>结果如下：<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">/Users/xxx/StudioProjects/NativeCrash1/NativeCrashCatcher/app/.cxx/Debug/<span class="number">2b</span>1z3a2r/arm64-v8a/../../../../src/main/cpp/crash.cpp:<span class="number">13</span></span><br><span class="line">/Users/xxx/StudioProjects/NativeCrash1/NativeCrashCatcher/app/.cxx/Debug/<span class="number">2b</span>1z3a2r/arm64-v8a/../../../../src/main/cpp/crash.cpp:<span class="number">29</span></span><br></pre></td></tr></table></figure></p>
@@ -815,11 +815,6 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 </tr>
 </tbody>
 </table>
-<p>####<br><a href="https://jtl.jiduprod.com/peqa/apm/abnormal-analysis/abnormal-detail/116218?env=prod_publish" target="_blank" rel="noopener">https://jtl.jiduprod.com/peqa/apm/abnormal-analysis/abnormal-detail/116218?env=prod_publish</a></p>
-<p><a href="https://jtl.jiduprod.com/peqa/apm/abnormal-analysis/abnormal-detail/113142?env=staging_common" target="_blank" rel="noopener">https://jtl.jiduprod.com/peqa/apm/abnormal-analysis/abnormal-detail/113142?env=staging_common</a></p>
-<p><a href="https://jtl.jiduprod.com/peqa/apm/abnormal-analysis/abnormal-detail/108449?env=staging_common" target="_blank" rel="noopener">https://jtl.jiduprod.com/peqa/apm/abnormal-analysis/abnormal-detail/108449?env=staging_common</a></p>
-<p>找不到java层对应的线程：<br><a href="https://jtl.jiduprod.com/peqa/apm/abnormal-analysis/abnormal-detail/109892?env=staging_common" target="_blank" rel="noopener">https://jtl.jiduprod.com/peqa/apm/abnormal-analysis/abnormal-detail/109892?env=staging_common</a></p>
-<p>filament 堆栈<br><a href="https://jtl.jiduprod.com/peqa/apm/abnormal-analysis/abnormal-detail/117583?env=staging_common" target="_blank" rel="noopener">https://jtl.jiduprod.com/peqa/apm/abnormal-analysis/abnormal-detail/117583?env=staging_common</a></p>
 <hr>
 <div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="http://blog.conorlee.top/blogimages/attribution_88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://conorlee.top/" target="_blank" rel="noopener">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
 
@@ -939,7 +934,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2023/11/13/native-crash-anr-log-analysis/" data-id="clp0nxr4f007k8b47797xi08f" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2023/11/13/native-crash-anr-log-analysis/" data-id="clp0uhq1h007ggh47nsi4oyvx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1021,7 +1016,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     
         <a href="/2023/11/02/native-crash-principle/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">NA Crash捕获原理</div>
+            <div class="article-nav-title">Native Crash捕获原理</div>
         </a>
     
 </nav>
@@ -1042,7 +1037,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 <script>
 var gitment = new Gitment({
   id: '2023/11/13/native-crash-anr-log-analysis/', // 可选。默认为 location.href
-  title: 'NA Crash日志分析',
+  title: 'Native Crash日志分析',
   owner: 'agehua',
   repo: 'agehua.me',
   oauth: {
@@ -1078,7 +1073,7 @@ gitment.render('comments')
                             <a href="/2023/11/13/native-crash-anr-log-analysis/" class="thumbnail">
     
     
-        <span style="background-image:url(https://cdn.conorlee.top/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg)" alt="NA Crash日志分析" class="thumbnail-image"></span>
+        <span style="background-image:url(https://cdn.conorlee.top/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg)" alt="Native Crash日志分析" class="thumbnail-image"></span>
     
 </a>
 
@@ -1086,7 +1081,7 @@ gitment.render('comments')
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2023/11/13/native-crash-anr-log-analysis/" class="title">NA Crash日志分析</a></p>
+                            <p class="item-title"><a href="/2023/11/13/native-crash-anr-log-analysis/" class="title">Native Crash日志分析</a></p>
                             <p class="item-date"><time datetime="2023-11-12T16:00:00.000Z" itemprop="datePublished">2023-11-13</time></p>
                         </div>
                     </li>
@@ -1097,7 +1092,7 @@ gitment.render('comments')
                             <a href="/2023/11/02/native-crash-principle/" class="thumbnail">
     
     
-        <span style="background-image:url(https://cdn.conorlee.top/Houses%20in%20Auvers.jpg)" alt="NA Crash捕获原理" class="thumbnail-image"></span>
+        <span style="background-image:url(https://cdn.conorlee.top/Houses%20in%20Auvers.jpg)" alt="Native Crash捕获原理" class="thumbnail-image"></span>
     
 </a>
 
@@ -1105,7 +1100,7 @@ gitment.render('comments')
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2023/11/02/native-crash-principle/" class="title">NA Crash捕获原理</a></p>
+                            <p class="item-title"><a href="/2023/11/02/native-crash-principle/" class="title">Native Crash捕获原理</a></p>
                             <p class="item-date"><time datetime="2023-11-01T16:00:00.000Z" itemprop="datePublished">2023-11-02</time></p>
                         </div>
                     </li>
@@ -1186,7 +1181,7 @@ gitment.render('comments')
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/agp/" style="font-size: 11.67px;">AGP</a> <a href="/tags/aidl/" style="font-size: 13.33px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/anr/" style="font-size: 13.33px;">ANR</a> <a href="/tags/aop/" style="font-size: 10px;">AOP</a> <a href="/tags/aosp/" style="font-size: 11.67px;">AOSP</a> <a href="/tags/asm/" style="font-size: 10px;">ASM</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-source-code/" style="font-size: 18.33px;">Android Source Code</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 11.67px;">Annotation</a> <a href="/tags/asyncinflate/" style="font-size: 10px;">AsyncInflate</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 16.67px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16.67px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/constraintlayout/" style="font-size: 11.67px;">ConstraintLayout</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview/" style="font-size: 16.67px;">Interview</a> <a href="/tags/jni/" style="font-size: 13.33px;">JNI</a> <a href="/tags/jvm/" style="font-size: 11.67px;">JVM</a> <a href="/tags/java/" style="font-size: 15px;">Java</a> <a href="/tags/javascript/" style="font-size: 11.67px;">JavaScript</a> <a href="/tags/kotlin/" style="font-size: 11.67px;">Kotlin</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 11.67px;">Looper</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/na-crash/" style="font-size: 11.67px;">NA Crash</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 11.67px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 11.67px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 16.67px;">RecyclerView</a> <a href="/tags/recyclerview-optimization/" style="font-size: 10px;">RecyclerView optimization</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 11.67px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/transform/" style="font-size: 10px;">Transform</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 11.67px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/multi-process/" style="font-size: 11.67px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/picture-in-picture/" style="font-size: 10px;">picture-in-picture</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 11.67px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 13.33px;">toastmaster</a> <a href="/tags/view-scroll/" style="font-size: 10px;">view scroll</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/agp/" style="font-size: 11.67px;">AGP</a> <a href="/tags/aidl/" style="font-size: 13.33px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/anr/" style="font-size: 13.33px;">ANR</a> <a href="/tags/aop/" style="font-size: 10px;">AOP</a> <a href="/tags/aosp/" style="font-size: 11.67px;">AOSP</a> <a href="/tags/asm/" style="font-size: 10px;">ASM</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-source-code/" style="font-size: 18.33px;">Android Source Code</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 11.67px;">Annotation</a> <a href="/tags/asyncinflate/" style="font-size: 10px;">AsyncInflate</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 16.67px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16.67px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/constraintlayout/" style="font-size: 11.67px;">ConstraintLayout</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview/" style="font-size: 16.67px;">Interview</a> <a href="/tags/jni/" style="font-size: 13.33px;">JNI</a> <a href="/tags/jvm/" style="font-size: 11.67px;">JVM</a> <a href="/tags/java/" style="font-size: 15px;">Java</a> <a href="/tags/javascript/" style="font-size: 11.67px;">JavaScript</a> <a href="/tags/kotlin/" style="font-size: 11.67px;">Kotlin</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 11.67px;">Looper</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/native-crash/" style="font-size: 11.67px;">Native Crash</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 11.67px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 11.67px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 16.67px;">RecyclerView</a> <a href="/tags/recyclerview-optimization/" style="font-size: 10px;">RecyclerView optimization</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 11.67px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/transform/" style="font-size: 10px;">Transform</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 11.67px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/multi-process/" style="font-size: 11.67px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/picture-in-picture/" style="font-size: 10px;">picture-in-picture</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 11.67px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 13.33px;">toastmaster</a> <a href="/tags/view-scroll/" style="font-size: 10px;">view scroll</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
         </div>
     </div>
 
@@ -1235,7 +1230,7 @@ gitment.render('comments')
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2023 Jixin Li<br>
+            &copy; 2023 ConorLee<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
@@ -1247,7 +1242,7 @@ gitment.render('comments')
 <script>
 var gitment = new Gitment({
   id: '2023/11/13/native-crash-anr-log-analysis/', // 可选。默认为 location.href
-  title: 'NA Crash日志分析',
+  title: 'Native Crash日志分析',
   owner: 'agehua',
   repo: 'agehua.me',
   oauth: {
