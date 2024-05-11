@@ -4,12 +4,32 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2023/11/13/native-crash-anr-log-analysis/</loc>
-    <lastmod>2023-11-20T07:33:10.087Z</lastmod>
+    <loc>http://agehua.github.io/2024/04/24/jacoco-test-coverage/</loc>
+    <lastmod>2024-05-11T02:58:29.867Z</lastmod>
     <data>
         <display>
-        <title>Native Crash日志分析</title>
-        <pubTime>2023-11-12T16:00:00.000Z</pubTime>
+        <title>代码覆盖率统计——集成Jacoco</title>
+        <pubTime>2024-04-23T16:00:00.000Z</pubTime>
+        
+        <tag>Jacoco</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2023/11/02/native-crash-principle/</loc>
+    <lastmod>2023-11-20T08:37:23.002Z</lastmod>
+    <data>
+        <display>
+        <title>Native Crash捕获原理</title>
+        <pubTime>2023-11-01T16:00:00.000Z</pubTime>
         
         <tag>Native Crash</tag>
          
@@ -24,12 +44,12 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2023/11/02/native-crash-principle/</loc>
-    <lastmod>2023-11-20T07:33:06.311Z</lastmod>
+    <loc>http://agehua.github.io/2023/11/13/native-crash-anr-log-analysis/</loc>
+    <lastmod>2023-11-20T07:33:10.087Z</lastmod>
     <data>
         <display>
-        <title>Native Crash捕获原理</title>
-        <pubTime>2023-11-01T16:00:00.000Z</pubTime>
+        <title>Native Crash日志分析</title>
+        <pubTime>2023-11-12T16:00:00.000Z</pubTime>
         
         <tag>Native Crash</tag>
          
@@ -635,14 +655,16 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2019/05/27/TCP-Three-way-Handshake/</loc>
+    <loc>http://agehua.github.io/2019/01/26/Android-request-memory-leaks/</loc>
     <lastmod>2023-11-16T03:42:40.850Z</lastmod>
     <data>
         <display>
-        <title>TCP三次握手解读</title>
-        <pubTime>2019-05-26T16:00:00.000Z</pubTime>
+        <title>Android避免网络请求造成内存泄漏</title>
+        <pubTime>2019-01-25T16:00:00.000Z</pubTime>
         
-        <tag>TCP</tag>
+        <tag>Memory leaks</tag>
+         
+        <tag>net request</tag>
          
          
            
@@ -675,41 +697,19 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2019/01/26/Android-request-memory-leaks/</loc>
+    <loc>http://agehua.github.io/2019/05/27/TCP-Three-way-Handshake/</loc>
     <lastmod>2023-11-16T03:42:40.850Z</lastmod>
     <data>
         <display>
-        <title>Android避免网络请求造成内存泄漏</title>
-        <pubTime>2019-01-25T16:00:00.000Z</pubTime>
+        <title>TCP三次握手解读</title>
+        <pubTime>2019-05-26T16:00:00.000Z</pubTime>
         
-        <tag>Memory leaks</tag>
-         
-        <tag>net request</tag>
+        <tag>TCP</tag>
          
          
            
              
               <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://agehua.github.io/2018/06/26/Toastmaster-md-introduction/</loc>
-    <lastmod>2023-11-16T03:42:40.849Z</lastmod>
-    <data>
-        <display>
-        <title>投马-Markdown介绍</title>
-        <pubTime>2018-06-25T16:00:00.000Z</pubTime>
-        
-        <tag>toastmaster</tag>
-         
-         
-           
-             
-              <breadCrumb title="english" url="http://agehua.github.io/categories/english/"/>
           
         </display>
     </data>
@@ -752,6 +752,26 @@
            
              
               <breadCrumb title="Java" url="http://agehua.github.io/categories/java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2018/06/26/Toastmaster-md-introduction/</loc>
+    <lastmod>2023-11-16T03:42:40.849Z</lastmod>
+    <data>
+        <display>
+        <title>投马-Markdown介绍</title>
+        <pubTime>2018-06-25T16:00:00.000Z</pubTime>
+        
+        <tag>toastmaster</tag>
+         
+         
+           
+             
+              <breadCrumb title="english" url="http://agehua.github.io/categories/english/"/>
           
         </display>
     </data>
@@ -823,6 +843,26 @@
 
     
   <url>
+    <loc>http://agehua.github.io/2018/02/24/Mac-terminal-command/</loc>
+    <lastmod>2023-11-16T03:42:40.846Z</lastmod>
+    <data>
+        <display>
+        <title>mac终端命令大全介绍</title>
+        <pubTime>2018-02-23T16:00:00.000Z</pubTime>
+        
+        <tag>CMD</tag>
+         
+         
+           
+             
+              <breadCrumb title="Mac" url="http://agehua.github.io/categories/mac/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://agehua.github.io/2018/01/08/Toastmaster-self-introduction/</loc>
     <lastmod>2023-11-16T03:42:40.846Z</lastmod>
     <data>
@@ -838,26 +878,6 @@
            
              
               <breadCrumb title="english" url="http://agehua.github.io/categories/english/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://agehua.github.io/2018/02/24/Mac-terminal-command/</loc>
-    <lastmod>2023-11-16T03:42:40.846Z</lastmod>
-    <data>
-        <display>
-        <title>mac终端命令大全介绍</title>
-        <pubTime>2018-02-23T16:00:00.000Z</pubTime>
-        
-        <tag>CMD</tag>
-         
-         
-           
-             
-              <breadCrumb title="Mac" url="http://agehua.github.io/categories/mac/"/>
           
         </display>
     </data>
@@ -957,6 +977,28 @@
 
     
   <url>
+    <loc>http://agehua.github.io/2017/08/17/IntervieweeQuestions/</loc>
+    <lastmod>2023-11-16T03:42:40.842Z</lastmod>
+    <data>
+        <display>
+        <title>Android面试题积累</title>
+        <pubTime>2017-08-16T16:00:00.000Z</pubTime>
+        
+        <tag>ANDROID</tag>
+         
+        <tag>Interview</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://agehua.github.io/2017/09/21/PBOCKonwledgeCode/</loc>
     <lastmod>2023-11-16T03:42:40.842Z</lastmod>
     <data>
@@ -981,28 +1023,6 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2017/08/17/IntervieweeQuestions/</loc>
-    <lastmod>2023-11-16T03:42:40.842Z</lastmod>
-    <data>
-        <display>
-        <title>Android面试题积累</title>
-        <pubTime>2017-08-16T16:00:00.000Z</pubTime>
-        
-        <tag>ANDROID</tag>
-         
-        <tag>Interview</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://agehua.github.io/2017/08/02/activity-start-process/</loc>
     <lastmod>2023-11-16T03:42:40.841Z</lastmod>
     <data>
@@ -1012,9 +1032,9 @@
         
         <tag>Binder</tag>
          
-        <tag>AOSP</tag>
-         
         <tag>AMS</tag>
+         
+        <tag>AOSP</tag>
          
          
            
@@ -1049,28 +1069,6 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2017/08/01/aosp-compile/</loc>
-    <lastmod>2023-11-16T03:42:40.840Z</lastmod>
-    <data>
-        <display>
-        <title>Mac下Android源码编译（AOSP）</title>
-        <pubTime>2017-07-31T16:00:00.000Z</pubTime>
-        
-        <tag>AOSP</tag>
-         
-        <tag>sdk compile</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://agehua.github.io/2017/07/12/android-noroot-hook/</loc>
     <lastmod>2023-11-16T03:42:40.840Z</lastmod>
     <data>
@@ -1083,6 +1081,28 @@
         <tag>HOOK</tag>
          
         <tag>Android system service</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2017/08/01/aosp-compile/</loc>
+    <lastmod>2023-11-16T03:42:40.840Z</lastmod>
+    <data>
+        <display>
+        <title>Mac下Android源码编译（AOSP）</title>
+        <pubTime>2017-07-31T16:00:00.000Z</pubTime>
+        
+        <tag>AOSP</tag>
+         
+        <tag>sdk compile</tag>
          
          
            
@@ -1163,48 +1183,6 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2017/03/09/Https-Questions/</loc>
-    <lastmod>2023-11-16T03:42:40.838Z</lastmod>
-    <data>
-        <display>
-        <title>“HTTPS”安全在哪里？</title>
-        <pubTime>2017-03-08T16:00:00.000Z</pubTime>
-        
-        <tag>HTTPS</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://agehua.github.io/2017/03/14/JAVA-JSR-330-Assertion/</loc>
-    <lastmod>2023-11-16T03:42:40.838Z</lastmod>
-    <data>
-        <display>
-        <title>JSR-330和assertion(断言)介绍</title>
-        <pubTime>2017-03-13T16:00:00.000Z</pubTime>
-        
-        <tag>Annotation</tag>
-         
-        <tag>assertion</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://agehua.github.io/2017/03/20/SVN-server-linux/</loc>
     <lastmod>2023-11-16T03:42:40.838Z</lastmod>
     <data>
@@ -1215,6 +1193,26 @@
         <tag>linux</tag>
          
         <tag>svn server</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2017/03/09/Https-Questions/</loc>
+    <lastmod>2023-11-16T03:42:40.838Z</lastmod>
+    <data>
+        <display>
+        <title>“HTTPS”安全在哪里？</title>
+        <pubTime>2017-03-08T16:00:00.000Z</pubTime>
+        
+        <tag>HTTPS</tag>
          
          
            
@@ -1249,19 +1247,21 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2017/01/13/abroad-IM-service-company/</loc>
-    <lastmod>2023-11-16T03:42:40.837Z</lastmod>
+    <loc>http://agehua.github.io/2017/03/14/JAVA-JSR-330-Assertion/</loc>
+    <lastmod>2023-11-16T03:42:40.838Z</lastmod>
     <data>
         <display>
-        <title>IM 国外公司，服务费，方案</title>
-        <pubTime>2017-01-12T16:00:00.000Z</pubTime>
+        <title>JSR-330和assertion(断言)介绍</title>
+        <pubTime>2017-03-13T16:00:00.000Z</pubTime>
         
-        <tag>IM Company</tag>
+        <tag>Annotation</tag>
+         
+        <tag>assertion</tag>
          
          
            
              
-              <breadCrumb title="Investigation" url="http://agehua.github.io/categories/investigation/"/>
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
           
         </display>
     </data>
@@ -1286,6 +1286,26 @@
            
              
               <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://agehua.github.io/2017/01/13/abroad-IM-service-company/</loc>
+    <lastmod>2023-11-16T03:42:40.837Z</lastmod>
+    <data>
+        <display>
+        <title>IM 国外公司，服务费，方案</title>
+        <pubTime>2017-01-12T16:00:00.000Z</pubTime>
+        
+        <tag>IM Company</tag>
+         
+         
+           
+             
+              <breadCrumb title="Investigation" url="http://agehua.github.io/categories/investigation/"/>
           
         </display>
     </data>
@@ -1337,16 +1357,16 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/12/20/Android-patch-update/</loc>
+    <loc>http://agehua.github.io/2016/12/11/ThreadLocal-usage/</loc>
     <lastmod>2023-11-16T03:42:40.836Z</lastmod>
     <data>
         <display>
-        <title>Android 增量更新整理</title>
-        <pubTime>2016-12-19T16:00:00.000Z</pubTime>
+        <title>ThreadLocal一个使用——SimpleDateFormat</title>
+        <pubTime>2016-12-10T16:00:00.000Z</pubTime>
         
-        <tag>ANDROID</tag>
+        <tag>Java</tag>
          
-        <tag>Patch Update</tag>
+        <tag>ThreadLocal</tag>
          
          
            
@@ -1359,16 +1379,16 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/12/11/ThreadLocal-usage/</loc>
+    <loc>http://agehua.github.io/2016/12/20/Android-patch-update/</loc>
     <lastmod>2023-11-16T03:42:40.836Z</lastmod>
     <data>
         <display>
-        <title>ThreadLocal一个使用——SimpleDateFormat</title>
-        <pubTime>2016-12-10T16:00:00.000Z</pubTime>
+        <title>Android 增量更新整理</title>
+        <pubTime>2016-12-19T16:00:00.000Z</pubTime>
         
-        <tag>Java</tag>
+        <tag>ANDROID</tag>
          
-        <tag>ThreadLocal</tag>
+        <tag>Patch Update</tag>
          
          
            
@@ -1487,6 +1507,28 @@
 
     
   <url>
+    <loc>http://agehua.github.io/2016/09/28/Android-interview-questions/</loc>
+    <lastmod>2023-11-16T03:42:40.832Z</lastmod>
+    <data>
+        <display>
+        <title>Android面试知识点整理</title>
+        <pubTime>2016-09-27T16:00:00.000Z</pubTime>
+        
+        <tag>ANDROID</tag>
+         
+        <tag>Interview</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://agehua.github.io/2016/10/12/gradle-learning/</loc>
     <lastmod>2023-11-16T03:42:40.832Z</lastmod>
     <data>
@@ -1507,16 +1549,16 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/09/28/Android-interview-questions/</loc>
-    <lastmod>2023-11-16T03:42:40.832Z</lastmod>
+    <loc>http://agehua.github.io/2016/09/20/android-design-pattern-singleton/</loc>
+    <lastmod>2023-11-16T03:42:40.831Z</lastmod>
     <data>
         <display>
-        <title>Android面试知识点整理</title>
-        <pubTime>2016-09-27T16:00:00.000Z</pubTime>
+        <title>ANDROID设计模式之单例模式</title>
+        <pubTime>2016-09-19T16:00:00.000Z</pubTime>
         
         <tag>ANDROID</tag>
          
-        <tag>Interview</tag>
+        <tag>Singleton</tag>
          
          
            
@@ -1573,16 +1615,16 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/09/20/android-design-pattern-singleton/</loc>
-    <lastmod>2023-11-16T03:42:40.831Z</lastmod>
+    <loc>http://agehua.github.io/2016/09/20/AVG-unwanted-software/</loc>
+    <lastmod>2023-11-16T03:42:40.830Z</lastmod>
     <data>
         <display>
-        <title>ANDROID设计模式之单例模式</title>
+        <title>apk中含有admob广告插件</title>
         <pubTime>2016-09-19T16:00:00.000Z</pubTime>
         
         <tag>ANDROID</tag>
          
-        <tag>Singleton</tag>
+        <tag>remove admob</tag>
          
          
            
@@ -1607,28 +1649,6 @@
         <tag>HandlerThread</tag>
          
         <tag>Looper</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://agehua.github.io/2016/09/20/AVG-unwanted-software/</loc>
-    <lastmod>2023-11-16T03:42:40.830Z</lastmod>
-    <data>
-        <display>
-        <title>apk中含有admob广告插件</title>
-        <pubTime>2016-09-19T16:00:00.000Z</pubTime>
-        
-        <tag>ANDROID</tag>
-         
-        <tag>remove admob</tag>
          
          
            
@@ -1707,21 +1727,21 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/05/28/qiniu-android-summary/</loc>
+    <loc>http://agehua.github.io/2016/05/24/JNI-Learning0/</loc>
     <lastmod>2023-11-16T03:42:40.828Z</lastmod>
     <data>
         <display>
-        <title>七牛android使用总结</title>
-        <pubTime>2016-05-27T16:00:00.000Z</pubTime>
+        <title>android JNI学习② JNI调用过程</title>
+        <pubTime>2016-05-23T16:00:00.000Z</pubTime>
         
-        <tag>ANDROID</tag>
+        <tag>JNI</tag>
          
-        <tag>qiniu</tag>
+        <tag>android source code</tag>
          
          
            
              
-              <breadCrumb title="technology" url="http://agehua.github.io/categories/technology/"/>
+              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
           
         </display>
     </data>
@@ -1749,21 +1769,21 @@
 
     
   <url>
-    <loc>http://agehua.github.io/2016/05/24/JNI-Learning0/</loc>
+    <loc>http://agehua.github.io/2016/05/28/qiniu-android-summary/</loc>
     <lastmod>2023-11-16T03:42:40.828Z</lastmod>
     <data>
         <display>
-        <title>android JNI学习② JNI调用过程</title>
-        <pubTime>2016-05-23T16:00:00.000Z</pubTime>
+        <title>七牛android使用总结</title>
+        <pubTime>2016-05-27T16:00:00.000Z</pubTime>
         
-        <tag>JNI</tag>
+        <tag>ANDROID</tag>
          
-        <tag>android source code</tag>
+        <tag>qiniu</tag>
          
          
            
              
-              <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
+              <breadCrumb title="technology" url="http://agehua.github.io/categories/technology/"/>
           
         </display>
     </data>
@@ -1933,6 +1953,26 @@
 
     
   <url>
+    <loc>http://agehua.github.io/2015/11/06/book-list-of-2015/</loc>
+    <lastmod>2023-11-16T03:42:40.825Z</lastmod>
+    <data>
+        <display>
+        <title>2015阅读书单</title>
+        <pubTime>2015-11-05T16:00:00.000Z</pubTime>
+        
+        <tag>read</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="http://agehua.github.io/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://agehua.github.io/2016/03/01/android-googlemap-summary/</loc>
     <lastmod>2023-11-16T03:42:40.825Z</lastmod>
     <data>
@@ -1948,26 +1988,6 @@
            
              
               <breadCrumb title="accumulation" url="http://agehua.github.io/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://agehua.github.io/2015/11/06/book-list-of-2015/</loc>
-    <lastmod>2023-11-16T03:42:40.825Z</lastmod>
-    <data>
-        <display>
-        <title>2015阅读书单</title>
-        <pubTime>2015-11-05T16:00:00.000Z</pubTime>
-        
-        <tag>read</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="http://agehua.github.io/categories/read/"/>
           
         </display>
     </data>
