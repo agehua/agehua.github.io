@@ -1,44 +1,44 @@
 ---
 layout: post
-title: NA Crash日志分析
+title: Native Crash日志分析
 category: accumulation
 tags:
-  - NA Crash
-keywords: NA Crash
+  - Native Crash
+keywords: Native Crash
 banner: https://cdn.conorlee.top/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg
 thumbnail: https://cdn.conorlee.top/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg
 toc: true
 ---
 
-本文主要介绍Native Crash和ANR问题定位（如何分析log日志）
+本文是上一篇[《Native Crash 捕获原理》](https://conorlee.top/2023/11/02/native-crash-principle/)的姊妹篇，主要介绍如何分析Native Crash日志，以及常见的Native Crash类型
 <!--more-->
 ### NA Crash日志对比
 
 Logcat中抓到的日志：
 ~~~ java
-A  Fatal signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr 0x0 in tid 14206 (dodola.breakpad), pid 14206 (dodola.breakpad)
-Cmdline: com.dodola.breakpad
-pid: 14206, tid: 14206, name: dodola.breakpad  >>> com.dodola.breakpad <<<
-	#00 pc 000000000000f6d0  /data/app/~~thPbPJ0ZokAxuuRZPsdShQ==/com.dodola.breakpad-_xwNfmDQiQWDDcg5TlCGqA==/lib/arm64/libcrash-lib.so (Crash()+20) (BuildId: ad36e849968841628dab3afed7e6010c4c500b02)
-	#01 pc 000000000000f774  /data/app/~~thPbPJ0ZokAxuuRZPsdShQ==/com.dodola.breakpad-_xwNfmDQiQWDDcg5TlCGqA==/lib/arm64/libcrash-lib.so (Java_com_dodola_breakpad_MainActivity_crash+20) (BuildId: ad36e849968841628dab3afed7e6010c4c500b02)
-	#04 pc 000000000031cad4  /data/data/com.dodola.breakpad/code_cache/.overlay/base.apk/classes.dex (com.dodola.breakpad.MainActivity$1$1.run+8)
-	#08 pc 000000000031cb1c  /data/data/com.dodola.breakpad/code_cache/.overlay/base.apk/classes.dex (com.dodola.breakpad.MainActivity$1.onClick+20)
+A  Fatal signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr 0x0 in tid 14206 (conorlee.test), pid 14206 (conorlee.test)
+Cmdline: com.conorlee.test
+pid: 14206, tid: 14206, name: conorlee.test  >>> com.conorlee.test <<<
+	#00 pc 000000000000f6d0  /data/app/~~thPbPJ0ZokAxuuRZPsdShQ==/com.conorlee.test-_xwNfmDQiQWDDcg5TlCGqA==/lib/arm64/libcrash-lib.so (Crash()+20) (BuildId: ad36e849968841628dab3afed7e6010c4c500b02)
+	#01 pc 000000000000f774  /data/app/~~thPbPJ0ZokAxuuRZPsdShQ==/com.conorlee.test-_xwNfmDQiQWDDcg5TlCGqA==/lib/arm64/libcrash-lib.so (Java_com_dodola_breakpad_MainActivity_crash+20) (BuildId: ad36e849968841628dab3afed7e6010c4c500b02)
+	#04 pc 000000000031cad4  /data/data/com.conorlee.test/code_cache/.overlay/base.apk/classes.dex (com.conorlee.test.MainActivity$1$1.run+8)
+	#08 pc 000000000031cb1c  /data/data/com.conorlee.test/code_cache/.overlay/base.apk/classes.dex (com.conorlee.test.MainActivity$1.onClick+20)
 ~~~
 
 APM SDK抓到的日志（理想状态）：
 ~~~ java
-Native Crash, signal: 11, tname: dodola.breakpad, pid: 13283, tid: 13283, code: 1, error: 0
+Native Crash, signal: 11, tname: conorlee.test, pid: 13283, tid: 13283, code: 1, error: 0
 Stack trace is      
-    #0, pc 61075, fname: /data/app/~~kP4phbJym0CIi4w4vSCamQ==/com.dodola.breakpad-qFT3bN7o6AtUgPbpqY5P0Q==/lib/arm64/libcrash-lib.so, (sname: Java_com_dodola_breakpad_MainActivity_stringFromJNI, saddr: 55)   
-    #1, pc 61019, fname: /data/app/~~kP4phbJym0CIi4w4vSCamQ==/com.dodola.breakpad-qFT3bN7o6AtUgPbpqY5P0Q==/lib/arm64/libcrash-lib.so, (sname: Java_com_dodola_breakpad_MainActivity_crash, saddr: 15)   
-    #2, pc 61003, fname: /data/app/~~kP4phbJym0CIi4w4vSCamQ==/com.dodola.breakpad-qFT3bN7o6AtUgPbpqY5P0Q==/lib/arm64/libcrash-lib.so, (sname: _Z5Crashv, saddr: 15)     
-    #3, pc 60987, fname: /data/app/~~kP4phbJym0CIi4w4vSCamQ==/com.dodola.breakpad-qFT3bN7o6AtUgPbpqY5P0Q==/lib/arm64/libcrash-lib.so
+    #0, pc 61075, fname: /data/app/~~kP4phbJym0CIi4w4vSCamQ==/com.conorlee.test-qFT3bN7o6AtUgPbpqY5P0Q==/lib/arm64/libcrash-lib.so, (sname: Java_com_dodola_breakpad_MainActivity_stringFromJNI, saddr: 55)   
+    #1, pc 61019, fname: /data/app/~~kP4phbJym0CIi4w4vSCamQ==/com.conorlee.test-qFT3bN7o6AtUgPbpqY5P0Q==/lib/arm64/libcrash-lib.so, (sname: Java_com_dodola_breakpad_MainActivity_crash, saddr: 15)   
+    #2, pc 61003, fname: /data/app/~~kP4phbJym0CIi4w4vSCamQ==/com.conorlee.test-qFT3bN7o6AtUgPbpqY5P0Q==/lib/arm64/libcrash-lib.so, (sname: _Z5Crashv, saddr: 15)     
+    #3, pc 60987, fname: /data/app/~~kP4phbJym0CIi4w4vSCamQ==/com.conorlee.test-qFT3bN7o6AtUgPbpqY5P0Q==/lib/arm64/libcrash-lib.so
                                                                                                     
 Java thread(main), stack is : 
-    com.dodola.breakpad.MainActivity.crash() -2
-    com.dodola.breakpad.MainActivity$1$1.run() 63
+    com.conorlee.test.MainActivity.crash() -2
+    com.conorlee.test.MainActivity$1$1.run() 63
     java.lang.Thread.run() 1,015
-    com.dodola.breakpad.MainActivity$1.onClick() 65
+    com.conorlee.test.MainActivity$1.onClick() 65
     android.view.View.performClick() 7,614
     android.view.View.performClickInternal() 7,591
     android.view.View.-$$Nest$mperformClickInternal() 0
@@ -53,7 +53,7 @@ Java thread(main), stack is :
     com.android.internal.os.ZygoteInit.main() 1,061                                                                                                    
 ~~~
 
-信息有：
+上面的关键信息有：
 - NA Crash，Signal 11 -> SIGSEGV -> 非法内存操作，空指针操作
 - 进程名，包名只展示后15个字符
 - pid 进程id；tid 线程id
@@ -65,19 +65,6 @@ Java thread(main), stack is :
   - dli_sname（一个指针，指向与指定address最接近的符号的名称）
   - saddr（地址的偏移量，即与代码段函数地址的偏移量）
 - Java调用堆栈（根据线程名匹配）
-
-~~~ java
-typedef struct {
-  /* Pathname of shared object that contains address. */
-  const char* dli_fname;
-  /* Address at which shared object is loaded. */
-  void* dli_fbase;
-  /* Name of nearest symbol with address lower than addr. */
-  const char* dli_sname;
-  /* Exact address of symbol named in dli_sname. */
-  void* dli_saddr;
-} Dl_info;
-~~~
 
 ### 根据日志堆栈定位到代码
 
@@ -131,18 +118,18 @@ adb logcat | $NDK/ndk-stack -sym $PROJECT_PATH/obj/local/armeabi-v7a
 参考链接：https://developer.android.com/ndk/guides/ndk-stack?hl=zh-cn
 
 #### 进程名展示不全原因
-> Tips: 为什么进程名对比包名，有时候展示不全？
+Tips: 为什么进程名对比包名，有时候展示不全？
+
 简单来说，这是因为Linux内核的一个特性：一个进程有两个不同的名称。
 - 其中一个是可执行文件路径的最后一个组件。例如，如果您的应用程序位于/data/app/com.example.hello/native_executable，则为native_eexecute。这是出现在/proc/PID/status的“名称”字段中的名称。内核将其截断为15个字符，因此在本例中它包含native_executob。
 - 另一个名称由调用应用程序的程序传递，作为其命令行参数。这是出现在/proc/PID/cmdline开头的名称，ps显示该名称。
 - 可执行文件的路径也是符号链接/proc/PID/exe的目标。
-
   按照惯例，当一个程序启动另一个程序时，它应该使用可执行文件的名称作为命令行参数0，但它可以选择其他方式。/proc/PID/status的Name字段始终设置为内核可执行文件的（截断的）名称。
-
-  来自：https://stackoverflow.com/questions/14176058/why-is-the-name-of-a-process-in-proc-pid-status-not-matching-package-name-or-ps
+> 来自：https://stackoverflow.com/questions/14176058/why-is-the-name-of-a-process-in-proc-pid-status-not-matching-package-name-or-ps
 
 ### 线上崩溃堆栈还原
-- 1.示例源码：
+
+- 1.模拟示例源码：
 ~~~ c++
 int add(){
     int a = 1;
@@ -314,16 +301,3 @@ SIG是信号名的通用前缀，TERM 是 Termination 的缩写。该信号对�
 |TRAP_BRANCH	|TRAP_BRANCH|
 |TRAP_HWBKPT	|TRAP_HWBKPT|
 
-#### 
-https://jtl.jiduprod.com/peqa/apm/abnormal-analysis/abnormal-detail/116218?env=prod_publish
-
-
-https://jtl.jiduprod.com/peqa/apm/abnormal-analysis/abnormal-detail/113142?env=staging_common
-
-https://jtl.jiduprod.com/peqa/apm/abnormal-analysis/abnormal-detail/108449?env=staging_common
-
-找不到java层对应的线程：
-https://jtl.jiduprod.com/peqa/apm/abnormal-analysis/abnormal-detail/109892?env=staging_common
-
-filament 堆栈
-https://jtl.jiduprod.com/peqa/apm/abnormal-analysis/abnormal-detail/117583?env=staging_common

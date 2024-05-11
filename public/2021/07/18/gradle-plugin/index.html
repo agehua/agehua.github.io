@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="google-site-verification" content="TYEtqE2Xc2ZonkJumwKut0-iq4RVbEc8o5Y8HpmZ-eo" />
+    <meta name="baidu-site-verification" content="8WKGBCPPKp" />
+    <meta charset="utf-8">
+    
+    <title>自定义gradle插件 | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="gradle和gradlew的区别如果配置好了 gradle 环境变量后,就可以在cmd中使用gradle命令了在cmd中输入： gradle -v">
+<meta name="keywords" content="Android,gradle,AGP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义gradle插件">
+<meta property="og:url" content="http://agehua.github.io/2021/07/18/gradle-plugin/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="gradle和gradlew的区别如果配置好了 gradle 环境变量后,就可以在cmd中使用gradle命令了在cmd中输入： gradle -v">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://cdn.conorlee.top/Gardens%20on%20Montmartre%20and%20the%20Blute-Fin%20Windmill.jpg">
+<meta property="og:updated_time" content="2023-11-16T03:42:40.861Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义gradle插件">
+<meta name="twitter:description" content="gradle和gradlew的区别如果配置好了 gradle 环境变量后,就可以在cmd中使用gradle命令了在cmd中输入： gradle -v">
+<meta name="twitter:image" content="https://cdn.conorlee.top/Gardens%20on%20Montmartre%20and%20the%20Blute-Fin%20Windmill.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+
+
+    <link rel="icon" sizes="192x192" href="images/icon.png">
+    <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+    <!--text spacing-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+
+</head>
+
+
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+
+                <a class="main-nav-link" href='javascript:(
+        /*
+         * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *      http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         */
+        function go() {
+
+
+        var songs = [
+                    "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
+                    "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
+                    "https://static.rocko.xyz/audio/Music-outside.mp3",
+                    "https://static.rocko.xyz/audio/Music-sunburst.mp3"
+        ];
+
+
+        function c() {
+            var e = document.createElement("link");
+            e.setAttribute("type", "text/css");
+            e.setAttribute("rel", "stylesheet");
+            e.setAttribute("href", f);
+            e.setAttribute("class", l);
+            document.body.appendChild(e)
+        }
+
+        function h() {
+            var e = document.getElementsByClassName(l);
+            for (var t = 0; t < e.length; t++) {
+                document.body.removeChild(e[t])
+            }
+        }
+
+        function p() {
+            var e = document.createElement("div");
+            e.setAttribute("class", a);
+            document.body.appendChild(e);
+            setTimeout(function() {
+                document.body.removeChild(e)
+            }, 100)
+        }
+
+        function d(e) {
+            return {
+                height : e.offsetHeight,
+                width : e.offsetWidth
+            }
+        }
+
+        function v(i) {
+            var s = d(i);
+            return s.height > e && s.height < n && s.width > t && s.width < r
+        }
+
+        function m(e) {
+            var t = e;
+            var n = 0;
+            while (!!t) {
+                n += t.offsetTop;
+                t = t.offsetParent
+            }
+            return n
+        }
+
+        function g() {
+            var e = document.documentElement;
+            if (!!window.innerWidth) {
+                return window.innerHeight
+            } else if (e && !isNaN(e.clientHeight)) {
+                return e.clientHeight
+            }
+            return 0
+        }
+
+        function y() {
+            if (window.pageYOffset) {
+                return window.pageYOffset
+            }
+            return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+        }
+
+        function E(e) {
+            var t = m(e);
+            return t >= w && t <= b + w
+        }
+
+        function S() {
+            var e = document.getElementById("audio_element_id");
+            if(e != null){
+                var index = parseInt(e.getAttribute("curSongIndex"));
+                if(index > songs.length - 2) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                e.setAttribute("curSongIndex", index);
+                N();
+            }
+
+            e.src = i;
+            e.play()
+        }
+
+        function x(e) {
+            e.className += " " + s + " " + o
+        }
+
+        function T(e) {
+            e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+        }
+
+        function N() {
+            var e = document.getElementsByClassName(s);
+            var t = new RegExp("\\b" + s + "\\b");
+            for (var n = 0; n < e.length; ) {
+                e[n].className = e[n].className.replace(t, "")
+            }
+        }
+
+        function initAudioEle() {
+            var e = document.getElementById("audio_element_id");
+            if(e === null){
+                e = document.createElement("audio");
+                e.setAttribute("class", l);
+                e.setAttribute("curSongIndex", 0);
+                e.id = "audio_element_id";
+                e.loop = false;
+                e.bgcolor = 0;
+                e.addEventListener("canplay", function() {
+                setTimeout(function() {
+                    x(k)
+                }, 500);
+                setTimeout(function() {
+                    N();
+                    p();
+                    for (var e = 0; e < O.length; e++) {
+                        T(O[e])
+                    }
+                }, 15500)
+            }, true);
+            e.addEventListener("ended", function() {
+                N();
+                h();
+                go();
+            }, true);
+            e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+            document.body.appendChild(e);
+            }
+        }
+
+        initAudioEle();
+        var e = 30;
+        var t = 30;
+        var n = 350;
+        var r = 350;
+
+        var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+        var i = songs[curSongIndex];
+
+        var s = "mw-harlem_shake_me";
+        var o = "im_first";
+        var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+        var a = "mw-strobe_light";
+
+        /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
+        var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+
+        var l = "mw_added_css";
+        var b = g();
+        var w = y();
+        var C = document.getElementsByTagName("*");
+        var k = null;
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                if (E(A)) {
+                    k = A;
+                    break
+                }
+            }
+        }
+        if (A === null) {
+            console.warn("Could not find a node of the right size. Please try a different page.");
+            return
+        }
+        c();
+        S();
+        var O = [];
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                O.push(A)
+            }
+        }
+        })()'>High一下</a>
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+
+
+        </div>
+    </div>
+
+
+    <div id="main-nav-mobile" class="header-sub header-inner">
+
+        <table class="menu outer">
+
+
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    
+</header>
+
+        <div class="outer">
+            
+                
+
+
+<aside id="profile">
+    <div class="inner profile-inner" id="profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
+            <h2 id="name">Conor Lee</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                95
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                103
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+
+        <a href="https://github.com/agehua" class="github-corner" aria-label="View source on Github">
+          <svg width="64" height="64" viewBox="0 0 250 250" style="fill:#cba11f; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+            <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+          </svg>
+        </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+    <div id='toc-col' class="toc-col">
+        
+            <div id='toc-wrap' class="toc-wrap">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#gradle和gradlew的区别"><span class="toc-number">1.</span> <span class="toc-text">gradle和gradlew的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Gradle构建块"><span class="toc-number">2.</span> <span class="toc-text">Gradle构建块</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#项目Project"><span class="toc-number">2.1.</span> <span class="toc-text">项目Project</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#任务Task"><span class="toc-number">2.2.</span> <span class="toc-text">任务Task</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#属性-Property"><span class="toc-number">2.3.</span> <span class="toc-text">属性 Property</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Gradle-插件分类"><span class="toc-number">3.</span> <span class="toc-text">Gradle 插件分类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#脚本插件，是一个普通的Gradle构建脚本，它可以被导入到其它的构建脚本中。"><span class="toc-number">3.1.</span> <span class="toc-text">脚本插件，是一个普通的Gradle构建脚本，它可以被导入到其它的构建脚本中。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#对象插件"><span class="toc-number">3.2.</span> <span class="toc-text">对象插件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象插件的实现方式"><span class="toc-number">4.</span> <span class="toc-text">对象插件的实现方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编写插件"><span class="toc-number">5.</span> <span class="toc-text">编写插件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#放在构建脚本中"><span class="toc-number">5.1.</span> <span class="toc-text">放在构建脚本中</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#放在buildSrc目录下"><span class="toc-number">5.2.</span> <span class="toc-text">放在buildSrc目录下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#以jar文件形式提供插件"><span class="toc-number">5.3.</span> <span class="toc-text">以jar文件形式提供插件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#REF"><span class="toc-number">6.</span> <span class="toc-text">REF</span></a></li></ol>
+            </div>
+        
+    </div>
+</aside>
+
+<script type="text/javascript">
+/*
+    滚动函数
+    接收三个参数,
+        1 接收一个DOM对象
+        2 给目标对象切换class
+        3 触发的高度 (可选项,如果不指定高度,会将DOM的高度作为触发高度)
+*/
+function scrollCheck(scrollTarget, toggleClass, scrollHeight){
+    document.addEventListener('scroll',function(){
+    var currentTop = window.pageYOffset;
+        currentTop > (scrollHeight||scrollTarget.clientHeight)
+        ?scrollTarget.classList.add(toggleClass)
+        :scrollTarget.classList.remove(toggleClass)
+    })
+}
+
+(function(){
+      try {
+        document.getElementById("toc-wrap").style.width= document.getElementById("profile-inner").offsetWidth+ "px";
+        var introHeader = document.querySelector('.inner.profile-inner').offsetHeight;
+        var toc = document.querySelector('.toc-wrap');
+        scrollCheck(toc,'toc-fixed',introHeader+40+64);
+      }catch(err){
+
+      }
+        // var node = document.querySelector('.profile-inner');
+        // scrollCheck(node,'profile-inner-fixed',64);
+})();
+</script>
+
+            
+            <section id="main"><article id="post-gradle-plugin" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-inner">
+        
+            
+	
+		<img src="https://cdn.conorlee.top/Gardens%20on%20Montmartre%20and%20the%20Blute-Fin%20Windmill.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            自定义gradle插件
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2021/07/18/gradle-plugin/">
+            <time datetime="2021-07-17T16:00:00.000Z" itemprop="datePublished">2021-07-18</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/agp/">AGP</a>, <a class="tag-link" href="/tags/gradle/">gradle</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">3 min read , Words: 501</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+
+            <h3 id="gradle和gradlew的区别"><a href="#gradle和gradlew的区别" class="headerlink" title="gradle和gradlew的区别"></a>gradle和gradlew的区别</h3><p>如果配置好了 gradle 环境变量后,就可以在cmd中使用gradle命令了<br>在cmd中输入： gradle -v<br><a id="more"></a><br>输出如下:<br><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">------------------------------------------------------------</span><br><span class="line">Gradle <span class="number">5.6</span><span class="number">.4</span></span><br><span class="line">------------------------------------------------------------</span><br></pre></td></tr></table></figure></p>
+<p>但是有时候没有配置环境变量，却在Android项目根目录使用 gradlew 命令<br><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">./gradlew -v</span><br></pre></td></tr></table></figure></p>
+<p>输出的版本和gradle-wrapper.properties文件中的版本一致</p>
+<p>其实 gradlew是 gradle wrapper 的简写。Gradle wrapper 是Gradle的核心特性，能够让机器在没有安装Gradle运行时的情况下运行Gradle构建，也可以让构建脚本运行在一个指定的Gradle版本上。<br>使用Wrapper被认为是最佳实践，这样在不同的机器上面，构建的版本就能够保证统一。使用了包装器的Gradle脚本非常适合作为自动化发布的一部分，比如持续集成。</p>
+<p>我们每个Android项目的根目录下都有一个 gradlew的可执行文件，./gradlew 正是访问的这个文件</p>
+<h3 id="Gradle构建块"><a href="#Gradle构建块" class="headerlink" title="Gradle构建块"></a>Gradle构建块</h3><p>每个Gradle构建都包含三个基本构建块：project、task、property。每个构建至少包含一个project，进而包含一个或者多个task。project和task暴露的属性可以用来控制构建。</p>
+<p>Gradle使用的是领域驱动设计（DDD）的原理为其自己的领域构建软件建模。因此，在Gradle API中有相应的类来表示project和task。</p>
+<p>Gradle API中有相应的类来表示project和task。这一点是要明确的，Gradle中的脚本实际上是转为代码来执行的。</p>
+<h4 id="项目Project"><a href="#项目Project" class="headerlink" title="项目Project"></a>项目Project</h4><p>在Gradle术语中，一个项目（project）代表一个正在构建的组件，比如一个JAR文件，或一个想要完成的目标，如部署应用程序。<br>当构建进程启动后，Gradle基于build.gradle中的配置实例化org.gradle.api.Project接口，并且能够通过project变量使其隐式可用。</p>
+<p>关于 Project 的介绍可以看这里: <a href="https://www.jianshu.com/p/434eba22561e" target="_blank" rel="noopener">https://www.jianshu.com/p/434eba22561e</a></p>
+<h4 id="任务Task"><a href="#任务Task" class="headerlink" title="任务Task"></a>任务Task</h4><p>任务动作 task action，定义了一个当任务执行时最小的工作单元。<br>任务依赖 task dependency，很多时候运行一个task之前需要运行另一个task。<br>Gradle task对应的API是org.gradle.api.Task 接口。</p>
+<p>关于 task更多的介绍可以看这里 <a href="https://www.jianshu.com/p/60bf794cdf91" target="_blank" rel="noopener">https://www.jianshu.com/p/60bf794cdf91</a></p>
+<h4 id="属性-Property"><a href="#属性-Property" class="headerlink" title="属性 Property"></a>属性 Property</h4><p>每个Project和Task实例都提供了可以通过getter和setter方法访问的属性。一个属性可能是一个任务的描述或者项目的版本。<br>你也可以定义自己的属性。Gradle允许用户通过扩展属性自定义一些标量</p>
+<h3 id="Gradle-插件分类"><a href="#Gradle-插件分类" class="headerlink" title="Gradle 插件分类"></a>Gradle 插件分类</h3><p>Gradle插件分为两类：</p>
+<h4 id="脚本插件，是一个普通的Gradle构建脚本，它可以被导入到其它的构建脚本中。"><a href="#脚本插件，是一个普通的Gradle构建脚本，它可以被导入到其它的构建脚本中。" class="headerlink" title="脚本插件，是一个普通的Gradle构建脚本，它可以被导入到其它的构建脚本中。"></a>脚本插件，是一个普通的Gradle构建脚本，它可以被导入到其它的构建脚本中。</h4><p>对象插件，需要实现org.gradle.api.Plugin接口。<br>1 使用脚本插件<br>假设我们有一个脚本名为 sayhello.gradle ，它里面有一个task：<br><figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line">task sayHello &lt;&lt; &#123;</span><br><span class="line">    println <span class="string">'hello world'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后我们在build.gradle 中依赖这个外部脚本，调用Project的apply方法，apply方法调用时传入from属性，它的值可以是任何类型的URL，比如HTTP地址。<br><figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line">apply <span class="string">from:</span> <span class="string">'sayhello.gradle'</span></span><br></pre></td></tr></table></figure></p>
+<p>此时我们运行gradle sayHello 命令，可以看到sayHello 这个task执行了：<br><figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line">:sayHello</span><br><span class="line">hello world</span><br></pre></td></tr></table></figure></p>
+<p>通过apply from的方式引入脚本插件，就好像那个脚本插件中的内容是写在当前的build.gradle中一样。它是使用比较简单，这里就不多做介绍了。</p>
+<h4 id="对象插件"><a href="#对象插件" class="headerlink" title="对象插件"></a>对象插件</h4><p>我们之前讲了自定义的task，它的实现逻辑是一种可维护、可测试的解决方案。通过打包成jar文件，task可以在独立的项目中被重用。然而，该方式仍有一些限制。<br>优点：</p>
+<ul>
+<li>定制逻辑在类中是自包含的，并且可以通过增强型task配置</li>
+<li>通过将task属性用注解标志可以支持声明式增量构建</li>
+<li><p>自定义的task可以测试<br>缺点：</p>
+</li>
+<li><p>自定义的task仅仅暴露独立的工作单元。所提供的额外的公式化代码、约定和生命周期的整合并不是很直接</p>
+</li>
+<li>自定义的task仅仅能通过增强型task来配置。通过自定义的DSL，缺乏有表达性的扩展机制</li>
+<li>其他插件的功能不容易使用或扩展</li>
+</ul>
+<p>而使用对象插件的方式，可以给你最大的灵活性去封装高复杂度的逻辑，并且提供一种强大的扩展机制可以在构建脚本中定制它的行为。比如编译Java代码，我们会通过一句话来引入Java插件：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apply plugin :&apos;java&apos;</span><br></pre></td></tr></table></figure></p>
+<p>然后我们还可以配置很多属性来控制编译逻辑。这个Java插件就是一个对象插件。</p>
+<h3 id="对象插件的实现方式"><a href="#对象插件的实现方式" class="headerlink" title="对象插件的实现方式"></a>对象插件的实现方式</h3><p>对于实现一个对象插件，有4个基本元素是非常重要的。</p>
+<ul>
+<li>在放置插件实现的位置方面Gradle给你完全的灵活性。代码可以放在构建脚本中或者buildSrc目录下，也可以作为一个独立的工程被开发并且以jar文件方式发布。</li>
+<li>每个插件都需要提供一个实现类，它代表着插件的入口点。插件可以用任何JVM语言编写并编译成字节码。</li>
+<li>应用到项目中的插件可以通过暴露出来的扩展对象进行定制。如果用户想要在构建脚本中覆盖插件的默认配置时，这一点特别有用。</li>
+<li>插件描述符是一个属性文件，它包含了关于插件的元信息。通常，它包含有插件的简短名字和插件实现类的映射。</li>
+</ul>
+<h3 id="编写插件"><a href="#编写插件" class="headerlink" title="编写插件"></a>编写插件</h3><p>编写一个插件最低的要求是提供<code>org.gradle.api.Plugin&lt;T&gt;</code>接口的一个实现类。该接口仅仅定义了一个简单的方法：<code>apply(T target)</code>。</p>
+<p>现在我们来演示自定义一个插件，这个插件的作用是提供一个task来打印用户凭证。<br>我们前面已经提到，自定义对象插件和自定义task方式类似，代码可以放在构建脚本中或者buildSrc目录下，也可以作为一个独立的工程被开发并且以JAR文件方式发布，下面我们根据这三种方式来分别演示如何自定义和使用插件。</p>
+<h4 id="放在构建脚本中"><a href="#放在构建脚本中" class="headerlink" title="放在构建脚本中"></a>放在构建脚本中</h4><p>在build.gradle中，代码如下：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">apply plugin:CredentialPlugin</span><br><span class="line"></span><br><span class="line">userCredential&#123;</span><br><span class="line">    username=<span class="string">'admin'</span></span><br><span class="line">    password=<span class="string">'000000'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CredentialPlugin</span> <span class="keyword">implements</span> <span class="title">Plugin</span>&lt;<span class="title">Project</span>&gt;</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">apply</span><span class="params">(Project project)</span></span>&#123;</span><br><span class="line">        project.extensions.create(<span class="string">'userCredential'</span>,CredentialExtension)</span><br><span class="line">        project.tasks.create(<span class="string">'printUserCredential'</span>) &lt;&lt; &#123;</span><br><span class="line">             println <span class="string">"username is: "</span> + project.userCredential.username</span><br><span class="line">             println <span class="string">"password is: "</span> + project.userCredential.password</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//扩展模型</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CredentialExtension</span> </span>&#123;</span><br><span class="line">    String username</span><br><span class="line">    String password</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Gradle将语言结构化模型作为扩展，扩展可以被添加到许多Gradle对象中，如果一个类实现了org.gradle.api.plugins.ExtensionAware接口，比如Project或者Task，就认为它是扩展可知的。每个扩展都是一个数据模型，它是扩展的基础。这个模型可以是一个POJO或者Groovy Bean。</p>
+<p>在上面的代码中，userCredential闭包中的内容，可以从构建脚本中给task提供所需要的属性值，这个userCredential就是我们暴露的一个DSL。<br>ExtensionAware对象有一个方法getExtensions()，该方法返回一个ExtensionContainer对象，ExtensionContainer对象可以通过create()方法来注册我们的扩展，也就是把我们配置的DSL和具体的类关联起来。在本例中就是把userCredential这个闭包和CredentialExtension这个类关联起来，这就是插件的扩展机制。</p>
+<blockquote>
+<p><strong>扩展对象vs额外属性</strong> 被用来扩展一个对象的DSL的扩展是扩展可知的，一个已注册的扩展模型会暴露一些属性和方法，用来给构建脚本建立新的构建语言结构，这些属性名和方法在创建的时候已经定好。扩展模型的典型用例是插件。额外属性，是一些通过ext命名空间创建的简单变量，它们一般提供给用户空间也就是构建脚本使用，额外属性的属性名是可以任意指定的。请尽量避免在插件实现中使用额外属性。</p>
+</blockquote>
+<h4 id="放在buildSrc目录下"><a href="#放在buildSrc目录下" class="headerlink" title="放在buildSrc目录下"></a>放在buildSrc目录下</h4><p>与自定义task一样，Groovy代码放在<code>buildSrc/src/main/groovy</code> 目录下，<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.sososeen.credential</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.gradle.api.Plugin</span><br><span class="line"><span class="keyword">import</span> org.gradle.api.Project</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CredentialPlugin</span> <span class="keyword">implements</span> <span class="title">Plugin</span>&lt;<span class="title">Project</span>&gt;</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">apply</span><span class="params">(Project project)</span></span>&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> com.sososeen.credential</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CredentialExtension</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在与buildSrc同级的目录下，创建build.gradle脚本，引入这个plugin：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">apply plugin:com.sososeen.credential.CredentialPlugin</span><br><span class="line">userCredential&#123;</span><br><span class="line">    username=<span class="string">'admin'</span></span><br><span class="line">    password=<span class="string">'000000'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后执行 gradle printUserCredential 命令，可以看到打印结果：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">:printUserCredential</span><br><span class="line">username is: admin</span><br><span class="line">password is: <span class="number">000000</span></span><br></pre></td></tr></table></figure></p>
+<p>可以看到，我们引入这个插件的时候是把它的包名带类名写上了，这显得太长了，不好写。我们可以给这个插件一个有意义且精简的名字。在src/main/resources/META-INF/gradle-plugins目录下，我们可以创建一个属性文件来配置。比如创建一个credentials.properties，它就是一个插件描述符，暴露了插件名字是credentials。在这个文件中，将该插件类的全局类名赋值给键implemention-class，如下：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">implementation-<span class="class"><span class="keyword">class</span> </span>= com.sososeen.credential.CredentialPlugin</span><br></pre></td></tr></table></figure></p>
+<p>然后应用插件就可以这样子：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">apply plugin : <span class="string">'credentials'</span></span><br></pre></td></tr></table></figure></p>
+<p>执行 gradle printUserCredential 命令，可以看到打印结果与之前一样。</p>
+<h4 id="以jar文件形式提供插件"><a href="#以jar文件形式提供插件" class="headerlink" title="以jar文件形式提供插件"></a>以jar文件形式提供插件</h4><p>这个步骤与自定义task打包为jar文件一样，新建一个项目，把buildSrc目录下的文件复制过来，同时，在该项目下创建一个build.gradle文件。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">apply plugin: <span class="string">'groovy'</span> <span class="comment">//应用这个插件来编译Groovy代码</span></span><br><span class="line">apply plugin: <span class="string">'maven'</span></span><br><span class="line"></span><br><span class="line">version = <span class="string">'1.0'</span></span><br><span class="line">group = <span class="string">'com.sososeen09'</span></span><br><span class="line">archivesBaseName = <span class="string">'credential'</span></span><br><span class="line"></span><br><span class="line">repositories &#123;</span><br><span class="line">    mavenCentral()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">    <span class="comment">// 使用Gradle中的API需要这个</span></span><br><span class="line">    <span class="function">compile <span class="title">gradleApi</span><span class="params">()</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">uploadArchives </span>&#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        mavenDeployer &#123;</span><br><span class="line">            repository(url: <span class="string">"file:../lib"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行gradle uploadArchives命令后就可以看到，在与当前项目同级的lib文件目录中生成了我们期望的jar文件。</p>
+<p>我们再新建一个工程，这个工程中有一个脚本文件build.gradle:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">apply plugin : <span class="string">'credentials'</span></span><br><span class="line">buildscript &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        maven &#123;</span><br><span class="line">            url <span class="string">'file:../lib'</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath <span class="string">'com.sososeen09:credential:1.0'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">userCredential&#123;</span><br><span class="line">    username=<span class="string">'admin'</span></span><br><span class="line">    password=<span class="string">'000000'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行 gradle printUserCredential 命令，可以看到打印结果与之前一样。</p>
+<h3 id="REF"><a href="#REF" class="headerlink" title="REF"></a>REF</h3><p><a href="https://www.jianshu.com/p/158851436e82" target="_blank" rel="noopener">https://www.jianshu.com/p/158851436e82</a></p>
+<hr>
+<div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="http://blog.conorlee.top/blogimages/attribution_88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://conorlee.top/" target="_blank" rel="noopener">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
+
+<p>本文链接：<a href="http://agehua.github.io/2021/07/18/gradle-plugin/">http://agehua.github.io/2021/07/18/gradle-plugin/</a></p>
+
+
+            
+  <!-- donate css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+         
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      _background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+<!-- Donate Module -->
+<div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+    </span>
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+
+  <div id="donate_guide" class="donate_bar center hidden" >
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
+        <a href="http://cdn.conorlee.top/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+        <a href="http://cdn.conorlee.top/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+      </div>
+      <div style="display:inline-block;">
+          &nbsp;
+          <span class="donate_txt">
+              Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+          </span>
+      </div>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className='hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+
+            
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2021/07/18/gradle-plugin/" data-id="clw1ss2dv006hs547ib8i2y9g" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2021/07/18/gradle-plugin/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2021/08/07/view-scroll-apis/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    移动view的几种方式总结
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2021/07/18/recyclerview-cache/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">RecyclerView 缓存机制</div>
+        </a>
+    
+</nav>
+
+
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+    
+    <section id="comments" class="comments">
+    
+        
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2021/07/18/gradle-plugin/', // 可选。默认为 location.href
+  title: '自定义gradle插件',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+    
+  </section>
+
+
+
+</article>
+
+
+</section>
+            
+                <aside id="sidebar">
+    <!-- 在_config.yml中配置了widgets，来决定widgets的顺序 -->
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/04/24/jacoco-test-coverage/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Irises.jpg)" alt="代码覆盖率统计——集成Jacoco" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/04/24/jacoco-test-coverage/" class="title">代码覆盖率统计——集成Jacoco</a></p>
+                            <p class="item-date"><time datetime="2024-04-23T16:00:00.000Z" itemprop="datePublished">2024-04-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/11/13/native-crash-anr-log-analysis/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg)" alt="Native Crash日志分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/11/13/native-crash-anr-log-analysis/" class="title">Native Crash日志分析</a></p>
+                            <p class="item-date"><time datetime="2023-11-12T16:00:00.000Z" itemprop="datePublished">2023-11-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/11/02/native-crash-principle/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Houses%20in%20Auvers.jpg)" alt="Native Crash捕获原理" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/11/02/native-crash-principle/" class="title">Native Crash捕获原理</a></p>
+                            <p class="item-date"><time datetime="2023-11-01T16:00:00.000Z" itemprop="datePublished">2023-11-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/10/26/cross-process-bridge/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Harvest%20in%20Provence%2C%20at%20the%20Left%20Montmajour.jpg)" alt="跨进程通信Bridge建立" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/10/26/cross-process-bridge/" class="title">跨进程通信Bridge建立</a></p>
+                            <p class="item-date"><time datetime="2023-10-25T16:00:00.000Z" itemprop="datePublished">2023-10-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/09/26/matrix-trace-canary/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Haystacks%20in%20Provence.jpg)" alt="Matrix TraceCanary源码分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/09/26/matrix-trace-canary/" class="title">Matrix TraceCanary源码分析</a></p>
+                            <p class="item-date"><time datetime="2023-09-25T16:00:00.000Z" itemprop="datePublished">2023-09-26</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">79</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/agp/" style="font-size: 11.67px;">AGP</a> <a href="/tags/aidl/" style="font-size: 13.33px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/anr/" style="font-size: 13.33px;">ANR</a> <a href="/tags/aop/" style="font-size: 10px;">AOP</a> <a href="/tags/aosp/" style="font-size: 11.67px;">AOSP</a> <a href="/tags/asm/" style="font-size: 10px;">ASM</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-source-code/" style="font-size: 18.33px;">Android Source Code</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 11.67px;">Annotation</a> <a href="/tags/asyncinflate/" style="font-size: 10px;">AsyncInflate</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 16.67px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16.67px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/constraintlayout/" style="font-size: 11.67px;">ConstraintLayout</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview/" style="font-size: 16.67px;">Interview</a> <a href="/tags/jni/" style="font-size: 13.33px;">JNI</a> <a href="/tags/jvm/" style="font-size: 11.67px;">JVM</a> <a href="/tags/jacoco/" style="font-size: 10px;">Jacoco</a> <a href="/tags/java/" style="font-size: 15px;">Java</a> <a href="/tags/javascript/" style="font-size: 11.67px;">JavaScript</a> <a href="/tags/kotlin/" style="font-size: 11.67px;">Kotlin</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 11.67px;">Looper</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/native-crash/" style="font-size: 11.67px;">Native Crash</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 11.67px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 11.67px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 16.67px;">RecyclerView</a> <a href="/tags/recyclerview-optimization/" style="font-size: 10px;">RecyclerView optimization</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 11.67px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/transform/" style="font-size: 10px;">Transform</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 11.67px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/multi-process/" style="font-size: 11.67px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/picture-in-picture/" style="font-size: 10px;">picture-in-picture</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 11.67px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 13.33px;">toastmaster</a> <a href="/tags/view-scroll/" style="font-size: 10px;">view scroll</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://conorlee.top">我的阿里云博客(求赞助)</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://agehua.github.io/">My Github Pages</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://invitation.conorlee.top/MrLiAndTeacherTian_WeddingInvitation.html">Wedding Invitation(手机观看最佳)</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2024 ConorLee<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2021/07/18/gradle-plugin/', // 可选。默认为 location.href
+  title: '自定义gradle插件',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+<script>
+    var bigfa_scroll = {
+        drawCircle: function(id, percentage, color) {
+            var width = jQuery(id).width();
+            var height = jQuery(id).height();
+            var radius = parseInt(width / 2.20);
+            var position = width;
+            var positionBy2 = position / 2;
+            var bg = jQuery(id)[0];
+            id = id.split("# ");
+            var ctx = bg.getContext("2d");
+            var imd = null;
+            var circ = Math.PI * 2;
+            var quart = Math.PI / 2;
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineCap = "square";
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineWidth = 3;
+            imd = ctx.getImageData(0, 0, position, position);
+            var draw = function(current, ctxPass) {
+                ctxPass.putImageData(imd, 0, 0);
+                ctxPass.beginPath();
+                ctxPass.arc(positionBy2, positionBy2, radius, -(quart), ((circ) * current) - quart, false);
+                ctxPass.stroke();
+            }
+            draw(percentage / 100, ctx);
+        },
+        backToTop: function($this) {
+            $this.click(function() {
+                jQuery("body,html").animate({
+                    scrollTop: 0
+                },
+                800);
+                return false;
+            });
+        },
+        scrollHook: function($this, color) {
+            color = color ? color: "# 000000";
+            $this.scroll(function() {
+                var docHeight = (jQuery(document).height() - jQuery(window).height()),
+                $windowObj = $this,
+                $per = jQuery(".per"),
+                percentage = 0;
+                defaultScroll = $windowObj.scrollTop();
+                percentage = parseInt((defaultScroll / docHeight) * 100);
+                var backToTop = jQuery("# backtoTop");
+                if (backToTop.length > 0) {
+                    if ($windowObj.scrollTop() > 200) {
+                        backToTop.addClass("button--show");
+                    } else {
+                        backToTop.removeClass("button--show");
+                    }
+                    $per.attr("data-percent", percentage);
+                    bigfa_scroll.drawCircle("# backtoTopCanvas", percentage, color);
+                }
+            });
+        }
+    }
+
+</script>
+
+
+    </div>
+    <!-- <script src="http://cdn.maxjia.com/js/particles.min.js"></script> -->
+  
+  
+    <canvas class="fireworks" style="position: fixed; left: 0px; top: 0px; z-index: 1; pointer-events: none; width: 1440px; height: 416px;" width="2880" height="832"></canvas>
+    
+
+      <script type="text/javascript" src="/js/anime.min.js"></script>
+      <script type="text/javascript" src="/js/firework.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/33.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

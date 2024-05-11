@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="google-site-verification" content="TYEtqE2Xc2ZonkJumwKut0-iq4RVbEc8o5Y8HpmZ-eo" />
+    <meta name="baidu-site-verification" content="8WKGBCPPKp" />
+    <meta charset="utf-8">
+    
+    <title>Java内存分配策略 | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="java的内存分配策略1、Java 程序运行时的内存分配策略有三种： (1) 静态分配 (2) 栈式分配 (3) 堆式分配">
+<meta name="keywords" content="Java, Interview">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java内存分配策略">
+<meta property="og:url" content="http://agehua.github.io/2022/02/13/Java-summary/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="java的内存分配策略1、Java 程序运行时的内存分配策略有三种： (1) 静态分配 (2) 栈式分配 (3) 堆式分配">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://cdn.conorlee.top/Green%20Wheat%20Field%202.jpg">
+<meta property="og:updated_time" content="2023-11-16T03:42:40.866Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java内存分配策略">
+<meta name="twitter:description" content="java的内存分配策略1、Java 程序运行时的内存分配策略有三种： (1) 静态分配 (2) 栈式分配 (3) 堆式分配">
+<meta name="twitter:image" content="https://cdn.conorlee.top/Green%20Wheat%20Field%202.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+
+
+    <link rel="icon" sizes="192x192" href="images/icon.png">
+    <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+    <!--text spacing-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+
+</head>
+
+
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+
+                <a class="main-nav-link" href='javascript:(
+        /*
+         * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *      http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         */
+        function go() {
+
+
+        var songs = [
+                    "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
+                    "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
+                    "https://static.rocko.xyz/audio/Music-outside.mp3",
+                    "https://static.rocko.xyz/audio/Music-sunburst.mp3"
+        ];
+
+
+        function c() {
+            var e = document.createElement("link");
+            e.setAttribute("type", "text/css");
+            e.setAttribute("rel", "stylesheet");
+            e.setAttribute("href", f);
+            e.setAttribute("class", l);
+            document.body.appendChild(e)
+        }
+
+        function h() {
+            var e = document.getElementsByClassName(l);
+            for (var t = 0; t < e.length; t++) {
+                document.body.removeChild(e[t])
+            }
+        }
+
+        function p() {
+            var e = document.createElement("div");
+            e.setAttribute("class", a);
+            document.body.appendChild(e);
+            setTimeout(function() {
+                document.body.removeChild(e)
+            }, 100)
+        }
+
+        function d(e) {
+            return {
+                height : e.offsetHeight,
+                width : e.offsetWidth
+            }
+        }
+
+        function v(i) {
+            var s = d(i);
+            return s.height > e && s.height < n && s.width > t && s.width < r
+        }
+
+        function m(e) {
+            var t = e;
+            var n = 0;
+            while (!!t) {
+                n += t.offsetTop;
+                t = t.offsetParent
+            }
+            return n
+        }
+
+        function g() {
+            var e = document.documentElement;
+            if (!!window.innerWidth) {
+                return window.innerHeight
+            } else if (e && !isNaN(e.clientHeight)) {
+                return e.clientHeight
+            }
+            return 0
+        }
+
+        function y() {
+            if (window.pageYOffset) {
+                return window.pageYOffset
+            }
+            return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+        }
+
+        function E(e) {
+            var t = m(e);
+            return t >= w && t <= b + w
+        }
+
+        function S() {
+            var e = document.getElementById("audio_element_id");
+            if(e != null){
+                var index = parseInt(e.getAttribute("curSongIndex"));
+                if(index > songs.length - 2) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                e.setAttribute("curSongIndex", index);
+                N();
+            }
+
+            e.src = i;
+            e.play()
+        }
+
+        function x(e) {
+            e.className += " " + s + " " + o
+        }
+
+        function T(e) {
+            e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+        }
+
+        function N() {
+            var e = document.getElementsByClassName(s);
+            var t = new RegExp("\\b" + s + "\\b");
+            for (var n = 0; n < e.length; ) {
+                e[n].className = e[n].className.replace(t, "")
+            }
+        }
+
+        function initAudioEle() {
+            var e = document.getElementById("audio_element_id");
+            if(e === null){
+                e = document.createElement("audio");
+                e.setAttribute("class", l);
+                e.setAttribute("curSongIndex", 0);
+                e.id = "audio_element_id";
+                e.loop = false;
+                e.bgcolor = 0;
+                e.addEventListener("canplay", function() {
+                setTimeout(function() {
+                    x(k)
+                }, 500);
+                setTimeout(function() {
+                    N();
+                    p();
+                    for (var e = 0; e < O.length; e++) {
+                        T(O[e])
+                    }
+                }, 15500)
+            }, true);
+            e.addEventListener("ended", function() {
+                N();
+                h();
+                go();
+            }, true);
+            e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+            document.body.appendChild(e);
+            }
+        }
+
+        initAudioEle();
+        var e = 30;
+        var t = 30;
+        var n = 350;
+        var r = 350;
+
+        var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+        var i = songs[curSongIndex];
+
+        var s = "mw-harlem_shake_me";
+        var o = "im_first";
+        var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+        var a = "mw-strobe_light";
+
+        /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
+        var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+
+        var l = "mw_added_css";
+        var b = g();
+        var w = y();
+        var C = document.getElementsByTagName("*");
+        var k = null;
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                if (E(A)) {
+                    k = A;
+                    break
+                }
+            }
+        }
+        if (A === null) {
+            console.warn("Could not find a node of the right size. Please try a different page.");
+            return
+        }
+        c();
+        S();
+        var O = [];
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                O.push(A)
+            }
+        }
+        })()'>High一下</a>
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+
+
+        </div>
+    </div>
+
+
+    <div id="main-nav-mobile" class="header-sub header-inner">
+
+        <table class="menu outer">
+
+
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    
+</header>
+
+        <div class="outer">
+            
+                
+
+
+<aside id="profile">
+    <div class="inner profile-inner" id="profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
+            <h2 id="name">Conor Lee</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                95
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                103
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+
+        <a href="https://github.com/agehua" class="github-corner" aria-label="View source on Github">
+          <svg width="64" height="64" viewBox="0 0 250 250" style="fill:#cba11f; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+            <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+          </svg>
+        </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+    <div id='toc-col' class="toc-col">
+        
+            <div id='toc-wrap' class="toc-wrap">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#java的内存分配策略"><span class="toc-number">1.</span> <span class="toc-text">java的内存分配策略</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#对象被回收的条件"><span class="toc-number">1.1.</span> <span class="toc-text">对象被回收的条件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java集合"><span class="toc-number">2.</span> <span class="toc-text">java集合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ArrayList"><span class="toc-number">2.1.</span> <span class="toc-text">ArrayList</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CopyOnWriteArrayList"><span class="toc-number">2.2.</span> <span class="toc-text">CopyOnWriteArrayList</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LinkedList"><span class="toc-number">2.3.</span> <span class="toc-text">LinkedList</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HashMap"><span class="toc-number">2.4.</span> <span class="toc-text">HashMap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ConcurrentHashMap"><span class="toc-number">2.5.</span> <span class="toc-text">ConcurrentHashMap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TreeMap和LinkedHashMap"><span class="toc-number">2.6.</span> <span class="toc-text">TreeMap和LinkedHashMap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HashSet和TreeSet"><span class="toc-number">2.7.</span> <span class="toc-text">HashSet和TreeSet</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Android中的Bundle-SparseArray和ArrayMap"><span class="toc-number">2.8.</span> <span class="toc-text">Android中的Bundle,SparseArray和ArrayMap</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ArrayList和LinkedList区别"><span class="toc-number">3.</span> <span class="toc-text">ArrayList和LinkedList区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HashMap、concurrentHashMap、HashTable的区别"><span class="toc-number">4.</span> <span class="toc-text">HashMap、concurrentHashMap、HashTable的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HashMap、HashTable区别"><span class="toc-number">4.1.</span> <span class="toc-text">HashMap、HashTable区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ConcurrentHashMap与HashTable的区别"><span class="toc-number">4.2.</span> <span class="toc-text">ConcurrentHashMap与HashTable的区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java中Vector和ArrayList的区别"><span class="toc-number">5.</span> <span class="toc-text">Java中Vector和ArrayList的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关于ArrayList和Vector区别如下："><span class="toc-number">5.1.</span> <span class="toc-text">关于ArrayList和Vector区别如下：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#深拷贝or浅拷贝"><span class="toc-number">6.</span> <span class="toc-text">深拷贝or浅拷贝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java引用类型"><span class="toc-number">7.</span> <span class="toc-text">java引用类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#android中的位运算"><span class="toc-number">8.</span> <span class="toc-text">android中的位运算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-内存模型（Java-Memory-Model-JMM）"><span class="toc-number">9.</span> <span class="toc-text">Java 内存模型（Java Memory Model ,JMM）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java内存模型的实现"><span class="toc-number">9.1.</span> <span class="toc-text">Java内存模型的实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ReentrantLock与synchronized对比"><span class="toc-number">10.</span> <span class="toc-text">ReentrantLock与synchronized对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#深入理解-AQS-和-CAS-原理"><span class="toc-number">11.</span> <span class="toc-text">深入理解 AQS 和 CAS 原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注解原理"><span class="toc-number">12.</span> <span class="toc-text">注解原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#应用APP启动过程"><span class="toc-number">13.</span> <span class="toc-text">应用APP启动过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#android崩溃"><span class="toc-number">14.</span> <span class="toc-text">android崩溃</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#异常分类"><span class="toc-number">15.</span> <span class="toc-text">异常分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exception-和-Error-区别"><span class="toc-number">16.</span> <span class="toc-text">Exception 和 Error 区别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ClassNotFoundException-和-NoClassDefFoundError-区别"><span class="toc-number">16.1.</span> <span class="toc-text">ClassNotFoundException 和 NoClassDefFoundError 区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java多线程sleep和wait的区别"><span class="toc-number">17.</span> <span class="toc-text">Java多线程sleep和wait的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简述jvm中默认的classLoader与功能"><span class="toc-number">18.</span> <span class="toc-text">简述jvm中默认的classLoader与功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重写的特性"><span class="toc-number">19.</span> <span class="toc-text">重写的特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#理解Serializable和Parcelable"><span class="toc-number">20.</span> <span class="toc-text">理解Serializable和Parcelable</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#自行决定哪些需要字段需要序列化"><span class="toc-number">20.1.</span> <span class="toc-text">自行决定哪些需要字段需要序列化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Activity-中的-onAttachedToWindow，View-的-onAttachedToWindow和-RecyclerView-Adapter-的-onViewAttachedToWindow"><span class="toc-number">21.</span> <span class="toc-text">Activity 中的 onAttachedToWindow，View 的 onAttachedToWindow和 RecyclerView.Adapter 的 onViewAttachedToWindow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LiveData为何能感知生命周期"><span class="toc-number">22.</span> <span class="toc-text">LiveData为何能感知生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ViewModel"><span class="toc-number">23.</span> <span class="toc-text">ViewModel</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#原理"><span class="toc-number">23.1.</span> <span class="toc-text">原理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kotlin单例"><span class="toc-number">24.</span> <span class="toc-text">Kotlin单例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用-object-关键字"><span class="toc-number">24.1.</span> <span class="toc-text">使用 object 关键字</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#怎样保证任务顺序执行"><span class="toc-number">25.</span> <span class="toc-text">怎样保证任务顺序执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#怎么统计app启动过程中的方法"><span class="toc-number">26.</span> <span class="toc-text">怎么统计app启动过程中的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fragment栈原理"><span class="toc-number">27.</span> <span class="toc-text">Fragment栈原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#32位和64位的区别"><span class="toc-number">28.</span> <span class="toc-text">32位和64位的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#虚拟内存（VSS-OOM）"><span class="toc-number">28.1.</span> <span class="toc-text">虚拟内存（VSS OOM）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#虚拟内存浅析"><span class="toc-number">29.</span> <span class="toc-text">虚拟内存浅析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重载和重写的区别"><span class="toc-number">30.</span> <span class="toc-text">重载和重写的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#android-中系统时间"><span class="toc-number">31.</span> <span class="toc-text">android 中系统时间</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#System-currentTimeMillis"><span class="toc-number">31.1.</span> <span class="toc-text">System.currentTimeMillis()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SystemClock-upTimeMillis"><span class="toc-number">31.2.</span> <span class="toc-text">SystemClock.upTimeMillis()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SystemClock-elapsedRealtime-amp-SystemClock-elapsedRealtimeNanos"><span class="toc-number">31.3.</span> <span class="toc-text">SystemClock.elapsedRealtime() &amp; SystemClock.elapsedRealtimeNanos</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#子线程更新UI"><span class="toc-number">32.</span> <span class="toc-text">子线程更新UI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java线程状态"><span class="toc-number">33.</span> <span class="toc-text">java线程状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#同步队列与等待队列"><span class="toc-number">34.</span> <span class="toc-text">同步队列与等待队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#静态方法传递Context会导致内存泄漏吗？"><span class="toc-number">35.</span> <span class="toc-text">静态方法传递Context会导致内存泄漏吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Https-单向认证和双向认证"><span class="toc-number">36.</span> <span class="toc-text">Https 单向认证和双向认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Activity启动流程主要包含几步？"><span class="toc-number">37.</span> <span class="toc-text">Activity启动流程主要包含几步？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#阻止activity重建时出现多个fragment"><span class="toc-number">38.</span> <span class="toc-text">阻止activity重建时出现多个fragment</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#intent传输数据大小限制"><span class="toc-number">39.</span> <span class="toc-text">intent传输数据大小限制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Handler"><span class="toc-number">40.</span> <span class="toc-text">Handler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么List-lt-String-gt-不能赋值给List-lt-Object-gt"><span class="toc-number">41.</span> <span class="toc-text">为什么List&lt;String&gt;不能赋值给List&lt;Object&gt;</span></a></li></ol>
+            </div>
+        
+    </div>
+</aside>
+
+<script type="text/javascript">
+/*
+    滚动函数
+    接收三个参数,
+        1 接收一个DOM对象
+        2 给目标对象切换class
+        3 触发的高度 (可选项,如果不指定高度,会将DOM的高度作为触发高度)
+*/
+function scrollCheck(scrollTarget, toggleClass, scrollHeight){
+    document.addEventListener('scroll',function(){
+    var currentTop = window.pageYOffset;
+        currentTop > (scrollHeight||scrollTarget.clientHeight)
+        ?scrollTarget.classList.add(toggleClass)
+        :scrollTarget.classList.remove(toggleClass)
+    })
+}
+
+(function(){
+      try {
+        document.getElementById("toc-wrap").style.width= document.getElementById("profile-inner").offsetWidth+ "px";
+        var introHeader = document.querySelector('.inner.profile-inner').offsetHeight;
+        var toc = document.querySelector('.toc-wrap');
+        scrollCheck(toc,'toc-fixed',introHeader+40+64);
+      }catch(err){
+
+      }
+        // var node = document.querySelector('.profile-inner');
+        // scrollCheck(node,'profile-inner-fixed',64);
+})();
+</script>
+
+            
+            <section id="main"><article id="post-Java-summary" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-inner">
+        
+            
+	
+		<img src="https://cdn.conorlee.top/Green%20Wheat%20Field%202.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Java内存分配策略
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2022/02/13/Java-summary/">
+            <time datetime="2022-02-12T16:00:00.000Z" itemprop="datePublished">2022-02-13</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/java/">Java</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/interview/">Interview</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">16 min read , Words: 3136</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+
+            <h3 id="java的内存分配策略"><a href="#java的内存分配策略" class="headerlink" title="java的内存分配策略"></a>java的内存分配策略</h3><p>1、Java 程序运行时的内存分配策略有三种：</p>
+<pre><code>(1) 静态分配
+(2) 栈式分配
+(3) 堆式分配
+</code></pre><a id="more"></a>
+<p>2、对应的三种存储策略使用的内存空间如下：</p>
+<pre><code>(1) 静态存储区(也称方法区)
+        主要存放静态数据、全局 static 数据和常量。这块内存在程序编译时就已经分配好，
+    并且在程序整个运行期间都存在。
+
+(2) 栈区
+        当方法被执行时，方法体内的局部变量都在栈上创建，并在方法执行结束时这些局部变量
+    所持有的内存将会自动被释放。因为栈内存分配运算内置于处理器的指令集中，效率很高，
+    但是分配的内存容量有限。
+
+(3) 堆区
+        又称动态内存分配，通常就是指在程序运行时直接 new 出来的内存。这部分内存在不使
+    用时将会由 Java 垃圾回收器来负责回收。
+
+(4) 栈与堆的区别：
+        在方法体内定义的（局部变量）一些基本类型的变量和对象的引用变量都是在方法的栈内存
+    中分配的。当在一段方法块中定义一个变量时，Java 就会在栈中为该变量分配内存空间，当超过
+    该变量的作用域后，该变量也就无效了，分配给它的内存空间也将被释放掉，该内存空间可以被
+    重新使用。
+
+        堆内存用来存放所有由 new 创建的对象（包括该对象其中的所有成员变量）和数组。在堆中分
+    配的内存，将由 Java 垃圾回收器来自动管理。在堆中产生了一个数组或者对象后，还可以在栈
+    中定义一个特殊的变量，这个变量的取值等于数组或者对象在堆内存中的首地址，这个特殊的变
+    量就是我们上面说的引用变量。我们可以通过这个引用变量来访问堆中的对象或者数组。
+
+(5) 结论：
+</code></pre><p><code>局部变量的基本数据类型和引用存储于栈中，引用的对象实体存储于堆中</code>。—— 因为它们属于方法中的变量，生命周期随方法而结束。</p>
+<p><code>成员变量全部存储与堆中（包括基本数据类型，引用和引用的对象实体）</code>—— 因为它们属于类，类对象终究是要被 new 出来使用的。</p>
+<p>3、垃圾回收的算法有哪些?</p>
+<ul>
+<li><p>① 引用计数法:原理是在此对象有个引用,即增加一个计数,删除一个引用则减少一个计数.垃圾回收时,只收集计数为0的对象.此算法的最致命的无法处理循环引用的问题</p>
+</li>
+<li><p>②: 标记-清除 :此算法分两个阶段,第一阶段从引用的根节点开始标记所有被引用的对象,第二阶段遍历整个堆,把未标记的对象清除,此算法需要暂停应用,同时产生内存碎片</p>
+</li>
+<li><p>③: 复制算法 此算法把内存划分为两个相等的区域,每次只使用一个区域,垃圾回收时,遍历当前使用的区域,把正在使用的对象复制到另一个区域中每次算法每次只处理正在使用的对象,因此复制的成本比较小,同时复制过去以后还能进行相应的内存整理,不会出现”碎片问题”,此算法的缺点也很明显,需要两倍的内存空间</p>
+</li>
+<li><p>④: 标记-整理:此算法结合了”标记-清除”和:复制算法的两个的优点,也是分两个阶段,第一个阶段从根节点开始标记所有被引用对象,第二阶段遍历整个堆,清除未标记的对象并且把存活的对象”压缩”到堆的其中一块,按顺序排放,,此算法避免”标记-清除”的碎片问题,同时也避免”复制”的空间问题</p>
+</li>
+</ul>
+<p>4。root搜索算法中,哪些可以作为root?</p>
+<ul>
+<li>被启动类(bootstrap加载器)加载的类和创建的对象</li>
+<li>JavaStack中引用的对象(栈内存中引用的对象)</li>
+<li>方法区中静态引用</li>
+</ul>
+<blockquote>
+<p>（1.jvm栈的栈帧中的本地变量表的引用 2.方法区静态属性引用 3.方法区中的常量引用 4.本地方法引用）</p>
+</blockquote>
+<p>5、Java 是如何管理内存</p>
+<pre><code>    Java 的内存管理就是对象的分配和释放问题。在 Java 中，程序员需要通过关键字 new 为
+每个对象申请内存空间 (基本类型除外)，所有的对象都在堆 (Heap)中分配空间。另外，对象的
+释放是由 GC 决定和执行的。在 Java 中，内存的分配是由程序完成的，而内存的释放是由 GC
+完成的，这种收支两条线的方法确实简化了程序员的工作。但同时，它也加重了JVM的工作。
+这也是 Java 程序运行速度较慢的原因之一。因为，GC 为了能够正确释放对象，GC 必须监控
+每一个对象的运行状态，包括对象的申请、引用、被引用、赋值等，GC 都需要进行监控。监视
+对象状态是为了更加准确地、及时地释放对象，而释放对象的根本原则就是该对象不再被引用。
+</code></pre><p>6、什么是 Java 中的内存泄露</p>
+<pre><code>    在 Java 中，内存泄漏就是存在一些被分配的对象，这些对象有下面两个特点，首先，这些对象是
+可达的，即在有向图中，存在通路可以与其相连；其次，这些对象是无用的，即程序以后不会再
+使用这些对象。如果对象满足这两个条件，这些对象就可以判定为 Java 中的内存泄漏，这些对象
+不会被 GC 所回收，然而它却占用内存。
+</code></pre><h4 id="对象被回收的条件"><a href="#对象被回收的条件" class="headerlink" title="对象被回收的条件"></a>对象被回收的条件</h4><ul>
+<li>可达性分析，该对象没有与GC Roots相连接的引用链，将进行如下操作</li>
+<li>如果对象还没有执行finalize()方法，就会被放入F-Queue中</li>
+<li>当GC触发时，Finalizer线程会F-Queue中的对象的finalize()方法</li>
+<li>执行完finalize()方法后，会再次判断对象是否可达，如果不可达，才会被回收（所以对象可以通过在finalize()中将自己连接上某个GC Root链的方式来拯救自己）</li>
+</ul>
+<h3 id="java集合"><a href="#java集合" class="headerlink" title="java集合"></a>java集合</h3><ul>
+<li>1.List：ArrayList、LinkedList、Vector、CopyOnWriteArrayList</li>
+<li>2.Set：HashSet、TreeSet、LinkedHashSet、CopyOnWriteArraySet、EnumSet</li>
+<li>3.Map：HashMap、TreeMap、LinkedHashMap、HashTable、ConcurrentHashMap、WeakHashMap、EnumMap</li>
+<li>4.Queue：ArrayBlockingQueue、LinkedBlockingQueue、DelayQueue、PriorityBlockingQueue、PriorityQueue。</li>
+</ul>
+<p>栈：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Stack&lt;E&gt; extends Vector&lt;E&gt; </span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line">Deque&lt;Integer&gt; stack = <span class="keyword">new</span> ArrayDeque&lt;Integer&gt;();</span><br><span class="line"><span class="comment">// 入栈</span></span><br><span class="line">stack.push(E item)</span><br><span class="line"><span class="comment">// 出栈</span></span><br><span class="line">stack.pop()</span><br><span class="line"><span class="comment">// 查看栈顶元素</span></span><br><span class="line">stack.peek()</span><br></pre></td></tr></table></figure></p>
+<h4 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * ArrayList底层的容器  </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">transient</span> Object[] elementData; <span class="comment">// non-private to simplify nested class access</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>transient解释：其实是ArrayList在序列化的时候会调用writeObject()，直接将size和element写入ObjectOutputStream；反序列化时调用readObject()，从ObjectInputStream获取size和element，再恢复到elementData。原因在于elementData是一个缓存数组，它通常会预留一些容量，等容量不足时再扩充容量，那么有些空间可能就没有实际存储元素，采用上诉的方式来实现序列化时，就可以保证只序列化实际存储的那些元素，而不是整个数组，从而节省空间和时间。</p>
+</blockquote>
+<p>扩容为原来的1.5倍</p>
+<h4 id="CopyOnWriteArrayList"><a href="#CopyOnWriteArrayList" class="headerlink" title="CopyOnWriteArrayList"></a>CopyOnWriteArrayList</h4><p>CopyOnWriteArrayList有点像线程安全的ArrayList.</p>
+<p>其实它的原理简单概括起来就是读写分离.写操作是在一个复制的数组上进行的,读操作在原始数组中进行,读写是分离的.写操作的时候是加锁了的,写操作完成了之后将原来的数组指向新的数组.</p>
+<p>下面我们简单看下add和get方法是如何实现写读操作的.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Appends the specified element to the end of this list.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> e element to be appended to this list</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; (as specified by &#123;<span class="doctag">@link</span> Collection#add&#125;)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Object[] elements = getArray();</span><br><span class="line">        <span class="keyword">int</span> len = elements.length;</span><br><span class="line">        Object[] newElements = Arrays.copyOf(elements, len + <span class="number">1</span>);</span><br><span class="line">        newElements[len] = e;</span><br><span class="line">        setArray(newElements);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line"><span class="function"><span class="keyword">private</span> E <span class="title">get</span><span class="params">(Object[] a, <span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (E) a[index];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> IndexOutOfBoundsException &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> get(getArray(), index);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>适用场景<br>因为每次写数据的时候都会开辟一个新的数组,这样就会耗费内存,而且加锁了,写的性能不是很好.而读操作是非常迅速的,并且还支持在写的同时可以读.</li>
+</ol>
+<p>所以就非常适合读多写少的场景.</p>
+<ol>
+<li><p>缺点<br>内存消耗大: 每次写操作都需要复制一个新的数组,所以内存占用是非常大的<br>数据不一致: 读数据的时候可能读取到的不是最新的数据,因为可能部分写入的数据还未同步到读的数组中.<br>对内存敏感和实时性要求很高的场景都不适合.</p>
+</li>
+<li><p>CopyOnWriteArrayList为啥比Vector性能好?<br>在Vector内部,增删改查都进行了synchronized修饰,每个方法都要去锁,性能会大大降低.而CopyOnWriteArrayList只是把增删改加锁了,所以CopyOnWriteArrayList在读方面明显好于Vector.所以CopyOnWriteArrayList最好是在<code>读多写少</code>的场景下使用.</p>
+</li>
+</ol>
+<h4 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>AbstractSequentialList这个类提供了List的一个骨架实现接口，以尽量减少实现此接口所需的工作量由“顺序访问”数据存储（如链接列表）支持。对于随机访问数据（如数组），应使用AbstractList优先于此类。</li>
+<li>实现了List接口,意味着LinkedList元素是有序的,可以重复的,可以有null元素的集合.</li>
+<li>Deque是Queue的子接口,Queue是一种队列形式,而Deque是双向队列,它支持从两个端点方向检索和插入元素.</li>
+<li>实现了Cloneable接口,标识着可以它可以被复制.注意,ArrayList里面的clone()复制其实是浅复制(不知道此概念的赶快去查资料,这知识点非常重要).</li>
+</ul>
+<p>实现了Serializable 标识着集合可被序列化。</p>
+<p>LinkedList底层是链表结构:</p>
+<ul>
+<li>插入和删除比较快（O(1)），查询则相对慢一些（O(n)）</li>
+<li>因为是链表结构，所以分配的空间不要求是连续的</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">    E item;  <span class="comment">//该节点的数据</span></span><br><span class="line">    Node&lt;E&gt; next; <span class="comment">//指向下一个节点的指针</span></span><br><span class="line">    Node&lt;E&gt; prev; <span class="comment">//指向上一个节点的指针</span></span><br><span class="line"></span><br><span class="line">    Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) &#123;</span><br><span class="line">        <span class="keyword">this</span>.item = element;</span><br><span class="line">        <span class="keyword">this</span>.next = next;</span><br><span class="line">        <span class="keyword">this</span>.prev = prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// LinkedList 当做队列使用</span></span><br><span class="line">Queue&lt;Integer&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">queue.peek(); <span class="comment">// 得到队列头元素，不出队</span></span><br><span class="line">queue.poll(); <span class="comment">// 取出队列头元素，出队</span></span><br><span class="line">queue.offer();<span class="comment">// 入队，队列容量不够时，不会抛出异常，这点跟 queue.add() 相反</span></span><br><span class="line">~</span><br></pre></td></tr></table></figure>
+<h4 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h4><ol>
+<li>存储结构<br>JDK 1.7<br>内部是以数组的形式存储了Entry对象,而每个Entry对象里面有key和value用来存值.它里面包含了key、value、next、hash四个字段,其中next字段是用来引用下一个Entry的(相同的hash值会被放入同一个链表中).数组中的每个位置都是一条单链表(也可以称之为桶),数组中的元素的表头.解决冲突的方式是拉链法,同一条单链表中的Entry的hash值是相同的.</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">transient</span> Entry&lt;K,V&gt;[] table;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> K key;</span><br><span class="line">        V value;</span><br><span class="line">        Entry&lt;K,V&gt; next;</span><br><span class="line">        <span class="keyword">int</span> hash;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>JDK 1.8<br>存储结构也是数组,只不过将Entry换了个名字叫Node.1.7中hash值相同的是放单链表中,1.8也是,当这个单链表的长度超过8时,会转换成红黑树,增加查找效率.</p>
+<ol>
+<li>负载因子和阈值</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The default initial capacity - MUST be a power of two.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The load factor used when none specified in constructor.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DEFAULT_LOAD_FACTOR = <span class="number">0.75f</span>;</span><br></pre></td></tr></table></figure>
+<p>HashMap的默认大小是16,默认负载因子是0.75,意思是当存的元素个数超过<code>16*0.75</code>时就要对数组扩容,这里的阈值就是16*0.75=12.负载因子就是用来控制什么时候进行扩容的.</p>
+<blockquote>
+<p>阈值 = 当前数组长度*负载因子</p>
+</blockquote>
+<p>每次扩容之后都得重新计算阈值.默认的数组长度是16,默认的负载因子是0.75这些都是有讲究的.在元素个数达到数组的75%时进行扩容是一个比较折中的临界点,如果定高了的话hash冲突就很严重,桶就会很深,查找起来比较慢,定低了又浪费空间.一般情况下,还是不会去定制这个负载因子.</p>
+<ol>
+<li><p>拉链法工作原理<br>每次新存入一个新的键值对时,首先计算Entry的hashCode,用hashCode%数组长度得到所在桶下标,然后在桶内依次查找是否已存在该元素,存在则更新,不存在则插入到桶的头部.</p>
+</li>
+<li><p>HashMap 1.7和1.8区别</p>
+</li>
+</ol>
+<ul>
+<li>JDK1.7用的是头插法,JDK1.8及置换是尾插法. 且1.7插入时候顺序是与原来相反的,而1.8则还是原来的顺序</li>
+<li>JDK1.7是数组+链表,JDK1.8是数组+链表+红黑树</li>
+<li>JDK1.7在插入数据之前进行扩容,JDK1.8是插入数据之后才扩容</li>
+<li>JDK1.7是Entry来表示节点,而JDK1.8是Node</li>
+<li>JDK1.7扩容和后存储位置是用hash &amp; (length-1)计算来的,而JDK1.8只需要判断hash值新增参与运算的位是0还是1就能快速计算出扩容后该放在原位置,还是需要放在 原位置+扩容的大小值 .</li>
+<li>计算hash值的时候,JDK1.7用了9次扰动处理,而JDK1.8是2次<br>ps: 红黑树查找元素,需要O（logn）的开销</li>
+</ul>
+<ol>
+<li>下面来介绍下HashMap与Hashtable的区别：</li>
+</ol>
+<ul>
+<li>1.实现：HashMap继承的类是AbstractMap类，而Hashtable继承的是Dictionary类，而Dictionary是一个过时的类，因此通常情况下建议使用HashMap而不是使用Hashtable</li>
+<li>2.内部结构：其实HashMap与Hashtable内部基本都是使用数组-链表的结构，但是HashMap引入了红黑树的实现，内部相对来说更加复杂而性能相对来说应该更好</li>
+<li>3.NULL值控制：通过前面的介绍我们知道Hashtable是不允许key-value为null值的，Hashtable对于key-value为空的情况下将抛出NullPointerException，而HashMap则是允许key-value为null的，HashMap会将key=null方法index=0的位置。</li>
+<li>4.线程安全：通过阅读源码可以发现Hashtable的方法中基本上都是有<code>synchronized</code>关键字修饰的，但是HashMap是线程不安全的，故对于单线程的情况下来说HashMap的性能更优于Hashtable，单线程场景下建议使用HashMap.</li>
+</ul>
+<blockquote>
+<p>HashMap是绝大部分利用键值对存取场景的首选.多线程环境下,推荐使用ConcurrentHashMap.</p>
+</blockquote>
+<p>数组+链表+红黑树</p>
+<h4 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h4><ol>
+<li>ConcurrentHashMap存在的意义?<br>有了HashMap和Hashtable为啥还需要ConcurrentHashMap?</li>
+</ol>
+<p>HashMap本身不是线程安全的,不应该在多线程情况下使用!!!.</p>
+<p>Hashtable是使用synchronized保证线程安全,当一个线程访问其中一个同步方法时,另外的线程是不能访问其同步方法的(竞争的是同一把锁).这样就会导致在put数据的时候,其他线程也不能get数据之类的操作.在线程竞争激烈的条件下,并发效率非常低.</p>
+<p>既要多线程环境下使用,也要效率高? 选ConcurrentHashMap没错了.</p>
+<ol>
+<li>ConcurrentHashMap使用的是分段锁(Segment)技术,将数组分成很多段,每个分段锁维护着几个桶(HashEntry),然后修改数据的时候将这一段锁起来,其他线程这个时候要操作其他分段的数据也互不干扰.如果操作的不是同一分段,则线程间不存在竞争关系,大大提高了并发效率. 当然,有的朋友可能也想到了,有些时候可能需要跨段,比如调用size()方法,这个时候可能会锁整个表.</li>
+</ol>
+<p>而在JDK1.8中抛弃了Segment分段锁机制,利用CAS+synchronized来保证并发更新的安全.</p>
+<blockquote>
+<p>乐观锁是一种思想，CAS是这种思想的其中一种实现方式.当多个线程尝试使用CAS同时更新同一个变量时,只有其中一个线程能更新变量的值,而其他线程都失败,失败的线程并不会挂起,而是被告知这次竞争失败,并可以再次尝试. CAS操作中包含3个操作数: 需要读写的位置(V)、进行比较的预期原值(A)和拟写入的新值(B).如果内存位置V的值与预期原值A相匹配,那么处理器会自动将该位置值更新为新值B.否则处理器不做任何操作.</p>
+</blockquote>
+<h4 id="TreeMap和LinkedHashMap"><a href="#TreeMap和LinkedHashMap" class="headerlink" title="TreeMap和LinkedHashMap"></a>TreeMap和LinkedHashMap</h4><ol>
+<li>TreeMap整体结构<br>TreeMap底层的数据结构是红黑树,和HashMap的红黑树结构是一样的.</li>
+</ol>
+<p>TreeMap利用红黑树左节点小,右节点大的性质,根据key进行排序,使每个元素能够插入到红黑树中大小适当的位置,维护了key的大小关系,适用于key需要排序的场景.</p>
+<p>因为底层使用的是平衡二叉树的结构,所以containsKey,get,put,put,remove等方法的时间复杂度都是<code>log(n)</code>.</p>
+<ol>
+<li>LinkedHashMap的使用<br>HashMap是无序的,TreeMap可以根据key进行排序,LinkedHashMap可以维护插入的顺序.LinkedHashMap是HashMap的子类,它内部有一个双向链表维护着键值对的顺序.每个键值对即是位于哈希表中,也是位于双向链表中.LinkedHashMap支持两种顺序:</li>
+</ol>
+<ul>
+<li>插入顺序: 先添加的在前面,后添加的在后面.修改操作是不影响顺序的</li>
+<li>访问顺序: 在get/put操作之后,其对应的键值对会移动到链表末尾,表示最近使用到的.而链表的头部就是最久没有被访问到的.</li>
+</ul>
+<h4 id="HashSet和TreeSet"><a href="#HashSet和TreeSet" class="headerlink" title="HashSet和TreeSet"></a>HashSet和TreeSet</h4><ol>
+<li><p>HashSet<br>HashSet里面维护了一个不含重复元素的集合,实现比较简单,就是通过HashMap来实现的.</p>
+</li>
+<li><p>TreeSet<br>TreeSet大致的结构是和HashSet相似,底层的数据结构是TreeMap,所以继承了TreeMap key能够排序的功能,迭代的时候也可以按照key的顺序排序进行迭代.</p>
+</li>
+<li><p>HashSet和TreeSet的区别</p>
+</li>
+</ol>
+<ul>
+<li>HashSet保存的数据是无序的,TreeSet保存的数据是有序的.</li>
+<li>TreeSet保存自定义类对象的时候,必须实现Comparable接口,不实现就无法区分大小关系,无法排序.HashSet存对象的时候,判断其元素是否重复的依据是hashCode()和equals().</li>
+</ul>
+<h4 id="Android中的Bundle-SparseArray和ArrayMap"><a href="#Android中的Bundle-SparseArray和ArrayMap" class="headerlink" title="Android中的Bundle,SparseArray和ArrayMap"></a>Android中的Bundle,SparseArray和ArrayMap</h4><ol>
+<li>Bundle</li>
+</ol>
+<p>Android为什么要设计Bundle而不是直接使用HashMap来直接进行数据传递?</p>
+<p>Bundle内部是由ArrayMap实现的,ArrayMap在设计上比传统的HashMap更多考虑的是内存优化<br>Bundle使用的是Parcelable序列化,而HashMap使用Serializable序列化</p>
+<ol>
+<li>SparseArray</li>
+</ol>
+<p>SparseArray是用来存储key-value组合的,类似HashMap.但是它只能存储key为int类型的,也就避免了key的装箱操作和分配空间.建议使用<code>SparseArray&lt;V&gt;</code>替换<code>HashMap&lt;Integer,V&gt;</code>.</p>
+<p>还有就是SparseArray是专门设计来节省空间的,所以它里面的数据存储得非常紧凑.key和value都是单独用一个数组来存储的,并且数组是按大小排好序了的,每次增删改查等操作都是用<code>二分查找</code>来进行定位位置的.</p>
+<p>可以看到SparseArray比HashMap少了基本数据的自动装箱操作,而且不需要额外的结构体,单个元素存储成本低,在数据量小的情况下,随机访问的效率很高.但是缺点也显而易见,就是增删的效率比较低,在数据量比较大的时候,调用gc拷贝数组成本巨大.</p>
+<p>除了SparseArray,Android还提供了SparseIntArray(int:int),SparseBooleanArray(int:boolean),SparseLongArray(int:long)等,其实就是把对应的value换成基本数据类型.</p>
+<ol>
+<li>ArrayMap</li>
+</ol>
+<p>ArrayMap是一种通用的key-value映射的数据结构,和SparseArray类似.但是SparseArray只能存储int类型的key,而ArrayMap可以存储其他类型的key.如果你没有见过它也没关系,你肯定用过它.Bundle底层就是用的这玩意儿存储的数据.它底层不使用SparseArray可能就是因为它的key只能是int类型.</p>
+<p>ArrayMap与传统的HashMap不同,它的数据结构是两个数组,一个数组(mHashes)用来存放key的hashcode,一个数组(mArray)用来存放key和value.你没看错,mArray数组里面即存放了key,也存放了value</p>
+<p>ArrayMap在put/remove时,和SparseArray基本是一致的,也是通过二分查找求数组索引,然后再执行相应的操作.不同的是ArrayMap的扩容机制和缩容机制.</p>
+<p>在put需要扩容时,如果容量小于4就给4,小于8就给8,其次就是扩容1.5倍.之所以给4或8是因为可以利用缓存的ArrayMap对象;在remove时,如果数组长度大于8但是存储的数据不足数据大小的1/3时,就会缩容,mSize小于等于8则设置新大小为8,否就设置为mSize的1.5倍,也就是说在内存使用量不足1/3时,内存数据收紧50%.</p>
+<p>除了 put 方法，ArrayMap 和 SparseArray 都有一个 append 方法，它和 put 很相似，append 的差异在于该方法不会去做扩容操作，是一个轻量级的插入方法。在明确知道肯定会插入队尾的情况下使用 append 性更好，因为 put 一上来就做二分查找，时间复杂度 O(logn)，而 append 时间复杂度为 O(1)。</p>
+<p>ArraySet 也是 Android 特有的数据结构，用来替代 HashSet 的，和 ArrayMap 几乎一致，包含了缓存机制、扩容机制等。</p>
+<h3 id="ArrayList和LinkedList区别"><a href="#ArrayList和LinkedList区别" class="headerlink" title="ArrayList和LinkedList区别"></a>ArrayList和LinkedList区别</h3><p>我们知道，通常情况下，ArrayList和LinkedList的区别有以下几点：</p>
+<ol>
+<li>ArrayList是实现了基于动态数组的数据结构，而LinkedList是基于链表的数据结构；</li>
+<li>对于随机访问get和set，ArrayList要优于LinkedList，因为LinkedList要移动指针；</li>
+<li>对于添加和删除操作add和remove，一般大家都会说LinkedList要比ArrayList快，因为ArrayList要移动数据。但是实际情况并非这样，对于添加或删除，LinkedList和ArrayList并不能明确说明谁快谁慢</li>
+<li>针对for循环，ArrayList比LinkedList速度快，因为LinkedList没有实现<code>RandomAccess</code>接口，需要从头或者从尾开始遍历到指定位置。如果都使用迭代器遍历的话，双方时间差不多。</li>
+</ol>
+<blockquote>
+<p>关于第三条：ArrayList在添加和删除，如果未出现扩容的情况下，ArrayList快，这是因为：当 ArrayList 在添加元素到数组中间时，有一部分数据需要复制重排，效率就不是很高，那为啥 LinkedList 比它还要低呢？这是因为 LinkedList 把元素添加到中间位置的时候，需要在添加之前先遍历查找，这个查找的时间比较耗时。更多详细区别可以看这篇文章 <a href="https://blog.csdn.net/javageektech/article/details/108162342" target="_blank" rel="noopener">https://blog.csdn.net/javageektech/article/details/108162342</a></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 使用Iterator遍历没有实现 RandomAccess的数据结构</span></span><br><span class="line"><span class="keyword">if</span> (!(list <span class="keyword">instanceof</span> RandomAccess)) &#123;</span><br><span class="line">    Iterator it = list.iterator();</span><br><span class="line">    <span class="keyword">while</span>(it.hasNext()) &#123;</span><br><span class="line">        Println(it.next());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="HashMap、concurrentHashMap、HashTable的区别"><a href="#HashMap、concurrentHashMap、HashTable的区别" class="headerlink" title="HashMap、concurrentHashMap、HashTable的区别"></a>HashMap、concurrentHashMap、HashTable的区别</h3><p>HashMap是基于哈希表实现的，每一个元素都是一个key-value对，其内部通过单链表解决冲突问题，容量不足（超过了阈值）时，同样会自动增长。</p>
+<p>HashMap是<code>非线程安全的</code>，只是用于单线程环境下，多线程环境下可以采用concurrent并发包下的<code>concurrentHashMap</code>。</p>
+<p>HashMap实现了Serializable接口，因此它支持序列化，实现了Cloneable接口，能被克隆。</p>
+<h4 id="HashMap、HashTable区别"><a href="#HashMap、HashTable区别" class="headerlink" title="HashMap、HashTable区别"></a>HashMap、HashTable区别</h4><pre><code>1、HashMap是非线程安全的，HashTable是线程安全的。
+
+2、HashMap的键和值都允许有null值存在，而HashTable则不行。
+
+3、因为线程安全的问题，HashMap效率比HashTable的要高。
+</code></pre><p>ConcurrentHashMap是线程安全的HashMap的实现。同样是线程安全的类，它与HashTable在同步方面有什么不同呢？</p>
+<h4 id="ConcurrentHashMap与HashTable的区别"><a href="#ConcurrentHashMap与HashTable的区别" class="headerlink" title="ConcurrentHashMap与HashTable的区别"></a>ConcurrentHashMap与HashTable的区别</h4><p>ConcurrentHashMap基于concurrentLevel划分出了多个Segment来对key-value进行存储，从而避免每次锁定整个数组，在默认的情况下，允许16个线程并发无阻塞的操作集合对象，尽可能地减少并发时的阻塞现象。</p>
+<p>ConcurrentHashMap使用Lock锁住部分数组，而HashTable则是锁住整个数组，所以在多线程的环境中，相对于HashTable，ConcurrentHashMap会带来很大的性能提升！</p>
+<blockquote>
+<p>而在JDK1.8中抛弃了Segment分段锁机制,利用CAS+synchronized来保证并发更新的安全.</p>
+</blockquote>
+<h3 id="Java中Vector和ArrayList的区别"><a href="#Java中Vector和ArrayList的区别" class="headerlink" title="Java中Vector和ArrayList的区别"></a>Java中Vector和ArrayList的区别</h3><pre><code>首先看这两类都实现List接口，而List接口一共有三个实现类，分别是ArrayList、Vector和LinkedList。List用于存放多个元素，能够维护元素的次序，并且允许元素的重复。3个具体实现类的相关区别如下：
+</code></pre><ul>
+<li>ArrayList是最常用的List实现类，内部是通过<code>数组</code>实现的，它允许对元素进行快速随机访问。数组的缺点是每个元素之间不能有间隔，当数组大小不满足时需要增加存储能力，就要讲已经有数组的数据复制到新的存储空间中。当从ArrayList的中间位置插入或者删除元素时，需要对数组进行复制、移动、代价比较高。因此，它适合随机查找和遍历，不适合插入和删除。</li>
+<li>Vector与ArrayList一样，也是通过<code>数组</code>实现的，不同的是它支持线程的同步，即某一时刻只有一个线程能够写Vector，避免多线程同时写而引起的不一致性，但实现同步需要很高的花费，因此，访问它比访问ArrayList慢。</li>
+<li>LinkedList是用<code>链表结构</code>存储数据的，很适合数据的动态插入和删除，随机访问和遍历速度比较慢。另外，他还提供了List接口中没有定义的方法，专门用于操作表头和表尾元素，可以当作堆栈、队列和双向队列使用。</li>
+</ul>
+<h4 id="关于ArrayList和Vector区别如下："><a href="#关于ArrayList和Vector区别如下：" class="headerlink" title="关于ArrayList和Vector区别如下："></a>关于ArrayList和Vector区别如下：</h4><ul>
+<li>ArrayList在内存不够时默认是扩展50% + 1个，Vector是默认扩展1倍。</li>
+<li>Vector提供indexOf(obj, start)接口，ArrayList没有。</li>
+<li>Vector属于线程安全级别的，但是大多数情况下不使用Vector，因为线程安全需要更大的系统开销。</li>
+</ul>
+<h3 id="深拷贝or浅拷贝"><a href="#深拷贝or浅拷贝" class="headerlink" title="深拷贝or浅拷贝"></a>深拷贝or浅拷贝</h3><p>在java语言中，有几种方式可以创建对象呢？</p>
+<ul>
+<li>1 使用new操作符创建一个对象</li>
+<li>2 使用clone方法复制一个对象</li>
+</ul>
+<p>那么这两种方式有什么相同和不同呢？ </p>
+<ul>
+<li><p>new操作符的本意是分配内存。程序执行到new操作符时， 首先去看new操作符后面的类型，因为知道了类型，才能知道要分配多大的内存空间。分配完内存之后，再调用构造函数，填充对象的各个域，这一步叫做对象的初始化，构造方法返回后，一个对象创建完毕，可以把他的引用（地址）发布到外部，在外部就可以使用这个引用操纵这个对象。</p>
+</li>
+<li><p>而clone在第一步是和new相似的，都是分配内存，调用clone方法时，分配的内存和源对象（即调用clone方法的对象）相同，然后再使用原对象中对应的各个域，填充新对象的域， 填充完成之后，clone方法返回，一个新的相同的对象被创建，同样可以把这个新对象的引用发布到外部。</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Person p = <span class="keyword">new</span> Person(<span class="number">23</span>, <span class="string">"zhang"</span>);  </span><br><span class="line">Person p1 = p;  </span><br><span class="line">  </span><br><span class="line">System.out.println(p);  </span><br><span class="line">System.out.println(p1);</span><br></pre></td></tr></table></figure>
+<p><strong>这种是复制引用</strong></p>
+<p>如果两个Person对象的name的地址值相同， 说明两个对象的name都指向同一个String对象， 也就是浅拷贝， 而如果两个对象的name的地址值不同， 那么就说明指向不同的String对象， 也就是在拷贝Person对象的时候， 同时拷贝了name引用的String对象， 也就是深拷贝。验证代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Person p = <span class="keyword">new</span> Person(<span class="number">23</span>, <span class="string">"zhang"</span>);  </span><br><span class="line">Person p1 = (Person) p.clone();  </span><br><span class="line">  </span><br><span class="line">String result = p.getName() == p1.getName()   </span><br><span class="line">        ? <span class="string">"clone是浅拷贝的"</span> : <span class="string">"clone是深拷贝的"</span>;  </span><br><span class="line">  </span><br><span class="line">System.out.println(result);</span><br></pre></td></tr></table></figure>
+<p><strong>clone是浅拷贝的</strong></p>
+<p><strong>序列化属于深拷贝</strong></p>
+<p>更多关于java拷贝知识参考这篇文章： <a href="https://juejin.cn/post/6844903806577164302" target="_blank" rel="noopener">https://juejin.cn/post/6844903806577164302</a></p>
+<h3 id="java引用类型"><a href="#java引用类型" class="headerlink" title="java引用类型"></a>java引用类型</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">引用类型</th>
+<th style="text-align:center">被垃圾回收时间</th>
+<th style="text-align:center">用途</th>
+<th style="text-align:center">生存时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">强引用</td>
+<td style="text-align:center">从来不会</td>
+<td style="text-align:center">对象的一般状态</td>
+<td style="text-align:center">JVM停止运行时终止</td>
+</tr>
+<tr>
+<td style="text-align:center">软引用</td>
+<td style="text-align:center">在内存不足时</td>
+<td style="text-align:center">对象缓存</td>
+<td style="text-align:center">内存不足时终止</td>
+</tr>
+<tr>
+<td style="text-align:center">弱引用</td>
+<td style="text-align:center">在垃圾回收时</td>
+<td style="text-align:center">对象缓存</td>
+<td style="text-align:center">gc运行后终止</td>
+</tr>
+<tr>
+<td style="text-align:center">虚引用</td>
+<td style="text-align:center">Unknown</td>
+<td style="text-align:center">Unknown</td>
+<td style="text-align:center">Unknown</td>
+</tr>
+</tbody>
+</table>
+<p><strong>强引用</strong>是使用最普遍的引用：<br>Object o=new Object(); 特点：不会被GC<br>将对象的引用显示地置为null：o=null; // 帮助垃圾收集器回收此对象</p>
+<p><strong>软引用</strong>用来描述一些<code>还有用但是并非必须</code>的对象，在Java中用java.lang.ref.SoftReference类来表示。对于软引用关联着的对象，<code>只有在内存不足的时候JVM才会回收该对象</code>。因此，这一点可以很好地用来解决OOM的问题，并且这个特性很适合用来实现缓存：比如网页缓存、图片缓存等</p>
+<p><strong>弱引用</strong>与软引用的区别在于：只具有弱引用的对象拥有更短暂的生命周期。在垃圾回收器线程扫描它所管辖的内存区域的过程中，一旦发现了只具有弱引用的对象，不管当前内存空间足够与否，都会回收它的内存。不过，由于垃圾回收器是一个优先级很低的线程，因此不一定会很快发现那些只具有弱引用的对象</p>
+<p><strong>虚引用</strong>也称为幻影引用：一个对象是都有虚引用的存在都不会对生存时间都构成影响，也无法通过虚引用来获取对一个对象的真实引用。唯一的用处：能在对象被GC时收到系统通知，JAVA中用PhantomReference来实现虚引用。</p>
+<h3 id="android中的位运算"><a href="#android中的位运算" class="headerlink" title="android中的位运算"></a>android中的位运算</h3><p><a href="https://juejin.im/post/5c51f308e51d45141a1f2f2c" target="_blank" rel="noopener">https://juejin.im/post/5c51f308e51d45141a1f2f2c</a></p>
+<h3 id="Java-内存模型（Java-Memory-Model-JMM）"><a href="#Java-内存模型（Java-Memory-Model-JMM）" class="headerlink" title="Java 内存模型（Java Memory Model ,JMM）"></a>Java 内存模型（Java Memory Model ,JMM）</h3><p>Java内存模型规定了所有的变量都存储在主内存中，每条线程还有自己的<code>工作内存</code>，线程的工作内存中保存了该线程中是用到的变量的主内存副本拷贝，线程对变量的所有操作都必须在<code>工作内存</code>中进行，而不能直接读写主内存。不同的线程之间也无法直接访问对方工作内存中的变量，线程间变量的传递均需要自己的工作内存和主存之间进行数据同步进行。</p>
+<p>而JMM就作用于工作内存和主存之间数据同步过程。他规定了如何做数据同步以及什么时候做数据同步。</p>
+<blockquote>
+<p>主内存和工作内存与JVM内存结构中的Java堆、栈、方法区等并不是同一个层次的内存划分，无法直接类比。《深入理解Java虚拟机》中认为，如果一定要勉强对应起来的话，从变量、主内存、工作内存的定义来看，主内存主要对应于Java堆中的对象实例数据部分。工作内存则对应于虚拟机栈中的部分区域</p>
+</blockquote>
+<p>总结下，JMM是一种规范，目的是解决由于多线程通过共享内存进行通信时，存在的<strong>本地内存数据不一致</strong>、<strong>编译器会对代码指令重排序</strong>、<strong>处理器会对代码乱序执行</strong>等带来的问题。目的是保证并发编程场景中的原子性、可见性和有序性。</p>
+<h4 id="Java内存模型的实现"><a href="#Java内存模型的实现" class="headerlink" title="Java内存模型的实现"></a>Java内存模型的实现</h4><p>了解Java多线程的朋友都知道，在Java中提供了一系列和并发处理相关的关键字，比如volatile、synchronized、final、concurren包等。其实这些就是Java内存模型封装了底层的实现后提供给程序员使用的一些关键字。</p>
+<p>其实，原子性问题，可见性问题和有序性问题。是人们抽象定义出来的。而这个抽象的底层问题就是前面提到的缓存一致性问题、处理器优化问题和指令重排问题等</p>
+<ul>
+<li>原子性是指在一个操作中就是cpu不可以在中途暂停然后再调度，既不被中断操作，要不执行完成，要不就不执行。</li>
+<li>可见性是指当多个线程访问同一个变量时，一个线程修改了这个变量的值，其他线程能够立即看得到修改的值。</li>
+<li>有序性即程序执行的顺序按照代码的先后顺序执行。</li>
+</ul>
+<ol>
+<li>原子性<br>在Java中，为了保证原子性，提供了两个高级的字节码指令<code>monitorenter</code>和<code>monitorexit</code>。在synchronized的实现原理文章中，介绍过，这两个字节码，在Java中对应的关键字就是<code>synchronized</code>。</li>
+</ol>
+<p>因此，在Java中可以使用synchronized来保证方法和代码块内的操作是原子性的。</p>
+<ol>
+<li>可见性<br>Java内存模型是通过在变量修改后将新值同步回主内存，在变量读取前从主内存刷新变量值的这种依赖主内存作为传递媒介的方式来实现的。</li>
+</ol>
+<p>Java中的volatile关键字提供了一个功能，那就是被其修饰的变量在被修改后可以立即同步到主内存，被其修饰的变量在每次是用之前都从主内存刷新。因此，可以使用<code>volatile</code>来保证多线程操作时变量的<code>可见性</code>。</p>
+<p>除了volatile，Java中的<code>synchronized</code>和<code>final</code>两个关键字也可以实现可见性。只不过实现方式不同，这里不再展开了。</p>
+<ol>
+<li>有序性</li>
+</ol>
+<p>在Java中，可以使用synchronized和volatile来保证多线程之间操作的<code>有序性</code>。实现方式有所区别：</p>
+<blockquote>
+<p>volatile关键字会禁止指令重排。synchronized关键字保证同一时刻只允许一条线程操作。</p>
+</blockquote>
+<p>好了，这里简单的介绍完了Java并发编程中解决原子性、可见性以及有序性可以使用的关键字。读者可能发现了，好像synchronized关键字是万能的，他可以同时满足以上三种特性，这其实也是很多人滥用synchronized的原因。</p>
+<p>但是synchronized是比较影响性能的，虽然编译器提供了很多锁优化技术，但是也不建议过度使用。</p>
+<h3 id="ReentrantLock与synchronized对比"><a href="#ReentrantLock与synchronized对比" class="headerlink" title="ReentrantLock与synchronized对比"></a>ReentrantLock与synchronized对比</h3><ol>
+<li>Synchronized<br>Synchronized是通过同步互斥来实现线程安全的；即同一时间只能有一个线程访问synchronized修饰的代码块或方法。其特性与功能如下：</li>
+</ol>
+<ul>
+<li>synchronized是java的关键字，由jvm支持。</li>
+<li>支持重入，即一个线程在获取对象的锁以后可以再次对此对象上锁。</li>
+<li>修饰普通方法，锁是当前实例对象；修饰静态方法，锁是当前类的class对象；包裹代码块，锁是括号中的对象。</li>
+<li>不支持等待中断。</li>
+<li>synchronized是非公平的。</li>
+</ul>
+<ol>
+<li>ReentrantLock<br>ReentrantLock是一种非常常见的临界区处理手段，通过在执行代码前上锁保证同一时间只有一个线程能执行指定的代码块。ReentrantLock的特性与功能如下：</li>
+</ol>
+<ul>
+<li>ReentrantLock是java api层面的实现，有Unsafe支持。</li>
+<li>支持重入。</li>
+<li>支持公平锁、非公平锁，默认是非公平锁。公平锁指：<code>多个线程在等待同一个线程的锁时，必须按照申请所得时间顺序来获取锁</code>。非公平锁指：在锁被释放时，任何一个等待锁的线程都有机会获取锁。</li>
+<li>支持等待中断。例如：A线程获取对象O的锁， B线程等待获取O的锁，当B长时间无法获取锁时，B可以放弃获取锁。</li>
+<li>锁可以绑定多个条件。线程进入临界区，却发现在某一条件满足之后才能执行，条件对象就是用来管理那些已经获得了锁，但是却不能做有用工作的线程。一个ReentrantLock对象可以同时绑定多个Condition对象。</li>
+</ul>
+<p>ReentrantLock本质上是通过一个队列来完成同步的。因为每个Node与一个线程关联，只需要做好对队列节点的同步处理，既可以完成多线程的同步处理。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    ReentrantLock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Test tt = <span class="keyword">new</span> Test();</span><br><span class="line"></span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                tt.add();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        Thread t2 = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                tt.add();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;<span class="number">10</span>; i++) &#123;</span><br><span class="line">            System.out.println(<span class="string">"测试"</span>+i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">catch</span> (Exception e)&#123;&#125;</span><br><span class="line">    <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过以上代码我们可以发现，不同于synchronized，ReentrantLock需要开发手动在代码中加锁和解锁。</p>
+<ol>
+<li>公平锁与非公平锁</li>
+</ol>
+<blockquote>
+<p>公平锁：通过同步队列来实现多个线程按照申请锁的顺序获取锁。</p>
+</blockquote>
+<p>默认情况下，synchronized和ReentrantLock都是<code>非公平锁</code>。但是ReentrantLock可以通过构造函数传参true,来创建公平锁，可以通过以下的部分源码。</p>
+<p>synchronized是JVM虚拟机的实现， 而ReentrantLock是JDK实现的，是java.util.concurrent包中的锁。</p>
+<ol>
+<li>单例的双重校验锁实现(面试必备)</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="comment">// 使用volatile修饰变量可以禁止JVM的指令重排，保证多线程下获取实例的唯一。</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton instance;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Singleton.class)&#123;</span><br><span class="line">                <span class="keyword">if</span>(instance == <span class="keyword">null</span>)&#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="深入理解-AQS-和-CAS-原理"><a href="#深入理解-AQS-和-CAS-原理" class="headerlink" title="深入理解 AQS 和 CAS 原理"></a>深入理解 AQS 和 CAS 原理</h3><p>AQS 全称是 <code>Abstract Queued Synchronizer</code>，即<strong>抽象队列同步器</strong>，AQS内部基于CAS、LockSupport、自旋和双端等待队列实现的多线程同步工具，AQS它是一套实现多线程同步功能的框架。<br>AQS 在JDK源码中被大量使用到，尤其是在 JUC（Java Util Concurrent）中，比如<code>ReentrantLock、CountDownLatch、ThreadPoolExecutor</code>。理解 AQS 对我们理解 JUC 中其他组件至关重要，并且在实际开发中也可以通过自定义 AQS 来实现各种需求场景。</p>
+<p>链接：<a href="https://www.jianshu.com/p/5ff4bfe546f3" target="_blank" rel="noopener">https://www.jianshu.com/p/5ff4bfe546f3</a>    <a href="https://juejin.cn/post/6844904167044038663" target="_blank" rel="noopener">https://juejin.cn/post/6844904167044038663</a></p>
+<h3 id="注解原理"><a href="#注解原理" class="headerlink" title="注解原理"></a>注解原理</h3><p>继承 AbstractProcessor ，根据注解构建对象，将对象存入map。然后使用javapoet 遍历map输出到一个类中。这个类就保存了所有的注解对象的键值对</p>
+<h3 id="应用APP启动过程"><a href="#应用APP启动过程" class="headerlink" title="应用APP启动过程"></a>应用APP启动过程</h3><p>应用app具体会运行到哪个进程，我们从一个app的启动入手分析。app的启动一般从该应用的桌面图标点击开始，调用startActivity(Intent), 再通过Binder IPC机制, 最终调用到AMS。AMS会执行如下操作:</p>
+<ul>
+<li>1.通过PackageManager的resolveIntent()收集这个intent对象的指向信息.</li>
+<li>2.通过grantUriPermissionLocked()方法来验证用户是否有足够的权限去调用该intent对象指向的Activity.</li>
+<li>3.如果有权限, AMS会检查并在新的task中启动目标activity.</li>
+<li>4.如果ProcessRecord是null, AMS调用startProcessLocked()方法来创建新的进程.</li>
+</ul>
+<h3 id="android崩溃"><a href="#android崩溃" class="headerlink" title="android崩溃"></a>android崩溃</h3><p>当应用崩溃时，默认会调用Thread类中设置的一个 UncaughtExceptionHandler 中的 uncaughtException方法，所以我们只要实现一个UncaughtExceptionHandler对象，在其对应方法中实现对崩溃信息的保存或者上传即可。</p>
+<h3 id="异常分类"><a href="#异常分类" class="headerlink" title="异常分类"></a>异常分类</h3><p>Throwable是Java语言中所有错误或异常的超类。下一层分为<code>Error</code>和<code>Exception</code></p>
+<ul>
+<li><p><code>Error</code>类是指Java运行时系统的内部错误和资源耗尽错误。应用程序不会抛出该类对象。如果出现了这样的错误，除了告知用户，剩下的就是尽力使程序安全的终止。</p>
+</li>
+<li><p><code>Exception</code>又有两个分支，</p>
+<ul>
+<li>一个是运行时异常<code>RuntimeException</code>，如：NullPointerException、ClassCastException；</li>
+<li>一个是检查异常<code>CheckedException</code>，如I/O错误导致的IOException、SQLException。</li>
+</ul>
+</li>
+</ul>
+<p>RuntimeException是那些可能在 Java 虚拟机正常运行期间抛出的异常的超类。派生RuntimeException的异常一般包含几个方面：</p>
+<ul>
+<li>1、错误的类型转换</li>
+<li>2、数组访问越界</li>
+<li>3、访问空指针</li>
+</ul>
+<p>如果出现RuntimeException，那么一定是程序员的错误</p>
+<p><code>检查异常CheckedException</code>一般是外部错误，这种异常都发生在编译阶段，Java编译器会强制程序去捕获此类异常，即会出现要求你把这段可能出现异常的程序进行try catch，该类异常一般包括几个方面：<br>1、试图在文件尾部读取数据<br>2、试图打开一个错误格式的URL<br>3、试图根据给定的字符串查找class对象，而这个字符串表示的类并不存在</p>
+<p>RuntimeException：在定义方法时不需要声明会抛出RuntimeException， 在调用这个方法时不需要捕获这个RuntimeException；总之，未检查异常不需要try…catch…或throws 机制去处理<br>CheckedException：定义方法时必须声明所有可能会抛出的exception； 在调用这个方法时，必须捕获它的checked exception，不然就得把它的exception传递下去<br>总之，一个方法必须声明所有的可能抛出的受检异常；未检查异常要么不可控制（Error），要么应该避免（RuntimeException）。如果方法没有声明所有的可能发生的受检异常，编译器就会给出错误信息</p>
+<h3 id="Exception-和-Error-区别"><a href="#Exception-和-Error-区别" class="headerlink" title="Exception 和 Error 区别"></a>Exception 和 Error 区别</h3><p>Exception和Error都是继承了Throwable类,在Java中只有Throwable类型的实例才可以被抛出(throw)或者捕获,它是异常处理机制的基本组成类型.</p>
+<p>Exception和Error体现了Java平台设计者对不同异常情况的分类,Exception是程序正常运行中,可以预料的意外情况,可能并且应该捕获,进行相应的处理.</p>
+<p>Error是指正常情况下,不大可能出现的情况,绝大部分的Error都会导致程序处于非正常状态,不可恢复状态.既然是非正常情况,所以不便于也不需要捕获,常见的如OutOfMemoryError之类的都是Error的子类.</p>
+<p>Exception又分为可检查(checked)异常和不检查(unchecked)异常,可检查异常在源码里必须显式地进行捕获处理,这里是<strong>编译期检查</strong>的一部分.不检查异常就是所谓的运行时异常,类似NullPointerException,ArrayIndexOutOfBoundsExceptin之类的,通常是可以编码避免的逻辑错误,具体根据需要来判断是否需要捕获,并不会在编译期强制要求.</p>
+<h4 id="ClassNotFoundException-和-NoClassDefFoundError-区别"><a href="#ClassNotFoundException-和-NoClassDefFoundError-区别" class="headerlink" title="ClassNotFoundException 和 NoClassDefFoundError 区别"></a>ClassNotFoundException 和 NoClassDefFoundError 区别</h4><p>需要注意到的是一个是Exception一个是Error.</p>
+<p>Java支持使用<code>Class.forName</code>方法来动态加载类,任意一个类的类名如果被作为参数传递给这个方法都将导致该类被加载到JVM内存中,如果这个类在类路径中没有被找到,那么此时就会在运行时抛出ClassNotFountException异常.</p>
+<p>如果JVM或者ClassLoader实例尝试加载(可能通过正常的方法调用,也可能是使用new来创建新的对象)类的时候找不到类的定义.要查找的类在编译的时候是存在的,运行的时候却找不到类,这个时候就会导致NoClassDefFoundError.造成该问题的原因可能是打包过程中漏掉了部分类,或者jar包出现了损毁或者篡改.解决这个问题的方法是查找那些在开发期间存在于类路径但运行期间却不在类路径下的类.</p>
+<h3 id="Java多线程sleep和wait的区别"><a href="#Java多线程sleep和wait的区别" class="headerlink" title="Java多线程sleep和wait的区别"></a>Java多线程sleep和wait的区别</h3><ul>
+<li><p>使用方面：<br>从使用的角度来看sleep方法是Thread线程类的方法，而wait是Object顶级类的方法。<br>sleep可以在任何地方使用，而wait只能在同步方法和同步块中使用。</p>
+</li>
+<li><p>CPU及锁资源释放:<br>sleep、wait调用后都会暂停当前线程并让出CPU的执行时间，但不同的是sleep不会释放当前持有对象的锁资源，到时间后会继续执行，而wait会释放所有的锁并需要notify/notifyAll后重新获取到对象资源后才能继续执行。</p>
+</li>
+<li>异常捕获方面：<br>sleep需要捕获或者抛出异常，而notify/notifyAll则不需要，但是wait方法需要捕获 InterruptedException。</li>
+</ul>
+<h3 id="简述jvm中默认的classLoader与功能"><a href="#简述jvm中默认的classLoader与功能" class="headerlink" title="简述jvm中默认的classLoader与功能"></a>简述jvm中默认的classLoader与功能</h3><ul>
+<li>1.Bootstrap ClassLoader：负责加载java基础类，主要是 %JRE_HOME/lib/ 目录下的rt.jar、resources.jar、charsets.jar和class等</li>
+<li>2.Extension ClassLoader：负责加载java扩展类，主要是 %JRE_HOME/lib/ext 目录下的jar和class</li>
+<li>3.App ClassLoader：负责加载当前java应用的classpath中的所有类。</li>
+<li>4.classloader 加载类用的是全盘负责双亲委托机制。<ul>
+<li>1.<strong>所谓全盘负责</strong>，即是当一个classloader加载一个Class的时候，这个Class所依赖的和引用的所有 Class也由这个classloader负责载入，除非是显式的使用另外一个classloader载入。所以，当我们自定义的classloader加载成功了 com.company.MyClass以后，MyClass里所有依赖的class都由这个classLoader来加载完成。</li>
+<li>2.双亲委托，是指子类加载器如果没有加载过该目标类，就先委托父类加载器加载该目标类，只有在父类加载器找不到字节码文件的情况下才从自己的类路径中查找并装载目标类。</li>
+</ul>
+</li>
+</ul>
+<h3 id="重写的特性"><a href="#重写的特性" class="headerlink" title="重写的特性"></a>重写的特性</h3><ul>
+<li>1.方法名相同，参数类型和顺序相同</li>
+<li>2.子类返回类型小于等于父类方法返回类型。即：子类返回的类型要为父类的子类</li>
+<li>3.子类抛出异常小于等于父类方法抛出异常。即：子类抛出的异常类型要为父类的子类</li>
+<li>4.子类访问权限大于等于父类方法访问权限。</li>
+</ul>
+<h3 id="理解Serializable和Parcelable"><a href="#理解Serializable和Parcelable" class="headerlink" title="理解Serializable和Parcelable"></a>理解Serializable和Parcelable</h3><p>我们日常用到的有二种场景。</p>
+<ul>
+<li>1.数据的持久化保存，这里主要是指保存到文件</li>
+<li>2.Android页面间数据的传递</li>
+</ul>
+<p>第一种情况两者耗时差不多</p>
+<p>第二种情况intent putExtra中添加实现了Serializable接口的对象时。Parcel会将Serializable先序列化为字节数组，然后写入，所以这中间就进行了二次序列化，性能肯定比Parcelable要低很多。所以如果我们的场景是界间传值的话，Parcelable是首选。</p>
+<h4 id="自行决定哪些需要字段需要序列化"><a href="#自行决定哪些需要字段需要序列化" class="headerlink" title="自行决定哪些需要字段需要序列化"></a>自行决定哪些需要字段需要序列化</h4><ul>
+<li><p>1.继承Parcelable的类，在writeToParcel 方法中由开发者自己决定哪些字段参与初始化</p>
+</li>
+<li><p>2.Serializable可以使用<code>transient</code>关键字来忽略一些不需要参与序列化的字段，也可以重写writeObject和readObject二个方法来替代默认的序列化调用。JDK中有很多这样的类，比如ArrayList，HashMap，都是重写了writeObject方法。</p>
+</li>
+</ul>
+<blockquote>
+<p>为什么HashMap要自定义序列化逻辑呢？我想可能的原因是，存储数据的数组table，一般都是不满的（因为HashMap的负载因子默认0.75，超过就会扩容），里面肯定会有很多null，如果是默认的序列化，这些null也会被被序列化，显然这些null是没有必要的做序列化的</p>
+</blockquote>
+<h3 id="Activity-中的-onAttachedToWindow，View-的-onAttachedToWindow和-RecyclerView-Adapter-的-onViewAttachedToWindow"><a href="#Activity-中的-onAttachedToWindow，View-的-onAttachedToWindow和-RecyclerView-Adapter-的-onViewAttachedToWindow" class="headerlink" title="Activity 中的 onAttachedToWindow，View 的 onAttachedToWindow和 RecyclerView.Adapter 的 onViewAttachedToWindow"></a>Activity 中的 onAttachedToWindow，View 的 onAttachedToWindow和 RecyclerView.Adapter 的 onViewAttachedToWindow</h3><ul>
+<li>Activity 中的 onAttachedToWindow 就是在 View 附加到 window 上的时候进行回调，而 onDetachedFromWindow() 就刚好相反。是在OnResume之后回调，但是在 onAttachedToWindow() 回调的时候，<strong>不能拿到 View 的宽高</strong></li>
+<li>View 的 onAttachedToWindow 的调用时机会发生在 onMeasure() 之前。我们在自定义 View 的时候，某些比较重量级的资源，而且不能与其他 View 通用的时候，就可以重写这两个方法，并在 onAttachedToWindow() 中进行初始化，onDetachedFromWindow() 方法里释放掉。</li>
+<li>RecyclerView.Adapter 的 onViewAttachedToWindow 和onViewDetachedToWindow。这两个方法在列表布局的时候，用作曝光埋点非常好用，当 Adapter 创建的 View 被窗口分离（即滑动离开了当前窗口界面的）的时候，onViewDetachedToWindow() 会被直接回调，反之，在列表项 View 在被滑动进屏幕的时候，onViewAttachedToWindow() 会立马被调用。</li>
+</ul>
+<blockquote>
+<p>RecyclerView.Adapter 的onBindViewHolder和onViewRecycled(RecyclerView.ViewHolder holder)可以成对使用，表示ViewHolder绑定和解绑，但是这两个方法不适合用来做曝光埋点。因为RecyclerView的一二级缓存的重复使用不会回调onBindViewHolder。</p>
+</blockquote>
+<ul>
+<li><p>RecyclerView.Adapter 咋还有一个 onAttachedToRecyclerView。根据源码我们可以发现，onAttachedToRecyclerView() 是在 setAdapter() 的时候触发。</p>
+</li>
+<li><p>我的 RecyclerView.Adapter 的 onViewAttachedToWindow 为啥没起作用？<br>可能会有小伙伴会遇到这个问题，在遇到这个问题前，先检查一下你这个 RecyclerView 是否是一个正常滚动的 View，你如果是被别人嵌套滚动，把自己设置了 isNestedScrollingEnabled 为 false 的话，那你都失去了 Recyclerview 的功用了，那自然是不行的。<br>可能又有小伙伴说了，由于需求历史原因，我就是用了 NestedScrollView 嵌套了 Recyclerview，并禁掉了 Recyclerview 的滑动功能，但又想做上面的曝光埋点功能，那如何是好？<br>如果是这样的话，大概你就只能通过类似 View 的 getGlobalVisibleRect() 这样的方法来判断 View 的可见性来处理了。关于 View 的可见性分析，这里就点到为止，大家就自行 Google 吧。</p>
+</li>
+</ul>
+<h3 id="LiveData为何能感知生命周期"><a href="#LiveData为何能感知生命周期" class="headerlink" title="LiveData为何能感知生命周期"></a>LiveData为何能感知生命周期</h3><p>LiveData是一个数据持有类，它可以通过添加观察者被其他组件观察其变更</p>
+<p>LiveData的特点：</p>
+<ul>
+<li>1）采用观察者模式，数据发生改变，可以自动回调（比如更新UI）。</li>
+<li>2）不需要手动处理生命周期，不会因为Activity的销毁重建而丢失数据。</li>
+<li>3）不会出现内存泄漏。</li>
+<li>4）不需要手动取消订阅，Activity在非活跃状态下（pause、stop、destroy之后）不会收到数据更新信息。</li>
+</ul>
+<p>LiveData 的生命周期感知是由Lifecycle来实现的。ComponentActivity 实现了LifecycleOwner，并添加了一个ReportFragment，通过fragment的生命周期回调来完成生命周期的状态切换，并通知给注册的 LifecycleObserver接口</p>
+<p><img src="/images/blogimages/2022/lifecircle_api_class.png" alt="lifecycle类图"></p>
+<p>自定义的Activity都继承自AppCompatActivity ，AppCompatActivity 实现了LifecycleOwner接口，同时持有实现了Lifecycle的LifecycleRegistry对象，这个对象就可以将其理解为观察者模式中的Subject，LifecycleRegistr聚合多个LifecycleObserver，生命周期改变时通知LifecycleObserver进行相应的方法调用。</p>
+<h3 id="ViewModel"><a href="#ViewModel" class="headerlink" title="ViewModel"></a>ViewModel</h3><p>ViewModel旨在以注重生命周期的方式存储和管理界面相关的数据(配合它里面的livedata)。</p>
+<ul>
+<li>1.1 将Activity的UI处理和数据处理分离，分开管理，解耦且高效。</li>
+<li>1.2 ViewModel在屏幕旋转等系统配置更改后被继续保留，避免再次请求数据，浪费网络资源。<strong>重建该 Activity时，它接收的ViewModel实例与之前的Activity持有的ViewModel相同</strong>。只有当Activity真正销毁时，框架才会调用getViewModelStore().clear()清除所有的ViewModel。</li>
+<li>1.3 避免页面销毁后，数据返回后刷新界面导致crash，例如页面发起请求后，数据还没返回就关闭activity，数据返回后，刷新界面，因view不存在而crash。</li>
+<li>1.4 <strong>两个Fragment可以使用其Activity的ViewModel来处理通信</strong>。</li>
+<li>1.5 和onSaveInstanceState()对比，onSaveInstanceState()仅适合可以序列化再反序列化的少量数据，而不适合数量可能较大的数据，如用户列表或位图。</li>
+<li>1.6 ViewModelScope，为应用中的每个ViewModel定义了ViewModelScope。如果ViewModel已清除，则在<strong>此范围内启动的协程都会自动取消</strong>。</li>
+</ul>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>ViewModelProvider<br>ViewModelStoreOwner：是一个接口，只定义了一个方法：getViewModelStore()。同样ComponentActivity和Fragment实现了这个接口，所以我们在Activity或者Fragment中使用ViewModelProvider传入的this就可以了。</p>
+<p>ViewModelStore：ViewModelStore主要是用来存储ViewModel对象的，内部有一个HashMap集合（<code>HashMap&lt;String, ViewModel&gt; mMap</code>）用来存储ViewModel对象。</p>
+<p>ComponentActivity持有一个ViewModelStore，可以通过ViewModelStoreOwner中的getViewModelStore()方法获取。（为啥不直接在Activity获取ViewModelStore，再获取ViewModel呢？因为ViewModel要通过ViewModelProvider.Factory创建）</p>
+<p>Factory：是一个接口，用来创建ViewModel的</p>
+<p>Activity 可以调用ViewMode的方法，同时ViewModel通过LiveData变化的监听改变view</p>
+<h3 id="Kotlin单例"><a href="#Kotlin单例" class="headerlink" title="Kotlin单例"></a>Kotlin单例</h3><h4 id="使用-object-关键字"><a href="#使用-object-关键字" class="headerlink" title="使用 object 关键字"></a>使用 object 关键字</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">object SomeSingleton&#123;</span><br><span class="line">  <span class="function">fun <span class="title">sayHi</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>转成java代码之后是：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">SomeSingleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> SomeSingleton INSTANCE;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">sayHi</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        SomeSingleton var0 = <span class="keyword">new</span> SomeSingleton();</span><br><span class="line">        INSTANCE = var0;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有对比就清晰了，Kotlin 的 object 关键字，在 Java 表现的特点如下：</p>
+<ul>
+<li>类用 final 标记，标识不可变性。</li>
+<li>内部声明一个 static final 的当前类的对象 INSATNCE。</li>
+<li>在静态代码块中，进行 INSTANCE 对象的初始化。</li>
+</ul>
+<p>可以看到，在 Kotlin 的 object 中，是<strong>使用类的初始化锁来保证线程安全的</strong>。</p>
+<blockquote>
+<p>那什么是类的初始化锁？简单来说， JVM 在类的初始化阶段（即在 Class 被加载后，且被线程使用之前），会执行类的初始化，在初始化期间，JVM 会去获取一个锁。这个锁可以同步多个线程对同一个类的初始化，避免多线程调用时，引发线程安全的问题。</p>
+</blockquote>
+<h3 id="怎样保证任务顺序执行"><a href="#怎样保证任务顺序执行" class="headerlink" title="怎样保证任务顺序执行"></a>怎样保证任务顺序执行</h3><ol>
+<li>观察者模式，使用队列保存注册的观察者，按队列顺序依次执行</li>
+<li>责任链模式，参考view的事件分发、有序广播、Okhttp拦截器</li>
+</ol>
+<h3 id="怎么统计app启动过程中的方法"><a href="#怎么统计app启动过程中的方法" class="headerlink" title="怎么统计app启动过程中的方法"></a>怎么统计app启动过程中的方法</h3><p>AMS 方法进入的时候埋点，方法退出的时候埋点</p>
+<h3 id="Fragment栈原理"><a href="#Fragment栈原理" class="headerlink" title="Fragment栈原理"></a>Fragment栈原理</h3><p>fragment的切换切换都是通过getFragmentManager()，以beginTransaction()开始，commit() / commitNow() / commitAllowingStateLoss() 结束。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">getFragmentManager().beginTransaction().setCustomAnimations(R.anim.active_right_in, <span class="number">0</span>, <span class="number">0</span>, R.anim.active_right_out).add(android.R.id.content, fragment, <span class="string">"DebugConfigFragment"</span>).addToBackStack(getClass().getSimpleName()).commitAllowingStateLoss();</span><br></pre></td></tr></table></figure></p>
+<p>beginTransaction() 会返回一个FragmentTransaction的实现 -》 BackStackRecord<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@NonNull</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> FragmentTransaction <span class="title">beginTransaction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> BackStackRecord(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>FragmentTransaction 是一个抽象类，内部定义了操作fragment栈的各种方法</li>
+<li>BackStackRecord是FragmentTransaction的实现类<ul>
+<li>内部定义了一些常量int值，用作操作指令</li>
+<li>同时内部有一个实体类 Op，Op类的实例会存储 fragment引用，对应的指令。</li>
+</ul>
+</li>
+</ul>
+<p>在 BackStackRecord 类中，我们以show和hide为例，每次show或hide都会创建一个对应的Op类，并持有了对应的fragment和指令：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@NonNull</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> FragmentTransaction <span class="title">hide</span><span class="params">(@NonNull Fragment fragment)</span> </span>&#123;</span><br><span class="line">    addOp(<span class="keyword">new</span> Op(OP_HIDE, fragment)); <span class="comment">// OP_HIDE 就定义在FragmentTransaction类中</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NonNull</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> FragmentTransaction <span class="title">show</span><span class="params">(@NonNull Fragment fragment)</span> </span>&#123;</span><br><span class="line">    addOp(<span class="keyword">new</span> Op(OP_SHOW, fragment));</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>addOp()方法将新创建的指令加入到了 mOps（ArrayList）中：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ArrayList&lt;Op&gt; mOps = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addOp</span><span class="params">(Op op)</span> </span>&#123;</span><br><span class="line">    mOps.add(op);</span><br><span class="line">    op.mEnterAnim = mEnterAnim;</span><br><span class="line">    op.mExitAnim = mExitAnim;</span><br><span class="line">    op.mPopEnterAnim = mPopEnterAnim;</span><br><span class="line">    op.mPopExitAnim = mPopExitAnim;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从FragmentTransaction 继承来的方法，比如show和hide这种只会向 mOps 中添加数据，真正消耗 mOps 操作的是 executeOps() 和 executePopOps() 方法：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">executeOps</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> numOps = mOps.size();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> opNum = <span class="number">0</span>; opNum &lt; numOps; opNum++) &#123; <span class="comment">// 从前向后遍历</span></span><br><span class="line">        <span class="keyword">final</span> Op op = mOps.get(opNum);</span><br><span class="line">        <span class="keyword">final</span> Fragment f = op.mFragment;</span><br><span class="line">        <span class="keyword">if</span> (f != <span class="keyword">null</span>) &#123;</span><br><span class="line">            f.setNextTransition(mTransition);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">switch</span> (op.mCmd) &#123;</span><br><span class="line">            <span class="keyword">case</span> OP_HIDE:</span><br><span class="line">                f.setNextAnim(op.mExitAnim);</span><br><span class="line">                mManager.hideFragment(f);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> OP_SHOW:</span><br><span class="line">                f.setNextAnim(op.mEnterAnim);</span><br><span class="line">                mManager.setExitAnimationOrder(f, <span class="keyword">false</span>);</span><br><span class="line">                mManager.showFragment(f);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="comment">//...</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">executePopOps</span><span class="params">(<span class="keyword">boolean</span> moveToState)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> opNum = mOps.size() - <span class="number">1</span>; opNum &gt;= <span class="number">0</span>; opNum--) &#123; <span class="comment">// 从后向前遍历</span></span><br><span class="line">        <span class="keyword">final</span> Op op = mOps.get(opNum);</span><br><span class="line">        Fragment f = op.mFragment;</span><br><span class="line">        <span class="keyword">if</span> (f != <span class="keyword">null</span>) &#123;</span><br><span class="line">            f.setNextTransition(FragmentManager.reverseTransit(mTransition));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">switch</span> (op.mCmd) &#123;</span><br><span class="line">            <span class="keyword">case</span> OP_HIDE:</span><br><span class="line">                f.setNextAnim(op.mPopEnterAnim);</span><br><span class="line">                mManager.showFragment(f);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> OP_SHOW:</span><br><span class="line">                f.setNextAnim(op.mPopExitAnim);</span><br><span class="line">                mManager.setExitAnimationOrder(f, <span class="keyword">true</span>);</span><br><span class="line">                mManager.hideFragment(f);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="comment">//...</span></span><br></pre></td></tr></table></figure>
+<p>executeOps() 方法和 executePopOps() 方法遍历正好相反、相同指令对应的操作也正好相反。同时这两个方法都是在FragmentManager的commit() / commitNow() / commitAllowingStateLoss()这几个方法中触发的，篇幅有限，本文就不具体展开了。</p>
+<h3 id="32位和64位的区别"><a href="#32位和64位的区别" class="headerlink" title="32位和64位的区别"></a>32位和64位的区别</h3><p>64位可以使用的虚拟内存空间更大，64位意味着操作系统和CPU将使用64位的指令集</p>
+<h4 id="虚拟内存（VSS-OOM）"><a href="#虚拟内存（VSS-OOM）" class="headerlink" title="虚拟内存（VSS OOM）"></a>虚拟内存（VSS OOM）</h4><p>当前绝大部分系统已经是 64 位系统，无论是服务器、个人 PC、亦或是终端手机。64 位系统的进程地址空间分布中，如果是 3 级页表，内核栈和用户栈分别有 512G 的地址空间，如果是 4 级页表，内核栈和用户栈分别有 256TB 的地址空间，这个值远大于实际物理内存，使用耗尽的可能性也非常小。</p>
+<p>而我们的问题，发生在 64 位的 Android 系统中，但却是 32 位的应用。</p>
+<p>32 位应用的可用虚拟内存只有 4G。物理内存我们有非常多的机制去管理和控制它的使用量，但虚拟内存其实只是一个空头支票，所以可以理解说，在设计时，能申请的虚拟内存范围是很大的，一般远大于一个进程实际会用的物理内存，所以它不需要复杂的管理机制，从可用的资源中找一块空虚的即可。然而当下系统和应用附加的东西越来越多，手机上可用的物理内存也越来越多，甚至有十几 G 内存的手机，仅仅 4G 的地址空间，些许错误或者资源申请较多，便很容易出现 OOM。</p>
+<p>所以总结起来有两个问题导致：</p>
+<ul>
+<li>32 位系统的 4G 虚拟内存在当下资源消耗较多的情况下，已捉襟见肘。</li>
+<li>虚拟内存没有防止碎片化等复杂的管理机制，出现碎片化等问题。</li>
+</ul>
+<p>在32位的应用上，内存使用不合理时，会比较容易引发因虚拟内存不足而导致的白屏或OOM等问题。参考：<a href="https://cloud.tencent.com/developer/article/1797705" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1797705</a></p>
+<h3 id="虚拟内存浅析"><a href="#虚拟内存浅析" class="headerlink" title="虚拟内存浅析"></a>虚拟内存浅析</h3><p>在多任务操作系统中，每个进程都拥有独立的虚拟地址空间，通过虚拟地址进行内存访问主要具备以下几点优势：</p>
+<ul>
+<li>进程可使用连续的地址空间来访问不连续的物理内存，内存管理方面得到了简化。</li>
+<li>实现进程与物理内存的隔离，对各个进程的内存数据起到了保护的作用。</li>
+<li>程序可使用远大于可用物理内存的地址空间，虚拟地址在读写前不占用实际的物理内存，并为内存与磁盘的交换提供了便利。</li>
+</ul>
+<h3 id="重载和重写的区别"><a href="#重载和重写的区别" class="headerlink" title="重载和重写的区别"></a>重载和重写的区别</h3><p><a href="https://zhuanlan.zhihu.com/p/288278829" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/288278829</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><em>区别点</em></th>
+<th style="text-align:center"><em>重载方法</em></th>
+<th style="text-align:center"><em>重写方法</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">参数列表</td>
+<td style="text-align:center">必须修改</td>
+<td style="text-align:center">一定不能修改</td>
+</tr>
+<tr>
+<td style="text-align:center">返回类型</td>
+<td style="text-align:center">可以修改</td>
+<td style="text-align:center">一定不能修改</td>
+</tr>
+<tr>
+<td style="text-align:center">异常</td>
+<td style="text-align:center">可以修改</td>
+<td style="text-align:center">可以减少或删除，一定不能抛出新的或者更广的异常</td>
+</tr>
+<tr>
+<td style="text-align:center">访问</td>
+<td style="text-align:center">可以修改</td>
+<td style="text-align:center">一定不能做更严格的限制（可以降低限制）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>重载方法之间的方法名是相同的，但方法签名不同</p>
+<p>一定要注意的是方法重载时，方法返回值没有什么意义，是由方法名和参数列表决定的</p>
+</blockquote>
+<p>方法名和形参数据类型列表可以唯一的确定一个方法，与方法的返回值一点关系都没有，这是判断重载重要依据，所以，以下的代码是不允许的</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">aaaa</span><span class="params">()</span></span>&#123;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">aaaa</span><span class="params">()</span></span>&#123;  </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>类型签名</strong>又是另一种了，参考： <a href="https://cloud.tencent.com/developer/article/1870340?from=article.detail.1787542" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1870340?from=article.detail.1787542</a></p>
+<p>再看一下<strong>类型签名</strong>：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span></span>&#123;&#125;       test1()V </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">(String str)</span>     <span class="title">test2</span><span class="params">(Ljava/lang/String;)</span>V </span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">test3</span><span class="params">()</span></span>&#123;&#125;                    test3()I</span><br></pre></td></tr></table></figure></p>
+<p>从以上三个例子，我们就可以很简单的看出一些小小的规律：  JVM为我们提供的类型签名实际上是由 <code>方法名(上文的例子为了简单没有写出全类名)、形参列表、返回值</code>三部分构成的，基本形式就是：  <strong>全类名.方法名(形参数据类型列表)返回值数据类型</strong></p>
+<p>Java方法类型签名中特殊字符/字母含义<br>| <em>特殊字符</em> | <em>数组类型</em> | <em>特殊说明</em> |<br>|:——–:|:——-:|:——–:|<br>|V| void| 一般用于表示方法的返回值|<br>|Z |boolean||<br>|B| byte||<br>|C| char||<br>|S |short||<br>|I| int||<br>|J|long||<br>|F|float||<br>|D|double||<br>|[|数组| 以[开头，配合其他的特殊字符，表示对应数据类型的数组，几个[表示几维数组|<br>|L|全类名|引用类型 以 L 开头 ; 结尾，中间是引用类型的全类名|</p>
+<h3 id="android-中系统时间"><a href="#android-中系统时间" class="headerlink" title="android 中系统时间"></a>android 中系统时间</h3><p>参考： <a href="https://www.jianshu.com/p/dfa184764daa" target="_blank" rel="noopener">https://www.jianshu.com/p/dfa184764daa</a></p>
+<h4 id="System-currentTimeMillis"><a href="#System-currentTimeMillis" class="headerlink" title="System.currentTimeMillis()"></a>System.currentTimeMillis()</h4><p>我们一般通过它来获取手机系统的当前时间。事实上，它返回的值是系统时刻距离标准时刻(1970.01.01 00:00:00)的毫秒数。它相当于家里的“挂钟”一样，并不是十分精准，而且可以随意修改。所以它可能经常被网络或者用户校准。正是由于这个原因，这个方法获取的值不适合用来做时间间隔的统计。但是它适合用来获取当前日期，时刻等时间点相关的逻辑。</p>
+<h4 id="SystemClock-upTimeMillis"><a href="#SystemClock-upTimeMillis" class="headerlink" title="SystemClock.upTimeMillis()"></a>SystemClock.upTimeMillis()</h4><p>这个值记录了系统启动到当前时刻经过的时间。但是系统深度睡眠(CPU睡眠，黑屏，系统等待唤醒)之中的时间不算在内。这个值不受系统时间设置，电源策略等因素的影响，因此它是大多数时间间隔统计的基础，例如Thread.sleep(long millis),Object.wait(long millis),System.nanoTime()等。系统保证了这个值只增长不下降，所以它适合所有的不包括系统睡眠时间的时间间隔统计。</p>
+<h4 id="SystemClock-elapsedRealtime-amp-SystemClock-elapsedRealtimeNanos"><a href="#SystemClock-elapsedRealtime-amp-SystemClock-elapsedRealtimeNanos" class="headerlink" title="SystemClock.elapsedRealtime() &amp; SystemClock.elapsedRealtimeNanos"></a>SystemClock.elapsedRealtime() &amp; SystemClock.elapsedRealtimeNanos</h4><p>这个值与SystemClock.upTimeMillis()类似。它是系统启动到当前时刻经过的时间，包括了系统睡眠经过的时间。在CPU休眠之后，它依然保持增长。所以它适合做更加广泛通用的时间间隔的统计。</p>
+<p>综上，如果想要避免用户修改时间，网络校准时间对时间间隔统计的影响，使用SystemClock类相关的方法就可以了，至于选择upTimeMillis()还是elapsedRealtime()就要根据自己的需求确定了。</p>
+<p>系统还提供了几个时间控制相关的工具：</p>
+<ul>
+<li>标准方法Thread.sleep(long millis) 和 Object.wait(long millis)是基于SystemClock.upTimeMillis()的。所以在系统休眠之后它们的回调也会延期，直到系统被唤醒才继续计时。并且这两个同步方法会响应InterruptException，所以在使用它们的时候必须要处理InterruptException异常。</li>
+<li>SystemClock.sleep(long millis) 与 Thread.sleep(long millis) 方法是类似的，只不过SystemClock.sleep(long millis) 不响应InterruptException异常。<br>Handler类的 postDelay()方法也是基于SystemClock.upTimeMillis()方法的。</li>
+<li>AlarmManager可以定时发送消息，即使在系统睡眠、应用停止的状态下也可以发送。我们在创建定时事件的时候有两个参数可以选择RTC和ELAPSED_REALTIME，它们对应的方法就是System.currentTimeMillis() ~ RTC，SystemClock.elapsedRealtime() ~ ELAPSED_REALTIME。这样一对应，它们的区别也就非常明显了。</li>
+</ul>
+<h3 id="子线程更新UI"><a href="#子线程更新UI" class="headerlink" title="子线程更新UI"></a>子线程更新UI</h3><p>下次如果有人问你 Android 中子线程真的不能更新 UI 吗？ 你可以这么回答：<br>任何线程都可以更新自己创建的 UI。只要保证满足下面几个条件就好了</p>
+<ul>
+<li>在 ViewRootImpl 还没创建出来之前<ul>
+<li>UI 修改的操作没有线程限制。</li>
+</ul>
+</li>
+<li>在 ViewRootImpl 创建完成之后<ul>
+<li>1.保证「创建 ViewRootImpl 的操作」和「执行修改 UI 的操作」在同一个线程即可。也就是说，要在同一个线程调用 ViewManager#addView 和 ViewManager#updateViewLayout 的方法。<blockquote>
+<p>注：ViewManager 是一个接口，WindowManger 接口继承了这个接口，我们通常都是通过 WindowManger（具体实现为 WindowMangerImpl） 进行 view 的 add remove update 操作的。</p>
+</blockquote>
+</li>
+<li>2.对应的线程需要创建 Looper 并且调用 Looper#loop 方法，开启消息循环。</li>
+</ul>
+</li>
+</ul>
+<p>有同学可能会问，保证上述条件 1 成立，不就可以避免 checkThread 时候抛出异常了吗？为什么还需要开启消息循坏？</p>
+<ul>
+<li>条件 1 可以避免检查异常，但是无法保证 UI 可以被绘制出来。</li>
+<li>条件 2 可以让更新的 UI 效果呈现出来</li>
+</ul>
+<p>WindowManger#addView 最终会调用 WindowManageGlobal#addView 方法，进而触发ViewRootImpl#setView 方法，该方法内部会调用 ViewRootImpl#requestLayout 方法。</p>
+<p>了解过 UI 绘制原理的同学应该知道 下一步就是 scheduleTraversals 了，该方法会往消息队列中插入一条消息屏障，然后调用 Choreographer#postCallback 方法，往 looper 中插入一条异步的 MSG_DO_SCHEDULE_CALLBACK 消息。等待垂直同步信号回来之后执行。</p>
+<p>注：ViewRootImpl 有一个 Choreographer  成员变量，ViewRootImpl 的构造函数中会调用 Choreographer#getInstance(); 方法，获取一个当前线程的 Choreographer 局部实例。</p>
+<p><strong>使用子线程更新 UI 有实际应用场景吗？</strong></p>
+<p>Android 中的  SurfaceView 通常会通过一个子线程来进行页面的刷新。如果我们的自定义 View 需要频繁刷新，或者刷新时数据处理量比较大，那么可以考虑使用 SurfaceView 来取代 View。</p>
+<h3 id="java线程状态"><a href="#java线程状态" class="headerlink" title="java线程状态"></a>java线程状态</h3><ul>
+<li><ol>
+<li>初始状态(<code>NEW</code>)<br>实现Runnable接口和继承Thread可以得到一个线程类，new一个实例出来，线程就进入了初始状态。</li>
+</ol>
+</li>
+<li><ol>
+<li>就绪状态(<code>RUNNABLE之READY</code>)<br>就绪状态只是说你资格运行，调度程序(Cpu)没有挑选到你，你就永远是就绪状态。<br>调用线程的start()方法，此线程进入就绪状态。<br>当前线程sleep()方法结束，其他线程join()结束，等待用户输入完毕，某个线程拿到对象锁，这些线程也将进入就绪状态。<br>当前线程时间片用完了，调用当前线程的yield()方法，当前线程进入就绪状态。<br>锁池里的线程拿到对象锁后，进入就绪状态。<br>进入：调用Thread.start()</li>
+</ol>
+</li>
+<li><ol>
+<li>运行中状态(<code>RUNNABLE之RUNNING</code>)<br>线程调度程序从可运行池中选择一个线程作为当前线程时线程所处的状态。这也是线程进入运行状态的唯一的一种方式。</li>
+</ol>
+</li>
+<li><ol>
+<li>阻塞状态(<code>BLOCKED</code>)<br>阻塞状态是线程阻塞在进入synchronized关键字修饰的方法或代码块(获取锁)时的状态。<br>进入：等待进入synchronized方法、等待进入synchronized块<br>退出：获取到锁</li>
+</ol>
+</li>
+<li><ol>
+<li>等待(<code>WAITING</code>)<br>处于这种状态的线程不会被分配CPU执行时间，它们要等待被显式地唤醒，否则会处于无限期等待的状态。<br>进入：Object.wait() Thread.join() LockSupport.park()<br>退出：Object.notify() Object.notifyAll() LockSupport.unpark(Thread)</li>
+</ol>
+</li>
+<li><ol>
+<li>超时等待(<code>TIMED_WAITING</code>)<br>处于这种状态的线程不会被分配CPU执行时间，不过无须无限期等待被其他线程显示地唤醒，在达到一定时间后它们会自动唤醒。<br>进入：Thread.sleep(long) Object.wait(long) Thread.join(long) LockSupport.parkNanos() LockSupport.parkUnit()<br>退出：Object.notify() Object.notifyAll() LockSupport.unpark(Thread)</li>
+</ol>
+</li>
+<li><ol>
+<li>终止状态(<code>TERMINATED</code>)<br>当线程的run()方法完成时，或者主线程的main()方法完成时，我们就认为它终止了。这个线程对象也许是活的，但是它已经不是一个单独执行的线程。线程一旦终止了，就不能复生。<br>在一个终止的线程上调用start()方法，会抛出java.lang.IllegalThreadStateException异常。<br>进入：执行完成</li>
+</ol>
+</li>
+</ul>
+<h3 id="同步队列与等待队列"><a href="#同步队列与等待队列" class="headerlink" title="同步队列与等待队列"></a>同步队列与等待队列</h3><p>Wait()与Notify()方法<br>wait(): 持有锁的线程调用wait()方法后，会一直阻塞，直到有别的线程调用notify()将其唤醒<br>notify(): 只能通知一个等待线程，唤醒任意一个处于wait线程<br>notifyall()：将等待队列中的所有线程唤醒，并加入<code>同步队列</code></p>
+<p>任意一个object以及其子类对象都有两个队列</p>
+<p>同步队列：所有尝试获取该对象Monitor失败的线程，都加入同步队列排队获取锁</p>
+<p>等待队列：<strong>已经拿到锁的线程</strong>在等待其他资源时，主动释放锁，置入该对象等待队列中，等待被唤醒，当调用notify()会在等待队列中任意唤醒一个线程，将其置入同步队列的尾部，排队获取锁</p>
+<p><img src="/images/blogimages/2020/wait_and_notify_queue.webp" alt="等待队列与同步队列"></p>
+<p>同步队列状态<br>当前线程想调用对象A的同步方法时，发现对象A的锁被别的线程占有，此时当前线程进入同步队列。简言之，<strong>同步队列里面放的都是想争夺对象锁的线程</strong>。<br>当一个线程1被另外一个线程2唤醒时，1线程进入同步队列，去争夺对象锁。<br>同步队列是在同步的环境下才有的概念，一个对象对应一个同步队列。<br>线程等待时间到了或被notify/notifyAll唤醒后，会进入同步队列竞争锁，如果获得锁，进入<code>RUNNABLE</code>状态，否则进入<code>BLOCKED</code>状态等待获取锁。</p>
+<p>参考：<a href="https://segmentfault.com/a/1190000038392244" target="_blank" rel="noopener">https://segmentfault.com/a/1190000038392244</a></p>
+<h3 id="静态方法传递Context会导致内存泄漏吗？"><a href="#静态方法传递Context会导致内存泄漏吗？" class="headerlink" title="静态方法传递Context会导致内存泄漏吗？"></a>静态方法传递Context会导致内存泄漏吗？</h3><p>不会，解释如下：</p>
+<p>Passing a context or any argument for that matter, to a method, whether it is static or not, will put that argument on the function stack. For the scope of that function the context will be kept on the stack. As soon as the function ends, the function stack is cleared, i.e. the context won’t leak! No exceptions to this! This is the whole pure synchronous function thing discussed previously.</p>
+<p>If you pass a context to a method (static or not) and in that method you decide to run some background stuff you might leak. This is not a pure function.</p>
+<p>You would leak if you are holding onto the context longer than it takes to finish executing the original method. Using anonymous inner classes for callbacks when doing background work is typically a culprit here because that callback is invoked after the original function ends. You should ask yourself how the callback can fire and access the context argument if the original function has concluded. Well a copy is created so you now are holding onto a context that outlives the scope of the original function and tada leak!</p>
+<p>参考：<a href="https://www.reddit.com/r/androiddev/comments/d9khex/can_passing_context_to_static_method_cause_a/" target="_blank" rel="noopener">https://www.reddit.com/r/androiddev/comments/d9khex/can_passing_context_to_static_method_cause_a/</a></p>
+<h3 id="Https-单向认证和双向认证"><a href="#Https-单向认证和双向认证" class="headerlink" title="Https 单向认证和双向认证"></a>Https 单向认证和双向认证</h3><p>贴张https讲解比较全面的图：<img src="/images/blogimages/2022/https_request.webp" alt="HTTPS加密、解密、验证及数据传输过程"><br>还可以参考下面的链接：<br><a href="https://cloud.tencent.com/developer/article/1420302" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1420302</a></p>
+<p>除了tcp三次握手，还有ssl四次握手<a href="https://www.cnblogs.com/wangwenhui/p/14870881.html" target="_blank" rel="noopener">https://www.cnblogs.com/wangwenhui/p/14870881.html</a></p>
+<p><a href="https://segmentfault.com/a/1190000025126670" target="_blank" rel="noopener">https://segmentfault.com/a/1190000025126670</a></p>
+<h3 id="Activity启动流程主要包含几步？"><a href="#Activity启动流程主要包含几步？" class="headerlink" title="Activity启动流程主要包含几步？"></a>Activity启动流程主要包含几步？</h3><p>我们以点击Launcher的一个icon为开始，整体扯一下Activity的启动过程，桌面其实就是LauncherApp的一个Activity</p>
+<ul>
+<li>当点击Launcher的icon开始，Launcher进程会像AMS发送点击icon的启动信息（这些信息就是在AndroidMainifest.xml中<code>&lt;intent-filter&gt;</code>标签定义的启动信息，数据由PackageManagerService解析出来）</li>
+<li>AMS收到信息后会先后经过ActivityTaskManagerService-&gt;ActivityStartController-&gt;ActivityStarter内部类Request，然后把信息存到Request中，并通知Launcher进程让Activity休眠（补充个小知识点，这个过程会检测Activity在AndroidMainifest.xml的注册，如果没有注册就报错了）</li>
+<li>Launcher进程的ApplicationThread对象收到消息后调用handlePauseActivity()进行暂停，并通知AMS已经暂停。<br>实现细节：ActivityThread.sendMessage()通过ActivityThread的H类发送Handler消息，然后触发 mTransactionExecutor.execute(transaction)，<br>执行过程中依赖ActivityClientRecord.mLifecycleState数值并通过ClientTransactionHandler抽象类的实现（ActivityThread）进行分发。<br>注 ：ActivityClientRecord.mLifecycleState（-1 ~ 7分别代表 UNDEFINED, PRE_ON_CREATE, ON_CREATE, ON_START, ON_RESUME, ON_PAUSE, ON_STOP, ON_DESTROY, ON_RESTART）</li>
+<li>AMS收到Launcher的已暂停消息后，会检查要启动的Activity所在的进程是否已经启动了，如果已经启动了就打开，如果未启动则通过Process.start(android.app.ActivityThread)来启动一个新的进程。</li>
+<li>进程创建好以后，会调用ActivityThread.main(),初始化MainLooper，并创建Application对象。然后Instrumentation.newApplication()反射创建Application，创建ContextImpl通过Application的attach方法与Application进行绑定，最终会调用Instrumentation.callApplicationOnCreate执行Application的onCreate函数进行一些初始化的工作。完成后会通知AMS进程已经启动好了。<br>通知过程：通过IActivityManager.attachApplication（IApplicationThread thread, long startSeq），将Application对象传入AMS</li>
+<li>AMS收到app进程启动成功的消息后，从ActivityTaskManagerService中取出对应的Activity启动信息， 并通过ApplicationThreadProxy对象，调用其scheduleTransaction(ClientTransaction transaction)方法，具体要启动的Activity都在ClientTransaction对象中。</li>
+<li>app进程的ApplicationThread收到消息后会调用ActiivtyThread.sendMessage()，通过H发送Handler消息，在handleMessage方法的内部又会调用 mTransactionExecutor.execute(transaction);具体参考第3步<br>最终调用performLaunchActivity方法创建activity和context并将其做关联，然后通过mInstrumentation.callActivityOnCreate()-&gt;Activity.performCreate()-&gt;Activity.onCreate()回调到了Activity的生命周期。</li>
+</ul>
+<p>activity向Instrumentation请求创建</p>
+<p>Instrumentation通过AMS在本地进程的IBinder接口，访问AMS，这里采用的跨进程技术是AIDL。</p>
+<p>然后AMS进程一系列的工作，如判断该activity是否存在，启动模式是什么，有没有进行注册等等。</p>
+<p>通过ClientLifeCycleManager，利用本地进程在系统服务进程的IBinder接口直接访问本地ActivityThread。</p>
+<p>ApplicationThread是ActivityThread的内部类，IApplicationThread是在远程服务端的Binder接口</p>
+<p>ApplicationThread接收到服务端的事务后，把事务直接转交给ActivityThread处理。</p>
+<p>ActivityThread通过Instrumentation利用类加载器进行创建实例，同时利用Instrumentation回调activity的生命中周期</p>
+<h3 id="阻止activity重建时出现多个fragment"><a href="#阻止activity重建时出现多个fragment" class="headerlink" title="阻止activity重建时出现多个fragment"></a>阻止activity重建时出现多个fragment</h3><p>正常activity重建后，fragment系统会帮你重建一个，执行到onCreate 自己又会重建一个，所以会出现多个<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(@Nullable Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (savedInstanceState != <span class="keyword">null</span>) &#123;</span><br><span class="line">            savedInstanceState.putParcelable(<span class="string">"android:support:fragments"</span>, (Parcelable)<span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="intent传输数据大小限制"><a href="#intent传输数据大小限制" class="headerlink" title="intent传输数据大小限制"></a>intent传输数据大小限制</h3><p>通过 intent 的 bundle 的源码可以看到它们都是实现了 Parcelable ，其实就是通过序列化来实现通信的。Parcelable 的底层使用了 Parcel 机制。传递实际上是使用了 binder 机制，binder 机制会将 Parcel序列化的数据写入到一个<strong>共享内存</strong>中，读取时也是 binder 从共享内存中读出字节流，然后 Parcel 反序列化后使用。这就是 Intent 或 Bundle 能够在 activity或者跨进程通信的原理。</p>
+<p>这个共享内存就叫 <code>Binder transaction buffer</code>，这块内存有一个大小限制，目前是 1MB，而且共用的，当超过了这个大小就会报错（TransactionTooLargeException）。</p>
+<h3 id="Handler"><a href="#Handler" class="headerlink" title="Handler"></a>Handler</h3><p>Handler 构造方法：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Handler.java</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Handler</span><span class="params">(@Nullable Callback callback, <span class="keyword">boolean</span> async)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    mLooper = Looper.myLooper();</span><br><span class="line">    <span class="keyword">if</span> (mLooper == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(</span><br><span class="line">            <span class="string">"Can't create handler inside thread "</span> + Thread.currentThread()</span><br><span class="line">                    + <span class="string">" that has not called Looper.prepare()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    mQueue = mLooper.mQueue;</span><br><span class="line">    mCallback = callback;</span><br><span class="line">    mAsynchronous = async;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Looper.java </span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="meta">@Nullable</span> <span class="function">Looper <span class="title">myLooper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> sThreadLocal.get();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Looper.java </span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">prepare</span><span class="params">(<span class="keyword">boolean</span> quitAllowed)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (sThreadLocal.get() != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Only one Looper may be created per thread"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    sThreadLocal.set(<span class="keyword">new</span> Looper(quitAllowed)); <span class="comment">// 创建mQueue</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Looper.java </span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">Looper</span><span class="params">(<span class="keyword">boolean</span> quitAllowed)</span> </span>&#123;</span><br><span class="line">    mQueue = <span class="keyword">new</span> MessageQueue(quitAllowed);</span><br><span class="line">    mThread = Thread.currentThread();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>一个线程可以创建<strong>多个handler</strong>，但只会有<strong>一个Looper</strong>，因此也只会有<strong>一个MessageQueue</strong>。</li>
+<li>如果子线程创建handler的时候没有调用 <code>Looper.prepare()</code> 那么会抛出运行时异常</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//MessageQueue.java</span></span><br><span class="line">MessageQueue(<span class="keyword">boolean</span> quitAllowed) &#123;</span><br><span class="line">    mQuitAllowed = quitAllowed;</span><br><span class="line">    mPtr = nativeInit();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在java层中，mPtr保存了nativeInit()返回的值，Looper和MessageQueue在java层和native层都有，但它们的功能并不是一一对应，此处native层的Looper与Java层的Looper没有任何的关系，只是在native层重实现了一套类似功能的逻辑。通过管道与epoll机制建立一套消息机制<br>在java层，没有消息时，会调用nativePollOnce方法进入阻塞。进入阻塞后可以通过超时唤起，也可以调用 <code>natvieWake</code> 主动唤起</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//frameworks/base/core/jni/android_os_MessageQueue.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">android_os_MessageQueue_nativePollOnce</span><span class="params">(JNIEnv* env, jobject obj,</span></span></span><br><span class="line"><span class="function"><span class="params">        jlong ptr, jint timeoutMillis)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//把ptr强转为NativeMessageQueue</span></span><br><span class="line">    NativeMessageQueue* nativeMessageQueue = <span class="keyword">reinterpret_cast</span>&lt;NativeMessageQueue*&gt;(ptr);</span><br><span class="line">    nativeMessageQueue-&gt;pollOnce(env, obj, timeoutMillis);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总结一下：</p>
+<p>因为java层的消息机制是依赖native层的消息机制来实现的，而native层的消息机制是通过<code>Linux的管道和epoll机制</code>实现的，epoll机制是一种高效的IO多路复用机制， 它使用一个文件描述符管理多个描述符，java层通过mPtr指针也就共享了native层的epoll机制的高效性，当loop方法中取不到消息时，便阻塞在MessageQueue的next方法，而next方法阻塞在<code>nativePollOnce</code>方法，<code>nativePollOnce</code>方法通过JNI调用进入到native层中去，最终nativePollOnce方法阻塞在<code>epoll_wait</code>方法中，epoll_wait方法会让当前线程释放CPU资源进入休眠状态，等到下一个消息到达(mWakeEventFd会往管道写入字符)或监听的其他事件发生时就会唤醒线程，然后处理消息，所以就算loop方法是死循环，当线程空闲时，它会进入休眠状态，不会消耗大量的CPU资源。</p>
+<p>Native层参考这两篇文章： <a href="https://www.jianshu.com/p/57a426b8f145" target="_blank" rel="noopener">https://www.jianshu.com/p/57a426b8f145</a><br>                    <a href="https://www.jianshu.com/p/c4e34c16aa45" target="_blank" rel="noopener">https://www.jianshu.com/p/c4e34c16aa45</a></p>
+<h3 id="为什么List-lt-String-gt-不能赋值给List-lt-Object-gt"><a href="#为什么List-lt-String-gt-不能赋值给List-lt-Object-gt" class="headerlink" title="为什么List&lt;String&gt;不能赋值给List&lt;Object&gt;"></a>为什么<code>List&lt;String&gt;</code>不能赋值给<code>List&lt;Object&gt;</code></h3><p>java在1.5的时候引入了泛型，虽然String是Object的子类，但是<code>List&lt;String&gt;</code> 并不是<code>List&lt;Object&gt;</code>的子类型，这叫做不支持协变（也有说型变）。</p>
+<p>如何让java支持协变，<code>List&lt;String&gt;</code> 可以赋值给 <code>List&lt;Object&gt;</code>呢，下面这样写就可以<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;? extends Object&gt; list = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">list.add(<span class="string">"kotlin"</span>); <span class="comment">// 编译报错，不允许</span></span><br></pre></td></tr></table></figure></p>
+<p>在kotlin写法如下：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val list: List&lt;Any?&gt; = ArrayList&lt;String?&gt;()</span><br><span class="line"><span class="comment">// 这里的List是一个接口类</span></span><br><span class="line">public interface List&lt;out E&gt; : Collection&lt;E&gt; &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="comment">// 没有add方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>add方法不能使用的原因就是将泛型声明为协变所需要付出的代价。</p>
+<p>跟协变对立的是<strong>逆变</strong>，关键字是<code>super或in（kotlin</code></p>
+<p>这里再延伸一下，java中数组不支持泛型是协变的，kotlin中数组是支持泛型的，也就不再协变</p>
+<p>更多的关于协变和逆变的介绍可以看我的这篇文章：<a href="https://conorlee.top/2020/10/26/Diffrence-between-kotlin&amp;Java/" target="_blank" rel="noopener">Kotlin 与 Java 语言比较</a></p>
+<hr>
+<div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="http://blog.conorlee.top/blogimages/attribution_88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://conorlee.top/" target="_blank" rel="noopener">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
+
+<p>本文链接：<a href="http://agehua.github.io/2022/02/13/Java-summary/">http://agehua.github.io/2022/02/13/Java-summary/</a></p>
+
+
+            
+  <!-- donate css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+         
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      _background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+<!-- Donate Module -->
+<div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+    </span>
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+
+  <div id="donate_guide" class="donate_bar center hidden" >
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
+        <a href="http://cdn.conorlee.top/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+        <a href="http://cdn.conorlee.top/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+      </div>
+      <div style="display:inline-block;">
+          &nbsp;
+          <span class="donate_txt">
+              Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+          </span>
+      </div>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className='hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+
+            
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2022/02/13/Java-summary/" data-id="clw1ss2i100e4s547mgxj6uqu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2022/02/13/Java-summary/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2022/03/28/sp-source-code-analysis/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    SP源码阅读和其导致ANR原因分析
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2022/02/10/android-binder-principle3/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Android Binder机制分析（三）</div>
+        </a>
+    
+</nav>
+
+
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+    
+    <section id="comments" class="comments">
+    
+        
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2022/02/13/Java-summary/', // 可选。默认为 location.href
+  title: 'Java内存分配策略',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+    
+  </section>
+
+
+
+</article>
+
+
+</section>
+            
+                <aside id="sidebar">
+    <!-- 在_config.yml中配置了widgets，来决定widgets的顺序 -->
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/04/24/jacoco-test-coverage/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Irises.jpg)" alt="代码覆盖率统计——集成Jacoco" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/04/24/jacoco-test-coverage/" class="title">代码覆盖率统计——集成Jacoco</a></p>
+                            <p class="item-date"><time datetime="2024-04-23T16:00:00.000Z" itemprop="datePublished">2024-04-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/11/13/native-crash-anr-log-analysis/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg)" alt="Native Crash日志分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/11/13/native-crash-anr-log-analysis/" class="title">Native Crash日志分析</a></p>
+                            <p class="item-date"><time datetime="2023-11-12T16:00:00.000Z" itemprop="datePublished">2023-11-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/11/02/native-crash-principle/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Houses%20in%20Auvers.jpg)" alt="Native Crash捕获原理" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/11/02/native-crash-principle/" class="title">Native Crash捕获原理</a></p>
+                            <p class="item-date"><time datetime="2023-11-01T16:00:00.000Z" itemprop="datePublished">2023-11-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/10/26/cross-process-bridge/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Harvest%20in%20Provence%2C%20at%20the%20Left%20Montmajour.jpg)" alt="跨进程通信Bridge建立" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/10/26/cross-process-bridge/" class="title">跨进程通信Bridge建立</a></p>
+                            <p class="item-date"><time datetime="2023-10-25T16:00:00.000Z" itemprop="datePublished">2023-10-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/09/26/matrix-trace-canary/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Haystacks%20in%20Provence.jpg)" alt="Matrix TraceCanary源码分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/09/26/matrix-trace-canary/" class="title">Matrix TraceCanary源码分析</a></p>
+                            <p class="item-date"><time datetime="2023-09-25T16:00:00.000Z" itemprop="datePublished">2023-09-26</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">79</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/agp/" style="font-size: 11.67px;">AGP</a> <a href="/tags/aidl/" style="font-size: 13.33px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/anr/" style="font-size: 13.33px;">ANR</a> <a href="/tags/aop/" style="font-size: 10px;">AOP</a> <a href="/tags/aosp/" style="font-size: 11.67px;">AOSP</a> <a href="/tags/asm/" style="font-size: 10px;">ASM</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-source-code/" style="font-size: 18.33px;">Android Source Code</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 11.67px;">Annotation</a> <a href="/tags/asyncinflate/" style="font-size: 10px;">AsyncInflate</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 16.67px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16.67px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/constraintlayout/" style="font-size: 11.67px;">ConstraintLayout</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview/" style="font-size: 16.67px;">Interview</a> <a href="/tags/jni/" style="font-size: 13.33px;">JNI</a> <a href="/tags/jvm/" style="font-size: 11.67px;">JVM</a> <a href="/tags/jacoco/" style="font-size: 10px;">Jacoco</a> <a href="/tags/java/" style="font-size: 15px;">Java</a> <a href="/tags/javascript/" style="font-size: 11.67px;">JavaScript</a> <a href="/tags/kotlin/" style="font-size: 11.67px;">Kotlin</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 11.67px;">Looper</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/native-crash/" style="font-size: 11.67px;">Native Crash</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 11.67px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 11.67px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 16.67px;">RecyclerView</a> <a href="/tags/recyclerview-optimization/" style="font-size: 10px;">RecyclerView optimization</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 11.67px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/transform/" style="font-size: 10px;">Transform</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 11.67px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/multi-process/" style="font-size: 11.67px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/picture-in-picture/" style="font-size: 10px;">picture-in-picture</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 11.67px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 13.33px;">toastmaster</a> <a href="/tags/view-scroll/" style="font-size: 10px;">view scroll</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://conorlee.top">我的阿里云博客(求赞助)</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://agehua.github.io/">My Github Pages</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://invitation.conorlee.top/MrLiAndTeacherTian_WeddingInvitation.html">Wedding Invitation(手机观看最佳)</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2024 ConorLee<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2022/02/13/Java-summary/', // 可选。默认为 location.href
+  title: 'Java内存分配策略',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+<script>
+    var bigfa_scroll = {
+        drawCircle: function(id, percentage, color) {
+            var width = jQuery(id).width();
+            var height = jQuery(id).height();
+            var radius = parseInt(width / 2.20);
+            var position = width;
+            var positionBy2 = position / 2;
+            var bg = jQuery(id)[0];
+            id = id.split("# ");
+            var ctx = bg.getContext("2d");
+            var imd = null;
+            var circ = Math.PI * 2;
+            var quart = Math.PI / 2;
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineCap = "square";
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineWidth = 3;
+            imd = ctx.getImageData(0, 0, position, position);
+            var draw = function(current, ctxPass) {
+                ctxPass.putImageData(imd, 0, 0);
+                ctxPass.beginPath();
+                ctxPass.arc(positionBy2, positionBy2, radius, -(quart), ((circ) * current) - quart, false);
+                ctxPass.stroke();
+            }
+            draw(percentage / 100, ctx);
+        },
+        backToTop: function($this) {
+            $this.click(function() {
+                jQuery("body,html").animate({
+                    scrollTop: 0
+                },
+                800);
+                return false;
+            });
+        },
+        scrollHook: function($this, color) {
+            color = color ? color: "# 000000";
+            $this.scroll(function() {
+                var docHeight = (jQuery(document).height() - jQuery(window).height()),
+                $windowObj = $this,
+                $per = jQuery(".per"),
+                percentage = 0;
+                defaultScroll = $windowObj.scrollTop();
+                percentage = parseInt((defaultScroll / docHeight) * 100);
+                var backToTop = jQuery("# backtoTop");
+                if (backToTop.length > 0) {
+                    if ($windowObj.scrollTop() > 200) {
+                        backToTop.addClass("button--show");
+                    } else {
+                        backToTop.removeClass("button--show");
+                    }
+                    $per.attr("data-percent", percentage);
+                    bigfa_scroll.drawCircle("# backtoTopCanvas", percentage, color);
+                }
+            });
+        }
+    }
+
+</script>
+
+
+    </div>
+    <!-- <script src="http://cdn.maxjia.com/js/particles.min.js"></script> -->
+  
+  
+    <canvas class="fireworks" style="position: fixed; left: 0px; top: 0px; z-index: 1; pointer-events: none; width: 1440px; height: 416px;" width="2880" height="832"></canvas>
+    
+
+      <script type="text/javascript" src="/js/anime.min.js"></script>
+      <script type="text/javascript" src="/js/firework.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/33.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

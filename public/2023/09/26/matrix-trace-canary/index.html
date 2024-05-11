@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="google-site-verification" content="TYEtqE2Xc2ZonkJumwKut0-iq4RVbEc8o5Y8HpmZ-eo" />
+    <meta name="baidu-site-verification" content="8WKGBCPPKp" />
+    <meta charset="utf-8">
+    
+    <title>Matrix TraceCanary源码分析 | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="本文主要介绍Matrix的Trace部分，主要涉及帧率、ANR、慢函数、启动耗时的检测逻辑。">
+<meta name="keywords" content="ConstraintLayout">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Matrix TraceCanary源码分析">
+<meta property="og:url" content="http://agehua.github.io/2023/09/26/matrix-trace-canary/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="本文主要介绍Matrix的Trace部分，主要涉及帧率、ANR、慢函数、启动耗时的检测逻辑。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://cdn.conorlee.top/Haystacks%20in%20Provence.jpg">
+<meta property="og:updated_time" content="2023-11-16T03:42:40.869Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Matrix TraceCanary源码分析">
+<meta name="twitter:description" content="本文主要介绍Matrix的Trace部分，主要涉及帧率、ANR、慢函数、启动耗时的检测逻辑。">
+<meta name="twitter:image" content="https://cdn.conorlee.top/Haystacks%20in%20Provence.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+
+
+    <link rel="icon" sizes="192x192" href="images/icon.png">
+    <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+    <!--text spacing-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+
+</head>
+
+
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+
+                <a class="main-nav-link" href='javascript:(
+        /*
+         * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *      http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         */
+        function go() {
+
+
+        var songs = [
+                    "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
+                    "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
+                    "https://static.rocko.xyz/audio/Music-outside.mp3",
+                    "https://static.rocko.xyz/audio/Music-sunburst.mp3"
+        ];
+
+
+        function c() {
+            var e = document.createElement("link");
+            e.setAttribute("type", "text/css");
+            e.setAttribute("rel", "stylesheet");
+            e.setAttribute("href", f);
+            e.setAttribute("class", l);
+            document.body.appendChild(e)
+        }
+
+        function h() {
+            var e = document.getElementsByClassName(l);
+            for (var t = 0; t < e.length; t++) {
+                document.body.removeChild(e[t])
+            }
+        }
+
+        function p() {
+            var e = document.createElement("div");
+            e.setAttribute("class", a);
+            document.body.appendChild(e);
+            setTimeout(function() {
+                document.body.removeChild(e)
+            }, 100)
+        }
+
+        function d(e) {
+            return {
+                height : e.offsetHeight,
+                width : e.offsetWidth
+            }
+        }
+
+        function v(i) {
+            var s = d(i);
+            return s.height > e && s.height < n && s.width > t && s.width < r
+        }
+
+        function m(e) {
+            var t = e;
+            var n = 0;
+            while (!!t) {
+                n += t.offsetTop;
+                t = t.offsetParent
+            }
+            return n
+        }
+
+        function g() {
+            var e = document.documentElement;
+            if (!!window.innerWidth) {
+                return window.innerHeight
+            } else if (e && !isNaN(e.clientHeight)) {
+                return e.clientHeight
+            }
+            return 0
+        }
+
+        function y() {
+            if (window.pageYOffset) {
+                return window.pageYOffset
+            }
+            return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+        }
+
+        function E(e) {
+            var t = m(e);
+            return t >= w && t <= b + w
+        }
+
+        function S() {
+            var e = document.getElementById("audio_element_id");
+            if(e != null){
+                var index = parseInt(e.getAttribute("curSongIndex"));
+                if(index > songs.length - 2) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                e.setAttribute("curSongIndex", index);
+                N();
+            }
+
+            e.src = i;
+            e.play()
+        }
+
+        function x(e) {
+            e.className += " " + s + " " + o
+        }
+
+        function T(e) {
+            e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+        }
+
+        function N() {
+            var e = document.getElementsByClassName(s);
+            var t = new RegExp("\\b" + s + "\\b");
+            for (var n = 0; n < e.length; ) {
+                e[n].className = e[n].className.replace(t, "")
+            }
+        }
+
+        function initAudioEle() {
+            var e = document.getElementById("audio_element_id");
+            if(e === null){
+                e = document.createElement("audio");
+                e.setAttribute("class", l);
+                e.setAttribute("curSongIndex", 0);
+                e.id = "audio_element_id";
+                e.loop = false;
+                e.bgcolor = 0;
+                e.addEventListener("canplay", function() {
+                setTimeout(function() {
+                    x(k)
+                }, 500);
+                setTimeout(function() {
+                    N();
+                    p();
+                    for (var e = 0; e < O.length; e++) {
+                        T(O[e])
+                    }
+                }, 15500)
+            }, true);
+            e.addEventListener("ended", function() {
+                N();
+                h();
+                go();
+            }, true);
+            e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+            document.body.appendChild(e);
+            }
+        }
+
+        initAudioEle();
+        var e = 30;
+        var t = 30;
+        var n = 350;
+        var r = 350;
+
+        var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+        var i = songs[curSongIndex];
+
+        var s = "mw-harlem_shake_me";
+        var o = "im_first";
+        var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+        var a = "mw-strobe_light";
+
+        /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
+        var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+
+        var l = "mw_added_css";
+        var b = g();
+        var w = y();
+        var C = document.getElementsByTagName("*");
+        var k = null;
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                if (E(A)) {
+                    k = A;
+                    break
+                }
+            }
+        }
+        if (A === null) {
+            console.warn("Could not find a node of the right size. Please try a different page.");
+            return
+        }
+        c();
+        S();
+        var O = [];
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                O.push(A)
+            }
+        }
+        })()'>High一下</a>
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+
+
+        </div>
+    </div>
+
+
+    <div id="main-nav-mobile" class="header-sub header-inner">
+
+        <table class="menu outer">
+
+
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    
+</header>
+
+        <div class="outer">
+            
+                
+
+
+<aside id="profile">
+    <div class="inner profile-inner" id="profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
+            <h2 id="name">Conor Lee</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                95
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                103
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+
+        <a href="https://github.com/agehua" class="github-corner" aria-label="View source on Github">
+          <svg width="64" height="64" viewBox="0 0 250 250" style="fill:#cba11f; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+            <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+          </svg>
+        </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+    <div id='toc-col' class="toc-col">
+        
+            <div id='toc-wrap' class="toc-wrap">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Trace-Canary主要特性"><span class="toc-number">1.</span> <span class="toc-text">Trace Canary主要特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#帧率检测"><span class="toc-number">1.1.</span> <span class="toc-text">帧率检测</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ANR检测"><span class="toc-number">1.2.</span> <span class="toc-text">ANR检测</span></a></li></ol></li></ol>
+            </div>
+        
+    </div>
+</aside>
+
+<script type="text/javascript">
+/*
+    滚动函数
+    接收三个参数,
+        1 接收一个DOM对象
+        2 给目标对象切换class
+        3 触发的高度 (可选项,如果不指定高度,会将DOM的高度作为触发高度)
+*/
+function scrollCheck(scrollTarget, toggleClass, scrollHeight){
+    document.addEventListener('scroll',function(){
+    var currentTop = window.pageYOffset;
+        currentTop > (scrollHeight||scrollTarget.clientHeight)
+        ?scrollTarget.classList.add(toggleClass)
+        :scrollTarget.classList.remove(toggleClass)
+    })
+}
+
+(function(){
+      try {
+        document.getElementById("toc-wrap").style.width= document.getElementById("profile-inner").offsetWidth+ "px";
+        var introHeader = document.querySelector('.inner.profile-inner').offsetHeight;
+        var toc = document.querySelector('.toc-wrap');
+        scrollCheck(toc,'toc-fixed',introHeader+40+64);
+      }catch(err){
+
+      }
+        // var node = document.querySelector('.profile-inner');
+        // scrollCheck(node,'profile-inner-fixed',64);
+})();
+</script>
+
+            
+            <section id="main"><article id="post-matrix-trace-canary" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-inner">
+        
+            
+	
+		<img src="https://cdn.conorlee.top/Haystacks%20in%20Provence.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Matrix TraceCanary源码分析
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2023/09/26/matrix-trace-canary/">
+            <time datetime="2023-09-25T16:00:00.000Z" itemprop="datePublished">2023-09-26</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/constraintlayout/">ConstraintLayout</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">11 min read , Words: 2100</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+
+            <p>本文主要介绍Matrix的Trace部分，主要涉及帧率、ANR、慢函数、启动耗时的检测逻辑。</p>
+<a id="more"></a>
+<h3 id="Trace-Canary主要特性"><a href="#Trace-Canary主要特性" class="headerlink" title="Trace Canary主要特性"></a>Trace Canary主要特性</h3><ul>
+<li>编译期动态修改字节码, 高性能记录执行耗时与调用堆栈</li>
+<li>准确的定位到发生卡顿的函数，提供执行堆栈、执行耗时、执行次数等信息，帮助快速解决卡顿问题</li>
+<li>自动涵盖卡顿、启动耗时、页面切换、慢函数检测等多个流畅性指标</li>
+</ul>
+<p>Tracer模块主要结构：<br><img src="/images/blogimages/2023/matrix-trace-canary.png" alt="Trace Canary主要特性"></p>
+<p>其中：</p>
+<ul>
+<li>FrameTracer负责帧率检测</li>
+<li>AnrTracer负责ANR问题检测</li>
+<li>EvilMethodTracer负责检测慢函数</li>
+<li>StartupTracer负责应用启动耗时检测</li>
+</ul>
+<h4 id="帧率检测"><a href="#帧率检测" class="headerlink" title="帧率检测"></a>帧率检测</h4><p>FrameTracer部分主要做帧率、掉帧、帧耗时等检测，具体实现逻辑在FrameTracer和UIThreadMonitor。</p>
+<p>Demo中的入口在TestFpsActivity，onCreate()中通过FrameTracer.onStartTrace()开启检测，页面退出时通过FrameTracer.onCloseTrace()结束检测，并移除监控回调。</p>
+<p>从使用侧开始，看看帧率的计算逻辑。</p>
+<p>TestFpsActivity：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">sample.tencent.matrix.trace.TestFpsActivity</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(@Nullable Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 启动帧率检测，使用FrameTrace计算FPS</span></span><br><span class="line">	Matrix.with().getPluginByClass(TracePlugin.class).getFrameTracer().onStartTrace();</span><br><span class="line">	<span class="comment">// 添加帧率回调</span></span><br><span class="line">	Matrix.with().getPluginByClass(TracePlugin.class).getFrameTracer().addListener(mDoFrameListener);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">super</span>.onDestroy();</span><br><span class="line">	<span class="comment">// 移除帧率回调</span></span><br><span class="line">	Matrix.with().getPluginByClass(TracePlugin.class).getFrameTracer().removeListener(mDoFrameListener);</span><br><span class="line">	<span class="comment">// 关闭帧率检测</span></span><br><span class="line">	Matrix.with().getPluginByClass(TracePlugin.class).getFrameTracer().onCloseTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看下TestFpsActivity的FPS监控回调部分：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">sample.tencent.matrix.trace.TestFpsActivity</span><br><span class="line"></span><br><span class="line"><span class="comment">// 异步线程</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> HandlerThread sHandlerThread = <span class="keyword">new</span> HandlerThread(<span class="string">"test"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 帧率检测回调</span></span><br><span class="line"><span class="keyword">private</span> IDoFrameListener mDoFrameListener = <span class="keyword">new</span> IDoFrameListener(<span class="keyword">new</span> Executor() &#123;</span><br><span class="line">        Handler handler = <span class="keyword">new</span> Handler(sHandlerThread.getLooper());</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable command)</span> </span>&#123;</span><br><span class="line">            <span class="comment">//将回调方法放到异步线程执行</span></span><br><span class="line">            handler.post(command);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;) &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFrameAsync</span><span class="params">(String visibleScene, <span class="keyword">long</span> taskCost, <span class="keyword">long</span> frameCostMs, <span class="keyword">int</span> droppedFrames, <span class="keyword">boolean</span> isContainsFrame)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>.doFrameAsync(visibleScene, taskCost, frameCostMs, droppedFrames, isContainsFrame);</span><br><span class="line">            <span class="comment">// 计算总的掉帧数</span></span><br><span class="line">            count += droppedFrames;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure></p>
+<p>回调接口IDoFrameListener支持将同步和异步回调方法：doFrameSync()和doFrameAsync，需要使用侧传入一个Executor。</p>
+<p>解释下IDoFrameListener.doFrameAsync()的参数含义：</p>
+<ul>
+<li>visibleScene：场景名称，默认是Activity的类名</li>
+<li>taskCost：主线程每一帧耗时</li>
+<li>frameCostMs：帧率检测时用不到</li>
+<li>droppedFrames：掉帧数</li>
+<li>isContainsFrame：是否包含一帧</li>
+</ul>
+<blockquote>
+<p>这里提一下visibleScene的获取逻辑：Matrix初始化时，AppActiveMatrixDelegate.controller()内部通过Application. registerActivityLifecycleCallbacks()监听Activity生命周期。当Activity start时，将activity.getClass().getName()做为visibleScene。FrameTracer再通过AppMethodBeat.getVisibleScene()获取visibleScene。</p>
+</blockquote>
+<p>继续看下回调方法doFrameAsync()的上游逻辑。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">FrameTracer.notifyListener()：</span><br><span class="line">IDoFrameListener.doFrameAsync()是在FrameTracer.notifyListener()中调用的：</span><br><span class="line"></span><br><span class="line">com.tencent.matrix.trace.tracer.FrameTracer</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">notifyListener</span><span class="params">(<span class="keyword">final</span> String visibleScene, <span class="keyword">final</span> <span class="keyword">long</span> taskCostMs, <span class="keyword">final</span> <span class="keyword">long</span> frameCostMs, <span class="keyword">final</span> <span class="keyword">boolean</span> isContainsFrame)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (listeners) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">final</span> IDoFrameListener listener : listeners) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (config.isDevEnv()) &#123;</span><br><span class="line">                        listener.time = SystemClock.uptimeMillis();</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// 计算掉帧数</span></span><br><span class="line">                    <span class="keyword">final</span> <span class="keyword">int</span> dropFrame = (<span class="keyword">int</span>) (taskCostMs / frameIntervalMs);</span><br><span class="line"></span><br><span class="line">                    listener.doFrameSync(visibleScene, taskCostMs, frameCostMs, dropFrame, isContainsFrame);</span><br><span class="line">                    <span class="keyword">if</span> (<span class="keyword">null</span> != listener.getExecutor()) &#123;</span><br><span class="line">                    	<span class="comment">//通过TestFpsActivity传入的Executor，将回调放到异步</span></span><br><span class="line">                        listener.getExecutor().execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                            <span class="meta">@Override</span></span><br><span class="line">                            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                            	<span class="comment">// 回调给TestFpsActivity</span></span><br><span class="line">                                listener.doFrameAsync(visibleScene, taskCostMs, frameCostMs, dropFrame, isContainsFrame);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">long</span> cost = System.currentTimeMillis() - start;</span><br><span class="line">            <span class="comment">// debug模式下，回调doFrameAsync中执行超过17ms，log警告</span></span><br><span class="line">            <span class="keyword">if</span> (config.isDebug() &amp;&amp; cost &gt; frameIntervalMs) &#123;</span><br><span class="line">                MatrixLog.w(TAG, <span class="string">"[notifyListener] warm! maybe do heavy work in doFrameSync! size:%s cost:%sms"</span>, listeners.size(), cost);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>从上面代码可以看出掉帧数dropFrame就是taskCostMs/frameIntervalMs。</p>
+<ul>
+<li>taskCostMs：一帧的执行耗时</li>
+<li>frameIntervalMs：默认是17ms，计算逻辑是Choreographer.mFrameIntervalNanos+1。<br>其中，Choreographer.mFrameIntervalNanos是屏幕刷新时间间隔，默认16ms。计算代码如下：<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">com.tencent.matrix.trace.tracer.FrameTracer</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.frameIntervalMs = TimeUnit.MILLISECONDS.convert(UIThreadMonitor.getMonitor().getFrameIntervalNanos(), TimeUnit.NANOSECONDS) + <span class="number">1</span>;</span><br><span class="line">com.tencent.matrix.trace.core.UIThreadMonitor</span><br><span class="line"></span><br><span class="line">choreographer = Choreographer.getInstance();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过反射获取Choreographer的mFrameIntervalNanos字段，默认是16ms</span></span><br><span class="line">frameIntervalNanos = reflectObject(choreographer, <span class="string">"mFrameIntervalNanos"</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>上面计算掉帧的方式：taskCostMs/17，其实并不是非常严谨，比如taskCostMs=33时，应该丢了两帧，但是计算结果是1。</p>
+<p>上面提到的<code>FrameTracer.notifyListener()</code>由FrameTracer.doFrame()触发，看下FrameTracer.doFrame()：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">FrameTracer.doFrame():</span><br><span class="line"></span><br><span class="line">com.tencent.matrix.trace.tracer.FrameTracer</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFrame</span><span class="params">(String focusedActivityName, <span class="keyword">long</span> start, <span class="keyword">long</span> end, <span class="keyword">long</span> frameCostMs, <span class="keyword">long</span> inputCostNs, <span class="keyword">long</span> animationCostNs, <span class="keyword">long</span> traversalCostNs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (isForeground()) &#123;</span><br><span class="line">            <span class="comment">// IDoFrameListener.doFrameAsync()中的参数taskCostMs即为end - start。</span></span><br><span class="line">            notifyListener(focusedActivityName, end - start, frameCostMs, frameCostMs &gt;= <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法没有做太多事情，主要是计算掉帧数用的taskCostMs是end - start的结果。</p>
+<p>FrameTracer.doFrame()由UIThreadMonitor.dispatchEnd()触发，看下后者的实现。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">UIThreadMonitor.dispatchEnd()</span><br><span class="line"></span><br><span class="line">com.tencent.matrix.trace.core.UIThreadMonitor</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dispatchEnd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (isBelongFrame) &#123;</span><br><span class="line">            doFrameEnd(token);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 对应每一帧的开始时间，在dispatchBegin()中赋值</span></span><br><span class="line">        <span class="keyword">long</span> start = token;</span><br><span class="line">        <span class="comment">// 对应每一帧的结束时间</span></span><br><span class="line">        <span class="keyword">long</span> end = SystemClock.uptimeMillis();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">synchronized</span> (observers) &#123;</span><br><span class="line">            <span class="keyword">for</span> (LooperObserver observer : observers) &#123;</span><br><span class="line">                <span class="keyword">if</span> (observer.isDispatchBegin()) &#123;</span><br><span class="line">                	<span class="comment">// isBelongFrame ? end - start : 0 - frameCost, 如果是帧耗时计算，则frameCost为0，否则和taskCost一样</span></span><br><span class="line">                	<span class="comment">// queueCost数组，存储对应Choreographer中三类task(input/animation/traversal)的耗时</span></span><br><span class="line">                    observer.doFrame(AppMethodBeat.getVisibleScene(), token, SystemClock.uptimeMillis(), isBelongFrame ? end - start : <span class="number">0</span>, queueCost[CALLBACK_INPUT], queueCost[CALLBACK_ANIMATION], queueCost[CALLBACK_TRAVERSAL]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 计算结束时间</span></span><br><span class="line">        dispatchTimeMs[<span class="number">3</span>] = SystemClock.currentThreadTimeMillis();</span><br><span class="line">        dispatchTimeMs[<span class="number">1</span>] = SystemClock.uptimeMillis();</span><br><span class="line"></span><br><span class="line">        AppMethodBeat.o(AppMethodBeat.METHOD_ID_DISPATCH);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">synchronized</span> (observers) &#123;</span><br><span class="line">            <span class="keyword">for</span> (LooperObserver observer : observers) &#123;</span><br><span class="line">                <span class="keyword">if</span> (observer.isDispatchBegin()) &#123;</span><br><span class="line">                    observer.dispatchEnd(dispatchTimeMs[<span class="number">0</span>], dispatchTimeMs[<span class="number">2</span>], dispatchTimeMs[<span class="number">1</span>], dispatchTimeMs[<span class="number">3</span>], token, isBelongFrame);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这部分内容主要做了这几件事情：</p>
+<p>获取每一帧耗时的开始、结束时间戳，即start、end，将差值通过observer.doFrame()传给消费方<br>执行observer.doFrame()，该方法主要消费方是AnrTracer、EvilMethodTracer、FrameTracer<br>赋值dispatchTimeMs[1]，dispatchTimeMs[3]，其中dispatchTimeMs数组含义后面会提到<br>执行observer.dispatchEnd()，该方法主要消费方是AnrTracer、EvilMethodTracer<br>看完了UIThreadMonitor.dispatchEnd()，再看下UIThreadMonitor.dispatchBegin()：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">com.tencent.matrix.trace.core.UIThreadMonitor</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dispatchBegin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 对dispatchTimeMs[0]、dispatchTimeMs[2]赋值</span></span><br><span class="line">        token = dispatchTimeMs[<span class="number">0</span>] = SystemClock.uptimeMillis();</span><br><span class="line">        dispatchTimeMs[<span class="number">2</span>] = SystemClock.currentThreadTimeMillis();</span><br><span class="line">        AppMethodBeat.i(AppMethodBeat.METHOD_ID_DISPATCH);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//每一帧开始执行时的回调</span></span><br><span class="line">        <span class="keyword">synchronized</span> (observers) &#123;</span><br><span class="line">            <span class="keyword">for</span> (LooperObserver observer : observers) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!observer.isDispatchBegin()) &#123;</span><br><span class="line">                    observer.dispatchBegin(dispatchTimeMs[<span class="number">0</span>], dispatchTimeMs[<span class="number">2</span>], token);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里简单说下SystemClock.uptimeMillis()和SystemClock.currentThreadTimeMillis()的区别，详细内容可以看官方文档：</p>
+<ul>
+<li>SystemClock.uptimeMillis()：记录从开机到现在的时长，系统深睡眠（CPU睡眠、黑屏、系统等待外部输入对其唤醒）的时间不算在内，且不受系统设置时间调整的影响。是大多数时间间隔计算方法的基础，比如Thread.sleep(long)、Object.wait(long)、System.nanoTime()</li>
+<li>SystemClock.currentThreadTimeMillis()：这个比较容易理解，当前线程的活动时长（线程处于running状态）</li>
+</ul>
+</blockquote>
+<p>LooperObserver.dispatchEnd()<br>解释下LooperObserver.dispatchEnd()的参数含义，后续对理解AnrTracer、EvilMethodTracer的实现有帮助：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">com.tencent.matrix.trace.listeners.LooperObserver</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatchEnd</span><span class="params">(<span class="keyword">long</span> beginMs, <span class="keyword">long</span> cpuBeginMs, <span class="keyword">long</span> endMs, <span class="keyword">long</span> cpuEndMs, <span class="keyword">long</span> token, <span class="keyword">boolean</span> isBelongFrame)</span></span></span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>beginMs：主线程一帧任务的开始时间点，对应dispatchTimeMs[0]，在UIThreadMonitor.dispatchBegin()中赋值</li>
+<li>cpuBeginMs：当前线程活动期间，方法开始执行时间点，对应dispatchTimeMs[2]</li>
+<li>endMs：主线程一帧方法结束执行时间点，对应dispatchTimeMs[1]，在UIThreadMonitor.dispatchEnd()中赋值。所以，一帧耗时就是endMs-beginMs。</li>
+<li>cpuEndMs：当前线程活动期间，方法解释执行时间点，对应dispatchTimeMs[3]</li>
+<li>token：等同于beginMs</li>
+<li>isBelongFrame：可简单理解为是否属于主线程任务。在Choreographer处理input任务时执行UIThreadMonitor.run()，内部将- - isBelongFrame置为true，这块逻辑可以看下UIThreadMonitor.onStart()</li>
+</ul>
+<p>上面提到，一帧任务执行结束时会执行UIThreadMonitor.dispatchEnd()，该方法在LooperMonitor注册的监听器中执行的。看下这块逻辑：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">com.tencent.matrix.trace.core.UIThreadMonitor</span><br><span class="line"></span><br><span class="line">LooperMonitor.register(<span class="keyword">new</span> LooperMonitor.LooperDispatchListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isValid</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> isAlive;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatchStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">super</span>.dispatchStart();</span><br><span class="line">                UIThreadMonitor.<span class="keyword">this</span>.dispatchBegin();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatchEnd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">super</span>.dispatchEnd();</span><br><span class="line">                UIThreadMonitor.<span class="keyword">this</span>.dispatchEnd();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>
+<p>UIThreadMonitor向LooperMonitor注册了监听器，用于监听每一帧的开始和结束。</p>
+<p>其中，LooperDispatchListener的dispatchStart()和dispatchEnd()都是LooperMonitor.dispatch()执行的。由isBegin决定执行dispatchStart()还是dispatchEnd()。看下LooperMonitor.dispatch()：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">LooperMonitor.dispatch():</span><br><span class="line">com.tencent.matrix.trace.core.LooperMonitor</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dispatch</span><span class="params">(<span class="keyword">boolean</span> isBegin, String log)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (LooperDispatchListener listener : listeners) &#123;</span><br><span class="line">            <span class="keyword">if</span> (listener.isValid()) &#123;</span><br><span class="line">                <span class="keyword">if</span> (isBegin) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (!listener.isHasDispatchStart) &#123;</span><br><span class="line">                        <span class="comment">// 内部回调dispatchStart()</span></span><br><span class="line">                        listener.onDispatchStart(log);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (listener.isHasDispatchStart) &#123;</span><br><span class="line">                        <span class="comment">// 内部回调dispatchEnd()</span></span><br><span class="line">                        listener.onDispatchEnd(log);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!isBegin &amp;&amp; listener.isHasDispatchStart) &#123;</span><br><span class="line">                listener.dispatchEnd();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>isBegin的逻辑看下面代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">LooperMonitor.LooperPrinter:</span><br><span class="line">com.tencent.matrix.trace.core.LooperMonitor</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LooperPrinter</span> <span class="keyword">implements</span> <span class="title">Printer</span> </span>&#123;</span><br><span class="line">       </span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">println</span><span class="params">(String x)</span> </span>&#123;</span><br><span class="line">            ...</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (!isHasChecked) &#123;</span><br><span class="line">            	<span class="comment">// 根据参数x内容，判断是开始还是结束，即isBegin</span></span><br><span class="line">                isValid = x.charAt(<span class="number">0</span>) == <span class="string">'&gt;'</span> || x.charAt(<span class="number">0</span>) == <span class="string">'&lt;'</span>;</span><br><span class="line">                isHasChecked = <span class="keyword">true</span>;</span><br><span class="line">                <span class="keyword">if</span> (!isValid) &#123;</span><br><span class="line">                    MatrixLog.e(TAG, <span class="string">"[println] Printer is inValid! x:%s"</span>, x);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (isValid) &#123;</span><br><span class="line">                <span class="comment">// x.charAt(0) == '&gt;'时，isBegin为true</span></span><br><span class="line">                dispatch(x.charAt(<span class="number">0</span>) == <span class="string">'&gt;'</span>, x);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>即，入参字符串x以&gt;开头时，isBegin为true。</p>
+<p>上面逻辑是自定义LooperPrinter的实现方法。在LooperMonitor初始化时，会向main looper注册一个LooperPrinter：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">com.tencent.matrix.trace.core.LooperMonitor</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LooperMonitor</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> LooperPrinter printer;</span><br><span class="line">	<span class="comment">//主线程looper</span></span><br><span class="line">	looper = Looper.getMainLooper()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 将前面提到的自定义LooperPrinter塞给主线程looper</span></span><br><span class="line">	looper.setMessageLogging(printer = <span class="keyword">new</span> LooperPrinter(originPrinter));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面代码主要是把自定义LooperPrinter塞给主线程looper。对Looper比较熟悉的同学其实已经有眉目了，我们回顾下looper的逻辑：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Looper.loop()</span><br><span class="line">android.os.Looper.java</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">loop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Looper me = myLooper();</span><br><span class="line">        <span class="keyword">if</span> (me == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"No Looper; Looper.prepare() wasn't called on this thread."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">final</span> MessageQueue queue = me.mQueue;</span><br><span class="line"></span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            Message msg = queue.next(); <span class="comment">// might block</span></span><br><span class="line">            <span class="keyword">if</span> (msg == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">// No message indicates that the message queue is quitting.</span></span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// This must be in a local variable, in case a UI event sets the logger</span></span><br><span class="line">            <span class="comment">// logging对象外部自定义，传入一个自定义Printer实现每一帧的监听计算</span></span><br><span class="line">            <span class="keyword">final</span> Printer logging = me.mLogging;</span><br><span class="line">            <span class="keyword">if</span> (logging != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">// 每一帧开始时打印的log</span></span><br><span class="line">                logging.println(<span class="string">"&gt;&gt;&gt;&gt;&gt; Dispatching to "</span> + msg.target + <span class="string">" "</span> +</span><br><span class="line">                        msg.callback + <span class="string">": "</span> + msg.what);</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">            		<span class="comment">// 消息执行</span></span><br><span class="line">            		msg.target.dispatchMessage(msg);</span><br><span class="line">                dispatchEnd = needEndTime ? SystemClock.uptimeMillis() : <span class="number">0</span>;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (traceTag != <span class="number">0</span>) &#123;</span><br><span class="line">                    Trace.traceEnd(traceTag);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">            <span class="keyword">if</span> (logging != <span class="keyword">null</span>) &#123;</span><br><span class="line">            		<span class="comment">// 每一帧结束时打印的log</span></span><br><span class="line">            		logging.println(<span class="string">"&lt;&lt;&lt;&lt;&lt; Finished to "</span> + msg.target + <span class="string">" "</span> + msg.callback);</span><br><span class="line">            &#125;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>很多APM计算帧率都采用了这个逻辑，我在Android图形渲染之Choreographer原理 最后也提到使用“Looper &amp; Printer”计算帧率。</p>
+<p>Looper在每个消息消费前后msg.target.dispatchMessage(msg)，会通过一个Printer对象分别打印<code>&gt;&gt;&gt;&gt;&gt; Dispatching to</code>和<code>&lt;&lt;&lt;&lt;&lt; Finished to</code>两个日志。通过<strong>Looper.setMessageLogging()</strong>可以设置我们自定义的Printer，通过监听主线程方法执行前后的两个日志字符串，就可以计算一帧的耗时。</p>
+<p>前面LooperMonitor中就通过Looper.setMessageLogging()将自定义的Printer传给了Looper，所以可以拦截每个消息执行前后的日志。</p>
+<p>到这里，每一帧的监听、掉帧逻辑及帧率计算方式就讲完了。</p>
+<p>总结：<br>回顾下整体代码的执行过程：</p>
+<ul>
+<li>Looper.loop()        //主线程消息执行也是looper机制</li>
+<li>LooperMonitor.LooperPrinter.println()        //消息执行前后会打印两个日志</li>
+<li>LooperMonitor.dispatch()    //拦截到两个日志后进行分发</li>
+<li>UIThreadMonitor.dispatchBegin()/dispatchEnd()    //记录相关时间节点，分发每一帧执行前后的回调方法</li>
+<li>FrameTracer.doFrame()</li>
+<li>FrameTracer.notifyListener()</li>
+<li>TestFpsActivity.IDoFrameListener.doFrameSync()/doFrameAsync()    //业务侧获取帧率回调<br>总体来说，帧率检测使用了“Looper &amp; Printer”方式。Printer的日志字符串对应主线程每一帧方法执行的开始和结束，通过给主线程Looper设置自定义Printer，即可拦截日志。根据日志内容即可得知每一帧执行的前后节点，进而记录每一帧的开始、结束时间戳，从而可以计算每一帧的耗时、帧率、掉帧等核心指标。</li>
+</ul>
+<h4 id="ANR检测"><a href="#ANR检测" class="headerlink" title="ANR检测"></a>ANR检测</h4><p>ANR检测的主要实现在AnrTracer。</p>
+<p>demo中，将TestTraceMainActivity.testANR()内部执行耗时改大一点（大于5000ms），比如改到7800，就能看到AS中输出如下ANR警告log：</p>
+<p>看下AnrTracer如何统计ANR，收集上述log信息：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">AnrTracer：</span><br><span class="line">com.tencent.matrix.trace.tracer.AnrTracer</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatchBegin</span><span class="params">(<span class="keyword">long</span> beginMs, <span class="keyword">long</span> cpuBeginMs, <span class="keyword">long</span> token)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.dispatchBegin(beginMs, cpuBeginMs, token);</span><br><span class="line">        <span class="comment">// 构造AnrTask</span></span><br><span class="line">        anrTask = <span class="keyword">new</span> AnrHandleTask(AppMethodBeat.getInstance().maskIndex(<span class="string">"AnrTracer#dispatchBegin"</span>), token);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 延迟5s发消息，Constants.DEFAULT_ANR = 5 * 1000</span></span><br><span class="line">        <span class="comment">// token是方法开始执行的时间</span></span><br><span class="line">        <span class="comment">// (SystemClock.uptimeMillis() - token)：校正方法的开始时间</span></span><br><span class="line">        anrHandler.postDelayed(anrTask, Constants.DEFAULT_ANR - (SystemClock.uptimeMillis() - token));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatchEnd</span><span class="params">(<span class="keyword">long</span> beginMs, <span class="keyword">long</span> cpuBeginMs, <span class="keyword">long</span> endMs, <span class="keyword">long</span> cpuEndMs, <span class="keyword">long</span> token, <span class="keyword">boolean</span> isBelongFrame)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.dispatchEnd(beginMs, cpuBeginMs, endMs, cpuEndMs, token, isBelongFrame);</span><br><span class="line">        <span class="comment">// 移除anrTask</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != anrTask) &#123;</span><br><span class="line">            anrTask.getBeginRecord().release();</span><br><span class="line">            anrHandler.removeCallbacks(anrTask);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>前面讲FrameTracer时提到过，每一帧执行前后分别回调Tracer.dispatchBegin()和Tracer.dispatchEnd()。</p>
+<p>上面代码在dispatchBegin()内部发送了一个延迟消息执行AnrTask，延迟时间约为5s（Constants.DEFAULT_ANR = 5 * 1000），在dispatchEnd()移除对应的任务。所以，如果主线程一帧执行任务超过5s，AnrTask就会执行。</p>
+<p>要注意的一点是，ANR log中，may be happen ANR(5007ms)!，这里的5007ms时间并不是一帧任务的耗时（因为我们把测试方法耗时改成了7800ms），而是AnrTracer中AnrTask的消息延迟时间。</p>
+<p>AnrTask：<br>看下AnrTask的逻辑：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">com.tencent.matrix.trace.tracer.AnrTracer.AnrHandleTask</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> curTime = SystemClock.uptimeMillis();</span><br><span class="line">    <span class="keyword">boolean</span> isForeground = isForeground();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// process 进程信息</span></span><br><span class="line">    <span class="keyword">int</span>[] processStat = Utils.getProcessPriority(Process.myPid());</span><br><span class="line">    <span class="keyword">long</span>[] data = AppMethodBeat.getInstance().copyData(beginRecord);</span><br><span class="line">    beginRecord.release();</span><br><span class="line">    <span class="comment">// 业务场景，FrameTracer中提到过</span></span><br><span class="line">    String scene = AppMethodBeat.getVisibleScene();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// memory 内存信息，其中VmSize从“/proc/&#123;PID&#125;/status”文件中获取</span></span><br><span class="line">    <span class="keyword">long</span>[] memoryInfo = dumpMemory();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Thread state</span></span><br><span class="line">    Thread.State status = Looper.getMainLooper().getThread().getState();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 线程调用堆栈</span></span><br><span class="line">    StackTraceElement[] stackTrace = Looper.getMainLooper().getThread().getStackTrace();</span><br><span class="line">    <span class="comment">// 堆栈裁剪</span></span><br><span class="line">    String dumpStack = Utils.getStack(stackTrace, <span class="string">"|*\t\t"</span>, <span class="number">12</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// frame</span></span><br><span class="line">    UIThreadMonitor monitor = UIThreadMonitor.getMonitor();</span><br><span class="line">    <span class="comment">// 获取input/animation/traversal三类任务耗时</span></span><br><span class="line">    <span class="keyword">long</span> inputCost = monitor.getQueueCost(UIThreadMonitor.CALLBACK_INPUT, token);</span><br><span class="line">    <span class="keyword">long</span> animationCost = monitor.getQueueCost(UIThreadMonitor.CALLBACK_ANIMATION, token);</span><br><span class="line">    <span class="keyword">long</span> traversalCost = monitor.getQueueCost(UIThreadMonitor.CALLBACK_TRAVERSAL, token);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// trace</span></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    StringBuilder reportBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    StringBuilder logcatBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 获取ANR时长</span></span><br><span class="line">    <span class="keyword">long</span> stackCost = Math.max(Constants.DEFAULT_ANR, TraceDataUtils.stackToString(stack, reportBuilder, logcatBuilder));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// stackKey</span></span><br><span class="line">    String stackKey = TraceDataUtils.getTreeKey(stack, stackCost);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 打印ANR日志</span></span><br><span class="line">    MatrixLog.w(TAG, <span class="string">"%s \npostTime:%s curTime:%s"</span>,</span><br><span class="line">            printAnr(scene, processStat, memoryInfo, status, logcatBuilder, isForeground, stack.size(), stackKey, dumpStack, inputCost, animationCost, traversalCost, stackCost), token, curTime); <span class="comment">// for logcat</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (stackCost &gt;= Constants.DEFAULT_ANR_INVALID) &#123;</span><br><span class="line">        MatrixLog.w(TAG, <span class="string">"The checked anr task was not executed on time. "</span></span><br><span class="line">                + <span class="string">"The possible reason is that the current process has a low priority. just pass this report"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// report 启动IssuesListActivity页面，展示ANR信息</span></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>主要内容都加了注释，可以参考下。</p>
+<p>总结：<br>ANR的检测逻辑：在主线程一帧任务开始前发送（5s）的延迟消息，任务结束时移除该消息。如果主线程一帧任务执行时间超过了消息的延迟时间（认为这一帧导致了ANR），延迟消息将会执行，触发ANR信息收集任务</p>
+<p>延迟消息（AnrTask）在异步线程执行，收集进程、调用堆栈、内存使用、trace信息，后续将信息log出来，并启动IssuesListActivity展示ANR结果。</p>
+<p>慢函数检测<br>将TestTraceMainActivity.testANR()实现耗时改成7800ms，AS会输出如下慢函数log。从log中可以看出发生了Jankiness，方法耗时7804ms，和我们的修改基本吻合。</p>
+<p>下面看下慢函数的实现逻辑，主要代码在EvilMethodTracer。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">EvilMethodTracer：</span><br><span class="line">com.tencent.matrix.trace.tracer.EvilMethodTracer</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatchEnd</span><span class="params">(<span class="keyword">long</span> beginMs, <span class="keyword">long</span> cpuBeginMs, <span class="keyword">long</span> endMs, <span class="keyword">long</span> cpuEndMs, <span class="keyword">long</span> token, <span class="keyword">boolean</span> isBelongFrame)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.dispatchEnd(beginMs, cpuBeginMs, endMs, cpuEndMs, token, isBelongFrame);</span><br><span class="line">        <span class="keyword">long</span> start = config.isDevEnv() ? System.currentTimeMillis() : <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">long</span> dispatchCost = endMs - beginMs;</span><br><span class="line">            <span class="comment">// 一帧耗时超过evilThresholdMs（默认700ms），执行慢函数计算逻辑</span></span><br><span class="line">            <span class="keyword">if</span> (dispatchCost &gt;= evilThresholdMs) &#123;</span><br><span class="line">                <span class="keyword">long</span>[] data = AppMethodBeat.getInstance().copyData(indexRecord);</span><br><span class="line">                <span class="keyword">long</span>[] queueCosts = <span class="keyword">new</span> <span class="keyword">long</span>[<span class="number">3</span>];</span><br><span class="line">                System.arraycopy(queueTypeCosts, <span class="number">0</span>, queueCosts, <span class="number">0</span>, <span class="number">3</span>);</span><br><span class="line">                String scene = AppMethodBeat.getVisibleScene();</span><br><span class="line">                <span class="comment">// 异步线程执行AnalyseTask</span></span><br><span class="line">                MatrixHandlerThread.getDefaultHandler().post(<span class="keyword">new</span> AnalyseTask(isForeground(), scene, data, queueCosts, cpuEndMs - cpuBeginMs, endMs - beginMs, endMs));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>主要逻辑在dispatchEnd()里面。从上面代码可以看出，当主线程一帧内耗时超过evilThresholdMs（默认700ms，可以通过TraceConfig配置），执行慢函数的警告，打印上面提到的log。</p>
+<p>其中，慢函数的耗时，就是上面代码中的endMs - beginMs，这个逻辑在“帧率检测 - UIThreadMonitor.dispatchEnd()”中有具体讲到。</p>
+<p>具体慢函数打印的log逻辑如下：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">AnalyseTask:</span><br><span class="line">com.tencent.matrix.trace.tracer.EvilMethodTracer.AnalyseTask</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">AnalyseTask</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">analyse</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// process 进程信息</span></span><br><span class="line">            <span class="keyword">int</span>[] processStat = Utils.getProcessPriority(Process.myPid());</span><br><span class="line">            String usage = Utils.calculateCpuUsage(cpuCost, cost);</span><br><span class="line">            LinkedList&lt;MethodItem&gt; stack = <span class="keyword">new</span> LinkedList();</span><br><span class="line">            ...</span><br><span class="line"></span><br><span class="line">            StringBuilder reportBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">            StringBuilder logcatBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">            <span class="keyword">long</span> stackCost = Math.max(cost, TraceDataUtils.stackToString(stack, reportBuilder, logcatBuilder));</span><br><span class="line">            String stackKey = TraceDataUtils.getTreeKey(stack, stackCost);</span><br><span class="line"></span><br><span class="line">					<span class="comment">// 和AnrTracer一样，打印log，启动IssuesListActivity页面，展示EvilMethod信息</span></span><br><span class="line">            MatrixLog.w(TAG, <span class="string">"%s"</span>, printEvil(scene, processStat, isForeground, logcatBuilder, stack.size(), stackKey, usage, queueCost[<span class="number">0</span>], queueCost[<span class="number">1</span>], queueCost[<span class="number">2</span>], cost)); <span class="comment">// for logcat</span></span><br><span class="line"></span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中，AnalyseTask的逻辑和AnrTask类似，只是log中的部分内容不一样，就不具体展开了。</p>
+<p>总结：<br>慢函数的检测逻辑比较简单，在主线程一帧执行结束时，判断帧耗时是否大于预先设置的慢函数阈值，超过该阈值，即认为慢函数发生。</p>
+<hr>
+<div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="http://blog.conorlee.top/blogimages/attribution_88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://conorlee.top/" target="_blank" rel="noopener">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
+
+<p>本文链接：<a href="http://agehua.github.io/2023/09/26/matrix-trace-canary/">http://agehua.github.io/2023/09/26/matrix-trace-canary/</a></p>
+
+
+            
+  <!-- donate css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+         
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      _background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+<!-- Donate Module -->
+<div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+    </span>
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+
+  <div id="donate_guide" class="donate_bar center hidden" >
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
+        <a href="http://cdn.conorlee.top/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+        <a href="http://cdn.conorlee.top/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+      </div>
+      <div style="display:inline-block;">
+          &nbsp;
+          <span class="donate_txt">
+              Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+          </span>
+      </div>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className='hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+
+            
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2023/09/26/matrix-trace-canary/" data-id="clw1ss2eb007ps54767l5ruxq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2023/09/26/matrix-trace-canary/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2023/10/26/cross-process-bridge/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    跨进程通信Bridge建立
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2023/02/10/constraintlayout-intro/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">ConstraintLayout 高级用法介绍</div>
+        </a>
+    
+</nav>
+
+
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+    
+    <section id="comments" class="comments">
+    
+        
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2023/09/26/matrix-trace-canary/', // 可选。默认为 location.href
+  title: 'Matrix TraceCanary源码分析',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+    
+  </section>
+
+
+
+</article>
+
+
+</section>
+            
+                <aside id="sidebar">
+    <!-- 在_config.yml中配置了widgets，来决定widgets的顺序 -->
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/04/24/jacoco-test-coverage/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Irises.jpg)" alt="代码覆盖率统计——集成Jacoco" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/04/24/jacoco-test-coverage/" class="title">代码覆盖率统计——集成Jacoco</a></p>
+                            <p class="item-date"><time datetime="2024-04-23T16:00:00.000Z" itemprop="datePublished">2024-04-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/11/13/native-crash-anr-log-analysis/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg)" alt="Native Crash日志分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/11/13/native-crash-anr-log-analysis/" class="title">Native Crash日志分析</a></p>
+                            <p class="item-date"><time datetime="2023-11-12T16:00:00.000Z" itemprop="datePublished">2023-11-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/11/02/native-crash-principle/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Houses%20in%20Auvers.jpg)" alt="Native Crash捕获原理" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/11/02/native-crash-principle/" class="title">Native Crash捕获原理</a></p>
+                            <p class="item-date"><time datetime="2023-11-01T16:00:00.000Z" itemprop="datePublished">2023-11-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/10/26/cross-process-bridge/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Harvest%20in%20Provence%2C%20at%20the%20Left%20Montmajour.jpg)" alt="跨进程通信Bridge建立" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/10/26/cross-process-bridge/" class="title">跨进程通信Bridge建立</a></p>
+                            <p class="item-date"><time datetime="2023-10-25T16:00:00.000Z" itemprop="datePublished">2023-10-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/09/26/matrix-trace-canary/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Haystacks%20in%20Provence.jpg)" alt="Matrix TraceCanary源码分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/09/26/matrix-trace-canary/" class="title">Matrix TraceCanary源码分析</a></p>
+                            <p class="item-date"><time datetime="2023-09-25T16:00:00.000Z" itemprop="datePublished">2023-09-26</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">79</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/agp/" style="font-size: 11.67px;">AGP</a> <a href="/tags/aidl/" style="font-size: 13.33px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/anr/" style="font-size: 13.33px;">ANR</a> <a href="/tags/aop/" style="font-size: 10px;">AOP</a> <a href="/tags/aosp/" style="font-size: 11.67px;">AOSP</a> <a href="/tags/asm/" style="font-size: 10px;">ASM</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-source-code/" style="font-size: 18.33px;">Android Source Code</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 11.67px;">Annotation</a> <a href="/tags/asyncinflate/" style="font-size: 10px;">AsyncInflate</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 16.67px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16.67px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/constraintlayout/" style="font-size: 11.67px;">ConstraintLayout</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview/" style="font-size: 16.67px;">Interview</a> <a href="/tags/jni/" style="font-size: 13.33px;">JNI</a> <a href="/tags/jvm/" style="font-size: 11.67px;">JVM</a> <a href="/tags/jacoco/" style="font-size: 10px;">Jacoco</a> <a href="/tags/java/" style="font-size: 15px;">Java</a> <a href="/tags/javascript/" style="font-size: 11.67px;">JavaScript</a> <a href="/tags/kotlin/" style="font-size: 11.67px;">Kotlin</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 11.67px;">Looper</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/native-crash/" style="font-size: 11.67px;">Native Crash</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 11.67px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 11.67px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 16.67px;">RecyclerView</a> <a href="/tags/recyclerview-optimization/" style="font-size: 10px;">RecyclerView optimization</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 11.67px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/transform/" style="font-size: 10px;">Transform</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 11.67px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/multi-process/" style="font-size: 11.67px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/picture-in-picture/" style="font-size: 10px;">picture-in-picture</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 11.67px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 13.33px;">toastmaster</a> <a href="/tags/view-scroll/" style="font-size: 10px;">view scroll</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://conorlee.top">我的阿里云博客(求赞助)</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://agehua.github.io/">My Github Pages</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://invitation.conorlee.top/MrLiAndTeacherTian_WeddingInvitation.html">Wedding Invitation(手机观看最佳)</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2024 ConorLee<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2023/09/26/matrix-trace-canary/', // 可选。默认为 location.href
+  title: 'Matrix TraceCanary源码分析',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+<script>
+    var bigfa_scroll = {
+        drawCircle: function(id, percentage, color) {
+            var width = jQuery(id).width();
+            var height = jQuery(id).height();
+            var radius = parseInt(width / 2.20);
+            var position = width;
+            var positionBy2 = position / 2;
+            var bg = jQuery(id)[0];
+            id = id.split("# ");
+            var ctx = bg.getContext("2d");
+            var imd = null;
+            var circ = Math.PI * 2;
+            var quart = Math.PI / 2;
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineCap = "square";
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineWidth = 3;
+            imd = ctx.getImageData(0, 0, position, position);
+            var draw = function(current, ctxPass) {
+                ctxPass.putImageData(imd, 0, 0);
+                ctxPass.beginPath();
+                ctxPass.arc(positionBy2, positionBy2, radius, -(quart), ((circ) * current) - quart, false);
+                ctxPass.stroke();
+            }
+            draw(percentage / 100, ctx);
+        },
+        backToTop: function($this) {
+            $this.click(function() {
+                jQuery("body,html").animate({
+                    scrollTop: 0
+                },
+                800);
+                return false;
+            });
+        },
+        scrollHook: function($this, color) {
+            color = color ? color: "# 000000";
+            $this.scroll(function() {
+                var docHeight = (jQuery(document).height() - jQuery(window).height()),
+                $windowObj = $this,
+                $per = jQuery(".per"),
+                percentage = 0;
+                defaultScroll = $windowObj.scrollTop();
+                percentage = parseInt((defaultScroll / docHeight) * 100);
+                var backToTop = jQuery("# backtoTop");
+                if (backToTop.length > 0) {
+                    if ($windowObj.scrollTop() > 200) {
+                        backToTop.addClass("button--show");
+                    } else {
+                        backToTop.removeClass("button--show");
+                    }
+                    $per.attr("data-percent", percentage);
+                    bigfa_scroll.drawCircle("# backtoTopCanvas", percentage, color);
+                }
+            });
+        }
+    }
+
+</script>
+
+
+    </div>
+    <!-- <script src="http://cdn.maxjia.com/js/particles.min.js"></script> -->
+  
+  
+    <canvas class="fireworks" style="position: fixed; left: 0px; top: 0px; z-index: 1; pointer-events: none; width: 1440px; height: 416px;" width="2880" height="832"></canvas>
+    
+
+      <script type="text/javascript" src="/js/anime.min.js"></script>
+      <script type="text/javascript" src="/js/firework.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/33.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

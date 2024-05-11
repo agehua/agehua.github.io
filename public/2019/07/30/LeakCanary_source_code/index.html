@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="google-site-verification" content="TYEtqE2Xc2ZonkJumwKut0-iq4RVbEc8o5Y8HpmZ-eo" />
+    <meta name="baidu-site-verification" content="8WKGBCPPKp" />
+    <meta charset="utf-8">
+    
+    <title>LeakCanary源码分析及借鉴 | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="煤矿中的金丝雀LeakCanary是一个帮我们在Android或Java项目开发时检测内存泄漏的库。 本文以LeakCanary-1.5.1版本为例，分析LeakCanary原理，以及借鉴其中的方法。">
+<meta name="keywords" content="LeakCanary, SourceCode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeakCanary源码分析及借鉴">
+<meta property="og:url" content="http://agehua.github.io/2019/07/30/LeakCanary_source_code/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="煤矿中的金丝雀LeakCanary是一个帮我们在Android或Java项目开发时检测内存泄漏的库。 本文以LeakCanary-1.5.1版本为例，分析LeakCanary原理，以及借鉴其中的方法。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://cdn.conorlee.top/Field%20of%20Spring%20Wheat%20at%20Sunrise.jpg">
+<meta property="og:updated_time" content="2023-11-16T03:42:40.853Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LeakCanary源码分析及借鉴">
+<meta name="twitter:description" content="煤矿中的金丝雀LeakCanary是一个帮我们在Android或Java项目开发时检测内存泄漏的库。 本文以LeakCanary-1.5.1版本为例，分析LeakCanary原理，以及借鉴其中的方法。">
+<meta name="twitter:image" content="http://cdn.conorlee.top/Field%20of%20Spring%20Wheat%20at%20Sunrise.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+
+
+    <link rel="icon" sizes="192x192" href="images/icon.png">
+    <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+    <!--text spacing-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+
+</head>
+
+
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+
+                <a class="main-nav-link" href='javascript:(
+        /*
+         * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *      http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         */
+        function go() {
+
+
+        var songs = [
+                    "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
+                    "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
+                    "https://static.rocko.xyz/audio/Music-outside.mp3",
+                    "https://static.rocko.xyz/audio/Music-sunburst.mp3"
+        ];
+
+
+        function c() {
+            var e = document.createElement("link");
+            e.setAttribute("type", "text/css");
+            e.setAttribute("rel", "stylesheet");
+            e.setAttribute("href", f);
+            e.setAttribute("class", l);
+            document.body.appendChild(e)
+        }
+
+        function h() {
+            var e = document.getElementsByClassName(l);
+            for (var t = 0; t < e.length; t++) {
+                document.body.removeChild(e[t])
+            }
+        }
+
+        function p() {
+            var e = document.createElement("div");
+            e.setAttribute("class", a);
+            document.body.appendChild(e);
+            setTimeout(function() {
+                document.body.removeChild(e)
+            }, 100)
+        }
+
+        function d(e) {
+            return {
+                height : e.offsetHeight,
+                width : e.offsetWidth
+            }
+        }
+
+        function v(i) {
+            var s = d(i);
+            return s.height > e && s.height < n && s.width > t && s.width < r
+        }
+
+        function m(e) {
+            var t = e;
+            var n = 0;
+            while (!!t) {
+                n += t.offsetTop;
+                t = t.offsetParent
+            }
+            return n
+        }
+
+        function g() {
+            var e = document.documentElement;
+            if (!!window.innerWidth) {
+                return window.innerHeight
+            } else if (e && !isNaN(e.clientHeight)) {
+                return e.clientHeight
+            }
+            return 0
+        }
+
+        function y() {
+            if (window.pageYOffset) {
+                return window.pageYOffset
+            }
+            return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+        }
+
+        function E(e) {
+            var t = m(e);
+            return t >= w && t <= b + w
+        }
+
+        function S() {
+            var e = document.getElementById("audio_element_id");
+            if(e != null){
+                var index = parseInt(e.getAttribute("curSongIndex"));
+                if(index > songs.length - 2) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                e.setAttribute("curSongIndex", index);
+                N();
+            }
+
+            e.src = i;
+            e.play()
+        }
+
+        function x(e) {
+            e.className += " " + s + " " + o
+        }
+
+        function T(e) {
+            e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+        }
+
+        function N() {
+            var e = document.getElementsByClassName(s);
+            var t = new RegExp("\\b" + s + "\\b");
+            for (var n = 0; n < e.length; ) {
+                e[n].className = e[n].className.replace(t, "")
+            }
+        }
+
+        function initAudioEle() {
+            var e = document.getElementById("audio_element_id");
+            if(e === null){
+                e = document.createElement("audio");
+                e.setAttribute("class", l);
+                e.setAttribute("curSongIndex", 0);
+                e.id = "audio_element_id";
+                e.loop = false;
+                e.bgcolor = 0;
+                e.addEventListener("canplay", function() {
+                setTimeout(function() {
+                    x(k)
+                }, 500);
+                setTimeout(function() {
+                    N();
+                    p();
+                    for (var e = 0; e < O.length; e++) {
+                        T(O[e])
+                    }
+                }, 15500)
+            }, true);
+            e.addEventListener("ended", function() {
+                N();
+                h();
+                go();
+            }, true);
+            e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+            document.body.appendChild(e);
+            }
+        }
+
+        initAudioEle();
+        var e = 30;
+        var t = 30;
+        var n = 350;
+        var r = 350;
+
+        var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+        var i = songs[curSongIndex];
+
+        var s = "mw-harlem_shake_me";
+        var o = "im_first";
+        var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+        var a = "mw-strobe_light";
+
+        /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
+        var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+
+        var l = "mw_added_css";
+        var b = g();
+        var w = y();
+        var C = document.getElementsByTagName("*");
+        var k = null;
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                if (E(A)) {
+                    k = A;
+                    break
+                }
+            }
+        }
+        if (A === null) {
+            console.warn("Could not find a node of the right size. Please try a different page.");
+            return
+        }
+        c();
+        S();
+        var O = [];
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                O.push(A)
+            }
+        }
+        })()'>High一下</a>
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+
+
+        </div>
+    </div>
+
+
+    <div id="main-nav-mobile" class="header-sub header-inner">
+
+        <table class="menu outer">
+
+
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    
+</header>
+
+        <div class="outer">
+            
+                
+
+
+<aside id="profile">
+    <div class="inner profile-inner" id="profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
+            <h2 id="name">Conor Lee</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                95
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                103
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+
+        <a href="https://github.com/agehua" class="github-corner" aria-label="View source on Github">
+          <svg width="64" height="64" viewBox="0 0 250 250" style="fill:#cba11f; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+            <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+          </svg>
+        </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+    <div id='toc-col' class="toc-col">
+        
+            <div id='toc-wrap' class="toc-wrap">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#煤矿中的金丝雀"><span class="toc-number">1.</span> <span class="toc-text">煤矿中的金丝雀</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存泄漏检测的基本原理"><span class="toc-number">2.</span> <span class="toc-text">内存泄漏检测的基本原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Java垃圾回收-GC"><span class="toc-number">2.1.</span> <span class="toc-text">Java垃圾回收(GC)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LeakCanary使用"><span class="toc-number">3.</span> <span class="toc-text">LeakCanary使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#监听Activity销毁的方法"><span class="toc-number">3.1.</span> <span class="toc-text">监听Activity销毁的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#检测对象弱引用关联引用队列"><span class="toc-number">3.2.</span> <span class="toc-text">检测对象弱引用关联引用队列</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LeakCanary的线程调度"><span class="toc-number">4.</span> <span class="toc-text">LeakCanary的线程调度</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IdleHandler的妙用"><span class="toc-number">4.1.</span> <span class="toc-text">IdleHandler的妙用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#手动触发GC"><span class="toc-number">4.2.</span> <span class="toc-text">手动触发GC</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#泄露信息分析"><span class="toc-number">5.</span> <span class="toc-text">泄露信息分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prof文件分析"><span class="toc-number">6.</span> <span class="toc-text">prof文件分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#返回分析结果"><span class="toc-number">6.1.</span> <span class="toc-text">返回分析结果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#学习借鉴"><span class="toc-number">7.</span> <span class="toc-text">学习借鉴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ref"><span class="toc-number">8.</span> <span class="toc-text">Ref</span></a></li></ol>
+            </div>
+        
+    </div>
+</aside>
+
+<script type="text/javascript">
+/*
+    滚动函数
+    接收三个参数,
+        1 接收一个DOM对象
+        2 给目标对象切换class
+        3 触发的高度 (可选项,如果不指定高度,会将DOM的高度作为触发高度)
+*/
+function scrollCheck(scrollTarget, toggleClass, scrollHeight){
+    document.addEventListener('scroll',function(){
+    var currentTop = window.pageYOffset;
+        currentTop > (scrollHeight||scrollTarget.clientHeight)
+        ?scrollTarget.classList.add(toggleClass)
+        :scrollTarget.classList.remove(toggleClass)
+    })
+}
+
+(function(){
+      try {
+        document.getElementById("toc-wrap").style.width= document.getElementById("profile-inner").offsetWidth+ "px";
+        var introHeader = document.querySelector('.inner.profile-inner').offsetHeight;
+        var toc = document.querySelector('.toc-wrap');
+        scrollCheck(toc,'toc-fixed',introHeader+40+64);
+      }catch(err){
+
+      }
+        // var node = document.querySelector('.profile-inner');
+        // scrollCheck(node,'profile-inner-fixed',64);
+})();
+</script>
+
+            
+            <section id="main"><article id="post-LeakCanary_source_code" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-inner">
+        
+            
+	
+		<img src="http://cdn.conorlee.top/Field%20of%20Spring%20Wheat%20at%20Sunrise.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            LeakCanary源码分析及借鉴
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/07/30/LeakCanary_source_code/">
+            <time datetime="2019-07-29T16:00:00.000Z" itemprop="datePublished">2019-07-30</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/android-source-code/">Android Source Code</a>, <a class="tag-link" href="/tags/leakcanary/">LeakCanary</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">13 min read , Words: 2406</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+
+            <h3 id="煤矿中的金丝雀"><a href="#煤矿中的金丝雀" class="headerlink" title="煤矿中的金丝雀"></a>煤矿中的金丝雀</h3><p><a href="https://github.com/square/leakcanary" target="_blank" rel="noopener">LeakCanary</a>是一个帮我们在Android或Java项目开发时检测内存泄漏的库。</p>
+<p>本文以LeakCanary-1.5.1版本为例，分析LeakCanary原理，以及借鉴其中的方法。<br><a id="more"></a><br>关于它的图标有一个故事：<br><img src="/images/blogimages/2019/leak_canary_icon.png" alt=""></p>
+<p><img src="/images/blogimages/2019/canary_in_mine.png" alt=""></p>
+<blockquote>
+<p>17世纪，英国矿井工人发现，金丝雀对瓦斯这种气体十分敏感。空气中哪怕有极其微量的瓦斯，金丝雀也会停止歌唱；而当瓦斯含量超过一定限度时，虽然鲁钝的人类毫无察觉，金丝雀却早已毒发身亡。当时在采矿设备相对简陋的条件下，工人们每次下井都会带上一只金丝雀作为“瓦斯检测指标”，以便在危险状况下紧急撤离。</p>
+</blockquote>
+<h3 id="内存泄漏检测的基本原理"><a href="#内存泄漏检测的基本原理" class="headerlink" title="内存泄漏检测的基本原理"></a>内存泄漏检测的基本原理</h3><p><strong>给弱引用关联一个引用队列，当弱引用持有内容被gc回收后，<code>该弱引用</code>会被添加到关联的引用队列中。</strong></p>
+<p>试试下面的代码，注释掉<code>user=null;</code>和不注释掉，看看有什么不同<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RefTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//user为强引用</span></span><br><span class="line">        User user = <span class="keyword">new</span> User(<span class="string">"张三"</span>, <span class="number">18</span>);</span><br><span class="line">        <span class="comment">//创建弱引用并关联引用队列</span></span><br><span class="line">        ReferenceQueue&lt;User&gt; queue = <span class="keyword">new</span> ReferenceQueue&lt;&gt;();</span><br><span class="line">        WeakReference&lt;User&gt; weakReference = <span class="keyword">new</span> WeakReference&lt;User&gt;(user,queue);</span><br><span class="line">        <span class="comment">//置空强引用，触发GC</span></span><br><span class="line">        user=<span class="keyword">null</span>;</span><br><span class="line">        Runtime.getRuntime().gc();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">100</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//强制系统回收已经没有强引用的对象</span></span><br><span class="line">        System.runFinalization();</span><br><span class="line"></span><br><span class="line">        WeakReference pollRef=<span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">//弹出对列的引弱用</span></span><br><span class="line">        <span class="keyword">while</span> ((pollRef = (WeakReference) queue.poll()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">          System.out.println(<span class="string">"pollRef的内存地址:"</span>+pollRef.toString());</span><br><span class="line">          System.out.println(<span class="string">"pollRef等于weakReference？:"</span>+weakReference.equals(pollRef));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Java垃圾回收-GC"><a href="#Java垃圾回收-GC" class="headerlink" title="Java垃圾回收(GC)"></a>Java垃圾回收(GC)</h4><ul>
+<li>在Java中垃圾判断方法是 可达性分析算法，这个算法的基本思路是通过一系列的”GC Root”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径成为引用链，当一个对象到GC Root没有任何引用链相连时，则证明此对象是不可用的。</li>
+<li>GC Root的对象包括以下几种：<ul>
+<li>1、虚拟机栈中引用的对象。</li>
+<li>2、方法区中类静态属性引用的对象。</li>
+<li>3、方法区中常量引用的对象。</li>
+<li>4、本地方法栈中JNI引用的对象。</li>
+</ul>
+</li>
+<li>就算一个对象，通过可达性分析算法分析后，发现其是『不可达』的，也并不是非回收不可的。一般情况下，要宣告一个对象死亡，至少要经过两次标记过程：<ul>
+<li>1、经过可达性分析后，一个对象并没有与GC Root关联的引用链，将会被第一次标记和筛选。筛选条件是此对象有没有必要执行finalize()方法。如果对象没有覆盖finalize()方法，或者已经执行过了。那就认为他可以回收了。如果有必要执行finalize()方法，那么将会把这个对象放置到F-Queue的队列中，等待执行。</li>
+<li>2、虚拟机会建立一个低优先级的Finalizer线程执行F-Queue里面的对象的finalize()方法。如果对象在finalize()方法中可以『拯救』自己，那么将不会被回收，否则，他将被移入一个即将被回收的ReferenceQueue。</li>
+</ul>
+</li>
+</ul>
+<h3 id="LeakCanary使用"><a href="#LeakCanary使用" class="headerlink" title="LeakCanary使用"></a>LeakCanary使用</h3><p>LeakCanary在Application初始化，代码如下:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">     <span class="meta">@Override</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword">super</span>.onCreate();</span><br><span class="line">         <span class="comment">//检查当前进程是否在HeapAnalyzerService所属进程</span></span><br><span class="line">         <span class="keyword">if</span> (LeakCanary.isInAnalyzerProcess(<span class="keyword">this</span>)) &#123;</span><br><span class="line">           <span class="keyword">return</span>;</span><br><span class="line">         &#125;</span><br><span class="line">       <span class="comment">//安装泄露检测</span></span><br><span class="line">       LeakCanary.install(<span class="keyword">this</span>);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>编译成功后，可以在debug状态下的AndroidManifest.xml文件中，看到LeakCanary注册的组件。<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;!-- 这个是LeakCanary分析泄露的Service --&gt;</span><br><span class="line">  &lt;service</span><br><span class="line">      android:name=<span class="string">"com.squareup.leakcanary.internal.HeapAnalyzerService"</span></span><br><span class="line">      android:enabled=<span class="string">"false"</span></span><br><span class="line">      android:process=<span class="string">":leakcanary"</span> /&gt;</span><br><span class="line">  &lt;!-- 这个是LeakCanary展示泄露的Service --&gt;</span><br><span class="line">  &lt;service</span><br><span class="line">      android:name=<span class="string">"com.squareup.leakcanary.DisplayLeakService"</span></span><br><span class="line">      android:enabled=<span class="string">"false"</span>/&gt;</span><br><span class="line">  &lt;activity</span><br><span class="line">      android:name=<span class="string">"com.squareup.leakcanary.internal.DisplayLeakActivity"</span></span><br><span class="line">      android:enabled=<span class="string">"false"</span></span><br><span class="line">      android:icon=<span class="string">"@mipmap/leak_canary_icon"</span></span><br><span class="line">      android:label=<span class="string">"@string/leak_canary_display_activity_label"</span></span><br><span class="line">      android:taskAffinity=<span class="string">"com.squareup.leakcanary.com.pengguanming.studydemo"</span></span><br><span class="line">      android:theme=<span class="string">"@style/leak_canary_LeakCanary.Base"</span> &gt;</span><br><span class="line">      &lt;intent-filter&gt;</span><br><span class="line">          &lt;action android:name=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span><br><span class="line">          &lt;category android:name=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span><br><span class="line">      &lt;/intent-filter&gt;</span><br><span class="line">  &lt;/activity&gt;</span><br></pre></td></tr></table></figure></p>
+<p>其中DisplayLeakActivity被设置为Launcher，并设置了金丝雀的icon，这也就是为什么使用LeakCanary会在桌面上生成icon入口的原因。但是，这里要注意DisplayLeakActivity的enable属性被设置为false了，默认在桌面上是不会显示入口的。</p>
+<h4 id="监听Activity销毁的方法"><a href="#监听Activity销毁的方法" class="headerlink" title="监听Activity销毁的方法"></a>监听Activity销毁的方法</h4><p>返回来看 LeakCanary.install(this)方法<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Creates a &#123;<span class="doctag">@link</span> RefWatcher&#125; that works out of the box, and starts watching activity</span></span><br><span class="line"><span class="comment">   * references (on ICS+).</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> RefWatcher <span class="title">install</span><span class="params">(Application application)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> refWatcher(application).listenerServiceClass(DisplayLeakService.class)</span><br><span class="line">        .excludedRefs(AndroidExcludedRefs.createAppDefaults().build())</span><br><span class="line">        .buildAndInstall();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Builder to create a customized &#123;<span class="doctag">@link</span> RefWatcher&#125; with appropriate Android defaults. */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> AndroidRefWatcherBuilder <span class="title">refWatcher</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> AndroidRefWatcherBuilder(context);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>install方法通过AndroidRefWatcherBuilder，构造了一个RefWatcher对象，再看buildAndInstall()方法：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> RefWatcher <span class="title">buildAndInstall</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    RefWatcher refWatcher = build();</span><br><span class="line">    <span class="keyword">if</span> (refWatcher != DISABLED) &#123;</span><br><span class="line">        LeakCanary.enableDisplayLeakActivity(context);</span><br><span class="line">        ActivityRefWatcher.install((Application) context, refWatcher);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> refWatcher;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>ActivityRefWatcher.install()调用了watchActivities()方法。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">install</span><span class="params">(Application application, RefWatcher refWatcher)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">new</span> ActivityRefWatcher(application, refWatcher).watchActivities();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>watchActivities()通过传过来的application对象注册了一个registerActivityLifecycleCallbacks。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">watchActivities</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Make sure you don't get installed twice.</span></span><br><span class="line">    stopWatchingActivities();</span><br><span class="line">    application.registerActivityLifecycleCallbacks(lifecycleCallbacks);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个监听只监听了onActivityDestroyed()方法<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Application.ActivityLifecycleCallbacks lifecycleCallbacks =</span><br><span class="line">  <span class="keyword">new</span> ActivityLifecycleCallbacksAdapter() &#123;</span><br><span class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onActivityDestroyed</span><span class="params">(Activity activity)</span> </span>&#123;</span><br><span class="line">        refWatcher.watch(activity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>上面就是LeakCanary注册监听Activity onDestroy()生命周期的过程</p>
+<h4 id="检测对象弱引用关联引用队列"><a href="#检测对象弱引用关联引用队列" class="headerlink" title="检测对象弱引用关联引用队列"></a>检测对象弱引用关联引用队列</h4><p>前面提到，弱引用关联一个<code>引用队列</code>，当弱引用保存的引用被释放掉后，弱引用就会进入到<code>引用队列</code>中，LeakCanary当然也是用这种方式，不过它更聪明。</p>
+<p>进入到refWatcher.watch()方法中：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">watch</span><span class="params">(Object watchedReference, String referenceName)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> == DISABLED) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 这里的 watchedReference 就是一个 Activity</span></span><br><span class="line">    checkNotNull(watchedReference, <span class="string">"watchedReference"</span>);</span><br><span class="line">    checkNotNull(referenceName, <span class="string">"referenceName"</span>);</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">long</span> watchStartNanoTime = System.nanoTime();</span><br><span class="line">    String key = UUID.randomUUID().toString();</span><br><span class="line">    <span class="comment">// 为每个 watchedReference 生成一个随机key，将key添加到retainedKeys中</span></span><br><span class="line">    retainedKeys.add(key);</span><br><span class="line">    <span class="comment">// 每次创建一个弱引用，并关联一个引用队列</span></span><br><span class="line">    <span class="keyword">final</span> KeyedWeakReference reference =</span><br><span class="line">        <span class="keyword">new</span> KeyedWeakReference(watchedReference, key, referenceName, queue);</span><br><span class="line"></span><br><span class="line">    ensureGoneAsync(watchStartNanoTime, reference);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的retainedKeys是一个支持并发访问的 CopyOnWriteArraySet 对象。<br>这个 KeyedWeakReference 里的key值就是LeakCanary聪明的地方了<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">KeyedWeakReference</span> <span class="keyword">extends</span> <span class="title">WeakReference</span>&lt;<span class="title">Object</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> String key;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> String name;</span><br><span class="line"></span><br><span class="line">    KeyedWeakReference(Object referent, String key, String name,</span><br><span class="line">          ReferenceQueue&lt;Object&gt; referenceQueue) &#123;</span><br><span class="line">        <span class="keyword">super</span>(checkNotNull(referent, <span class="string">"referent"</span>), checkNotNull(referenceQueue, <span class="string">"referenceQueue"</span>));</span><br><span class="line">        <span class="comment">// 比普通 WeakReference 多了两个参数，其中的 key 最为关键</span></span><br><span class="line">        <span class="keyword">this</span>.key = checkNotNull(key, <span class="string">"key"</span>);</span><br><span class="line">        <span class="keyword">this</span>.name = checkNotNull(name, <span class="string">"name"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>为什么要多保存一个key值呢？它在哪里用到了呢？继续往下看：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureGoneAsync</span><span class="params">(<span class="keyword">final</span> <span class="keyword">long</span> watchStartNanoTime, <span class="keyword">final</span> KeyedWeakReference reference)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 这里逻辑先不考虑，直接看 ensureGone()</span></span><br><span class="line">    watchExecutor.execute(<span class="keyword">new</span> Retryable() &#123;</span><br><span class="line">      <span class="meta">@Override</span> <span class="keyword">public</span> Retryable.<span class="function">Result <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ensureGone(reference, watchStartNanoTime);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SuppressWarnings</span>(<span class="string">"ReferenceEquality"</span>) <span class="comment">// Explicitly checking for named null.</span></span><br><span class="line">Retryable.<span class="function">Result <span class="title">ensureGone</span><span class="params">(<span class="keyword">final</span> KeyedWeakReference reference, <span class="keyword">final</span> <span class="keyword">long</span> watchStartNanoTime)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 计算watch方法到gc垃圾回收的时长</span></span><br><span class="line">    <span class="keyword">long</span> gcStartNanoTime = System.nanoTime();</span><br><span class="line">    <span class="keyword">long</span> watchDurationMs = NANOSECONDS.toMillis(gcStartNanoTime - watchStartNanoTime);</span><br><span class="line">    <span class="comment">// 尝试移除已经到达引用队列的弱引用</span></span><br><span class="line">    removeWeaklyReachableReferences();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (debuggerControl.isDebuggerAttached()) &#123;</span><br><span class="line">        <span class="comment">// The debugger can create false leaks.</span></span><br><span class="line">        <span class="keyword">return</span> RETRY;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (gone(reference)) &#123;</span><br><span class="line">        <span class="keyword">return</span> DONE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 手动gc</span></span><br><span class="line">    gcTrigger.runGc();</span><br><span class="line">    <span class="comment">// gc后，再次移除引用队列中的弱引用</span></span><br><span class="line">    removeWeaklyReachableReferences();</span><br><span class="line">    <span class="keyword">if</span> (!gone(reference)) &#123;</span><br><span class="line">        <span class="comment">// 弱引用没有被移除，说明内存泄漏了</span></span><br><span class="line">        <span class="keyword">long</span> startDumpHeap = System.nanoTime();</span><br><span class="line">        <span class="keyword">long</span> gcDurationMs = NANOSECONDS.toMillis(startDumpHeap - gcStartNanoTime);</span><br><span class="line">        <span class="comment">// 确定泄漏后，生成prof文件</span></span><br><span class="line">        File heapDumpFile = heapDumper.dumpHeap();</span><br><span class="line">        <span class="keyword">if</span> (heapDumpFile == RETRY_LATER) &#123;</span><br><span class="line">            <span class="comment">// Could not dump the heap.</span></span><br><span class="line">            <span class="keyword">return</span> RETRY;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">long</span> heapDumpDurationMs = NANOSECONDS.toMillis(System.nanoTime() - startDumpHeap);</span><br><span class="line">        heapdumpListener.analyze(</span><br><span class="line">            <span class="keyword">new</span> HeapDump(heapDumpFile, reference.key, reference.name, excludedRefs, watchDurationMs,</span><br><span class="line">                gcDurationMs, heapDumpDurationMs));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> DONE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">gone</span><span class="params">(KeyedWeakReference reference)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> !retainedKeys.contains(reference.key);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">removeWeaklyReachableReferences</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// WeakReferences are enqueued as soon as the object to which they point to becomes weakly</span></span><br><span class="line">    <span class="comment">// reachable. This is before finalization or garbage collection has actually happened.</span></span><br><span class="line">    KeyedWeakReference ref;</span><br><span class="line">    <span class="keyword">while</span> ((ref = (KeyedWeakReference) queue.poll()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">        retainedKeys.remove(ref.key);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在removeWeaklyReachableReferences()方法中，将queue队列里所有弱引用弹栈。如果出栈了，就移除掉retainedKeys中保存的key。</p>
+<p>在gone()方法判断，如果retainedKeys依然包含reference的key，说明该reference没有进入queue队列，也就是没有释放掉对象的引用，所以很可能是发生了内存泄漏。</p>
+<p>所以KeyedWeakReference中保存的key值，就是为了方便判断当前的弱引用是否发生了内存泄漏。</p>
+<h3 id="LeakCanary的线程调度"><a href="#LeakCanary的线程调度" class="headerlink" title="LeakCanary的线程调度"></a>LeakCanary的线程调度</h3><p>刚才再看刚才忽略的 watchExecutor.execute()方法，watchExecutor是一个接口，它的实现类是AndroidWatchExecutor。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">AndroidWatchExecutor</span> <span class="keyword">implements</span> <span class="title">WatchExecutor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> String LEAK_CANARY_THREAD_NAME = <span class="string">"LeakCanary-Heap-Dump"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Handler mainHandler;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Handler backgroundHandler;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> initialDelayMillis;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> maxBackoffFactor;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AndroidWatchExecutor</span><span class="params">(<span class="keyword">long</span> initialDelayMillis)</span> </span>&#123;</span><br><span class="line">        mainHandler = <span class="keyword">new</span> Handler(Looper.getMainLooper());</span><br><span class="line">        HandlerThread handlerThread = <span class="keyword">new</span> HandlerThread(LEAK_CANARY_THREAD_NAME);</span><br><span class="line">        handlerThread.start();</span><br><span class="line">        backgroundHandler = <span class="keyword">new</span> Handler(handlerThread.getLooper());</span><br><span class="line">        <span class="keyword">this</span>.initialDelayMillis = initialDelayMillis;</span><br><span class="line">        maxBackoffFactor = Long.MAX_VALUE / initialDelayMillis;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Retryable retryable)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 最终都会切换到主线程，调用waitForIdle()方法</span></span><br><span class="line">        <span class="keyword">if</span> (Looper.getMainLooper().getThread() == Thread.currentThread()) &#123;</span><br><span class="line">            waitForIdle(retryable, <span class="number">0</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            postWaitForIdle(retryable, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">postWaitForIdle</span><span class="params">(<span class="keyword">final</span> Retryable retryable, <span class="keyword">final</span> <span class="keyword">int</span> failedAttempts)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 切换到主线程</span></span><br><span class="line">        mainHandler.post(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                waitForIdle(retryable, failedAttempts);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">waitForIdle</span><span class="params">(<span class="keyword">final</span> Retryable retryable, <span class="keyword">final</span> <span class="keyword">int</span> failedAttempts)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// This needs to be called from the main thread.</span></span><br><span class="line">        <span class="comment">// 在主线程执行下面代码</span></span><br><span class="line">        Looper.myQueue().addIdleHandler(<span class="keyword">new</span> MessageQueue.IdleHandler() &#123;</span><br><span class="line">            <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">queueIdle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            postToBackgroundWithDelay(retryable, failedAttempts);</span><br><span class="line">            <span class="comment">// 方法如果返回 false，这个 IdleHandler 只会执行一次</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">postToBackgroundWithDelay</span><span class="params">(<span class="keyword">final</span> Retryable retryable, <span class="keyword">final</span> <span class="keyword">int</span> failedAttempts)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 设置延迟发送时间</span></span><br><span class="line">        <span class="keyword">long</span> exponentialBackoffFactor = (<span class="keyword">long</span>) Math.min(Math.pow(<span class="number">2</span>, failedAttempts), maxBackoffFactor);</span><br><span class="line">        <span class="keyword">long</span> delayMillis = initialDelayMillis * exponentialBackoffFactor;</span><br><span class="line">        <span class="comment">// 子线程运行一个runnable</span></span><br><span class="line">        backgroundHandler.postDelayed(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            Retryable.Result result = retryable.run();</span><br><span class="line">                <span class="keyword">if</span> (result == RETRY) &#123;</span><br><span class="line">                    postWaitForIdle(retryable, failedAttempts + <span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, delayMillis);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>AndroidWatchExecutor类中，有两个handler，一个在main thread，一个在HandlerThread的子线程中。外部调用execute()方法，最终都会在主线程调用waitForIdle()方法。</p>
+<p>waitForIdle()运行在主线程，会在主线程添加一个IdleHandler。</p>
+<h4 id="IdleHandler的妙用"><a href="#IdleHandler的妙用" class="headerlink" title="IdleHandler的妙用"></a>IdleHandler的妙用</h4><blockquote>
+<p>IdleHandler，这是一种在只有<strong>当消息队列没有消息时</strong>或者是<strong>队列中的消息还没有到执行时间时</strong>才会执行的 IdleHandler，它存放在 <code>mPendingIdleHandlers</code> 队列中。</p>
+</blockquote>
+<p>关于IdleHandler如何使用，这篇文章提供了一个非常好的方法：<a href="https://wetest.qq.com/lab/view/352.html" target="_blank" rel="noopener">你知道android的MessageQueue.IdleHandler吗？</a></p>
+<p>简单总结下这篇文章：</p>
+<ul>
+<li>1.使用HandlerThread，利用HandlerThread绑定的子线程Handler，实现<strong>单线程队列处理数据+异步线程接收数据更新</strong></li>
+<li>2.反射HandlerThread，得到MessageQueue对象，调用MessageQueue.addIdleHandler()</li>
+<li>3.在IdleHandler的queueIdle()回调方法里通知数据改变</li>
+</ul>
+<p>这样做有两个好处：</p>
+<ul>
+<li>1.HanlderThread按加入顺序操作数据，不需要对数据加锁</li>
+<li>2.对HandlerThread的MessageQueue调用addIdleHandler()，不管操作了多少遍数据，只会在所有操作完成后（idle），通知数据的监听者，避免频繁更新UI</li>
+</ul>
+<p>AndroidWatchExecutor的作用就是，在主线程空闲的时候才会调用，并且是延迟调用子线程的retryable.run()方法。这样可以保证不影响主线程的流畅度。</p>
+<h4 id="手动触发GC"><a href="#手动触发GC" class="headerlink" title="手动触发GC"></a>手动触发GC</h4><p>上面的retryable.run()运行在子线程，说明ensureGone()就是在子线程。在看一下LeakCanary是如何调用GC的：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">GcTrigger</span> </span>&#123;</span><br><span class="line">    GcTrigger DEFAULT = <span class="keyword">new</span> GcTrigger() &#123;</span><br><span class="line">        <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">runGc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Code taken from AOSP FinalizationTest:</span></span><br><span class="line">        <span class="comment">// https://android.googlesource.com/platform/libcore/+/master/support/src/test/java/libcore/</span></span><br><span class="line">        <span class="comment">// java/lang/ref/FinalizationTester.java</span></span><br><span class="line">        <span class="comment">// System.gc() does not garbage collect every time. Runtime.gc() is</span></span><br><span class="line">        <span class="comment">// more likely to perfom a gc.</span></span><br><span class="line">        Runtime.getRuntime().gc();</span><br><span class="line">        enqueueReferences();</span><br><span class="line">        System.runFinalization();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">enqueueReferences</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Hack. We don't have a programmatic way to wait for the reference queue daemon to move</span></span><br><span class="line">        <span class="comment">// references to the appropriate queues.</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">100</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> AssertionError();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">runGc</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>gcTrigger.runGc() 先会调用 Runtime.getRuntime().gc() 以触发系统gc操作，然后当前后台子线程sleep 100毫秒，最后调用System.runFinalization()强制系统回收没有引用的队列，这样确保引用对象是否真的被回收了。</p>
+<h3 id="泄露信息分析"><a href="#泄露信息分析" class="headerlink" title="泄露信息分析"></a>泄露信息分析</h3><p>上面 heapDumper.dumpHeap() 方法的具体实现是在AndroidHeapDumper类中：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SuppressWarnings</span>(<span class="string">"ReferenceEquality"</span>) <span class="comment">// Explicitly checking for named null.</span></span><br><span class="line"><span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> File <span class="title">dumpHeap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 创建一个XXX_pending.hprof文件，这种文件最多7个</span></span><br><span class="line">    <span class="comment">// 文件存储路径为 /storage/emulated/0/Download/leakcanary-xxx(package-name)/</span></span><br><span class="line">    File heapDumpFile = leakDirectoryProvider.newHeapDumpFile();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (heapDumpFile == RETRY_LATER) &#123;</span><br><span class="line">        <span class="comment">// 文件创建失败</span></span><br><span class="line">        <span class="keyword">return</span> RETRY_LATER;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    FutureResult&lt;Toast&gt; waitingForToast = <span class="keyword">new</span> FutureResult&lt;&gt;();</span><br><span class="line">    showToast(waitingForToast);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!waitingForToast.wait(<span class="number">5</span>, SECONDS)) &#123;</span><br><span class="line">        CanaryLog.d(<span class="string">"Did not dump heap, too much time waiting for Toast."</span>);</span><br><span class="line">        <span class="keyword">return</span> RETRY_LATER;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Toast toast = waitingForToast.get();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 向文件写入内容</span></span><br><span class="line">        Debug.dumpHprofData(heapDumpFile.getAbsolutePath());</span><br><span class="line">        cancelToast(toast);</span><br><span class="line">        <span class="keyword">return</span> heapDumpFile;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        CanaryLog.d(e, <span class="string">"Could not dump heap"</span>);</span><br><span class="line">        <span class="comment">// Abort heap dump</span></span><br><span class="line">        <span class="keyword">return</span> RETRY_LATER;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">showToast</span><span class="params">(<span class="keyword">final</span> FutureResult&lt;Toast&gt; waitingForToast)</span> </span>&#123;</span><br><span class="line">    mainHandler.post(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">      <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Toast toast = <span class="keyword">new</span> Toast(context);</span><br><span class="line">        toast.setGravity(Gravity.CENTER_VERTICAL, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        toast.setDuration(Toast.LENGTH_LONG);</span><br><span class="line">        LayoutInflater inflater = LayoutInflater.from(context);</span><br><span class="line">        toast.setView(inflater.inflate(R.layout.leak_canary_heap_dump_toast, <span class="keyword">null</span>));</span><br><span class="line">        toast.show();</span><br><span class="line">        <span class="comment">// Waiting for Idle to make sure Toast gets rendered.</span></span><br><span class="line">        Looper.myQueue().addIdleHandler(<span class="keyword">new</span> MessageQueue.IdleHandler() &#123;</span><br><span class="line">          <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">queueIdle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                waitingForToast.set(toast);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">cancelToast</span><span class="params">(<span class="keyword">final</span> Toast toast)</span> </span>&#123;</span><br><span class="line">    mainHandler.post(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">      <span class="meta">@Override</span> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        toast.cancel();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里的FutureResult，会阻塞当前后台子线程，并监听主线程是否空闲，若5秒内不空闲，则返回RETRY_LATER。<br>若主线程空闲则会调用waitingForToast.set(toast)，不在阻塞后台子线程，调用android.os.Debug.dumpHprofData()生成.prof文件。</p>
+<blockquote>
+<p>Debug.dumpHprofData 会导致线程阻塞。因为dumpheap的操作是在应用进程的主线程中进行操作，本质上是在该应用进程的虚拟机中进行，dumpheap时应用进程会block住，如过heap文件过大很容易导致应用进程操作界面卡住，如果此时再进行点击或滑动等操作极易再抛出anr等弹窗，用户体验极差。</p>
+</blockquote>
+<p>这里介绍下 FutureResult 的实现：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">FutureResult</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">// AtomicReference实现对象引用的原子更新</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> AtomicReference&lt;T&gt; resultHolder;</span><br><span class="line">    <span class="comment">// 同步辅助类，在完成一组正在其他线程中执行的操作之前，它允许一个或多个线程一直等待</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> CountDownLatch latch;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FutureResult</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        resultHolder = <span class="keyword">new</span> AtomicReference&lt;&gt;();</span><br><span class="line">        latch = <span class="keyword">new</span> CountDownLatch(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">wait</span><span class="params">(<span class="keyword">long</span> timeout, TimeUnit unit)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> latch.await(timeout, unit);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Did not expect thread to be interrupted"</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (latch.getCount() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Call wait() and check its result"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> resultHolder.get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T result)</span> </span>&#123;</span><br><span class="line">        resultHolder.set(result);</span><br><span class="line">        latch.countDown();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>关于CountDownLatch的介绍参考：<a href="https://my.oschina.net/u/566591/blog/1560140" target="_blank" rel="noopener">Java并发学习之CountDownLatch实现原理及使用姿势</a></p>
+<h3 id="prof文件分析"><a href="#prof文件分析" class="headerlink" title="prof文件分析"></a>prof文件分析</h3><p>关于prof文件的分析，还要回到RefWatch.ensureGone()方法中：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">heapdumpListener.analyze(</span><br><span class="line">        <span class="keyword">new</span> HeapDump(heapDumpFile, reference.key, reference.name, excludedRefs, watchDurationMs,</span><br><span class="line">            gcDurationMs, heapDumpDurationMs));</span><br></pre></td></tr></table></figure></p>
+<p>最终会调用到<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HeapAnalyzerService.runAnalysis(context, heapDump, listenerServiceClass);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在HeapAnalyzerService 中</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">runAnalysis</span><span class="params">(Context context, HeapDump heapDump,</span></span></span><br><span class="line"><span class="function"><span class="params">      Class&lt;? extends AbstractAnalysisResultService&gt; listenerServiceClass)</span> </span>&#123;</span><br><span class="line">    Intent intent = <span class="keyword">new</span> Intent(context, HeapAnalyzerService.class);</span><br><span class="line">    intent.putExtra(LISTENER_CLASS_EXTRA, listenerServiceClass.getName());</span><br><span class="line">    intent.putExtra(HEAPDUMP_EXTRA, heapDump);</span><br><span class="line">    context.startService(intent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>HeapAnalyzerService继承自IntentService。在前面的AndroidManifest中可以看到，HeapAnalyzerService是运行在单独的进程中。</p>
+<p>在HeapAnalyzerService的onHandleIntent方法中接收和处理传递过来的dump文件。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span> <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onHandleIntent</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (intent == <span class="keyword">null</span>) &#123;</span><br><span class="line">      CanaryLog.d(<span class="string">"HeapAnalyzerService received a null intent, ignoring."</span>);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    String listenerClassName = intent.getStringExtra(LISTENER_CLASS_EXTRA);</span><br><span class="line">    HeapDump heapDump = (HeapDump) intent.getSerializableExtra(HEAPDUMP_EXTRA);</span><br><span class="line"></span><br><span class="line">    HeapAnalyzer heapAnalyzer = <span class="keyword">new</span> HeapAnalyzer(heapDump.excludedRefs);</span><br><span class="line"></span><br><span class="line">    AnalysisResult result = heapAnalyzer.checkForLeak(heapDump.heapDumpFile, heapDump.referenceKey);</span><br><span class="line">    <span class="comment">// 调用另一个AbstractAnalysisResultService的静态方法，将结果返回</span></span><br><span class="line">    AbstractAnalysisResultService.sendResultToListener(<span class="keyword">this</span>, listenerClassName, heapDump, result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再看下在heapAnalyzer.checkForLeak()方法：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> AnalysisResult <span class="title">checkForLeak</span><span class="params">(File heapDumpFile, String referenceKey)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> analysisStartNanoTime = System.nanoTime();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!heapDumpFile.exists()) &#123;</span><br><span class="line">        Exception exception = <span class="keyword">new</span> IllegalArgumentException(<span class="string">"File does not exist: "</span> + heapDumpFile);</span><br><span class="line">        <span class="keyword">return</span> failure(exception, since(analysisStartNanoTime));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 使用HAHA库</span></span><br><span class="line">        HprofBuffer buffer = <span class="keyword">new</span> MemoryMappedFileBuffer(heapDumpFile);</span><br><span class="line">        HprofParser parser = <span class="keyword">new</span> HprofParser(buffer);</span><br><span class="line">        Snapshot snapshot = parser.parse();</span><br><span class="line">        <span class="comment">// 这里使用了THashMap，去掉重复路径</span></span><br><span class="line">        deduplicateGcRoots(snapshot);</span><br><span class="line">        <span class="comment">// 根据引用key找到泄漏对象</span></span><br><span class="line">        Instance leakingRef = findLeakingReference(referenceKey, snapshot);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// False alarm, weak reference was cleared in between key check and heap dump.</span></span><br><span class="line">        <span class="keyword">if</span> (leakingRef == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> noLeak(since(analysisStartNanoTime));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 返回一个AnalysisResult对象</span></span><br><span class="line">        <span class="keyword">return</span> findLeakTrace(analysisStartNanoTime, snapshot, leakingRef);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">        <span class="keyword">return</span> failure(e, since(analysisStartNanoTime));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在heapAnalyzer.checkForLeak()方法中引入<a href="github.com/square/haha">HAHA库</a>(一个heap prof堆文件分析库)，将hprof文件解析成内存快照Snapshot对象进行分析。<br>还使用jetBrains的<a href="https://github.com/JetBrains/intellij-deps-trove4j/blob/master/core/src/main/java/gnu/trove/THashMap.java" target="_blank" rel="noopener">THashMap</a>(THashMap的内存占用量比HashMap小)做中转，去掉snapshot中GCRoot的重复路径，以减少内存压力。</p>
+<h4 id="返回分析结果"><a href="#返回分析结果" class="headerlink" title="返回分析结果"></a>返回分析结果</h4><p>在HeapAnalyzerService的onHandleIntent方法中，调用了<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">AbstractAnalysisResultService.sendResultToListener(<span class="keyword">this</span>, listenerClassName, heapDump, result);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在AbstractAnalysisResultService 中</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sendResultToListener</span><span class="params">(Context context, String listenerServiceClassName,</span></span></span><br><span class="line"><span class="function"><span class="params">      HeapDump heapDump, AnalysisResult result)</span> </span>&#123;</span><br><span class="line">    Class&lt;?&gt; listenerServiceClass;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      listenerServiceClass = Class.forName(listenerServiceClassName);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">    Intent intent = <span class="keyword">new</span> Intent(context, listenerServiceClass);</span><br><span class="line">    intent.putExtra(HEAP_DUMP_EXTRA, heapDump);</span><br><span class="line">    intent.putExtra(RESULT_EXTRA, result);</span><br><span class="line">    context.startService(intent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>启动DisplayLeakService，并将结果返回。DisplayLeakService运行在主线程，继承自AbstractAnalysisResultService，也是一个IntentService。<br>在AbstractAnalysisResultService的onHandleIntent()接收结果，并回调onHeapAnalyzed()方法，创建并显示一个通知。</p>
+<p>具体的结果分析和处理，可以看这篇文章：<a href="http://vjson.com/wordpress/leakcanary%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E7%AC%AC%E4%B8%89%E8%AE%B2%EF%BC%8Dheapanalyzerservice%E8%AF%A6%E8%A7%A3.html" target="_blank" rel="noopener">LeakCanary源码分析第三讲－HeapAnalyzerService详解</a></p>
+<p><strong>内存泄漏信息保存和分析的大概流程是：</strong></p>
+<ul>
+<li>通过Debug.dumpHprofData()，生成一个xxx_pending.hprof文件</li>
+<li>使用HAHA库（github.com/square/haha），将hprof文件解析成内存快照Snapshot对象进行分析</li>
+<li>使用jetBrains的THashMap做中转，去掉snapshot中GCRoot的重复路径，以减少内存压力。</li>
+<li>找出泄露对象并找出泄露对象的最短路径</li>
+<li>得到结果后，重命名xxx_pending.hprof 文件为yyyy-MM-dd_HH-mm-ss_SSS.hprof<ul>
+<li>将hprof文件内容和分析结果都保存到yyyy-MM-dd_HH-mm-ss_SSS.hprof.result文件中</li>
+</ul>
+</li>
+</ul>
+<p>以上就是整个LeakCanary捕获内存泄漏，并展示出来的整体流程。</p>
+<h3 id="学习借鉴"><a href="#学习借鉴" class="headerlink" title="学习借鉴"></a>学习借鉴</h3><ul>
+<li><strong>使用FutureResult同步主线程和子线程</strong></li>
+<li><strong>使用CopyOnWriteArraySet解决并发读写问题</strong></li>
+<li><strong>构建者模式，代码简洁、清新，链式调用创建对象，参考RefWatcherBuilder对象</strong></li>
+<li><strong>MessageQueue.addIdleHandler(IdleHandler handler)，监听线程空闲</strong></li>
+<li><strong>手动GC，参考GCTrigger.runGc()。</strong></li>
+<li><strong>IntentService跨进程</strong></li>
+</ul>
+<h3 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h3><p><a href="https://www.jianshu.com/p/49239eac7a76" target="_blank" rel="noopener">https://www.jianshu.com/p/49239eac7a76</a></p>
+<p><a href="https://juejin.im/post/5d09fb7e5188252af2012e73" target="_blank" rel="noopener">https://juejin.im/post/5d09fb7e5188252af2012e73</a></p>
+<hr>
+<div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="http://blog.conorlee.top/blogimages/attribution_88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://conorlee.top/" target="_blank" rel="noopener">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
+
+<p>本文链接：<a href="http://agehua.github.io/2019/07/30/LeakCanary_source_code/">http://agehua.github.io/2019/07/30/LeakCanary_source_code/</a></p>
+
+
+            
+  <!-- donate css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+         
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      _background: url("http://cdn.conorlee.top/btn_reward.gif") no-repeat;
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+<!-- Donate Module -->
+<div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+    </span>
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+
+  <div id="donate_guide" class="donate_bar center hidden" >
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
+        <a href="http://cdn.conorlee.top/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+        <a href="http://cdn.conorlee.top/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+      </div>
+      <div style="display:inline-block;">
+          &nbsp;
+          <span class="donate_txt">
+              Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+          </span>
+      </div>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className='hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+
+            
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2019/07/30/LeakCanary_source_code/" data-id="clw1ss2dg005us547nl3zat35" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2019/07/30/LeakCanary_source_code/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2019/09/12/Horizontal-Coordinator/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    CoordinatorLayout源码解读
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2019/07/17/RecyclerView-pre-initiate/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">RecyclerView预加载机制源码分析</div>
+        </a>
+    
+</nav>
+
+
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+    
+    <section id="comments" class="comments">
+    
+        
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2019/07/30/LeakCanary_source_code/', // 可选。默认为 location.href
+  title: 'LeakCanary源码分析及借鉴',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+    
+  </section>
+
+
+
+</article>
+
+
+</section>
+            
+                <aside id="sidebar">
+    <!-- 在_config.yml中配置了widgets，来决定widgets的顺序 -->
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/04/24/jacoco-test-coverage/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Irises.jpg)" alt="代码覆盖率统计——集成Jacoco" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/04/24/jacoco-test-coverage/" class="title">代码覆盖率统计——集成Jacoco</a></p>
+                            <p class="item-date"><time datetime="2024-04-23T16:00:00.000Z" itemprop="datePublished">2024-04-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/11/13/native-crash-anr-log-analysis/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg)" alt="Native Crash日志分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/11/13/native-crash-anr-log-analysis/" class="title">Native Crash日志分析</a></p>
+                            <p class="item-date"><time datetime="2023-11-12T16:00:00.000Z" itemprop="datePublished">2023-11-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/11/02/native-crash-principle/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Houses%20in%20Auvers.jpg)" alt="Native Crash捕获原理" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/11/02/native-crash-principle/" class="title">Native Crash捕获原理</a></p>
+                            <p class="item-date"><time datetime="2023-11-01T16:00:00.000Z" itemprop="datePublished">2023-11-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/10/26/cross-process-bridge/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Harvest%20in%20Provence%2C%20at%20the%20Left%20Montmajour.jpg)" alt="跨进程通信Bridge建立" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/10/26/cross-process-bridge/" class="title">跨进程通信Bridge建立</a></p>
+                            <p class="item-date"><time datetime="2023-10-25T16:00:00.000Z" itemprop="datePublished">2023-10-26</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/09/26/matrix-trace-canary/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://cdn.conorlee.top/Haystacks%20in%20Provence.jpg)" alt="Matrix TraceCanary源码分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/09/26/matrix-trace-canary/" class="title">Matrix TraceCanary源码分析</a></p>
+                            <p class="item-date"><time datetime="2023-09-25T16:00:00.000Z" itemprop="datePublished">2023-09-26</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">79</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/agp/" style="font-size: 11.67px;">AGP</a> <a href="/tags/aidl/" style="font-size: 13.33px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/anr/" style="font-size: 13.33px;">ANR</a> <a href="/tags/aop/" style="font-size: 10px;">AOP</a> <a href="/tags/aosp/" style="font-size: 11.67px;">AOSP</a> <a href="/tags/asm/" style="font-size: 10px;">ASM</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-source-code/" style="font-size: 18.33px;">Android Source Code</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 11.67px;">Annotation</a> <a href="/tags/asyncinflate/" style="font-size: 10px;">AsyncInflate</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 16.67px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16.67px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/constraintlayout/" style="font-size: 11.67px;">ConstraintLayout</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview/" style="font-size: 16.67px;">Interview</a> <a href="/tags/jni/" style="font-size: 13.33px;">JNI</a> <a href="/tags/jvm/" style="font-size: 11.67px;">JVM</a> <a href="/tags/jacoco/" style="font-size: 10px;">Jacoco</a> <a href="/tags/java/" style="font-size: 15px;">Java</a> <a href="/tags/javascript/" style="font-size: 11.67px;">JavaScript</a> <a href="/tags/kotlin/" style="font-size: 11.67px;">Kotlin</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 11.67px;">Looper</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/native-crash/" style="font-size: 11.67px;">Native Crash</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 11.67px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 11.67px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 16.67px;">RecyclerView</a> <a href="/tags/recyclerview-optimization/" style="font-size: 10px;">RecyclerView optimization</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 11.67px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/transform/" style="font-size: 10px;">Transform</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 11.67px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/multi-process/" style="font-size: 11.67px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/picture-in-picture/" style="font-size: 10px;">picture-in-picture</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 11.67px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 13.33px;">toastmaster</a> <a href="/tags/view-scroll/" style="font-size: 10px;">view scroll</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://conorlee.top">我的阿里云博客(求赞助)</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://agehua.github.io/">My Github Pages</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://invitation.conorlee.top/MrLiAndTeacherTian_WeddingInvitation.html">Wedding Invitation(手机观看最佳)</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2024 ConorLee<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2019/07/30/LeakCanary_source_code/', // 可选。默认为 location.href
+  title: 'LeakCanary源码分析及借鉴',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+<script>
+    var bigfa_scroll = {
+        drawCircle: function(id, percentage, color) {
+            var width = jQuery(id).width();
+            var height = jQuery(id).height();
+            var radius = parseInt(width / 2.20);
+            var position = width;
+            var positionBy2 = position / 2;
+            var bg = jQuery(id)[0];
+            id = id.split("# ");
+            var ctx = bg.getContext("2d");
+            var imd = null;
+            var circ = Math.PI * 2;
+            var quart = Math.PI / 2;
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineCap = "square";
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineWidth = 3;
+            imd = ctx.getImageData(0, 0, position, position);
+            var draw = function(current, ctxPass) {
+                ctxPass.putImageData(imd, 0, 0);
+                ctxPass.beginPath();
+                ctxPass.arc(positionBy2, positionBy2, radius, -(quart), ((circ) * current) - quart, false);
+                ctxPass.stroke();
+            }
+            draw(percentage / 100, ctx);
+        },
+        backToTop: function($this) {
+            $this.click(function() {
+                jQuery("body,html").animate({
+                    scrollTop: 0
+                },
+                800);
+                return false;
+            });
+        },
+        scrollHook: function($this, color) {
+            color = color ? color: "# 000000";
+            $this.scroll(function() {
+                var docHeight = (jQuery(document).height() - jQuery(window).height()),
+                $windowObj = $this,
+                $per = jQuery(".per"),
+                percentage = 0;
+                defaultScroll = $windowObj.scrollTop();
+                percentage = parseInt((defaultScroll / docHeight) * 100);
+                var backToTop = jQuery("# backtoTop");
+                if (backToTop.length > 0) {
+                    if ($windowObj.scrollTop() > 200) {
+                        backToTop.addClass("button--show");
+                    } else {
+                        backToTop.removeClass("button--show");
+                    }
+                    $per.attr("data-percent", percentage);
+                    bigfa_scroll.drawCircle("# backtoTopCanvas", percentage, color);
+                }
+            });
+        }
+    }
+
+</script>
+
+
+    </div>
+    <!-- <script src="http://cdn.maxjia.com/js/particles.min.js"></script> -->
+  
+  
+    <canvas class="fireworks" style="position: fixed; left: 0px; top: 0px; z-index: 1; pointer-events: none; width: 1440px; height: 416px;" width="2880" height="832"></canvas>
+    
+
+      <script type="text/javascript" src="/js/anime.min.js"></script>
+      <script type="text/javascript" src="/js/firework.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/33.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
