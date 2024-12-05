@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="google-site-verification" content="TYEtqE2Xc2ZonkJumwKut0-iq4RVbEc8o5Y8HpmZ-eo" />
+    <meta name="baidu-site-verification" content="8WKGBCPPKp" />
+    <meta charset="utf-8">
+    
+    <title>android场景实现AOP编程 | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="我在很早之前就了解过面向切面（AOP）的编程思想，比如AspectJ 实现简单的切面编程，不过都快忘了 :(。本文是想探究AOP在Android环境中的使用，补全Android开发者的技能树。 常见的AOP编程框架有AspectJ、 Cglib，Hibernate 和 Spring 等等，而这些目前流行的AOP框架绝大多数底层实现都是直接或间接地通过 ASM 来实现字节码操作，本文重点就来介绍一下">
+<meta name="keywords" content="ASM, AGP, Transform">
+<meta property="og:type" content="article">
+<meta property="og:title" content="android场景实现AOP编程">
+<meta property="og:url" content="http://agehua.github.io/2021/12/14/AOP-android/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="我在很早之前就了解过面向切面（AOP）的编程思想，比如AspectJ 实现简单的切面编程，不过都快忘了 :(。本文是想探究AOP在Android环境中的使用，补全Android开发者的技能树。 常见的AOP编程框架有AspectJ、 Cglib，Hibernate 和 Spring 等等，而这些目前流行的AOP框架绝大多数底层实现都是直接或间接地通过 ASM 来实现字节码操作，本文重点就来介绍一下">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Girl%20in%20White%20in%20the%20Woods.jpg">
+<meta property="og:updated_time" content="2024-12-05T09:41:25.311Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="android场景实现AOP编程">
+<meta name="twitter:description" content="我在很早之前就了解过面向切面（AOP）的编程思想，比如AspectJ 实现简单的切面编程，不过都快忘了 :(。本文是想探究AOP在Android环境中的使用，补全Android开发者的技能树。 常见的AOP编程框架有AspectJ、 Cglib，Hibernate 和 Spring 等等，而这些目前流行的AOP框架绝大多数底层实现都是直接或间接地通过 ASM 来实现字节码操作，本文重点就来介绍一下">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Girl%20in%20White%20in%20the%20Woods.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+
+
+    <link rel="icon" sizes="192x192" href="images/icon.png">
+    <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+    <!--text spacing-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+
+</head>
+
+
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+
+                <a class="main-nav-link" href='javascript:(
+        /*
+         * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *      http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         */
+        function go() {
+
+
+        var songs = [
+                    "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
+                    "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
+                    "https://static.rocko.xyz/audio/Music-outside.mp3",
+                    "https://static.rocko.xyz/audio/Music-sunburst.mp3"
+        ];
+
+
+        function c() {
+            var e = document.createElement("link");
+            e.setAttribute("type", "text/css");
+            e.setAttribute("rel", "stylesheet");
+            e.setAttribute("href", f);
+            e.setAttribute("class", l);
+            document.body.appendChild(e)
+        }
+
+        function h() {
+            var e = document.getElementsByClassName(l);
+            for (var t = 0; t < e.length; t++) {
+                document.body.removeChild(e[t])
+            }
+        }
+
+        function p() {
+            var e = document.createElement("div");
+            e.setAttribute("class", a);
+            document.body.appendChild(e);
+            setTimeout(function() {
+                document.body.removeChild(e)
+            }, 100)
+        }
+
+        function d(e) {
+            return {
+                height : e.offsetHeight,
+                width : e.offsetWidth
+            }
+        }
+
+        function v(i) {
+            var s = d(i);
+            return s.height > e && s.height < n && s.width > t && s.width < r
+        }
+
+        function m(e) {
+            var t = e;
+            var n = 0;
+            while (!!t) {
+                n += t.offsetTop;
+                t = t.offsetParent
+            }
+            return n
+        }
+
+        function g() {
+            var e = document.documentElement;
+            if (!!window.innerWidth) {
+                return window.innerHeight
+            } else if (e && !isNaN(e.clientHeight)) {
+                return e.clientHeight
+            }
+            return 0
+        }
+
+        function y() {
+            if (window.pageYOffset) {
+                return window.pageYOffset
+            }
+            return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+        }
+
+        function E(e) {
+            var t = m(e);
+            return t >= w && t <= b + w
+        }
+
+        function S() {
+            var e = document.getElementById("audio_element_id");
+            if(e != null){
+                var index = parseInt(e.getAttribute("curSongIndex"));
+                if(index > songs.length - 2) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                e.setAttribute("curSongIndex", index);
+                N();
+            }
+
+            e.src = i;
+            e.play()
+        }
+
+        function x(e) {
+            e.className += " " + s + " " + o
+        }
+
+        function T(e) {
+            e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+        }
+
+        function N() {
+            var e = document.getElementsByClassName(s);
+            var t = new RegExp("\\b" + s + "\\b");
+            for (var n = 0; n < e.length; ) {
+                e[n].className = e[n].className.replace(t, "")
+            }
+        }
+
+        function initAudioEle() {
+            var e = document.getElementById("audio_element_id");
+            if(e === null){
+                e = document.createElement("audio");
+                e.setAttribute("class", l);
+                e.setAttribute("curSongIndex", 0);
+                e.id = "audio_element_id";
+                e.loop = false;
+                e.bgcolor = 0;
+                e.addEventListener("canplay", function() {
+                setTimeout(function() {
+                    x(k)
+                }, 500);
+                setTimeout(function() {
+                    N();
+                    p();
+                    for (var e = 0; e < O.length; e++) {
+                        T(O[e])
+                    }
+                }, 15500)
+            }, true);
+            e.addEventListener("ended", function() {
+                N();
+                h();
+                go();
+            }, true);
+            e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+            document.body.appendChild(e);
+            }
+        }
+
+        initAudioEle();
+        var e = 30;
+        var t = 30;
+        var n = 350;
+        var r = 350;
+
+        var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+        var i = songs[curSongIndex];
+
+        var s = "mw-harlem_shake_me";
+        var o = "im_first";
+        var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+        var a = "mw-strobe_light";
+
+        /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
+        var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+
+        var l = "mw_added_css";
+        var b = g();
+        var w = y();
+        var C = document.getElementsByTagName("*");
+        var k = null;
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                if (E(A)) {
+                    k = A;
+                    break
+                }
+            }
+        }
+        if (A === null) {
+            console.warn("Could not find a node of the right size. Please try a different page.");
+            return
+        }
+        c();
+        S();
+        var O = [];
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                O.push(A)
+            }
+        }
+        })()'>High一下</a>
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/profile.jpeg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+
+
+        </div>
+    </div>
+
+
+    <div id="main-nav-mobile" class="header-sub header-inner">
+
+        <table class="menu outer">
+
+
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    
+</header>
+
+        <div class="outer">
+            
+                
+
+
+<aside id="profile">
+    <div class="inner profile-inner" id="profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/profile.jpeg" />
+            <h2 id="name">Conor Lee</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                97
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                104
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+
+        <a href="https://github.com/agehua" class="github-corner" aria-label="View source on Github">
+          <svg width="64" height="64" viewBox="0 0 250 250" style="fill:#cba11f; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+            <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+          </svg>
+        </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+    <div id='toc-col' class="toc-col">
+        
+            <div id='toc-wrap' class="toc-wrap">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#ASM简介"><span class="toc-number">1.</span> <span class="toc-text">ASM简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#java字节码简单介绍"><span class="toc-number">1.1.</span> <span class="toc-text">java字节码简单介绍</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ASM-框架执行流程"><span class="toc-number">2.</span> <span class="toc-text">ASM 框架执行流程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ClassVisitor"><span class="toc-number">2.1.</span> <span class="toc-text">ClassVisitor</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ClassReader"><span class="toc-number">2.2.</span> <span class="toc-text">ClassReader</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ClassWriter"><span class="toc-number">2.3.</span> <span class="toc-text">ClassWriter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#几个常见的工具类介绍"><span class="toc-number">2.4.</span> <span class="toc-text">几个常见的工具类介绍</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AGP-Android-Gradle-Plugin"><span class="toc-number">3.</span> <span class="toc-text">AGP(Android Gradle Plugin)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Gradle的架构"><span class="toc-number">3.1.</span> <span class="toc-text">Gradle的架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#android-plugin层"><span class="toc-number">3.2.</span> <span class="toc-text">android plugin层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自定义Gradle-Plugin"><span class="toc-number">3.3.</span> <span class="toc-text">自定义Gradle Plugin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Transform-Api"><span class="toc-number">3.4.</span> <span class="toc-text">Transform Api</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ref"><span class="toc-number">4.</span> <span class="toc-text">Ref</span></a></li></ol>
+            </div>
+        
+    </div>
+</aside>
+
+<script type="text/javascript">
+/*
+    滚动函数
+    接收三个参数,
+        1 接收一个DOM对象
+        2 给目标对象切换class
+        3 触发的高度 (可选项,如果不指定高度,会将DOM的高度作为触发高度)
+*/
+function scrollCheck(scrollTarget, toggleClass, scrollHeight){
+    document.addEventListener('scroll',function(){
+    var currentTop = window.pageYOffset;
+        currentTop > (scrollHeight||scrollTarget.clientHeight)
+        ?scrollTarget.classList.add(toggleClass)
+        :scrollTarget.classList.remove(toggleClass)
+    })
+}
+
+(function(){
+      try {
+        document.getElementById("toc-wrap").style.width= document.getElementById("profile-inner").offsetWidth+ "px";
+        var introHeader = document.querySelector('.inner.profile-inner').offsetHeight;
+        var toc = document.querySelector('.toc-wrap');
+        scrollCheck(toc,'toc-fixed',introHeader+40+64);
+      }catch(err){
+
+      }
+        // var node = document.querySelector('.profile-inner');
+        // scrollCheck(node,'profile-inner-fixed',64);
+})();
+</script>
+
+            
+            <section id="main"><article id="post-AOP-android" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-inner">
+        
+            
+	
+		<img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Girl%20in%20White%20in%20the%20Woods.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            android场景实现AOP编程
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2021/12/14/AOP-android/">
+            <time datetime="2021-12-13T16:00:00.000Z" itemprop="datePublished">2021-12-14</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/agp/">AGP</a>, <a class="tag-link" href="/tags/aop/">AOP</a>, <a class="tag-link" href="/tags/asm/">ASM</a>, <a class="tag-link" href="/tags/transform/">Transform</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">6 min read , Words: 1055</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+
+            <p>我在很早之前就了解过面向切面（AOP）的编程思想，比如<a href="http://www.eclipse.org/aspectj/index.php" target="_blank" rel="noopener">AspectJ</a> 实现简单的切面编程，不过都快忘了 <code>:(</code>。本文是想探究AOP在Android环境中的使用，补全Android开发者的技能树。</p>
+<p>常见的AOP编程框架有AspectJ、 Cglib，Hibernate 和 Spring 等等，而这些目前流行的AOP框架绝大多数底层实现都是直接或间接地通过 ASM 来实现字节码操作，本文重点就来介绍一下ASM。<br><a id="more"></a></p>
+<h3 id="ASM简介"><a href="#ASM简介" class="headerlink" title="ASM简介"></a>ASM简介</h3><p>ASM是一个通用的Java字节码操作和分析框架，它可以用来修改现有的类或直接以二进制形式动态生成类。官网地址是：<a href="https://asm.ow2.io/" target="_blank" rel="noopener">https://asm.ow2.io/</a></p>
+<h4 id="java字节码简单介绍"><a href="#java字节码简单介绍" class="headerlink" title="java字节码简单介绍"></a>java字节码简单介绍</h4><p>由于 ASM 是直接对class文件的字节码进行操作，因此，要修改class文件内容时，也要注入相应的java字节码。</p>
+<p>所以，在注入字节码之前，我们还需要了解下class文件的结构，JVM指令等知识。</p>
+<p>1.class文件结构<br>Java源文件经过javac编译器编译之后，将会生成对应的二进制.class文件</p>
+<p>Java类文件是 8 位字节的二进制流。数据项按顺序存储在class文件中，相邻的项之间没有间隔，这使得class文件变得紧凑，减少存储空间。在Java类文件中包含了许多大小不同的项，由于每一项的结构都有严格规定，这使得 class 文件能够从头到尾被顺利地解析。</p>
+<p><img src="/images/blogimages/2021/class-file-structure.png" alt="class文件结构图"></p>
+<ul>
+<li>类结构体中所有的修饰符、字符常量和其他常量都被存储在class文件开始的一个常量堆栈(Constant Stack)中，其他结构体通过索引引用。</li>
+<li>每个类必须包含headers（包括：class name, super class, interface, etc.）和常量堆栈（Constant Stack）其他元素，例如：字段（fields）、方法（methods）和全部属性（attributes）可以选择显示或者不显示。</li>
+<li>每个字段块（Field section）包括名称、修饰符（public, private, etc.）、描述符号(descriptor)和字段属性。</li>
+<li>每个方法区域（Method section）里面的信息与header部分的信息类似，信息关于最大堆栈（max stack）和最大本地变量数量（max local variable numbers）被用于修改字节码。对于非abstract和非native的方法有一个方法指令表，exceptions表和代码属性表。除此之外，还可以有其他方法属性。</li>
+<li>每个类、字段、方法和方法代码的属性有属于自己的名称记录在类文件格式的JVM规范的部分，这些属性展示了字节码多方面的信息，例如源文件名、内部类、签名、代码行数、本地变量表和注释。JVM规范允许定义自定义属性，这些属性会被标准的VM（虚拟机）忽略，但是可以包含附件信息。</li>
+<li>方法代码表包含一系列对java虚拟机的指令。有些指令在代码中使用偏移量，当指令从方法代码被插入或者移除时，全部偏移量的值可能需要调整。</li>
+</ul>
+<p>2.Java类型与class文件内部类型对应关系<br>Java类型分为基本类型和引用类型，在 JVM 中对每一种类型都有与之相对应的类型描述，如下表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><em>Java type</em></th>
+<th style="text-align:center"><em>JVM Type descriptor</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">boolean</td>
+<td style="text-align:center">Z</td>
+</tr>
+<tr>
+<td style="text-align:center">char</td>
+<td style="text-align:center">C</td>
+</tr>
+<tr>
+<td style="text-align:center">byte</td>
+<td style="text-align:center">B</td>
+</tr>
+<tr>
+<td style="text-align:center">short</td>
+<td style="text-align:center">S</td>
+</tr>
+<tr>
+<td style="text-align:center">int</td>
+<td style="text-align:center">I</td>
+</tr>
+<tr>
+<td style="text-align:center">float</td>
+<td style="text-align:center">F</td>
+</tr>
+<tr>
+<td style="text-align:center">long</td>
+<td style="text-align:center">J</td>
+</tr>
+<tr>
+<td style="text-align:center">double</td>
+<td style="text-align:center">D</td>
+</tr>
+<tr>
+<td style="text-align:center">Object</td>
+<td style="text-align:center">Ljava/lang/Object;</td>
+</tr>
+<tr>
+<td style="text-align:center">int[]</td>
+<td style="text-align:center">[I</td>
+</tr>
+<tr>
+<td style="text-align:center">Object[][]</td>
+<td style="text-align:center">[[Ljava/lang/Object;</td>
+</tr>
+</tbody>
+</table>
+<p>在 ASM 中要获得一个类的 JVM 内部描述，可以使用org.objectweb.asm.Type类中的getDescriptor(final Class c)方法，如下：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TypeDescriptors</span> </span>&#123;    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;    </span><br><span class="line">        System.out.println(Type.getDescriptor(TypeDescriptors.class));    </span><br><span class="line">        System.out.println(Type.getDescriptor(String.class));    </span><br><span class="line">    &#125;        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Lorg/victorzhzh/core/structure/TypeDescriptors;    </span><br><span class="line">Ljava/lang/String;</span><br></pre></td></tr></table></figure></p>
+<p>3.Java方法声明与class文件内部声明的对应关系<br>在<code>Java</code>的二进制文件中，方法的方法名和方法的描述都是存储在Constant pool 中的，且在两个不同的单元里。因此，方法描述中不含有方法名，只含有参数类型和返回类型。<br>格式：(参数描述符)返回值描述符</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><em>Method declaration in source file</em></th>
+<th style="text-align:center"><em>Method descriptor</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">void m(int i, float f)</td>
+<td style="text-align:center">(IF)V</td>
+</tr>
+<tr>
+<td style="text-align:center">int m(Object o)</td>
+<td style="text-align:center">(Ljava/lang/Object;)I</td>
+</tr>
+<tr>
+<td style="text-align:center">int[] m(int i, String s)</td>
+<td style="text-align:center">(ILjava/lang/String;)[I</td>
+</tr>
+<tr>
+<td style="text-align:center">Object m(int[] i)</td>
+<td style="text-align:center">([I]Ljava/lang/Object;</td>
+</tr>
+<tr>
+<td style="text-align:center">String m()</td>
+<td style="text-align:center">()Ljava/lang/String;</td>
+</tr>
+</tbody>
+</table>
+<p>上面3点，如果不熟悉字节码操作集合的话，写起来会很费劲，所以ASM为主流的IDE专门提供了开发插件BytecodeOutline：</p>
+<ul>
+<li>IDEA：ASM Bytecode Outline</li>
+<li>Eclipse：BytecodeOutline</li>
+</ul>
+<p>以IDEA为例，只需要对应的类中右击-&gt;Show Bytecode outline即可</p>
+<h3 id="ASM-框架执行流程"><a href="#ASM-框架执行流程" class="headerlink" title="ASM 框架执行流程"></a>ASM 框架执行流程</h3><p>ASM对字节码的操作和分析都是基于访问者模式来实现，而访问者模式有两个核心类分别是：独立的访问者、接收访问者事件产生器<br>对应的ASM里面就是两个核心类：ClassVisitor和ClassReader，下面分别进行介绍；</p>
+<blockquote>
+<p>关于访问者模式的介绍，可以看这篇文章：<a href="https://refactoringguru.cn/design-patterns/visitor" target="_blank" rel="noopener">访问者模式</a></p>
+</blockquote>
+<h4 id="ClassVisitor"><a href="#ClassVisitor" class="headerlink" title="ClassVisitor"></a>ClassVisitor</h4><p>ASM 内部采用 访问者模式 将 .class 类文件的内容从头到尾扫描一遍，每次扫描到类文件相应的内容时，都会调用ClassVisitor内部相应的方法。<br>比如：</p>
+<ul>
+<li>扫描到类文件时，会回调ClassVisitor的visit()方法；</li>
+<li>扫描到类注解时，会回调ClassVisitor的visitAnnotation()方法；</li>
+<li>扫描到类成员时，会回调ClassVisitor的visitField()方法；</li>
+<li>扫描到类方法时，会回调ClassVisitor的visitMethod()方法；<br>······<br>扫描到相应结构内容时，会回调相应方法，该方法会返回一个对应的字节码操作对象（比如，visitMethod()返回MethodVisitor实例），通过修改这个对象，就可以修改class文件相应结构部分内容，最后将这个ClassVisitor字节码内容覆盖原来.class文件就实现了类文件的代码切入。</li>
+</ul>
+<p>具体关系如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><em>树形关系</em></th>
+<th style="text-align:center"><em>使用的接口</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Class</td>
+<td style="text-align:center">ClassVisitor</td>
+</tr>
+<tr>
+<td style="text-align:center">Field</td>
+<td style="text-align:center">FieldVisitor</td>
+</tr>
+<tr>
+<td style="text-align:center">Method</td>
+<td style="text-align:center">MethodVisitor</td>
+</tr>
+<tr>
+<td style="text-align:center">Annotation</td>
+<td style="text-align:center">AnnotationVisitor</td>
+</tr>
+</tbody>
+</table>
+<p>整个具体的执行时序如下图所示：<br><img src="/images/blogimages/2021/asm-visitor-sequence.png" alt="gradle的架构"></p>
+<p>根据时序，上面所有方法都会被事件产生器ClassReader调用，所有方法中的参数都是ClassReader提供的</p>
+<h4 id="ClassReader"><a href="#ClassReader" class="headerlink" title="ClassReader"></a>ClassReader</h4><p>此类主要功能就是读取字节码文件，然后把读取的数据通知ClassVisitor，字节码文件可以多种方式传入：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ClassReader</span><span class="params">(<span class="keyword">final</span> InputStream inputStream)</span>：字节流的方式；</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ClassReader</span><span class="params">(<span class="keyword">final</span> String className)</span>：文件全路径；</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ClassReader</span><span class="params">(<span class="keyword">final</span> <span class="keyword">byte</span>[] classFile)</span>：二进制文件；</span></span><br></pre></td></tr></table></figure></p>
+<p>常见使用方式如下所示：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ClassReader classReader = <span class="keyword">new</span> ClassReader(<span class="string">"com/zh/asm/TestService"</span>);</span><br><span class="line">ClassWriter classVisitor = <span class="keyword">new</span> ClassWriter(ClassWriter.COMPUTE_MAXS);</span><br><span class="line">classReader.accept(classVisitor, <span class="number">0</span>);</span><br></pre></td></tr></table></figure></p>
+<p>ClassReader的accept方法处理接收一个访问者，还包括另外一个parsingOptions参数，选项包括：</p>
+<ul>
+<li><strong>SKIP_CODE</strong>：跳过已编译代码的访问（如果您只需要类结构，这可能很有用）；</li>
+<li><strong>SKIP_DEBUG</strong>：不访问调试信息，也不为其创建人工标签；</li>
+<li><strong>SKIP_FRAMES</strong>：跳过堆栈映射帧；</li>
+<li><strong>EXPAND_FRAMES</strong>：解压缩这些帧；</li>
+</ul>
+<h4 id="ClassWriter"><a href="#ClassWriter" class="headerlink" title="ClassWriter"></a>ClassWriter</h4><p>以上实例中使用了ClassWriter，其继承于ClassVisitor，主要用来生成类，可以单独使用，如下所示：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ClassWriter cw = <span class="keyword">new</span> ClassWriter(<span class="number">0</span>);</span><br><span class="line">cw.visit(V1_5, ACC_PUBLIC + ACC_ABSTRACT + ACC_INTERFACE,<span class="string">"pkg/Comparable"</span>, <span class="keyword">null</span>, <span class="string">"java/lang/Object"</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"pkg/Mesurable"</span>&#125;);</span><br><span class="line">cw.visitField(ACC_PUBLIC + ACC_FINAL + ACC_STATIC, <span class="string">"LESS"</span>,<span class="string">"I"</span>, <span class="keyword">null</span>, <span class="keyword">new</span> Integer(-<span class="number">1</span>)).visitEnd();</span><br><span class="line">cw.visitField(ACC_PUBLIC + ACC_FINAL + ACC_STATIC, <span class="string">"EQUAL"</span>,<span class="string">"I"</span>, <span class="keyword">null</span>, <span class="keyword">new</span> Integer(<span class="number">0</span>)).visitEnd();</span><br><span class="line">cw.visitField(ACC_PUBLIC + ACC_FINAL + ACC_STATIC, <span class="string">"GREATER"</span>,<span class="string">"I"</span>, <span class="keyword">null</span>, <span class="keyword">new</span> Integer(<span class="number">1</span>)).visitEnd();</span><br><span class="line">cw.visitMethod(ACC_PUBLIC + ACC_ABSTRACT, <span class="string">"compareTo"</span>,<span class="string">"(Ljava/lang/Object;)I"</span>, <span class="keyword">null</span>, <span class="keyword">null</span>).visitEnd();</span><br><span class="line">cw.visitEnd();</span><br><span class="line"><span class="keyword">byte</span>[] b = cw.toByteArray();</span><br><span class="line"></span><br><span class="line"><span class="comment">//输出</span></span><br><span class="line">FileOutputStream fileOutputStream = <span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(<span class="string">"F:/asm/Comparable.class"</span>));</span><br><span class="line">fileOutputStream.write(b);</span><br><span class="line">fileOutputStream.close();</span><br></pre></td></tr></table></figure></p>
+<p>以上通过ClassWriter生成一个字节码文件，然后转换成字节数组，最后通过FileOutputStream输出到文件中，反编译结果如下：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> pkg;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Comparable</span> <span class="keyword">extends</span> <span class="title">Mesurable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> LESS = -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> EQUAL = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> GREATER = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Object var1)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在实例化ClassWriter需要提供一个参数flags，选项包括：</p>
+<ul>
+<li><strong>COMPUTE_MAXS</strong>：将为你计算局部变量与操作数栈部分的大小；还是必须调用 <code>visitMaxs</code>，但可以使用任何参数：它们将被忽略并重新计算；使用这一选项时，仍然必须自行计算这些帧；</li>
+<li><strong>COMPUTE_FRAMES</strong>：一切都是自动计算；不再需要调用 <code>visitFrame</code>，但仍然必须调用 visitMaxs（参数将被忽略并重新计算）；</li>
+<li><strong>0</strong>：不会自动计算任何东西；必须自行计算帧、局部变量与操作数栈的大小；</li>
+</ul>
+<p>以上只是对ClassWriter的单独使用，但更有意义的其实是把以上三个核心类整合起来使用，下面重点看看转换操作；<br>转换操作<br>在类读取器和类写入器之间引入一个 ClassVisitor，把三者整合起来，大致代码结构如下所示：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ClassReader classReader = <span class="keyword">new</span> ClassReader(<span class="string">"com/zh/asm/TestService"</span>);</span><br><span class="line">ClassWriter classWriter = <span class="keyword">new</span> ClassWriter(ClassWriter.COMPUTE_MAXS);</span><br><span class="line"><span class="comment">//处理</span></span><br><span class="line">ClassVisitor classVisitor = <span class="keyword">new</span> AddFieldAdapter(classWriter...);</span><br><span class="line">classReader.accept(classVisitor, <span class="number">0</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这里提供了一个添加属性的适配器，可以重写<code>visitEnd</code>方法，然后写入新的属性，代码如下：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddFieldAdapter</span> <span class="keyword">extends</span> <span class="title">ClassVisitor</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> fAcc;</span><br><span class="line">    <span class="keyword">private</span> String fName;</span><br><span class="line">    <span class="keyword">private</span> String fDesc;</span><br><span class="line">    <span class="comment">//是否已经有相同名称的属性</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isFieldPresent;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">AddFieldAdapter</span><span class="params">(ClassVisitor cv, <span class="keyword">int</span> fAcc, String fName,</span></span></span><br><span class="line"><span class="function"><span class="params">                           String fDesc)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(ASM4, cv);</span><br><span class="line">        <span class="keyword">this</span>.fAcc = fAcc;</span><br><span class="line">        <span class="keyword">this</span>.fName = fName;</span><br><span class="line">        <span class="keyword">this</span>.fDesc = fDesc;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> FieldVisitor <span class="title">visitField</span><span class="params">(<span class="keyword">int</span> access, String name, String desc,</span></span></span><br><span class="line"><span class="function"><span class="params">                                   String signature, Object value)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//判断是否有相同名称的字段，不存在才会在visitEnd中添加</span></span><br><span class="line">        <span class="keyword">if</span> (name.equals(fName)) &#123;</span><br><span class="line">            isFieldPresent = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cv.visitField(access, name, desc, signature, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitEnd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!isFieldPresent) &#123;</span><br><span class="line">            FieldVisitor fv = cv.visitField(fAcc, fName, fDesc, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">            <span class="keyword">if</span> (fv != <span class="keyword">null</span>) &#123;</span><br><span class="line">                fv.visitEnd();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cv.visitEnd();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>根据ClassVisitor的每个方法被调用的顺序，如果类中有多个属性，那么<code>visitField</code>会被调用多次，每次都会检查要添加的字段是否已经有了，然后保存在isFieldPresent标识中，这样在访问最后的visitEnd中判断是否需要添加新属性；<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ClassVisitor classVisitor = <span class="keyword">new</span> AddFieldAdapter(classWriter,ACC_PUBLIC + ACC_FINAL + ACC_STATIC,<span class="string">"id"</span>,<span class="string">"I"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这里添加了一个public static final int id；可以把字节数组写入class类文件中，然后反编译查看：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestService</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> id;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>visitField()方法返回了一个 FieldVisitor，它是一个抽象类，所以可以在 visitField() 方法中返回我们自己定义的 <code>FieldVisitor</code> 的实现类，去处理对应的逻辑；同理还有 <code>MethodVisitor</code></p>
+<h4 id="几个常见的工具类介绍"><a href="#几个常见的工具类介绍" class="headerlink" title="几个常见的工具类介绍"></a>几个常见的工具类介绍</h4><ul>
+<li><strong>Type</strong><br>Type对象表示一种 Java类型，既可以由类型描述符构造，也可以由Class对象构建；Type类还包含表示基元类型的静态变量；</li>
+<li><strong>TraceClassVisitor</strong><br>扩展了ClassVisitor类，并构建了所访问类的文本表示；使用TraceClassVisitor以便获得实际生成内容的可读跟踪；</li>
+<li><strong>CheckClassAdapter</strong><br>ClassWriter 类并不会核实对其方法的调用顺序是否恰当，以及参数是否有效；因此有可能会生成一些被 Java 虚拟机验证器拒绝的无效类。为了尽可能提前检测出部分此类错误，可以使用CheckClassAdapter类 ；</li>
+<li><strong>ASMifier</strong><br>这个类为TraceClassVisitor工具提供了一个可选的后端（默认情况下，它使用一个Textifier后端，产生上面显示的输出类型）。这个后端使TraceClassVisitor类的每个方法打印用于调用它的Java代码</li>
+<li><strong>LocalVariablesSorter</strong><br>继承自MethodVisitor，将一个方法中使用的局部变量按照它们在这个方法中的出现顺序重新进行编号，同时可以使用 newLocal 方法创建一个新的局部变量；</li>
+<li><strong>AdviceAdapter</strong><br>继承自LocalVariablesSorter，此适配器是一个抽象类，可用于在方法的开头以及任何RETURN或ATHROW指令之前插入代码；其主要优点是它也适用于构造函数，其中代码不能仅插入构造函数的开头，而是在调用超级构造函数之后插入。</li>
+</ul>
+<p>处理字节码的工具介绍完了，那android的插件如何将操作后的字节码打包的apk中呢？<br>官方提供了一份在打包 dex 文件之前的编译过程中操作 .class 文件的api，那就是 <strong><code>AGP</code></strong></p>
+<h3 id="AGP-Android-Gradle-Plugin"><a href="#AGP-Android-Gradle-Plugin" class="headerlink" title="AGP(Android Gradle Plugin)"></a>AGP(Android Gradle Plugin)</h3><blockquote>
+<p>很早之前郭霖大神就写过一篇文章：<a href="https://blog.csdn.net/c10WTiybQ1Ye3/article/details/78098450" target="_blank" rel="noopener">Android Gradle高级用法，动态编译技术:Plugin Transform Javassist操作Class文件</a></p>
+</blockquote>
+<p>文章中提到：gradle 从1.5开始，gradle 插件包含了一个叫 Transform 的 API，这个 API 允许第三方插件在 class 文件转为为 dex 文件前操作编译好的 class 文件，这个 API 的目标是简化自定义类操作，而不必处理 Task，并且在操作上提供更大的灵活性。</p>
+<p>他文章里的transform依赖是这样<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">compile <span class="string">'com.android.tools.build:transform-api:1.5.0'</span></span><br></pre></td></tr></table></figure></p>
+<p>但是现在是这样<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//从2.0.0版本开始就是在gradle-api中了</span></span><br><span class="line">implementation <span class="string">'com.android.tools.build:gradle-api:3.1.4'</span></span><br></pre></td></tr></table></figure></p>
+<p>关于Gradle版本和Gradle Plugin的版本，参考官方的介绍：<a href="https://developer.android.com/studio/releases/gradle-plugin#versioning-update" target="_blank" rel="noopener">gradle plugin版本说明</a>，这里简单列出常见的几个版本：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><em>Gradle版本</em></th>
+<th style="text-align:center"><em>Gradle Plugin版本</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">4.1+</td>
+<td style="text-align:center">3.0.0+</td>
+</tr>
+<tr>
+<td style="text-align:center">4.4+</td>
+<td style="text-align:center">3.1.0+</td>
+</tr>
+<tr>
+<td style="text-align:center">5.4.1+</td>
+<td style="text-align:center">3.5.0 - 3.5.4</td>
+</tr>
+<tr>
+<td style="text-align:center">6.5+</td>
+<td style="text-align:center">4.1.0+</td>
+</tr>
+<tr>
+<td style="text-align:center">7.0+</td>
+<td style="text-align:center">7.0</td>
+</tr>
+</tbody>
+</table>
+<p>AGP 4.1 中移除了构建缓存，本文使用的AGP版本为 3.5.4</p>
+<h4 id="Gradle的架构"><a href="#Gradle的架构" class="headerlink" title="Gradle的架构"></a>Gradle的架构</h4><p><img src="/images/blogimages/2021/gradle-architure.webp" alt="gradle的架构"></p>
+<ul>
+<li>在最下层的是底层Gradle框架，它主要提供一些基础服务，如task的依赖，有向无环图的构建等</li>
+<li>上面的则是Google编译工具团队的Android Gradle plugin框架，它主要是在Gradle框架的基础上，创建了很多与Android项目打包有关的task及artifacts</li>
+<li>最上面的则是开发者自定义的Plugin，一般是在Android Gradle plugin提供的task的基础上，插入一些自定义的task，或者是增加Transform进行编译时代码注入</li>
+</ul>
+<h4 id="android-plugin层"><a href="#android-plugin层" class="headerlink" title="android plugin层"></a>android plugin层</h4><p>语言选择：Google编译工具组从3.2.0开始，新增的插件全部都是用Kotlin编写的。</p>
+<p>怎么查看官方的plugin都有哪些呢，在android studio Project视图 &gt; External libraries &gt; com.android.tools.build:gradle:x.x.x里，如下图：</p>
+<p><img src="/images/blogimages/2021/gradle-official-plugins.png" alt="官方gradle插件"></p>
+<p>如何创建Plugin我们后面再说，可以提前了解一点的是：官方和我们自己实现的plugin都是基于 <code>org.gradle.api.Plugin</code> 实现的，都需要提供一个类似 <code>META-INF.gradle-plugins/xxx.properties</code> 这样的配置文件，文件内容是需要指定 “<code>implementation-class</code>”的实现类是什么。</p>
+<p>打开上图里的任意一个<code>.properties</code>文件，里面就是对应plugin实现类的地址</p>
+<h4 id="自定义Gradle-Plugin"><a href="#自定义Gradle-Plugin" class="headerlink" title="自定义Gradle Plugin"></a>自定义Gradle Plugin</h4><p>Gradle支持通过插件的方式来扩展功能，已保证开发者可以按照自己的需求来完成自动化构建。而且Gradle插件允许已任何可以被编译成字节码的语言编写<br>Gradle提供如下几个插件编写方式：</p>
+<ul>
+<li>Build Script<br>我们可以在build脚本中直接完成插件代码的编写，这种方式缺点是只能在一个脚本中使用，优点是开发编译都很方便</li>
+<li>buildSrc 工程<br>除了应用程序工程，Gradle脚本同样也可以作为工程进行管理。默认情况下，Gradle会自动处理如下路径的插件源码，并添加到编译流程中：<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">[Project_root]/buildSrc/src/main/groovy</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这种方式整个app所有build脚本中都可以使用，但也仅限于本应用程序范畴</p>
+<ul>
+<li>Standalone Project<br>以独立工程实现，在这种情况下，插件JAR包存在，并支持在一个包中包含多个插件</li>
+</ul>
+<p>根据Gradle规定，用户自定义的插件需要实现Plugin接口。当我们在build脚本中使用插件时，可以通过apply plugin:[PLUG_ID]来指明。然后Gradle会调用该插件中的apply方法：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">apply plugin: GreetingPlugin</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GreetingPlugin</span> <span class="keyword">implements</span> <span class="title">Plugin</span>&lt;<span class="title">Project</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">apply</span><span class="params">(Project project)</span> </span>&#123;</span><br><span class="line">        project.task(<span class="string">'hello'</span>) &lt;&lt; &#123;</span><br><span class="line">            println <span class="string">"Hello from the GreetingPlugin"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这段代码用于添加一个名为”hello“的task，它的代码虽然简单，但是apply方法中传递了一个重要的类 <code>org.gradle.api.Project</code>，其他复杂的插件都是通过Project类来操作编译过程，达到对应的效果。<br>下面是 Project 类的一些重要方法：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 根据name创建一个task，就是上面例子里的写法，还有好多同名方法，这里不一一列举了</span></span><br><span class="line"><span class="function">Task <span class="title">task</span><span class="params">(String name)</span> <span class="keyword">throws</span> InvalidUserDataException</span>;</span><br><span class="line"><span class="comment">// 根据一个工程路径，获得一个File对象，省略同名方法</span></span><br><span class="line"><span class="function">File <span class="title">file</span><span class="params">(Object path)</span></span>;</span><br><span class="line"><span class="comment">// Adds a closure to be called immediately after this project has been evaluated.</span></span><br><span class="line">afterEvaluate​(Closure closure)</span><br><span class="line"><span class="comment">//Returns the properties of this project.</span></span><br><span class="line">getProperties()</span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure></p>
+<p>其他方法的介绍可以看gradle 文档：<a href="https://docs.gradle.org/current/javadoc/org/gradle/api/Project.html" target="_blank" rel="noopener">https://docs.gradle.org/current/javadoc/org/gradle/api/Project.html</a></p>
+<p>如果我们不单只是创建一个Task去执行，还想在android编译过程中进行处理，则需要使用到<code>Transform Api</code>，像下面这种方式：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">AppExtension appExtension = (AppExtension)project.getProperties().get(<span class="string">"android"</span>);</span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line"><span class="comment">// AppExtension appExtension = project.extensions.getByType(AppExtension)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//将自定义Transform添加到编译流程中</span></span><br><span class="line">appExtension.registerTransform(<span class="keyword">new</span> MethodTimeTransform(project));</span><br></pre></td></tr></table></figure></p>
+<h4 id="Transform-Api"><a href="#Transform-Api" class="headerlink" title="Transform Api"></a>Transform Api</h4><p>Transform 是专门处理构建过程中的中间产物，Transform 可以被看作是 Gradle 在编译项目时的一个 task，在 .class 文件转换成 .dex 的流程中会执行这些 task，对所有的 .class 文件（可包括第三方库的 .class）进行转换，转换的逻辑定义在 Transform 的 transform 方法中。实际上平时我们在 build.gradle 中常用的功能都是通过 Transform 实现的，比如混淆（proguard）、dexBuilder等。</p>
+<p>篇幅有限，本文关于当前android上实现AOP编程就介绍到这里。关于Transform api的语法和具体例子可以看这篇文章：<a href="https://juejin.cn/post/6864349303843307534" target="_blank" rel="noopener">手把手教大家用Transform API和ASM实现一个防快速点击案例</a></p>
+<h3 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h3><p><a href="https://tech.meituan.com/2019/09/05/java-bytecode-enhancement.html" target="_blank" rel="noopener">字节码增强技术探索</a></p>
+<p>ASM教程：<a href="https://github.com/dengshiwei/asm-module" target="_blank" rel="noopener">https://github.com/dengshiwei/asm-module</a></p>
+<p>ASM入门篇：<a href="https://segmentfault.com/a/1190000040160637" target="_blank" rel="noopener">https://segmentfault.com/a/1190000040160637</a></p>
+<p>参考：<a href="https://juejin.cn/post/6844903616487096333" target="_blank" rel="noopener">https://juejin.cn/post/6844903616487096333</a></p>
+<p><a href="https://blog.csdn.net/lmj623565791/article/details/119880194" target="_blank" rel="noopener">Android 进阶之路：ASM 修改字节码，这样学就对了！</a></p>
+<hr>
+<div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-hexo-blog-img/blogimages/attribution_88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://conorlee.top/" target="_blank" rel="noopener">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
+
+<p>本文链接：<a href="http://agehua.github.io/2021/12/14/AOP-android/">http://agehua.github.io/2021/12/14/AOP-android/</a></p>
+
+
+            
+  <!-- donate css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+         
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/btn_reward.gif") no-repeat;
+      _background: url("https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/btn_reward.gif") no-repeat;
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+<!-- Donate Module -->
+<div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+    </span>
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+
+  <div id="donate_guide" class="donate_bar center hidden" >
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
+        <a href="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+        <a href="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+      </div>
+      <div style="display:inline-block;">
+          &nbsp;
+          <span class="donate_txt">
+              Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+          </span>
+      </div>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className='hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+
+            
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2021/12/14/AOP-android/" data-id="cm4b7l9zx006zm947rl1kb9sp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2021/12/14/AOP-android/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2022/02/10/android-binder-principle3/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Android Binder机制分析（三）
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2021/08/07/view-scroll-apis/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">移动view的几种方式总结</div>
+        </a>
+    
+</nav>
+
+
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+    
+    <section id="comments" class="comments">
+    
+        
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2021/12/14/AOP-android/', // 可选。默认为 location.href
+  title: 'android场景实现AOP编程',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+    
+  </section>
+
+
+
+</article>
+
+
+</section>
+            
+                <aside id="sidebar">
+    <!-- 在_config.yml中配置了widgets，来决定widgets的顺序 -->
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/12/04/matrix-battery-canary-introducation/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/La%20Berceuse%20Augustine%20Roulin%203.jpg)" alt="Matrix Battery 介绍和使用" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/12/04/matrix-battery-canary-introducation/" class="title">Matrix Battery 介绍和使用</a></p>
+                            <p class="item-date"><time datetime="2024-12-03T16:00:00.000Z" itemprop="datePublished">2024-12-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/11/22/matrix-io-canary-introducation/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Iron%20Mill%20in%20The%20Hague.jpg)" alt="Matrix io 介绍和使用" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/11/22/matrix-io-canary-introducation/" class="title">Matrix io 介绍和使用</a></p>
+                            <p class="item-date"><time datetime="2024-11-21T16:00:00.000Z" itemprop="datePublished">2024-11-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/04/24/jacoco-test-coverage/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Irises.jpg)" alt="代码覆盖率统计——集成Jacoco" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/04/24/jacoco-test-coverage/" class="title">代码覆盖率统计——集成Jacoco</a></p>
+                            <p class="item-date"><time datetime="2024-04-23T16:00:00.000Z" itemprop="datePublished">2024-04-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/11/13/native-crash-anr-log-analysis/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg)" alt="Native Crash日志分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/11/13/native-crash-anr-log-analysis/" class="title">Native Crash日志分析</a></p>
+                            <p class="item-date"><time datetime="2023-11-12T16:00:00.000Z" itemprop="datePublished">2023-11-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/11/02/native-crash-principle/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Houses%20in%20Auvers.jpg)" alt="Native Crash捕获原理" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/11/02/native-crash-principle/" class="title">Native Crash捕获原理</a></p>
+                            <p class="item-date"><time datetime="2023-11-01T16:00:00.000Z" itemprop="datePublished">2023-11-02</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">81</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/agp/" style="font-size: 11.67px;">AGP</a> <a href="/tags/aidl/" style="font-size: 13.33px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/anr/" style="font-size: 13.33px;">ANR</a> <a href="/tags/aop/" style="font-size: 10px;">AOP</a> <a href="/tags/aosp/" style="font-size: 11.67px;">AOSP</a> <a href="/tags/asm/" style="font-size: 10px;">ASM</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-source-code/" style="font-size: 18.33px;">Android Source Code</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 11.67px;">Annotation</a> <a href="/tags/asyncinflate/" style="font-size: 10px;">AsyncInflate</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 16.67px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16.67px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/constraintlayout/" style="font-size: 11.67px;">ConstraintLayout</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview/" style="font-size: 16.67px;">Interview</a> <a href="/tags/jni/" style="font-size: 13.33px;">JNI</a> <a href="/tags/jvm/" style="font-size: 11.67px;">JVM</a> <a href="/tags/jacoco/" style="font-size: 10px;">Jacoco</a> <a href="/tags/java/" style="font-size: 15px;">Java</a> <a href="/tags/javascript/" style="font-size: 11.67px;">JavaScript</a> <a href="/tags/kotlin/" style="font-size: 11.67px;">Kotlin</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 11.67px;">Looper</a> <a href="/tags/matrix/" style="font-size: 11.67px;">Matrix</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/native-crash/" style="font-size: 11.67px;">Native Crash</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 11.67px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 11.67px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 16.67px;">RecyclerView</a> <a href="/tags/recyclerview-optimization/" style="font-size: 10px;">RecyclerView optimization</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 11.67px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/transform/" style="font-size: 10px;">Transform</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 11.67px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/multi-process/" style="font-size: 11.67px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/picture-in-picture/" style="font-size: 10px;">picture-in-picture</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 11.67px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 13.33px;">toastmaster</a> <a href="/tags/view-scroll/" style="font-size: 10px;">view scroll</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://conorlee.top">我的阿里云博客(求赞助)</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://agehua.github.io/">My Github Pages</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://invitation.conorlee.top/MrLiAndTeacherTian_WeddingInvitation.html">Wedding Invitation(手机观看最佳)</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2024 ConorLee<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2021/12/14/AOP-android/', // 可选。默认为 location.href
+  title: 'android场景实现AOP编程',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+<script>
+    var bigfa_scroll = {
+        drawCircle: function(id, percentage, color) {
+            var width = jQuery(id).width();
+            var height = jQuery(id).height();
+            var radius = parseInt(width / 2.20);
+            var position = width;
+            var positionBy2 = position / 2;
+            var bg = jQuery(id)[0];
+            id = id.split("# ");
+            var ctx = bg.getContext("2d");
+            var imd = null;
+            var circ = Math.PI * 2;
+            var quart = Math.PI / 2;
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineCap = "square";
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineWidth = 3;
+            imd = ctx.getImageData(0, 0, position, position);
+            var draw = function(current, ctxPass) {
+                ctxPass.putImageData(imd, 0, 0);
+                ctxPass.beginPath();
+                ctxPass.arc(positionBy2, positionBy2, radius, -(quart), ((circ) * current) - quart, false);
+                ctxPass.stroke();
+            }
+            draw(percentage / 100, ctx);
+        },
+        backToTop: function($this) {
+            $this.click(function() {
+                jQuery("body,html").animate({
+                    scrollTop: 0
+                },
+                800);
+                return false;
+            });
+        },
+        scrollHook: function($this, color) {
+            color = color ? color: "# 000000";
+            $this.scroll(function() {
+                var docHeight = (jQuery(document).height() - jQuery(window).height()),
+                $windowObj = $this,
+                $per = jQuery(".per"),
+                percentage = 0;
+                defaultScroll = $windowObj.scrollTop();
+                percentage = parseInt((defaultScroll / docHeight) * 100);
+                var backToTop = jQuery("# backtoTop");
+                if (backToTop.length > 0) {
+                    if ($windowObj.scrollTop() > 200) {
+                        backToTop.addClass("button--show");
+                    } else {
+                        backToTop.removeClass("button--show");
+                    }
+                    $per.attr("data-percent", percentage);
+                    bigfa_scroll.drawCircle("# backtoTopCanvas", percentage, color);
+                }
+            });
+        }
+    }
+
+</script>
+
+
+    </div>
+    <!-- <script src="http://cdn.maxjia.com/js/particles.min.js"></script> -->
+  
+  
+    <canvas class="fireworks" style="position: fixed; left: 0px; top: 0px; z-index: 1; pointer-events: none; width: 1440px; height: 416px;" width="2880" height="832"></canvas>
+    
+
+      <script type="text/javascript" src="/js/anime.min.js"></script>
+      <script type="text/javascript" src="/js/firework.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/33.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="google-site-verification" content="TYEtqE2Xc2ZonkJumwKut0-iq4RVbEc8o5Y8HpmZ-eo" />
+    <meta name="baidu-site-verification" content="8WKGBCPPKp" />
+    <meta charset="utf-8">
+    
+    <title>ConstraintLayout 高级用法介绍 | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="本文介绍了部分ConstraintLayout 2.0新增的api，同时介绍了一下ConstraintLayout中不太常用的方法，方便以后查阅。">
+<meta name="keywords" content="ConstraintLayout">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ConstraintLayout 高级用法介绍">
+<meta property="og:url" content="http://agehua.github.io/2023/02/10/constraintlayout-intro/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="本文介绍了部分ConstraintLayout 2.0新增的api，同时介绍了一下ConstraintLayout中不太常用的方法，方便以后查阅。">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Harvest%20at%20La%20Crau%2C%20with%20Montmajour%20in%20the%20Background.jpg">
+<meta property="og:updated_time" content="2024-12-05T09:41:25.286Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ConstraintLayout 高级用法介绍">
+<meta name="twitter:description" content="本文介绍了部分ConstraintLayout 2.0新增的api，同时介绍了一下ConstraintLayout中不太常用的方法，方便以后查阅。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Harvest%20at%20La%20Crau%2C%20with%20Montmajour%20in%20the%20Background.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+
+
+    <link rel="icon" sizes="192x192" href="images/icon.png">
+    <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+    <!--text spacing-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+
+</head>
+
+
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+
+                <a class="main-nav-link" href='javascript:(
+        /*
+         * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *      http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         */
+        function go() {
+
+
+        var songs = [
+                    "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
+                    "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
+                    "https://static.rocko.xyz/audio/Music-outside.mp3",
+                    "https://static.rocko.xyz/audio/Music-sunburst.mp3"
+        ];
+
+
+        function c() {
+            var e = document.createElement("link");
+            e.setAttribute("type", "text/css");
+            e.setAttribute("rel", "stylesheet");
+            e.setAttribute("href", f);
+            e.setAttribute("class", l);
+            document.body.appendChild(e)
+        }
+
+        function h() {
+            var e = document.getElementsByClassName(l);
+            for (var t = 0; t < e.length; t++) {
+                document.body.removeChild(e[t])
+            }
+        }
+
+        function p() {
+            var e = document.createElement("div");
+            e.setAttribute("class", a);
+            document.body.appendChild(e);
+            setTimeout(function() {
+                document.body.removeChild(e)
+            }, 100)
+        }
+
+        function d(e) {
+            return {
+                height : e.offsetHeight,
+                width : e.offsetWidth
+            }
+        }
+
+        function v(i) {
+            var s = d(i);
+            return s.height > e && s.height < n && s.width > t && s.width < r
+        }
+
+        function m(e) {
+            var t = e;
+            var n = 0;
+            while (!!t) {
+                n += t.offsetTop;
+                t = t.offsetParent
+            }
+            return n
+        }
+
+        function g() {
+            var e = document.documentElement;
+            if (!!window.innerWidth) {
+                return window.innerHeight
+            } else if (e && !isNaN(e.clientHeight)) {
+                return e.clientHeight
+            }
+            return 0
+        }
+
+        function y() {
+            if (window.pageYOffset) {
+                return window.pageYOffset
+            }
+            return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+        }
+
+        function E(e) {
+            var t = m(e);
+            return t >= w && t <= b + w
+        }
+
+        function S() {
+            var e = document.getElementById("audio_element_id");
+            if(e != null){
+                var index = parseInt(e.getAttribute("curSongIndex"));
+                if(index > songs.length - 2) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                e.setAttribute("curSongIndex", index);
+                N();
+            }
+
+            e.src = i;
+            e.play()
+        }
+
+        function x(e) {
+            e.className += " " + s + " " + o
+        }
+
+        function T(e) {
+            e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+        }
+
+        function N() {
+            var e = document.getElementsByClassName(s);
+            var t = new RegExp("\\b" + s + "\\b");
+            for (var n = 0; n < e.length; ) {
+                e[n].className = e[n].className.replace(t, "")
+            }
+        }
+
+        function initAudioEle() {
+            var e = document.getElementById("audio_element_id");
+            if(e === null){
+                e = document.createElement("audio");
+                e.setAttribute("class", l);
+                e.setAttribute("curSongIndex", 0);
+                e.id = "audio_element_id";
+                e.loop = false;
+                e.bgcolor = 0;
+                e.addEventListener("canplay", function() {
+                setTimeout(function() {
+                    x(k)
+                }, 500);
+                setTimeout(function() {
+                    N();
+                    p();
+                    for (var e = 0; e < O.length; e++) {
+                        T(O[e])
+                    }
+                }, 15500)
+            }, true);
+            e.addEventListener("ended", function() {
+                N();
+                h();
+                go();
+            }, true);
+            e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+            document.body.appendChild(e);
+            }
+        }
+
+        initAudioEle();
+        var e = 30;
+        var t = 30;
+        var n = 350;
+        var r = 350;
+
+        var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+        var i = songs[curSongIndex];
+
+        var s = "mw-harlem_shake_me";
+        var o = "im_first";
+        var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+        var a = "mw-strobe_light";
+
+        /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
+        var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+
+        var l = "mw_added_css";
+        var b = g();
+        var w = y();
+        var C = document.getElementsByTagName("*");
+        var k = null;
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                if (E(A)) {
+                    k = A;
+                    break
+                }
+            }
+        }
+        if (A === null) {
+            console.warn("Could not find a node of the right size. Please try a different page.");
+            return
+        }
+        c();
+        S();
+        var O = [];
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                O.push(A)
+            }
+        }
+        })()'>High一下</a>
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/profile.jpeg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+
+
+        </div>
+    </div>
+
+
+    <div id="main-nav-mobile" class="header-sub header-inner">
+
+        <table class="menu outer">
+
+
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    
+</header>
+
+        <div class="outer">
+            
+                
+
+
+<aside id="profile">
+    <div class="inner profile-inner" id="profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/profile.jpeg" />
+            <h2 id="name">Conor Lee</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                97
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                104
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+
+        <a href="https://github.com/agehua" class="github-corner" aria-label="View source on Github">
+          <svg width="64" height="64" viewBox="0 0 250 250" style="fill:#cba11f; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+            <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+          </svg>
+        </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+    <div id='toc-col' class="toc-col">
+        
+            <div id='toc-wrap' class="toc-wrap">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#边距"><span class="toc-number">1.</span> <span class="toc-text">边距</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GONE-Margin"><span class="toc-number">1.1.</span> <span class="toc-text">GONE Margin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#居中"><span class="toc-number">1.2.</span> <span class="toc-text">居中</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#偏移"><span class="toc-number">1.3.</span> <span class="toc-text">偏移</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#角度定位（圆形定位）"><span class="toc-number">1.4.</span> <span class="toc-text">角度定位（圆形定位）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConstraintLayout中的控件尺寸约束"><span class="toc-number">2.</span> <span class="toc-text">ConstraintLayout中的控件尺寸约束</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#比例约束"><span class="toc-number">2.1.</span> <span class="toc-text">比例约束</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链"><span class="toc-number">3.</span> <span class="toc-text">链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工具类"><span class="toc-number">4.</span> <span class="toc-text">工具类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Guideline（参考线）"><span class="toc-number">4.1.</span> <span class="toc-text">Guideline（参考线）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Barrier（栅栏）"><span class="toc-number">4.2.</span> <span class="toc-text">Barrier（栅栏）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Group（组）"><span class="toc-number">4.3.</span> <span class="toc-text">Group（组）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Placeholder（占位符）"><span class="toc-number">4.4.</span> <span class="toc-text">Placeholder（占位符）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Optimizer"><span class="toc-number">4.5.</span> <span class="toc-text">Optimizer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Layer"><span class="toc-number">4.6.</span> <span class="toc-text">Layer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自定义-Helper"><span class="toc-number">4.7.</span> <span class="toc-text">自定义 Helper</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Constraintlayout-2-0新增-少见的用法"><span class="toc-number">5.</span> <span class="toc-text">Constraintlayout 2.0新增/少见的用法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Flow-流式布局"><span class="toc-number">5.1.</span> <span class="toc-text">Flow 流式布局</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ImageFilterView"><span class="toc-number">5.2.</span> <span class="toc-text">ImageFilterView</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ImageFilterButton"><span class="toc-number">5.3.</span> <span class="toc-text">ImageFilterButton</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MockView"><span class="toc-number">5.4.</span> <span class="toc-text">MockView</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键帧动画"><span class="toc-number">6.</span> <span class="toc-text">关键帧动画</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-number">7.</span> <span class="toc-text">参考</span></a></li></ol>
+            </div>
+        
+    </div>
+</aside>
+
+<script type="text/javascript">
+/*
+    滚动函数
+    接收三个参数,
+        1 接收一个DOM对象
+        2 给目标对象切换class
+        3 触发的高度 (可选项,如果不指定高度,会将DOM的高度作为触发高度)
+*/
+function scrollCheck(scrollTarget, toggleClass, scrollHeight){
+    document.addEventListener('scroll',function(){
+    var currentTop = window.pageYOffset;
+        currentTop > (scrollHeight||scrollTarget.clientHeight)
+        ?scrollTarget.classList.add(toggleClass)
+        :scrollTarget.classList.remove(toggleClass)
+    })
+}
+
+(function(){
+      try {
+        document.getElementById("toc-wrap").style.width= document.getElementById("profile-inner").offsetWidth+ "px";
+        var introHeader = document.querySelector('.inner.profile-inner').offsetHeight;
+        var toc = document.querySelector('.toc-wrap');
+        scrollCheck(toc,'toc-fixed',introHeader+40+64);
+      }catch(err){
+
+      }
+        // var node = document.querySelector('.profile-inner');
+        // scrollCheck(node,'profile-inner-fixed',64);
+})();
+</script>
+
+            
+            <section id="main"><article id="post-constraintlayout-intro" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-inner">
+        
+            
+	
+		<img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Harvest%20at%20La%20Crau%2C%20with%20Montmajour%20in%20the%20Background.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            ConstraintLayout 高级用法介绍
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2023/02/10/constraintlayout-intro/">
+            <time datetime="2023-02-09T16:00:00.000Z" itemprop="datePublished">2023-02-10</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/constraintlayout/">ConstraintLayout</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">5 min read , Words: 954</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+
+            <p>本文介绍了部分ConstraintLayout 2.0新增的api，同时介绍了一下ConstraintLayout中不太常用的方法，方便以后查阅。</p>
+<a id="more"></a>
+<h3 id="边距"><a href="#边距" class="headerlink" title="边距"></a>边距</h3><p>边距与平常使用并无太大区别，但需要先确定view的位置，边距才会生效。如：</p>
+<h4 id="GONE-Margin"><a href="#GONE-Margin" class="headerlink" title="GONE Margin"></a>GONE Margin</h4><p>ConstraintLayout提供了特殊的goneMargin属性，在目标View隐藏时，属性生效。有如下属性：</p>
+<ul>
+<li>layout_goneMarginStart</li>
+<li>layout_goneMarginEnd</li>
+<li>layout_goneMarginLeft</li>
+<li>layout_goneMarginTop</li>
+<li>layout_goneMarginRight</li>
+<li>layout_goneMarginBottom</li>
+</ul>
+<h4 id="居中"><a href="#居中" class="headerlink" title="居中"></a>居中</h4><p>在RelativeLayout居中，通常是使用以下三个属性：</p>
+<ul>
+<li>layout_centerInParent 中间居中</li>
+<li>layout_centerHorizontal 水平居中</li>
+<li>layout_centerVertical 垂直居中</li>
+</ul>
+<p>而在ConstraintLayout居中则采用左右上下边来约束居中。</p>
+<ul>
+<li>水平居中 layout_constraintLeft_toLeftOf &amp; layout_constraintRight_toRightOf</li>
+<li>垂直居中 layout_constraintTop_toTopOf &amp; layout_constraintBottom_toBottomOf</li>
+<li>中间居中 水平居中 &amp; 垂直居中</li>
+</ul>
+<h4 id="偏移"><a href="#偏移" class="headerlink" title="偏移"></a>偏移</h4><ul>
+<li>layout_constraintHorizontal_bias 水平偏移</li>
+<li>layout_constraintVertical_bias 垂直偏移</li>
+</ul>
+<p>两个属性的取值范围在0-1。在水平偏移中，0表示最左，1表示最右；在垂直偏移，0表示最上，1表示最下；0.5表示中间</p>
+<h4 id="角度定位（圆形定位）"><a href="#角度定位（圆形定位）" class="headerlink" title="角度定位（圆形定位）"></a>角度定位（圆形定位）</h4><p>角度定位指的是可以用一个角度和一个距离来约束两个空间的中心。举个例子：<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">"@+id/TextView1"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">"@+id/TextView2"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:layout_constraintCircle</span>=<span class="string">"@+id/TextView1"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:layout_constraintCircleAngle</span>=<span class="string">"120"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:layout_constraintCircleRadius</span>=<span class="string">"150dp"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>上面例子中的TextView2用到了3个属性：</p>
+<ul>
+<li><code>app:layout_constraintCircle=&quot;@+id/TextView1&quot;</code></li>
+<li><code>app:layout_constraintCircleAngle=&quot;120&quot;（角度）</code></li>
+<li><code>app:layout_constraintCircleRadius=&quot;150dp&quot;（距离）</code><br>  指的是TextView2的中心在TextView1的中心的120度，距离为150dp</li>
+</ul>
+<p>有ConstraintLayout实践经验的朋友应该知道margin设置负值在ConstraintLayout是没有效果的.可以通过Space来间接实现view重叠效果。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Space is a lightweight View subclass that may be used to create gaps between components</span></span><br><span class="line"><span class="comment"> * in general purpose layouts.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Space</span> <span class="keyword">extends</span> <span class="title">View</span> </span>&#123;</span><br></pre></td></tr></table></figure>
+<h3 id="ConstraintLayout中的控件尺寸约束"><a href="#ConstraintLayout中的控件尺寸约束" class="headerlink" title="ConstraintLayout中的控件尺寸约束"></a>ConstraintLayout中的控件尺寸约束</h3><p>在ConstraintLayout中控件可以三种方式来设置其尺寸约束。</p>
+<ul>
+<li>指定具体的值。如123dp</li>
+<li>使用值 WRAP_CONTENT,内容自适配。</li>
+<li>设为 0dp ,即 <code>MATCH_CONSTRAINT</code>，扩充可用空间。<br>  这种情况会根据约束情况重新计算控件大小，一般会测量2次</li>
+</ul>
+<blockquote>
+<p>在ConstraintLayout中，不推荐使用MATCH_PARENT，而是推荐使用MATCH_CONSTRAINT(0dp),它们的行为是类似的</p>
+</blockquote>
+<p>控件设为MATCH_CONSTRAINT时，控件的大小会扩展所有可用空间，可以通过以下属性改变控件的行为。</p>
+<ul>
+<li>layout_constraintWidth_min  最小宽度</li>
+<li>layout_constraintHeight_min 最小高度</li>
+<li>layout_constraintWidth_max    最大宽度</li>
+<li>layout_constraintHeight_max   最大高度</li>
+<li>layout_constraintWidth_percent  宽度占parent的百分比</li>
+<li>layout_constraintHeight_percent 高度占parent的百分比</li>
+</ul>
+<h4 id="比例约束"><a href="#比例约束" class="headerlink" title="比例约束"></a>比例约束</h4><p>控件的宽高比，要求是宽或高至少一个设为0dp，然后设置属性layout_constraintDimensionRatio即可。<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:text</span>=<span class="string">"Hello"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:layout_constraintDimensionRatio</span>=<span class="string">"3:1"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"100dp"</span></span></span><br><span class="line"><span class="tag">    /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这里设置宽高比为3:1,高度为100dp,那么宽度将为300dp。</p>
+<p>也可以在比例前加W,H表示是宽高比还是高宽比，比如：<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">app:layout_constraintDimensionRatio="H,16:9" // 高宽比16:9</span><br></pre></td></tr></table></figure></p>
+<h3 id="链"><a href="#链" class="headerlink" title="链"></a>链</h3><p>链在水平或者垂直方向提供一组类似行为，多个元素在水平或垂直方向想相互约束，并且最终与parent约束，才能形成一条链。</p>
+<p>横向链最左边第一个控件，垂直链最顶边第一个控件称为链头，可以通过下面两个属性链头统一定制链的样式。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">layout_constraintHorizontal_chainStyle <span class="comment">//水平方向链式</span></span><br><span class="line">layout_constraintVertical_chainStyle <span class="comment">//垂直方向链式</span></span><br></pre></td></tr></table></figure></p>
+<p>它两的值可以是</p>
+<ul>
+<li><code>CHAIN_SPREAD</code> <strong>展开样式（默认）</strong></li>
+<li><code>Weighted chain</code> 在CHAIN_SPREAD样式，部分控件设置了MATCH_CONSTRAINT，那他们将扩展可用空间。<br>  配合 layout_constraintHorizontal_weight=”1” 使用</li>
+<li><code>CHAIN_SPREAD_INSIDE</code> <strong>展开样式</strong>，但两端不展开</li>
+<li><code>CHAIN_PACKED</code> <strong>抱团(打包)样式</strong>，控件抱团一起。通过偏移bias，可以改变packed元素的位置。</li>
+</ul>
+<p><img src="/images/blogimages/2023/ConstraintLayout_chain-intro.webp" alt="Chain type"></p>
+<h3 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h3><h4 id="Guideline（参考线）"><a href="#Guideline（参考线）" class="headerlink" title="Guideline（参考线）"></a>Guideline（参考线）</h4><p>参考线实际上不会在界面进行显示，只是方便在ConstraintLayout布局view时候做一个参考。<br>通过设置Guideline的属性orientation来表示是水平方向还是垂直方向的参考线，对应值为vertical和horizontal。可以通过三种方式来定位Guideline位置。</p>
+<ul>
+<li><code>layout_constraintGuide_begin</code> 从左边或顶部指定具体的距离</li>
+<li><code>layout_constraintGuide_end</code>   从右边或底部指定具体的距离</li>
+<li><code>layout_constraintGuide_percent</code> 从宽度或高度的百分比来指定具体距离</li>
+</ul>
+<h4 id="Barrier（栅栏）"><a href="#Barrier（栅栏）" class="headerlink" title="Barrier（栅栏）"></a>Barrier（栅栏）</h4><p>Barrier有点类似Guideline，但Barrier会根据所有引用的控件尺寸的变化重新定位。例如经典的登录界面，右边的EditText总是希望与左右所有TextView的最长边缘靠齐。<br>如果两个TextView其中一个变得更长，EditText的位置都会跟这变化，这比使用RelativeLayout灵活很多。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;android.support.constraint.ConstraintLayout</span><br><span class="line">        xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">        xmlns:app=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span><br><span class="line">        android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">        android:layout_height=<span class="string">"match_parent"</span>&gt;</span><br><span class="line"></span><br><span class="line">    &lt;android.support.constraint.Barrier</span><br><span class="line">            android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">            android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">            app:barrierDirection=<span class="string">"right"</span></span><br><span class="line">            android:id=<span class="string">"@+id/barrier"</span></span><br><span class="line">            app:constraint_referenced_ids=<span class="string">"tvPhone,tvPassword"</span></span><br><span class="line">            /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">              android:text=<span class="string">"手机号码"</span></span><br><span class="line">              android:id=<span class="string">"@+id/tvPhone"</span></span><br><span class="line">              android:gravity=<span class="string">"center_vertical|left"</span></span><br><span class="line">              android:padding=<span class="string">"10dp"</span></span><br><span class="line">              android:layout_height=<span class="string">"50dp"</span>/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">              android:text=<span class="string">"密码"</span></span><br><span class="line">              android:padding=<span class="string">"10dp"</span></span><br><span class="line">              android:gravity=<span class="string">"center_vertical|left"</span></span><br><span class="line">              android:id=<span class="string">"@+id/tvPassword"</span></span><br><span class="line">              app:layout_constraintTop_toBottomOf=<span class="string">"@id/tvPhone"</span></span><br><span class="line">              android:layout_height=<span class="string">"wrap_content"</span>/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;EditText android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">              android:hint=<span class="string">"输入手机号码"</span></span><br><span class="line">              android:id=<span class="string">"@+id/etPassword"</span></span><br><span class="line">              app:layout_constraintLeft_toLeftOf=<span class="string">"@id/barrier"</span></span><br><span class="line">              android:layout_height=<span class="string">"wrap_content"</span>/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;EditText android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">              android:hint=<span class="string">"输入密码"</span></span><br><span class="line">              app:layout_constraintTop_toBottomOf=<span class="string">"@id/etPassword"</span></span><br><span class="line">              app:layout_constraintLeft_toLeftOf=<span class="string">"@id/barrier"</span></span><br><span class="line">              android:layout_height=<span class="string">"wrap_content"</span>/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;/android.support.constraint.ConstraintLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>app:barrierDirection所引用控件对齐的位置，可设置的值有：bottom、end、left、right、start、top.constraint_referenced_ids为所引用的控件，例如这里的tvPhone,tvPasswrod。</p>
+<h4 id="Group（组）"><a href="#Group（组）" class="headerlink" title="Group（组）"></a>Group（组）</h4><p>用来控制一组view的可见性，如果view被多个Group控制，则以最后的Group定义的可见性为主。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;androidx.constraintlayout.widget.Group</span><br><span class="line">    android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">    android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">    android:visibility=<span class="string">"visible"</span></span><br><span class="line">    app:constraint_referenced_ids=<span class="string">"textView3,textView2,textView1"</span> /&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="Placeholder（占位符）"><a href="#Placeholder（占位符）" class="headerlink" title="Placeholder（占位符）"></a>Placeholder（占位符）</h4><p>一个view占位的占位符，当指定Placeholder的content属性为另一个view的id时，该view会移动到Placeholder的位置。<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">androidx.constraintlayout.widget.Placeholder</span></span></span><br><span class="line"><span class="tag">     <span class="attr">android:id</span>=<span class="string">"@+id/place_holder"</span></span></span><br><span class="line"><span class="tag">     <span class="attr">android:layout_height</span>=<span class="string">"60dp"</span></span></span><br><span class="line"><span class="tag">     <span class="attr">android:layout_width</span>=<span class="string">"100dp"</span></span></span><br><span class="line"><span class="tag">     <span class="attr">app:layout_constraintEnd_toEndOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">     <span class="attr">app:layout_constraintTop_toTopOf</span>=<span class="string">"@+id/guideline2"</span> </span></span><br><span class="line"><span class="tag">     <span class="attr">app:content</span>=<span class="string">"@id/textView3"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>也可以通过代码调用的方式移动view到PlaceHolder，如下：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">placeholder.setContentId(R.id.textView3);</span><br></pre></td></tr></table></figure></p>
+<h4 id="Optimizer"><a href="#Optimizer" class="headerlink" title="Optimizer"></a>Optimizer</h4><p>当我们使用 MATCH_CONSTRAINT 时，ConstraintLayout 将对控件进行 2 次测量，ConstraintLayout在1.1中可以通过设置 layout_optimizationLevel 进行优化，可设置的值有：</p>
+<ul>
+<li>none：无优化</li>
+<li>standard：仅优化直接约束和屏障约束（默认）</li>
+<li>direct：优化直接约束</li>
+<li>barrier：优化屏障约束</li>
+<li>chain：优化链约束</li>
+<li>dimensions：优化尺寸测量</li>
+</ul>
+<h4 id="Layer"><a href="#Layer" class="headerlink" title="Layer"></a>Layer</h4><p>把一些控件组合在一起，当作一个图层，该图层自动计算边界，也是View的子类，但是功能不是完整的，Layer并不会增加 view 的层级。</p>
+<p>支持的操作：</p>
+<ul>
+<li>设置背景色</li>
+<li>支持elevation属性</li>
+<li>设置可见性</li>
+<li>支持补间动画（alpha 是layer动，scale,rotation,transaction是其中的每个控件同时动）</li>
+<li>多个图层同时包含同一个控件</li>
+<li>图层本身支持事</li>
+<li>支持padding、不支持margin、不支持大小</li>
+</ul>
+<h4 id="自定义-Helper"><a href="#自定义-Helper" class="headerlink" title="自定义 Helper"></a>自定义 Helper</h4><p>为什么需要自定义?</p>
+<ul>
+<li>保持 view 的层级不变，不像 ViewGroup 会增加 view 的层级</li>
+<li>封装一些特定的行为，方便复用</li>
+<li>一个 View 可以被多个 Helper引用，可以很方便组合出一些复杂的效果出来</li>
+</ul>
+<p>如何自定义?</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ConstraintHelper</span> <span class="keyword">extends</span> <span class="title">View</span> </span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">abstract</span> <span class="title">class</span> <span class="title">VirtualLayout</span> <span class="keyword">extends</span> <span class="title">ConstraintHelper</span> </span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">Flow</span> <span class="keyword">extends</span> <span class="title">VirtualLayout</span></span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Helper持有 view 的引用，所以可以获取 view (getViews)然后操作 view。</li>
+<li>提供了 onLayout 前后的 callback（updatePreLayout/updatePreLayout）</li>
+<li>Helper 继承了 view，所以Helper本身也是 view</li>
+</ul>
+<h3 id="Constraintlayout-2-0新增-少见的用法"><a href="#Constraintlayout-2-0新增-少见的用法" class="headerlink" title="Constraintlayout 2.0新增/少见的用法"></a>Constraintlayout 2.0新增/少见的用法</h3><h4 id="Flow-流式布局"><a href="#Flow-流式布局" class="headerlink" title="Flow 流式布局"></a>Flow 流式布局</h4><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">androidx.constraintlayout.helper.widget.Flow</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/flow_test"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:constraint_referenced_ids</span>=<span class="string">"tvA,tvB,tvC,tvD,tvE,tvF,tvG"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:flow_firstHorizontalStyle</span>=<span class="string">"spread"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:flow_horizontalGap</span>=<span class="string">"30dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:flow_lastHorizontalStyle</span>=<span class="string">"packed"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:flow_maxElementsWrap</span>=<span class="string">"4"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:flow_verticalGap</span>=<span class="string">"30dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:flow_wrapMode</span>=<span class="string">"chain"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintEnd_toEndOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintStart_toStartOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">...</span></span></span><br></pre></td></tr></table></figure>
+<p>flow_wrapMode属性一共有四种值：</p>
+<ul>
+<li>none: 所有引用的view形成一条链，水平居中，超出屏幕两侧的view不可见.</li>
+<li>chain: 所引用的View形成一条链，超出部分会自动换行，同行的View会平分宽度，中间排列。</li>
+<li>aligned: 所引用的View形成一条链，超出部分会自动换行，同行的View会优先左侧排列。</li>
+<li>chain2: 所引用的View形成一条链，超出部分会自动换行，同行的View会平分宽度。但会导致app:flow_maxElementsWrap 属性失效</li>
+</ul>
+<p>其他属性：</p>
+<ul>
+<li><code>app:flow_maxElementsWrap=&quot;4&quot;</code> 一行几个元素</li>
+<li><code>app:flow_verticalGap=&quot;10dp&quot;</code> 竖直间距</li>
+<li><code>app:flow_horizontalGap=&quot;10dp&quot;</code> 横向间距</li>
+<li><code>android:orientation=&quot;horizontal&quot;</code>水平方向的流式还是竖直方向的流式</li>
+<li><code>app:flow_verticalAlign =&quot;top&quot;</code> 值有top，bottom，center，baseline。每一行元素的对齐方式</li>
+<li><code>app:flow_horizontalStyle = &quot;spread | spread_inside | packed&quot;</code> 当wrapMode为chain或ALIGNED时生效</li>
+<li><code>app:flow_horizontalBias = &quot;float&quot;</code> low的bias偏移，只在style为packed时生效</li>
+</ul>
+<h4 id="ImageFilterView"><a href="#ImageFilterView" class="headerlink" title="ImageFilterView"></a>ImageFilterView</h4><p>ImageFilterView继承自ImageView，可以轻松实现圆角、图片色彩调节等<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">androidx.constraintlayout.utils.widget.ImageFilterView</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">"@+id/imageFilterView"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"50dp"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"50dp"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:altSrc</span>=<span class="string">"@mipmap/ic_launcher"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:brightness</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:contrast</span>=<span class="string">"4"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:crossfade</span>=<span class="string">"0.5"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:round</span>=<span class="string">"20dp"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:roundPercent</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:srcCompat</span>=<span class="string">"@drawable/test_logo"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:warmth</span>=<span class="string">"1"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>roundPercent取值在0-1，由正方形向圆形过渡。</p>
+<p>但是以下情况可能圆角会失效：</p>
+<blockquote>
+<p>layout_width或layout_height为wrapcontent时，圆角失效。或者设置了layout_constraintHorizontal_weight，且layout_width为0dp时，圆角失效</p>
+</blockquote>
+<p>其他属性：</p>
+<ul>
+<li><code>app:altSrc=&quot;@mipmap/ic_launcher&quot;</code><br>  altSrc和src属性是一样的概念，altSrc提供的资源将会和src提供的资源通过crossfade属性形成交叉淡化效果。默认情况下,crossfade=0，altSrc所引用的资源不可见,取值在0-1</li>
+<li><code>warmth</code> 色温：1=neutral自然, 2=warm暖色, 0.5=cold冷色</li>
+<li><code>brightness</code> 亮度：0 = black暗色, 1 = original原始, 2 = twice as bright两倍亮度；</li>
+<li><code>saturation</code> 饱和度：0 = grayscale灰色, 1 = original原始, 2 = hyper saturated超饱和；</li>
+<li><code>contrast</code> 对比度：1 = unchanged原始, 0 = gray暗淡, 2 = high contrast高对比;</li>
+</ul>
+<h4 id="ImageFilterButton"><a href="#ImageFilterButton" class="headerlink" title="ImageFilterButton"></a>ImageFilterButton</h4><p>ImageFilterView与ImageFilterButton的属性一模一样，只是它两继承的父类不一样，一些操作也就不一样。ImageFilterButton继承自AppCompatImageButton, 也就是ImageButtion。而ImageFilterView继承自ImageView。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImageFilterButton</span> <span class="keyword">extends</span> <span class="title">androidx</span>.<span class="title">appcompat</span>.<span class="title">widget</span>.<span class="title">AppCompatImageButton</span> </span>&#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImageFilterView</span> <span class="keyword">extends</span> <span class="title">androidx</span>.<span class="title">appcompat</span>.<span class="title">widget</span>.<span class="title">AppCompatImageView</span> </span>&#123;</span><br><span class="line">    <span class="comment">//...</span></span><br></pre></td></tr></table></figure>
+<h4 id="MockView"><a href="#MockView" class="headerlink" title="MockView"></a>MockView</h4><p>MockView能简单的帮助构建UI界面，通过对角线形成的矩形+标签。例如：<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">androidx.constraintlayout.utils.widget.MockView</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:id</span>=<span class="string">"@+id/first"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:layout_width</span>=<span class="string">"100dp"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">android:layout_height</span>=<span class="string">"100dp"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">app:layout_constraintLeft_toLeftOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">app:layout_constraintTop_toTopOf</span>=<span class="string">"parent"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="关键帧动画"><a href="#关键帧动画" class="headerlink" title="关键帧动画"></a>关键帧动画</h3><p>在 ConstraintLayout 中，可以使用 ConstraintSet 和 TransitionManager 为尺寸和位置元素的变化添加动画效果。</p>
+<blockquote>
+<p>重要提示：ConstraintSet 动画仅为子元素的尺寸和位置添加动画效果。它们不会为其他属性（例如颜色）添加动画效果。</p>
+</blockquote>
+<p>最后，ConstraintLayout 2.0还增加了ConstraintProperties类用于通过api(代码)更新ConstraintLayout子视图，ConstraintsChangedListener监听，具体可以参考Api。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://juejin.cn/post/6949186887609221133" target="_blank" rel="noopener">https://juejin.cn/post/6949186887609221133</a></p>
+<p><a href="https://juejin.cn/post/7071165641973530638" target="_blank" rel="noopener">https://juejin.cn/post/7071165641973530638</a></p>
+<hr>
+<div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-hexo-blog-img/blogimages/attribution_88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://conorlee.top/" target="_blank" rel="noopener">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
+
+<p>本文链接：<a href="http://agehua.github.io/2023/02/10/constraintlayout-intro/">http://agehua.github.io/2023/02/10/constraintlayout-intro/</a></p>
+
+
+            
+  <!-- donate css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+         
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/btn_reward.gif") no-repeat;
+      _background: url("https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/btn_reward.gif") no-repeat;
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+<!-- Donate Module -->
+<div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+    </span>
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+
+  <div id="donate_guide" class="donate_bar center hidden" >
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
+        <a href="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+        <a href="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+      </div>
+      <div style="display:inline-block;">
+          &nbsp;
+          <span class="donate_txt">
+              Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+          </span>
+      </div>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className='hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+
+            
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2023/02/10/constraintlayout-intro/" data-id="cm4b7l9zz007am947hd012chw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2023/02/10/constraintlayout-intro/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2023/09/26/matrix-trace-canary/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Matrix TraceCanary源码分析
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2022/08/08/anr-trigger-principle/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">ANR 触发原理</div>
+        </a>
+    
+</nav>
+
+
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+    
+    <section id="comments" class="comments">
+    
+        
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2023/02/10/constraintlayout-intro/', // 可选。默认为 location.href
+  title: 'ConstraintLayout 高级用法介绍',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+    
+  </section>
+
+
+
+</article>
+
+
+</section>
+            
+                <aside id="sidebar">
+    <!-- 在_config.yml中配置了widgets，来决定widgets的顺序 -->
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/12/04/matrix-battery-canary-introducation/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/La%20Berceuse%20Augustine%20Roulin%203.jpg)" alt="Matrix Battery 介绍和使用" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/12/04/matrix-battery-canary-introducation/" class="title">Matrix Battery 介绍和使用</a></p>
+                            <p class="item-date"><time datetime="2024-12-03T16:00:00.000Z" itemprop="datePublished">2024-12-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/11/22/matrix-io-canary-introducation/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Iron%20Mill%20in%20The%20Hague.jpg)" alt="Matrix io 介绍和使用" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/11/22/matrix-io-canary-introducation/" class="title">Matrix io 介绍和使用</a></p>
+                            <p class="item-date"><time datetime="2024-11-21T16:00:00.000Z" itemprop="datePublished">2024-11-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/04/24/jacoco-test-coverage/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Irises.jpg)" alt="代码覆盖率统计——集成Jacoco" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/04/24/jacoco-test-coverage/" class="title">代码覆盖率统计——集成Jacoco</a></p>
+                            <p class="item-date"><time datetime="2024-04-23T16:00:00.000Z" itemprop="datePublished">2024-04-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/11/13/native-crash-anr-log-analysis/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg)" alt="Native Crash日志分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/11/13/native-crash-anr-log-analysis/" class="title">Native Crash日志分析</a></p>
+                            <p class="item-date"><time datetime="2023-11-12T16:00:00.000Z" itemprop="datePublished">2023-11-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/11/02/native-crash-principle/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Houses%20in%20Auvers.jpg)" alt="Native Crash捕获原理" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/11/02/native-crash-principle/" class="title">Native Crash捕获原理</a></p>
+                            <p class="item-date"><time datetime="2023-11-01T16:00:00.000Z" itemprop="datePublished">2023-11-02</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">81</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/agp/" style="font-size: 11.67px;">AGP</a> <a href="/tags/aidl/" style="font-size: 13.33px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/anr/" style="font-size: 13.33px;">ANR</a> <a href="/tags/aop/" style="font-size: 10px;">AOP</a> <a href="/tags/aosp/" style="font-size: 11.67px;">AOSP</a> <a href="/tags/asm/" style="font-size: 10px;">ASM</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-source-code/" style="font-size: 18.33px;">Android Source Code</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 11.67px;">Annotation</a> <a href="/tags/asyncinflate/" style="font-size: 10px;">AsyncInflate</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 16.67px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16.67px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/constraintlayout/" style="font-size: 11.67px;">ConstraintLayout</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview/" style="font-size: 16.67px;">Interview</a> <a href="/tags/jni/" style="font-size: 13.33px;">JNI</a> <a href="/tags/jvm/" style="font-size: 11.67px;">JVM</a> <a href="/tags/jacoco/" style="font-size: 10px;">Jacoco</a> <a href="/tags/java/" style="font-size: 15px;">Java</a> <a href="/tags/javascript/" style="font-size: 11.67px;">JavaScript</a> <a href="/tags/kotlin/" style="font-size: 11.67px;">Kotlin</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 11.67px;">Looper</a> <a href="/tags/matrix/" style="font-size: 11.67px;">Matrix</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/native-crash/" style="font-size: 11.67px;">Native Crash</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 11.67px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 11.67px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 16.67px;">RecyclerView</a> <a href="/tags/recyclerview-optimization/" style="font-size: 10px;">RecyclerView optimization</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 11.67px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/transform/" style="font-size: 10px;">Transform</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 11.67px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/multi-process/" style="font-size: 11.67px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/picture-in-picture/" style="font-size: 10px;">picture-in-picture</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 11.67px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 13.33px;">toastmaster</a> <a href="/tags/view-scroll/" style="font-size: 10px;">view scroll</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://conorlee.top">我的阿里云博客(求赞助)</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://agehua.github.io/">My Github Pages</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://invitation.conorlee.top/MrLiAndTeacherTian_WeddingInvitation.html">Wedding Invitation(手机观看最佳)</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2024 ConorLee<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2023/02/10/constraintlayout-intro/', // 可选。默认为 location.href
+  title: 'ConstraintLayout 高级用法介绍',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+<script>
+    var bigfa_scroll = {
+        drawCircle: function(id, percentage, color) {
+            var width = jQuery(id).width();
+            var height = jQuery(id).height();
+            var radius = parseInt(width / 2.20);
+            var position = width;
+            var positionBy2 = position / 2;
+            var bg = jQuery(id)[0];
+            id = id.split("# ");
+            var ctx = bg.getContext("2d");
+            var imd = null;
+            var circ = Math.PI * 2;
+            var quart = Math.PI / 2;
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineCap = "square";
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineWidth = 3;
+            imd = ctx.getImageData(0, 0, position, position);
+            var draw = function(current, ctxPass) {
+                ctxPass.putImageData(imd, 0, 0);
+                ctxPass.beginPath();
+                ctxPass.arc(positionBy2, positionBy2, radius, -(quart), ((circ) * current) - quart, false);
+                ctxPass.stroke();
+            }
+            draw(percentage / 100, ctx);
+        },
+        backToTop: function($this) {
+            $this.click(function() {
+                jQuery("body,html").animate({
+                    scrollTop: 0
+                },
+                800);
+                return false;
+            });
+        },
+        scrollHook: function($this, color) {
+            color = color ? color: "# 000000";
+            $this.scroll(function() {
+                var docHeight = (jQuery(document).height() - jQuery(window).height()),
+                $windowObj = $this,
+                $per = jQuery(".per"),
+                percentage = 0;
+                defaultScroll = $windowObj.scrollTop();
+                percentage = parseInt((defaultScroll / docHeight) * 100);
+                var backToTop = jQuery("# backtoTop");
+                if (backToTop.length > 0) {
+                    if ($windowObj.scrollTop() > 200) {
+                        backToTop.addClass("button--show");
+                    } else {
+                        backToTop.removeClass("button--show");
+                    }
+                    $per.attr("data-percent", percentage);
+                    bigfa_scroll.drawCircle("# backtoTopCanvas", percentage, color);
+                }
+            });
+        }
+    }
+
+</script>
+
+
+    </div>
+    <!-- <script src="http://cdn.maxjia.com/js/particles.min.js"></script> -->
+  
+  
+    <canvas class="fireworks" style="position: fixed; left: 0px; top: 0px; z-index: 1; pointer-events: none; width: 1440px; height: 416px;" width="2880" height="832"></canvas>
+    
+
+      <script type="text/javascript" src="/js/anime.min.js"></script>
+      <script type="text/javascript" src="/js/firework.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/33.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

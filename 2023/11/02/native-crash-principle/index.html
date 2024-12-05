@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="google-site-verification" content="TYEtqE2Xc2ZonkJumwKut0-iq4RVbEc8o5Y8HpmZ-eo" />
+    <meta name="baidu-site-verification" content="8WKGBCPPKp" />
+    <meta charset="utf-8">
+    
+    <title>Native Crash捕获原理 | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="本文主要介绍Native Crash捕获原理">
+<meta name="keywords" content="Native Crash">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Native Crash捕获原理">
+<meta property="og:url" content="http://agehua.github.io/2023/11/02/native-crash-principle/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="本文主要介绍Native Crash捕获原理">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Houses%20in%20Auvers.jpg">
+<meta property="og:updated_time" content="2024-12-05T09:41:25.324Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Native Crash捕获原理">
+<meta name="twitter:description" content="本文主要介绍Native Crash捕获原理">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Houses%20in%20Auvers.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+
+
+    <link rel="icon" sizes="192x192" href="images/icon.png">
+    <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+    <!--text spacing-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+
+</head>
+
+
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+
+                <a class="main-nav-link" href='javascript:(
+        /*
+         * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *      http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         */
+        function go() {
+
+
+        var songs = [
+                    "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
+                    "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
+                    "https://static.rocko.xyz/audio/Music-outside.mp3",
+                    "https://static.rocko.xyz/audio/Music-sunburst.mp3"
+        ];
+
+
+        function c() {
+            var e = document.createElement("link");
+            e.setAttribute("type", "text/css");
+            e.setAttribute("rel", "stylesheet");
+            e.setAttribute("href", f);
+            e.setAttribute("class", l);
+            document.body.appendChild(e)
+        }
+
+        function h() {
+            var e = document.getElementsByClassName(l);
+            for (var t = 0; t < e.length; t++) {
+                document.body.removeChild(e[t])
+            }
+        }
+
+        function p() {
+            var e = document.createElement("div");
+            e.setAttribute("class", a);
+            document.body.appendChild(e);
+            setTimeout(function() {
+                document.body.removeChild(e)
+            }, 100)
+        }
+
+        function d(e) {
+            return {
+                height : e.offsetHeight,
+                width : e.offsetWidth
+            }
+        }
+
+        function v(i) {
+            var s = d(i);
+            return s.height > e && s.height < n && s.width > t && s.width < r
+        }
+
+        function m(e) {
+            var t = e;
+            var n = 0;
+            while (!!t) {
+                n += t.offsetTop;
+                t = t.offsetParent
+            }
+            return n
+        }
+
+        function g() {
+            var e = document.documentElement;
+            if (!!window.innerWidth) {
+                return window.innerHeight
+            } else if (e && !isNaN(e.clientHeight)) {
+                return e.clientHeight
+            }
+            return 0
+        }
+
+        function y() {
+            if (window.pageYOffset) {
+                return window.pageYOffset
+            }
+            return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+        }
+
+        function E(e) {
+            var t = m(e);
+            return t >= w && t <= b + w
+        }
+
+        function S() {
+            var e = document.getElementById("audio_element_id");
+            if(e != null){
+                var index = parseInt(e.getAttribute("curSongIndex"));
+                if(index > songs.length - 2) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                e.setAttribute("curSongIndex", index);
+                N();
+            }
+
+            e.src = i;
+            e.play()
+        }
+
+        function x(e) {
+            e.className += " " + s + " " + o
+        }
+
+        function T(e) {
+            e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+        }
+
+        function N() {
+            var e = document.getElementsByClassName(s);
+            var t = new RegExp("\\b" + s + "\\b");
+            for (var n = 0; n < e.length; ) {
+                e[n].className = e[n].className.replace(t, "")
+            }
+        }
+
+        function initAudioEle() {
+            var e = document.getElementById("audio_element_id");
+            if(e === null){
+                e = document.createElement("audio");
+                e.setAttribute("class", l);
+                e.setAttribute("curSongIndex", 0);
+                e.id = "audio_element_id";
+                e.loop = false;
+                e.bgcolor = 0;
+                e.addEventListener("canplay", function() {
+                setTimeout(function() {
+                    x(k)
+                }, 500);
+                setTimeout(function() {
+                    N();
+                    p();
+                    for (var e = 0; e < O.length; e++) {
+                        T(O[e])
+                    }
+                }, 15500)
+            }, true);
+            e.addEventListener("ended", function() {
+                N();
+                h();
+                go();
+            }, true);
+            e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+            document.body.appendChild(e);
+            }
+        }
+
+        initAudioEle();
+        var e = 30;
+        var t = 30;
+        var n = 350;
+        var r = 350;
+
+        var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+        var i = songs[curSongIndex];
+
+        var s = "mw-harlem_shake_me";
+        var o = "im_first";
+        var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+        var a = "mw-strobe_light";
+
+        /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
+        var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+
+        var l = "mw_added_css";
+        var b = g();
+        var w = y();
+        var C = document.getElementsByTagName("*");
+        var k = null;
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                if (E(A)) {
+                    k = A;
+                    break
+                }
+            }
+        }
+        if (A === null) {
+            console.warn("Could not find a node of the right size. Please try a different page.");
+            return
+        }
+        c();
+        S();
+        var O = [];
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                O.push(A)
+            }
+        }
+        })()'>High一下</a>
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/profile.jpeg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+
+
+        </div>
+    </div>
+
+
+    <div id="main-nav-mobile" class="header-sub header-inner">
+
+        <table class="menu outer">
+
+
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    
+</header>
+
+        <div class="outer">
+            
+                
+
+
+<aside id="profile">
+    <div class="inner profile-inner" id="profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/profile.jpeg" />
+            <h2 id="name">Conor Lee</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                97
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                104
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+
+        <a href="https://github.com/agehua" class="github-corner" aria-label="View source on Github">
+          <svg width="64" height="64" viewBox="0 0 250 250" style="fill:#cba11f; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+            <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+          </svg>
+        </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+    <div id='toc-col' class="toc-col">
+        
+            <div id='toc-wrap' class="toc-wrap">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#目前流行的Native-Crash捕获方案"><span class="toc-number">1.</span> <span class="toc-text">目前流行的Native Crash捕获方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#本次实践采用方案三（unwind）"><span class="toc-number">2.</span> <span class="toc-text">本次实践采用方案三（unwind）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现方案细节"><span class="toc-number">3.</span> <span class="toc-text">实现方案细节</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、知道-Crash-的发生"><span class="toc-number">3.1.</span> <span class="toc-text">一、知道 Crash 的发生</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#siginfo-t-结构体"><span class="toc-number">3.1.1.</span> <span class="toc-text">siginfo_t 结构体</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、捕获到Crash的位置"><span class="toc-number">3.2.</span> <span class="toc-text">二、捕获到Crash的位置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#设置紧急栈空间"><span class="toc-number">3.2.1.</span> <span class="toc-text">设置紧急栈空间</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、捕获出问题的代码"><span class="toc-number">3.3.</span> <span class="toc-text">三、捕获出问题的代码</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#pc值转内存地址"><span class="toc-number">3.3.1.</span> <span class="toc-text">pc值转内存地址</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取-Crash-发生时的函数调用栈"><span class="toc-number">3.4.</span> <span class="toc-text">获取 Crash 发生时的函数调用栈</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、数据传回到服务器"><span class="toc-number">4.</span> <span class="toc-text">四、数据传回到服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#目前遗留的问题"><span class="toc-number">5.</span> <span class="toc-text">目前遗留的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ref"><span class="toc-number">6.</span> <span class="toc-text">Ref</span></a></li></ol>
+            </div>
+        
+    </div>
+</aside>
+
+<script type="text/javascript">
+/*
+    滚动函数
+    接收三个参数,
+        1 接收一个DOM对象
+        2 给目标对象切换class
+        3 触发的高度 (可选项,如果不指定高度,会将DOM的高度作为触发高度)
+*/
+function scrollCheck(scrollTarget, toggleClass, scrollHeight){
+    document.addEventListener('scroll',function(){
+    var currentTop = window.pageYOffset;
+        currentTop > (scrollHeight||scrollTarget.clientHeight)
+        ?scrollTarget.classList.add(toggleClass)
+        :scrollTarget.classList.remove(toggleClass)
+    })
+}
+
+(function(){
+      try {
+        document.getElementById("toc-wrap").style.width= document.getElementById("profile-inner").offsetWidth+ "px";
+        var introHeader = document.querySelector('.inner.profile-inner').offsetHeight;
+        var toc = document.querySelector('.toc-wrap');
+        scrollCheck(toc,'toc-fixed',introHeader+40+64);
+      }catch(err){
+
+      }
+        // var node = document.querySelector('.profile-inner');
+        // scrollCheck(node,'profile-inner-fixed',64);
+})();
+</script>
+
+            
+            <section id="main"><article id="post-native-crash-principle" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-inner">
+        
+            
+	
+		<img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Houses%20in%20Auvers.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Native Crash捕获原理
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2023/11/02/native-crash-principle/">
+            <time datetime="2023-11-01T16:00:00.000Z" itemprop="datePublished">2023-11-02</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/native-crash/">Native Crash</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">7 min read , Words: 1399</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+
+            <p>本文主要介绍Native Crash捕获原理<br><a id="more"></a></p>
+<h3 id="目前流行的Native-Crash捕获方案"><a href="#目前流行的Native-Crash捕获方案" class="headerlink" title="目前流行的Native Crash捕获方案"></a>目前流行的Native Crash捕获方案</h3><table>
+<thead>
+<tr>
+<th style="text-align:center"><em>方案</em></th>
+<th style="text-align:center"><em>优点</em></th>
+<th style="text-align:center"><em>缺点</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Google Breakpad</td>
+<td style="text-align:center">官方出品，多平台支持，文档全面</td>
+<td style="text-align:center">代码体量大，crash信息保存在mini_dump文件中，拿到dump文件后，需要再次解析才能获取crash堆栈</td>
+</tr>
+<tr>
+<td style="text-align:center">利用Logcat日志</td>
+<td style="text-align:center">利用Android系统实现</td>
+<td style="text-align:center">需要再Crash时启动新进程过滤logcat日志，不可靠</td>
+</tr>
+<tr>
+<td style="text-align:center">unwind库</td>
+<td style="text-align:center">实现简单，改动容易。很多三方库也是基于该方案</td>
+<td style="text-align:center">需要了解信号机制，自行实现获取Crash堆栈方式</td>
+</tr>
+</tbody>
+</table>
+<h3 id="本次实践采用方案三（unwind）"><a href="#本次实践采用方案三（unwind）" class="headerlink" title="本次实践采用方案三（unwind）"></a>本次实践采用方案三（unwind）</h3><ul>
+<li>使用 <code>信号量+&lt;unwind.h&gt;</code>库。</li>
+<li>崩溃信息写入文件，通过 log 上传到日志平台（Elastic）</li>
+<li>下次启动后读取文件内容上报，然后删除文件</li>
+<li>对java层的崩溃捕获不会有任何影响，Native层Crash bugly不再能够捕获异常</li>
+</ul>
+<h3 id="实现方案细节"><a href="#实现方案细节" class="headerlink" title="实现方案细节"></a>实现方案细节</h3><p>要实现 Native Crash 的收集，主要有四个重点：</p>
+<ul>
+<li>知道 Crash 的发生；</li>
+<li>捕获到 Crash 的位置；</li>
+<li>获取 Crash 发生位置的函数调用栈；</li>
+<li>数据能回传到服务器。</li>
+</ul>
+<h4 id="一、知道-Crash-的发生"><a href="#一、知道-Crash-的发生" class="headerlink" title="一、知道 Crash 的发生"></a>一、知道 Crash 的发生</h4><p>与 Java 平台不同，C/C++ 没有一个通用的异常处理接口，在 C 层，CPU 通过异常中断的方式，触发异常处理流程。不同的处理器，有不同的异常中断类型和中断处理方式，linux 把这些中断处理，统一为信号量，每一种异常都有一个对应的信号，可以注册回调函数进行处理需要关注的信号量。</p>
+<p>信号量定义在 signal.h 中，常见的信号量有：<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGHUP 1 <span class="comment">// 终端连接结束时发出(不管正常或非正常)</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGINT 2 <span class="comment">// 程序终止(例如Ctrl-C)</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGQUIT 3 <span class="comment">// 程序退出(Ctrl-\)</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGILL 4 <span class="comment">// 执行了非法指令，或者试图执行数据段，堆栈溢出</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGTRAP 5 <span class="comment">// 断点时产生，由debugger使用</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGABRT 6 <span class="comment">// 调用abort函数生成的信号，表示程序异常</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGIOT 6 <span class="comment">// 同上，更全，IO异常也会发出</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGBUS 7 <span class="comment">// 非法地址，包括内存地址对齐出错，比如访问一个4字节的整数, 但其地址不是4的倍数</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGFPE 8 <span class="comment">// 计算错误，比如除0、溢出</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGKILL 9 <span class="comment">// 强制结束程序，具有最高优先级，本信号不能被阻塞、处理和忽略</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGUSR1 10 <span class="comment">// 未使用，保留</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGSEGV 11 <span class="comment">// 非法内存操作，与SIGBUS不同，他是对合法地址的非法访问，比如访问没有读权限的内存，向没有写权限的地址写数据</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGUSR2 12 <span class="comment">// 未使用，保留</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGPIPE 13 <span class="comment">// 管道破裂，通常在进程间通信产生</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGALRM 14 <span class="comment">// 定时信号,</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGTERM 15 <span class="comment">// 结束程序，类似温和的SIGKILL，可被阻塞和处理。通常程序如果终止不了，才会尝试SIGKILL</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGSTKFLT 16 <span class="comment">// 协处理器堆栈错误</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGCHLD 17 <span class="comment">// 子进程结束时, 父进程会收到这个信号。</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGCONT 18 <span class="comment">// 让一个停止的进程继续执行</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGSTOP 19 <span class="comment">// 停止进程,本信号不能被阻塞,处理或忽略</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGTSTP 20 <span class="comment">// 停止进程,但该信号可以被处理和忽略</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGTTIN 21 <span class="comment">// 当后台作业要从用户终端读数据时, 该作业中的所有进程会收到SIGTTIN信号</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGTTOU 22 <span class="comment">// 类似于SIGTTIN, 但在写终端时收到</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGURG 23 <span class="comment">// 有紧急数据或out-of-band数据到达socket时产生</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGXCPU 24 <span class="comment">// 超过CPU时间资源限制时发出</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGXFSZ 25 <span class="comment">// 当进程企图扩大文件以至于超过文件大小资源限制</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGVTALRM 26 <span class="comment">// 虚拟时钟信号. 类似于SIGALRM, 但是计算的是该进程占用的CPU时间.</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGPROF 27 <span class="comment">// 类似于SIGALRM/SIGVTALRM, 但包括该进程用的CPU时间以及系统调用的时间</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGWINCH 28 <span class="comment">// 窗口大小改变时发出</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGIO 29 <span class="comment">// 文件描述符准备就绪, 可以开始进行输入/输出操作</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGPOLL SIGIO <span class="comment">// 同上，别称</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGPWR 30 <span class="comment">// 电源异常</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIGSYS 31 <span class="comment">// 非法的系统调用</span></span></span><br></pre></td></tr></table></figure></p>
+<p>注册信号处理函数，也是在 signal.h 中：<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sigaction</span><span class="params">(<span class="keyword">int</span> __signal, <span class="keyword">const</span> <span class="keyword">struct</span> sigaction* __new_action, <span class="keyword">struct</span> sigaction* __old_action)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>第一个参数 int 类型，表示需要关注的信号量</li>
+<li>第二个参数 sigaction 结构体指针，用于声明当某个特定信号发生的时候，应该如何处理</li>
+<li>第三个参数也是 sigaction 结构体指针，他表示的是默认处理方式，当我们自定义了新的信号量处理的时候，用他来存储之前默认的处理方式。<br>这也是指针与引用的区别，指针操作操作的都是变量本身，所以给新指针赋值了以后，需要另一个指针来记录封装了默认处理方式的变量在内存中的位置。</li>
+</ul>
+<p>sigaction 内容结构体如下：<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> sigaction &#123;</span><br><span class="line">  <span class="keyword">union</span> &#123;</span><br><span class="line">    <span class="keyword">sighandler_t</span> sa_handler;</span><br><span class="line">    <span class="keyword">void</span> (*sa_sigaction)(<span class="keyword">int</span>, <span class="keyword">struct</span> siginfo*, <span class="keyword">void</span>*);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">sigset_t</span> sa_mask;</span><br><span class="line">  <span class="keyword">int</span> sa_flags;</span><br><span class="line">  <span class="keyword">void</span> (*sa_restorer)(<span class="keyword">void</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>sa_sigaction就是信号处理函数的指针，这个指针指向的是一个拥有三个参数的函数，结构体中定义的函数指针为：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">void</span> (*sa_sigaction)(<span class="keyword">int</span>, <span class="keyword">struct</span> <span class="keyword">siginfo_t</span>  *,<span class="keyword">void</span> *)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>1.第一个参数为信号值</li>
+<li>2.第二个参数为信号的一些具体信息</li>
+<li>3.第三个参数为一些上下文信息, 包括崩溃时的 pc 值</li>
+</ul>
+<h5 id="siginfo-t-结构体"><a href="#siginfo-t-结构体" class="headerlink" title="siginfo_t 结构体"></a>siginfo_t 结构体</h5><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">siginfo_t</span> &#123;</span><br><span class="line">    <span class="keyword">int</span>      si_signo;     <span class="comment">/* 信号数值 */</span></span><br><span class="line">    <span class="keyword">int</span>      si_errno;     <span class="comment">/* 错误值 */</span></span><br><span class="line">    <span class="keyword">int</span>      si_code;      <span class="comment">/* 信号代码 */</span></span><br><span class="line">    <span class="keyword">int</span>      si_trapno;   <span class="comment">/*导致硬件生成信号的陷阱号，在大多数体系结构中未使用*/</span></span><br><span class="line">    <span class="keyword">pid_t</span>    si_pid;       <span class="comment">/* 发送信号的进程ID */</span></span><br><span class="line">    <span class="keyword">uid_t</span>    si_uid;       <span class="comment">/*发送信号的真实用户ID */</span></span><br><span class="line">    <span class="keyword">int</span>      si_status;    <span class="comment">/* 退出值或信号状态*/</span></span><br><span class="line">    <span class="keyword">clock_t</span>  si_utime;     <span class="comment">/*消耗的用户时间*/</span></span><br><span class="line">    <span class="keyword">clock_t</span>  si_stime;     <span class="comment">/*消耗的系统时间*/</span></span><br><span class="line">    <span class="keyword">sigval_t</span> si_value;     <span class="comment">/*信号值*/</span></span><br><span class="line">    <span class="keyword">int</span>      si_int;       <span class="comment">/* POSIX.1b 信号*/</span></span><br><span class="line">    <span class="keyword">void</span>    *si_ptr;</span><br><span class="line">    <span class="keyword">int</span>      si_overrun;   <span class="comment">/*计时器溢出计数*/</span></span><br><span class="line">    <span class="keyword">int</span>      si_timerid;   <span class="comment">/* 计时器ID */</span></span><br><span class="line">    <span class="keyword">void</span>    *si_addr;      <span class="comment">/*导致故障的内存位置 */</span></span><br><span class="line">    <span class="keyword">long</span>     si_band;</span><br><span class="line">    <span class="keyword">int</span>      si_fd;        <span class="comment">/* 文件描述符*/</span></span><br><span class="line">    <span class="keyword">short</span>    si_addr_lsb;  <span class="comment">/*地址的最低有效位 (从Linux 2.6.32开始存在) */</span></span><br><span class="line">    <span class="keyword">void</span>    *si_lower;     <span class="comment">/*地址冲突时的下限*/</span></span><br><span class="line">    <span class="keyword">void</span>    *si_upper;     <span class="comment">/*地址冲突时的上限 (从Linux 3.19开始存在) */</span></span><br><span class="line">    <span class="keyword">int</span>      si_pkey;      <span class="comment">/*导致的PTE上的保护密钥*/</span></span><br><span class="line">    <span class="keyword">void</span>    *si_call_addr; <span class="comment">/*系统调用指令的地址*/</span></span><br><span class="line">    <span class="keyword">int</span>      si_syscall;   <span class="comment">/*尝试的系统调用次数*/</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> si_arch;  <span class="comment">/* 尝试的系统调用的体系结构*/</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>结构体内包含了我们常见的si_signo、si_code、si_errno等。类似：Native Crash, signal: 11, tname: conorlee.test, pid: 13283, tid: 13283, code: 1, error: 0</p>
+</blockquote>
+<p>所以，要订阅异常发生的信号，最简单的做法就是直接用一个循环遍历所有要订阅的信号，对每个信号调用sigaction()，如下示例：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">struct</span> sigaction handler;</span><br><span class="line">	<span class="keyword">struct</span> sigaction old_signal_handlers[SIGNALS_LEN];</span><br><span class="line"> 	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; SIGNALS_LEN; ++i) &#123;</span><br><span class="line"> 		sigaction(signal_array[i], &amp;handler, &amp; old_signal_handlers[i]);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="二、捕获到Crash的位置"><a href="#二、捕获到Crash的位置" class="headerlink" title="二、捕获到Crash的位置"></a>二、捕获到Crash的位置</h4><p>然后，我们仿照上面的信号处理函数定义，可以声明一个函数，直接将函数的地址赋值给sa_sigaction</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 我们声明的函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">signal_handle</span><span class="params">(<span class="keyword">int</span> code, <span class="keyword">siginfo_t</span> *si, <span class="keyword">void</span> *context)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> <span class="keyword">struct</span> sigaction old_signal_handlers[SIGNALS_LEN];</span><br><span class="line"> <span class="keyword">struct</span> sigaction handler;</span><br><span class="line"> <span class="comment">// 赋值给该指针</span></span><br><span class="line"> handler.sa_sigaction = signal_handle;</span><br><span class="line"> handler.sa_flags = SA_SIGINFO;</span><br><span class="line"> <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; SIGNALS_LEN; ++i) &#123;</span><br><span class="line"> sigaction(signal_array[i], &amp;handler, &amp; old_signal_handlers[i]);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样当发生 Crash 的时候就会回调我们传入的signal_handle()函数了。在signal_handle()函数中，通过siginfo_t 结构体，我们就能拿到当前执行的代码信息。</p>
+<h5 id="设置紧急栈空间"><a href="#设置紧急栈空间" class="headerlink" title="设置紧急栈空间"></a>设置紧急栈空间</h5><p>如果当前函数发生了无限递归造成堆栈溢出，在统计的时候需要考虑到这种情况来新开堆栈，否则本来就满了的堆栈又在当前堆栈处理溢出信号，处理肯定是会失败的。所以我们需要设置一个用于紧急处理的新栈，可以使用 <strong>sigaltstack()</strong> 在任意线程注册一个可选的栈，保留一下在紧急情况下使用的空间。（系统会在危险情况下把栈指针指向这个地方，使得可以在一个新的栈上运行信号处理函数）</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">signal_handle_test</span><span class="params">(<span class="keyword">int</span> sig)</span> </span>&#123;</span><br><span class="line"> write(<span class="number">2</span>, <span class="string">"stack overflow\n"</span>, <span class="number">15</span>);</span><br><span class="line"> _exit(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="title">infinite_recursion</span><span class="params">(<span class="keyword">unsigned</span> x)</span> </span>&#123;</span><br><span class="line"> <span class="keyword">return</span> infinite_recursion(x)+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> <span class="keyword">static</span> <span class="keyword">char</span> <span class="built_in">stack</span>[SIGSTKSZ];</span><br><span class="line"> <span class="keyword">stack_t</span> ss = &#123;</span><br><span class="line"> .ss_size = SIGSTKSZ,</span><br><span class="line"> .ss_sp = <span class="built_in">stack</span>,</span><br><span class="line"> &#125;;</span><br><span class="line"> <span class="keyword">struct</span> sigaction sa = &#123;</span><br><span class="line"> .sa_handler = signal_handle_test,</span><br><span class="line"> .sa_flags = SA_ONSTACK</span><br><span class="line"> &#125;;</span><br><span class="line"> sigaltstack(&amp;ss, <span class="number">0</span>);</span><br><span class="line"> sigfillset(&amp;sa.sa_mask);</span><br><span class="line"> sigaction(SIGSEGV, &amp;sa, <span class="number">0</span>);</span><br><span class="line"> infinite_recursion(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="三、捕获出问题的代码"><a href="#三、捕获出问题的代码" class="headerlink" title="三、捕获出问题的代码"></a>三、捕获出问题的代码</h4><p>signal_handle() 函数中的第三个参数 context 是<strong>uc_mcontext</strong>的结构体指针，它封装了 cpu 相关的上下文，包括当前线程的寄存器信息和奔溃时的 pc 值，能够知道崩溃时的pc，就能知道崩溃时执行的是那条指令。</p>
+<p>不过<strong>uc_mcontext</strong>结构体的定义是平台相关的，比如我们熟知的arm、x86这种都不是同一个结构体定义，要兼容其他架构的 cpu 在处理的时候，就得要寄出宏编译大法，不同的架构使用不同的定义，如下展示了不同架构获取pc值（绝对内存地址）的不同方式：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">uintptr_t</span> pc_from_ucontext(<span class="keyword">const</span> <span class="keyword">ucontext_t</span> *uc) &#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> (defined(__arm__))</span></span><br><span class="line"> <span class="keyword">return</span> uc-&gt;uc_mcontext.arm_pc;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> defined(__aarch64__)</span></span><br><span class="line"> <span class="keyword">return</span> uc-&gt;uc_mcontext.pc;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> (defined(__x86_64__))</span></span><br><span class="line"> <span class="keyword">return</span> uc-&gt;uc_mcontext.gregs[REG_RIP];</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> (defined(__i386))</span></span><br><span class="line"> <span class="keyword">return</span> uc-&gt;uc_mcontext.gregs[REG_EIP];</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> (defined (__ppc__)) || (defined (__powerpc__))</span></span><br><span class="line"> <span class="keyword">return</span> uc-&gt;uc_mcontext.regs-&gt;nip;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> (defined(__hppa__))</span></span><br><span class="line"> <span class="keyword">return</span> uc-&gt;uc_mcontext.sc_iaoq[<span class="number">0</span>] &amp; ~<span class="number">0x3</span>UL;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> (defined(__sparc__) &amp;&amp; defined (__arch64__))</span></span><br><span class="line"> <span class="keyword">return</span> uc-&gt;uc_mcontext.mc_gregs[MC_PC];</span><br><span class="line"><span class="meta">#<span class="meta-keyword">elif</span> (defined(__sparc__) &amp;&amp; !defined (__arch64__))</span></span><br><span class="line"> <span class="keyword">return</span> uc-&gt;uc_mcontext.gregs[REG_PC];</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">error</span> <span class="meta-string">"Architecture is unknown, please report me!"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="pc值转内存地址"><a href="#pc值转内存地址" class="headerlink" title="pc值转内存地址"></a>pc值转内存地址</h5><p>pc值是程序加载到内存中的绝对地址，绝对地址不能直接使用，因为每次程序运行创建的内存肯定都不是固定区域的内存，所以绝对地址肯定每次运行都不一致。我们需要拿到崩溃代码相对于当前库的相对偏移地址，这样才能使用 addr2line 分析出是哪一行代码。</p>
+<p>通过 <strong>dladdr()</strong> 可以获得共享库加载到内存的起始地址，和pc值相减就可以获得相对偏移地址，并且可以获得共享库的名字。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Dl_info info; </span><br><span class="line"><span class="keyword">if</span> (dladdr(addr, &amp;info) &amp;&amp; info.dli_fname) &#123; </span><br><span class="line"> <span class="keyword">void</span> * <span class="keyword">const</span> nearest = info.dli_saddr; </span><br><span class="line"> <span class="keyword">uintptr_t</span> addr_relative = addr - info.dli_fbase; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="获取-Crash-发生时的函数调用栈"><a href="#获取-Crash-发生时的函数调用栈" class="headerlink" title="获取 Crash 发生时的函数调用栈"></a>获取 Crash 发生时的函数调用栈</h4><p>获取函数调用栈是最麻烦的，至今没有一个好用的，全都要做一些大改动。常见的做法有四种：</p>
+<ul>
+<li>第一种：直接使用系统的<code>&lt;unwind.h&gt;</code>库，可以获取到出错文件与函数名。只不过需要自己解析函数符号，同时经常会捕获到系统错误，需要手动过滤。</li>
+<li>第二种：在4.1.1以上，5.0以下，使用系统自带的 libcorkscrew.so，5.0开始，系统中没有了libcorkscrew.so，可以自己编译系统源码中的libunwind。libunwind是一个开源库，事实上高版本的安卓源码中就使用了他的优化版替换 libcorkscrew。</li>
+<li>第三种：使用开源库coffeecatch，但是这种方案也不能百分之百兼容所有机型。</li>
+<li>第四种：使用 Google 的breakpad，这是所有 C/C++堆栈获取的权威方案，基本上业界都是基于这个库来做的。只不过这个库是全平台的 android、iOS、Windows、Linux、MacOS 全都有，所以非常大，在使用的时候得把无关的平台剥离掉减小体积。</li>
+</ul>
+<p>下面以第一种为例讲一下实现：</p>
+<p>核心方法是使用<code>&lt;unwind.h&gt;</code>库提供的一个方法<code>_Unwind_Backtrace()</code>这个函数可以传入一个函数指针作为回调，指针指向的函数有一个重要的参数是<code>_Unwind_Context</code>类型的结构体指针。<br>可以使用<code>_Unwind_GetIP()</code>函数将当前函数调用栈中每个函数的绝对内存地址（也就是上文中提到的 pc 值），写入到_Unwind_Context结构体中，最终返回的是当前调用栈的全部函数地址了，_Unwind_Word实际上就是一个unsigned int。<br>而capture_backtrace()返回的就是当前我们获取到调用栈中内容的数量。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * callback used when using &lt;unwind.h&gt; to get the trace for the current context</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">_<span class="function">Unwind_Reason_Code <span class="title">unwind_callback</span><span class="params">(<span class="keyword">struct</span> _Unwind_Context *context, <span class="keyword">void</span> *arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">backtrace_state_t</span> *state = (<span class="keyword">backtrace_state_t</span> *) arg;</span><br><span class="line">    _Unwind_Word pc = _Unwind_GetIP(context);</span><br><span class="line">    <span class="keyword">if</span> (pc) &#123;</span><br><span class="line">        <span class="keyword">if</span> (state-&gt;current == state-&gt;end) &#123;</span><br><span class="line">            <span class="keyword">return</span> _URC_END_OF_STACK;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            *state-&gt;current++ = (<span class="keyword">void</span> *) pc;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _URC_NO_REASON;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * uses built in &lt;unwind.h&gt; to get the trace for the current context</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">size_t</span> capture_backtrace(<span class="keyword">void</span> **buffer, <span class="keyword">size_t</span> max) &#123;</span><br><span class="line">    <span class="keyword">backtrace_state_t</span> state = &#123;buffer, buffer + max&#125;;</span><br><span class="line">    _Unwind_Backtrace(unwind_callback, &amp;state);</span><br><span class="line">    <span class="keyword">return</span> state.current - buffer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当所有的函数的绝对内存地址(pc 值)都获取到了，就可以用上文讲的办法将 pc 值转换为相对偏移量，获取到真正的函数信息和相对内存地址了。<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">void</span> *buffer[max_line];</span><br><span class="line"><span class="keyword">int</span> frames_size = capture_backtrace(buffer, max_line);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; frames_size; i++) &#123;</span><br><span class="line">    Dl_info info;  </span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">void</span> *addr = buffer[i];</span><br><span class="line">    <span class="keyword">if</span> (dladdr(addr, &amp;info) &amp;&amp; info.dli_fname) &#123;  </span><br><span class="line">      <span class="keyword">void</span> * <span class="keyword">const</span> nearest = info.dli_saddr;  </span><br><span class="line">      <span class="keyword">uintptr_t</span> addr_relative = addr - info.dli_fbase;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Dl_info是一个结构体，内部封装了<strong>函数所在文件</strong>、<strong>函数名</strong>、<strong>当前库的基地址</strong>等信息</p>
+<p>具体结构体如下：<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">  <span class="comment">/* Pathname of shared object that contains address. */</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">char</span>* dli_fname;</span><br><span class="line">  <span class="comment">/* Address at which shared object is loaded. */</span></span><br><span class="line">  <span class="keyword">void</span>* dli_fbase;</span><br><span class="line">  <span class="comment">/* Name of nearest symbol with address lower than addr. */</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">char</span>* dli_sname;</span><br><span class="line">  <span class="comment">/* Exact address of symbol named in dli_sname. */</span></span><br><span class="line">  <span class="keyword">void</span>* dli_saddr;</span><br><span class="line">&#125; Dl_info;</span><br></pre></td></tr></table></figure></p>
+<p>有了这个对象，我们就能获取到全部想要的信息了。虽然获取到全部想要的信息，但<code>&lt;unwind.h&gt;</code>有个麻烦的就是不想要的信息也给你了，所以需要手动过滤掉各种系统错误，最终得到的数据，就可以上报到自己的服务器了。</p>
+<p>如何分析上面抓到各种信息，可以看我的下一篇文章：<a href="https://conorlee.top/2023/11/13/native-crash-anr-log-analysis/" target="_blank" rel="noopener">《Native Crash日志分析》</a></p>
+<h3 id="四、数据传回到服务器"><a href="#四、数据传回到服务器" class="headerlink" title="四、数据传回到服务器"></a>四、数据传回到服务器</h3><p>数据回传有两种方式，一种是直接将信息写入文件，下次启动的时候直接由 Java 上报；另一种就是回调 Java 代码，让 Java 去处理。用 Java 处理的好处是 Java 层可以继续在当前上下文上加上 Java 层的各种状态信息，写入到同一个文件中，使得开发在解决 bug 的时候能更方便。</p>
+<h3 id="目前遗留的问题"><a href="#目前遗留的问题" class="headerlink" title="目前遗留的问题"></a>目前遗留的问题</h3><ul>
+<li><del>64位so在部分设备（比如我自己的 IQOO）上无法获取到崩溃堆栈，只能捕获到信号，但是32位的so没有这个问题</del></li>
+<li><del>数据可以上传到java层，但是日志上报是在java层的子线程，native无法等待子线程执行完成</del></li>
+<li><del>堆栈信息在java层上传的时候未格式化</del></li>
+<li>部分backtrace没有关键信息，比如一些SIGSEGV</li>
+</ul>
+<h3 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h3><p><a href="https://www.kymjs.com/code/2018/08/22/01/" target="_blank" rel="noopener">Android Native Crash 收集</a></p>
+<hr>
+<div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-hexo-blog-img/blogimages/attribution_88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://conorlee.top/" target="_blank" rel="noopener">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
+
+<p>本文链接：<a href="http://agehua.github.io/2023/11/02/native-crash-principle/">http://agehua.github.io/2023/11/02/native-crash-principle/</a></p>
+
+
+            
+  <!-- donate css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+         
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/btn_reward.gif") no-repeat;
+      _background: url("https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/btn_reward.gif") no-repeat;
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+<!-- Donate Module -->
+<div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+    </span>
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+
+  <div id="donate_guide" class="donate_bar center hidden" >
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
+        <a href="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+        <a href="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+      </div>
+      <div style="display:inline-block;">
+          &nbsp;
+          <span class="donate_txt">
+              Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+          </span>
+      </div>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className='hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+
+            
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2023/11/02/native-crash-principle/" data-id="cm4b7la3i00dmm947w9anw7su" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2023/11/02/native-crash-principle/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2023/11/13/native-crash-anr-log-analysis/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Native Crash日志分析
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2023/10/26/cross-process-bridge/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">跨进程通信Bridge建立</div>
+        </a>
+    
+</nav>
+
+
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+    
+    <section id="comments" class="comments">
+    
+        
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2023/11/02/native-crash-principle/', // 可选。默认为 location.href
+  title: 'Native Crash捕获原理',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+    
+  </section>
+
+
+
+</article>
+
+
+</section>
+            
+                <aside id="sidebar">
+    <!-- 在_config.yml中配置了widgets，来决定widgets的顺序 -->
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/12/04/matrix-battery-canary-introducation/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/La%20Berceuse%20Augustine%20Roulin%203.jpg)" alt="Matrix Battery 介绍和使用" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/12/04/matrix-battery-canary-introducation/" class="title">Matrix Battery 介绍和使用</a></p>
+                            <p class="item-date"><time datetime="2024-12-03T16:00:00.000Z" itemprop="datePublished">2024-12-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/11/22/matrix-io-canary-introducation/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Iron%20Mill%20in%20The%20Hague.jpg)" alt="Matrix io 介绍和使用" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/11/22/matrix-io-canary-introducation/" class="title">Matrix io 介绍和使用</a></p>
+                            <p class="item-date"><time datetime="2024-11-21T16:00:00.000Z" itemprop="datePublished">2024-11-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/04/24/jacoco-test-coverage/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Irises.jpg)" alt="代码覆盖率统计——集成Jacoco" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/04/24/jacoco-test-coverage/" class="title">代码覆盖率统计——集成Jacoco</a></p>
+                            <p class="item-date"><time datetime="2024-04-23T16:00:00.000Z" itemprop="datePublished">2024-04-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/11/13/native-crash-anr-log-analysis/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg)" alt="Native Crash日志分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/11/13/native-crash-anr-log-analysis/" class="title">Native Crash日志分析</a></p>
+                            <p class="item-date"><time datetime="2023-11-12T16:00:00.000Z" itemprop="datePublished">2023-11-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/11/02/native-crash-principle/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Houses%20in%20Auvers.jpg)" alt="Native Crash捕获原理" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/11/02/native-crash-principle/" class="title">Native Crash捕获原理</a></p>
+                            <p class="item-date"><time datetime="2023-11-01T16:00:00.000Z" itemprop="datePublished">2023-11-02</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">81</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/agp/" style="font-size: 11.67px;">AGP</a> <a href="/tags/aidl/" style="font-size: 13.33px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/anr/" style="font-size: 13.33px;">ANR</a> <a href="/tags/aop/" style="font-size: 10px;">AOP</a> <a href="/tags/aosp/" style="font-size: 11.67px;">AOSP</a> <a href="/tags/asm/" style="font-size: 10px;">ASM</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-source-code/" style="font-size: 18.33px;">Android Source Code</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 11.67px;">Annotation</a> <a href="/tags/asyncinflate/" style="font-size: 10px;">AsyncInflate</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 16.67px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16.67px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/constraintlayout/" style="font-size: 11.67px;">ConstraintLayout</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview/" style="font-size: 16.67px;">Interview</a> <a href="/tags/jni/" style="font-size: 13.33px;">JNI</a> <a href="/tags/jvm/" style="font-size: 11.67px;">JVM</a> <a href="/tags/jacoco/" style="font-size: 10px;">Jacoco</a> <a href="/tags/java/" style="font-size: 15px;">Java</a> <a href="/tags/javascript/" style="font-size: 11.67px;">JavaScript</a> <a href="/tags/kotlin/" style="font-size: 11.67px;">Kotlin</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 11.67px;">Looper</a> <a href="/tags/matrix/" style="font-size: 11.67px;">Matrix</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/native-crash/" style="font-size: 11.67px;">Native Crash</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 11.67px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 11.67px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 16.67px;">RecyclerView</a> <a href="/tags/recyclerview-optimization/" style="font-size: 10px;">RecyclerView optimization</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 11.67px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/transform/" style="font-size: 10px;">Transform</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 11.67px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/multi-process/" style="font-size: 11.67px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/picture-in-picture/" style="font-size: 10px;">picture-in-picture</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 11.67px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 13.33px;">toastmaster</a> <a href="/tags/view-scroll/" style="font-size: 10px;">view scroll</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://conorlee.top">我的阿里云博客(求赞助)</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://agehua.github.io/">My Github Pages</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://invitation.conorlee.top/MrLiAndTeacherTian_WeddingInvitation.html">Wedding Invitation(手机观看最佳)</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2024 ConorLee<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2023/11/02/native-crash-principle/', // 可选。默认为 location.href
+  title: 'Native Crash捕获原理',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+<script>
+    var bigfa_scroll = {
+        drawCircle: function(id, percentage, color) {
+            var width = jQuery(id).width();
+            var height = jQuery(id).height();
+            var radius = parseInt(width / 2.20);
+            var position = width;
+            var positionBy2 = position / 2;
+            var bg = jQuery(id)[0];
+            id = id.split("# ");
+            var ctx = bg.getContext("2d");
+            var imd = null;
+            var circ = Math.PI * 2;
+            var quart = Math.PI / 2;
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineCap = "square";
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineWidth = 3;
+            imd = ctx.getImageData(0, 0, position, position);
+            var draw = function(current, ctxPass) {
+                ctxPass.putImageData(imd, 0, 0);
+                ctxPass.beginPath();
+                ctxPass.arc(positionBy2, positionBy2, radius, -(quart), ((circ) * current) - quart, false);
+                ctxPass.stroke();
+            }
+            draw(percentage / 100, ctx);
+        },
+        backToTop: function($this) {
+            $this.click(function() {
+                jQuery("body,html").animate({
+                    scrollTop: 0
+                },
+                800);
+                return false;
+            });
+        },
+        scrollHook: function($this, color) {
+            color = color ? color: "# 000000";
+            $this.scroll(function() {
+                var docHeight = (jQuery(document).height() - jQuery(window).height()),
+                $windowObj = $this,
+                $per = jQuery(".per"),
+                percentage = 0;
+                defaultScroll = $windowObj.scrollTop();
+                percentage = parseInt((defaultScroll / docHeight) * 100);
+                var backToTop = jQuery("# backtoTop");
+                if (backToTop.length > 0) {
+                    if ($windowObj.scrollTop() > 200) {
+                        backToTop.addClass("button--show");
+                    } else {
+                        backToTop.removeClass("button--show");
+                    }
+                    $per.attr("data-percent", percentage);
+                    bigfa_scroll.drawCircle("# backtoTopCanvas", percentage, color);
+                }
+            });
+        }
+    }
+
+</script>
+
+
+    </div>
+    <!-- <script src="http://cdn.maxjia.com/js/particles.min.js"></script> -->
+  
+  
+    <canvas class="fireworks" style="position: fixed; left: 0px; top: 0px; z-index: 1; pointer-events: none; width: 1440px; height: 416px;" width="2880" height="832"></canvas>
+    
+
+      <script type="text/javascript" src="/js/anime.min.js"></script>
+      <script type="text/javascript" src="/js/firework.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/33.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

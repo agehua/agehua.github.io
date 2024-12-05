@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="google-site-verification" content="TYEtqE2Xc2ZonkJumwKut0-iq4RVbEc8o5Y8HpmZ-eo" />
+    <meta name="baidu-site-verification" content="8WKGBCPPKp" />
+    <meta charset="utf-8">
+    
+    <title>Kotlin 与 Java 语言比较 | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="本文整理了一些 Kotlin 与 Java 语言的区别，方便从Java转型学习Kotlin的同学。 Kotlin 解决了一些 Java 中的问题Kotlin 通过以下措施修复了 Java 中一系列长期困扰我们的问题：">
+<meta name="keywords" content="Kotlin, Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kotlin 与 Java 语言比较">
+<meta property="og:url" content="http://agehua.github.io/2020/10/26/Diffrence-between-kotlin&Java/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="本文整理了一些 Kotlin 与 Java 语言的区别，方便从Java转型学习Kotlin的同学。 Kotlin 解决了一些 Java 中的问题Kotlin 通过以下措施修复了 Java 中一系列长期困扰我们的问题：">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Flowering%20Garden%20with%20Path.jpg">
+<meta property="og:updated_time" content="2024-12-05T09:41:56.277Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kotlin 与 Java 语言比较">
+<meta name="twitter:description" content="本文整理了一些 Kotlin 与 Java 语言的区别，方便从Java转型学习Kotlin的同学。 Kotlin 解决了一些 Java 中的问题Kotlin 通过以下措施修复了 Java 中一系列长期困扰我们的问题：">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Flowering%20Garden%20with%20Path.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+
+
+    <link rel="icon" sizes="192x192" href="images/icon.png">
+    <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+    <!--text spacing-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+
+</head>
+
+
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+
+                <a class="main-nav-link" href='javascript:(
+        /*
+         * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *      http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         */
+        function go() {
+
+
+        var songs = [
+                    "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
+                    "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
+                    "https://static.rocko.xyz/audio/Music-outside.mp3",
+                    "https://static.rocko.xyz/audio/Music-sunburst.mp3"
+        ];
+
+
+        function c() {
+            var e = document.createElement("link");
+            e.setAttribute("type", "text/css");
+            e.setAttribute("rel", "stylesheet");
+            e.setAttribute("href", f);
+            e.setAttribute("class", l);
+            document.body.appendChild(e)
+        }
+
+        function h() {
+            var e = document.getElementsByClassName(l);
+            for (var t = 0; t < e.length; t++) {
+                document.body.removeChild(e[t])
+            }
+        }
+
+        function p() {
+            var e = document.createElement("div");
+            e.setAttribute("class", a);
+            document.body.appendChild(e);
+            setTimeout(function() {
+                document.body.removeChild(e)
+            }, 100)
+        }
+
+        function d(e) {
+            return {
+                height : e.offsetHeight,
+                width : e.offsetWidth
+            }
+        }
+
+        function v(i) {
+            var s = d(i);
+            return s.height > e && s.height < n && s.width > t && s.width < r
+        }
+
+        function m(e) {
+            var t = e;
+            var n = 0;
+            while (!!t) {
+                n += t.offsetTop;
+                t = t.offsetParent
+            }
+            return n
+        }
+
+        function g() {
+            var e = document.documentElement;
+            if (!!window.innerWidth) {
+                return window.innerHeight
+            } else if (e && !isNaN(e.clientHeight)) {
+                return e.clientHeight
+            }
+            return 0
+        }
+
+        function y() {
+            if (window.pageYOffset) {
+                return window.pageYOffset
+            }
+            return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+        }
+
+        function E(e) {
+            var t = m(e);
+            return t >= w && t <= b + w
+        }
+
+        function S() {
+            var e = document.getElementById("audio_element_id");
+            if(e != null){
+                var index = parseInt(e.getAttribute("curSongIndex"));
+                if(index > songs.length - 2) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                e.setAttribute("curSongIndex", index);
+                N();
+            }
+
+            e.src = i;
+            e.play()
+        }
+
+        function x(e) {
+            e.className += " " + s + " " + o
+        }
+
+        function T(e) {
+            e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+        }
+
+        function N() {
+            var e = document.getElementsByClassName(s);
+            var t = new RegExp("\\b" + s + "\\b");
+            for (var n = 0; n < e.length; ) {
+                e[n].className = e[n].className.replace(t, "")
+            }
+        }
+
+        function initAudioEle() {
+            var e = document.getElementById("audio_element_id");
+            if(e === null){
+                e = document.createElement("audio");
+                e.setAttribute("class", l);
+                e.setAttribute("curSongIndex", 0);
+                e.id = "audio_element_id";
+                e.loop = false;
+                e.bgcolor = 0;
+                e.addEventListener("canplay", function() {
+                setTimeout(function() {
+                    x(k)
+                }, 500);
+                setTimeout(function() {
+                    N();
+                    p();
+                    for (var e = 0; e < O.length; e++) {
+                        T(O[e])
+                    }
+                }, 15500)
+            }, true);
+            e.addEventListener("ended", function() {
+                N();
+                h();
+                go();
+            }, true);
+            e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+            document.body.appendChild(e);
+            }
+        }
+
+        initAudioEle();
+        var e = 30;
+        var t = 30;
+        var n = 350;
+        var r = 350;
+
+        var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+        var i = songs[curSongIndex];
+
+        var s = "mw-harlem_shake_me";
+        var o = "im_first";
+        var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+        var a = "mw-strobe_light";
+
+        /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
+        var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+
+        var l = "mw_added_css";
+        var b = g();
+        var w = y();
+        var C = document.getElementsByTagName("*");
+        var k = null;
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                if (E(A)) {
+                    k = A;
+                    break
+                }
+            }
+        }
+        if (A === null) {
+            console.warn("Could not find a node of the right size. Please try a different page.");
+            return
+        }
+        c();
+        S();
+        var O = [];
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                O.push(A)
+            }
+        }
+        })()'>High一下</a>
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/profile.jpeg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+
+
+        </div>
+    </div>
+
+
+    <div id="main-nav-mobile" class="header-sub header-inner">
+
+        <table class="menu outer">
+
+
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    
+</header>
+
+        <div class="outer">
+            
+                
+
+
+<aside id="profile">
+    <div class="inner profile-inner" id="profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/profile.jpeg" />
+            <h2 id="name">Conor Lee</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                97
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                104
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+
+        <a href="https://github.com/agehua" class="github-corner" aria-label="View source on Github">
+          <svg width="64" height="64" viewBox="0 0 250 250" style="fill:#cba11f; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+            <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+          </svg>
+        </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+    <div id='toc-col' class="toc-col">
+        
+            <div id='toc-wrap' class="toc-wrap">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Kotlin-解决了一些-Java-中的问题"><span class="toc-number">1.</span> <span class="toc-text">Kotlin 解决了一些 Java 中的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-有而-Kotlin-没有的东西"><span class="toc-number">2.</span> <span class="toc-text">Java 有而 Kotlin 没有的东西</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kotlin-有而-Java-没有的东西"><span class="toc-number">3.</span> <span class="toc-text">Kotlin 有而 Java 没有的东西</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#空安全"><span class="toc-number">4.</span> <span class="toc-text">空安全</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#在条件中检测-null"><span class="toc-number">4.1.</span> <span class="toc-text">在条件中检测 null</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安全的调用"><span class="toc-number">4.2.</span> <span class="toc-text">安全的调用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Elvis-操作符"><span class="toc-number">4.3.</span> <span class="toc-text">Elvis 操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#操作符"><span class="toc-number">4.4.</span> <span class="toc-text">!! 操作符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安全的类型转换"><span class="toc-number">4.5.</span> <span class="toc-text">安全的类型转换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#可空类型的集合"><span class="toc-number">4.6.</span> <span class="toc-text">可空类型的集合</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#kotlin无原始类型"><span class="toc-number">5.</span> <span class="toc-text">kotlin无原始类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#型变"><span class="toc-number">6.</span> <span class="toc-text">型变</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Kotlin-中的-Java-泛型"><span class="toc-number">6.1.</span> <span class="toc-text">Kotlin 中的 Java 泛型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#类型投影的使用处型变"><span class="toc-number">6.2.</span> <span class="toc-text">类型投影的使用处型变</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Kotlin-中数组是不型变的"><span class="toc-number">6.3.</span> <span class="toc-text">Kotlin 中数组是不型变的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建数组"><span class="toc-number">6.4.</span> <span class="toc-text">创建数组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#声明处型变"><span class="toc-number">6.5.</span> <span class="toc-text">声明处型变</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#泛型函数"><span class="toc-number">6.6.</span> <span class="toc-text">泛型函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kotlin与java8的-SAM-转换对比"><span class="toc-number">7.</span> <span class="toc-text">Kotlin与java8的 SAM 转换对比</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SAM-转换"><span class="toc-number">7.1.</span> <span class="toc-text">SAM 转换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#函数类型"><span class="toc-number">7.2.</span> <span class="toc-text">函数类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#函数类型实例化及调用"><span class="toc-number">7.3.</span> <span class="toc-text">函数类型实例化及调用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kotlin中的异常"><span class="toc-number">8.</span> <span class="toc-text">Kotlin中的异常</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#try-是一个表达式，即它可以有一个返回值："><span class="toc-number">8.1.</span> <span class="toc-text">try 是一个表达式，即它可以有一个返回值：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#受检的异常"><span class="toc-number">8.2.</span> <span class="toc-text">受检的异常</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#kotlin实现静态成员的方式"><span class="toc-number">9.</span> <span class="toc-text">kotlin实现静态成员的方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#伴生对象——声明单例的方式"><span class="toc-number">9.1.</span> <span class="toc-text">伴生对象——声明单例的方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JvmField-JvmStatic-注解"><span class="toc-number">9.2.</span> <span class="toc-text">@JvmField + @JvmStatic 注解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#object-单例"><span class="toc-number">9.3.</span> <span class="toc-text">object 单例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#const"><span class="toc-number">9.4.</span> <span class="toc-text">const</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#kotlin没有三目运算符"><span class="toc-number">10.</span> <span class="toc-text">kotlin没有三目运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kotlin内联函数"><span class="toc-number">11.</span> <span class="toc-text">Kotlin内联函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#禁用内联"><span class="toc-number">11.1.</span> <span class="toc-text">禁用内联</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#非局部返回"><span class="toc-number">11.2.</span> <span class="toc-text">非局部返回</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#具体化的类型参数"><span class="toc-number">11.3.</span> <span class="toc-text">具体化的类型参数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展函数"><span class="toc-number">12.</span> <span class="toc-text">扩展函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类的属性"><span class="toc-number">13.</span> <span class="toc-text">类的属性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#backing-field"><span class="toc-number">13.1.</span> <span class="toc-text">backing field</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Backing-Properties"><span class="toc-number">13.2.</span> <span class="toc-text">Backing Properties</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kotlin-独有的一些细节"><span class="toc-number">14.</span> <span class="toc-text">Kotlin 独有的一些细节</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#主构造函数"><span class="toc-number">14.1.</span> <span class="toc-text">主构造函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据类"><span class="toc-number">14.2.</span> <span class="toc-text">数据类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#密封类"><span class="toc-number">14.3.</span> <span class="toc-text">密封类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Break-和-Continue-标签"><span class="toc-number">14.4.</span> <span class="toc-text">Break 和 Continue 标签</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#标签处返回-待补充"><span class="toc-number">14.5.</span> <span class="toc-text">标签处返回(待补充)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#object-关键字"><span class="toc-number">14.6.</span> <span class="toc-text">object 关键字</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分离用于只读与可变集合的接口"><span class="toc-number">14.7.</span> <span class="toc-text">分离用于只读与可变集合的接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#委托"><span class="toc-number">14.8.</span> <span class="toc-text">委托</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#协程（coroutines）"><span class="toc-number">14.9.</span> <span class="toc-text">协程（coroutines）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ref"><span class="toc-number">15.</span> <span class="toc-text">Ref</span></a></li></ol>
+            </div>
+        
+    </div>
+</aside>
+
+<script type="text/javascript">
+/*
+    滚动函数
+    接收三个参数,
+        1 接收一个DOM对象
+        2 给目标对象切换class
+        3 触发的高度 (可选项,如果不指定高度,会将DOM的高度作为触发高度)
+*/
+function scrollCheck(scrollTarget, toggleClass, scrollHeight){
+    document.addEventListener('scroll',function(){
+    var currentTop = window.pageYOffset;
+        currentTop > (scrollHeight||scrollTarget.clientHeight)
+        ?scrollTarget.classList.add(toggleClass)
+        :scrollTarget.classList.remove(toggleClass)
+    })
+}
+
+(function(){
+      try {
+        document.getElementById("toc-wrap").style.width= document.getElementById("profile-inner").offsetWidth+ "px";
+        var introHeader = document.querySelector('.inner.profile-inner').offsetHeight;
+        var toc = document.querySelector('.toc-wrap');
+        scrollCheck(toc,'toc-fixed',introHeader+40+64);
+      }catch(err){
+
+      }
+        // var node = document.querySelector('.profile-inner');
+        // scrollCheck(node,'profile-inner-fixed',64);
+})();
+</script>
+
+            
+            <section id="main"><article id="post-Diffrence-between-kotlin&amp;Java" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-inner">
+        
+            
+	
+		<img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Flowering%20Garden%20with%20Path.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Kotlin 与 Java 语言比较
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/10/26/Diffrence-between-kotlin&Java/">
+            <time datetime="2020-10-25T16:00:00.000Z" itemprop="datePublished">2020-10-26</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/kotlin/">Kotlin</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">22 min read , Words: 4219</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+
+            <p>本文整理了一些 Kotlin 与 Java 语言的区别，方便从Java转型学习Kotlin的同学。</p>
+<h3 id="Kotlin-解决了一些-Java-中的问题"><a href="#Kotlin-解决了一些-Java-中的问题" class="headerlink" title="Kotlin 解决了一些 Java 中的问题"></a>Kotlin 解决了一些 Java 中的问题</h3><p>Kotlin 通过以下措施修复了 Java 中一系列长期困扰我们的问题：<br><a id="more"></a><br>+代表理解难度</p>
+<ul>
+<li>空引用由类型系统控制（可空类型与非空类型）(+)</li>
+<li>无原始类型(+)</li>
+<li>Kotlin 中数组是不型变的(++)</li>
+<li>相对于 Java 的 SAM(Single Abstract Method)-转换，Kotlin 有更合适的函数类型(++)</li>
+<li>没有通配符的使用处型变(+++)</li>
+<li>Kotlin 没有受检异常(+)<h3 id="Java-有而-Kotlin-没有的东西"><a href="#Java-有而-Kotlin-没有的东西" class="headerlink" title="Java 有而 Kotlin 没有的东西"></a>Java 有而 Kotlin 没有的东西</h3></li>
+<li>受检异常</li>
+<li>原始类型 —— 字节码会尽可能试用原生类型，但不是显式可用的。</li>
+<li>静态成员 —— 以 伴生对象、 顶层函数、 扩展函数 或者 @JvmStatic 取代。</li>
+<li>通配符类型 —— 以 声明处协变 与 类型投影 取代。</li>
+<li>三目操作符 <code>a ? b : c</code> —— 以 <code>if</code> 表达式取代<h3 id="Kotlin-有而-Java-没有的东西"><a href="#Kotlin-有而-Java-没有的东西" class="headerlink" title="Kotlin 有而 Java 没有的东西"></a>Kotlin 有而 Java 没有的东西</h3></li>
+<li>Lambda 表达式 + 内联函数 = 高性能自定义控制结构(++)</li>
+<li>扩展函数</li>
+<li>空安全</li>
+<li>智能类型转换</li>
+<li>字符串模板</li>
+<li>类的属性</li>
+<li>主构造函数</li>
+<li>委托</li>
+<li>变量与属性类型的类型推断</li>
+<li>单例</li>
+<li>声明处型变 &amp; 类型投影</li>
+<li>区间表达式 <code>in a...b step 2</code></li>
+<li>操作符重载 <code>operator</code>关键字</li>
+<li>伴生对象 <code>companion</code></li>
+<li>数据类 <code>data class A</code></li>
+<li>密封类 <code>sealed class A</code></li>
+<li>分离用于只读与可变集合的接口 <code>MutableList, MutableSet, MutableMap</code></li>
+<li>协程</li>
+<li>数组支持泛型，不会协变</li>
+</ul>
+<h3 id="空安全"><a href="#空安全" class="headerlink" title="空安全"></a>空安全</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">var a: String = <span class="string">"abc"</span> <span class="comment">// 默认情况下，常规初始化意味着非空</span></span><br><span class="line">a = <span class="keyword">null</span> <span class="comment">// 编译错误</span></span><br><span class="line"></span><br><span class="line">var b: String? = <span class="string">"abc"</span> <span class="comment">// 可以设置为空</span></span><br><span class="line">b = <span class="keyword">null</span> <span class="comment">// ok</span></span><br><span class="line">print(b)</span><br><span class="line"></span><br><span class="line">val l = b.length <span class="comment">// 错误：变量“b”可能为空</span></span><br></pre></td></tr></table></figure>
+<p>但是我们还是需要访问该属性，对吧？有几种方式可以做到</p>
+<h4 id="在条件中检测-null"><a href="#在条件中检测-null" class="headerlink" title="在条件中检测 null"></a>在条件中检测 null</h4><p>首先，可以显式检测 b 是否为 null，并分别处理两种可能：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val l = <span class="keyword">if</span> (b != <span class="keyword">null</span>) b.length <span class="keyword">else</span> -<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="安全的调用"><a href="#安全的调用" class="headerlink" title="安全的调用"></a>安全的调用</h4><p>第二个选择是安全调用操作符，写作 <code>?.</code><br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val a = <span class="string">"Kotlin"</span></span><br><span class="line">val b: String? = <span class="keyword">null</span></span><br><span class="line">println(b?.length)</span><br><span class="line">println(a?.length) <span class="comment">// 无需安全调用</span></span><br></pre></td></tr></table></figure></p>
+<p>如果 b 非空，就返回 b.length，否则返回 null，这个表达式的类型是 <code>Int?</code>。</p>
+<p>对集合，如果要只对非空值执行某个操作，安全调用操作符可以与 let 一起使用：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val listWithNulls: List&lt;String?&gt; = listOf(<span class="string">"Kotlin"</span>, <span class="keyword">null</span>)</span><br><span class="line"><span class="keyword">for</span> (item in listWithNulls) &#123;</span><br><span class="line">    item?.let &#123; println(it) &#125; <span class="comment">// 输出 Kotlin 并忽略 null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>安全调用也可以出现在赋值的左侧。这样，如果调用链中的任何一个接收者为空都会跳过赋值，而右侧的表达式根本不会求值：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 如果 `person` 或者 `person.department` 其中之一为空，都不会调用该函数：</span></span><br><span class="line">person?.department?.head = managersPool.getManager()</span><br></pre></td></tr></table></figure></p>
+<h4 id="Elvis-操作符"><a href="#Elvis-操作符" class="headerlink" title="Elvis 操作符"></a>Elvis 操作符</h4><p>当我们有一个可空的引用 b 时，我们可以说“如果 b 非空，我使用它；否则使用某个非空的值”：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val l: Int = <span class="keyword">if</span> (b != <span class="keyword">null</span>) b.length <span class="keyword">else</span> -<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<p>除了完整的 if-表达式，这还可以通过 Elvis 操作符表达，写作 <code>?:</code>：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val l = b?.length ?: -<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<p>如果 ?: 左侧表达式非空，elvis 操作符就返回其左侧表达式，否则返回右侧表达式。 请注意，当且仅当左侧为空时，才会对右侧表达式求值。</p>
+<h4 id="操作符"><a href="#操作符" class="headerlink" title="!! 操作符"></a>!! 操作符</h4><p>第三种选择是为 NPE 爱好者准备的：非空断言运算符（<code>!!</code>）将任何值转换为非空类型，若该值为空则抛出异常。我们可以写 b!! ，这会返回一个非空的 b 值 （例如：在我们例子中的 String）或者如果 b 为空，就会抛出一个 NPE 异常：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val l = b!!.length</span><br></pre></td></tr></table></figure></p>
+<h4 id="安全的类型转换"><a href="#安全的类型转换" class="headerlink" title="安全的类型转换"></a>安全的类型转换</h4><p>如果对象不是目标类型，那么常规类型转换可能会导致 ClassCastException。 另一个选择是使用安全的类型转换，如果尝试转换不成功则返回 null：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val aInt: Int? = a as? Int</span><br></pre></td></tr></table></figure></p>
+<h4 id="可空类型的集合"><a href="#可空类型的集合" class="headerlink" title="可空类型的集合"></a>可空类型的集合</h4><p>如果你有一个可空类型元素的集合，并且想要过滤非空元素，你可以使用 filterNotNull 来实现：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val nullableList: List&lt;Int?&gt; = listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="keyword">null</span>, <span class="number">4</span>)</span><br><span class="line">val intList: List&lt;Int&gt; = nullableList.filterNotNull()</span><br></pre></td></tr></table></figure></p>
+<h3 id="kotlin无原始类型"><a href="#kotlin无原始类型" class="headerlink" title="kotlin无原始类型"></a>kotlin无原始类型</h3><p>在 Kotlin 中，所有东西都是对象，在这个意义上讲我们可以在任何变量上调用成员函数与属性。 一些类型可以有特殊的内部表示——例如，数字、字符以及布尔值可以在运行时表示为原生类型值，但是对于用户来说，它们看起来就像普通的类<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val b: Byte = <span class="number">1</span></span><br><span class="line">val c:Double = b.toDouble()</span><br></pre></td></tr></table></figure></p>
+<h3 id="型变"><a href="#型变" class="headerlink" title="型变"></a>型变</h3><p>Java 类型系统中最棘手的部分之一是通配符类型（T，E，K，V，？）。 而 Kotlin 中没有。 相反，它有两个其他的东西：型变（variance）与类型投影（type projections），型变包括声明处型变和使用处型变。</p>
+<p>首先，让我们思考为什么 Java 需要那些神秘的通配符。<br>在 《Effective Java》第三版 解释了该问题——第 31 条：利用有限制通配符来提升 API 的灵活性。<br>首先，Java 中的泛型是不型变的，这意味着 <code>List&lt;String&gt;</code> 并不是 <code>List&lt;Object&gt;</code>的子类型。<br>为什么这样？ 如果 List 不是<strong>不型变的</strong>，它就没比 Java 的数组好到哪去，因为如下代码会通过编译然后导致运行时异常：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Java</span></span><br><span class="line">List&lt;String&gt; strs = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">List&lt;Object&gt; objs = strs; <span class="comment">// ！！！此处的编译器错误让我们避免了之后的运行时异常</span></span><br><span class="line">objs.add(<span class="number">1</span>); <span class="comment">// 这里我们把一个整数放入一个字符串列表</span></span><br><span class="line">String s = strs.get(<span class="number">0</span>); <span class="comment">// ！！！ ClassCastException：无法将整数转换为字符串</span></span><br></pre></td></tr></table></figure></p>
+<p>因此，Java 禁止这样的事情以保证运行时的安全。但这样会有一些影响。例如，考虑 Collection 接口中的 addAll() 方法。该方法的签名应该是什么？直觉上，我们会这样：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Java</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Collection</span>&lt;<span class="title">E</span>&gt; …… </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">addAll</span><span class="params">(Collection&lt;E&gt; items)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>但随后，我们就无法做到以下简单的事情（这是完全安全）<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Java</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">copyAll</span><span class="params">(Collection&lt;Object&gt; to, Collection&lt;String&gt; from)</span> </span>&#123;</span><br><span class="line">  to.addAll(from);</span><br><span class="line">  <span class="comment">// ！！！对于这种简单声明的 addAll 将不能编译：</span></span><br><span class="line">  <span class="comment">// Collection&lt;String&gt; 不是 Collection&lt;Object&gt; 的子类型</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>（在 Java 中，我们艰难地学到了这个教训，参见《Effective Java》第三版，第 28 条：列表优先于数组）</p>
+<p>这就是为什么 addAll() 的实际签名是以下这样：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Java</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Collection</span>&lt;<span class="title">E</span>&gt; …… </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">addAll</span><span class="params">(Collection&lt;? extends E&gt; items)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>通配符类型参数 <code>? extends E</code></strong> 表示此方法接受 E 或者 E 的 一些子类型对象的集合，而不只是 E 自身。 这意味着我们可以安全地从其中（该集合中的元素是 E 的子类的实例）读取 E，但不能写入， 因为我们不知道什么对象符合那个未知的 E 的子类型。 反过来，该限制可以让<code>Collection&lt;String&gt;</code>表示为<code>Collection&lt;? extends Object&gt;</code>的子类型。 简而言之，带 <strong>extends</strong> 限定（上界）的通配符类型使得类型是协变的（covariant）。</p>
+<p>理解为什么这个技巧能够工作的关键相当简单：如果只能从集合中获取元素，那么使用 String 的集合， 并且从其中读取 Object 也没问题 。反过来，如果只能向集合中 放入 元素，就可以用 Object 集合并向其中放入 String：在 Java 中有 <code>List&lt;? super String&gt;</code> 是 <code>List&lt;Object&gt;</code> 的一个超类。</p>
+<p>后者称为<strong> 逆变性（contravariance）</strong>，并且对于 <code>List &lt;? super String&gt;</code> 你只能调用接受 String 作为参数的方法 （例如，你可以调用 add(String) 或者 set(int, String)），当然如果调用函数返回 <code>List&lt;T&gt;</code> 中的 T，你得到的并非一个 String 而是一个 Object。</p>
+<p>看一个关于java通配符集合的经典图：</p>
+<p><img src="/images/blogimages/2020/java_collections_wildcards.png" alt="java wildcards collection"></p>
+<p>Joshua Bloch 称那些你只能从中读取的对象为生产者，并称那些你只能写入的对象为消费者。他建议：“为了灵活性最大化，在表示生产者或消费者的输入参数上使用通配符类型”，并提出了以下助记符：</p>
+<blockquote>
+<p>PECS 代表生产者-Extends、消费者-Super（Producer-Extends, Consumer-Super）。</p>
+</blockquote>
+<p>注意：如果你使用一个生产者对象，如 List&lt;? extends Foo&gt;，在该对象上不允许调用 add() 或 set()。但这并不意味着该对象是不可变的：例如，没有什么阻止你调用 clear()从列表中删除所有元素，因为 clear() 根本无需任何参数。通配符（或其他类型的型变）保证的唯一的事情是类型安全。不可变性完全是另一回事。</p>
+<h4 id="Kotlin-中的-Java-泛型"><a href="#Kotlin-中的-Java-泛型" class="headerlink" title="Kotlin 中的 Java 泛型"></a>Kotlin 中的 Java 泛型</h4><p>Kotlin 的泛型与 Java 有点不同。当将 Java 类型导入 Kotlin 时，我们会执行一些转换：</p>
+<blockquote>
+<p>消费者 in, 生产者 out! :-)</p>
+</blockquote>
+<ul>
+<li>Java 的通配符转换成<strong>类型投影</strong><ul>
+<li>Foo&lt;? extends Bar&gt; 转换成 <code>Foo&lt;out Bar!&gt;!</code></li>
+<li>Foo&lt;? super Bar&gt; 转换成 <code>Foo&lt;in Bar!&gt;!</code></li>
+</ul>
+</li>
+<li>Java的原始类型转换成<strong>星投影</strong><ul>
+<li>List 转换成 List&lt;*&gt;!，即 <code>List&lt;out Any?&gt;!</code></li>
+</ul>
+</li>
+</ul>
+<p>如果泛型类型具有多个类型参数，则每个类型参数都可以单独投影。 例如，如果类型被声明为 <code>interface Function &lt;in T, out U&gt;</code>，我们可以想象以下星投影：</p>
+<ul>
+<li><code>Function&lt;*, String&gt;</code> 表示 <code>Function&lt;in Nothing, String&gt;</code>；</li>
+<li><code>Function&lt;Int, *&gt;</code> 表示 <code>Function&lt;Int, out Any?&gt;</code>；</li>
+<li><code>Function&lt;*, *&gt;</code> 表示 <code>Function&lt;in Nothing, out Any?&gt;</code>。</li>
+</ul>
+<p>注意：星投影非常像 Java 的原始类型，但是安全。</p>
+<p>和 Java 一样，Kotlin 在运行时不保留泛型，即对象不携带传递到他们构造器中的那些类型参数的实际类型。 即 <code>ArrayList&lt;Integer&gt;()</code> 和 <code>ArrayList&lt;Character&gt;()</code> 是不能区分的。 这使得执行 is-检测不可能照顾到泛型。 Kotlin 只允许 is-检测星投影的泛型类型：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (a is List&lt;Int&gt;) <span class="comment">// 错误：无法检测它是否真的是一个 Int 列表</span></span><br><span class="line"><span class="comment">// but</span></span><br><span class="line"><span class="keyword">if</span> (a is List&lt;*&gt;) <span class="comment">// OK：不保证列表的内容</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="类型投影的使用处型变"><a href="#类型投影的使用处型变" class="headerlink" title="类型投影的使用处型变"></a>类型投影的使用处型变</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">fun <span class="title">copy</span><span class="params">(from: Array&lt;out Any&gt;, to: Array&lt;Any&gt;)</span> </span>&#123; …… &#125;</span><br></pre></td></tr></table></figure>
+<p>简单介绍下，这里 out 修饰的数组只能调用 get()，对应于 Java 的 Array&lt;? extends Object&gt;。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">fun <span class="title">fill</span><span class="params">(dest: Array&lt;in String&gt;, value: String)</span> </span>&#123; …… &#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>Array&lt;in String&gt;</code> 对应于 Java 的 Array&lt;? super String&gt;，也就是说，你可以传递一个 CharSequence 数组或一个 Object 数组给 fill() 函数。</p>
+<h4 id="Kotlin-中数组是不型变的"><a href="#Kotlin-中数组是不型变的" class="headerlink" title="Kotlin 中数组是不型变的"></a>Kotlin 中数组是不型变的</h4><p>Kotlin 中数组是不型变的（invariant）。这意味着 Kotlin 不让我们把 <code>Array&lt;String&gt;</code>赋值给 <code>Array&lt;Any&gt;</code>，以防止可能的运行时失败。</p>
+<blockquote>
+<p>但是你可以使用 <code>Array&lt;out Any&gt;</code></p>
+</blockquote>
+<h4 id="创建数组"><a href="#创建数组" class="headerlink" title="创建数组"></a>创建数组</h4><ul>
+<li><p>arrayOf() 函数<br>我们可以使用库函数 arrayOf() 来创建一个数组并传递元素值给它，这样 arrayOf(1, 2, 3) 创建了 array [1, 2, 3]。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val a = arrayOf(<span class="string">"Hello"</span>, <span class="string">"world"</span>)</span><br><span class="line"><span class="comment">// 这里，arrayOf() 函数创建了一个 Array&lt;String&gt; 对象</span></span><br><span class="line"></span><br><span class="line">val arr = arrayOf(<span class="string">"aaa"</span>, <span class="string">"bbb"</span>, <span class="number">123</span>, <span class="keyword">true</span>) <span class="comment">// Array&lt;Any&gt;</span></span><br><span class="line">println(arr[<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>emptyArray() 函数</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// emptyArray() 函数是创建一个长度为 0 的 null 数组，然后将它强制转换为指定类型的数组。</span></span><br><span class="line"><span class="comment">// 所以我们可以用 arrayOfNulls&lt;T&gt;(0) 替代 emptyArray() 函数</span></span><br><span class="line"><span class="comment">// 因为 emptyArray() 函数需要转换为特定的数组类型，所以定义变量需要指定数组类型，否则出现编译错误</span></span><br><span class="line">val emptyArray1: Array&lt;String?&gt; = emptyArray()</span><br><span class="line"><span class="comment">// 也可以写成 val emptyArray2: Array&lt;String?&gt; = arrayOfNulls(0)，这里是类型推断</span></span><br><span class="line">val emptyArray2 = arrayOfNulls&lt;String?&gt;(<span class="number">0</span>)</span><br><span class="line">println(Arrays.equals(emptyArray1, emptyArray2)) <span class="comment">// 输出 true</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>arrayOfNulls() 函数</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val fixedSizeArray = arrayOfNulls&lt;Int&gt;(<span class="number">5</span>)</span><br><span class="line"><span class="comment">// 直接指定长度，返回一个长度指定、所有值都是 null 的数组。</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不使用 Array 类, 使用装箱操作比如, 对于 Int 类型数组, 使用 IntArray 类替代 Array<int> 类：</int></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val arr = arrayOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">val intArr = intArrayOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)    <span class="comment">//同理还有 booleanArrayOf() 等</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="声明处型变"><a href="#声明处型变" class="headerlink" title="声明处型变"></a>声明处型变</h4><p>假设有一个泛型接口 <code>Source&lt;T&gt;</code>，该接口中不存在任何以 T 作为参数的方法，只是方法返回 T 类型值：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Java</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Source</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function">T <span class="title">nextT</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>那么，在 <code>Source &lt;Object&gt;</code> 类型的变量中存储 <code>Source &lt;String&gt;</code>实例的引用是极为安全的——没有消费者-方法可以调用。但是 Java 并不知道这一点，并且仍然禁止这样操作：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Java</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">demo</span><span class="params">(Source&lt;String&gt; strs)</span> </span>&#123;</span><br><span class="line">  Source&lt;Object&gt; objects = strs; <span class="comment">// ！！！在 Java 中不允许</span></span><br><span class="line">  <span class="comment">// ……</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>为了修正这一点，我们必须声明对象的类型为 Source&lt;? extends Object&gt;，这是毫无意义的，因为我们可以像以前一样在该对象上调用所有相同的方法，所以更复杂的类型并没有带来价值。但编译器并不知道。</p>
+<p>在 Kotlin 中，有一种方法向编译器解释这种情况。这称为<strong>声明处型变</strong>：我们可以标注 Source 的类型参数 T 来确保它仅从 <code>Source&lt;T&gt;</code> 成员中返回（生产），并从不被消费。 为此，我们提供 out 修饰符：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Source</span>&lt;<span class="title">out</span> <span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function">fun <span class="title">nextT</span><span class="params">()</span>: T</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function">​</span></span><br><span class="line"><span class="function">fun <span class="title">demo</span><span class="params">(strs: Source&lt;String&gt;)</span> </span>&#123;</span><br><span class="line">    val objects: Source&lt;Any&gt; = strs <span class="comment">// 这个没问题，因为 T 是一个 out-参数</span></span><br><span class="line">    <span class="comment">// ……</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>一般原则是：当一个类 C 的类型参数 T 被声明为 out 时，它就只能出现在 C 的成员的输出-位置，但回报是 <code>C&lt;Base&gt;</code> 可以安全地作为 <code>C&lt;Derived&gt;</code>的超类。</p>
+<p>简而言之，他们说类 C 是在参数 T 上是协变的，或者说 T 是一个协变的类型参数。 你可以认为 C 是 T 的生产者，而不是 T 的消费者。</p>
+<p>这里，out 由于它在类型参数声明处提供，所以我们称之为声明处型变.</p>
+<h4 id="泛型函数"><a href="#泛型函数" class="headerlink" title="泛型函数"></a>泛型函数</h4><p>不仅类可以有类型参数。函数也可以有。<strong>类型参数要放在函数名称之前</strong><br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">fun &lt;T&gt; singletonList(item: T): List&lt;T&gt; &#123;</span><br><span class="line">    <span class="comment">// ……</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun &lt;T&gt; T.basicToString(): String &#123;  <span class="comment">// 扩展函数</span></span><br><span class="line">    <span class="comment">// ……</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>要调用泛型函数，在调用处函数名之后指定类型参数即可：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val l = singletonList&lt;Int&gt;(<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<p>可以省略能够从上下文中推断出来的类型参数，所以以下示例同样适用：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val l = singletonList(<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<p>泛型函数约束的上界</p>
+<p>最常见的约束类型是与 Java 的 extends 关键字对应的 上界：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">fun &lt;T : Comparable&lt;T&gt;&gt; sort(list: List&lt;T&gt;) &#123;  …… &#125;</span><br></pre></td></tr></table></figure>
+<p>冒号之后指定的类型是上界：只有 Comparable<t> 的子类型可以替代 T。 例如：</t></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">sort(listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)) <span class="comment">// OK。Int 是 Comparable&lt;Int&gt; 的子类型</span></span><br><span class="line">sort(listOf(HashMap&lt;Int, String&gt;())) <span class="comment">// 错误：HashMap&lt;Int, String&gt; 不是</span></span><br><span class="line">sort(listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)) <span class="comment">// OK。Int 是 Comparable&lt;Int&gt; 的子类型</span></span><br><span class="line">sort(listOf(HashMap&lt;Int, String&gt;())) <span class="comment">// 错误：HashMap&lt;Int, String&gt; 不是 Comparable&lt;HashMap&lt;Int, String&gt;&gt; 的子类型</span></span><br></pre></td></tr></table></figure>
+<p>默认的上界（如果没有声明）是 Any?。在尖括号中只能指定一个上界。 如果同一类型参数需要多个上界，我们需要一个单独的 where-子句：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">fun &lt;T&gt; copyWhenGreater(list: List&lt;T&gt;, threshold: T): List&lt;String&gt;</span><br><span class="line">    where T : CharSequence,</span><br><span class="line">          T : Comparable&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> list.filter &#123; it &gt; threshold &#125;.map &#123; it.toString() &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所传递的类型必须同时满足 where 子句的所有条件。在上述示例中，类型 T 必须既实现了 CharSequence 也实现了 Comparable。</p>
+<h3 id="Kotlin与java8的-SAM-转换对比"><a href="#Kotlin与java8的-SAM-转换对比" class="headerlink" title="Kotlin与java8的 SAM 转换对比"></a>Kotlin与java8的 SAM 转换对比</h3><p>只有一个抽象方法的接口称为函数式接口或 SAM（Single Abstract Method 单一抽象方法）接口。函数式接口可以有多个非抽象成员，但只能有一个抽象成员。<br>SAM 实际上这是java8中提出的概念，你就把他理解为是只有一个抽象方法的接口的就可以了</p>
+<p>可以用 fun 修饰符在 Kotlin 中声明一个函数式接口。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">fun <span class="class"><span class="keyword">interface</span> <span class="title">KRunnable</span> </span>&#123;</span><br><span class="line">   <span class="function">fun <span class="title">invoke</span><span class="params">()</span></span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="SAM-转换"><a href="#SAM-转换" class="headerlink" title="SAM 转换"></a>SAM 转换</h4><p>对于函数式接口，可以通过 lambda 表达式实现 SAM 转换，从而使代码更简洁、更有可读性。</p>
+<p>使用 lambda 表达式可以替代手动创建实现函数式接口的类。 通过 SAM 转换， Kotlin 可以将其签名与接口的单个抽象方法的签名匹配的任何 lambda 表达式转换为实现该接口的类的实例。<br>例如，有这样一个 Kotlin 函数式接口：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">fun <span class="class"><span class="keyword">interface</span> <span class="title">IntPredicate</span> </span>&#123;</span><br><span class="line">   <span class="function">fun <span class="title">accept</span><span class="params">(i: Int)</span>: Boolean</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>如果不使用 SAM 转换，那么你需要像这样编写代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建一个类的实例</span></span><br><span class="line">val isEven = object : IntPredicate &#123;</span><br><span class="line">   <span class="function">override fun <span class="title">accept</span><span class="params">(i: Int)</span>: Boolean </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> i % <span class="number">2</span> == <span class="number">0</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过利用 Kotlin 的 SAM 转换，可以改为以下等效代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 通过 lambda 表达式创建一个实例</span></span><br><span class="line">val isEven = IntPredicate &#123; it % <span class="number">2</span> == <span class="number">0</span> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以通过更短的 lambda 表达式替换所有不必要的代码。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">fun <span class="class"><span class="keyword">interface</span> <span class="title">IntPredicate</span> </span>&#123;</span><br><span class="line">   <span class="function">fun <span class="title">accept</span><span class="params">(i: Int)</span>: Boolean</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function">​</span></span><br><span class="line"><span class="function">val isEven </span>= IntPredicate &#123; it % <span class="number">2</span> == <span class="number">0</span> &#125;</span><br><span class="line">​</span><br><span class="line"><span class="function">fun <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   println(<span class="string">"Is 7 even? - $&#123;isEven.accept(7)&#125;"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再看一个开发中用到的代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ExecutorService executorService= Executors.newScheduledThreadPool(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">    executorService.execute(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"hello world"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>用下面的java8中的lambda 来写 也是可以的。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">executorService.execute(()-&gt;System.out.println(<span class="string">"hello world"</span>));</span><br></pre></td></tr></table></figure></p>
+<p>kotlin中的lambda 这里可以这么写<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val executorService: ExecutorService = Executors.newScheduledThreadPool(<span class="number">3</span>)</span><br><span class="line"><span class="comment">//kotlin中的 匿名内部类的标准写法</span></span><br><span class="line">executorService.submit(object :Runnable&#123; <span class="comment">// object 作为关键字，这里代表对象表示</span></span><br><span class="line">    <span class="function">override fun <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello world"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 使用lambda表达式的精简写法</span></span><br><span class="line">executorService.submit &#123; System.out.println(<span class="string">"hello world"</span>) &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个kotlin的lambda的类型就是 <code>()-&gt;Unit</code> 是一个没有参数也没有返回值的类型</p>
+<p>kotlin编译器遇到上面的代码，实际上是帮我们生成了一个函数：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">fun <span class="title">Runnable</span><span class="params">(block:()</span> -&gt; Unit):Runnable </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> object: Runnable &#123;</span><br><span class="line">        <span class="function">override fun <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            block()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个Runnable函数的意思是接收一个方法，别名是 block，返回一个Runnable对象，并在Runnable对象的run方法中，调用 block 方法。这里的 <code>()-&gt;Unit</code> 是一个kotlin函数类型</p>
+<h4 id="函数类型"><a href="#函数类型" class="headerlink" title="函数类型"></a>函数类型</h4><p>Kotlin 使用类似 <code>(Int) -&gt; String</code> 的一系列函数类型来处理函数的声明.</p>
+<p>这些类型具有与函数签名相对应的特殊表示法，即它们的参数和返回值：</p>
+<ul>
+<li><p>所有函数类型都有一个圆括号括起来的参数类型列表以及一个返回类型：<code>(A, B) -&gt; C</code>表示接受类型分别为 A 与 B 两个参数并返回一个 C 类型值的函数类型。 参数类型列表可以为空，如 () -&gt; A。Unit 返回类型不可省略。</p>
+</li>
+<li><p>函数类型可以有一个额外的接收者类型，它在表示法中的点之前指定： 类型 <code>A.(B) -&gt; C</code> 表示可以在 A 的接收者对象上以一个 B 类型参数来调用并返回一个 C 类型值的函数。 带有接收者的函数字面值通常与这些类型一起使用。 </p>
+</li>
+<li><p>挂起函数属于特殊种类的函数类型，它的表示法中有一个 suspend 修饰符 ，例如 <code>suspend () -&gt; Unit</code>或者 <code>suspend A.(B) -&gt; C</code>。</p>
+</li>
+</ul>
+<p>函数类型表示法可以选择性地包含函数的参数名：<code>(x: Int, y: Int) -&gt; Point</code>。 这些名称可用于表明参数的含义。</p>
+<ul>
+<li>如需将函数类型指定为可空，请使用圆括号：<code>((Int, Int) -&gt; Int)?</code>。</li>
+<li>函数类型可以使用圆括号进行接合：<code>(Int) -&gt; ((Int) -&gt; Unit)</code></li>
+<li>箭头表示法是右结合的，<code>(Int) -&gt; (Int) -&gt; Unit</code> 与前述示例等价，但不等于 <code>((Int) -&gt; (Int)) -&gt; Unit</code>。</li>
+</ul>
+<p>还可以通过使用类型别名给函数类型起一个别称：</p>
+<ul>
+<li>typealias ClickHandler = (Button, ClickEvent) -&gt; Unit</li>
+</ul>
+<h4 id="函数类型实例化及调用"><a href="#函数类型实例化及调用" class="headerlink" title="函数类型实例化及调用"></a>函数类型实例化及调用</h4><ul>
+<li><p>使用 lambda 表达式或匿名函数进行实例化</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">var onItemClick:(Int, String) -&gt; Unit = &#123; a:Int, b:String -&gt;</span><br><span class="line">    Log.e(<span class="string">"AAA"</span>, <span class="string">"aaa$a$b"</span>) <span class="comment">// 配合lambda表达式</span></span><br><span class="line">&#125;</span><br><span class="line">onItemClick.invoke(<span class="number">1</span>, <span class="string">"2"</span>)</span><br><span class="line">onItemClick(<span class="number">1</span>, <span class="string">"2"</span>) <span class="comment">// 这两种方式都可以</span></span><br><span class="line"></span><br><span class="line">val f:(Int, String) -&gt; String = fun(a:Int, b:String):String &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"aaa$a$b"</span>  <span class="comment">// 使用匿名函数进行实例化</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">f.invoke(<span class="number">1</span>, <span class="string">"2"</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用实现函数类型接口的自定义类的实例。下例中可直接使用 Test()(111) </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">private class Test:(Int)-&gt;String&#123;</span><br><span class="line">    <span class="function">override fun <span class="title">invoke</span><span class="params">(p1: Int)</span>: String </span>= <span class="string">"$p1 xxxx"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>函数引用及属性引用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val intPlus: Int.(Int) -&gt; Int = Int::plus</span><br><span class="line"><span class="comment">// 下面三种方式都可以使用</span></span><br><span class="line">intPlus.invoke(<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">intPlus(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"><span class="number">2</span>.intPlus(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p> <code>::</code> 表示创建一个函数成员引用或者一个类引用</p>
+</blockquote>
+<ul>
+<li>函数引用<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">fun <span class="title">isOdd</span><span class="params">(x: Int)</span> </span>= x % <span class="number">2</span> != <span class="number">0</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>我们可以很容易地直接调用它（isOdd(5)），但是我们也可以将其作为一个函数类型的值，例如将其传给另一个函数。为此，我们使用 :: 操作符：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val numbers = listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">println(numbers.filter(::isOdd))</span><br></pre></td></tr></table></figure></p>
+<p>这里 <code>::isOdd</code> 是函数类型 <code>(Int) -&gt; Boolean</code> 的一个值。</p>
+<p>等同于下面使用形参odd的方式<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val odd:(x: Int) -&gt; Boolean = &#123;x:Int -&gt;</span><br><span class="line">    x % <span class="number">2</span> != <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line">val numbers = listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">println(numbers.filter(odd))</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>类引用<br>最基本的反射功能是获取 Kotlin 类的运行时引用。要获取对静态已知的 Kotlin 类的引用，可以使用 类字面值 语法：<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val c = MyClass::<span class="class"><span class="keyword">class</span></span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>该引用是 KClass 类型的值。</p>
+<p>请注意，Kotlin 类引用与 Java 类引用不同。要获得 Java 类引用， 请在 KClass 实例上使用 <code>.java</code> 属性<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val d = MyClass::<span class="class"><span class="keyword">class</span>.<span class="title">java</span></span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Kotlin中的异常"><a href="#Kotlin中的异常" class="headerlink" title="Kotlin中的异常"></a>Kotlin中的异常</h3><p>Kotlin 中所有异常类都是 Throwable 类的子孙类。 每个异常都有消息、堆栈回溯信息以及可选的原因</p>
+<h4 id="try-是一个表达式，即它可以有一个返回值："><a href="#try-是一个表达式，即它可以有一个返回值：" class="headerlink" title="try 是一个表达式，即它可以有一个返回值："></a>try 是一个表达式，即它可以有一个返回值：</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">val a: Int? = <span class="keyword">try</span> &#123; parseInt(input) &#125; <span class="keyword">catch</span> (e: NumberFormatException) &#123; <span class="keyword">null</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>try-表达式的返回值是 try 块中的最后一个表达式或者是（所有）catch 块中的最后一个表达式。 finally 块中的内容不会影响表达式的结果</p>
+<h4 id="受检的异常"><a href="#受检的异常" class="headerlink" title="受检的异常"></a>受检的异常</h4><p>受检查异常要用 try-catch 捕获，要么抛出，否则会发生编译错误。而 kotlin 中没有受检查异常，所有异常都是运行时异常，即便是原本在 Java 中的受检查异常，在 kotlin 中也是运行时异常，例如：IOException 在 Java 中是受检查异常，在 kotlin 中是运行时异常。</p>
+<p>以下是 JDK 中 StringBuilder 类实现的一个示例接口：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">readNumber</span><span class="params">(BufferedReader reader)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">    String line = reader.readLine(); <span class="comment">// 这里要么在方法声明上抛出，要么在内部捕获处理，否则无法编译通过</span></span><br><span class="line">    result = Integer.parseInt(line);</span><br><span class="line">    reader.close();</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这并不好，参见《Effective Java》第三版 第 77 条：不要忽略异常。</p>
+<blockquote>
+<p>通过一些小程序测试得出的结论是异常规范会同时提高开发者的生产力与代码质量，但是大型软件项目的经验表明一个不同的结论——生产力降低、代码质量很少或没有提高。</p>
+</blockquote>
+<h3 id="kotlin实现静态成员的方式"><a href="#kotlin实现静态成员的方式" class="headerlink" title="kotlin实现静态成员的方式"></a>kotlin实现静态成员的方式</h3><p>在 kotin 语言中其实没有 java static 的这个概念，基本都是用一个静态对象来模拟 class 的静态属性和方法，目前有4种实现方式：</p>
+<h4 id="伴生对象——声明单例的方式"><a href="#伴生对象——声明单例的方式" class="headerlink" title="伴生对象——声明单例的方式"></a>伴生对象——声明单例的方式</h4><p>类内部的对象声明可以用 <code>companion</code> 关键字标记，这样它就与外部类关联在一起，我们就可以直接通过外部类访问到对象的内部元素。<br>即可以声明属性，也可以声明方法，kotlin 中的调用方式感觉和 java 的 static 一样<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookKotlin</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    var name: String = <span class="string">"AA"</span></span><br><span class="line"></span><br><span class="line">    <span class="function">fun <span class="title">speak</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    companion object instance &#123;</span><br><span class="line">        var nameStatic: String = <span class="string">"BB"</span></span><br><span class="line">        <span class="function">fun <span class="title">speakStatic</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>调用方式为：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">BookKotlin.nameStatic</span><br><span class="line">BookKotlin.speakStatic()</span><br></pre></td></tr></table></figure></p>
+<p>将kotlin代码转为java代码后，调用方式如下：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">BookKotlin.instance.getNameStatic()</span><br><span class="line">BookKotlin.instance.setNameStatic(String s)</span><br><span class="line">BookKotlin.instance.speakStatic()</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意：一个类里面只能声明一个内部关联对象，即关键字 companion 只能使用一次。</p>
+</blockquote>
+<p>kotlin 中所有的成员变量，不管是不是 static 的都有 get/set 方法，另外 kotlin 并没有把我们声明的静态参数和方法声明成 static 的，而是通过 instance 这个静态对象中转使用的</p>
+<h4 id="JvmField-JvmStatic-注解"><a href="#JvmField-JvmStatic-注解" class="headerlink" title="@JvmField + @JvmStatic 注解"></a>@JvmField + @JvmStatic 注解</h4><p>声明成员和方法使用 JVM 提供的特性</p>
+<ul>
+<li>@JvmField - 修饰静态变量</li>
+<li>@JvmStatic - 修饰静态方法</li>
+<li>@JvmField 和 @JvmStatic 只能写在 object 修饰的类或者 companion object 里，写法虽然有些别扭，但是效果是真的是按 static 来实现的</li>
+</ul>
+<p>修改一下上面代码：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookKotlin</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    companion object &#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@JvmField</span></span><br><span class="line">        var nameStatic: String = <span class="string">"BB"</span></span><br><span class="line"></span><br><span class="line">        <span class="meta">@JvmStatic</span></span><br><span class="line">        <span class="function">fun <span class="title">speakStatic</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    var name: String = <span class="string">"AA"</span></span><br><span class="line">    <span class="function">fun <span class="title">speak</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="object-单例"><a href="#object-单例" class="headerlink" title="object 单例"></a>object 单例</h4><p>kotlin 自身提供了一种单例实现方式：object ，直接用来修饰 class ，用 object 修饰的类不能 new 对象，只能使用 object 提供的单例<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">object BookKotlin &#123;</span><br><span class="line"></span><br><span class="line">    var name: String = <span class="string">"AA"</span></span><br><span class="line">    <span class="function">fun <span class="title">speak</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Kotlin中使用如下：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">BookKotlin.name</span><br><span class="line">BookKotlin.speak()</span><br></pre></td></tr></table></figure></p>
+<h4 id="const"><a href="#const" class="headerlink" title="const"></a>const</h4><p>const 写在 class 外面，效果 = @JvmField，但是不能修饰方法，也不能和 @JvmField 混用，一般就是用来声明常用值的，用处不多，而且只能用 val ，var 不行，想要修饰方法的话，不写 const 就行<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> val name: String = <span class="string">"AA"</span></span><br><span class="line"><span class="function">fun <span class="title">adk</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookKotlin</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">fun <span class="title">speak</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="kotlin没有三目运算符"><a href="#kotlin没有三目运算符" class="headerlink" title="kotlin没有三目运算符"></a>kotlin没有三目运算符</h3><p>用表达式<code>if() ... else ...</code> 或 <code>if () ... else if () ... else ...</code> 代替</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">var number = <span class="keyword">if</span>(n&gt;<span class="number">0</span>) <span class="string">"Positive"</span> <span class="keyword">else</span> <span class="keyword">if</span>(n&lt;<span class="number">0</span>) <span class="string">"Negative"</span> <span class="keyword">else</span> <span class="string">"Zero"</span></span><br><span class="line"><span class="comment">// 这一行比三元运算符简单得多，可读性也更强</span></span><br></pre></td></tr></table></figure>
+<h3 id="Kotlin内联函数"><a href="#Kotlin内联函数" class="headerlink" title="Kotlin内联函数"></a>Kotlin内联函数</h3><p>Java 方法执行的内存模型是基于 Java 虚拟机栈的：每个方法被执行的时候都会创建一个栈帧（Stack Frame），用于存储局部变量表、操作数栈、动态链接、方法出口等信息。每一个方法被调用直至执行完成的过程，就对应着一个栈帧入栈、出栈的过程。<br>也就是说每调用一个方法，都会对应一个栈帧的入栈出栈过程，如果你有一个工具类方法，在某个循环里调用很多次，那就会对应很多次的栈帧入栈、出栈过程。这里首先要记住的一点是，栈帧的创建及入栈、出栈都是有性能损耗的。下面以一个例子来说明，看段代码片段：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">fun <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//多次调用 sum() 方法进行求和运算</span></span><br><span class="line">    println(sum(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line">    println(sum(<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>))</span><br><span class="line">    println(sum(<span class="number">12</span>, <span class="number">34</span>))</span><br><span class="line">    <span class="comment">//....可能还有若干次</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">fun <span class="title">sum</span><span class="params">(vararg ints: Int)</span>: Int </span>&#123;</span><br><span class="line">    var sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> (i in ints) &#123;</span><br><span class="line">        sum += i</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在测试方法 test() 里，我们多次调用了 sum() 方法。为了避免多次调用 sum() 方法带来的性能损耗，我们期望的代码类似这样子的：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">fun <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    var sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="function">i in <span class="title">arrayOf</span><span class="params">(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span>) </span>&#123;</span><br><span class="line">        sum += i            </span><br><span class="line">    &#125;</span><br><span class="line">    println(sum)</span><br><span class="line">    </span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="function">i in <span class="title">arrayOf</span><span class="params">(<span class="number">100</span>, <span class="number">200</span>, <span class="number">300</span>)</span>) </span>&#123;</span><br><span class="line">        sum += i            </span><br><span class="line">    &#125;</span><br><span class="line">    println(sum)</span><br><span class="line">    </span><br><span class="line">    sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="function">i in <span class="title">arrayOf</span><span class="params">(<span class="number">12</span>, <span class="number">34</span>)</span>) </span>&#123;</span><br><span class="line">        sum += i            </span><br><span class="line">    &#125;</span><br><span class="line">    println(sum)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3次数据求和操作，都是在 test() 方法里执行的，没有之前的 sum() 方法调用，最后的结果依然是一样的，但是由于减少了方法调用，虽然代码量增加了，但是性能确提升了。那么怎么实现这种情况呢，一般工具类有很多公共方法，我总不能在需要调用这些公共方法的地方，把代码复制一遍吧，内联就是为了解决这一问题。</p>
+<p>定义内联函数：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">inline fun <span class="title">sum</span><span class="params">(vararg ints: Int)</span>: Int </span>&#123;</span><br><span class="line">    var sum = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> (i in ints) &#123;</span><br><span class="line">        sum += i</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上所示，用关键字 inline 标记函数，该函数就是一个内联函数。还是原来的 test() 方法，编译器在编译的时候，会自动把内联函数 sum() 方法体内的代码，替换到调用该方法的地方。查看编译后的字节码，会发现 test() 方法里已经没了对 sum() 方法的调用，凡是原来代码里出现 sum() 方法调用的地方，出现的都是 sum() 方法体内的字节码了。</p>
+<blockquote>
+<p>注意，内联可能导致生成的代码增加；不过如果我们使用得当（即避免内联过大函数），性能上会有所提升，尤其是在循环中的“超多态（megamorphic）”调用处。</p>
+</blockquote>
+<h4 id="禁用内联"><a href="#禁用内联" class="headerlink" title="禁用内联"></a>禁用内联</h4><p>如果一个内联函数的参数里包含 lambda表达式，也就是函数参数，那么该形参也是 inline 的，举个例子：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">inline fun <span class="title">test</span><span class="params">(inlined: ()</span> -&gt; Unit) </span>&#123;...&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里有个问题需要注意，如果在内联函数的内部，函数参数被其他非内联函数调用，就会报错，如下所示：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//内联函数</span></span><br><span class="line"><span class="function">inline fun <span class="title">test</span><span class="params">(inlined: ()</span> -&gt; Unit) </span>&#123;</span><br><span class="line">    <span class="comment">//这里会报错</span></span><br><span class="line">    otherNoinlineMethod(inlined)   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//非内联函数</span></span><br><span class="line"><span class="function">fun <span class="title">otherNoinlineMethod</span><span class="params">(oninline: ()</span> -&gt; Unit) </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>要解决这个问题，必须为内联函数的参数加上 noinline 修饰，表示禁止内联，保留原有函数的特性，所以 test() 方法正确的写法应该是：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">inline fun <span class="title">test</span><span class="params">(noinline inlined: ()</span> -&gt; Unit) </span>&#123;</span><br><span class="line">    otherNoinlineMethod(inlined)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意，如果一个内联函数没有可内联的函数参数并且没有具体化的类型参数，编译器会产生一个警告，因为内联这样的函数很可能并无益处（如果你确认需要内联，则可以用 @Suppress(“NOTHING_TO_INLINE”) 注解关掉该警告</p>
+</blockquote>
+<h4 id="非局部返回"><a href="#非局部返回" class="headerlink" title="非局部返回"></a>非局部返回</h4><p>在 Kotlin 中，我们只能对具名或匿名函数使用正常的、非限定的 return 来退出。 这意味着要退出一个 lambda 表达式，我们必须使用一个标签，并且在 lambda 表达式内部禁止使用裸 return，因为 lambda 表达式不能使包含它的函数返回：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">fun <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    innerFun &#123;      </span><br><span class="line">        <span class="comment">//return 会报错，非局部返回，直接退出 test() 函数。</span></span><br><span class="line">        <span class="keyword">return</span><span class="meta">@innerFun</span>     <span class="comment">//局部返回，只退出 innerFun() 函数</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//以下代码依旧会执行</span></span><br><span class="line">    println(<span class="string">"test..."</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">fun <span class="title">innerFun</span><span class="params">(a: ()</span> -&gt; Unit) </span>&#123;</span><br><span class="line">    a()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>非局部返回我的理解就是返回到顶层函数，如上面代码中所示，默认情况下是不能直接 return 的，但是内联函数确是可以的。所以改成下面这个样子<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">fun <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    innerFun &#123;      </span><br><span class="line">        <span class="keyword">return</span> <span class="comment">//非局部返回，直接退出 test() 函数。</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//以下代码不会执行</span></span><br><span class="line">    println(<span class="string">"test..."</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">inline fun <span class="title">innerFun</span><span class="params">(a: ()</span> -&gt; Unit) </span>&#123;</span><br><span class="line">    a()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>也就是说内联函数的函数参数在调用时，可以非局部返回，如上所示。那么 crossinline 修饰的 lambda 参数，可以禁止内联函数调用时非局部返回。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">fun <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    innerFun &#123;      </span><br><span class="line">        <span class="keyword">return</span> <span class="comment">//这里这样会报错，只能 return@innerFun</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//以下代码不会执行</span></span><br><span class="line">    println(<span class="string">"test..."</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">inline fun <span class="title">innerFun</span><span class="params">(crossinline a: ()</span> -&gt; Unit) </span>&#123;</span><br><span class="line">    a()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="具体化的类型参数"><a href="#具体化的类型参数" class="headerlink" title="具体化的类型参数"></a>具体化的类型参数</h4><p>有时候我们需要访问一个作为参数传给我们的一个类型：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">fun &lt;T&gt; TreeNode.findParentOfType(clazz: Class&lt;T&gt;): T? &#123;</span><br><span class="line">    var p = parent</span><br><span class="line">    <span class="keyword">while</span> (p != <span class="keyword">null</span> &amp;&amp; !clazz.isInstance(p)) &#123;</span><br><span class="line">        p = p.parent</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Suppress</span>(<span class="string">"UNCHECKED_CAST"</span>)</span><br><span class="line">    <span class="keyword">return</span> p as T?</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在这里我们向上遍历一棵树并且检测每个节点是不是特定的类型。 这都没有问题，但是调用处不是很优雅：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">treeNode.findParentOfType(MyTreeNode::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>)</span></span><br></pre></td></tr></table></figure></p>
+<p>我们真正想要的只是传一个类型给该函数，即像这样调用它：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">treeNode.findParentOfType&lt;MyTreeNode&gt;()</span><br></pre></td></tr></table></figure></p>
+<p>为能够这么做，内联函数支持具体化的类型参数，于是我们可以这样写：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">inline fun &lt;reified T&gt; TreeNode.findParentOfType(): T? &#123;</span><br><span class="line">    var p = parent</span><br><span class="line">    <span class="keyword">while</span> (p != <span class="keyword">null</span> &amp;&amp; p !is T) &#123;</span><br><span class="line">        p = p.parent</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> p as T?</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们使用 reified 修饰符来限定类型参数，现在可以在函数内部访问它了， 几乎就像是一个普通的类一样。由于函数是内联的，不需要反射，正常的操作符如 !is 和 as 现在都能用了。此外，我们还可以按照上面提到的方式调用它：<code>myTree.findParentOfType&lt;MyTreeNodeType&gt;()</code>。</p>
+<p>再举个栗子：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">inline fun &lt;reified T: Activity&gt; startActivity() &#123;</span><br><span class="line">    startActivity(Intent(<span class="keyword">this</span>, T::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>))</span></span><br><span class="line"><span class="class">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>使用时直接传入泛型即可，代码简洁明了：<br><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">startActivity&lt;MainActivity&gt;()</span><br></pre></td></tr></table></figure></p>
+<h3 id="扩展函数"><a href="#扩展函数" class="headerlink" title="扩展函数"></a>扩展函数</h3><p>扩展函数可以在已有类中添加新的方法，不会对原类做修改，扩展函数定义形式：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">fun receiverType.functionName(params)&#123;</span><br><span class="line">    body</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>receiverType：表示函数的接收者，也就是函数扩展的对象<br>functionName：扩展函数的名称<br>params：扩展函数的参数，可以为NULL</p>
+<p>以下实例扩展 User 类 ：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">class User(var name:String)</span><br><span class="line"></span><br><span class="line"><span class="comment">/**扩展函数**/</span></span><br><span class="line">fun User.Print()&#123;</span><br><span class="line">    print(<span class="string">"用户名 $name"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">fun <span class="title">main</span><span class="params">(arg:Array&lt;String&gt;)</span></span>&#123;</span><br><span class="line">    var user = User(<span class="string">"Runoob"</span>)</span><br><span class="line">    user.Print()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="类的属性"><a href="#类的属性" class="headerlink" title="类的属性"></a>类的属性</h3><p>Kotlin 类的属性可以声明为可变的（var）或者是只读的（val），声明一个属性的完整语法如下：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">var &lt;propertyName&gt;[: &lt;PropertyType&gt;] [= &lt;property_initializer&gt;]</span><br><span class="line">    [&lt;getter&gt;]</span><br><span class="line">    [&lt;setter&gt;]</span><br><span class="line">val &lt;propertyName&gt;[: &lt;PropertyType&gt;] [= &lt;property_initializer&gt;]</span><br><span class="line">    [&lt;getter&gt;]</span><br></pre></td></tr></table></figure></p>
+<p>以一个简单的 Student 类为例：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">class Student(_name: String, _age: Int) &#123;</span><br><span class="line">    val name: String = _name</span><br><span class="line">    var age: Int = _age</span><br><span class="line">    val isAdult: Boolean</span><br><span class="line">        get() = <span class="keyword">this</span>.age &gt;= <span class="number">18</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里声明 name 和 age 时确实是有 getter 和 setter 方法的，只是被省略了而已，我们以为的不省略写法如下（错误的）：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">class Student(_name: String, _age: Int) &#123;</span><br><span class="line">    val name = _name <span class="comment">// Initializer is not allowed here because this property has no backing field</span></span><br><span class="line">        get() = <span class="keyword">this</span>.name <span class="comment">// Recursive call</span></span><br><span class="line">    var age = _age <span class="comment">// Initializer is not allowed here because this property has no backing field</span></span><br><span class="line">        get() = <span class="keyword">this</span>.age <span class="comment">// Recursive call</span></span><br><span class="line">        set(value) &#123;</span><br><span class="line">            <span class="keyword">this</span>.age = value <span class="comment">// Recursive call</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>this.name 会造成 Recursive call（递归调用）。我们看一下是怎么回事：</p>
+<ul>
+<li>第一步，调用 student.name；</li>
+<li>第二步，调用 get() 方法；</li>
+<li>第三步，在 get() 方法里，调用 this.name；</li>
+<li>第一步，调用 student.name；</li>
+<li>第二步，调用 get() 方法；</li>
+<li>…</li>
+</ul>
+<p>这样就形成了递归调用了 get() 方法，并且没有终止条件，所以是有问题的。</p>
+<p>另一条错误信息提示没有<code>backing field</code>，也叫幕后字段</p>
+<h4 id="backing-field"><a href="#backing-field" class="headerlink" title="backing field"></a>backing field</h4><p>Kotlin 类中不能直接声明 Fields。然而，当一个属性需要一个 backing field 时，Kotlin 会自动地提供它。在访问器中使用 field 标识符就可以引用到 backing field</p>
+<p>看下官方文档里的例子：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">var counter = <span class="number">0</span> <span class="comment">// Note: the initializer assigns the backing field directly</span></span><br><span class="line">    set(value) &#123;</span><br><span class="line">        <span class="keyword">if</span> (value &gt;= <span class="number">0</span>) field = value</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>改写一下刚才的Student类：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">class Student(_name: String, _age: Int) &#123;</span><br><span class="line">    val name = _name</span><br><span class="line">        get() = field <span class="comment">// redundant</span></span><br><span class="line">    var age = _age</span><br><span class="line">        get() = field <span class="comment">// redundant</span></span><br><span class="line">        set(value) &#123; <span class="comment">// redundant</span></span><br><span class="line">            field = value</span><br><span class="line">        &#125;</span><br><span class="line">    val isAdult: Boolean</span><br><span class="line">            get() = <span class="keyword">this</span>.age &gt;= <span class="number">18</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Backing-Properties"><a href="#Backing-Properties" class="headerlink" title="Backing Properties"></a>Backing Properties</h4><p>如果上面的方案都不符合你的需求，那么可以试试“后端属性”(backing property)的方法，它实际上也是隐含试的对属性值的初始化声明，避免了空指针。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">class Student(_name: String, _age: Int) &#123;</span><br><span class="line">    val name = _name</span><br><span class="line">    var age = _age</span><br><span class="line">    <span class="keyword">private</span> var _grades: Map&lt;String, Int&gt;? = <span class="keyword">null</span> <span class="comment">// 私有属性，后端属性</span></span><br><span class="line">    val grades: Map&lt;String, Int&gt;</span><br><span class="line">        get() &#123;</span><br><span class="line">            <span class="keyword">if</span> (_grades == <span class="keyword">null</span>) &#123; <span class="comment">// 只有在首次访问时才加载成绩信息，并只执行一次</span></span><br><span class="line">                _grades = loadGrades()</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> _grades!!</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> fun <span class="title">loadGrades</span><span class="params">()</span>: MutableMap&lt;String, Int&gt; </span>&#123;</span><br><span class="line">        println(<span class="string">"loadGrades() called"</span>)</span><br><span class="line">        val result = mutableMapOf&lt;String, Int&gt;()</span><br><span class="line">        result.put(<span class="string">"Chinese"</span>, <span class="number">100</span>)</span><br><span class="line">        result.put(<span class="string">"Math"</span>, <span class="number">99</span>)</span><br><span class="line">        result.put(<span class="string">"English"</span>, <span class="number">100</span>)</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Kotlin-独有的一些细节"><a href="#Kotlin-独有的一些细节" class="headerlink" title="Kotlin 独有的一些细节"></a>Kotlin 独有的一些细节</h3><h4 id="主构造函数"><a href="#主构造函数" class="headerlink" title="主构造函数"></a>主构造函数</h4><p>在Kotlin类中只有一个主构造函数(主构造器)，而辅助构造函数（次级构造器）可以是一个或者多个。<br>主构造函数用于初始化类，它在类标题中声明。标准写法：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> 类名 <span class="title">construction</span>(参数1，参数2….)</span>&#123;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当constructor关键字没有注解和可见性修饰符作用于它时，constructor关键字可以省略</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> val name:String</span><br><span class="line">    <span class="keyword">private</span> val age:Int</span><br><span class="line">    constructor(name:String,age:Int)&#123; <span class="comment">// 次级构造函数</span></span><br><span class="line">        <span class="keyword">this</span>.name = name</span><br><span class="line">        <span class="keyword">this</span>.age = age</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="数据类"><a href="#数据类" class="headerlink" title="数据类"></a>数据类</h4><p>Kotlin 可以创建一个只包含数据的类，关键字为 data：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">data class <span class="title">User</span><span class="params">(val name: String, val age: Int)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>编译器会自动的从主构造函数中根据所有声明的属性提取以下函数：</p>
+<ul>
+<li>equals() / hashCode()</li>
+<li>toString() 格式如 “User(name=John, age=42)”</li>
+<li>componentN() functions 对应于属性，按声明顺序排列</li>
+<li>copy() 函数</li>
+</ul>
+<p>为了保证生成代码的一致性以及有意义，数据类需要满足以下条件：</p>
+<ul>
+<li>主构造函数至少包含一个参数</li>
+<li>所有的主构造函数的参数必须标识为val 或者 var</li>
+<li>数据类不可以声明为 abstract, open, sealed 或者 inner</li>
+<li>数据类不能继承其他类 (但是可以实现接口)</li>
+</ul>
+<p><strong>复制</strong><br>复制使用 copy() 函数，我们可以使用该函数复制对象并修改部分属性, 对于上文的 User 类，其实现会类似下面这样：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">fun <span class="title">copy</span><span class="params">(name: String = <span class="keyword">this</span>.name, age: Int = <span class="keyword">this</span>.age)</span> </span>= User(name, age)</span><br></pre></td></tr></table></figure></p>
+<p>实例<br>使用 copy 类复制 User 数据类，并修改 age 属性:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">data class <span class="title">User</span><span class="params">(val name: String, val age: Int)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">fun <span class="title">main</span><span class="params">(args: Array&lt;String&gt;)</span> </span>&#123;</span><br><span class="line">    val jack = User(name = <span class="string">"Jack"</span>, age = <span class="number">1</span>)</span><br><span class="line">    val olderJack = jack.copy(age = <span class="number">2</span>)</span><br><span class="line">    println(jack)</span><br><span class="line">    println(olderJack)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出结果为：</span></span><br><span class="line"><span class="comment">// User(name=Jack, age=1)</span></span><br><span class="line"><span class="comment">// User(name=Jack, age=2)</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="密封类"><a href="#密封类" class="headerlink" title="密封类"></a>密封类</h4><p>密封类用来表示受限的类继承结构：当一个值为有限几种的类型, 而不能有任何其他类型时。在某种意义上，他们是枚举类的扩展：枚举类型的值集合 也是受限的，但每个枚举常量只存在一个实例，而密封类 的一个子类可以有可包含状态的多个实例。</p>
+<p>声明一个密封类，使用 sealed 修饰类，密封类可以有子类，但是所有的子类都必须要内嵌在密封类中。</p>
+<p>sealed 不能修饰 interface ,abstract class(会报 warning,但是不会出现编译错误)</p>
+<p>密封类就是一种专门用来配合 when 语句使用的类，举个例子，假如在 Android 中我们有一个 view，我们现在想通过 when 语句设置针对 view 进行两种操作：显示和隐藏，那么就可以这样做：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">sealed <span class="class"><span class="keyword">class</span> <span class="title">UiOp</span> </span>&#123;</span><br><span class="line">    object Show: UiOp()</span><br><span class="line">    object Hide: UiOp()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">fun <span class="title">execute</span><span class="params">(view: View, op: UiOp)</span> </span>= when (op) &#123;</span><br><span class="line">    UiOp.Show -&gt; view.visibility = View.VISIBLE</span><br><span class="line">    UiOp.Hide -&gt; view.visibility = View.GONE</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以上功能其实完全可以用枚举实现，但是如果我们现在想加两个操作：水平平移和纵向平移，并且还要携带一些数据，比如平移了多少距离，平移过程的动画类型等数据，用枚举显然就不太好办了，这时密封类的优势就可以发挥了，例如：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">sealed <span class="class"><span class="keyword">class</span> <span class="title">UiOp</span> </span>&#123;</span><br><span class="line">    object Show: UiOp()</span><br><span class="line">    object Hide: UiOp()</span><br><span class="line">    class TranslateX(val px: Float): UiOp()</span><br><span class="line">    class TranslateY(val px: Float): UiOp()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">fun <span class="title">execute</span><span class="params">(view: View, op: UiOp)</span> </span>= when (op) &#123;</span><br><span class="line">    UiOp.Show -&gt; view.visibility = View.VISIBLE</span><br><span class="line">    UiOp.Hide -&gt; view.visibility = View.GONE</span><br><span class="line">    is UiOp.TranslateX -&gt; view.translationX = op.px <span class="comment">// 这个 when 语句分支不仅告诉 view 要水平移动，还告诉 view 需要移动多少距离，这是枚举等 Java 传统思想不容易实现的</span></span><br><span class="line">    is UiOp.TranslateY -&gt; view.translationY = op.px</span><br><span class="line">    <span class="comment">// 不再需要 `else` 子句，因为我们已经覆盖了所有的情况</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以上代码中，TranslateX 是一个类，它可以携带多于一个的信息，比如除了告诉 view 需要水平平移之外，还可以告诉 view 平移多少像素，甚至还可以告诉 view 平移的动画类型等信息，我想这大概就是密封类出现的意义吧。</p>
+<p>除此之外，如果 when 语句的分支不需要携带除“显示或隐藏view之外的其它信息”时（即只需要表明 when 语句分支，不需要携带额外数据时），用 object 关键字创建单例就可以了，并且此时 when 子句不需要使用 is 关键字。只有需要携带额外信息时才定义密封类的子类，而且使用了密封类就不需要使用 else 子句，每当我们多增加一个密封类的子类或单例，编译器就会在 when 语句中给出提示，可以在编译阶段就及时发现错误，这也是以往 switch-case 语句和枚举不具备的功能。</p>
+<p>最后，我们甚至可以把这一组操作封装成一个函数，以便日后调用，如下：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 先封装一个UI操作列表</span></span><br><span class="line">class Ui(val uiOps: List = emptyList()) &#123;</span><br><span class="line">    <span class="function">operator fun <span class="title">plus</span><span class="params">(uiOp: UiOp)</span> </span>= Ui(uiOps + uiOp)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义一组操作</span></span><br><span class="line">val ui = Ui() +</span><br><span class="line">        UiOp.Show +</span><br><span class="line">        UiOp.TranslateX(<span class="number">20f</span>) +</span><br><span class="line">        UiOp.TranslateY(<span class="number">40f</span>) +</span><br><span class="line">        UiOp.Hide</span><br><span class="line"><span class="comment">// 定义调用的函数</span></span><br><span class="line"><span class="function">fun <span class="title">run</span><span class="params">(view: View, ui: Ui)</span> </span>&#123;</span><br><span class="line">    ui.uiOps.forEach &#123; execute(view, it) &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">run(view, ui) <span class="comment">// 最终调用</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="Break-和-Continue-标签"><a href="#Break-和-Continue-标签" class="headerlink" title="Break 和 Continue 标签"></a>Break 和 Continue 标签</h4><p>在 Kotlin 中任何表达式都可以用标签（label）来标记。 标签的格式为标识符后跟 @ 符号，例如：abc@、fooBar@都是有效的标签。 要为一个表达式加标签，我们只要在其前加标签即可。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">loop@ <span class="keyword">for</span> (i in <span class="number">1</span>..<span class="number">100</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> (j in <span class="number">1</span>..<span class="number">100</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (……) <span class="keyword">break</span><span class="meta">@loop</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>标签限制的 break 跳转到刚好位于该标签指定的循环后面的执行点。 continue 继续标签指定的循环的下一次迭代。</p>
+<h4 id="标签处返回-待补充"><a href="#标签处返回-待补充" class="headerlink" title="标签处返回(待补充)"></a>标签处返回(待补充)</h4><p>Kotlin 有函数字面量、局部函数和对象表达式。因此 Kotlin 的函数可以被嵌套。 标签限制的 return 允许我们从外层函数返回。 最重要的一个用途就是从 lambda 表达式中返回。回想一下我们这么写的时候：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">fun <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ints.forEach &#123;</span><br><span class="line">        <span class="keyword">if</span> (it == <span class="number">0</span>) <span class="keyword">return</span></span><br><span class="line">        print(it)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个 return 表达式从最直接包围它的函数即 foo 中返回。 （注意，这种非局部的返回只支持传给内联函数的 lambda 表达式。） 如果我们需要从 lambda 表达式中返回，我们必须给它加标签并用以限制 return。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">fun <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ints.forEach lit@ &#123;</span><br><span class="line">        <span class="keyword">if</span> (it == <span class="number">0</span>) <span class="keyword">return</span><span class="meta">@lit</span></span><br><span class="line">        print(it)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在，它只会从 lambda 表达式中返回。通常情况下使用隐式标签更方便。 该标签与接受该 lambda 的函数同名。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">fun <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ints.forEach &#123;</span><br><span class="line">        <span class="keyword">if</span> (it == <span class="number">0</span>) <span class="keyword">return</span><span class="meta">@forEach</span></span><br><span class="line">        print(it)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="object-关键字"><a href="#object-关键字" class="headerlink" title="object 关键字"></a>object 关键字</h4><p><code>object</code> 是Kotlin中的一个重要的关键字，也是Java中没有的。<code>object</code> 主要有以下三种使用场景：</p>
+<ul>
+<li>对象声明（Object Declaration），前面提到了，用于创建类的单例</li>
+<li>伴生对象（Companion Object），类似java中 static 关键字</li>
+<li>对象表达式（Object Expression），替换java的匿名内部类</li>
+</ul>
+<h4 id="分离用于只读与可变集合的接口"><a href="#分离用于只读与可变集合的接口" class="headerlink" title="分离用于只读与可变集合的接口"></a>分离用于只读与可变集合的接口</h4><h4 id="委托"><a href="#委托" class="headerlink" title="委托"></a>委托</h4><p>参考 <a href="https://juejin.im/post/6844904038589267982" target="_blank" rel="noopener">一文彻底搞懂 Kotlin 中的委托</a></p>
+<h4 id="协程（coroutines）"><a href="#协程（coroutines）" class="headerlink" title="协程（coroutines）"></a>协程（coroutines）</h4><p>参考谷歌官方文档：<a href="https://developer.android.com/kotlin/coroutines?hl=zh-cn" target="_blank" rel="noopener">Android 上的 Kotlin 协程</a></p>
+<h3 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h3><p><a href="https://www.kotlincn.net/docs/reference/" target="_blank" rel="noopener">Kotlin 语言中文站</a><br><a href="https://juejin.im/entry/6844903879751008270" target="_blank" rel="noopener">Kotlin内联函数:</a><br><a href="https://www.kotlincn.net/docs/reference/android-overview.html" target="_blank" rel="noopener">使用 Kotlin 进行 Android 开发</a><br><a href="https://blog.csdn.net/willway_wang/article/details/100184784" target="_blank" rel="noopener">Kotlin 的 Backing Fields 和 Backing Properties</a></p>
+<hr>
+<div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-hexo-blog-img/blogimages/attribution_88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://conorlee.top/" target="_blank" rel="noopener">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
+
+<p>本文链接：<a href="http://agehua.github.io/2020/10/26/Diffrence-between-kotlin&amp;Java/">http://agehua.github.io/2020/10/26/Diffrence-between-kotlin&amp;Java/</a></p>
+
+
+            
+  <!-- donate css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+         
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/btn_reward.gif") no-repeat;
+      _background: url("https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/btn_reward.gif") no-repeat;
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+<!-- Donate Module -->
+<div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+    </span>
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+
+  <div id="donate_guide" class="donate_bar center hidden" >
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
+        <a href="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+        <a href="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+      </div>
+      <div style="display:inline-block;">
+          &nbsp;
+          <span class="donate_txt">
+              Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+          </span>
+      </div>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className='hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+
+            
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2020/10/26/Diffrence-between-kotlin&Java/" data-id="cm4b7l9zw006qm947cmrwkvwu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2020/10/26/Diffrence-between-kotlin&Java/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2020/12/04/RecyclerView_scroll_relatedapi/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Recyclerview 滑动相关功能总结
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2020/09/07/Kotlin-DSL/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Kotlin DSL 语法糖</div>
+        </a>
+    
+</nav>
+
+
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+    
+    <section id="comments" class="comments">
+    
+        
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2020/10/26/Diffrence-between-kotlin&amp;Java/', // 可选。默认为 location.href
+  title: 'Kotlin 与 Java 语言比较',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+    
+  </section>
+
+
+
+</article>
+
+
+</section>
+            
+                <aside id="sidebar">
+    <!-- 在_config.yml中配置了widgets，来决定widgets的顺序 -->
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/12/04/matrix-battery-canary-introducation/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/La%20Berceuse%20Augustine%20Roulin%203.jpg)" alt="Matrix Battery 介绍和使用" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/12/04/matrix-battery-canary-introducation/" class="title">Matrix Battery 介绍和使用</a></p>
+                            <p class="item-date"><time datetime="2024-12-03T16:00:00.000Z" itemprop="datePublished">2024-12-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/11/22/matrix-io-canary-introducation/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Iron%20Mill%20in%20The%20Hague.jpg)" alt="Matrix io 介绍和使用" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/11/22/matrix-io-canary-introducation/" class="title">Matrix io 介绍和使用</a></p>
+                            <p class="item-date"><time datetime="2024-11-21T16:00:00.000Z" itemprop="datePublished">2024-11-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/04/24/jacoco-test-coverage/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Irises.jpg)" alt="代码覆盖率统计——集成Jacoco" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/04/24/jacoco-test-coverage/" class="title">代码覆盖率统计——集成Jacoco</a></p>
+                            <p class="item-date"><time datetime="2024-04-23T16:00:00.000Z" itemprop="datePublished">2024-04-24</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/11/13/native-crash-anr-log-analysis/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg)" alt="Native Crash日志分析" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/11/13/native-crash-anr-log-analysis/" class="title">Native Crash日志分析</a></p>
+                            <p class="item-date"><time datetime="2023-11-12T16:00:00.000Z" itemprop="datePublished">2023-11-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2023/11/02/native-crash-principle/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Houses%20in%20Auvers.jpg)" alt="Native Crash捕获原理" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2023/11/02/native-crash-principle/" class="title">Native Crash捕获原理</a></p>
+                            <p class="item-date"><time datetime="2023-11-01T16:00:00.000Z" itemprop="datePublished">2023-11-02</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">81</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/agp/" style="font-size: 11.67px;">AGP</a> <a href="/tags/aidl/" style="font-size: 13.33px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/anr/" style="font-size: 13.33px;">ANR</a> <a href="/tags/aop/" style="font-size: 10px;">AOP</a> <a href="/tags/aosp/" style="font-size: 11.67px;">AOSP</a> <a href="/tags/asm/" style="font-size: 10px;">ASM</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-source-code/" style="font-size: 18.33px;">Android Source Code</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 11.67px;">Annotation</a> <a href="/tags/asyncinflate/" style="font-size: 10px;">AsyncInflate</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 16.67px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16.67px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/constraintlayout/" style="font-size: 11.67px;">ConstraintLayout</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview/" style="font-size: 16.67px;">Interview</a> <a href="/tags/jni/" style="font-size: 13.33px;">JNI</a> <a href="/tags/jvm/" style="font-size: 11.67px;">JVM</a> <a href="/tags/jacoco/" style="font-size: 10px;">Jacoco</a> <a href="/tags/java/" style="font-size: 15px;">Java</a> <a href="/tags/javascript/" style="font-size: 11.67px;">JavaScript</a> <a href="/tags/kotlin/" style="font-size: 11.67px;">Kotlin</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 11.67px;">Looper</a> <a href="/tags/matrix/" style="font-size: 11.67px;">Matrix</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/native-crash/" style="font-size: 11.67px;">Native Crash</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 11.67px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 11.67px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 16.67px;">RecyclerView</a> <a href="/tags/recyclerview-optimization/" style="font-size: 10px;">RecyclerView optimization</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 11.67px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/transform/" style="font-size: 10px;">Transform</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 11.67px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/multi-process/" style="font-size: 11.67px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/picture-in-picture/" style="font-size: 10px;">picture-in-picture</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 11.67px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 13.33px;">toastmaster</a> <a href="/tags/view-scroll/" style="font-size: 10px;">view scroll</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://conorlee.top">我的阿里云博客(求赞助)</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://agehua.github.io/">My Github Pages</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://invitation.conorlee.top/MrLiAndTeacherTian_WeddingInvitation.html">Wedding Invitation(手机观看最佳)</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2024 ConorLee<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2020/10/26/Diffrence-between-kotlin&amp;Java/', // 可选。默认为 location.href
+  title: 'Kotlin 与 Java 语言比较',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+<script>
+    var bigfa_scroll = {
+        drawCircle: function(id, percentage, color) {
+            var width = jQuery(id).width();
+            var height = jQuery(id).height();
+            var radius = parseInt(width / 2.20);
+            var position = width;
+            var positionBy2 = position / 2;
+            var bg = jQuery(id)[0];
+            id = id.split("# ");
+            var ctx = bg.getContext("2d");
+            var imd = null;
+            var circ = Math.PI * 2;
+            var quart = Math.PI / 2;
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineCap = "square";
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineWidth = 3;
+            imd = ctx.getImageData(0, 0, position, position);
+            var draw = function(current, ctxPass) {
+                ctxPass.putImageData(imd, 0, 0);
+                ctxPass.beginPath();
+                ctxPass.arc(positionBy2, positionBy2, radius, -(quart), ((circ) * current) - quart, false);
+                ctxPass.stroke();
+            }
+            draw(percentage / 100, ctx);
+        },
+        backToTop: function($this) {
+            $this.click(function() {
+                jQuery("body,html").animate({
+                    scrollTop: 0
+                },
+                800);
+                return false;
+            });
+        },
+        scrollHook: function($this, color) {
+            color = color ? color: "# 000000";
+            $this.scroll(function() {
+                var docHeight = (jQuery(document).height() - jQuery(window).height()),
+                $windowObj = $this,
+                $per = jQuery(".per"),
+                percentage = 0;
+                defaultScroll = $windowObj.scrollTop();
+                percentage = parseInt((defaultScroll / docHeight) * 100);
+                var backToTop = jQuery("# backtoTop");
+                if (backToTop.length > 0) {
+                    if ($windowObj.scrollTop() > 200) {
+                        backToTop.addClass("button--show");
+                    } else {
+                        backToTop.removeClass("button--show");
+                    }
+                    $per.attr("data-percent", percentage);
+                    bigfa_scroll.drawCircle("# backtoTopCanvas", percentage, color);
+                }
+            });
+        }
+    }
+
+</script>
+
+
+    </div>
+    <!-- <script src="http://cdn.maxjia.com/js/particles.min.js"></script> -->
+  
+  
+    <canvas class="fireworks" style="position: fixed; left: 0px; top: 0px; z-index: 1; pointer-events: none; width: 1440px; height: 416px;" width="2880" height="832"></canvas>
+    
+
+      <script type="text/javascript" src="/js/anime.min.js"></script>
+      <script type="text/javascript" src="/js/firework.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/33.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
