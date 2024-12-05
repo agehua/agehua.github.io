@@ -297,7 +297,7 @@
                 <nav id="sub-nav">
                     <div class="profile" id="profile-nav">
                         <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
+                            <img class="avatar" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/profile.jpeg" />
                             <i class="fa fa-caret-down"></i>
                         </a>
                     </div>
@@ -386,7 +386,7 @@
 <aside id="profile">
     <div class="inner profile-inner" id="profile-inner">
         <div class="base-info profile-block">
-            <img id="avatar" src="http://cdn.conorlee.top/profile.jpeg" />
+            <img id="avatar" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/profile.jpeg" />
             <h2 id="name">Conor Lee</h2>
             <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
@@ -394,11 +394,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                95
+                97
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                103
+                104
                 <span>tags</span>
             </div>
         </div>
@@ -490,6 +490,321 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
             
             <section id="main">
+    <article id="post-TCP-Three-way-Handshake" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2019/05/27/TCP-Three-way-Handshake/" itemprop="url">
+            <img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Mike_Tyson_8.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/05/27/TCP-Three-way-Handshake/">TCP三次握手解读</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/05/27/TCP-Three-way-Handshake/">
+            <time datetime="2019-05-26T16:00:00.000Z" itemprop="datePublished">2019-05-27</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/tcp/">TCP</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">5 min read , Words: 828</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p><code>本篇文章节选自知乎问答，部分图片来自网络，文末已给出链接</code></p>
+<p>网络上有很多关于TCP三次握手的解读和类比，这些都是不全面的，如下：</p>
+<blockquote>
+<p>三次握手：<br>“喂，你听得到吗？”<br>“我听得到呀，你听得到我吗？”<br>“我能听到你，今天 balabala……”<br></p>
+            <p class="article-more-link">
+                <a href="/2019/05/27/TCP-Three-way-Handshake/#more">Read More</a>
+            </p>
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2019/05/27/TCP-Three-way-Handshake/" data-id="cm4b7v6vj006mh047jelut4h4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2019/05/27/TCP-Three-way-Handshake/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+</article>
+
+
+
+
+    <article id="post-Android-APP-Bundles-Introduction" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2019/03/27/Android-APP-Bundles-Introduction/" itemprop="url">
+            <img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Evening%20The%20Watch%20after%20Millet.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2019/03/27/Android-APP-Bundles-Introduction/">Android App Bundle(AAB) 文件介绍</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/03/27/Android-APP-Bundles-Introduction/">
+            <time datetime="2019-03-26T16:00:00.000Z" itemprop="datePublished">2019-03-27</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/android-app-bundles/">Android APP Bundles</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">3 min read , Words: 534</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>在2018年的Google I/O大会上，Google向 Android 引入了新 App 动态化框架（即Android App Bundle，缩写为AAB）<br><img src="/images/blogimages/2019/640.gif" alt="Dynamic Delivery示意效图"><br></p>
+            <p class="article-more-link">
+                <a href="/2019/03/27/Android-APP-Bundles-Introduction/#more">Read More</a>
+            </p>
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://agehua.github.io/2019/03/27/Android-APP-Bundles-Introduction/" data-id="cm4b7v6vk006ph047j6net0fk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="http://agehua.github.io/2019/03/27/Android-APP-Bundles-Introduction/#comments" class="article-comment-link">Comments</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+</article>
+
+
+
+
     <article id="post-Android-request-memory-leaks" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-inner">
@@ -497,7 +812,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
             
 	
 		<a href="/2019/01/26/Android-request-memory-leaks/" itemprop="url">
-            <img src="http://cdn.conorlee.top/Evening%20The%20End%20of%20the%20Day%20after%20Millet.jpg" class="article-banner" />
+            <img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Evening%20The%20End%20of%20the%20Day%20after%20Millet.jpg" class="article-banner" />
         </a>
 	
 
@@ -565,7 +880,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2019/01/26/Android-request-memory-leaks/" data-id="clw1ss2d8005cs5477bnuto58" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2019/01/26/Android-request-memory-leaks/" data-id="cm4b7v6v6006ch0477g984kpc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -658,7 +973,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
             
 	
 		<a href="/2018/12/06/Android-audio-introduction/" itemprop="url">
-            <img src="http://cdn.conorlee.top/Entrance%20to%20the%20Public%20Park%20in%20Arles.jpg" class="article-banner" />
+            <img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Entrance%20to%20the%20Public%20Park%20in%20Arles.jpg" class="article-banner" />
         </a>
 	
 
@@ -730,7 +1045,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2018/12/06/Android-audio-introduction/" data-id="clw1ss2d30057s5476e8dyz4c" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2018/12/06/Android-audio-introduction/" data-id="cm4b7v6v50067h047ngnrtue7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -887,7 +1202,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2018/08/22/Handler-Looper-MessageQueue/" data-id="clw1ss2d20052s547ec29kuhz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2018/08/22/Handler-Looper-MessageQueue/" data-id="cm4b7v6vh006ih0475p4j5fbb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1033,7 +1348,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2018/06/26/Toastmaster-md-introduction/" data-id="clw1ss2cu004vs547uzr3osg5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2018/06/26/Toastmaster-md-introduction/" data-id="cm4b7v6vb006fh047hknrkcuu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1126,7 +1441,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
             
 	
 		<a href="/2018/06/08/JVM-stack-heap-GC/" itemprop="url">
-            <img src="http://cdn.conorlee.top/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg" class="article-banner" />
+            <img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg" class="article-banner" />
         </a>
 	
 
@@ -1191,7 +1506,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2018/06/08/JVM-stack-heap-GC/" data-id="clw1ss2ct004rs547p2asgubs" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2018/06/08/JVM-stack-heap-GC/" data-id="cm4b7v6vx007rh047lxm2ybu7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1284,7 +1599,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
             
 	
 		<a href="/2018/04/23/Usage-of-genericity/" itemprop="url">
-            <img src="http://cdn.conorlee.top/Enclosed%20Wheat%20Field%20with%20Peasant.jpg" class="article-banner" />
+            <img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Enclosed%20Wheat%20Field%20with%20Peasant.jpg" class="article-banner" />
         </a>
 	
 
@@ -1348,7 +1663,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="http://agehua.github.io/2018/04/23/Usage-of-genericity/" data-id="clw1ss2cs004ns5470m8sbd8f" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://agehua.github.io/2018/04/23/Usage-of-genericity/" data-id="cm4b7v6v3005xh047yewkmw6s" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1434,310 +1749,8 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 
 
-    <article id="post-Toastmaster-two-drawbacks" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/04/02/Toastmaster-two-drawbacks/">投马-two drawbacks</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/04/02/Toastmaster-two-drawbacks/">
-            <time datetime="2018-04-01T16:00:00.000Z" itemprop="datePublished">2018-04-02</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/english/">english</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/toastmaster/">toastmaster</a>
-    </div>
-
-
-                        <div style="color:#cba11f;float:right">3 min read , Words: 511</div>                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">                   .-&apos; _..`.         </span><br><span class="line">                  /  .&apos;_.&apos;.&apos;</span><br><span class="line">                 | .&apos; (.)`.</span><br><span class="line">                 ;&apos;   ,_   `.</span><br><span class="line"> .--.__________.&apos;    ;  `.;-&apos;</span><br><span class="line">|  ./               /</span><br><span class="line">|  |               / </span><br><span class="line">`..&apos;`-._  _____, ..&apos;</span><br><span class="line">     / | |     | |\ \</span><br><span class="line">    / /| |     | | \ \</span><br><span class="line">   / / | |     | |  \ \</span><br><span class="line">  /_/  |_|     |_|   \_\</span><br></pre></td></tr></table></figure></p>
-            <p class="article-more-link">
-                <a href="/2018/04/02/Toastmaster-two-drawbacks/#more">Read More</a>
-            </p>
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-          <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2018/04/02/Toastmaster-two-drawbacks/" data-id="clw1ss2d0004zs547frukb1dm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-          
-    
-        <a href="http://agehua.github.io/2018/04/02/Toastmaster-two-drawbacks/#comments" class="article-comment-link">Comments</a>
-    
-
-
-        </footer>
-
-    </div>
-    
-    <script>
-        pangu.spacingPage();
-    </script>
-
-
-</article>
-
-
-
-
-    <article id="post-IntentService-AsyncTask" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2018/03/14/IntentService-AsyncTask/" itemprop="url">
-            <img src="http://cdn.conorlee.top/Enclosed%20Field%20with%20Rising%20Sun.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/03/14/IntentService-AsyncTask/">IntentService和AsyncTask的区别</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/03/14/IntentService-AsyncTask/">
-            <time datetime="2018-03-13T16:00:00.000Z" itemprop="datePublished">2018-03-14</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/asynctask/">AsyncTask</a>, <a class="tag-link" href="/tags/intentservice/">IntentService</a>
-    </div>
-
-
-                        <div style="color:#cba11f;float:right">4 min read , Words: 762</div>                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="IntentService和AsyncTask的区别"><a href="#IntentService和AsyncTask的区别" class="headerlink" title="IntentService和AsyncTask的区别"></a>IntentService和AsyncTask的区别</h3><p>先说总结：<br><strong>Service</strong>：Service只适合处理长期后台执行的，这里的后台是指与前台Activity无关的东西，但跟Activity同样运行在UI线程。同时Service开销比Thread大，Service本身不能解决多线程问题。<br><strong>同一个Service多次启动</strong>，只会在第一次启动时回调onStart()或onBind()方法，并多次回调onStartCommand方法。<br></p>
-            <p class="article-more-link">
-                <a href="/2018/03/14/IntentService-AsyncTask/#more">Read More</a>
-            </p>
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-          <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://agehua.github.io/2018/03/14/IntentService-AsyncTask/" data-id="clw1ss2cr004js54786hh4tgv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-          
-    
-        <a href="http://agehua.github.io/2018/03/14/IntentService-AsyncTask/#comments" class="article-comment-link">Comments</a>
-    
-
-
-        </footer>
-
-    </div>
-    
-    <script>
-        pangu.spacingPage();
-    </script>
-
-
-</article>
-
-
-
-
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
     </nav>
 
 </section>
@@ -1754,10 +1767,48 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                     <li>
                         
                         <div class="item-thumbnail">
+                            <a href="/2024/12/04/matrix-battery-canary-introducation/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/La%20Berceuse%20Augustine%20Roulin%203.jpg)" alt="Matrix Battery 介绍和使用" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/12/04/matrix-battery-canary-introducation/" class="title">Matrix Battery 介绍和使用</a></p>
+                            <p class="item-date"><time datetime="2024-12-03T16:00:00.000Z" itemprop="datePublished">2024-12-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/11/22/matrix-io-canary-introducation/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Iron%20Mill%20in%20The%20Hague.jpg)" alt="Matrix io 介绍和使用" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/11/22/matrix-io-canary-introducation/" class="title">Matrix io 介绍和使用</a></p>
+                            <p class="item-date"><time datetime="2024-11-21T16:00:00.000Z" itemprop="datePublished">2024-11-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
                             <a href="/2024/04/24/jacoco-test-coverage/" class="thumbnail">
     
     
-        <span style="background-image:url(https://cdn.conorlee.top/Irises.jpg)" alt="代码覆盖率统计——集成Jacoco" class="thumbnail-image"></span>
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Irises.jpg)" alt="代码覆盖率统计——集成Jacoco" class="thumbnail-image"></span>
     
 </a>
 
@@ -1776,7 +1827,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                             <a href="/2023/11/13/native-crash-anr-log-analysis/" class="thumbnail">
     
     
-        <span style="background-image:url(https://cdn.conorlee.top/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg)" alt="Native Crash日志分析" class="thumbnail-image"></span>
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg)" alt="Native Crash日志分析" class="thumbnail-image"></span>
     
 </a>
 
@@ -1795,7 +1846,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                             <a href="/2023/11/02/native-crash-principle/" class="thumbnail">
     
     
-        <span style="background-image:url(https://cdn.conorlee.top/Houses%20in%20Auvers.jpg)" alt="Native Crash捕获原理" class="thumbnail-image"></span>
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Houses%20in%20Auvers.jpg)" alt="Native Crash捕获原理" class="thumbnail-image"></span>
     
 </a>
 
@@ -1808,44 +1859,6 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2023/10/26/cross-process-bridge/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://cdn.conorlee.top/Harvest%20in%20Provence%2C%20at%20the%20Left%20Montmajour.jpg)" alt="跨进程通信Bridge建立" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2023/10/26/cross-process-bridge/" class="title">跨进程通信Bridge建立</a></p>
-                            <p class="item-date"><time datetime="2023-10-25T16:00:00.000Z" itemprop="datePublished">2023-10-26</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2023/09/26/matrix-trace-canary/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://cdn.conorlee.top/Haystacks%20in%20Provence.jpg)" alt="Matrix TraceCanary源码分析" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
-                            <p class="item-title"><a href="/2023/09/26/matrix-trace-canary/" class="title">Matrix TraceCanary源码分析</a></p>
-                            <p class="item-date"><time datetime="2023-09-25T16:00:00.000Z" itemprop="datePublished">2023-09-26</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1855,7 +1868,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">79</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">81</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -1865,7 +1878,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/agp/" style="font-size: 11.67px;">AGP</a> <a href="/tags/aidl/" style="font-size: 13.33px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/anr/" style="font-size: 13.33px;">ANR</a> <a href="/tags/aop/" style="font-size: 10px;">AOP</a> <a href="/tags/aosp/" style="font-size: 11.67px;">AOSP</a> <a href="/tags/asm/" style="font-size: 10px;">ASM</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-source-code/" style="font-size: 18.33px;">Android Source Code</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 11.67px;">Annotation</a> <a href="/tags/asyncinflate/" style="font-size: 10px;">AsyncInflate</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 16.67px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16.67px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/constraintlayout/" style="font-size: 11.67px;">ConstraintLayout</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview/" style="font-size: 16.67px;">Interview</a> <a href="/tags/jni/" style="font-size: 13.33px;">JNI</a> <a href="/tags/jvm/" style="font-size: 11.67px;">JVM</a> <a href="/tags/jacoco/" style="font-size: 10px;">Jacoco</a> <a href="/tags/java/" style="font-size: 15px;">Java</a> <a href="/tags/javascript/" style="font-size: 11.67px;">JavaScript</a> <a href="/tags/kotlin/" style="font-size: 11.67px;">Kotlin</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 11.67px;">Looper</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/native-crash/" style="font-size: 11.67px;">Native Crash</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 11.67px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 11.67px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 16.67px;">RecyclerView</a> <a href="/tags/recyclerview-optimization/" style="font-size: 10px;">RecyclerView optimization</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 11.67px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/transform/" style="font-size: 10px;">Transform</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 11.67px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/multi-process/" style="font-size: 11.67px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/picture-in-picture/" style="font-size: 10px;">picture-in-picture</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 11.67px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 13.33px;">toastmaster</a> <a href="/tags/view-scroll/" style="font-size: 10px;">view scroll</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/agp/" style="font-size: 11.67px;">AGP</a> <a href="/tags/aidl/" style="font-size: 13.33px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/anr/" style="font-size: 13.33px;">ANR</a> <a href="/tags/aop/" style="font-size: 10px;">AOP</a> <a href="/tags/aosp/" style="font-size: 11.67px;">AOSP</a> <a href="/tags/asm/" style="font-size: 10px;">ASM</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-source-code/" style="font-size: 18.33px;">Android Source Code</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 11.67px;">Annotation</a> <a href="/tags/asyncinflate/" style="font-size: 10px;">AsyncInflate</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/basic-knowledge/" style="font-size: 16.67px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 16.67px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/constraintlayout/" style="font-size: 11.67px;">ConstraintLayout</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handler/" style="font-size: 10px;">Handler</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 13.33px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview/" style="font-size: 16.67px;">Interview</a> <a href="/tags/jni/" style="font-size: 13.33px;">JNI</a> <a href="/tags/jvm/" style="font-size: 11.67px;">JVM</a> <a href="/tags/jacoco/" style="font-size: 10px;">Jacoco</a> <a href="/tags/java/" style="font-size: 15px;">Java</a> <a href="/tags/javascript/" style="font-size: 11.67px;">JavaScript</a> <a href="/tags/kotlin/" style="font-size: 11.67px;">Kotlin</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 11.67px;">Looper</a> <a href="/tags/matrix/" style="font-size: 11.67px;">Matrix</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/messagequeue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/native-crash/" style="font-size: 11.67px;">Native Crash</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 11.67px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 11.67px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 16.67px;">RecyclerView</a> <a href="/tags/recyclerview-optimization/" style="font-size: 10px;">RecyclerView optimization</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 11.67px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/transform/" style="font-size: 10px;">Transform</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 11.67px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 13.33px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 11.67px;">linux</a> <a href="/tags/multi-process/" style="font-size: 11.67px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/picture-in-picture/" style="font-size: 10px;">picture-in-picture</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 11.67px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 13.33px;">toastmaster</a> <a href="/tags/view-scroll/" style="font-size: 10px;">view scroll</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
         </div>
     </div>
 
@@ -1874,7 +1887,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 

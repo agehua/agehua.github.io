@@ -7,8 +7,8 @@ tags:
   - LocationListener
 keywords: LocationListener
 description: Android使用手机定位服务使用，GPS服务不可用则跳转到手机位置服务设置页面
-banner: http://cdn.conorlee.top/Blossoming%20Acacia%20Branches.jpg
-thumbnail: http://cdn.conorlee.top/Blossoming%20Acacia%20Branches.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Blossoming%20Acacia%20Branches.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Blossoming%20Acacia%20Branches.jpg
 ---
 
 

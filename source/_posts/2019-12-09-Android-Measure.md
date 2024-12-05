@@ -7,8 +7,8 @@ tags:
     - RelativeLayout
     - Measure
 keywords: Measure, RelativeLayout, FrameLayout
-banner: http://cdn.conorlee.top/Field%20with%20Stacks%20of%20Wheat.jpg
-thumbnail: http://cdn.conorlee.top/Field%20with%20Stacks%20of%20Wheat.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Field%20with%20Stacks%20of%20Wheat.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Field%20with%20Stacks%20of%20Wheat.jpg
 toc: true
 ---
 

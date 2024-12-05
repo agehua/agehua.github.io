@@ -6,8 +6,8 @@ tags:
   - Android Source Code
   - ANR
 keywords: SharedPreferences, sp
-banner: https://cdn.conorlee.top/Green%20Wheat%20Field%20with%20Cypress.jpg
-thumbnail: https://cdn.conorlee.top/Green%20Wheat%20Field%20with%20Cypress.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Green%20Wheat%20Field%20with%20Cypress.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Green%20Wheat%20Field%20with%20Cypress.jpg
 toc: true
 ---
 

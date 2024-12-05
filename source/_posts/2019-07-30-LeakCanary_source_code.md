@@ -6,8 +6,8 @@ tags:
     - LeakCanary
     - Android Source Code
 keywords: LeakCanary, SourceCode
-banner: http://cdn.conorlee.top/Field%20of%20Spring%20Wheat%20at%20Sunrise.jpg
-thumbnail: http://cdn.conorlee.top/Field%20of%20Spring%20Wheat%20at%20Sunrise.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Field%20of%20Spring%20Wheat%20at%20Sunrise.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Field%20of%20Spring%20Wheat%20at%20Sunrise.jpg
 toc: true
 ---
 

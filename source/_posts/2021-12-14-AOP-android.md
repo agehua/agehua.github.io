@@ -8,8 +8,8 @@ tags:
     - Transform 
     - AOP
 keywords: ASM, AGP, Transform
-banner: https://cdn.conorlee.top/Girl%20in%20White%20in%20the%20Woods.jpg
-thumbnail: https://cdn.conorlee.top/Girl%20in%20White%20in%20the%20Woods.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Girl%20in%20White%20in%20the%20Woods.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Girl%20in%20White%20in%20the%20Woods.jpg
 toc: true
 ---
 我在很早之前就了解过面向切面（AOP）的编程思想，比如[AspectJ](http://www.eclipse.org/aspectj/index.php) 实现简单的切面编程，不过都快忘了 `:(`。本文是想探究AOP在Android环境中的使用，补全Android开发者的技能树。

@@ -5,8 +5,8 @@ category: Java
 tags:
     - Interview
 keywords: Java, Interview
-banner: https://cdn.conorlee.top/Green%20Wheat%20Field%202.jpg
-thumbnail: https://cdn.conorlee.top/Green%20Wheat%20Field%202.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Green%20Wheat%20Field%202.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Green%20Wheat%20Field%202.jpg
 toc: true
 ---
 

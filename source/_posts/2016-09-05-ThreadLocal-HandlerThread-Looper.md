@@ -7,8 +7,8 @@ tags:
   - HandlerThread
   - Looper
 keywords: ThreadLocal, HandlerThread, Looper
-banner: http://cdn.conorlee.top/A%20Lane%20in%20the%20Public%20Garden%20at%20Arles.jpg
-thumbnail: http://cdn.conorlee.top/A%20Lane%20in%20the%20Public%20Garden%20at%20Arles.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/A%20Lane%20in%20the%20Public%20Garden%20at%20Arles.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/A%20Lane%20in%20the%20Public%20Garden%20at%20Arles.jpg
 ---
 
 

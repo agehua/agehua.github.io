@@ -7,8 +7,8 @@ tags:
   - byte[]
 keywords: Java String, bytes,coding
 description: Java String与C/C++中byte[]
-banner: http://cdn.conorlee.top/Bridge%20and%20Houses%20on%20the%20Corner%20of%20Herengracht-Prinsessegracht,%20The%20Hague.jpg
-thumbnail: http://cdn.conorlee.top/Bridge%20and%20Houses%20on%20the%20Corner%20of%20Herengracht-Prinsessegracht,%20The%20Hague.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Bridge%20and%20Houses%20on%20the%20Corner%20of%20Herengracht-Prinsessegracht,%20The%20Hague.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Bridge%20and%20Houses%20on%20the%20Corner%20of%20Herengracht-Prinsessegracht,%20The%20Hague.jpg
 ---
 
 

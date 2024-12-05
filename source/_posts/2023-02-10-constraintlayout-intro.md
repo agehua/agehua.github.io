@@ -5,8 +5,8 @@ category: accumulation
 tags:
   - ConstraintLayout
 keywords: ConstraintLayout
-banner: https://cdn.conorlee.top/Harvest%20at%20La%20Crau%2C%20with%20Montmajour%20in%20the%20Background.jpg
-thumbnail: https://cdn.conorlee.top/Harvest%20at%20La%20Crau%2C%20with%20Montmajour%20in%20the%20Background.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Harvest%20at%20La%20Crau%2C%20with%20Montmajour%20in%20the%20Background.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Harvest%20at%20La%20Crau%2C%20with%20Montmajour%20in%20the%20Background.jpg
 toc: true
 ---
 

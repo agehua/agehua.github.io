@@ -6,8 +6,8 @@ tags:
     - GC
     - JVM
 keywords: memory-management, GC
-banner: http://cdn.conorlee.top/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg
-thumbnail: http://cdn.conorlee.top/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Entrance%20to%20a%20Quarry%20near%20Saint-Remy.jpg
 toc: true
 ---
 不知不觉已经6月8号了，回首一下5月，发现没有什么积累。给自己找个借口，是工作太忙，还是找工作太累？都不是，应该只是自己偷懒了。

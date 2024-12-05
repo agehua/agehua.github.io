@@ -818,6 +818,8 @@ code {
   width: 100%;
   height: auto;
   max-height: 378px;
+  object-fit: cover;
+  object-position: top;
 }
 .article-header {
   padding: 20px 20px 0;

@@ -7,8 +7,8 @@ tags:
     - Electron
     - JavaScript
 keywords: Electron, JavaScript
-banner: http://cdn.conorlee.top/Digger%203.jpg
-thumbnail: http://cdn.conorlee.top/Digger%203.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Digger%203.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Digger%203.jpg
 toc: true
 ---
 

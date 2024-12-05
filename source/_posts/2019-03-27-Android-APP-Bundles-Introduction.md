@@ -5,8 +5,8 @@ category: accumulation
 tags:
     - Android APP Bundles
 keywords: Android APP Bundles, AAB
-banner: http://cdn.conorlee.top/Evening%20The%20Watch%20after%20Millet.jpg
-thumbnail: http://cdn.conorlee.top/Evening%20The%20Watch%20after%20Millet.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Evening%20The%20Watch%20after%20Millet.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Evening%20The%20Watch%20after%20Millet.jpg
 toc: true
 ---
 

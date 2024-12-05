@@ -5,8 +5,8 @@ category: accumulation
 tags:
     - bits operation
 keywords: bits operation
-banner: http://cdn.conorlee.top/Field%20with%20Poppies.jpg
-thumbnail: http://cdn.conorlee.top/Field%20with%20Poppies.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Field%20with%20Poppies.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Field%20with%20Poppies.jpg
 toc: true
 ---
 

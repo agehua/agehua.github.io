@@ -6,8 +6,8 @@ tags:
     - RecyclerView
     - Android Source Code
 keywords: RecyclerView
-banner: http://cdn.conorlee.top/Farmhouse%20in%20a%20Wheat%20Field.jpg
-thumbnail: http://cdn.conorlee.top/Farmhouse%20in%20a%20Wheat%20Field.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Farmhouse%20in%20a%20Wheat%20Field.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Farmhouse%20in%20a%20Wheat%20Field.jpg
 toc: true
 ---
 

@@ -5,8 +5,8 @@ category: Java
 tags:
     - genericity
 keywords: Java, genericity
-banner: http://cdn.conorlee.top/Enclosed%20Wheat%20Field%20with%20Peasant.jpg
-thumbnail: http://cdn.conorlee.top/Enclosed%20Wheat%20Field%20with%20Peasant.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Enclosed%20Wheat%20Field%20with%20Peasant.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Enclosed%20Wheat%20Field%20with%20Peasant.jpg
 toc: true
 ---
 我在之前转载过一篇Java泛型的介绍：[JAVA 泛型通配符 T，E，K，V 区别，T 以及 Class<T>，Class<?> 的区别](/2016/11/21/Difference_between-T-E-K-V/)

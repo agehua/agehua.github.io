@@ -5,8 +5,8 @@ category: accumulation
 tags:
     - CoordinatorLayout
 keywords: NestedScrollingChild2, NestedScrollingParent
-banner: http://cdn.conorlee.top/Field%20with%20Ploughman%20and%20Mill.jpg
-thumbnail: http://cdn.conorlee.top/Field%20with%20Ploughman%20and%20Mill.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Field%20with%20Ploughman%20and%20Mill.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Field%20with%20Ploughman%20and%20Mill.jpg
 toc: true
 ---
 ### CoordinatorLayout

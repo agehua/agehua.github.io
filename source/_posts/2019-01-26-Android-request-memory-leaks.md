@@ -6,8 +6,8 @@ tags:
     - Memory leaks
     - net request
 keywords: Memory leaks, net request
-banner: http://cdn.conorlee.top/Evening%20The%20End%20of%20the%20Day%20after%20Millet.jpg
-thumbnail: http://cdn.conorlee.top/Evening%20The%20End%20of%20the%20Day%20after%20Millet.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Evening%20The%20End%20of%20the%20Day%20after%20Millet.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Evening%20The%20End%20of%20the%20Day%20after%20Millet.jpg
 toc: true
 ---
 

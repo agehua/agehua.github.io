@@ -5,8 +5,8 @@ category: accumulation
 tags:
     - Kotlin
 keywords: Kotlin, DSL
-banner: http://cdn.conorlee.top/Fish-Drying%20Barn%2C%20Seen%20From%20a%20Height.jpg
-thumbnail: http://cdn.conorlee.top/Fish-Drying%20Barn%2C%20Seen%20From%20a%20Height.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Fish-Drying%20Barn%2C%20Seen%20From%20a%20Height.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Fish-Drying%20Barn%2C%20Seen%20From%20a%20Height.jpg
 toc: true
 ---
 

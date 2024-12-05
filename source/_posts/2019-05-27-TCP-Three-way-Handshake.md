@@ -5,8 +5,8 @@ category: accumulation
 tags:
     - TCP
 keywords: TCP
-banner: http://cdn.conorlee.top/Mike_Tyson_8.jpg
-thumbnail: http://cdn.conorlee.top/Mike_Tyson_8.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Mike_Tyson_8.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Mike_Tyson_8.jpg
 toc: true
 ---
 

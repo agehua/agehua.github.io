@@ -5,8 +5,8 @@ category: accumulation
 tags:
   - Hexo
 keywords: Hexo
-banner: http://cdn.conorlee.top/Couple%20Out%20for%20a%20Stroll.jpg
-thumbnail: http://cdn.conorlee.top/Couple%20Out%20for%20a%20Stroll.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Couple%20Out%20for%20a%20Stroll.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Couple%20Out%20for%20a%20Stroll.jpg
 ---
 
 #### Error: Cannot find module './build/Release/DTraceProviderBindings'

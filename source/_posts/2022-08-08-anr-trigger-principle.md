@@ -5,8 +5,8 @@ category: accumulation
 tags:
   - ANR
 keywords: ANR
-banner: https://cdn.conorlee.top/Harvest%20Landscape%202.jpg
-thumbnail: https://cdn.conorlee.top/Harvest%20Landscape%202.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Harvest%20Landscape%202.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Harvest%20Landscape%202.jpg
 toc: true
 ---
 

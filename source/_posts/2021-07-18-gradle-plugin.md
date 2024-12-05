@@ -6,8 +6,8 @@ tags:
     - gradle
     - AGP
 keywords: Android,gradle,AGP
-banner: https://cdn.conorlee.top/Gardens%20on%20Montmartre%20and%20the%20Blute-Fin%20Windmill.jpg
-thumbnail: https://cdn.conorlee.top/Gardens%20on%20Montmartre%20and%20the%20Blute-Fin%20Windmill.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Gardens%20on%20Montmartre%20and%20the%20Blute-Fin%20Windmill.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Gardens%20on%20Montmartre%20and%20the%20Blute-Fin%20Windmill.jpg
 toc: true
 ---
 ### gradle和gradlew的区别

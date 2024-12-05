@@ -5,8 +5,8 @@ category: accumulation
 tags:
     - RecyclerView
 keywords: RecyclerView, Design Pattern
-banner: http://cdn.conorlee.top/Farmhouse%20with%20Two%20Figures.jpg
-thumbnail: http://cdn.conorlee.top/Farmhouse%20with%20Two%20Figures.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Farmhouse%20with%20Two%20Figures.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Farmhouse%20with%20Two%20Figures.jpg
 toc: true
 ---
 

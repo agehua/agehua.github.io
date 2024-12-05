@@ -5,8 +5,8 @@ category: accumulation
 tags:
     - Kotlin
 keywords: Kotlin, Java
-banner: http://cdn.conorlee.top/Flowering%20Garden%20with%20Path.jpg
-thumbnail: http://cdn.conorlee.top/Flowering%20Garden%20with%20Path.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Flowering%20Garden%20with%20Path.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Flowering%20Garden%20with%20Path.jpg
 toc: true
 ---
 

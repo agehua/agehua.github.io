@@ -5,8 +5,8 @@ category: accumulation
 tags:
     - view scroll 
 keywords: scroll, view, layout, margin
-banner: https://cdn.conorlee.top/Garden%20in%20Auvers.jpg
-thumbnail: https://cdn.conorlee.top/Garden%20in%20Auvers.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Garden%20in%20Auvers.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Garden%20in%20Auvers.jpg
 toc: true
 ---
 

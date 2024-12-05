@@ -7,8 +7,8 @@ tags:
   - AOSP
   - Binder
 keywords: AOSP, AMS, Binder
-banner: http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg
-thumbnail: http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Cottages%20Reminiscence%20of%20the%20North.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Cottages%20Reminiscence%20of%20the%20North.jpg
 toc: true
 ---
 
@@ -443,7 +443,7 @@ case SCHEDULE_LAUNCH_ACTIVITY_TRANSACTION:
 有没有发现**Binder只能单向传递**。
 
 这两次的Binder通信如下图所示：
-![](http://blog.conorlee.top/blogimages/2017/ams_binder_process.png)
+![](https://raw.githubusercontent.com/agehua/blog-imags/img/lib-hexo-blog-img/blogimages/2017//ams_binder_process.png)
 
 再来看ApplicationThread类的scheduleLaunchActivity()方法
 ~~~ Java
@@ -547,7 +547,7 @@ performLaunchActivity()通过ClassLoader导入相应的Activity类，然后把�
 
 Android应用程序框架层中的ActivityManagerService启动Activity的过程大致如下图所示：
 
-![图片来自：http://blog.csdn.net/luoshengyang/article/details/6685853](http://blog.conorlee.top/blogimages/2017/activity-start-process.png)
+![图片来自：http://blog.csdn.net/luoshengyang/article/details/6685853](https://raw.githubusercontent.com/agehua/blog-imags/img/lib-hexo-blog-img/blogimages/2017//activity-start-process.png)
 
 在这个图中，ActivityManagerService和ActivityStack位于同一个进程中，而ApplicationThread和ActivityThread位于另一个进程中。其中，ActivityManagerService是负责管理Activity的生命周期的，ActivityManagerService还借助ActivityStack是来把所有的Activity按照后进先出的顺序放在一个堆栈中；对于每一个应用程序来说，都有一个ActivityThread来表示应用程序的主进程，而每一个ActivityThread都包含有一个ApplicationThread实例，它是一个Binder对象，负责和其它进程进行通信。
 

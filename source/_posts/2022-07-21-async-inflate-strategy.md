@@ -6,8 +6,8 @@ tags:
   - RecyclerView optimization
   - AsyncInflate
 keywords: RecyclerView, infalte
-banner: https://cdn.conorlee.top/Green%20Wheat%20Fields.jpg
-thumbnail: https://cdn.conorlee.top/Green%20Wheat%20Fields.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Green%20Wheat%20Fields.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Green%20Wheat%20Fields.jpg
 toc: true
 ---
 

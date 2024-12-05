@@ -5,8 +5,8 @@ category: Mac
 tags:
     - CMD
 keywords: mac cmd
-banner: http://cdn.conorlee.top/Encampment%20of%20Gypsies%20with%20Caravans.jpg
-thumbnail: http://cdn.conorlee.top/Encampment%20of%20Gypsies%20with%20Caravans.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Encampment%20of%20Gypsies%20with%20Caravans.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Encampment%20of%20Gypsies%20with%20Caravans.jpg
 toc: true
 ---
 

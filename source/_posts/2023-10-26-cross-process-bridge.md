@@ -5,8 +5,8 @@ category: accumulation
 tags:
   - multi-process
 keywords: multi-process
-banner: https://cdn.conorlee.top/Harvest%20in%20Provence%2C%20at%20the%20Left%20Montmajour.jpg
-thumbnail: https://cdn.conorlee.top/Harvest%20in%20Provence%2C%20at%20the%20Left%20Montmajour.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Harvest%20in%20Provence%2C%20at%20the%20Left%20Montmajour.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Harvest%20in%20Provence%2C%20at%20the%20Left%20Montmajour.jpg
 toc: true
 ---
 

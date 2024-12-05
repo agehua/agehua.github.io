@@ -6,8 +6,8 @@ tags:
     - Android Source Code
     - RecyclerView
 keywords: RecyclerView, RecyclerView cache
-banner: https://cdn.conorlee.top/Garden%20Behind%20a%20House.jpg
-thumbnail: https://cdn.conorlee.top/Garden%20Behind%20a%20House.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Garden%20Behind%20a%20House.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Garden%20Behind%20a%20House.jpg
 toc: true
 ---
 

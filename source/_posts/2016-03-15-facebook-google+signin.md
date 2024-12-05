@@ -7,8 +7,8 @@ tags:
   - third-party signin
 keywords: android, google map, fragments
 description: google map2.0使用总结
-banner: http://cdn.conorlee.top/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg
-thumbnail: http://cdn.conorlee.top/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Cottages%20with%20a%20Woman%20Working%20in%20the%20Foreground.jpg
 ---
 
 

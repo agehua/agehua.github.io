@@ -7,8 +7,8 @@ tags:
   - qiniu
 keywords: qiniu, android
 description: 七牛android使用总结，包括list，delete，upload，download
-banner: http://cdn.conorlee.top/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg
-thumbnail: http://cdn.conorlee.top/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg
 
 ---
 

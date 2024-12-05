@@ -5,8 +5,8 @@ category: accumulation
 tags:
     - Profiler
 keywords: Profiler
-banner: http://cdn.conorlee.top/Field%20with%20Wheat%20Stacks.jpg
-thumbnail: http://cdn.conorlee.top/Field%20with%20Wheat%20Stacks.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Field%20with%20Wheat%20Stacks.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Field%20with%20Wheat%20Stacks.jpg
 toc: true
 ---
 ## Android Studio CPU Profiler使用

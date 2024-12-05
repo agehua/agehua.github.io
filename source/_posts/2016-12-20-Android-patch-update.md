@@ -6,8 +6,8 @@ tags:
   - ANDROID
   - Patch Update
 keywords: Android Patch Update
-banner: http://cdn.conorlee.top/A%20Girl%20in%20the%20Street,%20Two%20Coaches%20in%20the%20Background.jpg
-thumbnail: http://cdn.conorlee.top/A%20Girl%20in%20the%20Street,%20Two%20Coaches%20in%20the%20Background.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/A%20Girl%20in%20the%20Street,%20Two%20Coaches%20in%20the%20Background.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/A%20Girl%20in%20the%20Street,%20Two%20Coaches%20in%20the%20Background.jpg
 toc: true
 ---
 

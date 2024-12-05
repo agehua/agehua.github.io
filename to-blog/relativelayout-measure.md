@@ -5,8 +5,8 @@ category: accumulation
 tags:
     - picture-in-picture
 keywords: picture-in-picture, PIP
-banner: https://cdn.conorlee.top/Flying%20Fox.jpg
-thumbnail: https://cdn.conorlee.top/Flying%20Fox.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Flying%20Fox.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Flying%20Fox.jpg
 toc: true
 ---
 

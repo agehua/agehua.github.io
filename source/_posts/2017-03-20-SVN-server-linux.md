@@ -6,8 +6,8 @@ tags:
   - svn server
   - linux
 keywords: linux, svn服务器
-banner: http://cdn.conorlee.top/Bank%20of%20the%20Oise%20at%20Auvers.jpg
-thumbnail: http://cdn.conorlee.top/Bank%20of%20the%20Oise%20at%20Auvers.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Bank%20of%20the%20Oise%20at%20Auvers.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Bank%20of%20the%20Oise%20at%20Auvers.jpg
 toc: true
 ---
 

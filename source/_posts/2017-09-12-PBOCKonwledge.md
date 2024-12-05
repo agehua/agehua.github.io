@@ -7,8 +7,8 @@ tags:
   - PBOC 2.0
   - Basic Knowledge
 keywords: pboc, pboc2.0
-banner: http://cdn.conorlee.top/Cottages%20in%20Saintes-Maries.jpg
-thumbnail: http://cdn.conorlee.top/Cottages%20in%20Saintes-Maries.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Cottages%20in%20Saintes-Maries.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Cottages%20in%20Saintes-Maries.jpg
 toc: true
 ---
 

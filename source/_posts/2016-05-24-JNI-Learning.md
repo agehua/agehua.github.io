@@ -7,8 +7,8 @@ tags:
   - AES
 keywords: jni, aes 加密
 description: android JNI学习，实现aes加密
-banner: http://cdn.conorlee.top/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg
-thumbnail: http://cdn.conorlee.top/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg
 ---
 
 
@@ -133,7 +133,7 @@ APP_ABI := all
 <!-- 指定图片大小有问题 -->
 
 <!-- [![Pure CSS Happy Hacking Keyboard](/assets/img/jni_structure.png)](http://codepen.io/P233/pen/qEagi) -->
-![Eclipse JNI目录结构](http://blog.conorlee.top/blogimages/2016/jni_structure.png)
+![Eclipse JNI目录结构](https://raw.githubusercontent.com/agehua/blog-imags/img/lib-hexo-blog-img/blogimages/2016//jni_structure.png)
 
 [这篇文章](http://blog.csdn.net/hejinjing_tom_com/article/details/8125648)是使用javah导出头文件过程中，常见错误和解决办法，这里做一个记录。
 

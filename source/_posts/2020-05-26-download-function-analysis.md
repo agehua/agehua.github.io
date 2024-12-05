@@ -5,8 +5,8 @@ category: accumulation
 tags:
     - download
 keywords: Download
-banner: http://cdn.conorlee.top/Field%20with%20Two%20Rabbits.jpg
-thumbnail: http://cdn.conorlee.top/Field%20with%20Two%20Rabbits.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Field%20with%20Two%20Rabbits.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Field%20with%20Two%20Rabbits.jpg
 toc: true
 ---
 

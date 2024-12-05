@@ -5,8 +5,8 @@ category: accumulation
 tags:
   - ConstraintLayout
 keywords: ConstraintLayout
-banner: https://cdn.conorlee.top/Haystacks%20in%20Provence.jpg
-thumbnail: https://cdn.conorlee.top/Haystacks%20in%20Provence.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Haystacks%20in%20Provence.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Haystacks%20in%20Provence.jpg
 toc: true
 ---
 

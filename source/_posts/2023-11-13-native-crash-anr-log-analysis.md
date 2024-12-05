@@ -5,8 +5,8 @@ category: accumulation
 tags:
   - Native Crash
 keywords: Native Crash
-banner: https://cdn.conorlee.top/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg
-thumbnail: https://cdn.conorlee.top/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Interior%20of%20the%20Restaurant%20Carrel%20in%20Arles.jpg
 toc: true
 ---
 

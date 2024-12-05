@@ -6,8 +6,8 @@ tags:
   - ANDROID
   - remove admob
 keywords: admob, 去除广告插件
-banner: http://cdn.conorlee.top/Blossoming%20Pear%20Tree.jpg
-thumbnail: http://cdn.conorlee.top/Blossoming%20Pear%20Tree.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Blossoming%20Pear%20Tree.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Blossoming%20Pear%20Tree.jpg
 ---
 
 
@@ -24,7 +24,7 @@ Days with adware in last 30:	1 days
 
 <!--more-->
 
-![avg_warning](http://blog.conorlee.top/blogimages/2016/avg_warning.PNG)
+![avg_warning](https://raw.githubusercontent.com/agehua/blog-imags/img/lib-hexo-blog-img/blogimages/2016//avg_warning.PNG)
 
 ### 排查
 
@@ -35,6 +35,6 @@ Days with adware in last 30:	1 days
 代码中没有，可能在第三方库中？
 
 结果就是在排查第三方库的过程中，发现google service的jar包中有名字是ads的文件夹。如下图：
-![google_servcie_ads](http://blog.conorlee.top/blogimages/2016/google_servcie_ads.PNG)
+![google_servcie_ads](https://raw.githubusercontent.com/agehua/blog-imags/img/lib-hexo-blog-img/blogimages/2016//google_servcie_ads.PNG)
 
 删除后上图中的两个ads文件夹，再打包apk后，用软件检测，果然没有admob插件了。哈哈，恼人的问题解决了。

@@ -5,8 +5,8 @@ category: accumulation
 tags:
     - ANR
 keywords: ANR, InputDispatcher
-banner: https://cdn.conorlee.top/French%20Peasant%20Woman%20Suckling%20Her%20Baby%20after%20Dalou.jpg
-thumbnail: https://cdn.conorlee.top/French%20Peasant%20Woman%20Suckling%20Her%20Baby%20after%20Dalou.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/French%20Peasant%20Woman%20Suckling%20Her%20Baby%20after%20Dalou.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/French%20Peasant%20Woman%20Suckling%20Her%20Baby%20after%20Dalou.jpg
 toc: true
 ---
 

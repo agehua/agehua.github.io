@@ -7,8 +7,8 @@ tags:
   - android source code
 keywords: jni, android源码
 description: android Jni调用过程
-banner: http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg
-thumbnail: http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Cottages%20Reminiscence%20of%20the%20North.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Cottages%20Reminiscence%20of%20the%20North.jpg
 ---
 
 

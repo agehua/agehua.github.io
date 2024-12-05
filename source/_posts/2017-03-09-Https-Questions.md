@@ -5,8 +5,8 @@ category: accumulation
 tags:
   - HTTPS
 keywords: http, https
-banner: http://cdn.conorlee.top/Auvers%20Town%20Hall%20on%2014%20July%201890.jpg
-thumbnail: http://cdn.conorlee.top/Auvers%20Town%20Hall%20on%2014%20July%201890.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Auvers%20Town%20Hall%20on%2014%20July%201890.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Auvers%20Town%20Hall%20on%2014%20July%201890.jpg
 toc: true
 ---
 

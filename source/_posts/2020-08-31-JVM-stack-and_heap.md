@@ -5,8 +5,8 @@ category: accumulation
 tags:
     - JVM
 keywords: JVM
-banner: http://cdn.conorlee.top/First%20Steps%20after%20Millet.jpg
-thumbnail: http://cdn.conorlee.top/First%20Steps%20after%20Millet.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/First%20Steps%20after%20Millet.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/First%20Steps%20after%20Millet.jpg
 toc: true
 ---
 

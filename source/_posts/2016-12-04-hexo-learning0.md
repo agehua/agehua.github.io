@@ -6,8 +6,8 @@ tags:
   - Hexo
   - EJS
 keywords: EJS介绍
-banner: http://cdn.conorlee.top/Bulb%20Fields.jpg
-thumbnail: http://cdn.conorlee.top/Bulb%20Fields.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Bulb%20Fields.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Bulb%20Fields.jpg
 toc: true
 ---
 

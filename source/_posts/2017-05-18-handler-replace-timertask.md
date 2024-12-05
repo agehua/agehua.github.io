@@ -6,8 +6,8 @@ tags:
   - TimerTask
   - handler
 keywords: handler, TimerTask
-banner: http://cdn.conorlee.top/Blossoming%20Almond%20Branch%20in%20a%20Glass%20with%20a%20Book.jpg
-thumbnail: http://cdn.conorlee.top/Blossoming%20Almond%20Branch%20in%20a%20Glass%20with%20a%20Book.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Blossoming%20Almond%20Branch%20in%20a%20Glass%20with%20a%20Book.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Blossoming%20Almond%20Branch%20in%20a%20Glass%20with%20a%20Book.jpg
 toc: true
 ---
 

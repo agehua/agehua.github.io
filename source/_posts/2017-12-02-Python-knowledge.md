@@ -6,8 +6,8 @@ tags:
     - Basic Knowledge
     - Python
 keywords: Python
-banner: http://cdn.conorlee.top/Donkey%20and%20Cart.jpg
-thumbnail: http://cdn.conorlee.top/Donkey%20and%20Cart.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Donkey%20and%20Cart.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Donkey%20and%20Cart.jpg
 toc: true
 ---
 

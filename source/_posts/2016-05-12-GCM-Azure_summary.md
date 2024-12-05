@@ -9,8 +9,8 @@ tags:
   - notification
 keywords: gcm, azure, notification
 description: google cloud message（GCM）和Azure实现Notification总结
-banner: http://cdn.conorlee.top/Country%20Lane%20with%20Two%20Figures.jpg
-thumbnail: http://cdn.conorlee.top/Country%20Lane%20with%20Two%20Figures.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Country%20Lane%20with%20Two%20Figures.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Country%20Lane%20with%20Two%20Figures.jpg
 
 ---
 

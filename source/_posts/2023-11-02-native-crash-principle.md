@@ -5,8 +5,8 @@ category: accumulation
 tags:
   - Native Crash
 keywords: Native Crash
-banner: https://cdn.conorlee.top/Houses%20in%20Auvers.jpg
-thumbnail: https://cdn.conorlee.top/Houses%20in%20Auvers.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Houses%20in%20Auvers.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Houses%20in%20Auvers.jpg
 toc: true
 ---
 

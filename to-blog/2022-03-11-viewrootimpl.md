@@ -5,8 +5,8 @@ category: accumulation
 tags:
   - ViewRootImpl
 keywords: ViewRootImpl, ViewParent, ViewManager
-banner: https://cdn.conorlee.top/Great%20Peacock%20Moth.jpg
-thumbnail: https://cdn.conorlee.top/Great%20Peacock%20Moth.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Great%20Peacock%20Moth.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Great%20Peacock%20Moth.jpg
 toc: true
 ---
 

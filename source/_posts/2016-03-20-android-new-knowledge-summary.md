@@ -7,8 +7,8 @@ tags:
   - new features
   - Basic Knowledge
 keywords: 新特性, 新知识点,总结
-banner: http://cdn.conorlee.top/Blossoming%20Chestnut%20Branches.jpg
-thumbnail: http://cdn.conorlee.top/Blossoming%20Chestnut%20Branches.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Blossoming%20Chestnut%20Branches.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Blossoming%20Chestnut%20Branches.jpg
 ---
 
 

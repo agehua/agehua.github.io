@@ -5,8 +5,8 @@ category: accumulation
 tags:
   - Jacoco
 keywords: Jacoco
-banner: https://cdn.conorlee.top/Irises.jpg
-thumbnail: https://cdn.conorlee.top/Irises.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Irises.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Irises.jpg
 toc: true
 ---
 
@@ -329,11 +329,46 @@ if (Boolean.parseBoolean(enableJacoco)) {
 需要替换为 build/intermediates/asm_instrumented_project_classes/debug 这个路径，参考：
 https://issuetracker.google.com/issues/161300933#comment13
 
+#### Failed resolution of: Lorg/jacoco/agent/rt/internal_/Offline
+[官方FAQ](https://www.eclemma.org/jacoco/trunk/doc/faq.html)有解释：
+> If you use offline instrumentation the instrumented classes get a direct dependency on the JaCoCo runtime. Therefore jacocoagent.jar of the same JaCoCo version must be on the classpath and accessible from by the instrumented classes.
+
+但是出现这个问题有两种情况：
+
+第一种情况是确实缺少 jacocoagent.jar，那需要下载和gradle里一致的版本，不要下错。
+
+- 1.下载地址：https://repo1.maven.org/maven2/org/jacoco/jacoco/
+- 2.改为使用统一版本。在项目级的build.gradle里加入下面代码：
+~~~ java
+subprojects {
+    configurations.all {
+        resolutionStrategy {
+            eachDependency { details ->
+                if ('org.jacoco' == details.requested.group) {
+                    details.useVersion "0.8.11"
+                }
+            }
+        }
+    }
+}
+~~~
+第二种情况是使用了混淆，导致找不到class，
+需要在混淆文件中添加下面的规则：
+~~~ java
+-keep class org.jacoco.**{*;}
+-keep class com.vladium.emma.**{*;}
+~~~
+
 #### 拿到手机上的测试覆盖数据
 执行adb命令就可以：
 ~~~ java
 adb pull /storage/emulated/0/Android/data/com.xxx.xxx/files/shareData/coverage.ec
 ~~~
+
+### 关于混淆
+尽量使用同一种，否则在合并测试报告时会出问题：
+https://stackoverflow.com/questions/54629643/merge-jacoco-results-obfuscated-and-not-obfuscated-runs
+
 
 ### 增量代码覆盖率
 - 计算增量的最小单位是 方法，即使方法中有一行变更，那也算作方法变更

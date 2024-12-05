@@ -6,8 +6,8 @@ tags:
     - AudioRecord
     - AAC
 keywords: AudioRecord, AAC
-banner: http://cdn.conorlee.top/Entrance%20to%20the%20Public%20Park%20in%20Arles.jpg
-thumbnail: http://cdn.conorlee.top/Entrance%20to%20the%20Public%20Park%20in%20Arles.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Entrance%20to%20the%20Public%20Park%20in%20Arles.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Entrance%20to%20the%20Public%20Park%20in%20Arles.jpg
 toc: true
 ---
 

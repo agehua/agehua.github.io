@@ -6,8 +6,8 @@ tags:
     - RecyclerView
     - Android Source Code
 keywords: scroll, RecyclerView
-banner: https://cdn.conorlee.top/Flowering%20Garden.jpg
-thumbnail: https://cdn.conorlee.top/Flowering%20Garden.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Flowering%20Garden.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Flowering%20Garden.jpg
 toc: true
 ---
 

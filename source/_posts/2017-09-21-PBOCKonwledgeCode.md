@@ -7,8 +7,8 @@ tags:
     - PBOC 2.0
     - Basic Knowledge
 keywords: pboc, pboc2.0
-banner: http://cdn.conorlee.top/Daubigny%20s%20Garden.jpg
-thumbnail: http://cdn.conorlee.top/Daubigny%20s%20Garden.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Daubigny%20s%20Garden.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Daubigny%20s%20Garden.jpg
 toc: true
 ---
 

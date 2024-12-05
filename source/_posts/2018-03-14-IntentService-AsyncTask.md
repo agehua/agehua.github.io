@@ -6,8 +6,8 @@ tags:
     - IntentService
     - AsyncTask
 keywords: IntentService, AsyncTask
-banner: http://cdn.conorlee.top/Enclosed%20Field%20with%20Rising%20Sun.jpg
-thumbnail: http://cdn.conorlee.top/Enclosed%20Field%20with%20Rising%20Sun.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Enclosed%20Field%20with%20Rising%20Sun.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Enclosed%20Field%20with%20Rising%20Sun.jpg
 toc: true
 ---
 

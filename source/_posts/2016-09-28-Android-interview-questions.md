@@ -6,8 +6,8 @@ tags:
   - ANDROID
   - Interview
 keywords: Android,面试题
-banner: http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg
-thumbnail: http://cdn.conorlee.top/Cottages%20Reminiscence%20of%20the%20North.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Cottages%20Reminiscence%20of%20the%20North.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Cottages%20Reminiscence%20of%20the%20North.jpg
 ---
 
 

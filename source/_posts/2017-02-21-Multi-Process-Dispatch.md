@@ -6,8 +6,8 @@ tags:
   - ANDROID
   - multi-process
 keywords: multi-process
-banner: http://cdn.conorlee.top/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg
-thumbnail: http://cdn.conorlee.top/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg
+banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg
+thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Avenue%20of%20Plane%20Trees%20near%20Arles%20Station.jpg
 toc: true
 ---
 
@@ -85,7 +85,7 @@ public static String getProcessName(Context cxt, int pid) {
 最后，调用ApplicationLogic的onCreate方法，实现ApplicationLogic与Application生命周期同步，同时还有onTerminate、onLowMemory、onTrimMemory、onConfigurationChanged等方法，与onCreate一致。
 
 流程图如下所示：
-![多进程Application启动流程](http://blog.conorlee.top/blogimages/2017/multi-Application-flow-chart.png)
+![多进程Application启动流程](https://raw.githubusercontent.com/agehua/blog-imags/img/lib-hexo-blog-img/blogimages/2017//multi-Application-flow-chart.png)
 
 代码实现，先看基类BaseApplicationLogic，每个进程都要实现一个该类的子类：
 
