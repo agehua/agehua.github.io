@@ -10,9 +10,9 @@ thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/La
 toc: true
 ---
 
-## Battery-Canary
+App耗电问题是一个影响用户体验，甚至影响app使用率的一个重要的性能问题。相比Crash、Anr，耗电排查是一个需要综合各种因素来最终确定问题所在的复杂流程。同时又因为耗电受影响的范围大、不同手机衡量标准又不太统一导致该问题一直是一个令人头痛的疑难杂症。
 
-BatteryCanary 最核心的功能是通过监控线程异常来定位 App 的耗电 Bug，主要包括线程电量统计、堆栈信息和线程池问题细分等.
+本文通过介绍耗电基本知识和 Matrix Battery的基本使用，来总结下面对耗电问题应该如何排查和定位
 
 <!--more-->
 ### Android 系统电量统计服务
@@ -53,6 +53,165 @@ Linux 命令 `proc/[pid]/stat 和 proc/[pid]/task/[tid]/stat` 可以 Dump 当前
 Android Linux 上，100 Jiffies ≈ 1 Second
 
 所以我们可以记住一个比较重要的结论：在 Android 系统上，Jiffy 和 Millis 的换算关系大概是 1 比 10。（100 Hz 是一个 Linux 系统的编译参数，在不同的 Linux 版本上这个值可能是不同的。）
+
+
+### BatteryCanary使用
+BatteryCanary 最核心的功能是通过监控线程异常来定位 App 的耗电 Bug，主要包括线程电量统计、堆栈信息和线程池问题细分等.
+
+通过BatteryCanaryInitHelper这个类，
+~~~ java
+sBatteryConfig = new BatteryMonitorConfig.Builder()
+                // Thread Activities Monitor
+                .enable(JiffiesMonitorFeature.class)
+                .enableStatPidProc(true)
+                .greyJiffiesTime(3 * 1000L)
+                .enableBackgroundMode(false)
+                .backgroundLoopCheckTime(30 * 60 * 1000L)
+                .enableForegroundMode(true)
+                .foregroundLoopCheckTime(20 * 60 * 1000L)
+                .setBgThreadWatchingLimit(5000)
+                .setBgThreadWatchingLimit(8000)
+
+                // CPU Stats
+                .enable(CpuStatFeature.class)
+
+                // App & Device Status Monitor For Better Invalid Battery Activities Configure
+                .setOverHeatCount(1024)
+                .enable(DeviceStatMonitorFeature.class)
+                .enable(AppStatMonitorFeature.class)
+                .setSceneSupplier(new Callable<String>() {
+                    @Override
+                    public String call() {
+                        return "Current AppScene";
+                    }
+                })
+
+                // AMS Activities Monitor:
+                // alarm/wakelock watch
+                .enableAmsHook(true)
+                .enable(AlarmMonitorFeature.class)
+                .enable(WakeLockMonitorFeature.class)
+                .wakelockTimeout(2 * 60 * 1000L)
+                .wakelockWarnCount(3)
+                .addWakeLockWhiteList("Ignore WakeLock TAG1")
+                .addWakeLockWhiteList("Ignore WakeLock TAG2")
+                // scanning watch (wifi/gps/bluetooth)
+                .enable(WifiMonitorFeature.class)
+                .enable(LocationMonitorFeature.class)
+                .enable(BlueToothMonitorFeature.class)
+                .enable(NotificationMonitorFeature.class)
+
+                // BatteryStats
+                .enable(BatteryStatsFeature.class)
+                .setRecorder(new BatteryRecorder.MMKVRecorder(mmkv))
+                .setStats(new BatteryStats.BatteryStatsImpl())
+                .enable(HealthStatsFeature.class)
+
+                // Lab Feature:
+                // network monitor
+                // looper task monitor
+                .enable(TrafficMonitorFeature.class)
+                .enable(LooperTaskMonitorFeature.class)
+                .addLooperWatchList("main")
+                .useThreadClock(false)
+                .enableAggressive(true)
+                .enable(TopThreadFeature.class)
+
+                // Monitor Callback
+                .setCallback(new BatteryStatsListener())
+                .build();
+~~~
+
+总结下BatteryCanary 的功能有：
+- 监控现场CPU使用情况，使用Jiffies 衡量
+- CPU状态监控
+- 设备状态监控
+- App状态监控
+- Alarm、WakeLock监控
+- Wifi使用监控
+- Location使用监控
+- Bluetooth使用监控
+- Notification使用监控
+- 电池状态监控
+  - 使用mmkv记录电池状态
+  - 电池健康状态，包括温度
+- 实验功能
+  - 流量使用监控
+  - looper任务监控（主线程）
+  - Top线程监控
+
+初次运行Demo可能会有疑惑，不知道都有哪些功能，简单介绍下：
+
+- 第一个按钮：Dump BatteryStats Report
+  - 对应 BatteryStatsFeature，使用compositeMonitors dump数据，在log里打印，并写入BatteryStatsFeature 的BatteryRecords 里
+  ~~~ java
+  // 将数据打印到日志
+        final Printer printer = new Printer();
+        printer.writeTitle();
+        new BatteryMonitorCallback.BatteryPrinter.Dumper().dump(compositeMonitors, printer);
+        printer.writeEnding();
+
+        // 将数据写入 BatteryStatsFeature 的 BatteryRecorder里
+        BatteryStatsFeature statsFeat = BatteryCanary.getMonitorFeature(BatteryStatsFeature.class);
+        if (statsFeat != null) {
+            statsFeat.statsMonitors(compositeMonitors);
+        }
+  ~~~
+- 第二个：Checkout BatteryStats Report
+  - 同样 BatteryStatsFeature，获取当前进程的 BatteryRecords
+  ~~~ java
+    BatteryCanary.getMonitorFeature(BatteryStatsFeature.class, new Consumer<BatteryStatsFeature>() {
+            @Override
+            public void accept(BatteryStatsFeature batteryStatsFeature) {
+                List<BatteryRecord> records = batteryStatsFeature.readRecords(dayOffset, mProc);
+                if (mFilter != null) {
+                    records = mFilter.filtering(records);
+                }
+                BatteryRecords batteryRecords = new BatteryRecords();
+                batteryRecords.date = BatteryStatsFeature.getDateString(dayOffset);
+                batteryRecords.records = records;
+                add(batteryRecords);
+            }
+        });
+  ~~~
+- 第三个：Checkout BatteryStats Report
+  - 同第二个，只是展示不同进程的数据
+- 第四个、第五个：Show/Close TOP indicator
+  - 展示或取消 top indicator
+  - 对应 TopThreadFeature，获取下面各个feature的数据并展示
+  ~~~ java
+  BatteryCanary.getMonitorFeature(TopThreadFeature.class, new Consumer<TopThreadFeature>() {
+      @Override
+      public void accept(TopThreadFeature topThreadFeat) {
+          topThreadFeat.top(seconds, new Supplier<CompositeMonitors>() {
+              @Override
+              public CompositeMonitors get() {
+                  CompositeMonitors monitors = new CompositeMonitors(mCore, CompositeMonitors.SCOPE_TOP_INDICATOR);
+                  monitors.metric(JiffiesMonitorFeature.UidJiffiesSnapshot.class);
+                  monitors.metric(CpuStatFeature.CpuStateSnapshot.class);
+                  monitors.metric(CpuStatFeature.UidCpuStateSnapshot.class);
+                  monitors.metric(HealthStatsFeature.HealthStatsSnapshot.class);
+                  monitors.metric(TrafficMonitorFeature.RadioStatSnapshot.class);
+                  monitors.sample(DeviceStatMonitorFeature.CpuFreqSnapshot.class, 500L);
+                  monitors.sample(DeviceStatMonitorFeature.BatteryCurrentSnapshot.class, 500L);
+                  monitors.sample(TrafficMonitorFeature.RadioBpsSnapshot.class, 500L);
+                  return monitors;
+              }
+          }, new ContinuousCallback() {
+              @Override
+              public boolean onGetDeltas(final CompositeMonitors monitors, long windowMillis) {
+                  refresh(monitors);
+                  if (mRootView == null || !mRunningRef.get(hashcode, false)) {
+                      return true;
+                  }
+                  return false;
+              }
+          });
+      }
+  });
+  ~~~
+
+综上是 BatteryCanary 的主要功能，后续有时间再开一篇介绍下其中原理
 
 
 ### 参考
