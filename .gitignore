@@ -1,0 +1,16 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
+
+# Hexo generated output (published via hexo-deployer-git to the `master` branch)
+public/
+.deploy_git/
+db.json
+
+# Logs and junk
+*.log
+logcat
+/index.html
