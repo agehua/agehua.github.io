@@ -4,12 +4,12 @@
 
     
   <url>
-    <loc>https://conorlee.top/2025/01/23/2024-9-11-ble-introduction/</loc>
+    <loc>https://conorlee.top/2025/01/23/ble-introduction/</loc>
     <lastmod>2025-01-23T04:59:14.246Z</lastmod>
     <data>
         <display>
         <title>BLE 介绍和使用</title>
-        <pubTime>2025-01-23T04:55:05.209Z</pubTime>
+        <pubTime>2025-01-22T16:00:00.000Z</pubTime>
         
         <tag>BLE</tag>
          
@@ -67,14 +67,14 @@
 
     
   <url>
-    <loc>https://conorlee.top/2023/11/13/native-crash-anr-log-analysis/</loc>
+    <loc>https://conorlee.top/2024/04/24/jacoco-test-coverage/</loc>
     <lastmod>2025-01-23T03:02:24.758Z</lastmod>
     <data>
         <display>
-        <title>Native Crash日志分析</title>
-        <pubTime>2023-11-12T16:00:00.000Z</pubTime>
+        <title>代码覆盖率统计——集成Jacoco</title>
+        <pubTime>2024-04-23T16:00:00.000Z</pubTime>
         
-        <tag>Native Crash</tag>
+        <tag>Jacoco</tag>
          
          
            
@@ -87,14 +87,14 @@
 
     
   <url>
-    <loc>https://conorlee.top/2024/04/24/jacoco-test-coverage/</loc>
+    <loc>https://conorlee.top/2023/11/13/native-crash-anr-log-analysis/</loc>
     <lastmod>2025-01-23T03:02:24.758Z</lastmod>
     <data>
         <display>
-        <title>代码覆盖率统计——集成Jacoco</title>
-        <pubTime>2024-04-23T16:00:00.000Z</pubTime>
+        <title>Native Crash日志分析</title>
+        <pubTime>2023-11-12T16:00:00.000Z</pubTime>
         
-        <tag>Jacoco</tag>
+        <tag>Native Crash</tag>
          
          
            
@@ -127,6 +127,26 @@
 
     
   <url>
+    <loc>https://conorlee.top/2023/11/02/native-crash-principle/</loc>
+    <lastmod>2025-01-23T03:02:24.757Z</lastmod>
+    <data>
+        <display>
+        <title>Native Crash捕获原理</title>
+        <pubTime>2023-11-01T16:00:00.000Z</pubTime>
+        
+        <tag>Native Crash</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="https://conorlee.top/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://conorlee.top/2023/10/26/cross-process-bridge/</loc>
     <lastmod>2025-01-23T03:02:24.757Z</lastmod>
     <data>
@@ -147,14 +167,14 @@
 
     
   <url>
-    <loc>https://conorlee.top/2023/11/02/native-crash-principle/</loc>
-    <lastmod>2025-01-23T03:02:24.757Z</lastmod>
+    <loc>https://conorlee.top/2022/08/08/anr-trigger-principle/</loc>
+    <lastmod>2025-01-23T03:02:24.756Z</lastmod>
     <data>
         <display>
-        <title>Native Crash捕获原理</title>
-        <pubTime>2023-11-01T16:00:00.000Z</pubTime>
+        <title>ANR 触发原理</title>
+        <pubTime>2022-08-07T16:00:00.000Z</pubTime>
         
-        <tag>Native Crash</tag>
+        <tag>ANR</tag>
          
          
            
@@ -177,26 +197,6 @@
         <tag>RecyclerView optimization</tag>
          
         <tag>AsyncInflate</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="https://conorlee.top/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://conorlee.top/2022/08/08/anr-trigger-principle/</loc>
-    <lastmod>2025-01-23T03:02:24.756Z</lastmod>
-    <data>
-        <display>
-        <title>ANR 触发原理</title>
-        <pubTime>2022-08-07T16:00:00.000Z</pubTime>
-        
-        <tag>ANR</tag>
          
          
            
@@ -271,14 +271,20 @@
 
     
   <url>
-    <loc>https://conorlee.top/2021/08/07/view-scroll-apis/</loc>
+    <loc>https://conorlee.top/2021/12/14/AOP-android/</loc>
     <lastmod>2025-01-23T03:02:24.753Z</lastmod>
     <data>
         <display>
-        <title>移动view的几种方式总结</title>
-        <pubTime>2021-08-06T16:00:00.000Z</pubTime>
+        <title>android场景实现AOP编程</title>
+        <pubTime>2021-12-13T16:00:00.000Z</pubTime>
         
-        <tag>view scroll</tag>
+        <tag>ASM</tag>
+         
+        <tag>AGP</tag>
+         
+        <tag>Transform</tag>
+         
+        <tag>AOP</tag>
          
          
            
@@ -291,20 +297,14 @@
 
     
   <url>
-    <loc>https://conorlee.top/2021/12/14/AOP-android/</loc>
+    <loc>https://conorlee.top/2021/08/07/view-scroll-apis/</loc>
     <lastmod>2025-01-23T03:02:24.753Z</lastmod>
     <data>
         <display>
-        <title>android场景实现AOP编程</title>
-        <pubTime>2021-12-13T16:00:00.000Z</pubTime>
+        <title>移动view的几种方式总结</title>
+        <pubTime>2021-08-06T16:00:00.000Z</pubTime>
         
-        <tag>AGP</tag>
-         
-        <tag>ASM</tag>
-         
-        <tag>Transform</tag>
-         
-        <tag>AOP</tag>
+        <tag>view scroll</tag>
          
          
            
@@ -403,14 +403,16 @@
 
     
   <url>
-    <loc>https://conorlee.top/2021/04/19/Android-PIP-Hack-summary/</loc>
+    <loc>https://conorlee.top/2020/12/04/RecyclerView_scroll_relatedapi/</loc>
     <lastmod>2025-01-23T03:02:24.751Z</lastmod>
     <data>
         <display>
-        <title>android 画中画功能总结</title>
-        <pubTime>2021-04-18T16:00:00.000Z</pubTime>
+        <title>Recyclerview 滑动相关功能总结</title>
+        <pubTime>2020-12-03T16:00:00.000Z</pubTime>
         
-        <tag>picture-in-picture</tag>
+        <tag>RecyclerView</tag>
+         
+        <tag>Android Source Code</tag>
          
          
            
@@ -423,16 +425,14 @@
 
     
   <url>
-    <loc>https://conorlee.top/2020/12/04/RecyclerView_scroll_relatedapi/</loc>
+    <loc>https://conorlee.top/2021/04/19/Android-PIP-Hack-summary/</loc>
     <lastmod>2025-01-23T03:02:24.751Z</lastmod>
     <data>
         <display>
-        <title>Recyclerview 滑动相关功能总结</title>
-        <pubTime>2020-12-03T16:00:00.000Z</pubTime>
+        <title>android 画中画功能总结</title>
+        <pubTime>2021-04-18T16:00:00.000Z</pubTime>
         
-        <tag>RecyclerView</tag>
-         
-        <tag>Android Source Code</tag>
+        <tag>picture-in-picture</tag>
          
          
            
@@ -505,6 +505,26 @@
 
     
   <url>
+    <loc>https://conorlee.top/2020/07/10/profile_analysis/</loc>
+    <lastmod>2025-01-23T03:02:24.742Z</lastmod>
+    <data>
+        <display>
+        <title>Android Studio CPU Profiler使用</title>
+        <pubTime>2020-07-09T16:00:00.000Z</pubTime>
+        
+        <tag>Profiler</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="https://conorlee.top/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://conorlee.top/2019/12/09/Android-Measure/</loc>
     <lastmod>2025-01-23T03:02:24.742Z</lastmod>
     <data>
@@ -537,26 +557,6 @@
         <pubTime>2020-05-25T16:00:00.000Z</pubTime>
         
         <tag>download</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="https://conorlee.top/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://conorlee.top/2020/07/10/profile_analysis/</loc>
-    <lastmod>2025-01-23T03:02:24.742Z</lastmod>
-    <data>
-        <display>
-        <title>Android Studio CPU Profiler使用</title>
-        <pubTime>2020-07-09T16:00:00.000Z</pubTime>
-        
-        <tag>Profiler</tag>
          
          
            
@@ -715,14 +715,14 @@
 
     
   <url>
-    <loc>https://conorlee.top/2019/05/27/TCP-Three-way-Handshake/</loc>
+    <loc>https://conorlee.top/2019/05/30/RecyclerView-Design-Pattern/</loc>
     <lastmod>2025-01-23T03:02:24.717Z</lastmod>
     <data>
         <display>
-        <title>TCP三次握手解读</title>
-        <pubTime>2019-05-26T16:00:00.000Z</pubTime>
+        <title>RecyclerView 中的设计模式</title>
+        <pubTime>2019-05-29T16:00:00.000Z</pubTime>
         
-        <tag>TCP</tag>
+        <tag>RecyclerView</tag>
          
          
            
@@ -735,14 +735,14 @@
 
     
   <url>
-    <loc>https://conorlee.top/2019/05/30/RecyclerView-Design-Pattern/</loc>
+    <loc>https://conorlee.top/2019/05/27/TCP-Three-way-Handshake/</loc>
     <lastmod>2025-01-23T03:02:24.717Z</lastmod>
     <data>
         <display>
-        <title>RecyclerView 中的设计模式</title>
-        <pubTime>2019-05-29T16:00:00.000Z</pubTime>
+        <title>TCP三次握手解读</title>
+        <pubTime>2019-05-26T16:00:00.000Z</pubTime>
         
-        <tag>RecyclerView</tag>
+        <tag>TCP</tag>
          
          
            
@@ -797,26 +797,6 @@
 
     
   <url>
-    <loc>https://conorlee.top/2018/06/26/Toastmaster-md-introduction/</loc>
-    <lastmod>2025-01-23T03:02:24.716Z</lastmod>
-    <data>
-        <display>
-        <title>投马-Markdown介绍</title>
-        <pubTime>2018-06-25T16:00:00.000Z</pubTime>
-        
-        <tag>toastmaster</tag>
-         
-         
-           
-             
-              <breadCrumb title="english" url="https://conorlee.top/categories/english/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://conorlee.top/2018/12/06/Android-audio-introduction/</loc>
     <lastmod>2025-01-23T03:02:24.716Z</lastmod>
     <data>
@@ -832,6 +812,26 @@
            
              
               <breadCrumb title="accumulation" url="https://conorlee.top/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://conorlee.top/2018/06/26/Toastmaster-md-introduction/</loc>
+    <lastmod>2025-01-23T03:02:24.716Z</lastmod>
+    <data>
+        <display>
+        <title>投马-Markdown介绍</title>
+        <pubTime>2018-06-25T16:00:00.000Z</pubTime>
+        
+        <tag>toastmaster</tag>
+         
+         
+           
+             
+              <breadCrumb title="english" url="https://conorlee.top/categories/english/"/>
           
         </display>
     </data>
@@ -861,6 +861,26 @@
 
     
   <url>
+    <loc>https://conorlee.top/2018/04/02/Toastmaster-two-drawbacks/</loc>
+    <lastmod>2025-01-23T03:02:24.715Z</lastmod>
+    <data>
+        <display>
+        <title>投马-two drawbacks</title>
+        <pubTime>2018-04-01T16:00:00.000Z</pubTime>
+        
+        <tag>toastmaster</tag>
+         
+         
+           
+             
+              <breadCrumb title="english" url="https://conorlee.top/categories/english/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://conorlee.top/2018/03/14/IntentService-AsyncTask/</loc>
     <lastmod>2025-01-23T03:02:24.715Z</lastmod>
     <data>
@@ -876,26 +896,6 @@
            
              
               <breadCrumb title="accumulation" url="https://conorlee.top/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://conorlee.top/2018/04/02/Toastmaster-two-drawbacks/</loc>
-    <lastmod>2025-01-23T03:02:24.715Z</lastmod>
-    <data>
-        <display>
-        <title>投马-two drawbacks</title>
-        <pubTime>2018-04-01T16:00:00.000Z</pubTime>
-        
-        <tag>toastmaster</tag>
-         
-         
-           
-             
-              <breadCrumb title="english" url="https://conorlee.top/categories/english/"/>
           
         </display>
     </data>
@@ -967,6 +967,30 @@
 
     
   <url>
+    <loc>https://conorlee.top/2017/10/22/Buildcross-platform-desktop-apps/</loc>
+    <lastmod>2025-01-23T03:02:24.713Z</lastmod>
+    <data>
+        <display>
+        <title>跨平台桌面程序开发</title>
+        <pubTime>2017-10-21T16:00:00.000Z</pubTime>
+        
+        <tag>Alfred Workflow</tag>
+         
+        <tag>Electron</tag>
+         
+        <tag>JavaScript</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="https://conorlee.top/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://conorlee.top/2017/10/22/JavaScript-knowledge/</loc>
     <lastmod>2025-01-23T03:02:24.713Z</lastmod>
     <data>
@@ -989,60 +1013,12 @@
 
     
   <url>
-    <loc>https://conorlee.top/2017/10/22/Buildcross-platform-desktop-apps/</loc>
-    <lastmod>2025-01-23T03:02:24.713Z</lastmod>
-    <data>
-        <display>
-        <title>跨平台桌面程序开发</title>
-        <pubTime>2017-10-21T16:00:00.000Z</pubTime>
-        
-        <tag>JavaScript</tag>
-         
-        <tag>Alfred Workflow</tag>
-         
-        <tag>Electron</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="https://conorlee.top/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://conorlee.top/2017/09/12/PBOCKonwledge/</loc>
     <lastmod>2025-01-23T03:02:24.712Z</lastmod>
     <data>
         <display>
         <title>PBOC知识收集</title>
         <pubTime>2017-09-11T16:00:00.000Z</pubTime>
-        
-        <tag>Basic Knowledge</tag>
-         
-        <tag>PBOC</tag>
-         
-        <tag>PBOC 2.0</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="https://conorlee.top/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://conorlee.top/2017/09/21/PBOCKonwledgeCode/</loc>
-    <lastmod>2025-01-23T03:02:24.712Z</lastmod>
-    <data>
-        <display>
-        <title>PBOC知识收集（干货）</title>
-        <pubTime>2017-09-20T16:00:00.000Z</pubTime>
         
         <tag>Basic Knowledge</tag>
          
@@ -1083,18 +1059,18 @@
 
     
   <url>
-    <loc>https://conorlee.top/2017/08/02/activity-start-process/</loc>
-    <lastmod>2025-01-23T03:02:24.711Z</lastmod>
+    <loc>https://conorlee.top/2017/09/21/PBOCKonwledgeCode/</loc>
+    <lastmod>2025-01-23T03:02:24.712Z</lastmod>
     <data>
         <display>
-        <title>Activity启动流程分析</title>
-        <pubTime>2017-08-01T16:00:00.000Z</pubTime>
+        <title>PBOC知识收集（干货）</title>
+        <pubTime>2017-09-20T16:00:00.000Z</pubTime>
         
-        <tag>Binder</tag>
+        <tag>Basic Knowledge</tag>
          
-        <tag>AOSP</tag>
+        <tag>PBOC</tag>
          
-        <tag>AMS</tag>
+        <tag>PBOC 2.0</tag>
          
          
            
@@ -1107,16 +1083,18 @@
 
     
   <url>
-    <loc>https://conorlee.top/2017/07/10/android-binder-principle2/</loc>
-    <lastmod>2025-01-23T03:02:24.710Z</lastmod>
+    <loc>https://conorlee.top/2017/08/02/activity-start-process/</loc>
+    <lastmod>2025-01-23T03:02:24.711Z</lastmod>
     <data>
         <display>
-        <title>Android Binder机制分析（二）</title>
-        <pubTime>2017-07-09T16:00:00.000Z</pubTime>
+        <title>Activity启动流程分析</title>
+        <pubTime>2017-08-01T16:00:00.000Z</pubTime>
         
-        <tag>AIDL</tag>
+        <tag>AOSP</tag>
          
         <tag>Binder</tag>
+         
+        <tag>AMS</tag>
          
          
            
@@ -1175,16 +1153,16 @@
 
     
   <url>
-    <loc>https://conorlee.top/2017/03/20/SVN-server-linux/</loc>
-    <lastmod>2025-01-23T03:02:24.709Z</lastmod>
+    <loc>https://conorlee.top/2017/07/10/android-binder-principle2/</loc>
+    <lastmod>2025-01-23T03:02:24.710Z</lastmod>
     <data>
         <display>
-        <title>linux(centos) 搭建SVN服务器</title>
-        <pubTime>2017-03-19T16:00:00.000Z</pubTime>
+        <title>Android Binder机制分析（二）</title>
+        <pubTime>2017-07-09T16:00:00.000Z</pubTime>
         
-        <tag>linux</tag>
+        <tag>AIDL</tag>
          
-        <tag>svn server</tag>
+        <tag>Binder</tag>
          
          
            
@@ -1221,16 +1199,16 @@
 
     
   <url>
-    <loc>https://conorlee.top/2017/04/10/Annotation-Android-usage/</loc>
+    <loc>https://conorlee.top/2017/03/20/SVN-server-linux/</loc>
     <lastmod>2025-01-23T03:02:24.709Z</lastmod>
     <data>
         <display>
-        <title>注解在Android中的应用</title>
-        <pubTime>2017-04-09T16:00:00.000Z</pubTime>
+        <title>linux(centos) 搭建SVN服务器</title>
+        <pubTime>2017-03-19T16:00:00.000Z</pubTime>
         
-        <tag>ANDROID</tag>
+        <tag>linux</tag>
          
-        <tag>Annotation</tag>
+        <tag>svn server</tag>
          
          
            
@@ -1253,6 +1231,28 @@
         <tag>TimerTask</tag>
          
         <tag>handler</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="https://conorlee.top/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://conorlee.top/2017/04/10/Annotation-Android-usage/</loc>
+    <lastmod>2025-01-23T03:02:24.709Z</lastmod>
+    <data>
+        <display>
+        <title>注解在Android中的应用</title>
+        <pubTime>2017-04-09T16:00:00.000Z</pubTime>
+        
+        <tag>ANDROID</tag>
+         
+        <tag>Annotation</tag>
          
          
            
@@ -1353,14 +1353,16 @@
 
     
   <url>
-    <loc>https://conorlee.top/2017/03/09/Https-Questions/</loc>
+    <loc>https://conorlee.top/2017/03/14/JAVA-JSR-330-Assertion/</loc>
     <lastmod>2025-01-23T03:02:24.708Z</lastmod>
     <data>
         <display>
-        <title>“HTTPS”安全在哪里？</title>
-        <pubTime>2017-03-08T16:00:00.000Z</pubTime>
+        <title>JSR-330和assertion(断言)介绍</title>
+        <pubTime>2017-03-13T16:00:00.000Z</pubTime>
         
-        <tag>HTTPS</tag>
+        <tag>Annotation</tag>
+         
+        <tag>assertion</tag>
          
          
            
@@ -1373,16 +1375,14 @@
 
     
   <url>
-    <loc>https://conorlee.top/2017/03/14/JAVA-JSR-330-Assertion/</loc>
+    <loc>https://conorlee.top/2017/03/09/Https-Questions/</loc>
     <lastmod>2025-01-23T03:02:24.708Z</lastmod>
     <data>
         <display>
-        <title>JSR-330和assertion(断言)介绍</title>
-        <pubTime>2017-03-13T16:00:00.000Z</pubTime>
+        <title>“HTTPS”安全在哪里？</title>
+        <pubTime>2017-03-08T16:00:00.000Z</pubTime>
         
-        <tag>Annotation</tag>
-         
-        <tag>assertion</tag>
+        <tag>HTTPS</tag>
          
          
            
@@ -1527,16 +1527,14 @@
 
     
   <url>
-    <loc>https://conorlee.top/2016/09/28/Android-interview-questions/</loc>
+    <loc>https://conorlee.top/2016/10/12/gradle-learning/</loc>
     <lastmod>2025-01-23T03:02:24.703Z</lastmod>
     <data>
         <display>
-        <title>Android面试知识点整理</title>
-        <pubTime>2016-09-27T16:00:00.000Z</pubTime>
+        <title>gradle 学习</title>
+        <pubTime>2016-10-11T16:00:00.000Z</pubTime>
         
-        <tag>ANDROID</tag>
-         
-        <tag>Interview</tag>
+        <tag>gradle</tag>
          
          
            
@@ -1549,14 +1547,16 @@
 
     
   <url>
-    <loc>https://conorlee.top/2016/10/12/gradle-learning/</loc>
+    <loc>https://conorlee.top/2016/09/28/Android-interview-questions/</loc>
     <lastmod>2025-01-23T03:02:24.703Z</lastmod>
     <data>
         <display>
-        <title>gradle 学习</title>
-        <pubTime>2016-10-11T16:00:00.000Z</pubTime>
+        <title>Android面试知识点整理</title>
+        <pubTime>2016-09-27T16:00:00.000Z</pubTime>
         
-        <tag>gradle</tag>
+        <tag>ANDROID</tag>
+         
+        <tag>Interview</tag>
          
          
            
@@ -1631,6 +1631,28 @@
 
     
   <url>
+    <loc>https://conorlee.top/2016/09/22/quit-whole-application/</loc>
+    <lastmod>2025-01-23T03:02:24.702Z</lastmod>
+    <data>
+        <display>
+        <title>Android 退出整个应用程序解决方案</title>
+        <pubTime>2016-09-21T16:00:00.000Z</pubTime>
+        
+        <tag>ANDROID</tag>
+         
+        <tag>exitApplication</tag>
+         
+         
+           
+             
+              <breadCrumb title="technology" url="https://conorlee.top/categories/technology/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://conorlee.top/2016/09/20/android-design-pattern-singleton/</loc>
     <lastmod>2025-01-23T03:02:24.702Z</lastmod>
     <data>
@@ -1663,28 +1685,6 @@
         <tag>JNI</tag>
          
         <tag>publickey</tag>
-         
-         
-           
-             
-              <breadCrumb title="technology" url="https://conorlee.top/categories/technology/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://conorlee.top/2016/09/22/quit-whole-application/</loc>
-    <lastmod>2025-01-23T03:02:24.702Z</lastmod>
-    <data>
-        <display>
-        <title>Android 退出整个应用程序解决方案</title>
-        <pubTime>2016-09-21T16:00:00.000Z</pubTime>
-        
-        <tag>ANDROID</tag>
-         
-        <tag>exitApplication</tag>
          
          
            
@@ -1851,32 +1851,6 @@
 
     
   <url>
-    <loc>https://conorlee.top/2016/05/12/GCM-Azure_summary/</loc>
-    <lastmod>2025-01-23T03:02:24.698Z</lastmod>
-    <data>
-        <display>
-        <title>google cloud message（GCM）和Azure实现Notification总结</title>
-        <pubTime>2016-05-11T16:00:00.000Z</pubTime>
-        
-        <tag>ANDROID</tag>
-         
-        <tag>GCM</tag>
-         
-        <tag>azure</tag>
-         
-        <tag>notification</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="https://conorlee.top/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://conorlee.top/2016/05/18/javaString-and-bytes/</loc>
     <lastmod>2025-01-23T03:02:24.698Z</lastmod>
     <data>
@@ -1909,6 +1883,32 @@
         <tag>JNI</tag>
          
         <tag>AES</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="https://conorlee.top/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://conorlee.top/2016/05/12/GCM-Azure_summary/</loc>
+    <lastmod>2025-01-23T03:02:24.698Z</lastmod>
+    <data>
+        <display>
+        <title>google cloud message（GCM）和Azure实现Notification总结</title>
+        <pubTime>2016-05-11T16:00:00.000Z</pubTime>
+        
+        <tag>ANDROID</tag>
+         
+        <tag>GCM</tag>
+         
+        <tag>azure</tag>
+         
+        <tag>notification</tag>
          
          
            
@@ -1989,6 +1989,26 @@
 
     
   <url>
+    <loc>https://conorlee.top/2015/11/06/book-list-of-2015/</loc>
+    <lastmod>2025-01-23T03:02:24.696Z</lastmod>
+    <data>
+        <display>
+        <title>2015阅读书单</title>
+        <pubTime>2015-11-05T16:00:00.000Z</pubTime>
+        
+        <tag>read</tag>
+         
+         
+           
+             
+              <breadCrumb title="read" url="https://conorlee.top/categories/read/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://conorlee.top/2015/01/27/android-open-sources/</loc>
     <lastmod>2025-01-23T03:02:24.696Z</lastmod>
     <data>
@@ -1999,6 +2019,28 @@
         <tag>ANDROID</tag>
          
         <tag>Open souces</tag>
+         
+         
+           
+             
+              <breadCrumb title="accumulation" url="https://conorlee.top/categories/accumulation/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://conorlee.top/2016/03/01/android-googlemap-summary/</loc>
+    <lastmod>2025-01-23T03:02:24.696Z</lastmod>
+    <data>
+        <display>
+        <title>android Google map使用总结</title>
+        <pubTime>2016-02-29T16:00:00.000Z</pubTime>
+        
+        <tag>ANDROID</tag>
+         
+        <tag>google map</tag>
          
          
            
@@ -2023,48 +2065,6 @@
         <tag>multi-thread</tag>
          
         <tag>Interview</tag>
-         
-         
-           
-             
-              <breadCrumb title="accumulation" url="https://conorlee.top/categories/accumulation/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://conorlee.top/2015/11/06/book-list-of-2015/</loc>
-    <lastmod>2025-01-23T03:02:24.696Z</lastmod>
-    <data>
-        <display>
-        <title>2015阅读书单</title>
-        <pubTime>2015-11-05T16:00:00.000Z</pubTime>
-        
-        <tag>read</tag>
-         
-         
-           
-             
-              <breadCrumb title="read" url="https://conorlee.top/categories/read/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://conorlee.top/2016/03/01/android-googlemap-summary/</loc>
-    <lastmod>2025-01-23T03:02:24.696Z</lastmod>
-    <data>
-        <display>
-        <title>android Google map使用总结</title>
-        <pubTime>2016-02-29T16:00:00.000Z</pubTime>
-        
-        <tag>ANDROID</tag>
-         
-        <tag>google map</tag>
          
          
            
