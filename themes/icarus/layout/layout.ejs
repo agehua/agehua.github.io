@@ -25,5 +25,24 @@
 
       <script type="text/javascript" src="/js/anime.min.js"></script>
       <script type="text/javascript" src="/js/firework.js"></script>
+
+    <% if (is_post()) { %>
+    <!-- MathJax：LaTeX 公式渲染 -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Mermaid：流程图渲染 -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+      mermaid.initialize({ startOnLoad: false });
+      mermaid.run({ querySelector: '.mermaid' });
+    </script>
+    <% } %>
 </body>
 </html>
