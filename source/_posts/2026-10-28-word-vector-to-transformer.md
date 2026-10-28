@@ -4,32 +4,20 @@ title: "从词向量到 Transformer：大模型底层原理全景笔记"
 category: accumulation
 tags:
   - Transformer
-  - 大模型
   - LLM
-  - 词向量
-  - 注意力机制
-keywords: 词向量, Transformer, 自注意力, FFN, 大模型, LLM
+  - Word Embedding
+  - Self-Attention
+keywords: Word Embedding, Transformer, Self-Attention, FFN, LLM
 banner: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Landscape%20Under%20a%20Stormy%20Sky.jpg
 thumbnail: https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Landscape%20Under%20a%20Stormy%20Sky.jpg
 toc: true
 ---
 
-> 本文基于关于自注意力机制、FFN、RNN 等主题的深度探讨整理，结合「YouTube 搜索」「蒙眼下山」「榨果汁」等生动例子，系统梳理了从「如何把词变成数字」到「GPT 为什么能记住知识」的完整技术脉络。
+> 本文参考[这篇微信公众号文章](https://mp.weixin.qq.com/s?__biz=MzIxODUzNTg2MA==&mid=2247484925&idx=1&sn=f2ff4e9bc8086e82db7f624195606b8b&chksm=97e84726a09fce30b8a09dcb14b4380895ce7248b80dd5e96407d90e3ca94d5fc37cc95e3ec6&scene=21&poc_token=HIaa4WqjmurTTuAJTajTD16NhK0fgEVfbYCeMrMs)，结合自身学习探讨整理。
 
 **先看全貌**，本文的逻辑链条是：词怎么变数字 → 传统序列模型为什么不够用 → Transformer 怎么用「注意力」解决它 → 剩下两大支柱（FFN、残差）→ 最终这些参数怎么落地到硬件。
 
 <!--more-->
-
-```mermaid
-flowchart TD
-    A["起点：词 → 词向量"] --> B["困境：Loss / 梯度 / RNN"]
-    B --> C["核心：自注意力 Q·K·V"]
-    C --> D["支柱：FFN + 残差连接"]
-    D --> E["部署：长上下文与参数量"]
-    E --> F["总结：数据奇幻漂流"]
-```
-
----
 
 ## 一、起点：词向量与「没有基准词」的语义空间
 
@@ -63,12 +51,7 @@ flowchart LR
 
 **全零向量是什么？** 在数学上零向量没有方向，无法计算余弦相似度。所以在实际工程中，全 0 向量不代表任何真实词，它通常被用作 **Padding（填充符）**，用来对齐句子长度，并在计算时被 Mask 屏蔽掉。
 
-```mermaid
-flowchart LR
-    A["国王"] -->|"- 男人"| B["国王 - 男人"]
-    B -->|"+ 女人"| C["≈ 女王"]
-    D["（相对位移决定语义）"] -.-> B
-```
+![经典例子](/images/blogimages/2026/Vector_Arithmetic.png)
 
 ---
 
@@ -171,15 +154,7 @@ flowchart LR
 
 这杯果汁，就是一个包含了全句上下文的、全新的「市值」特征向量。它**不是某一个词，而是一个数学上的超级综合体**。
 
-```mermaid
-flowchart LR
-    Q["市值（Q）"] -->|权重| W["苹果 0.7<br/>公司 0.2<br/>手机 0.1"]
-    W --> M["加权求和"]
-    V1["V(苹果) × 0.7"] --> M
-    V2["V(公司) × 0.2"] --> M
-    V3["V(手机) × 0.1"] --> M
-    M --> Out["混合果汁：<br/>含全句上下文的新『市值』向量"]
-```
+![经典例子](/images/blogimages/2026/Self-Attention_Mechanism.png)
 
 ### 3.3 具体计算四步曲
 
