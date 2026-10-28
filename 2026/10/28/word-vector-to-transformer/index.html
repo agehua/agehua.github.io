@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta name="google-site-verification" content="TYEtqE2Xc2ZonkJumwKut0-iq4RVbEc8o5Y8HpmZ-eo" />
+    <meta name="baidu-site-verification" content="8WKGBCPPKp" />
+    <meta charset="utf-8">
+    
+    <title>从词向量到 Transformer：大模型底层原理全景笔记 | Agehua</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="本文参考这篇微信公众号文章，结合自身学习探讨整理。  先看全貌，本文的逻辑链条是：词怎么变数字 → 传统序列模型为什么不够用 → Transformer 怎么用「注意力」解决它 → 剩下两大支柱（FFN、残差）→ 最终这些参数怎么落地到硬件。">
+<meta name="keywords" content="Word Embedding, Transformer, Self-Attention, FFN, LLM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从词向量到 Transformer：大模型底层原理全景笔记">
+<meta property="og:url" content="https://conorlee.top/2026/10/28/word-vector-to-transformer/index.html">
+<meta property="og:site_name" content="Agehua">
+<meta property="og:description" content="本文参考这篇微信公众号文章，结合自身学习探讨整理。  先看全貌，本文的逻辑链条是：词怎么变数字 → 传统序列模型为什么不够用 → Transformer 怎么用「注意力」解决它 → 剩下两大支柱（FFN、残差）→ 最终这些参数怎么落地到硬件。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Landscape%20Under%20a%20Stormy%20Sky.jpg">
+<meta property="og:updated_time" content="2026-10-28T08:02:03.999Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从词向量到 Transformer：大模型底层原理全景笔记">
+<meta name="twitter:description" content="本文参考这篇微信公众号文章，结合自身学习探讨整理。  先看全貌，本文的逻辑链条是：词怎么变数字 → 传统序列模型为什么不够用 → Transformer 怎么用「注意力」解决它 → 剩下两大支柱（FFN、残差）→ 最终这些参数怎么落地到硬件。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Landscape%20Under%20a%20Stormy%20Sky.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="Agehua" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/images/favicon.ico" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+
+
+    <link rel="icon" sizes="192x192" href="images/icon.png">
+    <meta name="theme-color" content="#f9de6b">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-39647668-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-39647668-2');
+    </script>
+    <!--text spacing-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+
+</head>
+
+
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Agehua</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+
+                <a class="main-nav-link" href='javascript:(
+        /*
+         * Copyright (C) 2015 Rocko (rocko.xyz) <rocko.zxp@gmail.com>
+         *
+         * Licensed under the Apache License, Version 2.0 (the "License");
+         * you may not use this file except in compliance with the License.
+         * You may obtain a copy of the License at
+         *
+         *      http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing, software
+         * distributed under the License is distributed on an "AS IS" BASIS,
+         * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         * See the License for the specific language governing permissions and
+         * limitations under the License.
+         */
+        function go() {
+
+
+        var songs = [
+                    "https://static.rocko.xyz/audio/Music-Wake-Live.mp3",
+                    "https://static.rocko.xyz/audio/Music-Fashion_Show.mp3",
+                    "https://static.rocko.xyz/audio/Music-outside.mp3",
+                    "https://static.rocko.xyz/audio/Music-sunburst.mp3"
+        ];
+
+
+        function c() {
+            var e = document.createElement("link");
+            e.setAttribute("type", "text/css");
+            e.setAttribute("rel", "stylesheet");
+            e.setAttribute("href", f);
+            e.setAttribute("class", l);
+            document.body.appendChild(e)
+        }
+
+        function h() {
+            var e = document.getElementsByClassName(l);
+            for (var t = 0; t < e.length; t++) {
+                document.body.removeChild(e[t])
+            }
+        }
+
+        function p() {
+            var e = document.createElement("div");
+            e.setAttribute("class", a);
+            document.body.appendChild(e);
+            setTimeout(function() {
+                document.body.removeChild(e)
+            }, 100)
+        }
+
+        function d(e) {
+            return {
+                height : e.offsetHeight,
+                width : e.offsetWidth
+            }
+        }
+
+        function v(i) {
+            var s = d(i);
+            return s.height > e && s.height < n && s.width > t && s.width < r
+        }
+
+        function m(e) {
+            var t = e;
+            var n = 0;
+            while (!!t) {
+                n += t.offsetTop;
+                t = t.offsetParent
+            }
+            return n
+        }
+
+        function g() {
+            var e = document.documentElement;
+            if (!!window.innerWidth) {
+                return window.innerHeight
+            } else if (e && !isNaN(e.clientHeight)) {
+                return e.clientHeight
+            }
+            return 0
+        }
+
+        function y() {
+            if (window.pageYOffset) {
+                return window.pageYOffset
+            }
+            return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+        }
+
+        function E(e) {
+            var t = m(e);
+            return t >= w && t <= b + w
+        }
+
+        function S() {
+            var e = document.getElementById("audio_element_id");
+            if(e != null){
+                var index = parseInt(e.getAttribute("curSongIndex"));
+                if(index > songs.length - 2) {
+                    index = 0;
+                } else {
+                    index++;
+                }
+                e.setAttribute("curSongIndex", index);
+                N();
+            }
+
+            e.src = i;
+            e.play()
+        }
+
+        function x(e) {
+            e.className += " " + s + " " + o
+        }
+
+        function T(e) {
+            e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+        }
+
+        function N() {
+            var e = document.getElementsByClassName(s);
+            var t = new RegExp("\\b" + s + "\\b");
+            for (var n = 0; n < e.length; ) {
+                e[n].className = e[n].className.replace(t, "")
+            }
+        }
+
+        function initAudioEle() {
+            var e = document.getElementById("audio_element_id");
+            if(e === null){
+                e = document.createElement("audio");
+                e.setAttribute("class", l);
+                e.setAttribute("curSongIndex", 0);
+                e.id = "audio_element_id";
+                e.loop = false;
+                e.bgcolor = 0;
+                e.addEventListener("canplay", function() {
+                setTimeout(function() {
+                    x(k)
+                }, 500);
+                setTimeout(function() {
+                    N();
+                    p();
+                    for (var e = 0; e < O.length; e++) {
+                        T(O[e])
+                    }
+                }, 15500)
+            }, true);
+            e.addEventListener("ended", function() {
+                N();
+                h();
+                go();
+            }, true);
+            e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+            document.body.appendChild(e);
+            }
+        }
+
+        initAudioEle();
+        var e = 30;
+        var t = 30;
+        var n = 350;
+        var r = 350;
+
+        var curSongIndex = parseInt(document.getElementById("audio_element_id").getAttribute("curSongIndex"));
+        var i = songs[curSongIndex];
+
+        var s = "mw-harlem_shake_me";
+        var o = "im_first";
+        var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+        var a = "mw-strobe_light";
+
+        /* harlem-shake-style.css，替换成你的位置，也可以直接使用：//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css */
+        var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+
+        var l = "mw_added_css";
+        var b = g();
+        var w = y();
+        var C = document.getElementsByTagName("*");
+        var k = null;
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                if (E(A)) {
+                    k = A;
+                    break
+                }
+            }
+        }
+        if (A === null) {
+            console.warn("Could not find a node of the right size. Please try a different page.");
+            return
+        }
+        c();
+        S();
+        var O = [];
+        for (var L = 0; L < C.length; L++) {
+            var A = C[L];
+            if (v(A)) {
+                O.push(A)
+            }
+        }
+        })()'>High一下</a>
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/profile.jpeg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+
+
+        </div>
+    </div>
+
+
+    <div id="main-nav-mobile" class="header-sub header-inner">
+
+        <table class="menu outer">
+
+
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    
+</header>
+
+        <div class="outer">
+            
+                
+
+
+<aside id="profile">
+    <div class="inner profile-inner" id="profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/profile.jpeg" />
+            <h2 id="name">Conor Lee</h2>
+            <h3 id="title">Android Developer &amp; Web Enthusiast</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/agehua/">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                98
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                107
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/agehua" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+
+        <a href="https://github.com/agehua" class="github-corner" aria-label="View source on Github">
+          <svg width="64" height="64" viewBox="0 0 250 250" style="fill:#cba11f; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+            <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+            <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+            <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+          </svg>
+        </a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+    <div id='toc-col' class="toc-col">
+        
+            <div id='toc-wrap' class="toc-wrap">
+                <strong class="toc-title">文章目录</strong>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、起点：词向量与「没有基准词」的语义空间"><span class="toc-number">1.</span> <span class="toc-text">一、起点：词向量与「没有基准词」的语义空间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-从-One-Hot-到学习型嵌入"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 从 One-Hot 到学习型嵌入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-为什么没有「基准词」？"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 为什么没有「基准词」？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、序列模型的困境：Loss、梯度与-RNN"><span class="toc-number">2.</span> <span class="toc-text">二、序列模型的困境：Loss、梯度与 RNN</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-真实答案-Y-t-是怎么来的？"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 真实答案 $Y_t$ 是怎么来的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-什么是梯度、梯度下降与梯度爆炸-消失？"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 什么是梯度、梯度下降与梯度爆炸/消失？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-LSTM-的「门控」方案"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 LSTM 的「门控」方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、Transformer-的核心：自注意力机制（Self-Attention）"><span class="toc-number">3.</span> <span class="toc-text">三、Transformer 的核心：自注意力机制（Self-Attention）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-用「YouTube-搜索」理解-Q、K、V"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 用「YouTube 搜索」理解 Q、K、V</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-自注意力：从「点菜」到「榨果汁」"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 自注意力：从「点菜」到「榨果汁」</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-具体计算四步曲"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 具体计算四步曲</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-多头注意力（Multi-Head-Attention）"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 多头注意力（Multi-Head Attention）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-补一个关键衔接：位置编码"><span class="toc-number">3.5.</span> <span class="toc-text">3.5 补一个关键衔接：位置编码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、Transformer-的另外两大支柱：FFN-与残差连接"><span class="toc-number">4.</span> <span class="toc-text">四、Transformer 的另外两大支柱：FFN 与残差连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-FFN：大模型里的「百科全书」"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 FFN：大模型里的「百科全书」</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-残差连接：信息的高速公路"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 残差连接：信息的高速公路</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、长上下文与参数量：硬件与物理部署"><span class="toc-number">5.</span> <span class="toc-text">五、长上下文与参数量：硬件与物理部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-为什么长文本不怕忘，却怕显卡爆炸？"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 为什么长文本不怕忘，却怕显卡爆炸？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-几十亿个权重，平时存在哪？"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 几十亿个权重，平时存在哪？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、终极总结：数据在-Transformer-里的奇幻漂流"><span class="toc-number">6.</span> <span class="toc-text">六、终极总结：数据在 Transformer 里的奇幻漂流</span></a></li></ol>
+            </div>
+        
+    </div>
+</aside>
+
+<script type="text/javascript">
+/*
+    滚动函数
+    接收三个参数,
+        1 接收一个DOM对象
+        2 给目标对象切换class
+        3 触发的高度 (可选项,如果不指定高度,会将DOM的高度作为触发高度)
+*/
+function scrollCheck(scrollTarget, toggleClass, scrollHeight){
+    document.addEventListener('scroll',function(){
+    var currentTop = window.pageYOffset;
+        currentTop > (scrollHeight||scrollTarget.clientHeight)
+        ?scrollTarget.classList.add(toggleClass)
+        :scrollTarget.classList.remove(toggleClass)
+    })
+}
+
+(function(){
+      try {
+        document.getElementById("toc-wrap").style.width= document.getElementById("profile-inner").offsetWidth+ "px";
+        var introHeader = document.querySelector('.inner.profile-inner').offsetHeight;
+        var toc = document.querySelector('.toc-wrap');
+        scrollCheck(toc,'toc-fixed',introHeader+40+64);
+      }catch(err){
+
+      }
+        // var node = document.querySelector('.profile-inner');
+        // scrollCheck(node,'profile-inner-fixed',64);
+})();
+</script>
+
+            
+            <section id="main"><article id="post-word-vector-to-transformer" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-inner">
+        
+            
+	
+		<img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Landscape%20Under%20a%20Stormy%20Sky.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            从词向量到 Transformer：大模型底层原理全景笔记
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2026/10/28/word-vector-to-transformer/">
+            <time datetime="2026-10-27T16:00:00.000Z" itemprop="datePublished">2026-10-28</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/llm/">LLM</a>, <a class="tag-link" href="/tags/self-attention/">Self-Attention</a>, <a class="tag-link" href="/tags/transformer/">Transformer</a>, <a class="tag-link" href="/tags/word-embedding/">Word Embedding</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">4 min read , Words: 670</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+
+            <blockquote>
+<p>本文参考<a href="https://mp.weixin.qq.com/s?__biz=MzIxODUzNTg2MA==&amp;mid=2247484925&amp;idx=1&amp;sn=f2ff4e9bc8086e82db7f624195606b8b&amp;chksm=97e84726a09fce30b8a09dcb14b4380895ce7248b80dd5e96407d90e3ca94d5fc37cc95e3ec6&amp;scene=21&amp;poc_token=HIaa4WqjmurTTuAJTajTD16NhK0fgEVfbYCeMrMs" target="_blank" rel="noopener">这篇微信公众号文章</a>，结合自身学习探讨整理。</p>
+</blockquote>
+<p><strong>先看全貌</strong>，本文的逻辑链条是：词怎么变数字 → 传统序列模型为什么不够用 → Transformer 怎么用「注意力」解决它 → 剩下两大支柱（FFN、残差）→ 最终这些参数怎么落地到硬件。</p>
+<a id="more"></a>
+<h2 id="一、起点：词向量与「没有基准词」的语义空间"><a href="#一、起点：词向量与「没有基准词」的语义空间" class="headerlink" title="一、起点：词向量与「没有基准词」的语义空间"></a>一、起点：词向量与「没有基准词」的语义空间</h2><p>神经网络只认识数字，要让机器理解人类语言，第一步必须把词变成向量。</p>
+<h3 id="1-1-从-One-Hot-到学习型嵌入"><a href="#1-1-从-One-Hot-到学习型嵌入" class="headerlink" title="1.1 从 One-Hot 到学习型嵌入"></a>1.1 从 One-Hot 到学习型嵌入</h3><p><strong>One-Hot 编码（学号法）</strong>：给每个词编一个索引。假设词典有 10 万个词，「苹果」的索引是 4，那它的向量就是 10 万维的 $[0, 0, 0, 1, 0, \dots]$。</p>
+<p><strong>致命缺陷</strong>：极度稀疏、浪费空间，而且毫无语义关联——在这个空间里，「猫」和「狗」的距离，完全等于「猫」和「拖拉机」的距离。</p>
+<p><strong>学习型嵌入（Word Embedding）</strong>：让神经网络去读海量文章自己学。学完之后，「猫」和「狗」的向量在空间中距离非常近，而「猫」和「汽车」相距极远。词的意义，由它与其他词的相对位置决定。</p>
+<div class="mermaid">
+flowchart LR
+    subgraph OneHot["One-Hot（学号法）"]
+        A1["猫 → [0,0,0,1,...,0]&lt;br/&gt;10 万维，只有 1 个位置是 1"]
+    end
+    subgraph Emb["学习型嵌入"]
+        B1["猫 → [0.23, -0.51, 0.78, ...]&lt;br/&gt;几百维，处处都有信息"]
+    end
+    OneHot --&gt;|"缺点：稀疏、无语义"| X["两种编码对比"]
+    Emb --&gt;|"优点：稠密、语义相近的词距离近"| X
+</div>
+<h3 id="1-2-为什么没有「基准词」？"><a href="#1-2-为什么没有「基准词」？" class="headerlink" title="1.2 为什么没有「基准词」？"></a>1.2 为什么没有「基准词」？</h3><p>词向量空间是一个<strong>高维的相对空间</strong>，这里不存在绝对的「原点词」。</p>
+<p><strong>相对位移的魔法</strong>：经典例子是 $\text{向量(国王)} - \text{向量(男人)} + \text{向量(女人)} \approx \text{向量(女王)}$。这个公式完全依赖词与词之间的<strong>相对位移</strong>，一旦设了绝对原点，这种相对关系就会被破坏。</p>
+<p><strong>全零向量是什么？</strong> 在数学上零向量没有方向，无法计算余弦相似度。所以在实际工程中，全 0 向量不代表任何真实词，它通常被用作 <strong>Padding（填充符）</strong>，用来对齐句子长度，并在计算时被 Mask 屏蔽掉。</p>
+<p><img src="/images/blogimages/2026/Vector_Arithmetic.png" alt="经典例子"></p>
+<hr>
+<h2 id="二、序列模型的困境：Loss、梯度与-RNN"><a href="#二、序列模型的困境：Loss、梯度与-RNN" class="headerlink" title="二、序列模型的困境：Loss、梯度与 RNN"></a>二、序列模型的困境：Loss、梯度与 RNN</h2><h3 id="2-1-真实答案-Y-t-是怎么来的？"><a href="#2-1-真实答案-Y-t-是怎么来的？" class="headerlink" title="2.1 真实答案 $Y_t$ 是怎么来的？"></a>2.1 真实答案 $Y_t$ 是怎么来的？</h3><p>在时间步 $t$，模型输出预测值 $\hat{y}_t$，要计算 Loss 就需要真实标签 $Y_t$。语言模型的 $Y_t$ <strong>不需要人工去标</strong>，它靠的是<strong>自监督学习（下一个词预测）</strong>。</p>
+<p>例子：句子「今天 天气 真 不错」。</p>
+<ul>
+<li>输入 $X_0$ =「今天」，真实答案 $Y_0$ =「天气」；</li>
+<li>输入 $X_1$ =「天气」，真实答案 $Y_1$ =「真」。</li>
+</ul>
+<p>只要把互联网上的文本爬下来，<strong>错位一位</strong>，就能自动获得无数的训练数据。</p>
+<div class="mermaid">
+flowchart LR
+    subgraph 输入X["输入序列 X"]
+        X1["今天"] --- X2["天气"] --- X3["真"] --- X4["不错"]
+    end
+    subgraph 标签Y["真实标签 Y（错位一位）"]
+        Y1["天气"] --- Y2["真"] --- Y3["不错"] --- Y4["（结束符）"]
+    end
+    X1 -.预测.-&gt; Y1
+    X2 -.预测.-&gt; Y2
+    X3 -.预测.-&gt; Y3
+</div>
+<h3 id="2-2-什么是梯度、梯度下降与梯度爆炸-消失？"><a href="#2-2-什么是梯度、梯度下降与梯度爆炸-消失？" class="headerlink" title="2.2 什么是梯度、梯度下降与梯度爆炸/消失？"></a>2.2 什么是梯度、梯度下降与梯度爆炸/消失？</h3><p><strong>梯度</strong>：蒙眼下山时感受到的坡度（方向与陡峭程度）。数学上就是损失函数对参数的导数。</p>
+<p><strong>梯度下降</strong>：顺着坡度的反方向迈一步（更新参数），让 Loss 变小。步长就是「学习率」。</p>
+<p><strong>梯度爆炸</strong>：在 RNN 中，误差需要跨越时间步<strong>连乘</strong>。如果权重稍微大于 1，连乘 50 次后梯度变成天文数字，模型直接崩溃（像下山踩空滚下悬崖）。通常用<strong>梯度裁剪</strong>强行限制梯度最大值。</p>
+<p><strong>梯度消失</strong>：如果权重稍微小于 1，连乘后梯度趋近于 0，模型记不住长距离信息。</p>
+<div class="mermaid">
+flowchart LR
+    A["权重 w &amp;gt; 1"] --&gt; B["连乘 50 次"]
+    B --&gt; C["梯度爆炸&lt;br/&gt;Loss 变 NaN"]
+    D["权重 w &amp;lt; 1"] --&gt; E["连乘 50 次"]
+    E --&gt; F["梯度消失&lt;br/&gt;学不动长距离信息"]
+</div>
+<h3 id="2-3-LSTM-的「门控」方案"><a href="#2-3-LSTM-的「门控」方案" class="headerlink" title="2.3 LSTM 的「门控」方案"></a>2.3 LSTM 的「门控」方案</h3><p>为了缓解梯度消失，LSTM 在 RNN 里加了三个「保安」（遗忘门、输入门、输出门），并引入一条贯穿始终的「记忆传送带」。它缓解了遗忘，但<strong>依然是串行计算的</strong>（排队一个个进），第 100 个词必须等前 99 个算完，训练极慢。</p>
+<div class="mermaid">
+flowchart LR
+    subgraph RNN["RNN / LSTM：串行（慢）"]
+        R1["词1"] --&gt; R2["词2"] --&gt; R3["词3"] --&gt; R4["词4"]
+    end
+    subgraph TF["Transformer：并行（快）"]
+        T1["词1"]
+        T2["词2"]
+        T3["词3"]
+        T4["词4"]
+        T1 &lt;-.任意两词直接对视.-&gt; T4
+    end
+</div>
+<blockquote>
+<p>这张图是后面所有内容的核心动机：<strong>串行太慢</strong>，所以人们想要一个「所有词能同时看到彼此」的结构——这就是自注意力。</p>
+</blockquote>
+<hr>
+<h2 id="三、Transformer-的核心：自注意力机制（Self-Attention）"><a href="#三、Transformer-的核心：自注意力机制（Self-Attention）" class="headerlink" title="三、Transformer 的核心：自注意力机制（Self-Attention）"></a>三、Transformer 的核心：自注意力机制（Self-Attention）</h2><h3 id="3-1-用「YouTube-搜索」理解-Q、K、V"><a href="#3-1-用「YouTube-搜索」理解-Q、K、V" class="headerlink" title="3.1 用「YouTube 搜索」理解 Q、K、V"></a>3.1 用「YouTube 搜索」理解 Q、K、V</h3><p>自注意力本质上是<strong>高级的字典搜索</strong>。</p>
+<ul>
+<li><strong>Q（Query 查询）</strong>：你在搜索框输入的「深度学习」。代表「我需要什么」。</li>
+<li><strong>K（Key 键）</strong>：视频库里的标题（如「深度学习入门」「科比集锦」）。代表「我有什么特征」。</li>
+<li><strong>V（Value 值）</strong>：视频的真实画面和内容。代表「如果你选中我，我提供什么信息」。</li>
+</ul>
+<p>操作过程：系统拿 Q 去和所有 K 比对，算出相关性分数。搜索引擎会把分数最高的那<strong>一个</strong>视频（V）直接展示给你；但自注意力不这么干。</p>
+<div class="mermaid">
+flowchart LR
+    Q["Q 查询&lt;br/&gt;『深度学习』"] --&gt;|比对| K1["K1 标题"]
+    Q --&gt;|比对| K2["K2 标题"]
+    Q --&gt;|比对| K3["K3 标题"]
+    K1 --&gt; V1["V1 画面/内容"]
+    K2 --&gt; V2["V2 画面/内容"]
+    K3 --&gt; V3["V3 画面/内容"]
+</div>
+<h3 id="3-2-自注意力：从「点菜」到「榨果汁」"><a href="#3-2-自注意力：从「点菜」到「榨果汁」" class="headerlink" title="3.2 自注意力：从「点菜」到「榨果汁」"></a>3.2 自注意力：从「点菜」到「榨果汁」</h3><p>例子：句子「苹果公司发布了新手机，它的市值大涨。」</p>
+<p>这里的「市值」作为 Q，去和所有词比对。算出权重：「苹果」占 0.7、「公司」占 0.2、「手机」占 0.1。</p>
+<ul>
+<li><strong>如果只挑最大值（点菜）</strong>：「市值」的新向量完全等于「苹果」的向量，丢失了「公司」和「手机」的语境。</li>
+<li><strong>自注意力的做法（榨果汁）</strong>：把「苹果」的 V 乘 0.7、「公司」的 V 乘 0.2、「手机」的 V 乘 0.1，然后全部加总混合，榨出一杯「混合果汁」。</li>
+</ul>
+<p>这杯果汁，就是一个包含了全句上下文的、全新的「市值」特征向量。它<strong>不是某一个词，而是一个数学上的超级综合体</strong>。</p>
+<p><img src="/images/blogimages/2026/Self-Attention_Mechanism.png" alt="经典例子"></p>
+<h3 id="3-3-具体计算四步曲"><a href="#3-3-具体计算四步曲" class="headerlink" title="3.3 具体计算四步曲"></a>3.3 具体计算四步曲</h3><ol>
+<li><strong>投影</strong>：用三个不同的矩阵，把输入词变成 Q、K、V。</li>
+<li><strong>点积打分</strong>：$Q \times K^T$，计算词与词之间的相似度（点积越大，方向越一致）。</li>
+<li><strong>Softmax 归一化</strong>：把分数变成 0 到 1 的百分比（注意力权重）。</li>
+<li><strong>加权求和</strong>：权重矩阵 $\times$ V 矩阵，得到融合了全局信息的新向量。</li>
+</ol>
+<div class="mermaid">
+flowchart LR
+    A["输入词向量"] --&gt; B["线性投影&lt;br/&gt;得到 Q、K、V"]
+    B --&gt; C["点积打分&lt;br/&gt;Q · Kᵀ"]
+    C --&gt; D["Softmax 归一化&lt;br/&gt;得到注意力权重"]
+    D --&gt; E["加权求和&lt;br/&gt;权重 × V"]
+    E --&gt; F["新的上下文向量"]
+</div>
+<blockquote>
+<p><strong>两个补充细节</strong>（原文没提，但很重要）：</p>
+<ol>
+<li>实际工程里点积后还要<strong>除以 $\sqrt{d}$</strong>（$d$ 是向量维度），防止向量太长时点积数值过大、Softmax 之后梯度变得极平。</li>
+<li>Softmax 的作用就是<strong>把分数变成概率分布</strong>，保证所有权重加起来等于 1。</li>
+</ol>
+</blockquote>
+<h3 id="3-4-多头注意力（Multi-Head-Attention）"><a href="#3-4-多头注意力（Multi-Head-Attention）" class="headerlink" title="3.4 多头注意力（Multi-Head Attention）"></a>3.4 多头注意力（Multi-Head Attention）</h3><p>就像漫威粉看「钢铁侠」海报，单次注意力只能看一个维度。多头注意力就是派 8 个、16 个人同时看：</p>
+<ul>
+<li>头 1 盯钢铁侠本体；</li>
+<li>头 2 盯背景的飞船；</li>
+<li>头 3 盯脚下的建筑物。</li>
+</ul>
+<p>最后拼起来，模型对画面的理解就非常立体。</p>
+<div class="mermaid">
+flowchart TD
+    In["输入"] --&gt; H1["头 1：看本体"]
+    In --&gt; H2["头 2：看飞船"]
+    In --&gt; H3["头 3：看建筑"]
+    H1 --&gt; Cat["拼接 Concat"]
+    H2 --&gt; Cat
+    H3 --&gt; Cat
+    Cat --&gt; Out["线性投影 → 输出"]
+</div>
+<h3 id="3-5-补一个关键衔接：位置编码"><a href="#3-5-补一个关键衔接：位置编码" class="headerlink" title="3.5 补一个关键衔接：位置编码"></a>3.5 补一个关键衔接：位置编码</h3><p>自注意力「任意两个词距离都是 1」既是它的优点，也带来一个问题——<strong>它天生不知道词的顺序</strong>：「我爱你」和「你爱我」在注意力眼里会得到完全一样的打分。</p>
+<p>所以 Transformer 在词向量进模型之前，会先<strong>加上位置编码（座位号）</strong>，告诉模型每个词排在第几位。这就是第六节里「给每个词发座位号」的由来。</p>
+<hr>
+<h2 id="四、Transformer-的另外两大支柱：FFN-与残差连接"><a href="#四、Transformer-的另外两大支柱：FFN-与残差连接" class="headerlink" title="四、Transformer 的另外两大支柱：FFN 与残差连接"></a>四、Transformer 的另外两大支柱：FFN 与残差连接</h2><h3 id="4-1-FFN：大模型里的「百科全书」"><a href="#4-1-FFN：大模型里的「百科全书」" class="headerlink" title="4.1 FFN：大模型里的「百科全书」"></a>4.1 FFN：大模型里的「百科全书」</h3><p>自注意力负责「开会交流」（找关系），FFN 负责让每个词「闭门查资料」（调取知识）。<strong>大模型 2/3 的参数都在这里。</strong></p>
+<p><strong>它是怎么死记硬背的？（神经元例子）</strong></p>
+<p>假设 520 号神经元专门记「法国首都是巴黎」：</p>
+<ul>
+<li><strong>第一层（匹配）</strong>：当输入是「法国首都」时，点积算出来是大正数（如 85 分）；输入是「中国首都」时，算出来是负数（如 −12 分）。</li>
+<li><strong>激活函数（过滤）</strong>：负数全变 0（闭嘴），正数保留（激活）。</li>
+<li><strong>第二层（输出）</strong>：520 号神经元被激活后，通过第二层权重，把「巴黎」的语义输出出来。</li>
+</ul>
+<div class="mermaid">
+flowchart LR
+    A["输入『法国首都』&lt;br/&gt;点积得分 +85"] --&gt; N["520 号神经元&lt;br/&gt;激活函数：正数放行"]
+    A2["输入『中国首都』&lt;br/&gt;点积得分 -12"] --&gt; N2["被过滤：输出 0"]
+    N --&gt; Out["第二层权重&lt;br/&gt;输出『巴黎』"]
+</div>
+<p><strong>为什么会产生「幻觉」？</strong></p>
+<p>如果问「张三的妈妈的舅舅是谁」，模型的高维格子里没存过这个知识。但相关神经元还是被激活了，它只能顺着权重，<strong>强行拼凑出一个语法完美但内容虚假的答案</strong>。</p>
+<h3 id="4-2-残差连接：信息的高速公路"><a href="#4-2-残差连接：信息的高速公路" class="headerlink" title="4.2 残差连接：信息的高速公路"></a>4.2 残差连接：信息的高速公路</h3><p>公式：$\text{输出} = x + F(x)$（$x$ 是输入，$F(x)$ 是该层算出来的结果）。</p>
+<p>它就像在每一层旁边修了条直达高速。不管中间层怎么瞎折腾，原始信息 $x$ 都能直接传到下一层。这让 Transformer 即使堆叠上百层，梯度也不会消失，网络也不会退化。</p>
+<div class="mermaid">
+flowchart LR
+    X["输入 x"] --&gt; F["该层计算 F(x)"]
+    X --&gt; Add(("+"))
+    F --&gt; Add
+    Add --&gt; Out["输出 x + F(x)"]
+</div>
+<hr>
+<h2 id="五、长上下文与参数量：硬件与物理部署"><a href="#五、长上下文与参数量：硬件与物理部署" class="headerlink" title="五、长上下文与参数量：硬件与物理部署"></a>五、长上下文与参数量：硬件与物理部署</h2><h3 id="5-1-为什么长文本不怕忘，却怕显卡爆炸？"><a href="#5-1-为什么长文本不怕忘，却怕显卡爆炸？" class="headerlink" title="5.1 为什么长文本不怕忘，却怕显卡爆炸？"></a>5.1 为什么长文本不怕忘，却怕显卡爆炸？</h3><p>自注意力让任意两个词距离都是 1，所以记忆力极强。但它的复杂度是 $O(N^2)$。文本长度翻倍，算力和显存消耗翻 <strong>4 倍</strong>。</p>
+<p>现在的 100 万长上下文，靠的是 <strong>FlashAttention 算法</strong>（优化显存读写）和<strong>稀疏注意力</strong>（只让局部或特定的词对视），强行给显卡续命。</p>
+<div class="mermaid">
+flowchart LR
+    A["序列长度 N"] --&gt;|"注意力矩阵 N × N"| B["复杂度 O(N²)"]
+    B --&gt; C["N 翻倍 → 显存/算力 ×4"]
+    C --&gt; D["对策：FlashAttention&lt;br/&gt;+ 稀疏注意力"]
+</div>
+<h3 id="5-2-几十亿个权重，平时存在哪？"><a href="#5-2-几十亿个权重，平时存在哪？" class="headerlink" title="5.2 几十亿个权重，平时存在哪？"></a>5.2 几十亿个权重，平时存在哪？</h3><ul>
+<li><strong>平时（仓库）</strong>：躺在硬盘里，是个上百 GB 的 <code>.safetensors</code> 静态文件（如 70B 模型约 140 GB）。</li>
+<li><strong>运行时（工作台）</strong>：当你提问时，权重瞬间被搬进 GPU 的<strong>显存（VRAM）</strong>里。如果显存装不下，工程师就会用<strong>量化技术</strong>（把 FP16 压缩成 INT8/INT4），就像把百科全书里的字变小，让模型能塞进显卡里。</li>
+</ul>
+<div class="mermaid">
+flowchart LR
+    A["硬盘：.safetensors&lt;br/&gt;（仓库，静态）"] --&gt;|"加载到显存"| B["GPU VRAM&lt;br/&gt;（工作台，运行时）"]
+    B --&gt;|"装不下时"| C["量化&lt;br/&gt;FP16 → INT8/INT4"]
+</div>
+<hr>
+<h2 id="六、终极总结：数据在-Transformer-里的奇幻漂流"><a href="#六、终极总结：数据在-Transformer-里的奇幻漂流" class="headerlink" title="六、终极总结：数据在 Transformer 里的奇幻漂流"></a>六、终极总结：数据在 Transformer 里的奇幻漂流</h2><p>数据进入大模型后，会在几十层相同的「模块（Block）」里循环升级。单个 Block 的完整结构如下：</p>
+<div class="mermaid">
+flowchart TD
+    In["输入 x"] --&gt; LN1["LayerNorm 层归一化"]
+    LN1 --&gt; Attn["多头自注意力"]
+    In --&gt; Add1(("+ 残差"))
+    Attn --&gt; Add1
+    Add1 --&gt; LN2["LayerNorm 层归一化"]
+    LN2 --&gt; FFN["FFN 前馈网络（百科全书）"]
+    Add1 --&gt; Add2(("+ 残差"))
+    FFN --&gt; Add2
+    Add2 --&gt; Out["输出（进入下一层 Block）"]
+</div>
+<p>逐环节来看这段「漂流」：</p>
+<ol>
+<li><strong>位置编码</strong>：给每个词发「座位号」，让它们同时进场不乱套。</li>
+<li><strong>自注意力</strong>：词与词开会交流，弄清指代关系和上下文。</li>
+<li><strong>残差连接</strong>：加上捷径，确保信息无损传递。</li>
+<li><strong>FFN</strong>：每个人回座位翻开「百科全书」提取知识。</li>
+<li><strong>残差连接</strong>：再次加上捷径，维持稳定。</li>
+</ol>
+<p><strong>一句话总结三大支柱</strong>：</p>
+<ul>
+<li>自注意力负责「<strong>关系</strong>」，</li>
+<li>FFN 负责「<strong>知识</strong>」，</li>
+<li>残差连接负责「<strong>稳定</strong>」。</li>
+</ul>
+<p>这就是支撑 ChatGPT、Claude 等所有现代大语言模型的底层骨架。</p>
+<hr>
+<div style="width:690.45px"><div style="display:inline-block;width:110px"><a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank"><img style="border-width:0" src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-hexo-blog-img/blogimages/attribution_88x31.png"></a></div><div style="display:inline-block;width:580px;"><br>    本文采用<a rel="noopener" href="http://creativecommons.org/licenses/by/2.5/cn/" target="_blank">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://conorlee.top/">Agehua’s Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div></div>
+
+<p>本文链接：<a href="https://conorlee.top/2026/10/28/word-vector-to-transformer/">https://conorlee.top/2026/10/28/word-vector-to-transformer/</a></p>
+
+
+            
+  <!-- donate css -->
+  <style type="text/css">
+      .center {
+          text-align: center;
+      }
+      .hidden {
+          display: none;
+      }
+         
+    .donate_bar a.btn_donate{
+      display: inline-block;
+      width: 82px;
+      height: 82px;
+      background: url("https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/btn_reward.gif") no-repeat;
+      _background: url("https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/btn_reward.gif") no-repeat;
+      -webkit-transition: background 0s;
+      -moz-transition: background 0s;
+      -o-transition: background 0s;
+      -ms-transition: background 0s;
+      transition: background 0s;
+
+    }
+
+    .donate_bar a.btn_donate:hover{ background-position: 0px -82px;}
+    .donate_bar .donate_txt {
+      display: block;
+      color: #9d9d9d;
+      font: 14px/2 "Microsoft Yahei";
+    }
+    .bold{ font-weight: bold; }
+  </style>
+  <!-- /css -->
+
+<!-- Donate Module -->
+<div id="donate_module">
+
+  <!-- btn_donate & tips -->
+  <div id="donate_board" class="donate_bar center">
+      <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+    <a id="btn_donate" class="btn_donate" target="_self" href="javascript:;" title="Donate 打赏"></a>
+    <span class="donate_txt">
+      Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+    </span>
+  </div>
+  <!-- /btn_donate & tips -->
+
+  <!-- donate guide -->
+
+  <div id="donate_guide" class="donate_bar center hidden" >
+        <br>
+      ------------------------------------------------------------------------------------------------------------------------------
+      <br>
+      <div class="donate_wechat" style="background:#9d9d9d;display:inline;margin:auto; " >
+        <a href="http://cdn.conorlee.top/weixin_charge.png" title="用微信扫一扫哦~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/weixin_charge.png" title="微信打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+        <a href="http://cdn.conorlee.top/zhifubao_charge.png" title="用支付宝扫一扫即可~" class="fancybox" rel="article0">
+          <img src="http://cdn.conorlee.top/zhifubao_charge.png" title="支付宝打赏 Colin" height="auto" width="50%"
+          style="float:left;"/>
+        </a>
+      </div>
+      <div style="display:inline-block;">
+          &nbsp;
+          <span class="donate_txt">
+              Enjoy it ? Donate me !  欣赏此文？求鼓励，求支持！
+          </span>
+      </div>
+
+  </div>
+  <!-- /donate guide -->
+
+  <!-- donate script -->
+  <script type="text/javascript">
+    document.getElementById('btn_donate').onclick = function() {
+      $('#donate_board').addClass('hidden');
+      $('#donate_guide').removeClass('hidden');
+    }
+
+    function donate_on_web(){
+      $('#donate').submit();
+        }
+
+    var original_window_onload = window.onload;
+        window.onload = function () {
+            if (original_window_onload) {
+                original_window_onload();
+            }
+            document.getElementById('donate_board_wdg').className='hidden';
+    }
+  </script>
+  <!-- /donate script -->
+</div>
+<!-- /Donate Module -->
+
+            
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://conorlee.top/2026/10/28/word-vector-to-transformer/" data-id="cmvrtyztn00d45lsnxl5r7bru" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="https://conorlee.top/2026/10/28/word-vector-to-transformer/#comments" class="article-comment-link">评论</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2025/01/23/ble-introduction/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">BLE 介绍和使用</div>
+        </a>
+    
+</nav>
+
+
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+    
+    <section id="comments" class="comments">
+    
+        
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2026/10/28/word-vector-to-transformer/', // 可选。默认为 location.href
+  title: '从词向量到 Transformer：大模型底层原理全景笔记',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+    
+  </section>
+
+
+
+</article>
+
+
+</section>
+            
+                <aside id="sidebar">
+    <!-- 在_config.yml中配置了widgets，来决定widgets的顺序 -->
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2026/10/28/word-vector-to-transformer/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Landscape%20Under%20a%20Stormy%20Sky.jpg)" alt="从词向量到 Transformer：大模型底层原理全景笔记" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2026/10/28/word-vector-to-transformer/" class="title">从词向量到 Transformer：大模型底层原理全景笔记</a></p>
+                            <p class="item-date"><time datetime="2026-10-27T16:00:00.000Z" itemprop="datePublished">2026-10-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2025/01/23/ble-introduction/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/La%20Mousme%2C%20Sitting%202.jpg)" alt="BLE 介绍和使用" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2025/01/23/ble-introduction/" class="title">BLE 介绍和使用</a></p>
+                            <p class="item-date"><time datetime="2025-01-22T16:00:00.000Z" itemprop="datePublished">2025-01-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/12/04/matrix-battery-canary-introducation/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/La%20Berceuse%20Augustine%20Roulin%203.jpg)" alt="Matrix Battery 介绍和使用" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/12/04/matrix-battery-canary-introducation/" class="title">Matrix Battery 介绍和使用</a></p>
+                            <p class="item-date"><time datetime="2024-12-03T16:00:00.000Z" itemprop="datePublished">2024-12-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/11/22/matrix-io-canary-introducation/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Iron%20Mill%20in%20The%20Hague.jpg)" alt="Matrix io 介绍和使用" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/11/22/matrix-io-canary-introducation/" class="title">Matrix io 介绍和使用</a></p>
+                            <p class="item-date"><time datetime="2024-11-21T16:00:00.000Z" itemprop="datePublished">2024-11-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2024/04/24/jacoco-test-coverage/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Irises.jpg)" alt="代码覆盖率统计——集成Jacoco" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/accumulation/">accumulation</a></p>
+                            <p class="item-title"><a href="/2024/04/24/jacoco-test-coverage/" class="title">代码覆盖率统计——集成Jacoco</a></p>
+                            <p class="item-date"><time datetime="2024-04-23T16:00:00.000Z" itemprop="datePublished">2024-04-24</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/investigation/">Investigation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">Java</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mac/">Mac</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/accumulation/">accumulation</a><span class="category-list-count">82</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/english/">english</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/aac/" style="font-size: 10px;">AAC</a> <a href="/tags/aes/" style="font-size: 10px;">AES</a> <a href="/tags/agp/" style="font-size: 12px;">AGP</a> <a href="/tags/aidl/" style="font-size: 14px;">AIDL</a> <a href="/tags/ams/" style="font-size: 10px;">AMS</a> <a href="/tags/android/" style="font-size: 20px;">ANDROID</a> <a href="/tags/anr/" style="font-size: 14px;">ANR</a> <a href="/tags/aop/" style="font-size: 10px;">AOP</a> <a href="/tags/aosp/" style="font-size: 12px;">AOSP</a> <a href="/tags/asm/" style="font-size: 10px;">ASM</a> <a href="/tags/alfred-workflow/" style="font-size: 10px;">Alfred Workflow</a> <a href="/tags/android-app-bundles/" style="font-size: 10px;">Android APP Bundles</a> <a href="/tags/android-framework/" style="font-size: 10px;">Android Framework</a> <a href="/tags/android-source-code/" style="font-size: 18px;">Android Source Code</a> <a href="/tags/android-system-service/" style="font-size: 10px;">Android system service</a> <a href="/tags/annotation/" style="font-size: 12px;">Annotation</a> <a href="/tags/asyncinflate/" style="font-size: 10px;">AsyncInflate</a> <a href="/tags/asynctask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/audiorecord/" style="font-size: 10px;">AudioRecord</a> <a href="/tags/ble/" style="font-size: 10px;">BLE</a> <a href="/tags/basic-knowledge/" style="font-size: 18px;">Basic Knowledge</a> <a href="/tags/binder/" style="font-size: 18px;">Binder</a> <a href="/tags/cmd/" style="font-size: 10px;">CMD</a> <a href="/tags/constraintlayout/" style="font-size: 12px;">ConstraintLayout</a> <a href="/tags/coordinatorlayout/" style="font-size: 10px;">CoordinatorLayout</a> <a href="/tags/eit/" style="font-size: 10px;">EIT</a> <a href="/tags/ejs/" style="font-size: 10px;">EJS</a> <a href="/tags/electron/" style="font-size: 10px;">Electron</a> <a href="/tags/framelayout/" style="font-size: 10px;">FrameLayout</a> <a href="/tags/gc/" style="font-size: 10px;">GC</a> <a href="/tags/gcm/" style="font-size: 10px;">GCM</a> <a href="/tags/hook/" style="font-size: 10px;">HOOK</a> <a href="/tags/https/" style="font-size: 10px;">HTTPS</a> <a href="/tags/handlerthread/" style="font-size: 10px;">HandlerThread</a> <a href="/tags/hexo/" style="font-size: 14px;">Hexo</a> <a href="/tags/hexo-structure/" style="font-size: 10px;">Hexo structure</a> <a href="/tags/im-company/" style="font-size: 10px;">IM Company</a> <a href="/tags/intentservice/" style="font-size: 10px;">IntentService</a> <a href="/tags/interview/" style="font-size: 18px;">Interview</a> <a href="/tags/jni/" style="font-size: 14px;">JNI</a> <a href="/tags/jvm/" style="font-size: 12px;">JVM</a> <a href="/tags/jacoco/" style="font-size: 10px;">Jacoco</a> <a href="/tags/java/" style="font-size: 16px;">Java</a> <a href="/tags/javascript/" style="font-size: 12px;">JavaScript</a> <a href="/tags/kotlin/" style="font-size: 12px;">Kotlin</a> <a href="/tags/llm/" style="font-size: 10px;">LLM</a> <a href="/tags/leakcanary/" style="font-size: 10px;">LeakCanary</a> <a href="/tags/locationlistener/" style="font-size: 10px;">LocationListener</a> <a href="/tags/looper/" style="font-size: 10px;">Looper</a> <a href="/tags/matrix/" style="font-size: 12px;">Matrix</a> <a href="/tags/measure/" style="font-size: 10px;">Measure</a> <a href="/tags/memory-leaks/" style="font-size: 10px;">Memory leaks</a> <a href="/tags/native-crash/" style="font-size: 12px;">Native Crash</a> <a href="/tags/object-oriented/" style="font-size: 10px;">Object-oriented</a> <a href="/tags/open-souces/" style="font-size: 10px;">Open souces</a> <a href="/tags/pboc/" style="font-size: 12px;">PBOC</a> <a href="/tags/pboc-2-0/" style="font-size: 12px;">PBOC 2.0</a> <a href="/tags/patch-update/" style="font-size: 10px;">Patch Update</a> <a href="/tags/profiler/" style="font-size: 10px;">Profiler</a> <a href="/tags/python/" style="font-size: 10px;">Python</a> <a href="/tags/recyclerview/" style="font-size: 18px;">RecyclerView</a> <a href="/tags/recyclerview-optimization/" style="font-size: 10px;">RecyclerView optimization</a> <a href="/tags/relativelayout/" style="font-size: 10px;">RelativeLayout</a> <a href="/tags/rxandroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/rxjava/" style="font-size: 10px;">RxJava</a> <a href="/tags/self-attention/" style="font-size: 10px;">Self-Attention</a> <a href="/tags/singleton/" style="font-size: 10px;">Singleton</a> <a href="/tags/tcp/" style="font-size: 10px;">TCP</a> <a href="/tags/threadlocal/" style="font-size: 12px;">ThreadLocal</a> <a href="/tags/timertask/" style="font-size: 10px;">TimerTask</a> <a href="/tags/transform/" style="font-size: 10px;">Transform</a> <a href="/tags/transformer/" style="font-size: 10px;">Transformer</a> <a href="/tags/word-embedding/" style="font-size: 10px;">Word Embedding</a> <a href="/tags/android-source-code/" style="font-size: 10px;">android source code</a> <a href="/tags/assertion/" style="font-size: 10px;">assertion</a> <a href="/tags/azure/" style="font-size: 10px;">azure</a> <a href="/tags/bits-operation/" style="font-size: 10px;">bits operation</a> <a href="/tags/byte/" style="font-size: 10px;">byte[]</a> <a href="/tags/download/" style="font-size: 10px;">download</a> <a href="/tags/exitapplication/" style="font-size: 10px;">exitApplication</a> <a href="/tags/genericity/" style="font-size: 12px;">genericity</a> <a href="/tags/google-map/" style="font-size: 10px;">google map</a> <a href="/tags/gradle/" style="font-size: 14px;">gradle</a> <a href="/tags/gson/" style="font-size: 10px;">gson</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/iterm/" style="font-size: 10px;">iterm</a> <a href="/tags/linux/" style="font-size: 12px;">linux</a> <a href="/tags/multi-process/" style="font-size: 12px;">multi-process</a> <a href="/tags/multi-thread/" style="font-size: 10px;">multi-thread</a> <a href="/tags/net-request/" style="font-size: 10px;">net request</a> <a href="/tags/new-features/" style="font-size: 10px;">new features</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/notification/" style="font-size: 10px;">notification</a> <a href="/tags/picture-in-picture/" style="font-size: 10px;">picture-in-picture</a> <a href="/tags/publickey/" style="font-size: 10px;">publickey</a> <a href="/tags/qiniu/" style="font-size: 10px;">qiniu</a> <a href="/tags/read/" style="font-size: 12px;">read</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/remove-admob/" style="font-size: 10px;">remove admob</a> <a href="/tags/scp/" style="font-size: 10px;">scp</a> <a href="/tags/sdk-compile/" style="font-size: 10px;">sdk compile</a> <a href="/tags/self-introduction/" style="font-size: 10px;">self-introduction</a> <a href="/tags/svn-server/" style="font-size: 10px;">svn server</a> <a href="/tags/third-party-signin/" style="font-size: 10px;">third-party signin</a> <a href="/tags/toastmaster/" style="font-size: 14px;">toastmaster</a> <a href="/tags/view-scroll/" style="font-size: 10px;">view scroll</a> <a href="/tags/webview/" style="font-size: 10px;">webview</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/10/">十月 2026</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/01/">一月 2025</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">十二月 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">十一月 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">四月 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">十一月 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">十月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">七月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">八月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">三月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://conorlee.top">我的阿里云博客(求赞助)</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://agehua.github.io/">My Github Pages</a>
+                    </li>
+                
+                    <li>
+                        <a href="http://invitation.conorlee.top/MrLiAndTeacherTian_WeddingInvitation.html">Wedding Invitation(手机观看最佳)</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2026 Jixin Li<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: '2026/10/28/word-vector-to-transformer/', // 可选。默认为 location.href
+  title: '从词向量到 Transformer：大模型底层原理全景笔记',
+  owner: 'agehua',
+  repo: 'agehua.me',
+  oauth: {
+    client_id: '08e030c9191b13da9adb' , //'你的 client ID'
+    client_secret: 'bddb8106ceb73823fe1a6f7ab8d1b91957715d5e', //'你的 client secret'
+  },
+})
+gitment.render('comments')
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+<script>
+    var bigfa_scroll = {
+        drawCircle: function(id, percentage, color) {
+            var width = jQuery(id).width();
+            var height = jQuery(id).height();
+            var radius = parseInt(width / 2.20);
+            var position = width;
+            var positionBy2 = position / 2;
+            var bg = jQuery(id)[0];
+            id = id.split("# ");
+            var ctx = bg.getContext("2d");
+            var imd = null;
+            var circ = Math.PI * 2;
+            var quart = Math.PI / 2;
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineCap = "square";
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineWidth = 3;
+            imd = ctx.getImageData(0, 0, position, position);
+            var draw = function(current, ctxPass) {
+                ctxPass.putImageData(imd, 0, 0);
+                ctxPass.beginPath();
+                ctxPass.arc(positionBy2, positionBy2, radius, -(quart), ((circ) * current) - quart, false);
+                ctxPass.stroke();
+            }
+            draw(percentage / 100, ctx);
+        },
+        backToTop: function($this) {
+            $this.click(function() {
+                jQuery("body,html").animate({
+                    scrollTop: 0
+                },
+                800);
+                return false;
+            });
+        },
+        scrollHook: function($this, color) {
+            color = color ? color: "# 000000";
+            $this.scroll(function() {
+                var docHeight = (jQuery(document).height() - jQuery(window).height()),
+                $windowObj = $this,
+                $per = jQuery(".per"),
+                percentage = 0;
+                defaultScroll = $windowObj.scrollTop();
+                percentage = parseInt((defaultScroll / docHeight) * 100);
+                var backToTop = jQuery("# backtoTop");
+                if (backToTop.length > 0) {
+                    if ($windowObj.scrollTop() > 200) {
+                        backToTop.addClass("button--show");
+                    } else {
+                        backToTop.removeClass("button--show");
+                    }
+                    $per.attr("data-percent", percentage);
+                    bigfa_scroll.drawCircle("# backtoTopCanvas", percentage, color);
+                }
+            });
+        }
+    }
+
+</script>
+
+
+    </div>
+    <!-- <script src="http://cdn.maxjia.com/js/particles.min.js"></script> -->
+  
+  
+    <canvas class="fireworks" style="position: fixed; left: 0px; top: 0px; z-index: 1; pointer-events: none; width: 1440px; height: 416px;" width="2880" height="832"></canvas>
+    
+
+      <script type="text/javascript" src="/js/anime.min.js"></script>
+      <script type="text/javascript" src="/js/firework.js"></script>
+
+    
+    <!-- MathJax：LaTeX 公式渲染 -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        }
+      };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Mermaid：流程图渲染 -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+      mermaid.initialize({ startOnLoad: false });
+      mermaid.run({ querySelector: '.mermaid' });
+    </script>
+    
+</body>
+</html>

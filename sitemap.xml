@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://conorlee.top/2026/10/28/word-vector-to-transformer/</loc>
+    
+    <lastmod>2026-10-28T08:02:03.999Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://conorlee.top/2025/01/23/ble-introduction/</loc>
     
     <lastmod>2025-01-23T04:59:14.246Z</lastmod>
@@ -44,14 +51,14 @@
   </url>
   
   <url>
-    <loc>https://conorlee.top/2024/04/24/jacoco-test-coverage/</loc>
+    <loc>https://conorlee.top/2023/11/13/native-crash-anr-log-analysis/</loc>
     
     <lastmod>2025-01-23T03:02:24.758Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://conorlee.top/2023/11/13/native-crash-anr-log-analysis/</loc>
+    <loc>https://conorlee.top/2024/04/24/jacoco-test-coverage/</loc>
     
     <lastmod>2025-01-23T03:02:24.758Z</lastmod>
     
@@ -86,14 +93,14 @@
   </url>
   
   <url>
-    <loc>https://conorlee.top/2022/07/21/async-inflate-strategy/</loc>
+    <loc>https://conorlee.top/2023/02/10/constraintlayout-intro/</loc>
     
     <lastmod>2025-01-23T03:02:24.756Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://conorlee.top/2023/02/10/constraintlayout-intro/</loc>
+    <loc>https://conorlee.top/2022/07/21/async-inflate-strategy/</loc>
     
     <lastmod>2025-01-23T03:02:24.756Z</lastmod>
     
@@ -135,13 +142,6 @@
   </url>
   
   <url>
-    <loc>https://conorlee.top/2021/07/18/gradle-plugin/</loc>
-    
-    <lastmod>2025-01-23T03:02:24.752Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://conorlee.top/2021/06/07/ANR-summary/</loc>
     
     <lastmod>2025-01-23T03:02:24.752Z</lastmod>
@@ -156,14 +156,21 @@
   </url>
   
   <url>
-    <loc>https://conorlee.top/2020/12/04/RecyclerView_scroll_relatedapi/</loc>
+    <loc>https://conorlee.top/2021/07/18/gradle-plugin/</loc>
+    
+    <lastmod>2025-01-23T03:02:24.752Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://conorlee.top/2021/04/19/Android-PIP-Hack-summary/</loc>
     
     <lastmod>2025-01-23T03:02:24.751Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://conorlee.top/2021/04/19/Android-PIP-Hack-summary/</loc>
+    <loc>https://conorlee.top/2020/12/04/RecyclerView_scroll_relatedapi/</loc>
     
     <lastmod>2025-01-23T03:02:24.751Z</lastmod>
     
@@ -261,13 +268,6 @@
   </url>
   
   <url>
-    <loc>https://conorlee.top/2019/05/30/RecyclerView-Design-Pattern/</loc>
-    
-    <lastmod>2025-01-23T03:02:24.717Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://conorlee.top/2019/05/27/TCP-Three-way-Handshake/</loc>
     
     <lastmod>2025-01-23T03:02:24.717Z</lastmod>
@@ -275,14 +275,21 @@
   </url>
   
   <url>
-    <loc>https://conorlee.top/2018/04/23/Usage-of-genericity/</loc>
+    <loc>https://conorlee.top/2019/05/30/RecyclerView-Design-Pattern/</loc>
+    
+    <lastmod>2025-01-23T03:02:24.717Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://conorlee.top/2018/06/08/JVM-stack-heap-GC/</loc>
     
     <lastmod>2025-01-23T03:02:24.716Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://conorlee.top/2018/06/08/JVM-stack-heap-GC/</loc>
+    <loc>https://conorlee.top/2018/04/23/Usage-of-genericity/</loc>
     
     <lastmod>2025-01-23T03:02:24.716Z</lastmod>
     
@@ -303,6 +310,13 @@
   </url>
   
   <url>
+    <loc>https://conorlee.top/2018/03/14/IntentService-AsyncTask/</loc>
+    
+    <lastmod>2025-01-23T03:02:24.715Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://conorlee.top/2018/03/01/IntervieweeQuestions-senior/</loc>
     
     <lastmod>2025-01-23T03:02:24.715Z</lastmod>
@@ -311,13 +325,6 @@
   
   <url>
     <loc>https://conorlee.top/2018/04/02/Toastmaster-two-drawbacks/</loc>
-    
-    <lastmod>2025-01-23T03:02:24.715Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://conorlee.top/2018/03/14/IntentService-AsyncTask/</loc>
     
     <lastmod>2025-01-23T03:02:24.715Z</lastmod>
     
@@ -394,14 +401,14 @@
   </url>
   
   <url>
-    <loc>https://conorlee.top/2017/07/12/android-noroot-hook/</loc>
+    <loc>https://conorlee.top/2017/07/10/android-binder-principle2/</loc>
     
     <lastmod>2025-01-23T03:02:24.710Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://conorlee.top/2017/07/10/android-binder-principle2/</loc>
+    <loc>https://conorlee.top/2017/07/12/android-noroot-hook/</loc>
     
     <lastmod>2025-01-23T03:02:24.710Z</lastmod>
     
@@ -534,14 +541,14 @@
   </url>
   
   <url>
-    <loc>https://conorlee.top/2016/10/13/gradle-learning2/</loc>
+    <loc>https://conorlee.top/2016/11/03/hexo-mac-module-not-found/</loc>
     
     <lastmod>2025-01-23T03:02:24.703Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://conorlee.top/2016/11/03/hexo-mac-module-not-found/</loc>
+    <loc>https://conorlee.top/2016/10/13/gradle-learning2/</loc>
     
     <lastmod>2025-01-23T03:02:24.703Z</lastmod>
     
@@ -555,14 +562,14 @@
   </url>
   
   <url>
-    <loc>https://conorlee.top/2016/09/22/quit-whole-application/</loc>
+    <loc>https://conorlee.top/2016/09/20/android-design-pattern-singleton/</loc>
     
     <lastmod>2025-01-23T03:02:24.702Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://conorlee.top/2016/09/20/android-design-pattern-singleton/</loc>
+    <loc>https://conorlee.top/2016/09/22/quit-whole-application/</loc>
     
     <lastmod>2025-01-23T03:02:24.702Z</lastmod>
     
@@ -625,6 +632,13 @@
   </url>
   
   <url>
+    <loc>https://conorlee.top/2016/05/12/GCM-Azure_summary/</loc>
+    
+    <lastmod>2025-01-23T03:02:24.698Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://conorlee.top/2016/05/18/javaString-and-bytes/</loc>
     
     <lastmod>2025-01-23T03:02:24.698Z</lastmod>
@@ -639,13 +653,6 @@
   </url>
   
   <url>
-    <loc>https://conorlee.top/2016/05/12/GCM-Azure_summary/</loc>
-    
-    <lastmod>2025-01-23T03:02:24.698Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://conorlee.top/2016/03/15/facebook-google+signin/</loc>
     
     <lastmod>2025-01-23T03:02:24.697Z</lastmod>
@@ -653,14 +660,14 @@
   </url>
   
   <url>
-    <loc>https://conorlee.top/2016/03/20/android-books-reading-/</loc>
+    <loc>https://conorlee.top/2016/03/20/android-new-knowledge-summary/</loc>
     
     <lastmod>2025-01-23T03:02:24.697Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://conorlee.top/2016/03/20/android-new-knowledge-summary/</loc>
+    <loc>https://conorlee.top/2016/03/20/android-books-reading-/</loc>
     
     <lastmod>2025-01-23T03:02:24.697Z</lastmod>
     
