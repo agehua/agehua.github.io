@@ -561,7 +561,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="https://conorlee.top/2021/08/07/view-scroll-apis/" data-id="cmvrtyzt300c15lsndsxuxvbx" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://conorlee.top/2021/08/07/view-scroll-apis/" data-id="cmvru9sef006vp5snamc30la6" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -630,6 +630,162 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
           
     
         <a href="https://conorlee.top/2021/08/07/view-scroll-apis/#comments" class="article-comment-link">评论</a>
+    
+
+
+        </footer>
+
+    </div>
+    
+    <script>
+        pangu.spacingPage();
+    </script>
+
+
+</article>
+
+
+
+
+    <article id="post-gradle-plugin" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2021/07/18/gradle-plugin/" itemprop="url">
+            <img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Gardens%20on%20Montmartre%20and%20the%20Blute-Fin%20Windmill.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2021/07/18/gradle-plugin/">自定义gradle插件</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2021/07/18/gradle-plugin/">
+            <time datetime="2021-07-17T16:00:00.000Z" itemprop="datePublished">2021-07-18</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/agp/">AGP</a>, <a class="tag-link" href="/tags/gradle/">gradle</a>
+    </div>
+
+
+                        <div style="color:#cba11f;float:right">3 min read , Words: 501</div>                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="gradle和gradlew的区别"><a href="#gradle和gradlew的区别" class="headerlink" title="gradle和gradlew的区别"></a>gradle和gradlew的区别</h3><p>如果配置好了 gradle 环境变量后,就可以在cmd中使用gradle命令了<br>在cmd中输入： gradle -v<br></p>
+            <p class="article-more-link">
+                <a href="/2021/07/18/gradle-plugin/#more">查看更多</a>
+            </p>
+        
+        </div>
+
+        <footer class="article-footer">
+          
+
+          <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://conorlee.top/2021/07/18/gradle-plugin/" data-id="cmvru9see006kp5snkb30cj09" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+          
+    
+        <a href="https://conorlee.top/2021/07/18/gradle-plugin/#comments" class="article-comment-link">评论</a>
     
 
 
@@ -721,7 +877,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="https://conorlee.top/2021/07/18/recyclerview-cache/" data-id="cmvrtyzt200br5lsn27oewi78" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://conorlee.top/2021/07/18/recyclerview-cache/" data-id="cmvru9seg006yp5sndk9llvpy" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -790,162 +946,6 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
           
     
         <a href="https://conorlee.top/2021/07/18/recyclerview-cache/#comments" class="article-comment-link">评论</a>
-    
-
-
-        </footer>
-
-    </div>
-    
-    <script>
-        pangu.spacingPage();
-    </script>
-
-
-</article>
-
-
-
-
-    <article id="post-gradle-plugin" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2021/07/18/gradle-plugin/" itemprop="url">
-            <img src="https://raw.githubusercontent.com/agehua/blog-imags/img/lib-jekyll/Gardens%20on%20Montmartre%20and%20the%20Blute-Fin%20Windmill.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2021/07/18/gradle-plugin/">自定义gradle插件</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2021/07/18/gradle-plugin/">
-            <time datetime="2021-07-17T16:00:00.000Z" itemprop="datePublished">2021-07-18</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/accumulation/">accumulation</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/agp/">AGP</a>, <a class="tag-link" href="/tags/gradle/">gradle</a>
-    </div>
-
-
-                        <div style="color:#cba11f;float:right">3 min read , Words: 501</div>                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="gradle和gradlew的区别"><a href="#gradle和gradlew的区别" class="headerlink" title="gradle和gradlew的区别"></a>gradle和gradlew的区别</h3><p>如果配置好了 gradle 环境变量后,就可以在cmd中使用gradle命令了<br>在cmd中输入： gradle -v<br></p>
-            <p class="article-more-link">
-                <a href="/2021/07/18/gradle-plugin/#more">查看更多</a>
-            </p>
-        
-        </div>
-
-        <footer class="article-footer">
-          
-
-          <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://conorlee.top/2021/07/18/gradle-plugin/" data-id="cmvrtyzt300by5lsnrtq92n8q" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-          
-    
-        <a href="https://conorlee.top/2021/07/18/gradle-plugin/#comments" class="article-comment-link">评论</a>
     
 
 
@@ -1034,7 +1034,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="https://conorlee.top/2021/06/07/ANR-summary/" data-id="cmvrtyzt200bo5lsngl62im51" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://conorlee.top/2021/06/07/ANR-summary/" data-id="cmvru9sef006rp5snuhgnqgxg" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1190,7 +1190,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="https://conorlee.top/2021/04/19/Android-PIP-Hack-summary/" data-id="cmvrtyzro00635lsnnuu3htcc" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://conorlee.top/2021/04/19/Android-PIP-Hack-summary/" data-id="cmvru9sef006op5sn41c9qz90" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1346,7 +1346,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="https://conorlee.top/2020/12/04/RecyclerView_scroll_relatedapi/" data-id="cmvrtyzsz00bk5lsn9rfyj2ce" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://conorlee.top/2020/12/04/RecyclerView_scroll_relatedapi/" data-id="cmvru9se6006ep5sn6hjxwwu5" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1503,7 +1503,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="https://conorlee.top/2020/10/26/Diffrence-between-kotlin&Java/" data-id="cmvrtyzt100bm5lsn3zhpvrt3" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://conorlee.top/2020/10/26/Diffrence-between-kotlin&Java/" data-id="cmvru9sea006hp5snkmf03mda" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1661,7 +1661,7 @@ function scrollCheck(scrollTarget, toggleClass, scrollHeight){
 
 </div>
 
-    <a data-url="https://conorlee.top/2020/09/07/Kotlin-DSL/" data-id="cmvrtyzrn005z5lsnnv7slkiu" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="https://conorlee.top/2020/09/07/Kotlin-DSL/" data-id="cmvru9se4006bp5snoq0o3aas" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
